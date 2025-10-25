@@ -68,3 +68,30 @@ Backups/
 *.tar.gz
 *.sql
 *.zip
+
+# --- Limpieza extra ---
+.ftpquota
+*.bak
+/.htaccess
+
+# --- Laravel estándar ---
+/vendor/
+/node_modules/
+.env
+.env.*
+/storage/*.key
+/public/storage
+/public/hot
+/public/build
+
+# --- Logs & caches ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# --- IDE & SO ---
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
