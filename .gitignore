@@ -95,3 +95,8 @@ yarn-error.log*
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# PHPUnit cache
+.phpunit.cache/
+# archivo local temporal
+package-copy-config.json
