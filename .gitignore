@@ -100,3 +100,7 @@ yarn-error.log*
 .phpunit.cache/
 # archivo local temporal
 package-copy-config.json
+
+# Ignorar caches y archivos locales
+.phpunit.cache/
+package-copy-config.json
