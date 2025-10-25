@@ -5,5 +5,6 @@
     "source.fixAll": "explicit"
   },
   "intelephense.environment.phpVersion": "8.2",
-  "blade.format.enable": true
+  "blade.format.enable": true,
+  "CodeGPT.apiKey": "OpenAI"
 }
