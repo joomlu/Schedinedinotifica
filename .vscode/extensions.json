@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "github.copilot",
+    "github.copilot-chat",
+    "bmewburn.vscode-intelephense-client",
+    "onecentlin.laravel-extension-pack",
+    "shufo.vscode-blade-formatter",
+    "usernamehw.errorlens",
+    "editorconfig.editorconfig",
+    "eamodio.gitlens"
+  ]
+}

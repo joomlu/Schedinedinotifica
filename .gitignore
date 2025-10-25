@@ -1,0 +1,70 @@
+# --------------------------------------------------
+# 📦 Dependencias y binarios
+# --------------------------------------------------
+/vendor/
+/node_modules/
+/public/storage
+
+# --------------------------------------------------
+# ⚙️ Archivos temporales y logs
+# --------------------------------------------------
+npm-debug.log*
+yarn-error.log*
+/storage/*.key
+/storage/app/public
+/storage/framework/cache
+/storage/framework/sessions
+/storage/framework/testing
+/storage/framework/views
+/storage/logs
+
+# --------------------------------------------------
+# 🌍 Configuración local y secretos
+# --------------------------------------------------
+.env
+.env.*.local
+Homestead.yaml
+Homestead.json
+/.vagrant
+.phpunit.result.cache
+
+# --------------------------------------------------
+# 🧠 IDEs y sistemas operativos
+# --------------------------------------------------
+.idea/
+.DS_Store
+Thumbs.db
+
+# --------------------------------------------------
+# 💻 VS Code (solo se guardan settings/extensiones del proyecto)
+# --------------------------------------------------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# --------------------------------------------------
+# 🔥 Laravel Herd / Entorno local
+# --------------------------------------------------
+/storage/framework/cache/data
+/storage/framework/sessions/*
+/storage/framework/views/*
+/public/hot
+/public_html/hot
+/public_html/storage
+
+# --------------------------------------------------
+# 🧪 Testing y herramientas
+# --------------------------------------------------
+/tests/coverage/
+.phpunit.result.cache
+/pest-results.xml
+
+# --------------------------------------------------
+# 🧰 Herramientas internas
+# --------------------------------------------------
+/backup/
+.Backups/
+Backups/
+*.tar.gz
+*.sql
+*.zip
