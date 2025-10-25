@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -31,6 +31,7 @@ class HomeController extends Controller
         if (view()->exists($request->path())) {
             return view($request->path());
         }
+
         return abort(404);
     }
 
@@ -39,13 +40,14 @@ class HomeController extends Controller
         return view('index');
     }
 
-    /*Language Translation*/
+    /* Language Translation */
     public function lang($locale)
     {
         if ($locale) {
             App::setLocale($locale);
             Session::put('lang', $locale);
             Session::save();
+
             return redirect()->back()->with('locale', $locale);
         } else {
             return redirect()->back();
@@ -66,16 +68,17 @@ class HomeController extends Controller
 
         if ($request->file('avatar')) {
             $avatar = $request->file('avatar');
-            $avatarName = time() . '.' . $avatar->getClientOriginalExtension();
+            $avatarName = time().'.'.$avatar->getClientOriginalExtension();
             $avatarPath = public_path('/images/');
             $avatar->move($avatarPath, $avatarName);
-            $user->avatar =  $avatarName;
+            $user->avatar = $avatarName;
         }
 
         $user->update();
         if ($user) {
             Session::flash('message', 'User Details Updated successfully!');
             Session::flash('alert-class', 'alert-success');
+
             // return response()->json([
             //     'isSuccess' => true,
             //     'Message' => "User Details Updated successfully!"
@@ -84,6 +87,7 @@ class HomeController extends Controller
         } else {
             Session::flash('message', 'Something went wrong!');
             Session::flash('alert-class', 'alert-danger');
+
             // return response()->json([
             //     'isSuccess' => true,
             //     'Message' => "Something went wrong!"
@@ -100,10 +104,10 @@ class HomeController extends Controller
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
 
-        if (!(Hash::check($request->get('current_password'), Auth::user()->password))) {
+        if (! (Hash::check($request->get('current_password'), Auth::user()->password))) {
             return response()->json([
                 'isSuccess' => false,
-                'Message' => "Your Current password does not matches with the password you provided. Please try again."
+                'Message' => 'Your Current password does not matches with the password you provided. Please try again.',
             ], 200); // Status code
         } else {
             $user = User::find($id);
@@ -112,16 +116,18 @@ class HomeController extends Controller
             if ($user) {
                 Session::flash('message', 'Password updated successfully!');
                 Session::flash('alert-class', 'alert-success');
+
                 return response()->json([
                     'isSuccess' => true,
-                    'Message' => "Password updated successfully!"
+                    'Message' => 'Password updated successfully!',
                 ], 200); // Status code here
             } else {
                 Session::flash('message', 'Something went wrong!');
                 Session::flash('alert-class', 'alert-danger');
+
                 return response()->json([
                     'isSuccess' => true,
-                    'Message' => "Something went wrong!"
+                    'Message' => 'Something went wrong!',
                 ], 200); // Status code here
             }
         }

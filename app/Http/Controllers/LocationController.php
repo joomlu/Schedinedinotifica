@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\NationService;
-use Log; 
+use Illuminate\Http\Request;
+use Log;
 
 class LocationController extends Controller
 {
@@ -17,29 +17,29 @@ class LocationController extends Controller
 
     public function provincesByRegion(Request $request)
     {
-         // Registra los parámetros recibidos
-         Log::info('Petición a provincesByRegion', $request->all());
+        // Registra los parámetros recibidos
+        Log::info('Petición a provincesByRegion', $request->all());
 
-         $regionCode = $request->input('codice_regione');
-         $provinces = $this->nationService->getProvincesByRegion($regionCode);
- 
-         // Registra la respuesta que se va a devolver
-         Log::info('Respuesta de provincesByRegion', $provinces);
- 
-         return response()->json($provinces);
+        $regionCode = $request->input('codice_regione');
+        $provinces = $this->nationService->getProvincesByRegion($regionCode);
+
+        // Registra la respuesta que se va a devolver
+        Log::info('Respuesta de provincesByRegion', $provinces);
+
+        return response()->json($provinces);
     }
 
     public function provincesAll(Request $request)
     {
-         // Registra los parámetros recibidos
-         Log::info('Petición a provincesAll', $request->all());
+        // Registra los parámetros recibidos
+        Log::info('Petición a provincesAll', $request->all());
 
-         $provinces = $this->nationService->getAllProvinces();
- 
-         // Registra la respuesta que se va a devolver
-         Log::info('Respuesta de provincesByRegion', $provinces);
- 
-         return response()->json($provinces);
+        $provinces = $this->nationService->getAllProvinces();
+
+        // Registra la respuesta que se va a devolver
+        Log::info('Respuesta de provincesByRegion', $provinces);
+
+        return response()->json($provinces);
     }
 
     /**
@@ -50,6 +50,7 @@ class LocationController extends Controller
     {
         $provinceCode = $request->input('sigla_provincia');
         $capEntries = $this->nationService->getCapByProvince($provinceCode);
+
         return response()->json($capEntries);
     }
 
@@ -59,6 +60,7 @@ class LocationController extends Controller
         $provinceCode = $request->input('sigla_provincia');
         $cities = $this->nationService->getCitiesByProvince($provinceCode);
         Log::info('Respuesta de citiesByProvince', $cities);
+
         return response()->json($cities);
     }
 }
