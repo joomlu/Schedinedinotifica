@@ -42,6 +42,13 @@ class EstructuraController extends Controller
         $estructura->name = $request->name;
         $estructura->phone = $request->phone;
         $estructura->city = $request->city;
+
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $filename = time() . '_' . $logo->getClientOriginalName();
+            $path = $logo->storeAs('public/logos', $filename);
+            $estructura->logo = $filename;
+        }
         $estructura->fax = $request->fax;
         $estructura->address = $request->address;
         $estructura->email = $request->email;
@@ -77,8 +84,16 @@ class EstructuraController extends Controller
         $tasa->region = $request->region;
         $tasa->max_age_children = $request->max_age_children;
         $tasa->min_age_adult = $request->min_age_adult;
+
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $filename = time() . '_' . $logo->getClientOriginalName();
+            $path = $logo->storeAs('public/logos', $filename);
+            $tasa->logo = $filename;
+        }
         $tasa->save();
 
-        return redirect()->back();
+        // keep the Tasa Soggiorno tab active after saving
+        return redirect()->back()->with('active_tab', 'product1');
     }
 }
