@@ -38,4 +38,9 @@ class Estructura extends Model
         'closeact', 'clasification', 'numshedine', 'roomdisp', 'ref', 'beddisp', 'refpass', 'updatedbed', 'created_at', 'updated_at'];
 
     protected $guarded = ['id'];
+
+    protected $casts = [
+        'startact' => 'date',
+        'closeact' => 'date',
+    ];
 }

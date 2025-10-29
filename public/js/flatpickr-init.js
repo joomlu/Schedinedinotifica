@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const maxDate = element.getAttribute('data-max-date') || null;
             
             flatpickr(element, {
-                dateFormat: format,
+                dateFormat: 'Y-m-d', // Formato per il backend
+                altInput: true, // Mostra formato alternativo all'utente
+                altFormat: format, // Formato italiano visibile
                 locale: 'it',
                 allowInput: true,
                 minDate: minDate,
@@ -30,7 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             flatpickr(element, {
                 mode: 'range',
-                dateFormat: format,
+                dateFormat: 'Y-m-d', // Formato per il backend
+                altInput: true,
+                altFormat: format, // Formato italiano visibile
                 locale: 'it',
                 allowInput: true,
                 disableMobile: false
@@ -45,7 +49,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (departureElement) {
                 const arrivePicker = flatpickr(arriveElement, {
-                    dateFormat: 'd M, Y',
+                    dateFormat: 'Y-m-d', // Formato per il backend
+                    altInput: true,
+                    altFormat: 'd M, Y', // Formato italiano visibile
                     locale: 'it',
                     allowInput: true,
                     onChange: function(selectedDates, dateStr, instance) {
@@ -56,7 +62,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 const departurePicker = flatpickr(departureElement, {
-                    dateFormat: 'd M, Y',
+                    dateFormat: 'Y-m-d', // Formato per il backend
+                    altInput: true,
+                    altFormat: 'd M, Y', // Formato italiano visibile
                     locale: 'it',
                     allowInput: true,
                     minDate: arriveElement.value || null
