@@ -127,7 +127,7 @@
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="basiInput" class="form-label">Inizio attività</label>
-                                    <input type="date" name="startact" value="{{$estructura->startact}}" class="form-control" id="basiInput">
+                                    <input type="text" name="startact" value="{{$estructura->startact}}" class="form-control" id="startact-field" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Seleziona data inizio attività">
                                 </div>
                             </div>
                             <!--end col-->
@@ -135,7 +135,7 @@
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="basiInput" class="form-label">Chiussura attività</label>
-                                    <input type="date" name="closeact" value="{{$estructura->closeact}}" class="form-control" id="basiInput">
+                                    <input type="text" name="closeact" value="{{$estructura->closeact}}" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Seleziona data fine attività">
                                 </div>
                             </div>
                             <!--end col-->
@@ -274,14 +274,14 @@
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="basiInput" class="form-label">Inizio</label>
-                                    <input type="date" name="inizio" value="{{$tasa->inizio}}" class="form-control" id="basiInput">
+                                    <input type="text" name="inizio" value="{{$tasa->inizio}}" class="form-control" id="inizio-field" data-provider="flatpickr" data-date-format="d M, Y" data-linked-to="#fine-field" placeholder="Seleziona data inizio">
                                 </div>
                             </div>
                             <!--end col-->
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="labelInput" class="form-label">Fine</label>
-                                    <input type="date" name="fine" value="{{$tasa->fine}}" class="form-control" id="labelInput">
+                                    <input type="text" name="fine" value="{{$tasa->fine}}" class="form-control" id="fine-field" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Seleziona data fine">
                                 </div>
                             </div>
                             <!--end col-->
@@ -342,4 +342,11 @@
 @section('script')
     <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
+    
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/it.js"></script>
+    <script src="{{ asset('js/flatpickr-init.js') }}"></script>
 @endsection

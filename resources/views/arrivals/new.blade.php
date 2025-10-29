@@ -139,7 +139,12 @@ Arrivi
                                             <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Arrivo</label>
-                                                <input type="date" class="form-control" name="arrive">
+                                                <input type="text" class="form-control" 
+                                                       name="arrive"
+                                                       data-provider="flatpickr" 
+                                                       data-date-format="d M, Y"
+                                                       data-linked-to="#departure-field"
+                                                       placeholder="Seleziona data arrivo">
                                                    
                                                
                                             </div>
@@ -149,7 +154,12 @@ Arrivi
                                                 <div class="mb-3">
                                                 <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Partenza</label>
-                                                        <input type="date" class="form-control" name="departure">
+                                                        <input type="text" class="form-control" 
+                                                               id="departure-field"
+                                                               name="departure"
+                                                               data-provider="flatpickr" 
+                                                               data-date-format="d M, Y"
+                                                               placeholder="Seleziona data partenza">
                                                     
                                                 </div>
                                         </div>
@@ -287,7 +297,11 @@ Arrivi
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Data di nascita</label>
-                                                <input type="date" class="form-control" name="oa_date_nac">
+                                                <input type="text" class="form-control" 
+                                                       name="oa_date_nac"
+                                                       data-provider="flatpickr" 
+                                                       data-date-format="d M, Y"
+                                                       placeholder="Seleziona data di nascita">
                                                    
                                                 
                                             </div>
@@ -454,7 +468,11 @@ Arrivi
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato il</label>
-                                                <input type="date" class="form-control" name="or_published_date">
+                                                <input type="text" class="form-control" 
+                                                       name="or_published_date"
+                                                       data-provider="flatpickr" 
+                                                       data-date-format="d M, Y"
+                                                       placeholder="Data rilascio documento">
                                                    
                                                 
                                             </div>
@@ -463,7 +481,11 @@ Arrivi
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Scade il</label>
-                                                <input type="date" class="form-control" name="or_expire">
+                                                <input type="text" class="form-control" 
+                                                       name="or_expire"
+                                                       data-provider="flatpickr" 
+                                                       data-date-format="d M, Y"
+                                                       placeholder="Data scadenza documento">
                                                    
                                                 
                                             </div>
@@ -574,4 +596,11 @@ Arrivi
 
 
 </script>
+
+<!-- Flatpickr -->
+<link rel="stylesheet" href="{{ URL::asset('build/libs/flatpickr/flatpickr.min.css') }}">
+<script src="{{ URL::asset('build/libs/flatpickr/flatpickr.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/flatpickr/l10n/it.js') }}"></script>
+<script src="{{ URL::asset('js/flatpickr-init.js') }}"></script>
+
 @endsection

@@ -172,7 +172,7 @@
                                 <div class="col-xxl-3 col-md-3">
                                 <div>
                                         <label for="readonlyInput" class="form-label">Data di nascita</label>
-                                        <input type="date" class="form-control" name="date_nac" value="{{$componenti->date_nac}}">
+                                        <input type="text" class="form-control" name="date_nac" value="{{$componenti->date_nac}}" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Seleziona data di nascita">
                                     </div>
                                 </div>
                                 <div class="col-xxl-3 col-md-4">
@@ -217,4 +217,11 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script src="{{ URL::asset('js/autofill-select.js') }}"></script>
+
+<!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/it.js"></script>
+<script src="{{ asset('js/flatpickr-init.js') }}"></script>
 @endsection

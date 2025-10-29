@@ -402,7 +402,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Data di nascita</label>
-                                                <input type="date" class="form-control" name="nac_reg">
+                                                <input type="text" class="form-control" name="nac_reg" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Seleziona data di nascita">
                                                    
                                                 
                                             </div>
@@ -449,7 +449,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato il</label>
-                                                <input type="date" class="form-control" name="expire_reg">
+                                                <input type="text" class="form-control" name="expire_reg" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Seleziona data scadenza">
                                                    
                                                 
                                             </div>
@@ -458,7 +458,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input"> Scade il</label>
-                                                <input type="date" class="form-control" name="released_reg">
+                                                <input type="text" class="form-control" name="released_reg" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Seleziona data emissione">
                                                    
                                                 
                                             </div>
@@ -938,4 +938,10 @@ $(document).ready(function() {
 
 
 
+<!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/it.js"></script>
+<script src="{{ asset('js/flatpickr-init.js') }}"></script>
 @endsection
