@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -26,7 +26,24 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/customers';
+
+    /**
+     * Override redirect path after successful authentication.
+     */
+    protected function redirectTo()
+    {
+        return '/customers';
+    }
+
+    /**
+     * After the user is authenticated, force redirect to customers
+     * to avoid any stale intended() values keeping the user on root/login.
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        return redirect()->route('customers');
+    }
 
     /**
      * Create a new controller instance.

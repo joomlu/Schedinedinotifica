@@ -22,7 +22,7 @@ Route::get('/adwords/files/{filename}', function (string $filename) {
     $filename = basename($filename);
 
     // solo letras, números, guiones, puntos y subrayado (ajusta si necesitás)
-    if (!preg_match('/^[A-Za-z0-9._-]+$/', $filename)) {
+    if (! preg_match('/^[A-Za-z0-9._-]+$/', $filename)) {
         abort(400, 'Nombre de archivo inválido');
     }
 
@@ -40,16 +40,32 @@ Route::get('/adwords/files/{filename}', function (string $filename) {
 //
 Auth::routes();
 
-// Language Translation
-Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
-
 // Home: si redirige, tu test debe esperar 302; si querés 200, ajustá el controller.
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
+
+// Compat: algunas instalaciones de auth redirigen a /home por defecto
+Route::get('/home', function () {
+    return redirect()->route('root');
+})->name('home');
 
 //
 // 4) Agrupá rutas de app bajo auth (más claro y seguro)
 //
 Route::middleware('auth')->group(function () {
+    // Authenticated health check
+    Route::get('/health-auth', function () {
+        $user = auth()->user();
+
+        return response()->json([
+            'ok' => true,
+            'user' => [
+                'id' => $user->id,
+                'email' => $user->email,
+                'role' => $user->role ?? null,
+            ],
+        ]);
+    })->name('health.auth');
+
     // archivo txt (SOLO UNA definición, la de arriba estaba duplicada)
     Route::get('/archivos', [App\Http\Controllers\ArchivosController::class, 'generarArchivoHospedados'])
         ->name('archivos');

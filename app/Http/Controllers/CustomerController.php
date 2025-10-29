@@ -10,24 +10,40 @@ use App\Models\TypeDoc;
 use App\Models\TypeStreet;
 use App\Services\NationService;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class CustomerController extends Controller
 {
-    protected $nationService;
+    protected NationService $nationService;
 
     public function __construct(NationService $nationService)
     {
         $this->nationService = $nationService;
     }
 
-    public function index()
+    public function index(): View|ViewContract
     {
-        $customers = Customers::All();
+        $user = auth()->user();
+
+        // Superadmin ve tutti i customers
+        if ($user->isSuperAdmin()) {
+            $customers = Customers::all();
+        }
+        // Admin, Hotel Owner e Staff vedono solo i customers della loro struttura
+        elseif ($user->structure_id) {
+            $customers = Customers::where('structure_id', $user->structure_id)->get();
+        }
+        // Fallback: nessun customer
+        else {
+            $customers = collect();
+        }
 
         return view('customers.list', ['customers' => $customers]);
     }
 
-    public function new()
+    public function new(): View|ViewContract
     {
         $groups = Group::all();
         $subgroups = SubGroup::all();
@@ -53,7 +69,7 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $customers = new Customers;
         $customers->create([
@@ -105,12 +121,14 @@ class CustomerController extends Controller
             'region_az' => $request->region_az,
             'province_az' => $request->province_az,
             'desc_az' => $request->desc_az,
+            // collega il customer alla struttura dell'utente (se presente)
+            'structure_id' => auth()->user()->structure_id,
         ]);
 
         return redirect('/customers');
     }
 
-    public function edit($id)
+    public function edit(int $id): View|ViewContract
     {
         $customer = Customers::find($id);
         $groups = Group::all();
@@ -120,7 +138,7 @@ class CustomerController extends Controller
         return view('customers.edit', ['customer' => $customer, 'groups' => $groups, 'subgroups' => $subgroups, 'subgroups1' => $subgroups1]);
     }
 
-    public function update(Request $request)
+    public function update(Request $request): RedirectResponse
     {
 
         $customer = Customers::find($request->id);
@@ -176,7 +194,7 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         $customer = Customers::find($id);
         $customer->delete();

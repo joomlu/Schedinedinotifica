@@ -18,7 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['root']);
     }
 
     /**
@@ -37,7 +37,13 @@ class HomeController extends Controller
 
     public function root()
     {
-        return view('index');
+        // Si ya está autenticado, mostrar dashboard
+        if (Auth::check()) {
+            return view('index');
+        }
+
+        // Si no está autenticado, redirigir al login
+        return redirect()->route('login');
     }
 
     /* Language Translation */

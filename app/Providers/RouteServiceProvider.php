@@ -19,13 +19,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/';
 
-    /**
-     * The controller namespace for the application.
-     *
-     * When present, controller route declarations will automatically be prefixed with this namespace.
-     *
-     * @var string|null
-     */
+    // Controller namespace (legacy). Not used in Laravel 9+ routing.
     // protected $namespace = 'App\\Http\\Controllers';
 
     /**

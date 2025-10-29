@@ -85,15 +85,11 @@
                     <div class="collapse menu-dropdown" id="sidebarCustomers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{url('/newcustomer')}}" class="nav-link">@lang('translation.new')</a>
+                                <a href="{{url('/customers')}}" class="nav-link">Ospite (Cliente)</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{url('/customers')}}" class="nav-link">@lang('translation.list')</a>
+                                <a href="{{url('/componenti')}}" class="nav-link">Componenti (accompagnatori)</a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{url('/componenti')}}" class="nav-link">@lang('translation.componente')</a>
-                            </li>
-                            
                         </ul>
                     </div>
                 </li> <!-- end Dashboard Menu -->

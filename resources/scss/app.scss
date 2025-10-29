@@ -1,4 +1,40 @@
-/* resources/scss/app.scss */
+/*
+ Template Name: Velzon - Admin & Dashboard Template
+ File: App Theme Css (aggregates theme structure/components)
+*/
+
+/* 1) Base (Bootstrap + variables) */
 @import "./bootstrap.scss";
-/* aquí puedes importar tus estilos propios si los tienes */
-// @import "./custom.scss";
+/* Custom variables used by theme structure */
+@import "variables-custom";
+
+/* 2) Theme root and variables exposure */
+@import "components/root";
+
+/* 3) Layout & structure */
+@import "structure/general";
+@import "structure/layouts";
+@import "structure/topbar";
+@import "structure/vertical";
+@import "structure/footer";
+
+/* 4) Core components commonly used */
+@import "components/reboot";
+@import "components/card";
+@import "components/buttons";
+@import "components/forms";
+@import "components/table";
+@import "components/utilities";
+@import "components/helper";
+@import "components/waves";
+@import "components/breadcrumb";
+@import "components/avatar";
+@import "components/modal";
+@import "components/alerts";
+
+/* 5) Pages (minimal set for auth and errors) */
+@import "pages/authentication";
+@import "pages/errors";
+
+/* 6) Custom overrides (optional) */
+@import "./custom.scss";

@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Stati;
+use Illuminate\Support\Facades\Schema;
+
 class NationService
 {
     /**
@@ -9,6 +12,25 @@ class NationService
      */
     public function getAllNations(): array
     {
+        // Prefer DB 'stati' if available, fallback to JSON file for backward compatibility
+        try {
+            if (class_exists(Stati::class) && Schema::hasTable('stati')) {
+                $rows = Stati::valid()->orderBy('denominazione')->get();
+
+                // Map to legacy JSON structure keys expected by the UI
+                return $rows->map(function ($s) {
+                    return [
+                        'sigla_nazione' => $s->sigla, // best-effort mapping
+                        'codice_belfiore' => $s->codice_istat ?: $s->codice_questura,
+                        'denominazione_nazione' => $s->denominazione,
+                        'denominazione_cittadinanza' => $s->cittadinanza,
+                    ];
+                })->toArray();
+            }
+        } catch (\Throwable $e) {
+            // Fall through to JSON on any issue
+        }
+
         $path = storage_path('app/gi_nazioni.json');
         if (file_exists($path)) {
             $json = file_get_contents($path);

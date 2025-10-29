@@ -9,11 +9,9 @@
 @endsection
 @section('content')
 @component('components.breadcrumb')
-@slot('li_1') Tables @endslot
-@slot('title')SubGroups1 @endslot
+@slot('li_1') @lang('translation.Configurations') @endslot
+@slot('title')@lang('translation.SubGroup1')@endslot
 @endcomponent
-
-
 
 <div class="row justify-content-end">
                                                 <div class="col-sm-2">
@@ -58,7 +56,7 @@
            
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title mb-0">@lang('translation.SubGroups1')</h5>
+                <h5 class="card-title mb-0">@lang('translation.SubGroup1')</h5>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

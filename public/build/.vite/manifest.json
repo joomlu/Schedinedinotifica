@@ -1,10 +1,9 @@
 {
   "resources/scss/app.scss": {
-    "file": "css/bootstrap.min.css",
-    "src": "resources/scss/bootstrap.scss",
+    "file": "css/app.min.css",
+    "src": "resources/scss/app.scss",
     "isEntry": true,
     "names": [
-      "bootstrap.css",
       "app.css"
     ]
   },
@@ -13,8 +12,7 @@
     "src": "resources/scss/bootstrap.scss",
     "isEntry": true,
     "names": [
-      "bootstrap.css",
-      "app.css"
+      "bootstrap.css"
     ]
   },
   "resources/scss/custom.scss": {

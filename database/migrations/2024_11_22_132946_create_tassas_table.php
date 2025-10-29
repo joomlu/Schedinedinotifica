@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tassas', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        // Legacy no-op: Evita di creare una tabella non più utilizzata
+        if (!Schema::hasTable('tassas')) {
+            // Non creare più la tabella obsoleta 'tassas'
+            return;
+        }
     }
 
     /**
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tassas');
+        // Nessuna azione necessaria
     }
 };

@@ -8,33 +8,34 @@
 
     <div class="row">
         <div class="col-xxl-12">
-            
+
             <div class="card">
                 <div class="card-body">
-                    
+
                     <!-- Nav tabs -->
+                    @php $active = session('active_tab', 'home'); @endphp
                     <ul class="nav nav-tabs mb-3" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="false">
+                            <a class="nav-link {{ $active == 'home' ? 'active' : '' }}" data-bs-toggle="tab" href="#home" role="tab" aria-selected="{{ $active == 'home' ? 'true' : 'false' }}">
                                 Generale
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#product1" role="tab" aria-selected="false">
+                            <a class="nav-link {{ $active == 'product1' ? 'active' : '' }}" data-bs-toggle="tab" href="#product1" role="tab" aria-selected="{{ $active == 'product1' ? 'true' : 'false' }}">
                                 Tasa Soggiorno
                             </a>
                         </li>
-                        
+
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content  text-muted">
-                        <div class="tab-pane active" id="home" role="tabpanel">
-                            
+                        <div class="tab-pane {{ $active == 'home' ? 'active' : '' }}" id="home" role="tabpanel">
+
                             <div class="card-body">
                     <div class="live-preview">
                     <form method="POST" action="{{route('estructura.update', $estructura->id)}}">
-                                                    @csrf 
-                                                    @method('PUT') 
+                                                    @csrf
+                                                    @method('PUT')
                         <div class="input-group input-group-sm mb-3">
                         <div class="row gy-4">
                             <div class="col-xxl-3 col-md-3">
@@ -50,6 +51,7 @@
                                     <input type="text" name="city" value="{{$estructura->city}}" class="form-control" id="basiInput">
                                 </div>
                             </div>
+
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="basiInput" class="form-label">Indirizzo</label>
@@ -67,7 +69,7 @@
                         <!--end row-->
                         </div>
                         <div class="row gy-4">
-                            
+
                         <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="labelInput" class="form-label">Telefono</label>
@@ -99,8 +101,8 @@
                             <!--end col-->
                             </div>
                         <!--end row-->
-                         
-                       
+
+
 
 
                         <div class="row gy-4">
@@ -137,11 +139,11 @@
                                 </div>
                             </div>
                             <!--end col-->
-                            
+
                             </div>
                         <!--end row-->
                         <div class="row gy-4">
-                           
+
                         <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="labelInput" class="form-label">Tipologia Struttura</label>
@@ -206,7 +208,7 @@
                             </div>
                             <!--end col-->
                             </div>
-                       
+
                         <div class="row" style="margin-top: 20px">
                         <div class="col-xxl-3 col-md-3">
                             <button type="submit" class="btn btn-success">Salva</button>
@@ -216,63 +218,33 @@
                     </div>
 </div>
                         </div>
-                        <div class="tab-pane" id="product1" role="tabpanel">
-                        <form method="POST" action="{{route('tasa.update', $tasa->id)}}">
-                                                    @csrf 
-                                                    @method('PUT') 
+                        <div class="tab-pane {{ $active == 'product1' ? 'active' : '' }}" id="product1" role="tabpanel">
+                        <form method="POST" action="{{route('tasa.update', $tasa->id)}}" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PUT')
+                        <!-- Logo row: logo placed above the location fields (left aligned) -->
                         <div class="row gy-4">
                             <div class="col-xxl-3 col-md-3">
                                 <div>
-                                    <label for="basiInput" class="form-label">Tassa Soggiorno</label>
-                                    <input type="text" name="tassa_soggiorno" value="{{$tasa->tassa_soggiorno}}" class="form-control" id="basiInput">
+                                    @if($tasa->logo)
+                                        <img src="{{ asset('storage/logos/' . $tasa->logo) }}" alt="Logo" class="mb-2" style="height: 90px; width: auto; object-fit: contain;">
+                                    @endif
                                 </div>
                             </div>
-                            <!--end col-->
-                            <div class="col-xxl-3 col-md-3">
-                                <div>
-                                    <label for="labelInput" class="form-label">Giorni Massimo</label>
-                                    <input type="text" name="giorni_massimo" value="{{$tasa->giorni_massimo}}" class="form-control" id="labelInput">
-                                </div>
+                            <div class="col-xxl-9 col-md-9">
+                                <!-- empty space to keep logo on the left -->
                             </div>
-                            <!--end col-->
-                            </div>
-                        <!--end row-->
-                        <div class="row gy-4">
-                            <div class="col-xxl-3 col-md-3">
-                                <div>
-                                    <label for="basiInput" class="form-label">Inizio</label>
-                                    <input type="date" name="inizio" value="{{$tasa->inizio}}" class="form-control" id="basiInput">
-                                </div>
-                            </div>
-                            <!--end col-->
-                            <div class="col-xxl-3 col-md-3">
-                                <div>
-                                    <label for="labelInput" class="form-label">Fine</label>
-                                    <input type="date" name="fine" value="{{$tasa->fine}}" class="form-control" id="labelInput">
-                                </div>
-                            </div>
-                            <!--end col-->
-                            </div>
-                        <!--end row-->
-                        <div class="row gy-4">
-                            <div class="col-xxl-3 col-md-3">
-                                <div>
-                                    <label for="basiInput" class="form-label">età mass. bimbi</label>
-                                    <input type="number" name="max_age_children" value="{{$tasa->max_age_children}}" class="form-control" id="basiInput">
-                                </div>
-                            </div>
-                            <!--end col-->
-                            <div class="col-xxl-3 col-md-3">
-                                <div>
-                                    <label for="labelInput" class="form-label">età min. Adulto</label>
-                                    <input type="number" name="min_age_adult" value="{{$tasa->min_age_adult}}" class="form-control" id="labelInput">
-                                </div>
-                            </div>
-                            <!--end col-->
-                            </div>
-                        <!--end row-->
+                        </div>
 
+                        <!-- Primer row: Region, Provincia, Citta, File input -->
                         <div class="row gy-4">
+                            <div class="col-xxl-3 col-md-3">
+                                <div>
+                                    <label for="labelInput" class="form-label">Regione</label>
+                                    <input type="text" name="region" value="{{$tasa->region}}" class="form-control" id="labelInput">
+                                </div>
+                            </div>
+                            <!--end col-->
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="basiInput" class="form-label">Provincia</label>
@@ -289,11 +261,64 @@
                             <!--end col-->
                             <div class="col-xxl-3 col-md-3">
                                 <div>
-                                    <label for="labelInput" class="form-label">Regione</label>
-                                    <input type="text" name="region" value="{{$tasa->region}}" class="form-control" id="labelInput">
+                                    <label for="logoInput" class="form-label">Logo (carica)</label>
+                                    <input type="file" name="logo" class="form-control" id="logoInput" accept="image/*">
                                 </div>
                             </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+
+                        <!-- Segunda fila: Calendarios -->
+                        <div class="row gy-4">
+                            <div class="col-xxl-3 col-md-3">
+                                <div>
+                                    <label for="basiInput" class="form-label">Inizio</label>
+                                    <input type="date" name="inizio" value="{{$tasa->inizio}}" class="form-control" id="basiInput">
+                                </div>
                             </div>
+                            <!--end col-->
+                            <div class="col-xxl-3 col-md-3">
+                                <div>
+                                    <label for="labelInput" class="form-label">Fine</label>
+                                    <input type="date" name="fine" value="{{$tasa->fine}}" class="form-control" id="labelInput">
+                                </div>
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+
+                        <!-- Tercera fila: Tassa y otros campos -->
+                        <div class="row gy-4">
+                            <div class="col-xxl-3 col-md-3">
+                                <div>
+                                    <label for="basiInput" class="form-label">Tassa Soggiorno</label>
+                                    <input type="text" name="tassa_soggiorno" value="{{$tasa->tassa_soggiorno}}" class="form-control" id="basiInput">
+                                </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-xxl-3 col-md-3">
+                                <div>
+                                    <label for="labelInput" class="form-label">Giorni Massimo</label>
+                                    <input type="text" name="giorni_massimo" value="{{$tasa->giorni_massimo}}" class="form-control" id="labelInput">
+                                </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-xxl-3 col-md-3">
+                                <div>
+                                    <label for="basiInput" class="form-label">età mass. bimbi</label>
+                                    <input type="number" name="max_age_children" value="{{$tasa->max_age_children}}" class="form-control" id="basiInput">
+                                </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-xxl-3 col-md-3">
+                                <div>
+                                    <label for="labelInput" class="form-label">età min. Adulto</label>
+                                    <input type="number" name="min_age_adult" value="{{$tasa->min_age_adult}}" class="form-control" id="labelInput">
+                                </div>
+                            </div>
+                            <!--end col-->
+                        </div>
                         <!--end row-->
                         <div class="row" style="margin-top: 20px">
                         <div class="col-xxl-3 col-md-3">
@@ -302,16 +327,16 @@
                         </div>
                         </form>
                         </div>
-                       
+
                     </div>
                 </div><!-- end card-body -->
             </div><!-- end card -->
         </div><!--end col-->
 
-        
+
     </div><!--end row-->
 
-   
+
 
 @endsection
 @section('script')

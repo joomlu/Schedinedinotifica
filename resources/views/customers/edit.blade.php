@@ -35,7 +35,7 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="steparrow-gen-info-tab" data-bs-toggle="pill"
                                         data-bs-target="#steparrow-gen-info" type="button" role="tab"
-                                        aria-controls="steparrow-gen-info" aria-selected="true">Cliente Residenza</button>
+                                        aria-controls="steparrow-gen-info" aria-selected="true">Ospite (Cliente) Residenza</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-description-info-tab"

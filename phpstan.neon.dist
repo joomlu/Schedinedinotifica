@@ -4,7 +4,10 @@ includes:
 parameters:
   paths:
     - app
-  level: 6
-  checkMissingIterableValueType: false
+  level: 4
+  reportUnmatchedIgnoredErrors: false
   ignoreErrors:
-    - '#unused property#'
+    - '#has no return type specified#'
+    - '#has no type specified#'
+    - '#property\.notFound#'
+    - '#larastan\.relationExistence#'

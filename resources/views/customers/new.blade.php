@@ -19,7 +19,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">Cliente - aggiungere</h4>
+                    <h4 class="card-title mb-0">Ospite (Cliente) - aggiungere</h4>
                 </div><!-- end card header -->
                 <div class="card-body">
                     <form  method="POST" action="{{route('customer.store')}}" class="form-steps" autocomplete="off">
@@ -33,7 +33,7 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="steparrow-gen-info-tab" data-bs-toggle="pill"
                                         data-bs-target="#steparrow-gen-info" type="button" role="tab"
-                                        aria-controls="steparrow-gen-info" aria-selected="true">Cliente Residenza</button>
+                                        aria-controls="steparrow-gen-info" aria-selected="true">Ospite (Cliente) Residenza</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-description-info-tab"

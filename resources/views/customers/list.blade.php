@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') @lang('translation.customers') @endsection
+@section('title') Ospite (Cliente) @endsection
 @section('css')
 <!--datatable css-->
 <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
@@ -20,7 +20,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title mb-0">@lang('translation.customers')</h5>
+                <h5 class="card-title mb-0">Ospite (Cliente)</h5>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

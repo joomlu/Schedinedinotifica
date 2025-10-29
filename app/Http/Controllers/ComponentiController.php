@@ -63,7 +63,8 @@ class ComponentiController extends Controller
             'regione' => $request->regione,
             'province_nac' => $request->province,
             'cap' => $request->cap,
-            'tipeaway' => $request->tipeaway,
+            // Align typo from request to column name
+            'typeaway' => $request->tipeaway,
             'address' => $request->address,
             'number' => $request->number,
             'city_nac' => $request->city_nac,

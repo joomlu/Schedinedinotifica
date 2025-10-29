@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Comuni;
 use App\Models\Schedina;
-use App\Models\StateNac;
 use App\Models\Title;
 use App\Models\TypeDoc;
 use App\Models\TypeStreet;
@@ -33,7 +32,7 @@ class SchedinaController extends Controller
         $titles = Title::All();
         $typestreets = TypeStreet::All();
         $TypeDocs = TypeDoc::All();
-        $nations = StateNac::All();
+    $nations = $this->nationService->getAllNations();
         $regions = $this->nationService->getAllRegions();
         $provinces = $this->nationService->getAllProvinces();
         $ciudades = Comuni::All();

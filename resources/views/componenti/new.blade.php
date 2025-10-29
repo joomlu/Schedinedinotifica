@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title')
-    @lang('translation.componenti')
+    Componenti (accompagnatori)
 @endsection
 @section('content')
     @component('components.breadcrumb')
         @slot('li_1')
-        Componenti
+    Componenti (accompagnatori)
         @endslot
         @slot('title')
         Nuovo 
@@ -21,7 +21,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Nuovo Componenti</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Nuovo Componenti (accompagnatori)</h4>
                         
                     </div><!-- end card header -->
                     <form  method="POST" action="{{route('componenti.store')}}">

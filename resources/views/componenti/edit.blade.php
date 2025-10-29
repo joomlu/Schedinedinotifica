@@ -19,7 +19,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">Componenti - Edit </h4>
+                    <h4 class="card-title mb-0">Componenti (accompagnatori) - Modifica</h4>
                 </div><!-- end card header -->
                 <div class="card-body">
                 

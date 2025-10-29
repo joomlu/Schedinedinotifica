@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') @lang('translation.customers') @endsection
+@section('title') Componenti (accompagnatori) @endsection
 @section('css')
 <!--datatable css-->
 <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
@@ -10,7 +10,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Tables @endslot
-@slot('title')Componenti @endslot
+@slot('title')Componenti (accompagnatori) @endslot
 @endcomponent
 
 <div class="row justify-content-end">
@@ -28,7 +28,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title mb-0">@lang('translation.componenti')</h5>
+                <h5 class="card-title mb-0">Componenti (accompagnatori)</h5>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
