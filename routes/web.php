@@ -52,6 +52,11 @@ Route::get('/home', function () {
 // 4) Agrupá rutas de app bajo auth (más claro y seguro)
 //
 Route::middleware('auth')->group(function () {
+    // Admin area (permessi Spatie)
+    Route::middleware(['permission:access admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/users', [App\Http\Controllers\Admin\UserAdminController::class, 'index'])->name('users.index');
+        Route::post('/users/{id}/role', [App\Http\Controllers\Admin\UserAdminController::class, 'updateRole'])->name('users.updateRole');
+    });
     // Authenticated health check
     Route::get('/health-auth', function () {
         $user = auth()->user();

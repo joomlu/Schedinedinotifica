@@ -76,7 +76,7 @@
 
                                         <div class="text-end">
                                             <button class="btn btn-primary w-md waves-effect waves-light"
-                                                type="button">Reset</button>
+                                                type="submit">Invia link reset</button>
                                         </div>
 
                                     </form>

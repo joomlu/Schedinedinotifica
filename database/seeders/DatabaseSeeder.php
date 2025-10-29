@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             QuickTestSeeder::class,
             ComuneLogoSeeder::class,
+            RolesAndPermissionsSeeder::class,
         ]);
     }
 }

@@ -40,6 +40,14 @@
                     </a>
                     
                 </li> <!-- end Dashboard Menu -->
+                @can('access admin')
+                <li class="menu-title"><span>Amministrazione</span></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.users.index') }}">
+                        <i data-feather="shield" class="icon-dual"></i> <span>Utenti & Ruoli</span>
+                    </a>
+                </li>
+                @endcan
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarConfigurations" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarConfigurations">
