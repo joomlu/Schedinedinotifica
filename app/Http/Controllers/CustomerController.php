@@ -166,12 +166,12 @@ class CustomerController extends Controller
         $customer->city_reg = $request->city_reg;
         $customer->prov_reg = $request->prov_reg;
         $customer->ciudadania_reg = $request->ciudadania_reg;
-        $customer->nac_reg = $request->provnac_regince;
+        $customer->nac_reg = $request->nac_reg ? \Carbon\Carbon::parse($request->nac_reg)->format('d/m/Y') : null;
         $customer->type_doc_reg = $request->type_doc_reg;
         $customer->num_doc_reg = $request->num_doc_reg;
         $customer->date_pub_reg = $request->date_pub_reg;
-        $customer->expire_reg = $request->expire_reg;
-        $customer->released_reg = $request->released_reg;
+        $customer->expire_reg = $request->expire_reg ? \Carbon\Carbon::parse($request->expire_reg)->format('d/m/Y') : null;
+        $customer->released_reg = $request->released_reg ? \Carbon\Carbon::parse($request->released_reg)->format('d/m/Y') : null;
         $customer->observation_reg = $request->observation_reg;
         $customer->azienda = $request->azienda;
         $customer->cap_az = $request->cap_az;

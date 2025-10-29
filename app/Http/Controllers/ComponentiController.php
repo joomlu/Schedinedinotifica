@@ -121,7 +121,7 @@ class ComponentiController extends Controller
         $customer->number = $request->number;
 
         $customer->city_nac = $request->city_nac;
-        $customer->date_nac = $request->date_nac;
+        $customer->date_nac = $request->date_nac ? \Carbon\Carbon::parse($request->date_nac)->format('d/m/Y') : null;
 
         $customer->save();
 
