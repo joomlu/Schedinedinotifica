@@ -1,67 +1,64 @@
 @extends('layouts.master')
 @section('title') Componenti (accompagnatori) @endsection
 @section('css')
-<!--datatable css-->
-<link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
-<!--datatable responsive css-->
-<link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+<!-- DataTables CSS -->
+<link href="{{ URL::asset('build/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('build/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('build/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 @component('components.breadcrumb')
-@slot('li_1') Tables @endslot
+@slot('li_1') Gestione @endslot
 @slot('title')Componenti (accompagnatori) @endslot
 @endcomponent
-
-<div class="row justify-content-end">
-    <div class="col-sm-2">
-                                                   
-        
-            <i class="ri-add-circle-line align-middle me-1"></i>
-            @lang('translation.new')</a>
-                                                    
-    </div>
-</div>
-
 
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Componenti (accompagnatori)</h5>
+            <div class="card-header d-flex align-items-center">
+                <h5 class="card-title mb-0 flex-grow-1">Componenti (accompagnatori)</h5>
+                <div class="flex-shrink-0">
+                    <a href="{{ url('/componenti_new') }}" class="btn btn-soft-success">
+                        <i class="ri-add-circle-line align-middle me-1"></i> @lang('translation.new')
+                    </a>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="buttons-datatables" class="display table table-bordered" style="width:100%">
+                    <table id="componenti-table" class="table dt-responsive nowrap table-striped align-middle" style="width:100%">
                         <thead>
                             <tr>
-                                <th>id</th>
+                                <th>ID</th>
                                 <th>Nome</th>
                                 <th>Cognome</th>
                                 <th>Nazione</th>
-                                <th>Citta</th>
-                                <th>Tipo Allogiato</th>
-                                <th>Link</th>
-                                
-                                <th>Actions.</th>
+                                <th>Città</th>
+                                <th>Tipo Alloggiato</th>
+                                <th>Azioni</th>
                             </tr>
                         </thead> 
                         <tbody>
                             @foreach($componenti as $customer)
                             <tr>
-                                <td>{{$customer->id}}</td>
-                                <td>{{$customer->name}}</td>
-                                <td>{{$customer->surname}}</td>
-                                <td>{{$customer->country}}</td>
-                                <td>{{$customer->city}}</td>
-                                <td>{{$customer->relationship}}</td>
-                                <td><a href="#" class="link-success">Link <i class="ri-arrow-right-line align-middle"></i></a></td>
-                                <td> <a href="{{url('/editcomponenti')}}/{{$customer->id}}" type="button" class="btn btn-success btn-icon waves-effect waves-light"><i class="ri-search-line"></i></a> 
-                                <a  href="{{ route('componenti.destroy',['id' => $customer->id] )}}" onclick="
-return confirm('Seguro deseas eliminar este componenti definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
-                      <i class="ri-delete-bin-5-line"></i><a></td> 
+                                <td>{{ $customer->id }}</td>
+                                <td>{{ $customer->name }}</td>
+                                <td>{{ $customer->surname }}</td>
+                                <td>{{ $customer->country }}</td>
+                                <td>{{ $customer->city }}</td>
+                                <td>{{ $customer->relationship }}</td>
+                                <td>
+                                    <div class="hstack gap-3 flex-wrap">
+                                        <a href="{{ url('/editcomponenti') }}/{{ $customer->id }}" class="link-success fs-15">
+                                            <i class="ri-edit-2-line"></i>
+                                        </a>
+                                        <a href="javascript:void(0);" onclick="confirmDelete({{ $customer->id }})" class="link-danger fs-15">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </a>
+                                    </div>
+                                </td> 
                             </tr>
                             @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -69,25 +66,84 @@ return confirm('Seguro deseas eliminar este componenti definitivamente?')" type=
     </div>
 </div>
 
-
-
 @endsection
+
 @section('script')
+<!-- DataTables JS -->
+<script src="{{ URL::asset('build/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+<script src="{{ URL::asset('build/libs/jszip/jszip.min.js') }}"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize DataTable
+    new DataTable('#componenti-table', {
+        responsive: true,
+        order: [[0, 'desc']], // Ordina per ID decrescente
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copy',
+                className: 'btn btn-sm btn-secondary'
+            },
+            {
+                extend: 'csv',
+                className: 'btn btn-sm btn-secondary'
+            },
+            {
+                extend: 'excel',
+                className: 'btn btn-sm btn-secondary'
+            },
+            {
+                extend: 'pdf',
+                className: 'btn btn-sm btn-secondary'
+            },
+            {
+                extend: 'print',
+                className: 'btn btn-sm btn-secondary'
+            }
+        ],
+        language: {
+            search: "Cerca:",
+            lengthMenu: "Mostra _MENU_ componenti",
+            info: "Mostrando _START_ a _END_ di _TOTAL_ componenti",
+            infoEmpty: "Nessun componente disponibile",
+            infoFiltered: "(filtrato da _MAX_ componenti totali)",
+            paginate: {
+                first: "Primo",
+                last: "Ultimo",
+                next: "Successivo",
+                previous: "Precedente"
+            }
+        }
+    });
+});
 
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
-<script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script>
+function confirmDelete(id) {
+    Swal.fire({
+        title: 'Sei sicuro?',
+        text: "Vuoi eliminare definitivamente questo componente?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sì, elimina!',
+        cancelButtonText: 'Annulla'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "{{ url('/componenti_destroy') }}/" + id;
+        }
+    });
+}
+</script>
 
 <script src="{{ URL::asset('build/js/app.js') }}"></script>
-
 @endsection
