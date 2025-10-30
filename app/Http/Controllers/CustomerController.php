@@ -21,7 +21,7 @@ class CustomerController extends Controller
     public function __construct(NationService $nationService)
     {
         $this->nationService = $nationService;
-        // Solo superadmin y admin pueden crear clientes
+        // Superadmin, admin y cliente pueden crear clientes
         $this->middleware('permission:create clients')->only(['store']);
     }
 

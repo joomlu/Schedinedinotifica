@@ -34,10 +34,10 @@ class RolesAndPermissionsSeeder extends Seeder
         // admin: puede crear clientes y estructuras
         $adminRole->syncPermissions([$manageUsers, $manageRoles, $accessAdmin, $createStructures, $createClients]);
         
-        // cliente: puede acceder a estructura y crear accesos a secretarias/staff de distintos niveles
-        $clienteRole->syncPermissions([$manageStaff, $viewReports]);
+        // cliente: puede tener varias estructuras y administrarlas, crear accesos individuales de staff
+        $clienteRole->syncPermissions([$createStructures, $createClients, $manageStaff, $manageUsers, $viewReports]);
         
-        // struttura: no puede crear nada, solo administrar el software (read-only efectivo)
+        // struttura: acceso individual para quien administra el software (no puede crear nada, solo usar app)
         $strutturaRole->syncPermissions([$viewReports]);
 
         // Seed users with requested emails and unified password

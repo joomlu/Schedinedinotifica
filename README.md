@@ -41,18 +41,22 @@ npm run dev
 # Para compilar en producción
 npm run build
 
-## � Account di test (login)
+## 👤 Account di test (login)
 
-Sono disponibili questi utenti preconfigurati per l’accesso all’app (tutti con la stessa password):
+Sono disponibili questi utenti preconfigurati per l'accesso all'app (tutti con la stessa password):
 
 - Email: superadmin@test.test — Ruolo: superadmin — Password: 123456
 - Email: admin@test.test — Ruolo: admin — Password: 123456
 - Email: cliente@test.test — Ruolo: cliente — Password: 123456
 - Email: struttura@test.test — Ruolo: struttura — Password: 123456
 
-Note
-- Il campo “role” interno del modello utente (colonna `users.role`) è mappato rispettivamente a: superadmin, admin, hotel_staff (cliente), hotel_owner (struttura).
-- I permessi Spatie sono: superadmin (tutti), admin (manage users/roles + access admin), cliente/struttura (nessuno speciale di default).
+Note sui permessi
+- **superadmin**: può creare tutte le condizioni (tutti i permessi)
+- **admin**: può creare clienti e strutture, gestire utenti/ruoli, accedere al panel admin
+- **cliente**: può gestire più strutture, creare clienti, gestire accessi individuali di staff (manage staff, manage users)
+- **struttura**: accesso individuale per chi amministra il software; non può creare nada, solo visualizzare e usare l'app (read-only)
+
+Il campo "role" interno del modello utente (colonna `users.role`) è mappato rispettivamente a: superadmin, admin, hotel_staff (cliente), hotel_owner (struttura).
 
 ## �📧 Configuración Mail (Reset Password)
 

@@ -49,7 +49,7 @@ class RolePermissionsTest extends TestCase
         $this->assertTrue($user->can('create structures'));
         $this->assertTrue($user->can('create clients'));
         $this->assertTrue($user->can('manage users'));
-        $this->assertFalse($user->can('manage staff')); // admin no tiene manage staff
+        $this->assertTrue($user->can('access admin')); // admin tiene acceso al panel
     }
 
     /** @test */
@@ -63,9 +63,10 @@ class RolePermissionsTest extends TestCase
         $user->assignRole('cliente');
 
         $this->assertTrue($user->can('manage staff'));
-        $this->assertFalse($user->can('create structures'));
-        $this->assertFalse($user->can('create clients'));
-        $this->assertFalse($user->can('manage users'));
+        $this->assertTrue($user->can('create structures')); // cliente ahora puede administrar estructuras
+        $this->assertTrue($user->can('create clients')); // cliente puede crear clientes
+        $this->assertTrue($user->can('manage users')); // cliente puede gestionar staff/usuarios
+        $this->assertFalse($user->can('access admin')); // no tiene acceso al panel admin
     }
 
     /** @test */
