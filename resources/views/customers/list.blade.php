@@ -18,9 +18,11 @@
             <div class="card-header d-flex align-items-center">
                 <h5 class="card-title mb-0 flex-grow-1">Lista Ospiti (Clienti)</h5>
                 <div class="flex-shrink-0">
+                    @can('create clients')
                     <a href="{{ url('/newcustomer') }}" class="btn btn-success add-btn">
                         <i class="ri-add-line align-bottom me-1"></i> Aggiungi Cliente
                     </a>
+                    @endcan
                 </div>
             </div>
             <div class="card-body">

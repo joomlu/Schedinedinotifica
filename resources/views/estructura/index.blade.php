@@ -211,7 +211,9 @@
 
                         <div class="row" style="margin-top: 20px">
                         <div class="col-xxl-3 col-md-3">
+                            @can('create structures')
                             <button type="submit" class="btn btn-success">Salva</button>
+                            @endcan
                         </div>
                         </div>
 </form>
@@ -322,7 +324,9 @@
                         <!--end row-->
                         <div class="row" style="margin-top: 20px">
                         <div class="col-xxl-3 col-md-3">
+                            @can('create structures')
                             <button type="submit" class="btn btn-success">Salva</button>
+                            @endcan
                         </div>
                         </div>
                         </form>

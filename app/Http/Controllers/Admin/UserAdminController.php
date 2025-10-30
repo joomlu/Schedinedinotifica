@@ -11,6 +11,12 @@ use Spatie\Permission\Models\Role;
 
 class UserAdminController extends Controller
 {
+    public function __construct()
+    {
+        // Acceso a gestión de usuarios: superadmin (manage users), admin (manage users), cliente (manage staff)
+        $this->middleware('permission:manage users|manage staff');
+    }
+
     public function index(): View
     {
         $users = User::with('roles')->orderBy('id')->get();

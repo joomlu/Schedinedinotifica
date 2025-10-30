@@ -40,3 +40,43 @@ npm run dev
 
 # Para compilar en producción
 npm run build
+
+## � Account di test (login)
+
+Sono disponibili questi utenti preconfigurati per l’accesso all’app (tutti con la stessa password):
+
+- Email: superadmin@test.test — Ruolo: superadmin — Password: 123456
+- Email: admin@test.test — Ruolo: admin — Password: 123456
+- Email: cliente@test.test — Ruolo: cliente — Password: 123456
+- Email: struttura@test.test — Ruolo: struttura — Password: 123456
+
+Note
+- Il campo “role” interno del modello utente (colonna `users.role`) è mappato rispettivamente a: superadmin, admin, hotel_staff (cliente), hotel_owner (struttura).
+- I permessi Spatie sono: superadmin (tutti), admin (manage users/roles + access admin), cliente/struttura (nessuno speciale di default).
+
+## �📧 Configuración Mail (Reset Password)
+
+Para probar el envío del enlace de recuperación de contraseña en local, tienes dos opciones rápidas:
+
+1) Usar el mailer de log (no envía mails, los escribe en storage/logs/laravel.log):
+
+```
+MAIL_MAILER=log
+```
+
+2) Usar Mailtrap (sandbox SMTP):
+
+```
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=tu_usuario
+MAIL_PASSWORD=tu_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=no-reply@example.com
+MAIL_FROM_NAME="Schedinedinotifica"
+```
+
+Luego visita: /password/reset, introduce el email de un usuario registrado y verifica que se envía la notificación (en log o en Mailtrap).
+
+> Nota: En el entorno de tests (phpunit), el mailer ya está configurado para no enviar emails reales.

@@ -11,6 +11,12 @@ use Illuminate\Http\RedirectResponse;
 
 class EstructuraController extends Controller
 {
+    public function __construct()
+    {
+        // Solo superadmin y admin pueden crear/modificar estructuras
+        $this->middleware('permission:create structures')->only(['store', 'update']);
+    }
+
     public function index(): View|ViewContract
     {
         $estructura = Estructura::where('id', '>', 0)->first();
