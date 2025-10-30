@@ -14,13 +14,34 @@ class EstructuraController extends Controller
     public function __construct()
     {
         // Superadmin, admin y cliente pueden crear/modificar estructuras
-        $this->middleware('permission:create structures')->only(['store', 'update']);
+        $this->middleware('permission:create structures')->only(['new', 'store', 'update']);
     }
 
     public function index(): View|ViewContract
     {
-        $estructura = Estructura::where('id', '>', 0)->first();
+        $user = auth()->user();
+
+        // Superadmin ve todas las estructuras
+        if ($user->isSuperAdmin()) {
+            $estructuras = Estructura::all();
+        }
+        // Admin y Cliente ven estructuras asociadas (o todas si no tienen structure_id limitado)
+        elseif ($user->structure_id) {
+            $estructuras = Estructura::where('id', $user->structure_id)->get();
+        }
+        else {
+            // Cliente sin restricción ve todas sus estructuras
+            $estructuras = Estructura::all();
+        }
+
+        return view('estructura.list', ['estructuras' => $estructuras]);
+    }
+
+    public function show(int $id): View|ViewContract
+    {
+        $estructura = Estructura::findOrFail($id);
         $tasa = Tassa::where('id', '>', 0)->first();
+        
         if (empty($tasa)) {
             $tasa = new Tassa;
             $tasa->create([
@@ -28,20 +49,51 @@ class EstructuraController extends Controller
             ]);
         }
 
-        if (empty($estructura)) {
-            $estructura = new Estructura;
-            $estructura->create([
-                'name' => 'Novo Nome',
-            ]);
-            $tasa = Tassa::where('id', '>', 0)->first();
+        return view('estructura.edit', ['estructura' => $estructura, 'tasa' => $tasa]);
+    }
 
-            return view('estructura.index', ['estructura' => $estructura, 'tasa' => $tasa]);
-        } else {
-            $tasa = Tassa::where('id', '>', 0)->first();
+    public function new(): View|ViewContract
+    {
+        return view('estructura.new');
+    }
 
-            return view('estructura.index', ['estructura' => $estructura, 'tasa' => $tasa]);
+    public function store(Request $request): RedirectResponse
+    {
+        $estructura = new Estructura;
+        
+        $data = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'city' => $request->city,
+            'fax' => $request->fax,
+            'address' => $request->address,
+            'email' => $request->email,
+            'cp' => $request->cp,
+            'web' => $request->web,
+            'cf' => $request->cf,
+            'piva' => $request->piva,
+            'startact' => $request->startact,
+            'typology' => $request->typology,
+            'closeact' => $request->closeact,
+            'clasification' => $request->clasification,
+            'numshedine' => $request->numshedine,
+            'roomdisp' => $request->roomdisp,
+            'ref' => $request->ref,
+            'beddisp' => $request->beddisp,
+            'refpass' => $request->refpass,
+            'updatedbed' => $request->updatedbed,
+        ];
+
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $filename = time().'_'.$logo->getClientOriginalName();
+            $logo->storeAs('public/logos', $filename);
+            $data['logo'] = $filename;
         }
 
+        $estructura->create($data);
+
+        return redirect()->route('estructura')->with('status', 'Struttura creata con successo');
     }
 
     public function update(Request $request): RedirectResponse

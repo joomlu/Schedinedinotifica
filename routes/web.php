@@ -149,6 +149,9 @@ Route::middleware('auth')->group(function () {
 
     // estructura
     Route::get('/estructura', [App\Http\Controllers\EstructuraController::class, 'index'])->name('estructura');
+    Route::get('/estructura/new', [App\Http\Controllers\EstructuraController::class, 'new'])->name('estructura.new');
+    Route::post('/estructura_store', [App\Http\Controllers\EstructuraController::class, 'store'])->name('estructura.store');
+    Route::get('/estructura/{id}', [App\Http\Controllers\EstructuraController::class, 'show'])->name('estructura.show');
     Route::put('/estructura_update/{id}', [App\Http\Controllers\EstructuraController::class, 'update'])->name('estructura.update');
     Route::put('/tassa_update/{id}', [App\Http\Controllers\EstructuraController::class, 'tasaupdate'])->name('tasa.update');
 
