@@ -55,6 +55,14 @@ class User extends Authenticatable
         return $this->belongsTo(Estructura::class, 'structure_id');
     }
 
+    /**
+     * Get the hotel structures managed by this cliente (chain administrator).
+     */
+    public function hotelStructures()
+    {
+        return $this->hasMany(HotelStructure::class, 'cliente_id');
+    }
+
     // Role helper methods
 
     /**

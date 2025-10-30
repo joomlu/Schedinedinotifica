@@ -102,6 +102,16 @@
                     </div>
                 </li> <!-- end Dashboard Menu -->
 
+                <!-- Hotel Structures Menu -->
+                @can('create structures')
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('hotel-structures.index') }}">
+                        <i data-feather="home" class="icon-dual"></i> <span>Strutture Hotel</span>
+                    </a>
+                </li>
+                @endcan
+                <!-- end Hotel Structures Menu -->
+
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarTickets" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarTickets">

@@ -155,6 +155,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/estructura_update/{id}', [App\Http\Controllers\EstructuraController::class, 'update'])->name('estructura.update');
     Route::put('/tassa_update/{id}', [App\Http\Controllers\EstructuraController::class, 'tasaupdate'])->name('tasa.update');
 
+    // Hotel Structures (nueva tabla de estructuras con autorizaciones)
+    Route::resource('hotel-structures', App\Http\Controllers\HotelStructureController::class);
+
     // arrivals
     Route::get('/arrivals', [App\Http\Controllers\ArrivalsController::class, 'index'])->name('arrivals');
     Route::get('/new_arrival', [App\Http\Controllers\ArrivalsController::class, 'new'])->name('newarrival');
