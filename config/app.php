@@ -94,6 +94,11 @@ return [
     'show_language_switcher' => env('SHOW_LANGUAGE_SWITCHER', false),
 
     /*
+    | Enable/Disable dev/demo pages routes
+    */
+    'enable_dev_pages' => env('ENABLE_DEV_PAGES', false),
+
+    /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
     |--------------------------------------------------------------------------

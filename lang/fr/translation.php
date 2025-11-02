@@ -1,5 +1,4 @@
 <?php
-return [
     "menu"=>"Menu",
     "dashboards"=>"Tableaux de bord",
     "analytics"=>"Analytique",
@@ -225,6 +224,9 @@ return [
     "privacy-policy" => "Politique de confidentialité",
     "hot" => "chaud",
 
+// Traductions non italiennes supprimées : UI uniquement en italien.
+return [];
+?>
 
 ];
 ?>
