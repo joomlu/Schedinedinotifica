@@ -8,6 +8,8 @@
   // - Errori: le chiamate AJAX falliscono in silenzio (no throw), mantenendo i campi interagibili.
   // - Successo: i campi si popolano correttamente in avanti e all’indietro secondo i flag.
   const DEBUG = !!global.GEO_DEBUG;
+  // Semplice cache in-memoria per evitare richieste ripetute e dare "lista pronta"
+  const GEO_CACHE = {};
   function makeAjaxSelect($el, options){
     const cfg = Object.assign({
       width: '100%',
@@ -20,8 +22,16 @@
           const query = params.data && params.data.term ? params.data.term : '';
           const add = options.extraParams ? options.extraParams() : {};
       if (!client) { return failure(new Error('HTTP client not ready')); }
+      const key = JSON.stringify({ url: options.url, q: query || '', add });
+      if (GEO_CACHE[key]) {
+        return success({ data: GEO_CACHE[key] });
+      }
       client.get(options.url, { params: Object.assign({ q: query }, add) })
-        .then(resp => success(resp))
+        .then(resp => {
+          const arr = Array.isArray(resp.data) ? resp.data : resp;
+          GEO_CACHE[key] = arr;
+          success(resp);
+        })
         .catch(err => failure(err));
         },
         processResults: function(resp){
@@ -273,6 +283,40 @@
       // Initialize manual groups hidden
       exitManualMode();
 
+      // Precaricamento liste per avere select "popolati" appena si aprono
+      try {
+        const httpClient = (window.http && typeof window.http.get === 'function') ? window.http : (typeof axios !== 'undefined' ? axios : null);
+        if (!httpClient) { throw new Error('HTTP client not ready'); }
+        // Preload nazioni
+        httpClient.get('/nations', { params: { q: '' } }).then(resp => {
+          const list = Array.isArray(resp.data) ? resp.data : resp;
+          list.forEach(item => {
+            const name = item.denominazione_nazione || item.denominazione_cittadinanza || item.sigla_nazione || '';
+            ensureOption(this.$nation, name, name);
+          });
+        }).catch(()=>{});
+        // Se Italia pre-selezionata, abilita e precarica regioni e province
+        if (this.preselectItaly){
+          httpClient.get('/regions', { params: { q: '' } }).then(resp => {
+            const list = Array.isArray(resp.data) ? resp.data : resp;
+            list.forEach(item => { ensureOption(this.$region, item.codice_regione, item.denominazione_regione || item.codice_regione); });
+            enable(this.$region);
+          }).catch(()=>{});
+          httpClient.get('/provinces-all', { params: { q: '' } }).then(resp => {
+            const list = Array.isArray(resp.data) ? resp.data : resp;
+            list.forEach(item => {
+              const name = item.denominazione_provincia || '';
+              const sigla = item.sigla_provincia || '';
+              const text = name + (sigla ? ' ('+sigla+')' : '');
+              ensureOption(this.$province, sigla, text);
+            });
+            enable(this.$province);
+          }).catch(()=>{});
+          // Città e CAP: saranno caricati quando si sceglie la provincia o si apre il menu
+          enable(this.$city); enable(this.$cap);
+        }
+      } catch(_){ }
+
       this.$nation.on('change', ()=>{
         const raw = (this.$nation.val() || '').toString();
         const val = raw.trim();
@@ -283,6 +327,24 @@
         if (isItaly){
           exitManualMode();
           enable(this.$region); enable(this.$province); enable(this.$city); enable(this.$cap);
+          // Precarica regioni e province all'atto della scelta di Italia
+          try {
+            const httpClient2 = (window.http && typeof window.http.get === 'function') ? window.http : (typeof axios !== 'undefined' ? axios : null);
+            if (!httpClient2) { throw new Error('HTTP client not ready'); }
+            httpClient2.get('/regions', { params: { q: '' } }).then(resp => {
+              const list = Array.isArray(resp.data) ? resp.data : resp;
+              list.forEach(item => { ensureOption(this.$region, item.codice_regione, item.denominazione_regione || item.codice_regione); });
+            }).catch(()=>{});
+            httpClient2.get('/provinces-all', { params: { q: '' } }).then(resp => {
+              const list = Array.isArray(resp.data) ? resp.data : resp;
+              list.forEach(item => {
+                const name = item.denominazione_provincia || '';
+                const sigla = item.sigla_provincia || '';
+                const text = name + (sigla ? ' ('+sigla+')' : '');
+                ensureOption(this.$province, sigla, text);
+              });
+            }).catch(()=>{});
+          } catch(_){ }
           // reset manual fields
           this.$regionManual.val(''); this.$provinceManual.val(''); this.$cityManual.val(''); this.$capManual.val('');
         } else {
