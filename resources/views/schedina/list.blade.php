@@ -9,8 +9,8 @@
 @endsection
 @section('content')
 @component('components.breadcrumb')
-@slot('li_1') @lang('translation.tables') @endslot
-@slot('title')@lang('translation.schedina') @endslot
+@slot('li_1') Tables @endslot
+@slot('title')Schedina @endslot
 @endcomponent
 
 
@@ -34,19 +34,19 @@
                     <table id="buttons-datatables" class="display table table-bordered" style="width:100%">
                         <thead>
                             <tr>
-                                <th>N.</th>
+                                <th>Nro</th>
                                 <th>Nome</th>
                                 <th>Arrivo</th>
                                 <th>Partenza</th>
-                                <th>Quantità</th>
+                                <th>Quantitá</th>
                                 <th>Camera</th>
                                 <th>Letti</th>
                                 
                                 <th>Nazione</th>
-                                <th>Città</th>
-                                <th>@lang('translation.common.link')</th>
+                                <th>Citta</th>
+                                <th>Link</th>
                                 <th>Componenti</th>
-                                <th>@lang('translation.actions.actions')</th>
+                                <th>Actions.</th>
                             </tr>
                         </thead> 
                         <tbody>
@@ -63,10 +63,11 @@
                                 <td>{{$schedina->oa_city}}</td>
                                 
                                 
-                                <td><a href="#" class="link-success">@lang('translation.common.link') <i class="ri-arrow-right-line align-middle"></i></a></td>
-                                <td><a href="{{url('/newcomponenti')}}/{{$schedina->id}}/{{$schedina->customer_id}}" class="btn btn-success">@lang('translation.actions.add')</a></td>
+                                <td><a href="#" class="link-success">Link <i class="ri-arrow-right-line align-middle"></i></a></td>
+                                <td><a href="{{url('/newcomponenti')}}/{{$schedina->id}}/{{$schedina->customer_id}}" class="btn btn-success">ADD</a></td>
                                 <td> <a href="{{url('/editschedina')}}/{{$schedina->id}}" type="button" class="btn btn-success btn-icon waves-effect waves-light"><i class="ri-search-line"></i></a> 
-                                <a  href="{{ route('schedina.destroy',['id' => $schedina->id] )}}" data-sa-confirm="delete" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
+                                <a  href="{{ route('schedina.destroy',['id' => $schedina->id] )}}" onclick="
+return confirm('Seguro deseas eliminar esta schedina definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
                       <i class="ri-delete-bin-5-line"></i><a></td> 
                             </tr>
                             @endforeach
@@ -81,6 +82,8 @@
 
 @endsection
 @section('script')
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>

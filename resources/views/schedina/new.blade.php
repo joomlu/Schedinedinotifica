@@ -5,23 +5,24 @@
 @section('content')
     @component('components.breadcrumb')
         @slot('li_1')
-            @lang('translation.new')
+            Nuova
         @endslot
         @slot('title')
-            @lang('translation.schedina')
+            Schedina
         @endslot
     @endcomponent
     
     <div class="row">
-        
+
+    
         
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">@lang('translation.schedina') - @lang('translation.new')</h4>
+                    <h4 class="card-title mb-0">Schedina - aggiungere</h4>
                 </div><!-- end card header -->
                 <div class="card-body">
-                    <form  method="POST" action="{{route('schedina.store')}}" class="form-steps" autocomplete="off" data-sa-confirm="create">
+                    <form  method="POST" action="{{route('schedina.store')}}" class="form-steps" autocomplete="off">
                     @csrf 
                         <div class="text-center pt-3 pb-4 mb-1 d-flex justify-content-center">
                             
@@ -32,20 +33,22 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="steparrow-gen-info-tab" data-bs-toggle="pill"
                                         data-bs-target="#steparrow-gen-info" type="button" role="tab"
-                                        aria-controls="steparrow-gen-info" aria-selected="true">@lang('translation.schedina')</button>
+                                        aria-controls="steparrow-gen-info" aria-selected="true">Schedina</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-description-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-description-info" type="button"
                                         role="tab" aria-controls="steparrow-description-info"
-                                        aria-selected="false">@lang('translation.steps.guest_anagraphic')</button>
+                                        aria-selected="false">Ospite - Anagrafica</button>
                                 </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="steparrow-azienda-info-tab"
-                                        data-bs-toggle="pill" data-bs-target="#steparrow-azienda-info" 
-                                        type="button" role="tab" aria-controls="steparrow-azienda-info" 
-                                        aria-selected="false">@lang('translation.steps.guest_residence')</button>
-                                </li>
+                                <button class="nav-link" id="steparrow-azienda-info-tab"
+                                    data-bs-toggle="pill" data-bs-target="#steparrow-azienda-info" 
+                                    type="button" role="tab" aria-controls="steparrow-azienda-info" 
+                                    aria-selected="false">
+                                    Ospite - Residenza
+                                </button>
+
+                                
                             </ul>
                         </div>
 
@@ -54,15 +57,17 @@
                                 aria-labelledby="steparrow-gen-info-tab">
                                 <div>
                                     <div class="row">
-                                        <div class="col-lg-3">
-                                            <div class="mb-3">
-                                                <label class="form-label" for="steparrow-gen-info-email-input">Tipo</label>
-                                                <select class="form-control js-example-basic-single" name="type" data-placeholder="Seleziona tipo">
-                                                    @foreach($titles as $title)
+                                    <div class="col-lg-3">
+                                                <div class="mb-3">
+                                                    <label class="form-label"
+                                                        for="steparrow-gen-info-email-input">Tipo</label>
+                                                        <select class="form-control" name="type">
+                                                        @foreach($titles as $title)
                                                         <option value="{{$title->name}}">{{$title->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                                        @endforeach
+                                                    </select>
+                                                    
+                                                </div>
                                         </div>
                                     <div class="col-lg-3">
                                             <div class="mb-3">
@@ -82,13 +87,13 @@
                                                 
                                             </div>
                                         </div>
-                    <div class="col-lg-2">
+                                        <div class="col-lg-2">
                                                 <div class="mb-3">
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Sesso</label>
-                            <select class="form-control js-example-basic-single" name="sex" data-placeholder="Seleziona sesso">
-                            <option value="M">M</option>
-                            <option value="F">F</option>
+                                                        <select class="form-control" name="sex">
+                                                        <option value="1">M</option>
+                                                        <option value="2">F</option>
                                                         </select>
                                                     
                                                 </div>
@@ -100,7 +105,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Tipo Alloggiato</label>
-                                                    <select class="form-control js-example-basic-single" name="relationship" data-placeholder="Seleziona tipo alloggiato">
+                                                    <select class="form-control" name="relationship">
                                                         <option value="17">CAPO FAMIGLIA</option>
                                                         <option value="18">CAPO GRUPPO</option>
                                                         <option value="16">OSPITE SINGOLO</option>
@@ -112,7 +117,7 @@
                                                 <div class="mb-3">
                                                 <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Esente</label>
-                                                    <select class="form-control js-example-basic-single" name="exent" data-placeholder="Seleziona esenzione">
+                                                    <select class="form-control" name="exent">
                                                         <option value="NO">No</option>
                                                         <option value="Personale">Personale</option>
                                                         <option value="Acompagnatore Turistico">Acompagnatore Turistico</option>
@@ -130,13 +135,23 @@
                                     <div class="row">
                                         
                                         
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-3">
                                             <div class="mb-3">
-                                                <label class="form-label" for="stay-range-schedina">Periodo soggiorno</label>
-                                                <input type="text" class="form-control" id="stay-range-schedina" data-provider="flatpickr" data-date-format="d M, Y" data-range-date placeholder="Seleziona il periodo">
-                                                <input type="hidden" name="arrive" id="schedina-arrive-hidden">
-                                                <input type="hidden" name="departure" id="schedina-departure-hidden">
+                                                <label class="form-label"
+                                                    for="steparrow-gen-info-email-input">Arrivo</label>
+                                                <input type="date" class="form-control" name="arrive">
+                                                   
+                                               
                                             </div>
+                                        </div>
+                                       
+                                        <div class="col-lg-3">
+                                                <div class="mb-3">
+                                                <label class="form-label"
+                                                        for="steparrow-gen-info-email-input">Partenza</label>
+                                                        <input type="date" class="form-control" name="departure">
+                                                    
+                                                </div>
                                         </div>
                                         <div class="col-lg-2">
                                                 <div class="mb-3">
@@ -183,7 +198,7 @@
                                 <button type="button" class="btn btn-success btn-label right ms-auto nexttab"
                                     data-nexttab="steparrow-description-info">
                                     <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                    @lang('translation.buttons.next')
+                                    Next
                                 </button>
                                 </div>
                             </div>
@@ -199,7 +214,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Nazione</label>
-                                                    <select type="text" class="form-control autofill-select" data-autofill="countries" name="oa_country" data-placeholder="Seleziona una Nazione">
+                                                    <select type="text" class="form-control autofill-select" data-autofill="countries" name="oa_country">
                                                         @foreach($nations as $nation)
                                                         <option value="{{ $nation->code }}">{{ $nation->name }}</option>
                                                         @endforeach
@@ -211,9 +226,9 @@
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">@lang('translation.labels.city')</label>
+                                                    for="steparrow-gen-info-email-input">Citta</label>
                                                 
-                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city" data-placeholder="Seleziona una Città"> 
+                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city"> 
                                                     @foreach($ciudades as $ciudad)
                                                         <option value="{{ $ciudad->code }}">{{ $ciudad->name }}</option>
                                                         @endforeach
@@ -226,8 +241,8 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Regione</label>
                                                
-                                                <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="region_az" data-placeholder="Seleziona una Regione">
-                                                    <option value="">Seleziona una Regione</option>
+                                                <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="region_az">
+                                                    <option value="">Seleccione una Región</option>
                                                     @foreach($regions as $region)
                                                         <option value="{{ $region['codice_regione'] }}">
                                                             {{ $region['denominazione_regione'] }}
@@ -243,7 +258,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Provincia</label>
                                                 
-                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="oa_prov" data-placeholder="Seleziona una Provincia">
+                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="oa_prov">
                                                     @foreach($provinces as $province)
                                                         <option value="{{ $province['sigla_provincia'] }}">{{ $province['denominazione_provincia'] }}</option>
                                                         @endforeach
@@ -259,7 +274,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Cittadinanza </label>
                                                 
-                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city_nac" data-placeholder="Seleziona una Città">
+                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city_nac">
                                                     @foreach($ciudades as $ciudad)
                                                         <option value="{{ $ciudad->code }}">{{ $ciudad->name }}</option>
                                                         @endforeach
@@ -272,7 +287,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Data di nascita</label>
-                                                <input type="text" class="form-control" name="oa_date_nac" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Seleziona la data">
+                                                <input type="date" class="form-control" name="oa_date_nac">
                                                    
                                                 
                                             </div>
@@ -281,10 +296,10 @@
                                    
                                     <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="button" class="btn btn-success btn-label right ms-auto nexttab" 
-                                    data-nexttab="steparrow-azienda-info">
-                                    <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                    @lang('translation.buttons.next')
-                                </button>
+    data-nexttab="steparrow-azienda-info">
+    <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
+    Next
+</button>
 
                                 </div>
                             </div>
@@ -306,7 +321,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Nazione  </label>
                                                 
-                                                <select type="text" class="form-control autofill-select" data-autofill="countries" name="or_country" data-placeholder="Seleziona una Nazione">
+                                                <select type="text" class="form-control autofill-select" data-autofill="countries" name="or_country">
                                                         @foreach($nations as $nation)
                                                         <option value="{{ $nation->code }}">{{ $nation->name }}</option>
                                                         @endforeach 
@@ -318,9 +333,9 @@
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">@lang('translation.labels.city')</label>
+                                                    for="steparrow-gen-info-email-input">Citta </label>
                                                 
-                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="or_city" data-placeholder="Seleziona una Città">
+                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="or_city">
                                                         @foreach($ciudades as $ciudad)
                                                         <option value="{{ $ciudad->code }}">{{ $ciudad->name }}</option>
                                                         @endforeach
@@ -336,8 +351,8 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Regione  </label>
                                                 
-                                                <select type="text" class="form-control autofill-select" data-autofill="regions" name="or_region" data-placeholder="Seleziona una Regione">
-                                                <option value="">Seleziona una Regione</option>
+                                                <select type="text" class="form-control autofill-select" data-autofill="regions" name="or_region">
+                                                <option value="">Seleccione una Región</option>
                                                     @foreach($regions as $region)
                                                         <option value="{{ $region['codice_regione'] }}">
                                                             {{ $region['denominazione_regione'] }}
@@ -353,7 +368,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Provincia</label>
                                                
-                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="or_prov" data-placeholder="Seleziona una Provincia"> 
+                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="or_prov"> 
                                                     @foreach($provinces as $province)
                                                         <option value="{{ $province['sigla_provincia'] }}">{{ $province['denominazione_provincia'] }}</option>
                                                         @endforeach
@@ -365,7 +380,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">CAP :</label>
-                                                <input type="text" class="form-control" name="or_cap" maxlength="10" pattern="^[0-9]{4,5}$" title="Inserisci un CAP valido (4-5 cifre)">
+                                                <input type="text" class="form-control" name="or_cap">
                                                    
                                                 
                                             </div>
@@ -398,14 +413,11 @@
                                     
                                     <div class="col-lg-2">
                                         <div class="mb-3">
-                                                <label class="form-label">Num.</label>
-                                                <input type="text" class="form-control" name="or_num" placeholder="Es. 12, 12B">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2">
-                                        <div class="mb-3">
-                                                <label class="form-label">Int.</label>
-                                                <input type="text" class="form-control" name="or_internal" placeholder="Interno, scala, ecc.">
+                                                <label class="form-label"
+                                                    for="steparrow-gen-info-email-input">Num.</label>
+                                                <input type="number" class="form-control" name="or_num">
+                                                   
+                                                
                                             </div>
                                         </div>
                                         
@@ -417,7 +429,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Documento</label>
-                                                    <select class="form-control js-example-basic-single" name="or_doctype" data-placeholder="Seleziona tipo documento">
+                                                    <select class="form-control" name="or_doctype">
                                                         @foreach($TypeDocs as $TypeDoc)
                                                         <option value="{{$TypeDoc->code}}">{{$TypeDoc->name}}</option>
                                                         @endforeach
@@ -445,7 +457,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato il</label>
-                                                <input type="text" class="form-control" name="or_published_date" data-provider="flatpickr" data-date-format="d M, Y" data-date-pair="doc" data-date-pair-role="start" placeholder="Seleziona la data">
+                                                <input type="date" class="form-control" name="or_published_date">
                                                    
                                                 
                                             </div>
@@ -454,7 +466,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Scade il</label>
-                                                <input type="text" class="form-control" name="or_expire" data-provider="flatpickr" data-date-format="d M, Y" data-date-pair="doc" data-date-pair-role="end" placeholder="Seleziona la data">
+                                                <input type="date" class="form-control" name="or_expire">
                                                    
                                                 
                                             </div>
@@ -463,7 +475,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato </label>
-                                                    <select class="form-control js-example-basic-single" name="or_published" data-placeholder="Ente rilasciante">
+                                                    <select class="form-control" name="or_published">
                                                         <option value="Dal comune di">Dal comune di</option>
                                                         <option value="Dalla Motorizazione di">Dalla Motorizazione di</option>
                                                         <option value="Prefetto">Prefetto</option>
@@ -480,7 +492,7 @@
                                     <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-description-info-tab"><i
-                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>@lang('translation.buttons.save')</button>
+                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Salva</button>
                                 </div>
                             </div>
 </div>
@@ -502,26 +514,16 @@
 @section('script')
     <script src="{{ URL::asset('build/js/pages/form-wizard.init.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <!-- Select2 CSS -->
+     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script src="{{ URL::asset('js/autofill-select.js') }}"></script>
     <script>
        document.addEventListener("DOMContentLoaded", function () {
-    // Mappa il range soggiorno nei campi hidden arrive/departure
-    var inputRange = document.getElementById('stay-range-schedina');
-    if (inputRange) {
-        var fp = inputRange._flatpickr || flatpickr(inputRange, { mode: 'range', dateFormat: inputRange.getAttribute('data-date-format') || 'd M, Y', locale: 'it' });
-        function formatYMD(date){
-            const y = date.getFullYear();
-            const m = String(date.getMonth()+1).padStart(2,'0');
-            const d = String(date.getDate()).padStart(2,'0');
-            return `${y}-${m}-${d}`;
-        }
-        inputRange.addEventListener('change', function(){
-            var start = fp && fp.selectedDates[0] ? formatYMD(fp.selectedDates[0]) : '';
-            var end = fp && fp.selectedDates[1] ? formatYMD(fp.selectedDates[1]) : '';
-            document.getElementById('schedina-arrive-hidden').value = start;
-            document.getElementById('schedina-departure-hidden').value = end;
-        });
-    }
     const searchInput = document.getElementById("search");
     const surnameInput = document.getElementById("surname");
     const customeridInput = document.getElementById("customer_id");
@@ -612,41 +614,172 @@
     </script>
 <script>
 $(document).ready(function() {
-    // Quando cambia la Regione, carica le Province
+    // Al cambiar la región, se cargan las provincias correspondientes
     $('#region-select').on('change', function() {
         var regionCode = $(this).val();
         if (regionCode) {
-            http.get('/provinces-by-region', { params: { codice_regione: regionCode } })
-              .then(function(response){
-                $('#province-select').empty().append('<option value="">Seleziona una Provincia</option>');
-                $.each(response.data, function(index, province) {
-                    $('#province-select').append($('<option>', { value: province.sigla_provincia, text: province.denominazione_provincia }));
-                });
-              })
-              .catch(function(err){ console.error('Errore nel caricamento delle province:', err); });
+            $.ajax({
+                url: '/provinces-by-region',
+                type: 'GET',
+                data: { codice_regione: regionCode },
+                success: function(data) {
+                    $('#province-select').empty().append('<option value="">Seleccione una Provincia</option>');
+                    $.each(data, function(index, province) {
+                        $('#province-select').append(
+                            $('<option>', { 
+                                value: province.sigla_provincia,
+                                text: province.denominazione_provincia
+                            })
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en la petición AJAX de provincias:", status, error);
+                }
+            });
         } else {
-            $('#province-select').empty().append('<option value="">Seleziona una Provincia</option>');
+            $('#province-select').empty().append('<option value="">Seleccione una Provincia</option>');
         }
     });
 
-    // Quando cambia la Provincia, carica i CAP
+    // Al cambiar la provincia, se cargan los CAP correspondientes
     $('#province-select').on('change', function() {
         var provinceCode = $(this).val();
         if (provinceCode) {
-            http.get('/cap-by-province', { params: { sigla_provincia: provinceCode } })
-              .then(function(response){
-                $('#cap-select').empty().append('<option value="">Seleziona un CAP</option>');
-                $.each(response.data, function(index, cap) {
-                    $('#cap-select').append($('<option>', { value: cap.cap, text: cap.cap }));
-                });
-              })
-              .catch(function(err){ console.error('Errore nel caricamento dei CAP:', err); });
+            $.ajax({
+                url: '/cap-by-province',
+                type: 'GET',
+                data: { sigla_provincia: provinceCode },
+                success: function(data) {
+                    $('#cap-select').empty().append('<option value="">Seleccione un CAP</option>');
+                    $.each(data, function(index, cap) {
+                        $('#cap-select').append(
+                            $('<option>', { 
+                                value: cap.cap,
+                                text: cap.cap
+                            })
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en la petición AJAX de CAP:", status, error);
+                }
+            });
         } else {
-            $('#cap-select').empty().append('<option value="">Seleziona un CAP</option>');
+            $('#cap-select').empty().append('<option value="">Seleccione un CAP</option>');
         }
     });
 });
 </script>
-<!-- Inizializzazione Select2 gestita globalmente; handler AJAX per cascata mantenuti sopra -->
-<!-- Vincoli documento centralizzati in app.js tramite data-date-pair/doc -->
+<script>
+$(document).ready(function() {
+    // Inicializar Select2 en cada campo
+    $('#nation-select').select2({
+        placeholder: "Seleccione una Nación",
+        allowClear: true
+    });
+    $('#region-select').select2({
+        placeholder: "Seleccione una Región",
+        allowClear: true
+    });
+    $('#province-select').select2({
+        placeholder: "Seleccione una Provincia",
+        allowClear: true
+    });
+    $('#cap-select').select2({
+        placeholder: "Seleccione un CAP",
+        allowClear: true
+    });
+    $('#city-select').select2({
+        placeholder: "Seleccione una ciudad",
+        allowClear: true
+    });
+
+    // Al cambiar la región, se cargan las provincias correspondientes
+    $('#region-select').on('change', function() {
+        var regionCode = $(this).val();
+        if (regionCode) {
+            $.ajax({
+                url: '{{ route("provincesByRegion") }}',
+                type: 'GET',
+                data: { codice_regione: regionCode },
+                success: function(data) {
+                    var provinceSelect = $('#province-select');
+                    provinceSelect.empty().append('<option value="">Seleccione una Provincia</option>');
+                    $.each(data, function(index, province) {
+                        provinceSelect.append(
+                            $('<option>', { 
+                                value: province.sigla_provincia,
+                                text: province.denominazione_provincia
+                            })
+                        );
+                    });
+                    provinceSelect.trigger('change');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en la petición AJAX de provincias:", status, error);
+                }
+            });
+        } else {
+            $('#province-select').empty().append('<option value="">Seleccione una Provincia</option>').trigger('change');
+        }
+    });
+
+    // Al cambiar la provincia, se cargan CAP y ciudades correspondientes
+    $('#province-select').on('change', function() {
+        var provinceCode = $(this).val();
+        if (provinceCode) {
+            // Petición para CAP
+            $.ajax({
+                url: '{{ route("capByProvince") }}',
+                type: 'GET',
+                data: { sigla_provincia: provinceCode },
+                success: function(data) {
+                    var capSelect = $('#cap-select');
+                    capSelect.empty().append('<option value="">Seleccione un CAP</option>');
+                    $.each(data, function(index, cap) {
+                        capSelect.append(
+                            $('<option>', { 
+                                value: cap.cap,
+                                text: cap.cap
+                            })
+                        );
+                    });
+                    capSelect.trigger('change');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en la petición AJAX de CAP:", status, error);
+                }
+            });
+
+            // Petición para Ciudades
+            $.ajax({
+                url: '{{ route("citiesByProvince") }}',
+                type: 'GET',
+                data: { sigla_provincia: provinceCode },
+                success: function(data) {
+                    var citySelect = $('#city-select');
+                    citySelect.empty().append('<option value="">Seleccione una ciudad</option>');
+                    $.each(data, function(index, city) {
+                        // Puedes usar 'codice_istat' o el nombre de la ciudad según tus necesidades
+                        citySelect.append(
+                            $('<option>', { 
+                                value: city.codice_istat,
+                                text: city.denominazione_ita
+                            })
+                        );
+                    });
+                    citySelect.trigger('change');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en la petición AJAX de ciudades:", status, error);
+                }
+            });
+        } else {
+            $('#cap-select').empty().append('<option value="">Seleccione un CAP</option>').trigger('change');
+            $('#city-select').empty().append('<option value="">Seleccione una ciudad</option>').trigger('change');
+        }
+    });
+});
+</script>
 @endsection

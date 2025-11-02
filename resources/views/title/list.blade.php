@@ -9,8 +9,8 @@
 @endsection
 @section('content')
 @component('components.breadcrumb')
-@slot('li_1') @lang('translation.tables') @endslot
-@slot('title')@lang('translation.Title') @endslot
+@slot('li_1') Tables @endslot
+@slot('title')Title @endslot
 @endcomponent
 
 
@@ -18,7 +18,7 @@
 <div class="row justify-content-end">
                                                 <div class="col-sm-2">
                                                    
-                                                    <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" title="@lang('translation.actions.add')" aria-label="@lang('translation.actions.add')"><i class="ri-add-circle-line align-middle me-1"></i>
+                                                    <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="ri-add-circle-line align-middle me-1"></i>
                                                     @lang('translation.new')</a>
                                                     
 
@@ -29,10 +29,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="myModalLabel">@lang('translation.new') @lang('translation.Title')</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@lang('translation.buttons.close')"> </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
             </div>
             <div class="modal-body">
-<form method="POST" action="{{route('title.store')}}" data-sa-confirm="create">
+<form method="POST" action="{{route('title.store')}}">
 @csrf 
 <div>
     <label for="basiInput" class="form-label">@lang('translation.Name')</label>
@@ -40,8 +40,8 @@
 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('translation.buttons.close')</button>
-                <button type="submit" class="btn btn-primary ">@lang('translation.buttons.save')</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary ">Salvar</button>
 </form>
             </div>
       
@@ -79,8 +79,9 @@
                                 <td>{{$titles->name}}</td>
                                 
                                 
-                                <td> <button type="button" class="btn btn-success btn-icon waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#ModalEdit{{$titles->id}}" title="@lang('translation.actions.edit')" aria-label="@lang('translation.actions.edit')"><i class=" ri-pencil-line"></i></button> 
-                                <a  href="{{ route('title.destroy',['id' => $titles->id] )}}" data-sa-confirm="delete" type="button"  class="btn btn-danger btn-icon waves-effect waves-light" title="@lang('translation.actions.delete')" aria-label="@lang('translation.actions.delete')">
+                                <td> <button type="button" class="btn btn-success btn-icon waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#ModalEdit{{$titles->id}}"><i class=" ri-pencil-line"></i></button> 
+                                <a  href="{{ route('title.destroy',['id' => $titles->id] )}}" onclick="
+return confirm('Seguro deseas eliminar este titulo definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
                       <i class="ri-delete-bin-5-line"></i><a>     
                                 </td>
                             </tr>
@@ -89,10 +90,10 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="myModalEditLabel">@lang('translation.edit') @lang('translation.Title')</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@lang('translation.buttons.close')"> </button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
                                             </div>
                                             <div class="modal-body">
-                                                    <form method="POST" action="{{route('title.update', $titles->id)}}" data-sa-confirm="update">
+                                                    <form method="POST" action="{{route('title.update', $titles->id)}}">
                                                     @csrf 
                                                     @method('PUT') 
                                                                 <div>
@@ -101,8 +102,8 @@
                                                                 </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('translation.buttons.close')</button>
-                                                                    <button type="submit" class="btn btn-primary ">@lang('translation.buttons.save')</button>
+                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary ">Salvar</button>
                                                                 </div>
                                                     </form>
                                             

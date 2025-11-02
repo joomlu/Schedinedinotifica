@@ -46,7 +46,7 @@
                             <!--end col-->
                             <div class="col-xxl-3 col-md-3">
                                 <div>
-                                    <label for="basiInput" class="form-label">@lang('translation.labels.city')</label>
+                                    <label for="basiInput" class="form-label">Citta</label>
                                     <input type="text" name="city" value="{{$estructura->city}}" class="form-control" id="basiInput">
                                 </div>
                             </div>
@@ -125,7 +125,7 @@
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="basiInput" class="form-label">Inizio attività</label>
-                                    <input type="text" name="startact" value="{{$estructura->startact}}" class="form-control" id="basiInput" data-provider="flatpickr" data-date-format="d M, Y" data-date-pair="act" data-date-pair-role="start" placeholder="Seleziona data">
+                                    <input type="date" name="startact" value="{{$estructura->startact}}" class="form-control" id="basiInput">
                                 </div>
                             </div>
                             <!--end col-->
@@ -133,7 +133,7 @@
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="basiInput" class="form-label">Chiussura attività</label>
-                                    <input type="text" name="closeact" value="{{$estructura->closeact}}" class="form-control" id="basiInput" data-provider="flatpickr" data-date-format="d M, Y" data-date-pair="act" data-date-pair-role="end" placeholder="Seleziona data">
+                                    <input type="date" name="closeact" value="{{$estructura->closeact}}" class="form-control" id="basiInput">
                                 </div>
                             </div>
                             <!--end col-->
@@ -209,7 +209,7 @@
                        
                         <div class="row" style="margin-top: 20px">
                         <div class="col-xxl-3 col-md-3">
-                            <button type="submit" class="btn btn-success">@lang('translation.buttons.save')</button>
+                            <button type="submit" class="btn btn-success">Salva</button>
                         </div>
                         </div>
 </form>
@@ -241,14 +241,14 @@
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="basiInput" class="form-label">Inizio</label>
-                                    <input type="text" name="inizio" value="{{$tasa->inizio}}" class="form-control" id="basiInput" data-provider="flatpickr" data-date-format="d M, Y" data-date-pair="tasa" data-date-pair-role="start" placeholder="Seleziona data">
+                                    <input type="date" name="inizio" value="{{$tasa->inizio}}" class="form-control" id="basiInput">
                                 </div>
                             </div>
                             <!--end col-->
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="labelInput" class="form-label">Fine</label>
-                                    <input type="text" name="fine" value="{{$tasa->fine}}" class="form-control" id="labelInput" data-provider="flatpickr" data-date-format="d M, Y" data-date-pair="tasa" data-date-pair-role="end" placeholder="Seleziona data">
+                                    <input type="date" name="fine" value="{{$tasa->fine}}" class="form-control" id="labelInput">
                                 </div>
                             </div>
                             <!--end col-->
@@ -282,7 +282,7 @@
                             <!--end col-->
                             <div class="col-xxl-3 col-md-3">
                                 <div>
-                                    <label for="labelInput" class="form-label">@lang('translation.labels.city')</label>
+                                    <label for="labelInput" class="form-label">Citta</label>
                                     <input type="text" name="city" value="{{$tasa->city}}" class="form-control" id="labelInput">
                                 </div>
                             </div>
@@ -297,7 +297,7 @@
                         <!--end row-->
                         <div class="row" style="margin-top: 20px">
                         <div class="col-xxl-3 col-md-3">
-                            <button type="submit" class="btn btn-success">@lang('translation.buttons.save')</button>
+                            <button type="submit" class="btn btn-success">Salva</button>
                         </div>
                         </div>
                         </form>
@@ -317,5 +317,4 @@
 @section('script')
     <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
-    
 @endsection

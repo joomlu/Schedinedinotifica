@@ -2,11 +2,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <script>document.write(new Date().getFullYear())</script> © {{ config('app.name') }}.
+                <script>document.write(new Date().getFullYear())</script> © Velzon.
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
-                    @lang('translation.footer.developed_by')
+                    Develop by Prospero Soft
                 </div>
             </div>
         </div>

@@ -5,10 +5,10 @@
 @section('content')
     @component('components.breadcrumb')
         @slot('li_1')
-            @lang('translation.forms')
+            Forms
         @endslot
         @slot('title')
-            @lang('translation.titles.customer-edit')
+            Edit Clienti
         @endslot
     @endcomponent
 
@@ -19,11 +19,11 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">@lang('translation.titles.customer-edit')</h4>
+                    <h4 class="card-title mb-0">Clienti - Edit</h4>
                 </div><!-- end card header -->
                 <div class="card-body">
                 
-                    <form  method="POST" action="{{route('customer.update', $customer->id)}}" class="form-steps" autocomplete="off" data-sa-confirm="update">
+                    <form  method="POST" action="{{route('customer.update', $customer->id)}}" class="form-steps" autocomplete="off">
                     @csrf 
                     @method('PUT') 
                         <div class="text-center pt-3 pb-4 mb-1 d-flex justify-content-center">
@@ -35,19 +35,19 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="steparrow-gen-info-tab" data-bs-toggle="pill"
                                         data-bs-target="#steparrow-gen-info" type="button" role="tab"
-                                        aria-controls="steparrow-gen-info" aria-selected="true">@lang('translation.steps.customer_residence')</button>
+                                        aria-controls="steparrow-gen-info" aria-selected="true">Cliente Residenza</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-description-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-description-info" type="button"
                                         role="tab" aria-controls="steparrow-description-info"
-                                        aria-selected="false">@lang('translation.steps.anagraphic')</button>
+                                        aria-selected="false">Anagrafica</button>
                                 </li>
                                 <button class="nav-link" id="steparrow-azienda-info-tab"
                                     data-bs-toggle="pill" data-bs-target="#steparrow-azienda-info" 
                                     type="button" role="tab" aria-controls="steparrow-azienda-info" 
                                     aria-selected="false">
-                                    @lang('translation.steps.company')
+                                    Azienda
                                 </button>
 
                                 
@@ -63,8 +63,8 @@
                                             <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Gruppo</label>
-                                                <select class="form-control js-example-basic-single" name="group" data-placeholder="Seleziona gruppo">
-                                                    <option value="{{$customer->group}}">{{$customer->group}}</option>
+                                                <select class="form-control" name="group">
+                                                <option value="{{$customer->group}}">{{$customer->group}}</option>
                                                     @foreach($groups as $group)
                                                     <option value="{{$group->name}}">{{$group->name}}</option>
                                                     @endforeach
@@ -76,7 +76,7 @@
                                             <div class="mb-4">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">SubGruppo</label>
-                                                <select class="form-control js-example-basic-single" name="subgroup" data-placeholder="Seleziona sottogruppo">
+                                                <select class="form-control" name="subgroup">
                                                 <option value="{{$customer->subgroup}}">{{$customer->subgroup}}</option>
                                                 @foreach($subgroups as $subgroup)
                                                     <option value="{{$subgroup->name}}">{{$subgroup->name}}</option>
@@ -89,13 +89,13 @@
                                                 <div class="mb-3">
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">SubGruppo 1</label>
-                                                    <select class="form-control js-example-basic-single" name="subgroup1" data-placeholder="Seleziona sottogruppo 1">
+                                                    <select class="form-control" name="subgroup1">
                                                     <option value="{{$customer->subgroup1}}">{{$customer->subgroup1}}</option>    
                                                     @foreach($subgroups1 as $subgroup1)
                                                     <option value="{{$subgroup1->name}}">{{$subgroup1->name}}</option>
                                                     @endforeach
                                                     </select>
-                                                    <div class="invalid-feedback">Inserisci un sottogruppo</div>
+                                                    <div class="invalid-feedback">Please enter an Subgroup</div>
                                                 </div>
                                             </div>
                                             
@@ -105,7 +105,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Tipo Alloggiato</label>
-                                                    <select class="form-control js-example-basic-single" name="type_housed" data-placeholder="Seleziona tipo alloggiato">
+                                                    <select class="form-control" name="type_housed">
                                                     <option value="{{$customer->type_housed}}" selected>{{$customer->type_housed}}</option> 
                                                         <option value="Hotel K2">Hotel K2</option>
                                                         <option value="Hotel K2">Sub gruppo 1x</option>
@@ -122,7 +122,7 @@
                                                 <div class="mb-3">
                                                 <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Tipo</label>
-                                                    <select class="form-control js-example-basic-single" name="type" data-placeholder="Seleziona tipo">
+                                                    <select class="form-control" name="type">
                                                     <option value="{{$customer->type}}" selected>{{$customer->type}}</option> 
                                                         <option value="M">Dott.</option>
                                                         <option value="F">Famiglia</option>
@@ -136,7 +136,7 @@
                                                     for="steparrow-gen-info-email-input">Nome</label>
                                                 <input type="text" class="form-control" name="name" value="{{$customer->name}}">
                                                    
-                                                <div class="invalid-feedback">Inserisci un valore</div>
+                                                <div class="invalid-feedback">Please enter an Subgroup</div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -152,12 +152,12 @@
                                                 <div class="mb-3">
                                                 <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Sesso</label>
-                                                    <select class="form-control js-example-basic-single" name="grupo" data-placeholder="Seleziona sesso">
+                                                    <select class="form-control" name="grupo">
                                                         <option value="{{$customer->grupo}}" selected>{{$customer->grupo}}</option>
                                                         <option value="M">M</option>
                                                         <option value="F">F</option>
                                                     </select>
-                                                    <div class="invalid-feedback">Inserisci un valore</div>
+                                                    <div class="invalid-feedback">Please enter an group</div>
                                                 </div>
                                         </div>
                                     </div>
@@ -168,20 +168,16 @@
                                             <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Nazione</label>
-                                                <select type="text" class="form-control autofill-select" data-autofill="countries" name="country" data-placeholder="Seleziona una Nazione">
-                                                    <option value="{{$customer->country}}">{{$customer->country}}</option>
-                                                </select>
+                                                <input type="text" class="form-control" name="country" value="{{$customer->country}}">
                                                    
-                                            <div class="invalid-feedback">Inserisci un valore</div>
+                                            <div class="invalid-feedback">Please enter an Subgroup</div>
                                     </div>
                                     </div>
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Città</label>
-                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="city" data-placeholder="Seleziona una Città">
-                                                    <option value="{{$customer->city}}">{{$customer->city}}</option>
-                                                </select>
+                                                    for="steparrow-gen-info-email-input">Citta</label>
+                                                <input type="text" class="form-control" name="city" value="{{$customer->city}}">
                                                    
                                                 
                                             </div>
@@ -190,9 +186,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Regione</label>
-                                                <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="region" data-placeholder="Seleziona una Regione">
-                                                    <option value="{{$customer->region}}">{{$customer->region}}</option>
-                                                </select>
+                                                <input type="text" class="form-control" name="region" value="{{$customer->region}}">
                                                    
                                                 
                                             </div>
@@ -201,9 +195,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Provincia</label>
-                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="province" data-placeholder="Seleziona una Provincia">
-                                                    <option value="{{$customer->province}}">{{$customer->province}}</option>
-                                                </select>
+                                                <input type="text" class="form-control" name="province" value="{{$customer->province}}">
                                                    
                                                 
                                             </div>
@@ -242,7 +234,7 @@
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Num.</label>
+                                                    for="steparrow-gen-info-email-input">Num</label>
                                                 <input type="text" class="form-control" name="number" value="{{$customer->number}}">
                                                    
                                                 
@@ -288,7 +280,7 @@
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Cellulare</label>
+                                                    for="steparrow-gen-info-email-input">Celular</label>
                                                 <input type="text" class="form-control" name="cellphone" value="{{$customer->cellphone}}">
                                                    
                                                 
@@ -313,10 +305,10 @@
                                     
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
-                                    <button type="button" class="btn btn-success btn-label right ms-auto nexttab"
+                                <button type="button" class="btn btn-success btn-label right ms-auto nexttab"
                                     data-nexttab="steparrow-description-info">
                                     <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                    @lang('translation.buttons.next')
+                                    Next
                                 </button>
                                 </div>
                             </div>
@@ -331,9 +323,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Nazione (di Nascita) </label>
-                                                <select type="text" class="form-control autofill-select" data-autofill="countries" name="country_reg" data-placeholder="Seleziona una Nazione">
-                                                    <option value="{{$customer->country_reg}}">{{$customer->country_reg}}</option>
-                                                </select>
+                                                <input type="text" class="form-control" name="country_reg"  value="{{$customer->country_reg}}">
                                                    
                                                 
                                             </div> 
@@ -341,10 +331,8 @@
                                         <div class="col-lg-6">
                                         <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">@lang('translation.labels.birth_city') :</label>
-                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="city_reg" data-placeholder="Seleziona una Città">
-                                                    <option value="{{$customer->city_reg}}">{{$customer->city_reg}}</option>
-                                                </select>
+                                                    for="steparrow-gen-info-email-input">Citta (di Nascita) :</label>
+                                                <input type="text" class="form-control" name="city_reg"  value="{{$customer->city_reg}}">
                                                    
                                                 
                                             </div>
@@ -356,9 +344,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Provincia (di Nascita) </label>
-                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="prov_reg" data-placeholder="Seleziona una Provincia">
-                                                    <option value="{{$customer->prov_reg}}">{{$customer->prov_reg}}</option>
-                                                </select>
+                                                <input type="text" class="form-control" name="prov_reg"  value="{{$customer->prov_reg}}">
                                                    
                                                 
                                             </div>
@@ -367,9 +353,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Cittadinanza</label>
-                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="ciudadania_reg" data-placeholder="Seleziona cittadinanza">
-                                                    <option value="{{$customer->ciudadania_reg}}">{{$customer->ciudadania_reg}}</option>
-                                                </select>
+                                                <input type="text" class="form-control" name="ciudadania_reg"  value="{{$customer->ciudadania_reg}}">
                                                    
                                                 
                                             </div>
@@ -381,7 +365,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Data di nascita</label>
-                                                <input type="text" class="form-control" name="nac_reg"  value="{{$customer->nac_reg}}" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Seleziona data">
+                                                <input type="text" class="form-control" name="nac_reg"  value="{{$customer->nac_reg}}">
                                                    
                                                 
                                             </div>
@@ -423,7 +407,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato il</label>
-                                                <input type="text" class="form-control" name="expire_reg" value="{{$customer->expire_reg}}" data-provider="flatpickr" data-date-format="d M, Y" data-date-pair="doc-reg" data-date-pair-role="start" placeholder="Seleziona data">
+                                                <input type="date" class="form-control" name="expire_reg" value="{{$customer->expire_reg}}">
                                                    
                                                 
                                             </div>
@@ -432,7 +416,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input"> Scade il</label>
-                                                <input type="text" class="form-control" name="released_reg" value="{{$customer->released_reg}}" data-provider="flatpickr" data-date-format="d M, Y" data-date-pair="doc-reg" data-date-pair-role="end" placeholder="Seleziona data">
+                                                <input type="date" class="form-control" name="released_reg" value="{{$customer->released_reg}}">
                                                    
                                                 
                                             </div>
@@ -456,7 +440,7 @@
                                     <button type="button" class="btn btn-success btn-label right ms-auto nexttab" 
     data-nexttab="steparrow-azienda-info">
     <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-    @lang('translation.buttons.next')
+    Next
 </button>
 
                                 </div>
@@ -517,7 +501,7 @@
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Strada</label>
+                                                    for="steparrow-gen-info-email-input">Strada </label>address_az
                                                 <input type="text" class="form-control" name="address_az"  value="{{$customer->address_az}}">
                                                    
                                                 
@@ -598,7 +582,7 @@
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Città</label>
+                                                    for="steparrow-gen-info-email-input">Citta</label>
                                                 <input type="text" class="form-control" name="city_az" value="{{$customer->city_az}}">
                                                    
                                                 
@@ -649,7 +633,7 @@
                                     <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-description-info-tab"><i
-                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>@lang('translation.buttons.save')</button>
+                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Salva</button>
                                 </div>
                             </div>
 </div>
@@ -671,6 +655,4 @@
 @section('script')
     <script src="{{ URL::asset('build/js/pages/form-wizard.init.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
-    <script src="{{ URL::asset('js/autofill-select.js') }}"></script>
-    <!-- Vincoli documento centralizzati in app.js tramite data-date-pair/doc-reg -->
 @endsection

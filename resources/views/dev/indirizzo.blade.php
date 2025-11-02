@@ -1,29 +1,35 @@
-<!doctype html>
-<html lang="it">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Indirizzo</title>
-  <style> body{ font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; padding:20px; } .container{ max-width:1000px; margin:0 auto; } </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Indirizzo</h1>
+@extends('layouts.master')
 
-    <x-address-fields prefix="addr" />
+@section('title', 'Indirizzo — Demo')
 
-    <hr/>
-    <pre id="log" style="background:#f8f9fa; padding:12px; border-radius:8px"></pre>
+@section('content')
+  <div class="container-xxl py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header"><h5 class="card-title mb-0">Indirizzo</h5></div>
+          <div class="card-body">
+            <x-address-fields prefix="addr" />
+            <hr/>
+            <pre id="log" class="mt-3" style="background:#f8f9fa; padding:12px; border-radius:8px"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+@endsection
 
-  <script src="/libreria/AddressFields.js"></script>
-  <script>
-    (function(){
-      var root = document.getElementById('addr_addr_wrap') || document.getElementById('addr_addr') || document.querySelector('[id$="_addr_wrap"]') || document;
-      root.addEventListener('address:change', function(e){
-        document.getElementById('log').textContent = JSON.stringify(e.detail, null, 2);
-      });
-    })();
-  </script>
-</body>
-</html>
+@section('script-bottom')
+<script>
+  (function(){
+    const root = document.getElementById('addr_addr_wrap')
+      || document.getElementById('addr_addr')
+      || document.querySelector('[id$="_addr_wrap"]')
+      || document;
+    root.addEventListener('address:change', function(e){
+      const log = document.getElementById('log');
+      if (log) log.textContent = JSON.stringify(e.detail, null, 2);
+    });
+  })();
+</script>
+@endsection

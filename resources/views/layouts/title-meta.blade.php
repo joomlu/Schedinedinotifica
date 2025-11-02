@@ -5,3 +5,5 @@
 <meta content="Themesbrand" name="author" />
 <!-- App favicon -->
 <link rel="shortcut icon" href="{{ URL::asset('build/images/favicon.ico') }}">
+<!-- CSRF Token for Axios/http wrapper -->
+<meta name="csrf-token" content="{{ csrf_token() }}">

@@ -15,8 +15,9 @@
                     <div class="col-12">
                         <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                             <div class="flex-grow-1">
-                                <h4 class="fs-16 mb-1">@lang('translation.good_morning')</h4>
-                                <p class="text-muted mb-0">@lang('translation.dashboard_intro')</p>
+                                <h4 class="fs-16 mb-1">Good Morning, Anna!</h4>
+                                <p class="text-muted mb-0">Here's what's happening with your store
+                                    today.</p>
                             </div>
                             
                         </div><!-- end card header -->
@@ -25,34 +26,7 @@
                 </div>
                 <!--end row-->
 
-                <!-- Quick Links -->
-                <div class="row g-3">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header d-flex align-items-center justify-content-between">
-                                <h5 class="card-title mb-0">@lang('translation.common.quick_actions')</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row g-2">
-                                    <div class="col-6 col-md-3"><a class="btn btn-soft-primary w-100" href="{{ route('customers') }}">Clienti</a></div>
-                                    <div class="col-6 col-md-3"><a class="btn btn-soft-primary w-100" href="{{ route('groups') }}">Gruppi</a></div>
-                                    <div class="col-6 col-md-3"><a class="btn btn-soft-primary w-100" href="{{ route('subgroups') }}">Sottogruppi</a></div>
-                                    <div class="col-6 col-md-3"><a class="btn btn-soft-primary w-100" href="{{ route('subgroups1') }}">Sottogruppi 1</a></div>
-                                    <div class="col-6 col-md-3"><a class="btn btn-soft-primary w-100" href="{{ route('title') }}">Titoli</a></div>
-                                    <div class="col-6 col-md-3"><a class="btn btn-soft-primary w-100" href="{{ route('typedoc') }}">Tipo Documento</a></div>
-                                    <div class="col-6 col-md-3"><a class="btn btn-soft-primary w-100" href="{{ route('typestreet') }}">Tipo Via</a></div>
-                                    <div class="col-6 col-md-3"><a class="btn btn-soft-primary w-100" href="{{ route('schedina') }}">Schedine</a></div>
-                                    <div class="col-6 col-md-3"><a class="btn btn-soft-primary w-100" href="{{ route('componenti') }}">Componenti</a></div>
-                                    <div class="col-6 col-md-3"><a class="btn btn-soft-primary w-100" href="{{ route('arrivals') }}">Arrivi</a></div>
-                                    <div class="col-6 col-md-3"><a class="btn btn-soft-primary w-100" href="{{ route('estructura') }}">Struttura</a></div>
-                                    <div class="col-6 col-md-3"><a class="btn btn-soft-primary w-100" href="{{ route('released') }}">Rilasci</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- end Quick Links -->
-
+             
             </div> <!-- end .h-100-->
 
         </div> <!-- end col -->

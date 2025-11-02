@@ -4,11 +4,11 @@
 @endsection
 @section('content')
     @component('components.breadcrumb')
-    @slot('li_1')
-    @lang('translation.components')
+        @slot('li_1')
+        Componenti
         @endslot
         @slot('title')
-    @lang('translation.new') 
+        Nuovo 
         @endslot
     @endcomponent
 
@@ -21,7 +21,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">@lang('translation.titles.components-add')</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Nuovo Componenti</h4>
                         
                     </div><!-- end card header -->
                     <form  method="POST" action="{{route('componenti.store')}}">
@@ -31,8 +31,8 @@
                             <div class="row gy-4">
                             <div class="col-xxl-3 col-md-3">
                                     <div>
-                                        <label for="valueInput" class="form-label">@lang('translation.labels.type_housed')</label>
-                                        <select type="text" class="form-control js-example-basic-single" name="relationship" data-placeholder="Seleziona tipo alloggiato">
+                                        <label for="valueInput" class="form-label">Tipo Allogiatto</label>
+                                        <select type="text" class="form-control" name="relationship">
                                             <option value="CAPOFAMIGLIA">CAPOFAMIGLIA</option>
                                             <option value="CAPOGRUPPO">CAPOGRUPPO</option>
                                             <option value="FAMILIARE">FAMILIARE</option>
@@ -61,7 +61,7 @@
                                 <div class="col-xxl-3 col-md-3">
                                     <div>
                                         <label for="basiInput" class="form-label">Sesso</label>
-                                        <select type="text" class="form-control js-example-basic-single" name="sex" data-placeholder="Seleziona sesso">
+                                        <select type="text" class="form-control" name="sex">
                                             <option value="M">M</option>
                                             <option value="F">F</option>
                                         </select> 
@@ -72,9 +72,9 @@
                                 
                                 <div class="col-xxl-3 col-md-3">
                                     <div>
-                                        <label for="readonlyInput" class="form-label">@lang('translation.labels.country')</label>
+                                        <label for="readonlyInput" class="form-label">Nazione</label>
                                        
-                                        <select type="text" class="form-control autofill-select" data-autofill="countries" name="country" data-placeholder="Seleziona una Nazione">
+                                        <select type="text" class="form-control autofill-select" data-autofill="countries" name="country">
                                                         @foreach($nations as $nation)
                                                         <option value="{{ $nation['denominazione_cittadinanza'] }}">{{ $nation['denominazione_cittadinanza'] }}</option>
                                                         @endforeach
@@ -85,7 +85,7 @@
                                     <div>
                                         <label for="readonlyInput" class="form-label">Cittadinanza</label>
                                         
-                                        <select type="text" class="form-control autofill-select" data-autofill="cities" name="city_nac" data-placeholder="Seleziona una Città">
+                                        <select type="text" class="form-control autofill-select" data-autofill="cities" name="city_nac">
                                                     @foreach($ciudades as $ciudad)
                                                         <option value="{{ $ciudad['denominazione_ita'] }}">{{ $ciudad['denominazione_ita'] }}</option>
                                                         @endforeach
@@ -96,9 +96,9 @@
                                 <!--end col-->
                                 <div class="col-xxl-3 col-md-3">
                                 <div>
-                                        <label for="readonlyInput" class="form-label">@lang('translation.labels.province')</label>
+                                        <label for="readonlyInput" class="form-label">Provincia</label>
                                         
-                                        <select type="text" class="form-control autofill-select" data-autofill="provinces" name="province_nac" data-placeholder="Seleziona una Provincia">
+                                        <select type="text" class="form-control autofill-select" data-autofill="provinces" name="province_nac">
                                                     @foreach($provinces as $province)
                                                         <option value="{{ $province['denominazione_provincia'] }}">{{ $province['denominazione_provincia'] }}</option>
                                                         @endforeach
@@ -107,10 +107,10 @@
                                 </div>
                                 <div class="col-xxl-3 col-md-3">
                                 <div>
-                                        <label for="readonlyInput" class="form-label">@lang('translation.labels.region')</label>
+                                        <label for="readonlyInput" class="form-label">Regione</label>
                                         
-                                        <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="regione" data-placeholder="Seleziona una Regione">
-                                                    <option value="">Seleziona una Regione</option>
+                                        <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="regione">
+                                                    <option value="">Seleccione una Región</option>
                                                     @foreach($regions as $region)
                                                         <option value="{{ $region['codice_regione'] }}">
                                                             {{ $region['denominazione_regione'] }}
@@ -122,9 +122,9 @@
                                 <!--end col-->
                                 <div class="col-xxl-3 col-md-3">
                                         <div>
-                                        <label for="readonlyInput" class="form-label">@lang('translation.labels.city')</label>
+                                        <label for="readonlyInput" class="form-label">Citta</label>
                                         
-                                        <select type="text" class="form-control autofill-select" data-autofill="cities" name="city" data-placeholder="Seleziona una Città">
+                                        <select type="text" class="form-control autofill-select" data-autofill="cities" name="city">
                                                     @foreach($ciudades as $ciudad)
                                                         <option value="{{ $ciudad['denominazione_ita'] }}">{{ $ciudad['denominazione_ita'] }}</option>
                                                         @endforeach
@@ -133,8 +133,8 @@
                                     </div>
                                     <div class="col-xxl-3 col-md-2">
                                         <div>
-                                        <label for="readonlyInput" class="form-label">@lang('translation.labels.typeaway')</label>
-                                        <select type="text" class="form-control js-example-basic-single" name="tipeaway" data-placeholder="Seleziona tipo via">
+                                        <label for="readonlyInput" class="form-label">Tipo via</label>
+                                        <select type="text" class="form-control" name="tipeaway">
                                             @foreach($typeaway as $typestreet)
                                             <option value="{{$typestreet->name}}">{{$typestreet->name}}</option>
                                             @endforeach
@@ -144,19 +144,19 @@
                                     </div>
                                     <div class="col-xxl-3 col-md-3">
                                         <div>
-                                        <label for="readonlyInput" class="form-label">@lang('translation.labels.address')</label>
+                                        <label for="readonlyInput" class="form-label">Strada</label>
                                         <input type="text" class="form-control" name="address">
                                     </div>
                                     </div>
                                     <div class="col-xxl-3 col-md-2">
                                         <div>
-                                        <label for="readonlyInput" class="form-label">@lang('translation.labels.number')</label>
+                                        <label for="readonlyInput" class="form-label">Num</label>
                                         <input type="text" class="form-control" name="number">
                                     </div>
                                     </div>
                                     <div class="col-xxl-3 col-md-2">
                                         <div>
-                                        <label for="readonlyInput" class="form-label">@lang('translation.labels.cap')</label>
+                                        <label for="readonlyInput" class="form-label">Cap</label>
                                         <input type="text" class="form-control" name="cap">
                                     </div>
                                     </div>
@@ -164,13 +164,13 @@
                                 <!--end col-->
                                 <div class="col-xxl-3 col-md-3">
                                 <div>
-                                        <label for="readonlyInput" class="form-label">@lang('translation.labels.birth_date')</label>
-                                        <input type="text" class="form-control" name="date_nac" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Seleziona data">
+                                        <label for="readonlyInput" class="form-label">Data di nascita</label>
+                                        <input type="date" class="form-control" name="date_nac">
                                     </div>
                                 </div>
                                 <div class="col-xxl-3 col-md-4">
                                 <div>
-                                        <label for="basiInput" class="form-label">Esente</label>
+                                        <label for="basiInput" class="form-label">Essento</label>
                                         <select type="text" class="form-control" name="exent">
                                             <option value="Si">SI</option>
                                             <option value="NO">NO</option>
@@ -181,7 +181,7 @@
                                 
                                 <div class="col-xxl-3 col-md-6">
                                 <div>
-                                        <button type="submit" class="btn btn-success">@lang('translation.buttons.save')</button>
+                                        <button type="submit" class="btn btn-success">Salva</button>
                                     </div>
                                 </div>
                                

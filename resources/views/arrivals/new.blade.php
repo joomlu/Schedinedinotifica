@@ -1,14 +1,14 @@
 @extends('layouts.master')
 @section('title')
-@lang('translation.arrivals')
+Arrivi
 @endsection
 @section('content')
     @component('components.breadcrumb')
         @slot('li_1')
-            @lang('translation.new')
+            Nuovo
         @endslot
         @slot('title')
-            @lang('translation.arrivals')
+        Arrivi
         @endslot
     @endcomponent
     
@@ -19,10 +19,10 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">@lang('translation.arrivals') - @lang('translation.new')</h4>
+                    <h4 class="card-title mb-0">Arrivi - aggiungere</h4>
                 </div><!-- end card header -->
                 <div class="card-body">
-                    <form  method="POST" action="{{route('arrival.store')}}" class="form-steps" autocomplete="off" data-sa-confirm="create">
+                    <form  method="POST" action="{{route('arrival.store')}}" class="form-steps" autocomplete="off">
                     @csrf 
                         <div class="text-center pt-3 pb-4 mb-1 d-flex justify-content-center">
                             
@@ -33,19 +33,19 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="steparrow-gen-info-tab" data-bs-toggle="pill"
                                         data-bs-target="#steparrow-gen-info" type="button" role="tab"
-                                        aria-controls="steparrow-gen-info" aria-selected="true">@lang('translation.schedina')</button>
+                                        aria-controls="steparrow-gen-info" aria-selected="true">Schedina</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-description-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-description-info" type="button"
                                         role="tab" aria-controls="steparrow-description-info"
-                                        aria-selected="false">@lang('translation.steps.guest_anagraphic')</button>
+                                        aria-selected="false">Ospite - Anagrafica</button>
                                 </li>
                                 <button class="nav-link" id="steparrow-azienda-info-tab"
                                     data-bs-toggle="pill" data-bs-target="#steparrow-azienda-info" 
                                     type="button" role="tab" aria-controls="steparrow-azienda-info" 
                                     aria-selected="false">
-                                    @lang('translation.steps.guest_residence')
+                                    Ospite - Residenza
                                 </button>
 
                                 
@@ -61,7 +61,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Tipo</label>
-                                                        <select class="form-control js-example-basic-single" name="type" data-placeholder="Seleziona tipo">
+                                                        <select class="form-control" name="type">
                                                         @foreach($titles as $title)
                                                         <option value="{{$title->name}}">{{$title->name}}</option>
                                                         @endforeach
@@ -91,7 +91,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Sesso</label>
-                                                        <select class="form-control js-example-basic-single" name="sex" data-placeholder="Seleziona sesso">
+                                                        <select class="form-control" name="sex">
                                                         <option value="M">M</option>
                                                         <option value="F">F</option>
                                                         </select>
@@ -105,7 +105,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Tipo Alloggiato</label>
-                                                    <select class="form-control js-example-basic-single" name="relationship" data-placeholder="Seleziona relazione">
+                                                    <select class="form-control" name="relationship">
                                                         <option value="CAPO FAMIGLIA">CAPO FAMIGLIA</option>
                                                         <option value="CAPO GRUPPO">CAPO GRUPPO</option>
                                                         <option value="OSPITE SINGOLO">OSPITE SINGOLO</option>
@@ -117,7 +117,7 @@
                                                 <div class="mb-3">
                                                 <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Esente</label>
-                                                    <select class="form-control js-example-basic-single" name="exent" data-placeholder="Seleziona esenzione">
+                                                    <select class="form-control" name="exent">
                                                         <option value="NO">No</option>
                                                         <option value="Personale">Personale</option>
                                                         <option value="Acompagnatore Turistico">Acompagnatore Turistico</option>
@@ -138,10 +138,8 @@
                                         <div class="col-lg-3">
                                             <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Periodo soggiorno</label>
-                                                <input type="text" class="form-control" id="stay-range" data-provider="flatpickr" data-date-format="d M, Y" data-range-date placeholder="Seleziona il periodo">
-                                                <input type="hidden" name="arrive" id="arrive-hidden">
-                                                <input type="hidden" name="departure" id="departure-hidden">
+                                                    for="steparrow-gen-info-email-input">Arrivo</label>
+                                                <input type="date" class="form-control" name="arrive">
                                                    
                                                
                                             </div>
@@ -149,9 +147,9 @@
                                        
                                         <div class="col-lg-3">
                                                 <div class="mb-3">
-                        <label class="form-label"
-                            for="steparrow-gen-info-email-input">&nbsp;</label>
-                            <input type="text" class="form-control" disabled value="Seleziona un periodo sopra">
+                                                <label class="form-label"
+                                                        for="steparrow-gen-info-email-input">Partenza</label>
+                                                        <input type="date" class="form-control" name="departure">
                                                     
                                                 </div>
                                         </div>
@@ -200,7 +198,7 @@
                                 <button type="button" class="btn btn-success btn-label right ms-auto nexttab"
                                     data-nexttab="steparrow-description-info">
                                     <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                    @lang('translation.buttons.next')
+                                    Next
                                 </button>
                                 </div>
                             </div>
@@ -216,7 +214,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Nazione  </label>
                                                 
-                                                <select type="text" class="form-control autofill-select" data-autofill="countries" name="oa_country" data-placeholder="Seleziona una Nazione">
+                                                <select type="text" class="form-control autofill-select" data-autofill="countries" name="oa_country">
                                                         @foreach($nations as $nation)
                                                         <option value="{{ $nation['denominazione_cittadinanza'] }}">{{ $nation['denominazione_cittadinanza'] }}</option>
                                                         @endforeach
@@ -227,9 +225,9 @@
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">@lang('translation.labels.city')</label>
+                                                    for="steparrow-gen-info-email-input">Citta </label>
                                             
-                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city" data-placeholder="Seleziona una Città">
+                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city">
                                                     @foreach($ciudades as $ciudad)
                                                         <option value="{{ $ciudad['denominazione_ita'] }}">{{ $ciudad['denominazione_ita'] }}</option>
                                                         @endforeach
@@ -244,8 +242,8 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Regione  </label>
                                                 
-                                                <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="oa_region" data-placeholder="Seleziona una Regione">
-                                                    <option value="">Seleziona una Regione</option>
+                                                <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="oa_region">
+                                                    <option value="">Seleccione una Región</option>
                                                     @foreach($regions as $region)
                                                         <option value="{{ $region['codice_regione'] }}">
                                                             {{ $region['denominazione_regione'] }}
@@ -260,7 +258,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Provincia</label>
                                           
-                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="oa_prov" data-placeholder="Seleziona una Provincia">
+                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="oa_prov">
                                                     @foreach($provinces as $province)
                                                         <option value="{{ $province['denominazione_provincia'] }}">{{ $province['denominazione_provincia'] }}</option>
                                                         @endforeach
@@ -277,7 +275,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Cittadinanza </label>
                                                
-                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city_nac" data-placeholder="Seleziona una Città">
+                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city_nac">
                                                     @foreach($ciudades as $ciudad)
                                                         <option value="{{ $ciudad['denominazione_ita'] }}">{{ $ciudad['denominazione_ita'] }}</option>
                                                         @endforeach
@@ -289,7 +287,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Data di nascita</label>
-                                                <input type="text" class="form-control" name="oa_date_nac" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Seleziona la data">
+                                                <input type="date" class="form-control" name="oa_date_nac">
                                                    
                                                 
                                             </div>
@@ -300,7 +298,7 @@
                                     <button type="button" class="btn btn-success btn-label right ms-auto nexttab" 
     data-nexttab="steparrow-azienda-info">
     <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-    @lang('translation.buttons.next')
+    Next
 </button>
 
                                 </div>
@@ -323,7 +321,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Nazione  </label>
                                                
-                                                <select type="text" class="form-control autofill-select" data-autofill="countries" name="or_country" data-placeholder="Seleziona una Nazione">
+                                                <select type="text" class="form-control autofill-select" data-autofill="countries" name="or_country">
                                                         @foreach($nations as $nation)
                                                         <option value="{{ $nation['denominazione_cittadinanza'] }}">{{ $nation['denominazione_cittadinanza'] }}</option>
                                                         @endforeach
@@ -334,9 +332,9 @@
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">@lang('translation.labels.city')</label>
+                                                    for="steparrow-gen-info-email-input">Citta </label>
                                                 
-                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="or_city" data-placeholder="Seleziona una Città">
+                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="or_city">
                                                     @foreach($ciudades as $ciudad)
                                                         <option value="{{ $ciudad['denominazione_ita'] }}">{{ $ciudad['denominazione_ita'] }}</option>
                                                         @endforeach
@@ -351,8 +349,8 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Regione  </label>
 
-                                                <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="or_region" data-placeholder="Seleziona una Regione">
-                                                    <option value="">Seleziona una Regione</option>
+                                                <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="or_region">
+                                                    <option value="">Seleccione una Región</option>
                                                     @foreach($regions as $region)
                                                         <option value="{{ $region['codice_regione'] }}">
                                                             {{ $region['denominazione_regione'] }}
@@ -367,7 +365,7 @@
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Provincia</label>
                                                 
-                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="or_prov" data-placeholder="Seleziona una Provincia">
+                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="or_prov">
                                                     @foreach($provinces as $province)
                                                         <option value="{{ $province['denominazione_provincia'] }}">{{ $province['denominazione_provincia'] }}</option>
                                                         @endforeach
@@ -379,7 +377,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">CAP :</label>
-                                                <input type="text" class="form-control" name="or_cap" maxlength="10" pattern="^[0-9]{4,5}$" title="Inserisci un CAP valido (4-5 cifre)">
+                                                <input type="text" class="form-control" name="or_cap">
                                                    
                                                 
                                             </div>
@@ -390,7 +388,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Tipo Via</label>
-                                                    <select class="form-control js-example-basic-single" name="or_typeaway" data-placeholder="Seleziona tipo via">
+                                                    <select class="form-control" name="or_typeaway">
                                                         @foreach($typestreets as $typestreet)
                                                         <option value="{{$typestreet->name}}">{{$typestreet->name}}</option>
                                                         @endforeach
@@ -428,7 +426,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Documento</label>
-                                                    <select class="form-control js-example-basic-single" name="or_doctype" data-placeholder="Seleziona tipo documento">
+                                                    <select class="form-control" name="or_doctype">
                                                         @foreach($TypeDocs as $TypeDoc)
                                                         <option value="{{$TypeDoc->name}}">{{$TypeDoc->name}}</option>
                                                         @endforeach
@@ -456,7 +454,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato il</label>
-                                                <input type="text" class="form-control" name="or_published_date" data-provider="flatpickr" data-date-format="d M, Y" data-date-pair="doc" data-date-pair-role="start" placeholder="Seleziona la data">
+                                                <input type="date" class="form-control" name="or_published_date">
                                                    
                                                 
                                             </div>
@@ -465,7 +463,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Scade il</label>
-                                                <input type="text" class="form-control" name="or_expire" data-provider="flatpickr" data-date-format="d M, Y" data-date-pair="doc" data-date-pair-role="end" placeholder="Seleziona la data">
+                                                <input type="date" class="form-control" name="or_expire">
                                                    
                                                 
                                             </div>
@@ -474,7 +472,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato </label>
-                                                    <select class="form-control js-example-basic-single" name="or_published" data-placeholder="Ente rilasciante">
+                                                    <select class="form-control" name="or_published">
                                                         <option value="Dal comune di">Dal comune di</option>
                                                         <option value="Dalla Motorizazione di">Dalla Motorizazione di</option>
                                                         <option value="Prefetto">Prefetto</option>
@@ -491,7 +489,7 @@
                                     <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-description-info-tab"><i
-                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>@lang('translation.buttons.save')</button>
+                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Salva</button>
                                 </div>
                             </div>
 </div>
@@ -513,44 +511,15 @@
 @section('script')
     <script src="{{ URL::asset('build/js/pages/form-wizard.init.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <!-- Select2 CSS -->
+     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script src="{{ URL::asset('js/autofill-select.js') }}"></script>
     <script>
-// Popola hidden arrive/departure quando si seleziona un range con flatpickr
-document.addEventListener('DOMContentLoaded', function(){
-    var input = document.getElementById('stay-range');
-    if (input) {
-        var fp = input._flatpickr;
-        // se flatpickr non è ancora inizializzato dai plugin di app.js, inizializza qui
-        if (!fp) {
-            fp = flatpickr(input, {
-                mode: 'range',
-                dateFormat: input.getAttribute('data-date-format') || 'd M, Y',
-                locale: 'it'
-            });
-        }
-            function formatForBackend(date){
-                // Backend atteso presumibilmente Y-m-d
-                const y = date.getFullYear();
-                const m = String(date.getMonth()+1).padStart(2,'0');
-                const d = String(date.getDate()).padStart(2,'0');
-                return `${y}-${m}-${d}`;
-            }
-        input.addEventListener('change', function(){
-            var dates = (input.value || '').split(' to ');
-            if (fp && fp.selectedDates && fp.selectedDates.length) {
-                var start = fp.selectedDates[0] || null;
-                var end = fp.selectedDates[1] || null;
-                document.getElementById('arrive-hidden').value = start ? formatForBackend(start) : '';
-                document.getElementById('departure-hidden').value = end ? formatForBackend(end) : '';
-            } else if (dates.length === 2) {
-                // fallback parsing testuale
-                document.getElementById('arrive-hidden').value = dates[0].trim();
-                document.getElementById('departure-hidden').value = dates[1].trim();
-            }
-        });
-    }
-});
-
        document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("search");
     const surnameInput = document.getElementById("surname");
@@ -605,5 +574,4 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 </script>
-<!-- Vincoli documento centralizzati in app.js tramite data-date-pair/doc -->
 @endsection

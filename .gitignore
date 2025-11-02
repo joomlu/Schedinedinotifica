@@ -21,16 +21,3 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
-/.idea/
-/.vscode/
-/.DS_Store
-/.fleet/
-public/build/
-storage/framework/*
-!/storage/framework/.gitignore
-storage/logs/*
-!/storage/logs/.gitignore
-bootstrap/cache/*
-!/bootstrap/cache/.gitignore
-*.log
-php-cs-fixer.cache

@@ -9,17 +9,17 @@
 @endsection
 @section('content')
 @component('components.breadcrumb')
-@slot('li_1') @lang('translation.tables') @endslot
-@slot('title') @lang('translation.arrivals') @endslot
+@slot('li_1') Tables @endslot
+@slot('title')Arrivals @endslot
 @endcomponent
 
 <div class="alert alert-danger" role="alert">
-    <strong>@lang('translation.arrivals')</strong>
- </div>
+    <strong>Arrivi</strong> 
+</div>
 
 <div class="row justify-content-end">
     <div class="col-sm-2">
-        <a type="button" class="btn btn-primary" href="{{url('/new_arrival')}}" title="@lang('translation.actions.add')" aria-label="@lang('translation.actions.add')">
+        <a type="button" class="btn btn-primary" href="{{url('/new_arrival')}}">
             <i class="ri-add-circle-line align-middle me-1"></i>
             @lang('translation.new')
         </a>
@@ -30,7 +30,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title mb-0">@lang('translation.arrivals')</h5>
+                <h5 class="card-title mb-0">@lang('translation.Arrivals')</h5>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -43,8 +43,8 @@
                                 <th>Partenza</th>
                                 <th>Nazione</th>
                                 <th>Città</th>
-                                <th>@lang('translation.actions.action')</th>
-                                <th>@lang('translation.actions.delete')</th>
+                                <th>Azione</th>
+                                <th>Elimina</th>
                             </tr>
                         </thead> 
                         <tbody>
@@ -58,15 +58,15 @@
                                 <td>{{$arrival->oa_city}}</td>
                                 <td><form action="{{ route('a_schedina', $arrival->id) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn btn-warning" title="@lang('translation.actions.to_schedina')" aria-label="@lang('translation.actions.to_schedina')">
-                                            @lang('translation.actions.to_schedina')
+                                        <button type="submit" class="btn btn-warning">
+                                            A Schedina
                                         </button>
                                     </form></td>
                                 <td>
-                                    <form action="{{ route('arrivals.destroy', $arrival->id) }}" method="POST" data-sa-confirm="delete">
+                                    <form action="{{ route('arrivals.destroy', $arrival->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-icon waves-effect waves-light" title="@lang('translation.actions.delete')" aria-label="@lang('translation.actions.delete')">
+                                        <button type="submit" class="btn btn-danger btn-icon waves-effect waves-light">
                                             <i class="ri-delete-bin-5-line"></i>
                                         </button>
                                     </form>
@@ -84,6 +84,8 @@
 @endsection
 
 @section('script')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>

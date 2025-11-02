@@ -1,45 +1,39 @@
-<!doctype html>
-<html lang="it" data-bs-theme="light">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nac_Reg_Prov_Citt — Demo Select2</title>
-  @include('layouts.head-css')
-  <!-- Carico jQuery/Select2 locali direttamente nell'head per garantirne la disponibilità anticipata -->
-  <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
-  <script src="{{ asset('libs/select2/js/select2.full.min.js') }}"></script>
-  <script src="{{ asset('libs/select2/js/i18n/it.js') }}"></script>
-  <style>
-    body { background: #f8f9fa; }
-    .container-demo { max-width: 1040px; margin: 32px auto; }
-    .card { box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,.05); }
-    .form-label { font-weight: 600; }
-    .note { color: #6c757d; font-size: .9rem; }
-  </style>
-</head>
-<body>
-  <div class="container-demo">
-    @include('components.geo-select', [
-      'prefix' => 'demo',
-      'showAddressInline' => false,
-      'preselectItaly' => true,
-      'manualForNonItaly' => true,
-      'filterCapByCity' => true,
-      'autoSelectUniqueCap' => true,
-      'backfillRegionFromProvince' => true,
-    ])
-  </div>
-  <script src="{{ asset('js/components/geo-select.js') }}?v={{ @filemtime(public_path('js/components/geo-select.js')) }}"></script>
+@extends('layouts.master')
 
-  @include('layouts.vendor-scripts')
-  
+@section('title', 'Nac_Reg_Prov_Citt — Demo Select2')
+
+@section('content')
+  <div class="container-xxl py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            @include('components.geo-select', [
+              'prefix' => 'demo',
+              'showAddressInline' => false,
+              'preselectItaly' => true,
+              'manualForNonItaly' => true,
+              'filterCapByCity' => true,
+              'autoSelectUniqueCap' => true,
+              'backfillRegionFromProvince' => true,
+            ])
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection
+
+@section('script-bottom')
+  <!-- Axios + HTTP wrapper for GeoSelect -->
+  <script src="{{ asset('build/libs/axios/axios.min.js') }}"></script>
+  <script src="{{ asset('build/js/utils/http.js') }}"></script>
+  <!-- GeoSelect component (public) -->
   <script src="{{ asset('js/components/geo-select.js') }}?v={{ @filemtime(public_path('js/components/geo-select.js')) }}"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function(){
-      // Attendi jQuery+Select2 prima di impostare la readiness e avviare il componente
       function readyWhenSelect2(){
         if (window.jQuery && jQuery.fn && jQuery.fn.select2){
-          // Flag di readiness per Dusk
           window.__GEO_READY__ = true;
           document.body.setAttribute('data-geo-ready', '1');
           const summaryEl = document.getElementById('geo-summary');
@@ -68,7 +62,6 @@
           if (container) {
             container.addEventListener('geoselect:change', function(ev){ renderSummary(ev.detail); });
           }
-          // Render iniziale leggendo dallo stato corrente dei select
           (function initial(){
             try {
               const get = sel => ({ value: (sel && sel.value)||'', label: (sel && sel.options && sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '') });
@@ -82,10 +75,11 @@
               });
             } catch(_){}
           })();
-          // Aggiorna riepilogo quando cambiano i campi indirizzo
           ['typeaway','address','num','internal'].forEach(function(id){
             const el = document.getElementById(id);
-            if (el){ el.addEventListener('input', function(){ renderSummary(geo.getValues()); }); }
+            if (el){ el.addEventListener('input', function(){
+              try{ if (window.geo && typeof geo.getValues === 'function'){ renderSummary(geo.getValues()); } }catch(_){ }
+            }); }
           });
         } else {
           setTimeout(readyWhenSelect2, 50);
@@ -94,5 +88,4 @@
       readyWhenSelect2();
     });
   </script>
-</body>
-</html>
+@endsection

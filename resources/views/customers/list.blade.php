@@ -9,8 +9,8 @@
 @endsection
 @section('content')
 @component('components.breadcrumb')
-@slot('li_1') @lang('translation.tables') @endslot
-@slot('title')@lang('translation.customers') @endslot
+@slot('li_1') Tables @endslot
+@slot('title')Clienti @endslot
 @endcomponent
 
 
@@ -31,11 +31,11 @@
                                 <th>Nome</th>
                                 <th>Cognome</th>
                                 <th>Nazione</th>
-                                <th>@lang('translation.labels.city')</th>
+                                <th>Citta</th>
                                 <th>Gruppo</th>
-                                <th>@lang('translation.common.link')</th>
+                                <th>Link</th>
                                 
-                                <th>@lang('translation.actions.actions')</th>
+                                <th>Actions.</th>
                             </tr>
                         </thead> 
                         <tbody>
@@ -47,10 +47,11 @@
                                 <td>{{$customer->country}}</td>
                                 <td>{{$customer->city}}</td>
                                 <td>{{$customer->group}}</td>
-                                <td><a href="#" class="link-success">@lang('translation.common.link') <i class="ri-arrow-right-line align-middle"></i></a></td>
+                                <td><a href="#" class="link-success">Link <i class="ri-arrow-right-line align-middle"></i></a></td>
                                 
-                                <td> <a href="{{url('/editcustomer')}}/{{$customer->id}}" type="button" class="btn btn-success btn-icon waves-effect waves-light" title="@lang('translation.actions.view')" aria-label="@lang('translation.actions.view')"><i class="ri-search-line"></i></a> 
-                                <a  href="{{ route('customer.destroy',['id' => $customer->id] )}}" data-sa-confirm="delete" type="button"  class="btn btn-danger btn-icon waves-effect waves-light" title="@lang('translation.actions.delete')" aria-label="@lang('translation.actions.delete')">
+                                <td> <a href="{{url('/editcustomer')}}/{{$customer->id}}" type="button" class="btn btn-success btn-icon waves-effect waves-light"><i class="ri-search-line"></i></a> 
+                                <a  href="{{ route('customer.destroy',['id' => $customer->id] )}}" onclick="
+return confirm('Seguro deseas eliminar este clienti definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
                       <i class="ri-delete-bin-5-line"></i><a></td> 
                             </tr>
                             @endforeach

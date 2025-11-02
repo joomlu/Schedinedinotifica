@@ -5,10 +5,10 @@
 @section('content')
     @component('components.breadcrumb')
         @slot('li_1')
-            @lang('translation.schedina')
+            Schedina
         @endslot
         @slot('title')
-            @lang('translation.edit')
+            edit
         @endslot
     @endcomponent
     
@@ -19,10 +19,10 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">@lang('translation.schedina')</h4>
+                    <h4 class="card-title mb-0">Schedina</h4>
                 </div><!-- end card header -->
                 <div class="card-body">
-                <form method="POST" action="{{route('schedina.update', $schedina->id)}}" data-sa-confirm="update">
+                <form method="POST" action="{{route('schedina.update', $schedina->id)}}">
                                                     @csrf 
                                                     @method('PUT') 
                         <div class="text-center pt-3 pb-4 mb-1 d-flex justify-content-center">
@@ -34,19 +34,19 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="steparrow-gen-info-tab" data-bs-toggle="pill"
                                         data-bs-target="#steparrow-gen-info" type="button" role="tab"
-                                        aria-controls="steparrow-gen-info" aria-selected="true">@lang('translation.schedina')</button>
+                                        aria-controls="steparrow-gen-info" aria-selected="true">Schedina</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-description-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-description-info" type="button"
                                         role="tab" aria-controls="steparrow-description-info"
-                                        aria-selected="false">@lang('translation.steps.guest_anagraphic')</button>
+                                        aria-selected="false">Ospite - Anagrafica</button>
                                 </li>
                                 <button class="nav-link" id="steparrow-azienda-info-tab"
                                     data-bs-toggle="pill" data-bs-target="#steparrow-azienda-info" 
                                     type="button" role="tab" aria-controls="steparrow-azienda-info" 
                                     aria-selected="false">
-                                    @lang('translation.steps.guest_residence')
+                                    Ospite - Residenza
                                 </button>
 
                                 
@@ -62,7 +62,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Tipo</label>
-                                                        <select class="form-control js-example-basic-single" name="type" data-placeholder="Seleziona tipo">
+                                                        <select class="form-control" name="type">
                                                         <option value="{{$schedina->name}}">{{$schedina->type}}</option>
                                                         @foreach($titles as $title)
                                                         <option value="{{$title->name}}">{{$title->name}}</option>
@@ -92,7 +92,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Sesso</label>
-                                                        <select class="form-control js-example-basic-single" name="sex" data-placeholder="Seleziona sesso">
+                                                        <select class="form-control" name="sex">
                                                         <option value="{{$schedina->sex}}">{{$schedina->sex}}</option>
                                                         <option value="M">M</option>
                                                         <option value="F">F</option>
@@ -107,7 +107,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Tipo Alloggiato</label>
-                                                    <select class="form-control js-example-basic-single" name="relationship" data-placeholder="Seleziona relazione">
+                                                    <select class="form-control" name="relationship">
                                                     <option value="{{$schedina->relationship}}">{{$schedina->relationship}}</option>
                                                         <option value="CAPO FAMIGLIA">CAPO FAMIGLIA</option>
                                                         <option value="CAPO GRUPPO">CAPO GRUPPO</option>
@@ -120,7 +120,7 @@
                                                 <div class="mb-3">
                                                 <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Esente</label>
-                                                    <select class="form-control js-example-basic-single" name="exent" data-placeholder="Seleziona esenzione">
+                                                    <select class="form-control" name="exent">
                                                         <option value="{{$schedina->exent}}">{{$schedina->exent}}</option>
                                                         <option value="NO">No</option>
                                                         <option value="Personale">Personale</option>
@@ -139,13 +139,23 @@
                                     <div class="row">
                                         
                                         
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-3">
                                             <div class="mb-3">
-                                                <label class="form-label" for="stay-range-schedina-edit">Periodo soggiorno</label>
-                                                <input type="text" class="form-control" id="stay-range-schedina-edit" data-provider="flatpickr" data-date-format="d M, Y" data-range-date placeholder="Seleziona il periodo">
-                                                <input type="hidden" name="arrive" id="schedina-edit-arrive-hidden" value="{{$schedina->arrive}}">
-                                                <input type="hidden" name="departure" id="schedina-edit-departure-hidden" value="{{$schedina->departure}}">
+                                                <label class="form-label"
+                                                    for="steparrow-gen-info-email-input">Arrivo</label>
+                                                <input type="date" class="form-control" value="{{$schedina->arrive}}" name="arrive">
+                                                   
+                                               
                                             </div>
+                                        </div>
+                                       
+                                        <div class="col-lg-3">
+                                                <div class="mb-3">
+                                                <label class="form-label"
+                                                        for="steparrow-gen-info-email-input">Partenza</label>
+                                                        <input type="date" class="form-control" value="{{$schedina->departure}}" name="departure">
+                                                    
+                                                </div>
                                         </div>
                                         <div class="col-lg-2">
                                                 <div class="mb-3">
@@ -192,7 +202,7 @@
                                 <button type="button" class="btn btn-success btn-label right ms-auto nexttab"
                                     data-nexttab="steparrow-description-info">
                                     <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                    @lang('translation.buttons.next')
+                                    Next
                                 </button>
                                 </div>
                             </div>
@@ -206,27 +216,19 @@
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Nazione</label>
-                                                <select type="text" class="form-control autofill-select" data-autofill="countries" name="oa_country" data-placeholder="Seleziona una Nazione">
-                                                    @if(!empty($schedina->oa_country))
-                                                        <option value="{{$schedina->oa_country}}" selected>{{$schedina->oa_country}}</option>
-                                                    @endif
-                                                </select>
+                                                    for="steparrow-gen-info-email-input">Nazione  </label>
+                                                <input type="text" class="form-control" name="oa_country" value="{{$schedina->oa_country}}">
+                                                   
+                                                
                                             </div> 
                                         </div>
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Città</label>
-                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city" data-placeholder="Seleziona una Città">
-                                                    @if(!empty($schedina->oa_city))
-                                                        <option value="{{$schedina->oa_city}}" selected>{{$schedina->oa_city}}</option>
-                                                    @endif
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 d-none">
-                                                <label class="form-label">Città (manuale)</label>
-                                                <input id="or_city_manual" type="text" class="form-control" name="or_city" placeholder="Inserisci Città">
+                                                    for="steparrow-gen-info-email-input">Citta </label>
+                                                <input type="text" class="form-control" name="oa_city"  value="{{$schedina->oa_city}}">
+                                                   
+                                                
                                             </div>
                                         </div>
                                         
@@ -234,27 +236,19 @@
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Regione</label>
-                                                <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="oa_region" data-placeholder="Seleziona una Regione">
-                                                    @if(!empty($schedina->oa_region))
-                                                        <option value="{{$schedina->oa_region}}" selected>{{$schedina->oa_region}}</option>
-                                                    @endif
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 d-none">
-                                                <label class="form-label">Regione (manuale)</label>
-                                                <input id="or_region_manual" type="text" class="form-control" name="or_region" placeholder="Inserisci Regione">
+                                                    for="steparrow-gen-info-email-input">Regione  </label>
+                                                <input type="text" class="form-control" name="oa_region" value="{{$schedina->oa_region}}">
+                                                   
+                                                
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Provincia</label>
-                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="oa_prov" data-placeholder="Seleziona una Provincia">
-                                                    @if(!empty($schedina->oa_prov))
-                                                        <option value="{{$schedina->oa_prov}}" selected>{{$schedina->oa_prov}}</option>
-                                                    @endif
-                                                </select>
+                                                <input type="text" class="form-control" name="oa_prov" value="{{$schedina->oa_prov}}">
+                                                   
+                                                
                                             </div>
                                         </div>
                                         
@@ -265,11 +259,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Cittadinanza </label>
-                                                <select type="text" class="form-control autofill-select" data-autofill="countries" name="oa_city_nac" data-placeholder="Seleziona cittadinanza">
-                                                    @if(!empty($schedina->oa_city_nac))
-                                                        <option value="{{$schedina->oa_city_nac}}" selected>{{$schedina->oa_city_nac}}</option>
-                                                    @endif
-                                                </select>
+                                                <input type="text" class="form-control" name="oa_city_nac" value="{{$schedina->oa_city_nac}}">
                                                    
                                                 
                                             </div>
@@ -278,7 +268,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Data di nascita</label>
-                                                <input type="text" class="form-control" name="oa_date_nac"  value="{{$schedina->oa_date_nac}}" data-provider="flatpickr" data-date-format="d M, Y" placeholder="Seleziona la data">
+                                                <input type="date" class="form-control" name="oa_date_nac"  value="{{$schedina->oa_date_nac}}">
                                                    
                                                 
                                             </div>
@@ -287,10 +277,10 @@
                                    
                                     <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="button" class="btn btn-success btn-label right ms-auto nexttab" 
-                                    data-nexttab="steparrow-azienda-info">
-                                    <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                    @lang('translation.buttons.next')
-                                </button>
+    data-nexttab="steparrow-azienda-info">
+    <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
+    Next
+</button>
 
                                 </div>
                             </div>
@@ -309,64 +299,50 @@
                                 <div class="row">
                                         <div class="col-lg-3">
                                         <div class="mb-3">
-                                                <label class="form-label">Nazione</label>
-                                                <select id="or_country" class="form-control" name="or_country" data-placeholder="Seleziona una Nazione">
-                                                    @if(!empty($schedina->or_country))
-                                                        <option value="{{$schedina->or_country}}" selected>{{$schedina->or_country}}</option>
-                                                    @endif
-                                                </select>
+                                                <label class="form-label"
+                                                    for="steparrow-gen-info-email-input">Nazione  </label>
+                                                <input type="text" class="form-control" name="or_country" value="{{$schedina->or_country}}">
+                                                   
+                                                
                                             </div> 
                                         </div>
                                         <div class="col-lg-3">
                                         <div class="mb-3">
-                                                <label class="form-label">Città</label>
-                                                <select id="or_city" class="form-control" name="or_city" data-placeholder="Seleziona una Città">
-                                                    @if(!empty($schedina->or_city))
-                                                        <option value="{{$schedina->or_city}}" selected>{{$schedina->or_city}}</option>
-                                                    @endif
-                                                </select>
+                                                <label class="form-label"
+                                                    for="steparrow-gen-info-email-input">Citta </label>
+                                                <input type="text" class="form-control" name="or_city" value="{{$schedina->or_city}}">
+                                                   
+                                                
                                             </div>
                                         </div>
                                         
                                     
                                         <div class="col-lg-3">
                                         <div class="mb-3">
-                                                <label class="form-label">Regione</label>
-                                                <select id="or_region" class="form-control" name="or_region" data-placeholder="Seleziona una Regione">
-                                                    @if(!empty($schedina->or_region))
-                                                        <option value="{{$schedina->or_region}}" selected>{{$schedina->or_region}}</option>
-                                                    @endif
-                                                </select>
+                                                <label class="form-label"
+                                                    for="steparrow-gen-info-email-input">Regione  </label>
+                                                <input type="text" class="form-control" name="or_region" value="{{$schedina->or_region}}">
+                                                   
+                                                
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                         <div class="mb-3">
-                                                <label class="form-label">Provincia</label>
-                                                <select id="or_prov" class="form-control" name="or_prov" data-placeholder="Seleziona una Provincia">
-                                                    @if(!empty($schedina->or_prov))
-                                                        <option value="{{$schedina->or_prov}}" selected>{{$schedina->or_prov}}</option>
-                                                    @endif
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 d-none">
-                                                <label class="form-label">Provincia (manuale)</label>
-                                                <input id="or_prov_manual" type="text" class="form-control" name="or_prov" placeholder="Inserisci Provincia">
+                                                <label class="form-label"
+                                                    for="steparrow-gen-info-email-input">Provincia</label>
+                                                <input type="text" class="form-control" name="or_prov" value="{{$schedina->or_prov}}">
+                                                   
+                                                
                                             </div>
                                         </div>
                                         <div class="col-lg-2">
                                         <div class="mb-3">
-                                                <label class="form-label">CAP</label>
-                                                <select id="or_cap" class="form-control" name="or_cap" data-placeholder="Seleziona CAP">
-                                                    @if(!empty($schedina->or_cap))
-                                                        <option value="{{$schedina->or_cap}}" selected>{{$schedina->or_cap}}</option>
-                                                    @endif
-                                                </select>
+                                                <label class="form-label"
+                                                    for="steparrow-gen-info-email-input">CAP :</label>
+                                                <input type="text" class="form-control" name="or_cap" value="{{$schedina->or_cap}}">
+                                                   
+                                                
                                             </div>
-                                            <div class="mb-3 d-none">
-                                                <label class="form-label">CAP (manuale)</label>
-                                                <input id="or_cap_manual" type="text" class="form-control" name="or_cap" placeholder="Inserisci CAP" maxlength="10" pattern="^[0-9]{4,5}$" title="Inserisci un CAP valido (4-5 cifre)">
-                                            </div>
-                                            <div id="or_address_inline" class="form-text text-muted small mt-1"></div>
                                         </div>
                                         
                                 
@@ -374,7 +350,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Tipo Via</label>
-                                                    <select id="or_typeaway" class="form-control js-example-basic-single" name="or_typeaway" data-placeholder="Seleziona tipo via">
+                                                    <select class="form-control" name="or_typeaway">
                                                     <option value="{{$schedina->or_typeaway}}">{{$schedina->or_typeaway}}</option>
                                                         @foreach($typestreets as $typestreet)
                                                         <option value="{{$typestreet->name}}">{{$typestreet->name}}</option>
@@ -388,7 +364,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Strada </label>
-                                                <input id="or_address" type="text" class="form-control" name="or_address" value="{{$schedina->or_address}}">
+                                                <input type="text" class="form-control" name="or_address" value="{{$schedina->or_address}}">
                                                    
                                                 
                                             </div>
@@ -397,30 +373,15 @@
                                     
                                     <div class="col-lg-2">
                                         <div class="mb-3">
-                                                <label class="form-label">Num.</label>
-                                                <input id="or_num" type="text" class="form-control" name="or_num" value="{{$schedina->or_num}}">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2">
-                                        <div class="mb-3">
-                                                <label class="form-label">Int.</label>
-                                                <input id="or_internal" type="text" class="form-control" name="or_internal" value="{{$schedina->or_internal}}" placeholder="Interno, scala, ecc.">
+                                                <label class="form-label"
+                                                    for="steparrow-gen-info-email-input">Num.</label>
+                                                <input type="number" class="form-control" name="or_num" value="{{$schedina->or_num}}">
+                                                   
+                                                
                                             </div>
                                         </div>
                                         
                                         </div>
-                                    <hr>
-                                    <div class="note">Riepilogo selezione:</div>
-                                    <ul id="or_geo_summary" class="mt-2 mb-3 small text-muted">
-                                        <li>Stato: —</li>
-                                        <li>Regione: —</li>
-                                        <li>Provincia, Città, CAP: —, —, —</li>
-                                        <li>Modalità: —</li>
-                                        <li>Tipo Via: —</li>
-                                        <li>Strada: —</li>
-                                        <li>Num.: —</li>
-                                        <li>Int.: —</li>
-                                    </ul>
                                     <div class="row">
                                         
                                        
@@ -428,7 +389,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Documento</label>
-                                                    <select class="form-control js-example-basic-single" name="or_doctype" data-placeholder="Seleziona tipo documento">
+                                                    <select class="form-control" name="or_doctype">
                                                     <option value="{{$schedina->or_doctype}}">{{$schedina->or_doctype}}</option>
                                                         @foreach($TypeDocs as $TypeDoc)
                                                         <option value="{{$TypeDoc->name}}">{{$TypeDoc->name}}</option>
@@ -457,7 +418,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato il</label>
-                                                <input type="text" class="form-control" name="or_published_date" value="{{$schedina->or_published_date}}" data-provider="flatpickr" data-date-format="d M, Y" data-date-pair="doc" data-date-pair-role="start" placeholder="Seleziona la data">
+                                                <input type="date" class="form-control" name="or_published_date" value="{{$schedina->or_published_date}}">
                                                    
                                                 
                                             </div>
@@ -466,7 +427,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Scade il</label>
-                                                <input type="text" class="form-control" name="or_expire" value="{{$schedina->or_expire}}" data-provider="flatpickr" data-date-format="d M, Y" data-date-pair="doc" data-date-pair-role="end" placeholder="Seleziona la data">
+                                                <input type="date" class="form-control" name="or_expire" value="{{$schedina->or_expire}}">
                                                    
                                                 
                                             </div>
@@ -475,7 +436,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato </label>
-                                                    <select class="form-control js-example-basic-single" name="or_published" data-placeholder="Ente rilasciante">
+                                                    <select class="form-control" name="or_published">
                                                     <option value="{{$schedina->or_published}}">{{$schedina->or_published}}</option>
                                                         <option value="Dal comune di">Dal comune di</option>
                                                         <option value="Dalla Motorizazione di">Dalla Motorizazione di</option>
@@ -493,7 +454,7 @@
                                     <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-description-info-tab"><i
-                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>@lang('translation.buttons.save')</button>
+                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Salva</button>
                                 </div>
                             </div>
 </div>
@@ -515,8 +476,57 @@
 @section('script')
     <script src="{{ URL::asset('build/js/pages/form-wizard.init.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
-    <script src="{{ URL::asset('js/autofill-select.js') }}"></script>
-    <script src="{{ asset('js/components/geo-select.js') }}?v={{ @filemtime(public_path('js/components/geo-select.js')) }}"></script>
-    <script src="{{ asset('js/pages/schedina-edit.js') }}?v={{ @filemtime(public_path('js/pages/schedina-edit.js')) }}"></script>
-    <!-- Vincoli documento centralizzati in app.js tramite data-date-pair/doc -->
+    <script>
+       document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("search");
+    const surnameInput = document.getElementById("surname");
+    const resultsContainer = document.getElementById("results");
+
+    searchInput.addEventListener("input", function () {
+        const query = searchInput.value;
+
+        if (query.length > 2) { // Buscar después de 3 caracteres
+            fetch(`/search_customers?query=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultsContainer.innerHTML = "";
+                    if (data.length > 0) {
+                        resultsContainer.style.display = "block";
+                        data.forEach(item => {
+                            const li = document.createElement("li");
+                            li.classList.add("list-group-item");
+                            li.textContent = item.name + ' ' + item.surname; // Cambiar a lo que quieras mostrar
+                            li.addEventListener("mousedown", () => { // Usar mousedown para evitar el blur prematuro
+                                searchInput.value = item.name;
+                                surnameInput.value = item.surname || ""; // Agrega el surname
+                                resultsContainer.style.display = "none";
+                            });
+                            resultsContainer.appendChild(li);
+                        });
+                    } else {
+                        resultsContainer.style.display = "none";
+                    }
+                })
+                .catch(error => console.error("Error en la búsqueda:", error));
+        } else {
+            resultsContainer.style.display = "none";
+        }
+    });
+
+    // Ocultar la lista cuando se pierde el foco del input
+    searchInput.addEventListener("blur", function () {
+        // Usar un pequeño retraso para que el evento mousedown se registre primero
+        setTimeout(() => {
+            resultsContainer.style.display = "none";
+        }, 100);
+    });
+
+    // Opcional: evitar que la lista desaparezca si el mouse está sobre ella
+    resultsContainer.addEventListener("mousedown", (e) => {
+        e.preventDefault(); // Previene que el blur se active al hacer clic en la lista
+    });
+});
+
+
+</script>
 @endsection
