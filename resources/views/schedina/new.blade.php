@@ -210,61 +210,19 @@
                                 <div>
                                 <div class="row">
                                         
-                                        <div class="col-lg-3">
-                                        <div class="mb-3">
-                                                <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Nazione</label>
-                                                    <select type="text" class="form-control autofill-select" data-autofill="countries" name="oa_country">
-                                                        @foreach($nations as $nation)
-                                                        <option value="{{ $nation->code }}">{{ $nation->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                   
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                        <div class="mb-3">
-                                                <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Citta</label>
-                                                
-                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city"> 
-                                                    @foreach($ciudades as $ciudad)
-                                                        <option value="{{ $ciudad->code }}">{{ $ciudad->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                        <div class="mb-3">
-                                                <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Regione</label>
-                                               
-                                                <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="region_az">
-                                                    <option value="">Seleccione una Región</option>
-                                                    @foreach($regions as $region)
-                                                        <option value="{{ $region['codice_regione'] }}">
-                                                            {{ $region['denominazione_regione'] }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                   
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                        <div class="mb-3">
-                                                <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Provincia</label>
-                                                
-                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="oa_prov">
-                                                    @foreach($provinces as $province)
-                                                        <option value="{{ $province['sigla_provincia'] }}">{{ $province['denominazione_provincia'] }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                
-                                            </div>
+                                        <div class="col-12">
+                                          <x-geo-select 
+                                            prefix="oa"
+                                            nameNation="oa_country"
+                                            nameRegion="region_az"
+                                            nameProvince="oa_prov"
+                                            nameCity="oa_city"
+                                            nameCap="oa_cap"
+                                            :preselectItaly="true"
+                                            :manualForNonItaly="true"
+                                            :filterCapByCity="true"
+                                            :autoSelectUniqueCap="true"
+                                          />
                                         </div>
                                     </div>
                                     <div class="row">
@@ -316,74 +274,19 @@
 
                                 <div>
                                 <div class="row">
-                                        <div class="col-lg-3">
-                                        <div class="mb-3">
-                                                <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Nazione  </label>
-                                                
-                                                <select type="text" class="form-control autofill-select" data-autofill="countries" name="or_country">
-                                                        @foreach($nations as $nation)
-                                                        <option value="{{ $nation->code }}">{{ $nation->name }}</option>
-                                                        @endforeach 
-                                                    </select>
-                                                   
-                                                
-                                            </div> 
-                                        </div>
-                                        <div class="col-lg-3">
-                                        <div class="mb-3">
-                                                <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Citta </label>
-                                                
-                                                <select type="text" class="form-control autofill-select" data-autofill="cities" name="or_city">
-                                                        @foreach($ciudades as $ciudad)
-                                                        <option value="{{ $ciudad->code }}">{{ $ciudad->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                   
-                                                
-                                            </div>
-                                        </div>
-                                        
-                                    
-                                        <div class="col-lg-3">
-                                        <div class="mb-3">
-                                                <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Regione  </label>
-                                                
-                                                <select type="text" class="form-control autofill-select" data-autofill="regions" name="or_region">
-                                                <option value="">Seleccione una Región</option>
-                                                    @foreach($regions as $region)
-                                                        <option value="{{ $region['codice_regione'] }}">
-                                                            {{ $region['denominazione_regione'] }}
-                                                        </option>
-                                                    @endforeach
-                                                    </select>
-                                                   
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                        <div class="mb-3">
-                                                <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Provincia</label>
-                                               
-                                                <select type="text" class="form-control autofill-select" data-autofill="provinces" name="or_prov"> 
-                                                    @foreach($provinces as $province)
-                                                        <option value="{{ $province['sigla_provincia'] }}">{{ $province['denominazione_provincia'] }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2">
-                                        <div class="mb-3">
-                                                <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">CAP :</label>
-                                                <input type="text" class="form-control" name="or_cap">
-                                                   
-                                                
-                                            </div>
+                                        <div class="col-12">
+                                          <x-geo-select 
+                                            prefix="or"
+                                            nameNation="or_country"
+                                            nameRegion="or_region"
+                                            nameProvince="or_prov"
+                                            nameCity="or_city"
+                                            nameCap="or_cap"
+                                            :preselectItaly="true"
+                                            :manualForNonItaly="true"
+                                            :filterCapByCity="true"
+                                            :autoSelectUniqueCap="true"
+                                          />
                                         </div>
                                         
                                 
@@ -514,14 +417,13 @@
 @section('script')
     <script src="{{ URL::asset('build/js/pages/form-wizard.init.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-     <!-- Select2 CSS -->
-     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
-<!-- Select2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<script src="{{ URL::asset('js/autofill-select.js') }}"></script>
+    <link href="{{ asset('libs/select2/css/select2.min.css') }}" rel="stylesheet" />
+    <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('libs/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('libs/select2/js/i18n/it.js') }}"></script>
+    <script src="{{ asset('libs/axios/axios.min.js') }}"></script>
+    <script src="{{ asset('build/js/utils/http.js') }}"></script>
+    <script src="{{ asset('js/components/geo-select.js') }}?v={{ @filemtime(public_path('js/components/geo-select.js')) }}"></script>
     <script>
        document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("search");
@@ -613,173 +515,6 @@
 
     </script>
 <script>
-$(document).ready(function() {
-    // Al cambiar la región, se cargan las provincias correspondientes
-    $('#region-select').on('change', function() {
-        var regionCode = $(this).val();
-        if (regionCode) {
-            $.ajax({
-                url: '/provinces-by-region',
-                type: 'GET',
-                data: { codice_regione: regionCode },
-                success: function(data) {
-                    $('#province-select').empty().append('<option value="">Seleccione una Provincia</option>');
-                    $.each(data, function(index, province) {
-                        $('#province-select').append(
-                            $('<option>', { 
-                                value: province.sigla_provincia,
-                                text: province.denominazione_provincia
-                            })
-                        );
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error en la petición AJAX de provincias:", status, error);
-                }
-            });
-        } else {
-            $('#province-select').empty().append('<option value="">Seleccione una Provincia</option>');
-        }
-    });
-
-    // Al cambiar la provincia, se cargan los CAP correspondientes
-    $('#province-select').on('change', function() {
-        var provinceCode = $(this).val();
-        if (provinceCode) {
-            $.ajax({
-                url: '/cap-by-province',
-                type: 'GET',
-                data: { sigla_provincia: provinceCode },
-                success: function(data) {
-                    $('#cap-select').empty().append('<option value="">Seleccione un CAP</option>');
-                    $.each(data, function(index, cap) {
-                        $('#cap-select').append(
-                            $('<option>', { 
-                                value: cap.cap,
-                                text: cap.cap
-                            })
-                        );
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error en la petición AJAX de CAP:", status, error);
-                }
-            });
-        } else {
-            $('#cap-select').empty().append('<option value="">Seleccione un CAP</option>');
-        }
-    });
-});
-</script>
-<script>
-$(document).ready(function() {
-    // Inicializar Select2 en cada campo
-    $('#nation-select').select2({
-        placeholder: "Seleccione una Nación",
-        allowClear: true
-    });
-    $('#region-select').select2({
-        placeholder: "Seleccione una Región",
-        allowClear: true
-    });
-    $('#province-select').select2({
-        placeholder: "Seleccione una Provincia",
-        allowClear: true
-    });
-    $('#cap-select').select2({
-        placeholder: "Seleccione un CAP",
-        allowClear: true
-    });
-    $('#city-select').select2({
-        placeholder: "Seleccione una ciudad",
-        allowClear: true
-    });
-
-    // Al cambiar la región, se cargan las provincias correspondientes
-    $('#region-select').on('change', function() {
-        var regionCode = $(this).val();
-        if (regionCode) {
-            $.ajax({
-                url: '{{ route("provincesByRegion") }}',
-                type: 'GET',
-                data: { codice_regione: regionCode },
-                success: function(data) {
-                    var provinceSelect = $('#province-select');
-                    provinceSelect.empty().append('<option value="">Seleccione una Provincia</option>');
-                    $.each(data, function(index, province) {
-                        provinceSelect.append(
-                            $('<option>', { 
-                                value: province.sigla_provincia,
-                                text: province.denominazione_provincia
-                            })
-                        );
-                    });
-                    provinceSelect.trigger('change');
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error en la petición AJAX de provincias:", status, error);
-                }
-            });
-        } else {
-            $('#province-select').empty().append('<option value="">Seleccione una Provincia</option>').trigger('change');
-        }
-    });
-
-    // Al cambiar la provincia, se cargan CAP y ciudades correspondientes
-    $('#province-select').on('change', function() {
-        var provinceCode = $(this).val();
-        if (provinceCode) {
-            // Petición para CAP
-            $.ajax({
-                url: '{{ route("capByProvince") }}',
-                type: 'GET',
-                data: { sigla_provincia: provinceCode },
-                success: function(data) {
-                    var capSelect = $('#cap-select');
-                    capSelect.empty().append('<option value="">Seleccione un CAP</option>');
-                    $.each(data, function(index, cap) {
-                        capSelect.append(
-                            $('<option>', { 
-                                value: cap.cap,
-                                text: cap.cap
-                            })
-                        );
-                    });
-                    capSelect.trigger('change');
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error en la petición AJAX de CAP:", status, error);
-                }
-            });
-
-            // Petición para Ciudades
-            $.ajax({
-                url: '{{ route("citiesByProvince") }}',
-                type: 'GET',
-                data: { sigla_provincia: provinceCode },
-                success: function(data) {
-                    var citySelect = $('#city-select');
-                    citySelect.empty().append('<option value="">Seleccione una ciudad</option>');
-                    $.each(data, function(index, city) {
-                        // Puedes usar 'codice_istat' o el nombre de la ciudad según tus necesidades
-                        citySelect.append(
-                            $('<option>', { 
-                                value: city.codice_istat,
-                                text: city.denominazione_ita
-                            })
-                        );
-                    });
-                    citySelect.trigger('change');
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error en la petición AJAX de ciudades:", status, error);
-                }
-            });
-        } else {
-            $('#cap-select').empty().append('<option value="">Seleccione un CAP</option>').trigger('change');
-            $('#city-select').empty().append('<option value="">Seleccione una ciudad</option>').trigger('change');
-        }
-    });
-});
+  // Nessuna init extra necessaria: GeoSelect inizializza da solo
 </script>
 @endsection

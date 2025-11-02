@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Rome',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,18 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'it',
+
+    /*
+    |--------------------------------------------------------------------------
+    | UI Feature Flags
+    |--------------------------------------------------------------------------
+    |
+    | Toggle visibility of optional UI elements. Keep language switcher hidden
+    | by default to enforce a single-locale UI unless explicitly enabled.
+    */
+
+    'show_language_switcher' => env('SHOW_LANGUAGE_SWITCHER', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -106,7 +117,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'it_IT',
 
     /*
     |--------------------------------------------------------------------------
