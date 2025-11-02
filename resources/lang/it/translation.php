@@ -1,7 +1,8 @@
 <?php
 return [
     "menu"=>"Menù",
-    "dashboards"=>"Cruscotti",
+    // Home/Dashboard voce menu
+    "dashboards"=>"Inizio",
     "analytics"=>"Analitica",
     "crm"=>"CRM",
     "ecommerce"=>"E-commerce",
@@ -235,5 +236,23 @@ return [
     "links" => "Collegamenti",
     "range-area" => "Area di intervallo",
     "funnel" => "Imbuto",
+
+    // App specifiche (configurazioni e anagrafiche)
+    "Configurations" => "Configurazioni",
+    "Structures" => "Strutture",
+    "structure" => "Strutture",
+    "Group" => "Gruppo",
+    "SubGroup" => "Sottogruppo",
+    "SubGroup1" => "Sottogruppo 1",
+    "Title" => "Titolo",
+    "TypeDoc" => "Tipo Documento",
+    "Released" => "Rilasciato",
+    "TypeStreet" => "Tipo Via",
+
+    // Sezioni dominio
+    "customers" => "Clienti",
+    "arrivals" => "Arrivi",
+    "ticketsWeb" => "Schedine Web",
+    "componente" => "Componenti",
 ];
 ?>
