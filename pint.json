@@ -1,0 +1,7 @@
+{
+  "preset": "laravel",
+  "rules": {
+    "phpdoc_summary": false,
+    "no_unused_imports": true
+  }
+}

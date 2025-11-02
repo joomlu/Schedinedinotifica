@@ -1,0 +1,16 @@
+/* Responsive sizes for brand logos (sidebar/topbar) */
+/* Default (desktop ≥1200px): PC 90px */
+.navbar-brand-box .logo .logo-lg img { height: 90px !important; width: auto; }
+.navbar-brand-box .logo .logo-sm img { height: 28px !important; width: auto; }
+
+/* Tablets (iPad 768–1199px): 70px */
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .navbar-brand-box .logo .logo-lg img { height: 70px !important; }
+  .navbar-brand-box .logo .logo-sm img { height: 28px !important; }
+}
+
+/* Phones (<768px): 44px */
+@media (max-width: 767.98px) {
+  .navbar-brand-box .logo .logo-lg img { height: 44px !important; }
+  .navbar-brand-box .logo .logo-sm img { height: 24px !important; }
+}
