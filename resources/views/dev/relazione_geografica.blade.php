@@ -6,8 +6,6 @@
   <title>Relazione Geografica — Demo</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link href="{{ asset('build/css/bootstrap.min.css') }}" rel="stylesheet" />
-  <link href="{{ asset('build/css/icons.min.css') }}" rel="stylesheet" />
-  <link href="{{ asset('build/css/app.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('libs/select2/css/select2.min.css') }}" rel="stylesheet" />
   <style> body{ background:#f8f9fa; padding:20px; } .container{ max-width:1000px; margin:0 auto; }</style>
 </head>

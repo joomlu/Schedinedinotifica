@@ -31,15 +31,15 @@
               </head>
               <body>
                 <div class="container-demo">
-                  @include('components.geo-select', [
-                    'prefix' => 'demo',
-                    'showAddressInline' => false,
-                    'preselectItaly' => true,
-                    'manualForNonItaly' => true,
-                    'filterCapByCity' => true,
-                    'autoSelectUniqueCap' => true,
-                    'backfillRegionFromProvince' => true,
-                  ])
+                  <x-geo-select
+                    prefix="demo"
+                    :showAddressInline="false"
+                    :preselectItaly="true"
+                    :manualForNonItaly="true"
+                    :filterCapByCity="true"
+                    :autoSelectUniqueCap="true"
+                    :backfillRegionFromProvince="true"
+                  />
                   <div class="row mt-3">
                     <div class="col-12">
                       <div id="geo-summary" class="small text-muted">
