@@ -162,7 +162,7 @@
                     </div>
                 </li> <!-- end Dashboard Menu -->
 
-                @if (config('app.enable_dev_pages'))
+                @if (config('app.show_dev_menu'))
                 <li class="menu-title"><span>Dev</span></li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDev" data-bs-toggle="collapse" role="button"

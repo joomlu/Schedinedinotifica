@@ -100,6 +100,11 @@ return [
     'enable_dev_pages' => env('ENABLE_DEV_PAGES', env('APP_ENV') !== 'production'),
 
     /*
+    | Toggle Dev menu visibility in sidebar independent of route availability
+    */
+    'show_dev_menu' => env('SHOW_DEV_MENU', false),
+
+    /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
     |--------------------------------------------------------------------------
