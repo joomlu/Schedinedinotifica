@@ -9,8 +9,8 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <?php $__env->startComponent('components.breadcrumb'); ?>
-<?php $__env->slot('li_1'); ?> Tables <?php $__env->endSlot(); ?>
-<?php $__env->slot('title'); ?>Title <?php $__env->endSlot(); ?>
+<?php $__env->slot('li_1'); ?> <?php echo app('translator')->get('translation.tables'); ?> <?php $__env->endSlot(); ?>
+<?php $__env->slot('title'); ?> <?php echo app('translator')->get('translation.Title'); ?> <?php $__env->endSlot(); ?>
 <?php echo $__env->renderComponent(); ?>
 
 
@@ -40,8 +40,8 @@
 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary ">Salvar</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal"><?php echo app('translator')->get('translation.close'); ?></button>
+                <button type="submit" class="btn btn-primary "><?php echo app('translator')->get('translation.save'); ?></button>
 </form>
             </div>
       
@@ -81,7 +81,7 @@
                                 
                                 <td> <button type="button" class="btn btn-success btn-icon waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#ModalEdit<?php echo e($titles->id); ?>"><i class=" ri-pencil-line"></i></button> 
                                 <a  href="<?php echo e(route('title.destroy',['id' => $titles->id] )); ?>" onclick="
-return confirm('Seguro deseas eliminar este titulo definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
+return confirm('Sei sicuro di eliminare definitivamente questo elemento?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
                       <i class="ri-delete-bin-5-line"></i><a>     
                                 </td>
                             </tr>
@@ -102,8 +102,8 @@ return confirm('Seguro deseas eliminar este titulo definitivamente?')" type="but
                                                                 </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary ">Salvar</button>
+                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"><?php echo app('translator')->get('translation.close'); ?></button>
+                                                                    <button type="submit" class="btn btn-primary "><?php echo app('translator')->get('translation.save'); ?></button>
                                                                 </div>
                                                     </form>
                                             

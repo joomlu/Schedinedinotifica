@@ -77,6 +77,66 @@ File: Main Js File
         request.send();
     }
 
+    // DataTables: imposta lingua italiana globalmente (sia jQuery DataTables 1.x che DataTables 2)
+    (function setDataTablesItalian() {
+        try {
+            // jQuery DataTables 1.10+
+            if (window.jQuery && $.fn && $.fn.dataTable) {
+                $.extend(true, $.fn.dataTable.defaults, {
+                    language: {
+                        sEmptyTable: "Nessun dato disponibile nella tabella",
+                        sInfo: "Visualizzati da _START_ a _END_ di _TOTAL_ elementi",
+                        sInfoEmpty: "Visualizzati 0 di 0 elementi",
+                        sInfoFiltered: "(filtrati da _MAX_ elementi totali)",
+                        sInfoPostFix: "",
+                        sInfoThousands: ".",
+                        sLengthMenu: "Mostra _MENU_ elementi",
+                        sLoadingRecords: "Caricamento...",
+                        sProcessing: "Elaborazione...",
+                        sSearch: "Cerca:",
+                        sZeroRecords: "Nessun elemento corrispondente trovato",
+                        oPaginate: {
+                            sFirst: "Inizio",
+                            sPrevious: "Precedente",
+                            sNext: "Successivo",
+                            sLast: "Fine"
+                        },
+                        oAria: {
+                            sSortAscending: ": attiva per ordinare la colonna in ordine crescente",
+                            sSortDescending: ": attiva per ordinare la colonna in ordine decrescente"
+                        }
+                    }
+                });
+            }
+            // DataTables 2 (vanilla)
+            if (window.DataTable && window.DataTable.defaults) {
+                window.DataTable.defaults.language = Object.assign({}, window.DataTable.defaults.language || {}, {
+                    emptyTable: "Nessun dato disponibile nella tabella",
+                    info: "Visualizzati da _START_ a _END_ di _TOTAL_ elementi",
+                    infoEmpty: "Visualizzati 0 di 0 elementi",
+                    infoFiltered: "(filtrati da _MAX_ elementi totali)",
+                    lengthMenu: "Mostra _MENU_ elementi",
+                    loadingRecords: "Caricamento...",
+                    processing: "Elaborazione...",
+                    search: "Cerca:",
+                    zeroRecords: "Nessun elemento corrispondente trovato",
+                    paginate: {
+                        first: "Inizio",
+                        previous: "Precedente",
+                        next: "Successivo",
+                        last: "Fine"
+                    },
+                    aria: {
+                        sortAscending: ": attiva per ordinare la colonna in ordine crescente",
+                        sortDescending: ": attiva per ordinare la colonna in ordine decrescente"
+                    }
+                });
+            }
+        } catch (e) {
+            console && console.debug && console.debug('DataTables i18n setup skipped:', e);
+        }
+    })();
+
     function pluginData() {
         /**
          * Common plugins
