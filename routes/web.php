@@ -29,6 +29,16 @@ if (config('app.show_language_switcher')) {
     Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
 }
 
+// Healthcheck pubblico per monitoraggio e test
+Route::get('/health', function () {
+    return response()->json([
+        'status' => 'ok',
+        'app'    => config('app.name'),
+        'env'    => app()->environment(),
+        'time'   => now()->toIso8601String(),
+    ]);
+});
+
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
 
 //archivo txt
