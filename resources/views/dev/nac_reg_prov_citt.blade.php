@@ -23,7 +23,7 @@
                 <title>Nac_Reg_Prov_Citt — Demo Select2</title>
                 <meta name="csrf-token" content="{{ csrf_token() }}">
                 <link href="{{ asset('build/css/bootstrap.min.css') }}" rel="stylesheet" />
-                <link href="{{ asset('public/libs/select2/css/select2.min.css') }}" rel="stylesheet" />
+                <link href="{{ asset('libs/select2/css/select2.min.css') }}" rel="stylesheet" />
                 <style>
                   body { background: #f8f9fa; }
                   .container-demo { max-width: 1040px; margin: 32px auto; }
@@ -49,10 +49,10 @@
                     </div>
                   </div>
                 </div>
-                <script src="{{ asset('public/libs/jquery/jquery.min.js') }}"></script>
-                <script src="{{ asset('public/libs/select2/js/select2.full.min.js') }}"></script>
-                <script src="{{ asset('public/libs/select2/js/i18n/it.js') }}"></script>
-                <script src="{{ asset('public/libs/axios/axios.min.js') }}"></script>
+                <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
+                <script src="{{ asset('libs/select2/js/select2.full.min.js') }}"></script>
+                <script src="{{ asset('libs/select2/js/i18n/it.js') }}"></script>
+                <script src="{{ asset('libs/axios/axios.min.js') }}"></script>
                 <script src="{{ asset('build/js/utils/http.js') }}"></script>
                 <script src="{{ asset('js/components/geo-select.js') }}?v={{ @filemtime(public_path('js/components/geo-select.js')) }}"></script>
                 <script>

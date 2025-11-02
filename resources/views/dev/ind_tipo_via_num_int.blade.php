@@ -24,9 +24,9 @@
       ]
     ])
   </div>
-  <script src="{{ asset('public/libs/jquery/jquery.min.js') }}"></script>
-  <script src="{{ asset('public/libs/select2/js/select2.full.min.js') }}"></script>
-  <script src="{{ asset('public/libs/select2/js/i18n/it.js') }}"></script>
+  <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
+  <script src="{{ asset('libs/select2/js/select2.full.min.js') }}"></script>
+  <script src="{{ asset('libs/select2/js/i18n/it.js') }}"></script>
 </body>
 </html>
 
