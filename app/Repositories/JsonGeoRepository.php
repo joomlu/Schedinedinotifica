@@ -6,12 +6,21 @@ class JsonGeoRepository implements GeoRepositoryInterface
 {
     protected function readJson(string $relative): array
     {
-        $path = storage_path('app/'.ltrim($relative, '/'));
-        if (file_exists($path)) {
-            $json = file_get_contents($path);
-            $arr = json_decode($json, true);
+        $relative = ltrim($relative, '/');
+        // Percorsi candidati in ordine di preferenza
+        $candidates = [
+            storage_path('app/'.$relative),                 // storage/app/*.json (previsto)
+            base_path('app/'.$relative),                    // app/*.json (fallback: dove i file sono oggi)
+            resource_path('json/'.basename($relative)),     // resources/json/*.json (eventuale)
+        ];
 
-            return is_array($arr) ? $arr : [];
+        foreach ($candidates as $path) {
+            if (is_string($path) && file_exists($path)) {
+                $json = @file_get_contents($path);
+                if ($json === false) { continue; }
+                $arr = json_decode($json, true);
+                return is_array($arr) ? $arr : [];
+            }
         }
 
         return [];
