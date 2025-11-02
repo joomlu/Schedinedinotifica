@@ -83,6 +83,13 @@ class GeoImportJson extends Command
             return $exit;
         }
 
+        // Popola anche i tipi di via standard
+        $this->info('Seeding TypeStreet…');
+        $this->call('db:seed', [
+            '--class' => 'Database\\Seeders\\TypeStreetSeeder',
+            '--no-interaction' => true,
+        ]);
+
         // Piccolo riepilogo dimensioni
         $summary = [];
         foreach ($this->expected as $fname) {

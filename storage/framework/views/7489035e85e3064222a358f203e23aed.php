@@ -197,7 +197,7 @@
                                 <button type="button" class="btn btn-success btn-label right ms-auto nexttab"
                                     data-nexttab="steparrow-description-info">
                                     <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                    Next
+                                    Avanti
                                 </button>
                                 </div>
                             </div>
@@ -263,7 +263,7 @@
                                     <button type="button" class="btn btn-success btn-label right ms-auto nexttab" 
     data-nexttab="steparrow-azienda-info">
     <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-    Next
+    Avanti
 </button>
 
                                 </div>
