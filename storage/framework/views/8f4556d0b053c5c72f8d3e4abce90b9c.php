@@ -1,5 +1,5 @@
 
-<?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.Title'); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.TypeStreet'); ?> <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
 <!--datatable css-->
 <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
@@ -9,8 +9,8 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <?php $__env->startComponent('components.breadcrumb'); ?>
-<?php $__env->slot('li_1'); ?> Tables <?php $__env->endSlot(); ?>
-<?php $__env->slot('title'); ?>Type Street <?php $__env->endSlot(); ?>
+<?php $__env->slot('li_1'); ?> <?php echo app('translator')->get('translation.tables'); ?> <?php $__env->endSlot(); ?>
+<?php $__env->slot('title'); ?> <?php echo app('translator')->get('translation.TypeStreet'); ?> <?php $__env->endSlot(); ?>
 <?php echo $__env->renderComponent(); ?>
 
 
@@ -40,8 +40,8 @@
 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary ">Salvar</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal"><?php echo app('translator')->get('translation.close'); ?></button>
+                <button type="submit" class="btn btn-primary "><?php echo app('translator')->get('translation.save'); ?></button>
 </form>
             </div>
       
@@ -81,7 +81,7 @@
                                 
                                 <td> <button type="button" class="btn btn-success btn-icon waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#ModalEdit<?php echo e($typestreets->id); ?>"><i class=" ri-pencil-line"></i></button> 
                                 <a  href="<?php echo e(route('typestreet.destroy',['id' => $typestreets->id] )); ?>" onclick="
-return confirm('Seguro deseas eliminar este Tipo de via definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
+return confirm('Sei sicuro di eliminare definitivamente questo elemento?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
                       <i class="ri-delete-bin-5-line"></i><a>     
                                 </td>
                             </tr>
@@ -102,8 +102,8 @@ return confirm('Seguro deseas eliminar este Tipo de via definitivamente?')" type
                                                                 </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary ">Salvar</button>
+                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"><?php echo app('translator')->get('translation.close'); ?></button>
+                                                                    <button type="submit" class="btn btn-primary "><?php echo app('translator')->get('translation.save'); ?></button>
                                                                 </div>
                                                     </form>
                                             
