@@ -126,15 +126,12 @@ Route::post('/arrivals/a_schedina/{id}', [App\Http\Controllers\ArrivalsControlle
 Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
 Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
 
-// Demo/Dev pages (solo in ambiente locale)
-if (app()->environment(['local', 'development'])) {
-    // Pagine di test per Indirizzo e Relazione Geografica
-    Route::view('/Ind_Tipo_Via_Num_Int', 'dev.ind_tipo_via_num_int')->name('dev.ind_tipo_via_num_int');
-    Route::view('/Indirizzo', 'dev.indirizzo')->name('dev.indirizzo');
-    Route::view('/Nac_Reg_Prov_Citt', 'dev.nac_reg_prov_citt')->name('dev.nac_reg_prov_citt');
-    Route::view('/Relazione_Geografica', 'dev.relazione_geografica')->name('dev.relazione_geografica');
-    Route::view('/Geo_SelfTest', 'dev.geo_selftest')->name('dev.geo_selftest');
-}
+// Demo/Dev pages (standalone componenti, senza layout Velzon)
+Route::view('/Ind_Tipo_Via_Num_Int', 'dev.ind_tipo_via_num_int')->name('dev.ind_tipo_via_num_int');
+Route::view('/Indirizzo', 'dev.indirizzo')->name('dev.indirizzo');
+Route::view('/Nac_Reg_Prov_Citt', 'dev.nac_reg_prov_citt')->name('dev.nac_reg_prov_citt');
+Route::view('/Relazione_Geografica', 'dev.relazione_geografica')->name('dev.relazione_geografica');
+Route::view('/Geo_SelfTest', 'dev.geo_selftest')->name('dev.geo_selftest');
 
 Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 
