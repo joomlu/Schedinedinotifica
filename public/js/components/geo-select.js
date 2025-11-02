@@ -32,7 +32,17 @@
         delay: 150
       }
     }, options.select2 || {});
-    return $el.select2(cfg);
+    const instance = $el.select2(cfg);
+    // Forza il primo fetch anche senza digitare (quando si apre il menu)
+    $el.on('select2:open', function(){
+      const sf = document.querySelector('.select2-container--open .select2-search__field');
+      if (sf) {
+        // trigger input per attivare la chiamata AJAX con q=""
+        const ev = new Event('input', { bubbles: true });
+        sf.dispatchEvent(ev);
+      }
+    });
+    return instance;
   }
 
   class GeoSelect {
