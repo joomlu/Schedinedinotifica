@@ -1,16 +1,15 @@
-@extends('layouts.master')
-@section('title')
+<?php $__env->startSection('title'); ?>
 Arrivi
-@endsection
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
             Nuovo
-        @endslot
-        @slot('title')
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
         Arrivi
-        @endslot
-    @endcomponent
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
     
     <div class="row">
 
@@ -22,8 +21,8 @@ Arrivi
                     <h4 class="card-title mb-0">Arrivi - aggiungere</h4>
                 </div><!-- end card header -->
                 <div class="card-body">
-                    <form  method="POST" action="{{route('arrival.store')}}" class="form-steps" autocomplete="off">
-                    @csrf 
+                    <form  method="POST" action="<?php echo e(route('arrival.store')); ?>" class="form-steps" autocomplete="off">
+                    <?php echo csrf_field(); ?> 
                         <div class="text-center pt-3 pb-4 mb-1 d-flex justify-content-center">
                             
                         </div>
@@ -62,9 +61,9 @@ Arrivi
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Tipo</label>
                                                         <select class="form-control" name="type">
-                                                        @foreach($titles as $title)
-                                                        <option value="{{$title->name}}">{{$title->name}}</option>
-                                                        @endforeach
+                                                        <?php $__currentLoopData = $titles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $title): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($title->name); ?>"><?php echo e($title->name); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                     
                                                 </div>
@@ -139,7 +138,7 @@ Arrivi
                                             <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Arrivo</label>
-                                                <input type="date" class="form-control" name="arrive" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
+                                                <input type="date" class="form-control" name="arrive" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                                    
                                                
                                             </div>
@@ -149,7 +148,7 @@ Arrivi
                                                 <div class="mb-3">
                                                 <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Partenza</label>
-                                                        <input type="date" class="form-control" name="departure" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
+                                                        <input type="date" class="form-control" name="departure" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                                     
                                                 </div>
                                         </div>
@@ -215,9 +214,9 @@ Arrivi
                                                     for="steparrow-gen-info-email-input">Nazione  </label>
                                                 
                                                 <select type="text" class="form-control autofill-select" data-autofill="countries" name="oa_country">
-                                                        @foreach($nations as $nation)
-                                                        <option value="{{ $nation['denominazione_cittadinanza'] }}">{{ $nation['denominazione_cittadinanza'] }}</option>
-                                                        @endforeach
+                                                        <?php $__currentLoopData = $nations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $nation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($nation['denominazione_cittadinanza']); ?>"><?php echo e($nation['denominazione_cittadinanza']); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                 
                                             </div> 
@@ -228,9 +227,9 @@ Arrivi
                                                     for="steparrow-gen-info-email-input">Citta </label>
                                             
                                                 <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city">
-                                                    @foreach($ciudades as $ciudad)
-                                                        <option value="{{ $ciudad['denominazione_ita'] }}">{{ $ciudad['denominazione_ita'] }}</option>
-                                                        @endforeach
+                                                    <?php $__currentLoopData = $ciudades; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ciudad): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($ciudad['denominazione_ita']); ?>"><?php echo e($ciudad['denominazione_ita']); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                 
                                             </div>
@@ -244,11 +243,12 @@ Arrivi
                                                 
                                                 <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="oa_region">
                                                     <option value="">Seleziona una Regione</option>
-                                                    @foreach($regions as $region)
-                                                        <option value="{{ $region['codice_regione'] }}">
-                                                            {{ $region['denominazione_regione'] }}
+                                                    <?php $__currentLoopData = $regions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $region): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($region['codice_regione']); ?>">
+                                                            <?php echo e($region['denominazione_regione']); ?>
+
                                                         </option>
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                                 
                                             </div>
@@ -259,9 +259,9 @@ Arrivi
                                                     for="steparrow-gen-info-email-input">Provincia</label>
                                           
                                                 <select type="text" class="form-control autofill-select" data-autofill="provinces" name="oa_prov">
-                                                    @foreach($provinces as $province)
-                                                        <option value="{{ $province['denominazione_provincia'] }}">{{ $province['denominazione_provincia'] }}</option>
-                                                        @endforeach
+                                                    <?php $__currentLoopData = $provinces; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $province): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($province['denominazione_provincia']); ?>"><?php echo e($province['denominazione_provincia']); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                 
                                             </div>
@@ -276,9 +276,9 @@ Arrivi
                                                     for="steparrow-gen-info-email-input">Cittadinanza </label>
                                                
                                                 <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city_nac">
-                                                    @foreach($ciudades as $ciudad)
-                                                        <option value="{{ $ciudad['denominazione_ita'] }}">{{ $ciudad['denominazione_ita'] }}</option>
-                                                        @endforeach
+                                                    <?php $__currentLoopData = $ciudades; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ciudad): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($ciudad['denominazione_ita']); ?>"><?php echo e($ciudad['denominazione_ita']); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                 
                                             </div>
@@ -287,7 +287,7 @@ Arrivi
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Data di nascita</label>
-                                                <input type="date" class="form-control" name="oa_date_nac" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
+                                                <input type="date" class="form-control" name="oa_date_nac" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                                    
                                                 
                                             </div>
@@ -322,9 +322,9 @@ Arrivi
                                                     for="steparrow-gen-info-email-input">Nazione  </label>
                                                
                                                 <select type="text" class="form-control autofill-select" data-autofill="countries" name="or_country">
-                                                        @foreach($nations as $nation)
-                                                        <option value="{{ $nation['denominazione_cittadinanza'] }}">{{ $nation['denominazione_cittadinanza'] }}</option>
-                                                        @endforeach
+                                                        <?php $__currentLoopData = $nations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $nation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($nation['denominazione_cittadinanza']); ?>"><?php echo e($nation['denominazione_cittadinanza']); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                 
                                             </div> 
@@ -335,9 +335,9 @@ Arrivi
                                                     for="steparrow-gen-info-email-input">Citta </label>
                                                 
                                                 <select type="text" class="form-control autofill-select" data-autofill="cities" name="or_city">
-                                                    @foreach($ciudades as $ciudad)
-                                                        <option value="{{ $ciudad['denominazione_ita'] }}">{{ $ciudad['denominazione_ita'] }}</option>
-                                                        @endforeach
+                                                    <?php $__currentLoopData = $ciudades; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ciudad): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($ciudad['denominazione_ita']); ?>"><?php echo e($ciudad['denominazione_ita']); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                 
                                             </div>
@@ -351,11 +351,12 @@ Arrivi
 
                                                 <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="or_region">
                                                     <option value="">Seleziona una Regione</option>
-                                                    @foreach($regions as $region)
-                                                        <option value="{{ $region['codice_regione'] }}">
-                                                            {{ $region['denominazione_regione'] }}
+                                                    <?php $__currentLoopData = $regions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $region): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($region['codice_regione']); ?>">
+                                                            <?php echo e($region['denominazione_regione']); ?>
+
                                                         </option>
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                                 
                                             </div>
@@ -366,9 +367,9 @@ Arrivi
                                                     for="steparrow-gen-info-email-input">Provincia</label>
                                                 
                                                 <select type="text" class="form-control autofill-select" data-autofill="provinces" name="or_prov">
-                                                    @foreach($provinces as $province)
-                                                        <option value="{{ $province['denominazione_provincia'] }}">{{ $province['denominazione_provincia'] }}</option>
-                                                        @endforeach
+                                                    <?php $__currentLoopData = $provinces; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $province): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($province['denominazione_provincia']); ?>"><?php echo e($province['denominazione_provincia']); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                 
                                             </div>
@@ -389,9 +390,9 @@ Arrivi
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Tipo Via</label>
                                                     <select class="form-control" name="or_typeaway">
-                                                        @foreach($typestreets as $typestreet)
-                                                        <option value="{{$typestreet->name}}">{{$typestreet->name}}</option>
-                                                        @endforeach
+                                                        <?php $__currentLoopData = $typestreets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $typestreet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($typestreet->name); ?>"><?php echo e($typestreet->name); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                    
                                                 
@@ -427,9 +428,9 @@ Arrivi
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Documento</label>
                                                     <select class="form-control" name="or_doctype">
-                                                        @foreach($TypeDocs as $TypeDoc)
-                                                        <option value="{{$TypeDoc->name}}">{{$TypeDoc->name}}</option>
-                                                        @endforeach
+                                                        <?php $__currentLoopData = $TypeDocs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $TypeDoc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($TypeDoc->name); ?>"><?php echo e($TypeDoc->name); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                 
                                                    
@@ -454,7 +455,7 @@ Arrivi
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato il</label>
-                                                <input type="date" class="form-control" name="or_published_date" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
+                                                <input type="date" class="form-control" name="or_published_date" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                                    
                                                 
                                             </div>
@@ -463,7 +464,7 @@ Arrivi
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Scade il</label>
-                                                <input type="date" class="form-control" name="or_expire" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
+                                                <input type="date" class="form-control" name="or_expire" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                                    
                                                 
                                             </div>
@@ -507,10 +508,10 @@ Arrivi
         <!-- end col -->
     </div><!-- end row -->
     
-@endsection
-@section('script')
-    <script src="{{ URL::asset('build/js/pages/form-wizard.init.js') }}"></script>
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
+    <script src="<?php echo e(URL::asset('build/js/pages/form-wizard.init.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <!-- Select2 CSS -->
      <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -518,7 +519,7 @@ Arrivi
 <!-- Select2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-<script src="{{ URL::asset('js/autofill-select.js') }}"></script>
+<script src="<?php echo e(URL::asset('js/autofill-select.js')); ?>"></script>
     <script>
        document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("search");
@@ -574,4 +575,6 @@ Arrivi
 
 
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/jorgeluccitelli/Herd/Schedinedinotifica/resources/views/arrivals/new.blade.php ENDPATH**/ ?>

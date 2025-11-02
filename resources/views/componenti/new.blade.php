@@ -31,7 +31,7 @@
                             <div class="row gy-4">
                             <div class="col-xxl-3 col-md-3">
                                     <div>
-                                        <label for="valueInput" class="form-label">Tipo Allogiatto</label>
+                                        <label for="valueInput" class="form-label">Tipo Alloggiato</label>
                                         <select type="text" class="form-control" name="relationship">
                                             <option value="CAPOFAMIGLIA">CAPOFAMIGLIA</option>
                                             <option value="CAPOGRUPPO">CAPOGRUPPO</option>
@@ -110,7 +110,7 @@
                                         <label for="readonlyInput" class="form-label">Regione</label>
                                         
                                         <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="regione">
-                                                    <option value="">Seleccione una Región</option>
+                                                    <option value="">Seleziona una Regione</option>
                                                     @foreach($regions as $region)
                                                         <option value="{{ $region['codice_regione'] }}">
                                                             {{ $region['denominazione_regione'] }}

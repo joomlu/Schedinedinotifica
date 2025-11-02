@@ -34,7 +34,7 @@
                 <!-- App Search-->
                 <form class="app-search d-none d-md-block">
                     <div class="position-relative">
-                        <input type="text" class="form-control" placeholder="Search..." autocomplete="off" id="search-options" value="">
+                        <input type="text" class="form-control" placeholder="<?php echo e(__('translation.search_placeholder')); ?>" autocomplete="off" id="search-options" value="">
                         <span class="mdi mdi-magnify search-widget-icon"></span>
                         <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none" id="search-close-options"></span>
                     </div>
@@ -42,7 +42,7 @@
                         <div data-simplebar style="max-height: 320px;">
                             <!-- item-->
                             <div class="dropdown-header">
-                                <h6 class="text-overflow text-muted mb-0 text-uppercase">Recent Searches</h6>
+                                <h6 class="text-overflow text-muted mb-0 text-uppercase"><?php echo app('translator')->get('translation.recent_searches'); ?></h6>
                             </div>
 
                             <div class="dropdown-item bg-transparent text-wrap">
@@ -51,7 +51,7 @@
                             </div>
                             <!-- item-->
                             <div class="dropdown-header mt-2">
-                                <h6 class="text-overflow text-muted mb-1 text-uppercase">Pages</h6>
+                                <h6 class="text-overflow text-muted mb-1 text-uppercase"><?php echo app('translator')->get('translation.pages'); ?></h6>
                             </div>
 
                             <!-- item-->
@@ -112,7 +112,7 @@
                         </div>
 
                         <div class="text-center pt-3 pb-1">
-                            <a href="pages-search-results" class="btn btn-primary btn-sm">View All Results <i class="ri-arrow-right-line ms-1"></i></a>
+                            <a href="pages-search-results" class="btn btn-primary btn-sm"><?php echo app('translator')->get('translation.view_all_results'); ?> <i class="ri-arrow-right-line ms-1"></i></a>
                         </div>
                     </div>
                 </form>
@@ -128,7 +128,7 @@
                         <form class="p-3">
                             <div class="form-group m-0">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
+                                    <input type="text" class="form-control" placeholder="<?php echo e(__('translation.search_placeholder')); ?>" aria-label="Recipient's username">
                                     <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
                                 </div>
                             </div>
@@ -687,8 +687,8 @@
                                     </div>
 
                                     <div class="my-3 text-center view-all">
-                                        <button type="button" class="btn btn-soft-success waves-effect waves-light">View
-                                            All Messages <i class="ri-arrow-right-line align-middle"></i></button>
+                                        <button type="button" class="btn btn-soft-success waves-effect waves-light">Vedi
+                                            tutti i messaggi <i class="ri-arrow-right-line align-middle"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -696,7 +696,7 @@
 
                             <div class="notification-actions" id="notification-actions">
                                 <div class="d-flex text-muted justify-content-center">
-                                    Select <div id="select-content" class="text-body fw-semibold px-1">0</div> Result <button type="button" class="btn btn-link link-danger p-0 ms-3" data-bs-toggle="modal" data-bs-target="#removeNotificationModal">Remove</button>
+                                    Selezionati <div id="select-content" class="text-body fw-semibold px-1">0</div> elementi <button type="button" class="btn btn-link link-danger p-0 ms-3" data-bs-toggle="modal" data-bs-target="#removeNotificationModal">Rimuovi</button>
                                 </div>
                             </div>
                         </div>
@@ -709,21 +709,21 @@
                             <img class="rounded-circle header-profile-user" src="<?php if(Auth::user()->avatar != ''): ?><?php echo e(URL::asset('images/' . Auth::user()->avatar)); ?><?php else: ?><?php echo e(URL::asset('build/images/users/avatar-1.jpg')); ?><?php endif; ?>" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?php echo e(Auth::user()->name); ?></span>
-                                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Founder</span>
+                                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Fondatore</span>
                             </span>
                         </span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
-                        <h6 class="dropdown-header">Welcome Anna!</h6>
-                        <a class="dropdown-item" href="pages-profile"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                        <a class="dropdown-item" href="apps-chat"><i class="mdi mdi-message-text-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
-                        <a class="dropdown-item" href="apps-tasks-kanban"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Taskboard</span></a>
-                        <a class="dropdown-item" href="pages-faqs"><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Help</span></a>
+                        <h6 class="dropdown-header">Benvenuto!</h6>
+                        <a class="dropdown-item" href="pages-profile"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profilo</span></a>
+                        <a class="dropdown-item" href="apps-chat"><i class="mdi mdi-message-text-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Messaggi</span></a>
+                        <a class="dropdown-item" href="apps-tasks-kanban"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Bacheca attività</span></a>
+                        <a class="dropdown-item" href="pages-faqs"><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Aiuto</span></a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="pages-profile"><i class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Balance : <b>$5971.67</b></span></a>
-                        <a class="dropdown-item" href="pages-profile-settings"><span class="badge bg-success-subtle text-success mt-1 float-end">New</span><i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Settings</span></a>
-                        <a class="dropdown-item" href="auth-lockscreen-basic"><i class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Lock screen</span></a>
+                        <a class="dropdown-item" href="pages-profile"><i class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Saldo: <b>$5971.67</b></span></a>
+                        <a class="dropdown-item" href="pages-profile-settings"><span class="badge bg-success-subtle text-success mt-1 float-end">Nuovo</span><i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Impostazioni</span></a>
+                        <a class="dropdown-item" href="auth-lockscreen-basic"><i class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Blocca schermo</span></a>
                         <a class="dropdown-item " href="javascript:void();" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="bx bx-power-off font-size-16 align-middle me-1"></i> <span key="t-logout"><?php echo app('translator')->get('translation.logout'); ?></span></a>
                         <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
                             <?php echo csrf_field(); ?>

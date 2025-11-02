@@ -8,8 +8,8 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <?php $__env->startComponent('components.breadcrumb'); ?>
-<?php $__env->slot('li_1'); ?> Tables <?php $__env->endSlot(); ?>
-<?php $__env->slot('title'); ?>SubGroups <?php $__env->endSlot(); ?>
+<?php $__env->slot('li_1'); ?> <?php echo app('translator')->get('translation.tables'); ?> <?php $__env->endSlot(); ?>
+<?php $__env->slot('title'); ?> <?php echo app('translator')->get('translation.SubGroups'); ?> <?php $__env->endSlot(); ?>
 <?php echo $__env->renderComponent(); ?>
 
 
@@ -38,8 +38,8 @@
 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary ">Salvar</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal"><?php echo app('translator')->get('translation.close'); ?></button>
+                <button type="submit" class="btn btn-primary "><?php echo app('translator')->get('translation.save'); ?></button>
 </form>
             </div>
       
@@ -79,7 +79,7 @@
                                 
                                 <td> <button type="button" class="btn btn-success btn-icon waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#ModalEdit<?php echo e($group->id); ?>"><i class=" ri-pencil-line"></i></button> 
                                 <a  href="<?php echo e(route('subgroup.destroy',['id' => $group->id] )); ?>" onclick="
-return confirm('Seguro deseas eliminar este Subgrupo definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
+return confirm('Sei sicuro di eliminare definitivamente questo elemento?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
                       <i class="ri-delete-bin-5-line"></i><a>     
                                 </td>
                             </tr>
@@ -87,7 +87,7 @@ return confirm('Seguro deseas eliminar este Subgrupo definitivamente?')" type="b
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="myModalEditLabel"><?php echo app('translator')->get('translation.edit'); ?> <?php echo app('translator')->get('translation.Group'); ?></h5>
+                                                <h5 class="modal-title" id="myModalEditLabel"><?php echo app('translator')->get('translation.edit'); ?> <?php echo app('translator')->get('translation.SubGroup'); ?></h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
                                             </div>
                                             <div class="modal-body">
@@ -100,8 +100,8 @@ return confirm('Seguro deseas eliminar este Subgrupo definitivamente?')" type="b
                                                                 </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary ">Salvar</button>
+                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"><?php echo app('translator')->get('translation.close'); ?></button>
+                                                                    <button type="submit" class="btn btn-primary "><?php echo app('translator')->get('translation.save'); ?></button>
                                                                 </div>
                                                     </form>
                                             
