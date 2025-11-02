@@ -162,7 +162,7 @@
                     </div>
                 </li> <!-- end Dashboard Menu -->
 
-                @if (app()->environment(['local', 'development']))
+                @if (config('app.enable_dev_pages'))
                 <li class="menu-title"><span>Dev</span></li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDev" data-bs-toggle="collapse" role="button"
@@ -171,6 +171,7 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarDev">
                         <ul class="nav nav-sm flex-column">
+                            <li class="nav-item"><a href="{{ url('/Dev') }}" class="nav-link">Indice Dev</a></li>
                             <li class="nav-item"><a href="{{ url('/Ind_Tipo_Via_Num_Int') }}" class="nav-link">Ind_Tipo_Via_Num_Int</a></li>
                             <li class="nav-item"><a href="{{ url('/Indirizzo') }}" class="nav-link">Indirizzo</a></li>
                             <li class="nav-item"><a href="{{ url('/Nac_Reg_Prov_Citt') }}" class="nav-link">Nac_Reg_Prov_Citt</a></li>

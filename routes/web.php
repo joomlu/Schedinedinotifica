@@ -130,6 +130,7 @@ Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class
 
 // Demo/Dev pages (standalone componenti, senza layout Velzon) - gated by config
 if (config('app.enable_dev_pages')) {
+    Route::view('/Dev', 'dev.index')->name('dev.index');
     Route::view('/Ind_Tipo_Via_Num_Int', 'dev.ind_tipo_via_num_int')->name('dev.ind_tipo_via_num_int');
     Route::view('/Indirizzo', 'dev.indirizzo')->name('dev.indirizzo');
     Route::view('/Nac_Reg_Prov_Citt', 'dev.nac_reg_prov_citt')->name('dev.nac_reg_prov_citt');
