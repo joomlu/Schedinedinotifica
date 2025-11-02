@@ -96,7 +96,8 @@ return [
     /*
     | Enable/Disable dev/demo pages routes
     */
-    'enable_dev_pages' => env('ENABLE_DEV_PAGES', false),
+    // Keep dev pages active by default in non-production
+    'enable_dev_pages' => env('ENABLE_DEV_PAGES', env('APP_ENV') !== 'production'),
 
     /*
     |--------------------------------------------------------------------------
