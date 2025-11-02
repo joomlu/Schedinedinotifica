@@ -4421,3 +4421,11 @@
 [2025-11-02 21:29:23] local.INFO: Respuesta de provincesByRegion [{"sigla_provincia":"RM","denominazione_provincia":"Roma","codice_regione":"12","tipologia_provincia":"Provincia"}] 
 [2025-11-02 21:29:25] local.INFO: Petición a citiesByProvince {"q":null,"sigla_provincia":null} 
 [2025-11-02 21:29:25] local.INFO: Respuesta de citiesByProvince [{"codice_istat":"058091","denominazione_ita":"Roma","denominazione_ita_altra":"Roma","sigla_provincia":"RM","flag_capoluogo":"S","codice_belfiore":"H501","lat":"41.9028","lon":"12.4964","superficie_kmq":"1285","codice_sovracomunale":"","codice_regione":"12"}] 
+[2025-11-02 21:32:30] testing.INFO: Petición a regions  
+[2025-11-02 21:32:30] testing.INFO: Respuesta de regions {"count":1} 
+[2025-11-02 21:32:30] testing.INFO: Petición a provincesAll  
+[2025-11-02 21:32:30] testing.INFO: Respuesta de provincesByRegion [{"sigla_provincia":"RM","denominazione_provincia":"Roma","codice_regione":"12","tipologia_provincia":"Provincia"}] 
+[2025-11-02 21:32:30] testing.INFO: Petición a citiesByProvince {"sigla_provincia":"RM"} 
+[2025-11-02 21:32:30] testing.INFO: Respuesta de citiesByProvince [{"codice_istat":"058091","denominazione_ita":"Roma","denominazione_ita_altra":"Roma","sigla_provincia":"RM","flag_capoluogo":"S","codice_belfiore":"H501","lat":"41.9028","lon":"12.4964","superficie_kmq":"1285","codice_sovracomunale":"","codice_regione":"12"}] 
+[2025-11-02 21:32:30] testing.INFO: Petición a nations  
+[2025-11-02 21:32:30] testing.INFO: Respuesta de nations {"count":295} 
