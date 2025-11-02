@@ -15,7 +15,7 @@ File: Main Js File
      */
     var navbarMenuHTML = document.querySelector(".navbar-menu").innerHTML;
     var horizontalMenuSplit = 7; // after this number all horizontal menus will be moved in More menu options
-    var default_lang = "en"; // set Default Language
+    var default_lang = "it"; // set Default Language (force Italian UI)
     var language = localStorage.getItem("language");
 
     function initLanguage() {
@@ -191,6 +191,8 @@ File: Main Js File
                 var dateData = {};
                 var isFlatpickerVal = item.attributes;
                 dateData.disableMobile = "true";
+                // Global Italian locale for calendars
+                dateData.locale = (window.flatpickr && window.flatpickr.l10ns && window.flatpickr.l10ns.it) ? window.flatpickr.l10ns.it : 'it';
                 if (isFlatpickerVal["data-date-format"])
                     dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
                 if (isFlatpickerVal["data-enable-time"]) {
@@ -278,6 +280,60 @@ File: Main Js File
                 flatpickr(item, timeData);
             }
         });
+
+        // Auto-enhance native date inputs (type="date") with Flatpickr in Italian locale
+        (function enhanceNativeDateInputs() {
+            var nativeDateInputs = Array.from(document.querySelectorAll('input[type="date"]'))
+                .filter(function (el) { return !el.hasAttribute('data-provider'); });
+            nativeDateInputs.forEach(function (el) {
+                var opts = {
+                    disableMobile: true,
+                    locale: (window.flatpickr && window.flatpickr.l10ns && window.flatpickr.l10ns.it) ? window.flatpickr.l10ns.it : 'it',
+                    // Keep ISO format for backend compatibility; use altInput if you want pretty display later
+                    dateFormat: 'Y-m-d'
+                };
+                flatpickr(el, opts);
+            });
+        })();
+
+        // Enforce start/end ordering on common date field pairs across the app
+        (function wireDatePairs() {
+            var pairs = [
+                ['arrive', 'departure'],
+                ['or_published_date', 'or_expire'],
+                ['startact', 'closeact'],
+                ['inizio', 'fine']
+            ];
+
+            pairs.forEach(function (pair) {
+                var start = document.querySelector('input[name="' + pair[0] + '"]');
+                var end = document.querySelector('input[name="' + pair[1] + '"]');
+                if (!start || !end) return;
+
+                var getFP = function (el) { return el && el._flatpickr ? el._flatpickr : null; };
+
+                var syncMinMax = function () {
+                    var sFP = getFP(start), eFP = getFP(end);
+                    var sDate = start.value ? new Date(start.value) : null;
+                    if (eFP && sDate) {
+                        eFP.set('minDate', sDate);
+                        if (end.value) {
+                            var eDate = new Date(end.value);
+                            if (eDate < sDate) {
+                                eFP.setDate(sDate, true);
+                            }
+                        }
+                    }
+                };
+
+                // Hook on change/input events to keep constraints
+                ['change', 'input'].forEach(function (ev) {
+                    start.addEventListener(ev, syncMinMax);
+                });
+                // Initial sync
+                syncMinMax();
+            });
+        })();
 
         // Dropdown
         Array.from(document.querySelectorAll('.dropdown-menu a[data-bs-toggle="tab"]')).forEach(function (element) {
