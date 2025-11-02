@@ -34,7 +34,7 @@
                 <!-- App Search-->
                 <form class="app-search d-none d-md-block">
                     <div class="position-relative">
-                        <input type="text" class="form-control" placeholder="Search..." autocomplete="off" id="search-options" value="">
+                        <input type="text" class="form-control" placeholder="{{ __('translation.search_placeholder') }}" autocomplete="off" id="search-options" value="">
                         <span class="mdi mdi-magnify search-widget-icon"></span>
                         <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none" id="search-close-options"></span>
                     </div>
@@ -42,7 +42,7 @@
                         <div data-simplebar style="max-height: 320px;">
                             <!-- item-->
                             <div class="dropdown-header">
-                                <h6 class="text-overflow text-muted mb-0 text-uppercase">Recent Searches</h6>
+                                <h6 class="text-overflow text-muted mb-0 text-uppercase">@lang('translation.recent_searches')</h6>
                             </div>
 
                             <div class="dropdown-item bg-transparent text-wrap">
@@ -51,7 +51,7 @@
                             </div>
                             <!-- item-->
                             <div class="dropdown-header mt-2">
-                                <h6 class="text-overflow text-muted mb-1 text-uppercase">Pages</h6>
+                                <h6 class="text-overflow text-muted mb-1 text-uppercase">@lang('translation.pages')</h6>
                             </div>
 
                             <!-- item-->
@@ -112,7 +112,7 @@
                         </div>
 
                         <div class="text-center pt-3 pb-1">
-                            <a href="pages-search-results" class="btn btn-primary btn-sm">View All Results <i class="ri-arrow-right-line ms-1"></i></a>
+                            <a href="pages-search-results" class="btn btn-primary btn-sm">@lang('translation.view_all_results') <i class="ri-arrow-right-line ms-1"></i></a>
                         </div>
                     </div>
                 </form>
@@ -128,7 +128,7 @@
                         <form class="p-3">
                             <div class="form-group m-0">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
+                                    <input type="text" class="form-control" placeholder="{{ __('translation.search_placeholder') }}" aria-label="Recipient's username">
                                     <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
                                 </div>
                             </div>

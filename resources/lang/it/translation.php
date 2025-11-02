@@ -257,11 +257,18 @@ return [
     "arrivals" => "Arrivi",
     "ticketsWeb" => "Schedine Web",
     "componente" => "Componenti",
+    "componenti" => "Componenti",
 
     // Azioni generiche / UI
     "Name" => "Nome",
     "edit" => "Modifica",
     "close" => "Chiudi",
     "save" => "Salva",
+
+    // Ricerca / Search UI
+    "search" => "Cerca",
+    "search_placeholder" => "Cerca...",
+    "recent_searches" => "Ricerche recenti",
+    "view_all_results" => "Vedi tutti i risultati",
 ];
 ?>
