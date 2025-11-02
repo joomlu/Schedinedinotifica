@@ -407,7 +407,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato il</label>
-                                                <input type="date" class="form-control" name="expire_reg" value="{{$customer->expire_reg}}">
+                                                <input type="date" class="form-control" name="expire_reg" value="{{$customer->expire_reg}}" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
                                                    
                                                 
                                             </div>
@@ -416,7 +416,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input"> Scade il</label>
-                                                <input type="date" class="form-control" name="released_reg" value="{{$customer->released_reg}}">
+                                                <input type="date" class="form-control" name="released_reg" value="{{$customer->released_reg}}" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
                                                    
                                                 
                                             </div>

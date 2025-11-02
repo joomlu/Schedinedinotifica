@@ -165,7 +165,7 @@
                                 <div class="col-xxl-3 col-md-3">
                                 <div>
                                         <label for="readonlyInput" class="form-label">Data di nascita</label>
-                                        <input type="date" class="form-control" name="date_nac">
+                                        <input type="date" class="form-control" name="date_nac" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
                                     </div>
                                 </div>
                                 <div class="col-xxl-3 col-md-4">

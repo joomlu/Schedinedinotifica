@@ -124,7 +124,7 @@
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="basiInput" class="form-label">Inizio attività</label>
-                                    <input type="date" name="startact" value="<?php echo e($estructura->startact); ?>" class="form-control" id="basiInput">
+                                    <input type="date" name="startact" value="<?php echo e($estructura->startact); ?>" class="form-control" id="basiInput" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                 </div>
                             </div>
                             <!--end col-->
@@ -132,7 +132,7 @@
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="basiInput" class="form-label">Chiussura attività</label>
-                                    <input type="date" name="closeact" value="<?php echo e($estructura->closeact); ?>" class="form-control" id="basiInput">
+                                    <input type="date" name="closeact" value="<?php echo e($estructura->closeact); ?>" class="form-control" id="basiInput" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                 </div>
                             </div>
                             <!--end col-->
@@ -240,14 +240,14 @@
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="basiInput" class="form-label">Inizio</label>
-                                    <input type="date" name="inizio" value="<?php echo e($tasa->inizio); ?>" class="form-control" id="basiInput">
+                                    <input type="date" name="inizio" value="<?php echo e($tasa->inizio); ?>" class="form-control" id="basiInput" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                 </div>
                             </div>
                             <!--end col-->
                             <div class="col-xxl-3 col-md-3">
                                 <div>
                                     <label for="labelInput" class="form-label">Fine</label>
-                                    <input type="date" name="fine" value="<?php echo e($tasa->fine); ?>" class="form-control" id="labelInput">
+                                    <input type="date" name="fine" value="<?php echo e($tasa->fine); ?>" class="form-control" id="labelInput" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                 </div>
                             </div>
                             <!--end col-->

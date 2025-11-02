@@ -143,7 +143,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Arrivo</label>
-                                                <input type="date" class="form-control" value="{{$schedina->arrive}}" name="arrive">
+                                                <input type="date" class="form-control" value="{{$schedina->arrive}}" name="arrive" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
                                                    
                                                
                                             </div>
@@ -153,7 +153,7 @@
                                                 <div class="mb-3">
                                                 <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Partenza</label>
-                                                        <input type="date" class="form-control" value="{{$schedina->departure}}" name="departure">
+                                                        <input type="date" class="form-control" value="{{$schedina->departure}}" name="departure" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
                                                     
                                                 </div>
                                         </div>
@@ -268,7 +268,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Data di nascita</label>
-                                                <input type="date" class="form-control" name="oa_date_nac"  value="{{$schedina->oa_date_nac}}">
+                                                <input type="date" class="form-control" name="oa_date_nac"  value="{{$schedina->oa_date_nac}}" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
                                                    
                                                 
                                             </div>
@@ -418,7 +418,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato il</label>
-                                                <input type="date" class="form-control" name="or_published_date" value="{{$schedina->or_published_date}}">
+                                                <input type="date" class="form-control" name="or_published_date" value="{{$schedina->or_published_date}}" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
                                                    
                                                 
                                             </div>
@@ -427,7 +427,7 @@
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Scade il</label>
-                                                <input type="date" class="form-control" name="or_expire" value="{{$schedina->or_expire}}">
+                                                <input type="date" class="form-control" name="or_expire" value="{{$schedina->or_expire}}" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
                                                    
                                                 
                                             </div>

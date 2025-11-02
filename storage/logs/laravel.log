@@ -3231,3 +3231,9 @@
 #58 /Applications/Herd.app/Contents/Resources/valet/server.php(167): require('/Users/jorgeluc...')
 #59 {main}
 "} 
+[2025-11-02 15:35:16] local.INFO: Petición a nations {"q":null} 
+[2025-11-02 15:35:16] local.INFO: Petición a provincesAll {"q":null} 
+[2025-11-02 15:35:16] local.INFO: Petición a regions {"q":null} 
+[2025-11-02 15:35:16] local.INFO: Respuesta de nations {"count":0} 
+[2025-11-02 15:35:16] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 15:35:16] local.INFO: Respuesta de provincesByRegion  

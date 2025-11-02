@@ -130,6 +130,14 @@ return [
 
     'faker_locale' => 'it_IT',
 
+    // Global date formats for calendars and forms
+    'date' => [
+        // Visualizzazione per l'utente (stile Basic, es. 02 Nov, 2025)
+        'display_format' => 'd M, Y',
+        // Formato inviato al backend (ISO 8601 compatibile con DB)
+        'backend_format' => 'Y-m-d',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key

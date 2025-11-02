@@ -193,11 +193,23 @@ File: Main Js File
                 dateData.disableMobile = "true";
                 // Global Italian locale for calendars
                 dateData.locale = (window.flatpickr && window.flatpickr.l10ns && window.flatpickr.l10ns.it) ? window.flatpickr.l10ns.it : 'it';
+                // Default formats from config (can be overridden via data- attributes)
+                var DisplayFmt = (window.AppDateConfig && window.AppDateConfig.displayFormat) ? window.AppDateConfig.displayFormat : 'd/m/Y';
+                var BackendFmt = (window.AppDateConfig && window.AppDateConfig.backendFormat) ? window.AppDateConfig.backendFormat : 'Y-m-d';
+                dateData.dateFormat = BackendFmt;
+                // If no altFormat specified, use Italian display with altInput
+                if (!isFlatpickerVal["data-altFormat"]) {
+                    dateData.altInput = true;
+                    dateData.altFormat = DisplayFmt;
+                }
                 if (isFlatpickerVal["data-date-format"])
                     dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
                 if (isFlatpickerVal["data-enable-time"]) {
                     (dateData.enableTime = true),
-                    (dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString() + " H:i");
+                    (dateData.dateFormat = (isFlatpickerVal["data-date-format"] ? isFlatpickerVal["data-date-format"].value.toString() : BackendFmt) + " H:i"),
+                    // Extend altFormat with time if altInput is active
+                    (dateData.altInput = true),
+                    (dateData.altFormat = ((isFlatpickerVal["data-altFormat"]) ? isFlatpickerVal["data-altFormat"].value.toString() : DisplayFmt) + " H:i");
                 }
                 if (isFlatpickerVal["data-altFormat"]) {
                     (dateData.altInput = true),
@@ -205,28 +217,28 @@ File: Main Js File
                 }
                 if (isFlatpickerVal["data-minDate"]) {
                     dateData.minDate = isFlatpickerVal["data-minDate"].value.toString();
-                    dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
+                    dateData.dateFormat = (isFlatpickerVal["data-date-format"]) ? isFlatpickerVal["data-date-format"].value.toString() : BackendFmt;
                 }
                 if (isFlatpickerVal["data-maxDate"]) {
                     dateData.maxDate = isFlatpickerVal["data-maxDate"].value.toString();
-                    dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
+                    dateData.dateFormat = (isFlatpickerVal["data-date-format"]) ? isFlatpickerVal["data-date-format"].value.toString() : BackendFmt;
                 }
                 if (isFlatpickerVal["data-deafult-date"]) {
                     dateData.defaultDate = isFlatpickerVal["data-deafult-date"].value.toString();
-                    dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
+                    dateData.dateFormat = (isFlatpickerVal["data-date-format"]) ? isFlatpickerVal["data-date-format"].value.toString() : BackendFmt;
                 }
                 if (isFlatpickerVal["data-multiple-date"]) {
                     dateData.mode = "multiple";
-                    dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
+                    dateData.dateFormat = (isFlatpickerVal["data-date-format"]) ? isFlatpickerVal["data-date-format"].value.toString() : BackendFmt;
                 }
                 if (isFlatpickerVal["data-range-date"]) {
                     dateData.mode = "range";
-                    dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
+                    dateData.dateFormat = (isFlatpickerVal["data-date-format"]) ? isFlatpickerVal["data-date-format"].value.toString() : BackendFmt;
                 }
                 if (isFlatpickerVal["data-inline-date"]) {
                     (dateData.inline = true),
                     (dateData.defaultDate = isFlatpickerVal["data-deafult-date"].value.toString());
-                    dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
+                    dateData.dateFormat = (isFlatpickerVal["data-date-format"]) ? isFlatpickerVal["data-date-format"].value.toString() : BackendFmt;
                 }
                 if (isFlatpickerVal["data-disable-date"]) {
                     var dates = [];
@@ -289,8 +301,10 @@ File: Main Js File
                 var opts = {
                     disableMobile: true,
                     locale: (window.flatpickr && window.flatpickr.l10ns && window.flatpickr.l10ns.it) ? window.flatpickr.l10ns.it : 'it',
-                    // Keep ISO format for backend compatibility; use altInput if you want pretty display later
-                    dateFormat: 'Y-m-d'
+                    // Use backend format for value and Italian display format for UI
+                    dateFormat: (window.AppDateConfig && window.AppDateConfig.backendFormat) ? window.AppDateConfig.backendFormat : 'Y-m-d',
+                    altInput: true,
+                    altFormat: (window.AppDateConfig && window.AppDateConfig.displayFormat) ? window.AppDateConfig.displayFormat : 'd/m/Y'
                 };
                 flatpickr(el, opts);
             });
@@ -302,7 +316,8 @@ File: Main Js File
                 ['arrive', 'departure'],
                 ['or_published_date', 'or_expire'],
                 ['startact', 'closeact'],
-                ['inizio', 'fine']
+                ['inizio', 'fine'],
+                ['released_reg', 'expire_reg']
             ];
 
             pairs.forEach(function (pair) {
