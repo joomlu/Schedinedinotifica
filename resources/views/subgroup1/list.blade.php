@@ -9,8 +9,8 @@
 @endsection
 @section('content')
 @component('components.breadcrumb')
-@slot('li_1') Tables @endslot
-@slot('title')SubGroups1 @endslot
+@slot('li_1') @lang('translation.tables') @endslot
+@slot('title') @lang('translation.SubGroups1') @endslot
 @endcomponent
 
 
@@ -40,8 +40,8 @@
 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary ">Salvar</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('translation.close')</button>
+                <button type="submit" class="btn btn-primary ">@lang('translation.save')</button>
 </form>
             </div>
       
@@ -81,7 +81,7 @@
                                 
                                 <td> <button type="button" class="btn btn-success btn-icon waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#ModalEdit{{$group->id}}"><i class=" ri-pencil-line"></i></button> 
                                 <a  href="{{ route('subgroup1.destroy',['id' => $group->id] )}}" onclick="
-return confirm('Seguro deseas eliminar este Subgrupo definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
+return confirm('Sei sicuro di eliminare definitivamente questo elemento?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
                       <i class="ri-delete-bin-5-line"></i><a>     
                                 </td>
                             </tr>
@@ -89,7 +89,7 @@ return confirm('Seguro deseas eliminar este Subgrupo definitivamente?')" type="b
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="myModalEditLabel">@lang('translation.edit') @lang('translation.Group')</h5>
+                                                <h5 class="modal-title" id="myModalEditLabel">@lang('translation.edit') @lang('translation.SubGroup1')</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
                                             </div>
                                             <div class="modal-body">
@@ -102,8 +102,8 @@ return confirm('Seguro deseas eliminar este Subgrupo definitivamente?')" type="b
                                                                 </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary ">Salvar</button>
+                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('translation.close')</button>
+                                                                    <button type="submit" class="btn btn-primary ">@lang('translation.save')</button>
                                                                 </div>
                                                     </form>
                                             

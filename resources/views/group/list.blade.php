@@ -9,8 +9,8 @@
 @endsection
 @section('content')
 @component('components.breadcrumb')
-@slot('li_1') Tables @endslot
-@slot('title')Groups @endslot
+@slot('li_1') @lang('translation.tables') @endslot
+@slot('title') @lang('translation.Groups') @endslot
 @endcomponent
 
 
@@ -40,8 +40,8 @@
 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary ">Salvar</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('translation.close')</button>
+                <button type="submit" class="btn btn-primary ">@lang('translation.save')</button>
 </form>
             </div>
       
@@ -81,7 +81,7 @@
                                 
                                 <td> <button type="button" class="btn btn-success btn-icon waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#ModalEdit{{$group->id}}"><i class=" ri-pencil-line"></i></button> 
                                 <a  href="{{ route('group.destroy',['id' => $group->id] )}}" onclick="
-return confirm('Seguro deseas eliminar este grupo definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
+return confirm('Sei sicuro di eliminare definitivamente questo elemento?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
                       <i class="ri-delete-bin-5-line"></i><a>     
                                 </td>
                             </tr>
@@ -102,8 +102,8 @@ return confirm('Seguro deseas eliminar este grupo definitivamente?')" type="butt
                                                                 </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary ">Salvar</button>
+                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('translation.close')</button>
+                                                                    <button type="submit" class="btn btn-primary ">@lang('translation.save')</button>
                                                                 </div>
                                                     </form>
                                             

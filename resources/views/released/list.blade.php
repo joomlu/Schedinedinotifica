@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') @lang('translation.Title') @endsection
+@section('title') @lang('translation.Released') @endsection
 @section('css')
 <!--datatable css-->
 <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
@@ -9,8 +9,8 @@
 @endsection
 @section('content')
 @component('components.breadcrumb')
-@slot('li_1') Tables @endslot
-@slot('title')Released @endslot
+@slot('li_1') @lang('translation.tables') @endslot
+@slot('title') @lang('translation.Released') @endslot
 @endcomponent
 
 
@@ -40,8 +40,8 @@
 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary ">Salvar</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('translation.close')</button>
+                <button type="submit" class="btn btn-primary ">@lang('translation.save')</button>
 </form>
             </div>
       
@@ -81,7 +81,7 @@
                                 
                                 <td> <button type="button" class="btn btn-success btn-icon waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#ModalEdit{{$release->id}}"><i class=" ri-pencil-line"></i></button> 
                                 <a  href="{{ route('released.destroy',['id' => $release->id] )}}" onclick="
-return confirm('Seguro deseas eliminar este titulo definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
+return confirm('Sei sicuro di eliminare definitivamente questo elemento?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
                       <i class="ri-delete-bin-5-line"></i><a>     
                                 </td>
                             </tr>
@@ -102,8 +102,8 @@ return confirm('Seguro deseas eliminar este titulo definitivamente?')" type="but
                                                                 </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary ">Salvar</button>
+                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('translation.close')</button>
+                                                                    <button type="submit" class="btn btn-primary ">@lang('translation.save')</button>
                                                                 </div>
                                                     </form>
                                             

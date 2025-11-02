@@ -242,8 +242,11 @@ return [
     "Structures" => "Strutture",
     "structure" => "Strutture",
     "Group" => "Gruppo",
+    "Groups" => "Gruppi",
     "SubGroup" => "Sottogruppo",
+    "SubGroups" => "Sottogruppi",
     "SubGroup1" => "Sottogruppo 1",
+    "SubGroups1" => "Sottogruppi 1",
     "Title" => "Titolo",
     "TypeDoc" => "Tipo Documento",
     "Released" => "Rilasciato",
@@ -254,5 +257,11 @@ return [
     "arrivals" => "Arrivi",
     "ticketsWeb" => "Schedine Web",
     "componente" => "Componenti",
+
+    // Azioni generiche / UI
+    "Name" => "Nome",
+    "edit" => "Modifica",
+    "close" => "Chiudi",
+    "save" => "Salva",
 ];
 ?>
