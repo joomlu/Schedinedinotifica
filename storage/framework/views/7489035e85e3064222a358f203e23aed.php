@@ -1,16 +1,15 @@
-@extends('layouts.master')
-@section('title')
-Arrivi
-@endsection
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
-            Nuovo
-        @endslot
-        @slot('title')
-        Arrivi
-        @endslot
-    @endcomponent
+<?php $__env->startSection('title'); ?>
+    <?php echo app('translator')->get('translation.wizard'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
+            Nuova
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
+            Schedina
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
     
     <div class="row">
 
@@ -19,11 +18,11 @@ Arrivi
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">Arrivi - aggiungere</h4>
+                    <h4 class="card-title mb-0">Schedina - aggiungere</h4>
                 </div><!-- end card header -->
                 <div class="card-body">
-                    <form  method="POST" action="{{route('arrival.store')}}" class="form-steps" autocomplete="off">
-                    @csrf 
+                    <form  method="POST" action="<?php echo e(route('schedina.store')); ?>" class="form-steps" autocomplete="off">
+                    <?php echo csrf_field(); ?> 
                         <div class="text-center pt-3 pb-4 mb-1 d-flex justify-content-center">
                             
                         </div>
@@ -62,9 +61,9 @@ Arrivi
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Tipo</label>
                                                         <select class="form-control" name="type">
-                                                        @foreach($titles as $title)
-                                                        <option value="{{$title->name}}">{{$title->name}}</option>
-                                                        @endforeach
+                                                        <?php $__currentLoopData = $titles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $title): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($title->name); ?>"><?php echo e($title->name); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                     
                                                 </div>
@@ -92,8 +91,8 @@ Arrivi
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Sesso</label>
                                                         <select class="form-control" name="sex">
-                                                        <option value="M">M</option>
-                                                        <option value="F">F</option>
+                                                        <option value="1">M</option>
+                                                        <option value="2">F</option>
                                                         </select>
                                                     
                                                 </div>
@@ -106,9 +105,9 @@ Arrivi
                                                     <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Tipo Alloggiato</label>
                                                     <select class="form-control" name="relationship">
-                                                        <option value="CAPO FAMIGLIA">CAPO FAMIGLIA</option>
-                                                        <option value="CAPO GRUPPO">CAPO GRUPPO</option>
-                                                        <option value="OSPITE SINGOLO">OSPITE SINGOLO</option>
+                                                        <option value="17">CAPO FAMIGLIA</option>
+                                                        <option value="18">CAPO GRUPPO</option>
+                                                        <option value="16">OSPITE SINGOLO</option>
                                                     </select>
                                                     
                                                 </div>
@@ -139,7 +138,7 @@ Arrivi
                                             <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Arrivo</label>
-                                                <input type="date" class="form-control" name="arrive" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
+                                                <input type="date" class="form-control" name="arrive" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                                    
                                                
                                             </div>
@@ -149,7 +148,7 @@ Arrivi
                                                 <div class="mb-3">
                                                 <label class="form-label"
                                                         for="steparrow-gen-info-email-input">Partenza</label>
-                                                        <input type="date" class="form-control" name="departure" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
+                                                        <input type="date" class="form-control" name="departure" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                                     
                                                 </div>
                                         </div>
@@ -209,42 +208,51 @@ Arrivi
 
                                 <div>
                                 <div class="row">
-                                  <div class="col-12 mb-2">
-                                    <x-geo-select
-                                      prefix="oa"
-                                      :preselectItaly="true"
-                                      :manualForNonItaly="true"
-                                      :filterCapByCity="true"
-                                      :autoSelectUniqueCap="true"
-                                      :backfillRegionFromProvince="true"
-                                      nameNation="oa_country"
-                                      nameRegion="oa_region"
-                                      nameProvince="oa_prov"
-                                      nameCity="oa_city"
-                                      nameCap="oa_cap"
-                                    />
-                                  </div>
-                                </div>
+                                        
+                                        <div class="col-12">
+                                          <?php if (isset($component)) { $__componentOriginal76c493f567900989cba13e025934da34 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal76c493f567900989cba13e025934da34 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.geo-select','data' => ['prefix' => 'oa','nameNation' => 'oa_country','nameRegion' => 'region_az','nameProvince' => 'oa_prov','nameCity' => 'oa_city','nameCap' => 'oa_cap','preselectItaly' => true,'manualForNonItaly' => true,'filterCapByCity' => true,'autoSelectUniqueCap' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('geo-select'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['prefix' => 'oa','nameNation' => 'oa_country','nameRegion' => 'region_az','nameProvince' => 'oa_prov','nameCity' => 'oa_city','nameCap' => 'oa_cap','preselectItaly' => true,'manualForNonItaly' => true,'filterCapByCity' => true,'autoSelectUniqueCap' => true]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal76c493f567900989cba13e025934da34)): ?>
+<?php $attributes = $__attributesOriginal76c493f567900989cba13e025934da34; ?>
+<?php unset($__attributesOriginal76c493f567900989cba13e025934da34); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal76c493f567900989cba13e025934da34)): ?>
+<?php $component = $__componentOriginal76c493f567900989cba13e025934da34; ?>
+<?php unset($__componentOriginal76c493f567900989cba13e025934da34); ?>
+<?php endif; ?>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         
                                         <div class="col-lg-6">
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Cittadinanza </label>
-                                               
+                                                
                                                 <select type="text" class="form-control autofill-select" data-autofill="cities" name="oa_city_nac">
-                                                    @foreach($ciudades as $ciudad)
-                                                        <option value="{{ $ciudad['denominazione_ita'] }}">{{ $ciudad['denominazione_ita'] }}</option>
-                                                        @endforeach
+                                                    <?php $__currentLoopData = $ciudades; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ciudad): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($ciudad->code); ?>"><?php echo e($ciudad->name); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
+                                                   
                                                 
                                             </div>
-                                        </div>
+                                        </div> 
                                         <div class="col-lg-3">
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Data di nascita</label>
-                                                <input type="date" class="form-control" name="oa_date_nac" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
+                                                <input type="date" class="form-control" name="oa_date_nac" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                                    
                                                 
                                             </div>
@@ -255,7 +263,7 @@ Arrivi
                                     <button type="button" class="btn btn-success btn-label right ms-auto nexttab" 
     data-nexttab="steparrow-azienda-info">
     <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-    Avanti
+    Next
 </button>
 
                                 </div>
@@ -273,22 +281,28 @@ Arrivi
 
                                 <div>
                                 <div class="row">
-                                  <div class="col-12 mb-2">
-                                    <x-geo-select
-                                      prefix="or"
-                                      :preselectItaly="true"
-                                      :manualForNonItaly="true"
-                                      :filterCapByCity="true"
-                                      :autoSelectUniqueCap="true"
-                                      :backfillRegionFromProvince="true"
-                                      nameNation="or_country"
-                                      nameRegion="or_region"
-                                      nameProvince="or_prov"
-                                      nameCity="or_city"
-                                      nameCap="or_cap"
-                                    />
-                                  </div>
-                                  <div class="col-lg-2 d-none"><input type="hidden" name="or_cap" /></div>
+                                        <div class="col-12">
+                                          <?php if (isset($component)) { $__componentOriginal76c493f567900989cba13e025934da34 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal76c493f567900989cba13e025934da34 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.geo-select','data' => ['prefix' => 'or','nameNation' => 'or_country','nameRegion' => 'or_region','nameProvince' => 'or_prov','nameCity' => 'or_city','nameCap' => 'or_cap','preselectItaly' => true,'manualForNonItaly' => true,'filterCapByCity' => true,'autoSelectUniqueCap' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('geo-select'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['prefix' => 'or','nameNation' => 'or_country','nameRegion' => 'or_region','nameProvince' => 'or_prov','nameCity' => 'or_city','nameCap' => 'or_cap','preselectItaly' => true,'manualForNonItaly' => true,'filterCapByCity' => true,'autoSelectUniqueCap' => true]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal76c493f567900989cba13e025934da34)): ?>
+<?php $attributes = $__attributesOriginal76c493f567900989cba13e025934da34; ?>
+<?php unset($__attributesOriginal76c493f567900989cba13e025934da34); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal76c493f567900989cba13e025934da34)): ?>
+<?php $component = $__componentOriginal76c493f567900989cba13e025934da34; ?>
+<?php unset($__componentOriginal76c493f567900989cba13e025934da34); ?>
+<?php endif; ?>
+                                        </div>
                                         
                                 
                                         <div class="col-lg-2">
@@ -296,9 +310,9 @@ Arrivi
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Tipo Via</label>
                                                     <select class="form-control" name="or_typeaway">
-                                                        @foreach($typestreets as $typestreet)
-                                                        <option value="{{$typestreet->name}}">{{$typestreet->name}}</option>
-                                                        @endforeach
+                                                        <?php $__currentLoopData = $typestreets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $typestreet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($typestreet->name); ?>"><?php echo e($typestreet->name); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                    
                                                 
@@ -334,9 +348,9 @@ Arrivi
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Documento</label>
                                                     <select class="form-control" name="or_doctype">
-                                                        @foreach($TypeDocs as $TypeDoc)
-                                                        <option value="{{$TypeDoc->name}}">{{$TypeDoc->name}}</option>
-                                                        @endforeach
+                                                        <?php $__currentLoopData = $TypeDocs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $TypeDoc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($TypeDoc->code); ?>"><?php echo e($TypeDoc->name); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                 
                                                    
@@ -361,7 +375,7 @@ Arrivi
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Rilasciato il</label>
-                                                <input type="date" class="form-control" name="or_published_date" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
+                                                <input type="date" class="form-control" name="or_published_date" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                                    
                                                 
                                             </div>
@@ -370,7 +384,7 @@ Arrivi
                                         <div class="mb-3">
                                                 <label class="form-label"
                                                     for="steparrow-gen-info-email-input">Scade il</label>
-                                                <input type="date" class="form-control" name="or_expire" data-provider="flatpickr" data-date-format="{{ config('app.date.backend_format') }}" data-altFormat="{{ config('app.date.display_format') }}">
+                                                <input type="date" class="form-control" name="or_expire" data-provider="flatpickr" data-date-format="<?php echo e(config('app.date.backend_format')); ?>" data-altFormat="<?php echo e(config('app.date.display_format')); ?>">
                                                    
                                                 
                                             </div>
@@ -414,21 +428,17 @@ Arrivi
         <!-- end col -->
     </div><!-- end row -->
     
-@endsection
-    @push('scripts')
-        <script src="{{ asset('js/components/geo-select.js') }}?v={{ @filemtime(public_path('js/components/geo-select.js')) }}"></script>
-    @endpush
-@section('script')
-    <script src="{{ URL::asset('build/js/pages/form-wizard.init.js') }}"></script>
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-     <!-- Select2 CSS -->
-     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
-<!-- Select2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<script src="{{ URL::asset('js/autofill-select.js') }}"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
+    <script src="<?php echo e(URL::asset('build/js/pages/form-wizard.init.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+    <link href="<?php echo e(asset('libs/select2/css/select2.min.css')); ?>" rel="stylesheet" />
+    <script src="<?php echo e(asset('libs/jquery/jquery.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('libs/select2/js/select2.full.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('libs/select2/js/i18n/it.js')); ?>"></script>
+    <script src="<?php echo e(asset('libs/axios/axios.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('build/js/utils/http.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/components/geo-select.js')); ?>?v=<?php echo e(@filemtime(public_path('js/components/geo-select.js'))); ?>"></script>
     <script>
        document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("search");
@@ -484,4 +494,44 @@ Arrivi
 
 
 </script>
-@endsection
+<script>
+    // Selecciona todos los inputs con la clase "number"
+    const numberInputs = document.querySelectorAll('input.number');
+    const phoneInputs = document.querySelectorAll('input.phone');
+    const emailInputs = document.querySelectorAll('input.email');
+
+
+    numberInputs.forEach(input => {
+        input.addEventListener('input', function (e) {
+            // Remueve cualquier carácter que no sea numérico
+            input.value = input.value.replace(/[^0-9]/g, '');
+        });
+    });
+     // Validación para los teléfonos (permitir números, espacios, paréntesis, guiones)
+     phoneInputs.forEach(input => {
+        input.addEventListener('input', function (e) {
+            // Permitir solo números, espacios, paréntesis, guiones
+            input.value = input.value.replace(/[^0-9\-\(\)\s]/g, '');
+        });
+    });
+
+    // Validación para los emails (chequear formato correcto)
+    emailInputs.forEach(input => {
+        input.addEventListener('blur', function (e) {
+            // Expresión regular para validar email
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(input.value)) {
+                alert('Por favor, introduce un correo electrónico válido.');
+                input.focus();
+            }
+        });
+    });
+
+
+    </script>
+<script>
+  // Nessuna init extra necessaria: GeoSelect inizializza da solo
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/jorgeluccitelli/Herd/Schedinedinotifica/resources/views/schedina/new.blade.php ENDPATH**/ ?>

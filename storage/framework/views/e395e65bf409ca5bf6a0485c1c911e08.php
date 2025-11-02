@@ -65,7 +65,7 @@
                                                     <option value="<?php echo e($group->name); ?>"><?php echo e($group->name); ?></option>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
-                                                <div class="invalid-feedback">Please enter an group</div>
+                                                <div class="invalid-feedback">Per favore, inserisci un gruppo</div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -77,7 +77,7 @@
                                                     <option value="<?php echo e($subgroup->name); ?>"><?php echo e($subgroup->name); ?></option>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
-                                                <div class="invalid-feedback">Please enter an Subgroup</div>
+                                                <div class="invalid-feedback">Per favore, inserisci un sottogruppo</div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -89,7 +89,7 @@
                                                     <option value="<?php echo e($subgroup1->name); ?>"><?php echo e($subgroup1->name); ?></option>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
-                                                    <div class="invalid-feedback">Please enter an Subgroup</div>
+                                                    <div class="invalid-feedback">Per favore, inserisci un sottogruppo</div>
                                                 </div>
                                             </div>
                                             
@@ -103,7 +103,7 @@
                                                         <option value="Hotel K2">Hotel K2</option>
                                                         <option value="Hotel K2">Sub gruppo 1x</option>
                                                     </select>
-                                                    <div class="invalid-feedback">Please enter an Subgroup</div>
+                                                    <div class="invalid-feedback">Per favore, inserisci un sottogruppo</div>
                                                 </div>
                                             </div>
                                         
@@ -119,7 +119,7 @@
                                                         <option value="M">Dott.</option>
                                                         <option value="F">Famiglia</option>
                                                     </select>
-                                                    <div class="invalid-feedback">Please enter an group</div>
+                                                    <div class="invalid-feedback">Per favore, inserisci un gruppo</div>
                                                 </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -128,7 +128,7 @@
                                                     for="steparrow-gen-info-email-input">Nome</label>
                                                 <input type="text" class="form-control" name="name">
                                                    
-                                                <div class="invalid-feedback">Please enter an Subgroup</div>
+                                                <div class="invalid-feedback">Per favore, inserisci un sottogruppo</div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -148,79 +148,36 @@
                                                         <option value="M">M</option>
                                                         <option value="F">F</option>
                                                     </select>
-                                                    <div class="invalid-feedback">Please enter an group</div>
+                                                    <div class="invalid-feedback">Per favore, inserisci un gruppo</div>
                                                 </div>
                                         </div>
                                     </div>
                                     
 
                                     <div class="row">
-    <!-- Nación -->
-    <div class="col-lg-3">
-        <div class="mb-3">
-            <label class="form-label" for="nation-select">Nación</label>
-            <select id="nation-select" class="form-control" name="country">
-                <option value="">Seleccione una Nación</option>
-                <?php $__currentLoopData = $nations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $nation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <option value="<?php echo e($nation['denominazione_cittadinanza']); ?>">
-                        <?php echo e($nation['denominazione_cittadinanza']); ?>
-
-                    </option>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </select>
-        </div>
-    </div>
-
-    <!-- Región -->
-    <div class="col-lg-3">
-        <div class="mb-3">
-            <label class="form-label" for="region-select">Región</label>
-            <select id="region-select" class="form-control" name="region">
-                <option value="">Seleccione una Región</option>
-                <?php $__currentLoopData = $regions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $region): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <option value="<?php echo e($region['codice_regione']); ?>">
-                        <?php echo e($region['denominazione_regione']); ?>
-
-                    </option>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </select>
-        </div>
-    </div>
-
-    <!-- Provincia -->
-    <div class="col-lg-3">
-        <div class="mb-3">
-            <label class="form-label" for="province-select">Provincia</label>
-            <select id="province-select" class="form-control" name="province">
-                <option value="">Seleccione una Provincia</option>
-                <!-- Se llenará mediante AJAX -->
-            </select>
-        </div>
-    </div>
-
-    <!-- CAP -->
-    <div class="col-lg-3">
-        <div class="mb-3">
-            <label class="form-label" for="cap-select">CAP</label>
-            <select id="cap-select" class="form-control" name="cap">
-                <option value="">Seleccione un CAP</option>
-                <!-- Se llenará mediante AJAX -->
-            </select>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <!-- Ciudad -->
-    <div class="col-lg-3">
-        <div class="mb-3">
-            <label class="form-label" for="city-select">Ciudad</label>
-            <select id="city-select" class="form-control" name="city">
-                <option value="">Seleccione una ciudad</option>
-                <!-- Se llenará mediante AJAX -->
-            </select>
-        </div>
-    </div>
+                                      <div class="col-12 mb-2">
+                                        <?php if (isset($component)) { $__componentOriginal76c493f567900989cba13e025934da34 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal76c493f567900989cba13e025934da34 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.geo-select','data' => ['prefix' => 'cust','preselectItaly' => true,'manualForNonItaly' => true,'filterCapByCity' => true,'autoSelectUniqueCap' => true,'backfillRegionFromProvince' => true,'nameNation' => 'country','nameRegion' => 'region','nameProvince' => 'province','nameCity' => 'city','nameCap' => 'cap']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('geo-select'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['prefix' => 'cust','preselectItaly' => true,'manualForNonItaly' => true,'filterCapByCity' => true,'autoSelectUniqueCap' => true,'backfillRegionFromProvince' => true,'nameNation' => 'country','nameRegion' => 'region','nameProvince' => 'province','nameCity' => 'city','nameCap' => 'cap']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal76c493f567900989cba13e025934da34)): ?>
+<?php $attributes = $__attributesOriginal76c493f567900989cba13e025934da34; ?>
+<?php unset($__attributesOriginal76c493f567900989cba13e025934da34); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal76c493f567900989cba13e025934da34)): ?>
+<?php $component = $__componentOriginal76c493f567900989cba13e025934da34; ?>
+<?php unset($__componentOriginal76c493f567900989cba13e025934da34); ?>
+<?php endif; ?>
+                                      </div>
+                                    </div>
 
 
 
@@ -296,7 +253,7 @@
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label class="form-label"
-                                                    for="steparrow-gen-info-email-input">Celular</label>
+                                                    for="steparrow-gen-info-email-input">Cellulare</label>
                                                 <input type="text" class="form-control phone" name="cellphone">
                                                    
                                                 
@@ -324,7 +281,7 @@
                                 <button type="button" class="btn btn-success btn-label right ms-auto nexttab"
                                     data-nexttab="steparrow-description-info">
                                     <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                    Next
+                                    Avanti
                                 </button>
                                 </div>
                             </div>
@@ -483,7 +440,7 @@
                                     <button type="button" class="btn btn-success btn-label right ms-auto nexttab" 
     data-nexttab="steparrow-azienda-info">
     <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-    Next
+    Avanti
 </button>
 
                                 </div>
@@ -650,7 +607,7 @@
                                                     for="steparrow-gen-info-email-input">Regione</label>
                                                
                                                 <select id="region-select" class="form-control" name="region_az">
-                                                    <option value="">Seleccione una Región</option>
+                                                    <option value="">Seleziona una Regione</option>
                                                     <?php $__currentLoopData = $regions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $region): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <option value="<?php echo e($region['codice_regione']); ?>">
                                                             <?php echo e($region['denominazione_regione']); ?>
@@ -731,6 +688,7 @@
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <script src="<?php echo e(URL::asset('js/components/geo-select.js')); ?>?v=<?php echo e(@filemtime(public_path('js/components/geo-select.js'))); ?>"></script>
     <script src="<?php echo e(URL::asset('js/autofill-select.js')); ?>"></script>
     <script>
     // Selecciona todos los inputs con la clase "number"
@@ -778,7 +736,7 @@ $(document).ready(function() {
                 type: 'GET',
                 data: { codice_regione: regionCode },
                 success: function(data) {
-                    $('#province-select').empty().append('<option value="">Seleccione una Provincia</option>');
+                    $('#province-select').empty().append('<option value="">Seleziona una Provincia</option>');
                     $.each(data, function(index, province) {
                         $('#province-select').append(
                             $('<option>', { 
@@ -793,7 +751,7 @@ $(document).ready(function() {
                 }
             });
         } else {
-            $('#province-select').empty().append('<option value="">Seleccione una Provincia</option>');
+            $('#province-select').empty().append('<option value="">Seleziona una Provincia</option>');
         }
     });
 
@@ -806,7 +764,7 @@ $(document).ready(function() {
                 type: 'GET',
                 data: { sigla_provincia: provinceCode },
                 success: function(data) {
-                    $('#cap-select').empty().append('<option value="">Seleccione un CAP</option>');
+                    $('#cap-select').empty().append('<option value="">Seleziona un CAP</option>');
                     $.each(data, function(index, cap) {
                         $('#cap-select').append(
                             $('<option>', { 
@@ -821,7 +779,7 @@ $(document).ready(function() {
                 }
             });
         } else {
-            $('#cap-select').empty().append('<option value="">Seleccione un CAP</option>');
+            $('#cap-select').empty().append('<option value="">Seleziona un CAP</option>');
         }
     });
 });
@@ -830,23 +788,23 @@ $(document).ready(function() {
 $(document).ready(function() {
     // Inicializar Select2 en cada campo
     $('#nation-select').select2({
-        placeholder: "Seleccione una Nación",
+        placeholder: "Seleziona una Nazione",
         allowClear: true
     });
     $('#region-select').select2({
-        placeholder: "Seleccione una Región",
+        placeholder: "Seleziona una Regione",
         allowClear: true
     });
     $('#province-select').select2({
-        placeholder: "Seleccione una Provincia",
+        placeholder: "Seleziona una Provincia",
         allowClear: true
     });
     $('#cap-select').select2({
-        placeholder: "Seleccione un CAP",
+        placeholder: "Seleziona un CAP",
         allowClear: true
     });
     $('#city-select').select2({
-        placeholder: "Seleccione una ciudad",
+        placeholder: "Seleziona una Città",
         allowClear: true
     });
 
@@ -860,7 +818,7 @@ $(document).ready(function() {
                 data: { codice_regione: regionCode },
                 success: function(data) {
                     var provinceSelect = $('#province-select');
-                    provinceSelect.empty().append('<option value="">Seleccione una Provincia</option>');
+                    provinceSelect.empty().append('<option value="">Seleziona una Provincia</option>');
                     $.each(data, function(index, province) {
                         provinceSelect.append(
                             $('<option>', { 
@@ -876,7 +834,7 @@ $(document).ready(function() {
                 }
             });
         } else {
-            $('#province-select').empty().append('<option value="">Seleccione una Provincia</option>').trigger('change');
+            $('#province-select').empty().append('<option value="">Seleziona una Provincia</option>').trigger('change');
         }
     });
 
@@ -891,7 +849,7 @@ $(document).ready(function() {
                 data: { sigla_provincia: provinceCode },
                 success: function(data) {
                     var capSelect = $('#cap-select');
-                    capSelect.empty().append('<option value="">Seleccione un CAP</option>');
+                    capSelect.empty().append('<option value="">Seleziona un CAP</option>');
                     $.each(data, function(index, cap) {
                         capSelect.append(
                             $('<option>', { 
@@ -914,7 +872,7 @@ $(document).ready(function() {
                 data: { sigla_provincia: provinceCode },
                 success: function(data) {
                     var citySelect = $('#city-select');
-                    citySelect.empty().append('<option value="">Seleccione una ciudad</option>');
+                    citySelect.empty().append('<option value="">Seleziona una Città</option>');
                     $.each(data, function(index, city) {
                         // Puedes usar 'codice_istat' o el nombre de la ciudad según tus necesidades
                         citySelect.append(
@@ -931,8 +889,8 @@ $(document).ready(function() {
                 }
             });
         } else {
-            $('#cap-select').empty().append('<option value="">Seleccione un CAP</option>').trigger('change');
-            $('#city-select').empty().append('<option value="">Seleccione una ciudad</option>').trigger('change');
+            $('#cap-select').empty().append('<option value="">Seleziona un CAP</option>').trigger('change');
+            $('#city-select').empty().append('<option value="">Seleziona una Città</option>').trigger('change');
         }
     });
 });

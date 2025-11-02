@@ -64,32 +64,32 @@ class AutoFillSelect {
       switch (type) {
         case 'countries':
           return {
-            url: '/nations', // Asegúrate de tener definido este endpoint
-            placeholder: 'Seleccione una Nación',
+            url: '/nations', // Endpoint per nazioni
+            placeholder: 'Seleziona una Nazione',
             valueField: 'denominazione_cittadinanza',
             textField: 'denominazione_cittadinanza',
             type: type
           };
         case 'regions':
           return {
-            url: '/regions', // Endpoint para regiones
-            placeholder: 'Seleccione una Región',
+            url: '/regions', // Endpoint per regioni
+            placeholder: 'Seleziona una Regione',
             valueField: 'codice_regione',
             textField: 'denominazione_regione',
             type: type
           };
         case 'provinces':
           return {
-            url: '/provinces-all', // Endpoint para provincias
-            placeholder: 'Seleccione una Provincia',
+            url: '/provinces-all', // Endpoint per province
+            placeholder: 'Seleziona una Provincia',
             valueField: 'sigla_provincia',
             textField: 'denominazione_provincia',
             type: type
           };
         case 'cities':
           return {
-            url: '/cities-by-province', // Endpoint para ciudades (gi_comuni.json)
-            placeholder: 'Seleccione una Ciudad',
+            url: '/cities-by-province', // Endpoint per città (gi_comuni.json)
+            placeholder: 'Seleziona una Città',
             valueField: 'codice_istat',
             textField: 'denominazione_ita',
             type: type

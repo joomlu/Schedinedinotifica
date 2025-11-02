@@ -4,17 +4,30 @@ namespace App\Services;
 
 class NationService
 {
+    private function readJson(string $relative): array
+    {
+        $relative = ltrim($relative, '/');
+        $candidates = [
+            storage_path('app/' . $relative),
+            base_path('app/' . $relative),
+            resource_path('json/' . basename($relative)),
+        ];
+        foreach ($candidates as $path) {
+            if (is_string($path) && file_exists($path)) {
+                $json = @file_get_contents($path);
+                if ($json === false) { continue; }
+                $arr = json_decode($json, true);
+                return is_array($arr) ? $arr : [];
+            }
+        }
+        return [];
+    }
     /**
      * Obtiene todas las naciones.
      */
     public function getAllNations(): array
     {
-        $path = storage_path('app/gi_nazioni.json');
-        if (file_exists($path)) {
-            $json = file_get_contents($path);
-            return json_decode($json, true);
-        }
-        return [];
+        return $this->readJson('gi_nazioni.json');
     }
 
     /**
@@ -22,12 +35,7 @@ class NationService
      */
     public function getAllRegions(): array
     {
-        $path = storage_path('app/gi_regioni.json');
-        if (file_exists($path)) {
-            $json = file_get_contents($path);
-            return json_decode($json, true);
-        }
-        return [];
+        return $this->readJson('gi_regioni.json');
     }
 
     /**
@@ -35,22 +43,12 @@ class NationService
      */
     public function getAllProvinces(): array
     {
-        $path = storage_path('app/gi_province.json');
-        if (file_exists($path)) {
-            $json = file_get_contents($path);
-            return json_decode($json, true);
-        }
-        return [];
+        return $this->readJson('gi_province.json');
     }
 
     public function getAllCities(): array
     {
-        $path = storage_path('app/gi_comuni.json');
-        if (file_exists($path)) {
-            $json = file_get_contents($path);
-            return json_decode($json, true);
-        }
-        return [];
+        return $this->readJson('gi_comuni.json');
     }
 
     /**
@@ -58,12 +56,7 @@ class NationService
      */
     public function getAllCap(): array
     {
-        $path = storage_path('app/gi_comuni_cap.json');
-        if (file_exists($path)) {
-            $json = file_get_contents($path);
-            return json_decode($json, true);
-        }
-        return [];
+        return $this->readJson('gi_comuni_cap.json');
     }
 
     /**
@@ -74,16 +67,11 @@ class NationService
      */
     public function getCitiesByProvince(string $provinceCode): array
     {
-        $path = storage_path('app/gi_comuni.json');
-        if (file_exists($path)) {
-            $json = file_get_contents($path);
-            $cities = json_decode($json, true);
-            $filtered = array_filter($cities, function($city) use ($provinceCode) {
-                return $city['sigla_provincia'] == $provinceCode;
-            });
-            return array_values($filtered);
-        }
-        return [];
+        $cities = $this->getAllCities();
+        $filtered = array_filter($cities, function($city) use ($provinceCode) {
+            return isset($city['sigla_provincia']) && (string)$city['sigla_provincia'] === (string)$provinceCode;
+        });
+        return array_values($filtered);
     }
 
     // ----------------------------

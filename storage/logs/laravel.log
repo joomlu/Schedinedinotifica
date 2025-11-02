@@ -4353,3 +4353,71 @@
 #58 /Applications/Herd.app/Contents/Resources/valet/server.php(167): require('/Users/jorgeluc...')
 #59 {main}
 "} 
+[2025-11-02 21:28:32] local.INFO: Petición a regions {"q":null} 
+[2025-11-02 21:28:32] local.INFO: Petición a provincesAll {"q":null} 
+[2025-11-02 21:28:32] local.INFO: Petición a nations {"q":null} 
+[2025-11-02 21:28:32] local.INFO: Respuesta de regions {"count":1} 
+[2025-11-02 21:28:32] local.INFO: Respuesta de provincesByRegion [{"sigla_provincia":"RM","denominazione_provincia":"Roma","codice_regione":"12","tipologia_provincia":"Provincia"}] 
+[2025-11-02 21:28:32] local.INFO: Respuesta de nations {"count":295} 
+[2025-11-02 21:28:32] local.INFO: Petición a regions {"q":null} 
+[2025-11-02 21:28:32] local.INFO: Petición a provincesAll {"q":null} 
+[2025-11-02 21:28:32] local.INFO: Respuesta de regions {"count":1} 
+[2025-11-02 21:28:32] local.INFO: Respuesta de provincesByRegion [{"sigla_provincia":"RM","denominazione_provincia":"Roma","codice_regione":"12","tipologia_provincia":"Provincia"}] 
+[2025-11-02 21:28:32] local.INFO: Petición a nations {"q":null} 
+[2025-11-02 21:28:32] local.INFO: Respuesta de nations {"count":295} 
+[2025-11-02 21:28:32] local.INFO: Petición a provincesAll {"q":null} 
+[2025-11-02 21:28:32] local.INFO: Petición a regions {"q":null} 
+[2025-11-02 21:28:32] local.INFO: Respuesta de regions {"count":1} 
+[2025-11-02 21:28:32] local.INFO: Respuesta de provincesByRegion [{"sigla_provincia":"RM","denominazione_provincia":"Roma","codice_regione":"12","tipologia_provincia":"Provincia"}] 
+[2025-11-02 21:28:33] local.INFO: Petición a provincesAll {"q":null} 
+[2025-11-02 21:28:33] local.INFO: Petición a regions {"q":null} 
+[2025-11-02 21:28:33] local.INFO: Respuesta de regions {"count":1} 
+[2025-11-02 21:28:33] local.INFO: Respuesta de provincesByRegion [{"sigla_provincia":"RM","denominazione_provincia":"Roma","codice_regione":"12","tipologia_provincia":"Provincia"}] 
+[2025-11-02 21:28:44] local.INFO: Petición a nations {"q":null} 
+[2025-11-02 21:28:44] local.INFO: Respuesta de nations {"count":295} 
+[2025-11-02 21:28:47] local.INFO: Petición a nations {"q":"it"} 
+[2025-11-02 21:28:47] local.INFO: Respuesta de nations {"count":36} 
+[2025-11-02 21:28:47] local.INFO: Petición a nations {"q":"ita"} 
+[2025-11-02 21:28:47] local.INFO: Respuesta de nations {"count":19} 
+[2025-11-02 21:28:49] local.INFO: Petición a nations {"q":"ital"} 
+[2025-11-02 21:28:49] local.INFO: Respuesta de nations {"count":1} 
+[2025-11-02 21:28:50] local.INFO: Petición a nations {"q":"italia"} 
+[2025-11-02 21:28:50] local.INFO: Respuesta de nations {"count":1} 
+[2025-11-02 21:28:51] local.INFO: Petición a provincesAll {"q":null} 
+[2025-11-02 21:28:51] local.INFO: Petición a regions {"q":null} 
+[2025-11-02 21:28:51] local.INFO: Respuesta de regions {"count":1} 
+[2025-11-02 21:28:51] local.INFO: Respuesta de provincesByRegion [{"sigla_provincia":"RM","denominazione_provincia":"Roma","codice_regione":"12","tipologia_provincia":"Provincia"}] 
+[2025-11-02 21:28:53] local.INFO: Petición a regions {"q":null} 
+[2025-11-02 21:28:53] local.INFO: Respuesta de regions {"count":1} 
+[2025-11-02 21:28:56] local.INFO: Petición a regions {"q":"e"} 
+[2025-11-02 21:28:56] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:28:56] local.INFO: Petición a regions {"q":"emi"} 
+[2025-11-02 21:28:56] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:28:57] local.INFO: Petición a regions {"q":"emil"} 
+[2025-11-02 21:28:57] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:29:06] local.INFO: Petición a regions {"q":"emilia"} 
+[2025-11-02 21:29:06] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:29:06] local.INFO: Petición a regions {"q":"emilia"} 
+[2025-11-02 21:29:06] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:29:07] local.INFO: Petición a regions {"q":"emilia ro"} 
+[2025-11-02 21:29:07] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:29:07] local.INFO: Petición a regions {"q":"emilia rom"} 
+[2025-11-02 21:29:07] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:29:07] local.INFO: Petición a regions {"q":"emilia roma"} 
+[2025-11-02 21:29:07] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:29:08] local.INFO: Petición a regions {"q":"emilia romag"} 
+[2025-11-02 21:29:08] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:29:09] local.INFO: Petición a regions {"q":"emilia romagna"} 
+[2025-11-02 21:29:09] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:29:11] local.INFO: Petición a regions {"q":"emilia romagn"} 
+[2025-11-02 21:29:11] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:29:12] local.INFO: Petición a regions {"q":"emilia r"} 
+[2025-11-02 21:29:12] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:29:13] local.INFO: Petición a regions {"q":"emili"} 
+[2025-11-02 21:29:13] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:29:13] local.INFO: Petición a regions {"q":"em"} 
+[2025-11-02 21:29:13] local.INFO: Respuesta de regions {"count":0} 
+[2025-11-02 21:29:23] local.INFO: Petición a provincesAll {"q":null,"codice_regione":null} 
+[2025-11-02 21:29:23] local.INFO: Respuesta de provincesByRegion [{"sigla_provincia":"RM","denominazione_provincia":"Roma","codice_regione":"12","tipologia_provincia":"Provincia"}] 
+[2025-11-02 21:29:25] local.INFO: Petición a citiesByProvince {"q":null,"sigla_provincia":null} 
+[2025-11-02 21:29:25] local.INFO: Respuesta de citiesByProvince [{"codice_istat":"058091","denominazione_ita":"Roma","denominazione_ita_altra":"Roma","sigla_provincia":"RM","flag_capoluogo":"S","codice_belfiore":"H501","lat":"41.9028","lon":"12.4964","superficie_kmq":"1285","codice_sovracomunale":"","codice_regione":"12"}] 

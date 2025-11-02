@@ -156,70 +156,22 @@
                                     
 
                                     <div class="row">
-    <!-- Nación -->
-    <div class="col-lg-3">
-        <div class="mb-3">
-            <label class="form-label" for="nation-select">Nazione</label>
-            <select id="nation-select" class="form-control" name="country">
-                <option value="">Seleziona una Nazione</option>
-                @foreach($nations as $nation)
-                    <option value="{{ $nation['denominazione_cittadinanza'] }}">
-                        {{ $nation['denominazione_cittadinanza'] }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-
-    <!-- Región -->
-    <div class="col-lg-3">
-        <div class="mb-3">
-            <label class="form-label" for="region-select">Regione</label>
-            <select id="region-select" class="form-control" name="region">
-                <option value="">Seleziona una Regione</option>
-                @foreach($regions as $region)
-                    <option value="{{ $region['codice_regione'] }}">
-                        {{ $region['denominazione_regione'] }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-
-    <!-- Provincia -->
-    <div class="col-lg-3">
-        <div class="mb-3">
-            <label class="form-label" for="province-select">Provincia</label>
-            <select id="province-select" class="form-control" name="province">
-                <option value="">Seleziona una Provincia</option>
-                <!-- Se llenará mediante AJAX -->
-            </select>
-        </div>
-    </div>
-
-    <!-- CAP -->
-    <div class="col-lg-3">
-        <div class="mb-3">
-            <label class="form-label" for="cap-select">CAP</label>
-            <select id="cap-select" class="form-control" name="cap">
-                <option value="">Seleziona un CAP</option>
-                <!-- Se llenará mediante AJAX -->
-            </select>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <!-- Ciudad -->
-    <div class="col-lg-3">
-        <div class="mb-3">
-            <label class="form-label" for="city-select">Città</label>
-            <select id="city-select" class="form-control" name="city">
-                <option value="">Seleziona una Città</option>
-                <!-- Se llenará mediante AJAX -->
-            </select>
-        </div>
-    </div>
+                                      <div class="col-12 mb-2">
+                                        <x-geo-select 
+                                          prefix="cust"
+                                          :preselectItaly="true"
+                                          :manualForNonItaly="true"
+                                          :filterCapByCity="true"
+                                          :autoSelectUniqueCap="true"
+                                          :backfillRegionFromProvince="true"
+                                          nameNation="country"
+                                          nameRegion="region"
+                                          nameProvince="province"
+                                          nameCity="city"
+                                          nameCap="cap"
+                                        />
+                                      </div>
+                                    </div>
 
 
 
@@ -729,6 +681,7 @@
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <script src="{{ URL::asset('js/components/geo-select.js') }}?v={{ @filemtime(public_path('js/components/geo-select.js')) }}"></script>
     <script src="{{ URL::asset('js/autofill-select.js') }}"></script>
     <script>
     // Selecciona todos los inputs con la clase "number"

@@ -94,43 +94,21 @@
                                     </div>
                                 </div>
                                 <!--end col-->
-                                <div class="col-xxl-3 col-md-3">
-                                <div>
-                                        <label for="readonlyInput" class="form-label">Provincia</label>
-                                        
-                                        <select type="text" class="form-control autofill-select" data-autofill="provinces" name="province_nac">
-                                                    @foreach($provinces as $province)
-                                                        <option value="{{ $province['denominazione_provincia'] }}">{{ $province['denominazione_provincia'] }}</option>
-                                                        @endforeach
-                                                    </select>
-                                    </div>
+                                <div class="col-12 mb-2">
+                                  <x-geo-select
+                                    prefix="comp"
+                                    :preselectItaly="true"
+                                    :manualForNonItaly="true"
+                                    :filterCapByCity="true"
+                                    :autoSelectUniqueCap="true"
+                                    :backfillRegionFromProvince="true"
+                                    nameNation="country"
+                                    nameRegion="regione"
+                                    nameProvince="province"
+                                    nameCity="city"
+                                    nameCap="cap"
+                                  />
                                 </div>
-                                <div class="col-xxl-3 col-md-3">
-                                <div>
-                                        <label for="readonlyInput" class="form-label">Regione</label>
-                                        
-                                        <select id="region-select" class="form-control autofill-select" data-autofill="regions" name="regione">
-                                                    <option value="">Seleziona una Regione</option>
-                                                    @foreach($regions as $region)
-                                                        <option value="{{ $region['codice_regione'] }}">
-                                                            {{ $region['denominazione_regione'] }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                    </div>
-                                </div>
-                                <!--end col-->
-                                <div class="col-xxl-3 col-md-3">
-                                        <div>
-                                        <label for="readonlyInput" class="form-label">Citta</label>
-                                        
-                                        <select type="text" class="form-control autofill-select" data-autofill="cities" name="city">
-                                                    @foreach($ciudades as $ciudad)
-                                                        <option value="{{ $ciudad['denominazione_ita'] }}">{{ $ciudad['denominazione_ita'] }}</option>
-                                                        @endforeach
-                                                    </select>
-                                    </div>
-                                    </div>
                                     <div class="col-xxl-3 col-md-2">
                                         <div>
                                         <label for="readonlyInput" class="form-label">Tipo via</label>
@@ -154,12 +132,7 @@
                                         <input type="text" class="form-control" name="number">
                                     </div>
                                     </div>
-                                    <div class="col-xxl-3 col-md-2">
-                                        <div>
-                                        <label for="readonlyInput" class="form-label">Cap</label>
-                                        <input type="text" class="form-control" name="cap">
-                                    </div>
-                                    </div>
+                                    
                                
                                 <!--end col-->
                                 <div class="col-xxl-3 col-md-3">
@@ -196,4 +169,7 @@
 
 
 @endsection
+@push('scripts')
+    <script src="{{ asset('js/components/geo-select.js') }}?v={{ @filemtime(public_path('js/components/geo-select.js')) }}"></script>
+@endpush
 
