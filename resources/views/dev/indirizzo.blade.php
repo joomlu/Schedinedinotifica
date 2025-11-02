@@ -1,35 +1,30 @@
-@extends('layouts.master')
-
-@section('title', 'Indirizzo — Demo')
-
-@section('content')
-  <div class="container-xxl py-4">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header"><h5 class="card-title mb-0">Indirizzo</h5></div>
-          <div class="card-body">
-            <x-address-fields prefix="addr" />
-            <hr/>
-            <pre id="log" class="mt-3" style="background:#f8f9fa; padding:12px; border-radius:8px"></pre>
-          </div>
-        </div>
-      </div>
-    </div>
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Indirizzo — Demo</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link href="{{ asset('build/css/bootstrap.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('build/css/icons.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('build/css/app.min.css') }}" rel="stylesheet" />
+  <style> body{ background:#f8f9fa; padding:20px; } .container{ max-width:1000px; margin:0 auto; }</style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="h5 mb-3">Indirizzo</h1>
+    <x-address-fields prefix="addr" />
+    <hr/>
+    <pre id="log" class="bg-light p-3 rounded" style="white-space: pre-wrap"></pre>
   </div>
-@endsection
-
-@section('script-bottom')
-<script>
-  (function(){
-    const root = document.getElementById('addr_addr_wrap')
-      || document.getElementById('addr_addr')
-      || document.querySelector('[id$="_addr_wrap"]')
-      || document;
-    root.addEventListener('address:change', function(e){
-      const log = document.getElementById('log');
-      if (log) log.textContent = JSON.stringify(e.detail, null, 2);
-    });
-  })();
-</script>
-@endsection
+  <script>
+    (function(){
+      var root = document.getElementById('addr_addr_wrap') || document.getElementById('addr_addr') || document.querySelector('[id$="_addr_wrap"]') || document;
+      root.addEventListener('address:change', function(e){
+        var out = document.getElementById('log');
+        if (out) out.textContent = JSON.stringify(e.detail, null, 2);
+      });
+    })();
+  </script>
+</body>
+</html>

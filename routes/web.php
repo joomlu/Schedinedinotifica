@@ -40,6 +40,8 @@ Route::put('customer_update/{id}',[App\Http\Controllers\CustomerController::clas
 Route::get('/customerdestroy/{id}', [App\Http\Controllers\CustomerController::class, 'destroy'])->name('customer.destroy');
 
 // Rutas para AJAX
+Route::get('/nations', [App\Http\Controllers\LocationController::class, 'nations'])->name('nations');
+Route::get('/regions', [App\Http\Controllers\LocationController::class, 'regions'])->name('regions');
 Route::get('/provinces-by-region', [App\Http\Controllers\LocationController::class, 'provincesByRegion'])->name('provincesByRegion');
 Route::get('/provinces-all', [App\Http\Controllers\LocationController::class, 'provincesAll'])->name('provincesAll');
 Route::get('/cap-by-province', [App\Http\Controllers\LocationController::class, 'capByProvince'])->name('capByProvince');;
