@@ -3,7 +3,8 @@
 Este registro documenta las acciones realizadas para preservar el estado previo y preparar el repositorio para reemplazar su contenido con el proyecto actual.
 
 ## Resumen de acciones
-- Se creó una rama de respaldo local `backup/work` desde el estado actual (`work`) para conservar el historial antes de cualquier sobrescritura.
+- Se creó una rama de respaldo local `backup/work` desde el estado actual (`work`) para conservar el historial antes de cualquier sobrescritura (`git branch backup/work`).
+- Se verificó que las ramas locales disponibles son `work` y `backup/work`.
 - El repositorio ya estaba inicializado; no se configuró remoto porque no se proporcionó una URL.
 - No se detectaron archivos externos al proyecto en el directorio de trabajo.
 
