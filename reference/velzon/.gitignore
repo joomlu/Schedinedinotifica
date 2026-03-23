@@ -1,0 +1,12 @@
+# Ignora pesi del progetto di riferimento
+**/node_modules/
+**/vendor/
+**/.env
+**/.env.*
+**/storage/
+**/public/storage/
+**/public/build/
+**/.phpunit.cache/
+**/.idea/
+**/.vscode/
+**/.DS_Store

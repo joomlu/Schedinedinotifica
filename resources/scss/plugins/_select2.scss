@@ -1,0 +1,177 @@
+//
+// Select 2
+//
+
+// Oculta el select nativo accesible para evitar doble render
+.select2-hidden-accessible {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.select2.select2-container {
+    width: 100% !important;
+}
+
+.select2-container {
+    .select2-selection--single {
+        min-height: $input-height;
+        padding: $form-select-padding-y $form-select-padding-x;
+        display: flex;
+        align-items: center;
+        gap: .25rem;
+        border: $input-border-width solid $input-border-color;
+        border-radius: $input-border-radius;
+        background-color: $input-bg;
+        background-image: $form-select-indicator;
+        background-repeat: no-repeat;
+        background-position: right $form-select-padding-x center;
+        background-size: $form-select-bg-size;
+        outline: none;
+        box-shadow: none;
+
+        .select2-selection__rendered {
+            padding: 0;
+            margin-right: $form-select-padding-x * 1.25;
+            color: $input-color;
+            font-size: $font-size-base;
+            line-height: $line-height-base;
+        }
+
+        .select2-selection__placeholder {
+            color: $input-placeholder-color;
+        }
+
+        .select2-selection__arrow {
+            display: none;
+        }
+
+        .select2-selection__clear {
+            position: absolute;
+            right: $form-select-padding-x;
+            top: 50%;
+            transform: translateY(-50%);
+            color: $input-placeholder-color;
+            font-weight: 400;
+        }
+    }
+}
+
+.select2-container--open .select2-selection--single {
+    border-color: $input-focus-border-color;
+    box-shadow: $input-focus-box-shadow;
+}
+
+.select2-results__option {
+    padding: 6px 12px;
+}
+
+.select2-dropdown {
+    border: var(--#{$prefix}dropdown-border-width) solid $dropdown-border-color;
+    box-shadow: $box-shadow;
+    background-color: var(--#{$prefix}secondary-bg);
+    z-index: $zindex-modal + 1;
+}
+
+.select2-container--default {
+    .select2-results__option--selected {
+        background-color: $input-disabled-bg;
+    }
+    .select2-search--dropdown {
+        padding: 10px;
+        background-color: var(--#{$prefix}secondary-bg);
+        .select2-search__field {
+            outline: none;
+            border: 1px solid $input-border-color;
+            background-color: $input-bg;
+            color: $input-color;
+            border-radius: $input-border-radius;
+        }
+    }
+    .select2-results__option--highlighted[aria-selected] {
+        background-color: $primary;
+        color: $white;
+    }
+    .select2-results__option[aria-selected=true] {
+        background-color: var(--#{$prefix}secondary-bg);
+        color: var(--#{$prefix}dropdown-link-active-color);
+        &:hover {
+            background-color: $primary;
+            color: $white;
+        }
+    }
+    &.select2-container--disabled {
+        .select2-selection--single, .select2-selection--multiple {
+            background-color: $input-disabled-bg;
+            cursor: default;
+        }
+    }
+}
+
+.select2-container {
+    .select2-selection--multiple {
+        min-height: $input-height;
+        border: $input-border-width solid $input-border-color !important;
+        background-color: $input-bg;
+
+        .select2-selection__rendered {
+            padding: 1px 4px;
+        }
+        .select2-search__field {
+            border: 0;
+            color: $input-color;
+        }
+        .select2-selection__choice {
+            background-color: $primary;
+            border: none;
+            color: $white;
+            border-radius: 3px;
+            padding: 3px;
+            margin-top: 6px;
+        }
+        .select2-selection__choice__remove {
+            color: $white;
+            margin-right: 7px;
+            border-color: tint-color($primary, 10%);
+            padding: 0 8px;
+            top: 3px;
+            &:hover {
+                color: $white;
+                background-color: $primary;
+            }
+        }
+    }
+    .select2-search--inline {
+        .select2-search__field {
+            margin-top: 7px;
+            height: 22px;
+            font-family: $font-family-base;
+        }
+    }
+    .select2-search {
+        textarea {
+            &::placeholder {
+                color: $input-placeholder-color;
+            }
+        }
+    }
+}
+
+// Legacy multi/tagged chips are not permitted: hide them defensively
+.select2-container--default {
+    .select2-selection--multiple {
+        .select2-selection__choice,
+        .select2-selection__choice__remove {
+            display: none;
+        }
+        .select2-search__field {
+            margin-top: 0;
+        }
+    }
+}

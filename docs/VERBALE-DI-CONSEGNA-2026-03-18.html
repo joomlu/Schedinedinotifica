@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verbale di Consegna - Schedine di Notifica</title>
+    <style>
+        :root {
+            --brand: #8c1d2c;
+            --brand-dark: #6e1623;
+            --ink: #2b2b2b;
+            --muted: #6b6761;
+            --paper: #fbf8f3;
+            --line: #e6ded4;
+            --panel: #ffffff;
+            --success: #2f7a57;
+            --warning: #b68a3a;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--ink);
+            background: linear-gradient(180deg, #f6f1ea 0%, #fbf8f3 100%);
+        }
+
+        .page {
+            max-width: 960px;
+            margin: 32px auto;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            box-shadow: 0 24px 60px rgba(43, 43, 43, 0.08);
+        }
+
+        .hero {
+            padding: 48px 56px 28px;
+            background:
+                linear-gradient(135deg, rgba(140,29,44,0.08), rgba(198,161,91,0.12)),
+                var(--paper);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .eyebrow {
+            color: var(--brand);
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 34px;
+            line-height: 1.15;
+            color: var(--brand-dark);
+        }
+
+        .hero-meta {
+            margin-top: 18px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .meta-card {
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.76);
+            border: 1px solid var(--line);
+        }
+
+        .meta-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+
+        .meta-value {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .content {
+            padding: 36px 56px 48px;
+        }
+
+        h2 {
+            margin: 34px 0 14px;
+            font-size: 20px;
+            color: var(--brand-dark);
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            margin: 22px 0 10px;
+            font-size: 16px;
+            color: var(--ink);
+        }
+
+        p, li {
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        p.lead {
+            font-size: 16px;
+            color: var(--ink);
+        }
+
+        ul {
+            margin: 10px 0 0 20px;
+            padding: 0;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        .status-card {
+            border: 1px solid var(--line);
+            background: #fff;
+            padding: 18px 18px 16px;
+        }
+
+        .status-card.closed {
+            border-left: 5px solid var(--success);
+        }
+
+        .status-card.external {
+            border-left: 5px solid var(--warning);
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 5px 8px;
+            border-radius: 999px;
+            margin-bottom: 12px;
+        }
+
+        .badge.success {
+            background: rgba(47,122,87,0.12);
+            color: var(--success);
+        }
+
+        .badge.warning {
+            background: rgba(182,138,58,0.16);
+            color: #8f6720;
+        }
+
+        .summary-box {
+            margin-top: 20px;
+            padding: 18px 20px;
+            border: 1px solid var(--line);
+            background: var(--paper);
+        }
+
+        .footer-note {
+            margin-top: 36px;
+            padding-top: 18px;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        @page {
+            size: A4;
+            margin: 16mm;
+        }
+
+        @media print {
+            body {
+                background: #fff;
+            }
+            .page {
+                margin: 0;
+                max-width: none;
+                border: none;
+                box-shadow: none;
+            }
+            .hero {
+                background: #fff;
+            }
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <section class="hero">
+            <div class="eyebrow">Verbale di chiusura software</div>
+            <h1>Verbale di Consegna</h1>
+            <div class="hero-meta">
+                <div class="meta-card">
+                    <div class="meta-label">Progetto</div>
+                    <div class="meta-value">Schedine di Notifica</div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-label">Data</div>
+                    <div class="meta-value">18/03/2026</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <h2>Oggetto</h2>
+            <p class="lead">Chiusura tecnica del sistema e consegna del software in stato operativo.</p>
+
+            <h2>Premessa</h2>
+            <p>Nel corso delle ultime revisioni il sistema è stato controllato modulo per modulo, con verifica dei circuiti funzionali, coerenza dei dati, regole operative, interfaccia utente, controlli di compilazione, storici, notifiche, esportazioni e flussi telematici.</p>
+            <p>L’attività ha riguardato in particolare:</p>
+            <ul>
+                <li>coerenza dei percorsi operativi</li>
+                <li>separazione corretta dei circuiti</li>
+                <li>verifica dei dati obbligatori</li>
+                <li>controllo delle esportazioni</li>
+                <li>verifica dei report interni</li>
+                <li>allineamento estetico e funzionale della UI</li>
+                <li>controllo dei moduli telematici verso enti esterni</li>
+            </ul>
+
+            <h2>Esito della verifica</h2>
+            <p>Il sistema risulta <strong>chiuso a livello software</strong> e <strong>pronto all’uso operativo interno</strong>.</p>
+
+            <div class="status-grid">
+                <article class="status-card closed">
+                    <span class="badge success">Chiuso</span>
+                    <h3>Schedine</h3>
+                    <ul>
+                        <li>gestione completa di schedine ufficiali, bozze, arrivi e web check-in</li>
+                        <li>salvataggi e passaggi di circuito coerenti</li>
+                        <li>liste e numerazioni corrette</li>
+                    </ul>
+                </article>
+
+                <article class="status-card closed">
+                    <span class="badge success">Chiuso</span>
+                    <h3>Web Check-in</h3>
+                    <ul>
+                        <li>circuito online coerente</li>
+                        <li>gestione corretta da backoffice</li>
+                        <li>separazione dal circuito operativo fino a completamento</li>
+                    </ul>
+                </article>
+
+                <article class="status-card closed">
+                    <span class="badge success">Chiuso</span>
+                    <h3>Tassa di soggiorno</h3>
+                    <ul>
+                        <li>calcolo coerente</li>
+                        <li>report mensili completi</li>
+                        <li>stampa A4, CSV Comune e CSV interno</li>
+                    </ul>
+                </article>
+
+                <article class="status-card closed">
+                    <span class="badge success">Chiuso</span>
+                    <h3>Presenze</h3>
+                    <ul>
+                        <li>riepiloghi gestionali affidabili</li>
+                        <li>conteggi di arrivi, partenze, presenze, italiani e stranieri</li>
+                        <li>lettura utile per la struttura</li>
+                    </ul>
+                </article>
+
+                <article class="status-card closed">
+                    <span class="badge success">Chiuso</span>
+                    <h3>Calendario</h3>
+                    <ul>
+                        <li>compleanni, movimenti e note separati correttamente</li>
+                        <li>esclusione dei record web dal calendario operativo</li>
+                    </ul>
+                </article>
+
+                <article class="status-card closed">
+                    <span class="badge success">Chiuso</span>
+                    <h3>Cestino</h3>
+                    <ul>
+                        <li>eliminazione e ripristino coerenti</li>
+                        <li>ripristino come elemento attuale</li>
+                        <li>copertura anche per bozze, arrivi e web check-in</li>
+                    </ul>
+                </article>
+
+                <article class="status-card closed">
+                    <span class="badge success">Chiuso</span>
+                    <h3>Profilo / Gestione operativa</h3>
+                    <ul>
+                        <li>ruoli e permessi corretti</li>
+                        <li>controllo proprietario / reception</li>
+                        <li>storico attività e accessi ampliato</li>
+                    </ul>
+                </article>
+
+                <article class="status-card closed">
+                    <span class="badge success">Chiuso</span>
+                    <h3>Notifiche</h3>
+                    <ul>
+                        <li>centro notifiche operativo</li>
+                        <li>compleanni automatici per ospiti presenti</li>
+                        <li>integrazione corretta con topbar</li>
+                    </ul>
+                </article>
+
+                <article class="status-card closed">
+                    <span class="badge success">Chiuso</span>
+                    <h3>Supporto online</h3>
+                    <ul>
+                        <li>separazione da Notify</li>
+                        <li>ticket, dialogo struttura / amministrazione</li>
+                        <li>no letti e assegnazioni visibili</li>
+                    </ul>
+                </article>
+
+                <article class="status-card closed">
+                    <span class="badge success">Chiuso</span>
+                    <h3>Centro assistenza</h3>
+                    <ul>
+                        <li>documentazione interna aggiornata</li>
+                        <li>contenuti coerenti con i moduli reali</li>
+                        <li>percorsi operativi chiariti</li>
+                    </ul>
+                </article>
+            </div>
+
+            <h2>Moduli chiusi con riserva esterna</h2>
+            <div class="status-grid">
+                <article class="status-card external">
+                    <span class="badge warning">Riserva esterna</span>
+                    <h3>Questura</h3>
+                    <ul>
+                        <li>modulo software chiuso</li>
+                        <li>TXT, verifica, invio diretto e ricevuta predisposti</li>
+                        <li>tabelle ufficiali gestite</li>
+                        <li>resta da caricare il <strong>WSKEY</strong> reale</li>
+                        <li>resta da eseguire la prova reale con Alloggiati Web</li>
+                    </ul>
+                </article>
+
+                <article class="status-card external">
+                    <span class="badge warning">Riserva esterna</span>
+                    <h3>Tabella A Emilia-Romagna</h3>
+                    <ul>
+                        <li>modulo software chiuso</li>
+                        <li>XML, verifica, invio, esito e riepiloghi predisposti</li>
+                        <li>resta da caricare il <strong>codice struttura Ross1000</strong></li>
+                        <li>resta da eseguire la prova reale con il sistema regionale</li>
+                    </ul>
+                </article>
+            </div>
+
+            <h2>Precisazione importante</h2>
+            <p>Le riserve sopra indicate non costituiscono difetti del software. Si tratta di attività dipendenti da credenziali ufficiali, codici identificativi rilasciati dagli enti e validazione finale su servizi esterni.</p>
+
+            <div class="summary-box">
+                <h3>Stato finale del progetto</h3>
+                <ul>
+                    <li><strong>chiuso a livello di sviluppo</strong></li>
+                    <li><strong>chiuso a livello di circuiti interni</strong></li>
+                    <li><strong>pronto all’uso gestionale</strong></li>
+                    <li><strong>in attesa delle sole attivazioni esterne</strong> per Questura e Tabella A Emilia-Romagna</li>
+                </ul>
+            </div>
+
+            <h2>Conclusione</h2>
+            <p>Si dichiara pertanto il sistema <strong>formalmente consegnabile e chiuso a livello software</strong>, salvo le integrazioni finali con gli enti esterni che saranno eseguite non appena disponibili le credenziali e i codici ufficiali mancanti.</p>
+
+            <div class="footer-note">
+                <strong>Firma tecnica</strong><br>
+                Sistema verificato e chiuso in data <strong>18/03/2026</strong>.
+            </div>
+        </section>
+    </main>
+</body>
+</html>

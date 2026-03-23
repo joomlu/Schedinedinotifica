@@ -1,0 +1,228 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - button [ref=e7] [cursor=pointer]
+      - generic [ref=e12]:
+        - link "" [ref=e14] [cursor=pointer]:
+          - /url: https://schedinedinotifica.test/calendario
+          - generic [ref=e15]: 
+        - generic [ref=e16]:
+          - button "" [ref=e17] [cursor=pointer]:
+            - generic [ref=e18]: 
+          - text:  
+        - generic [ref=e19]:
+          - button "" [ref=e20] [cursor=pointer]:
+            - generic [ref=e21]: 
+          - text:  
+        - generic [ref=e22]:
+          - button "Avatar Jorge Proprietario" [ref=e23] [cursor=pointer]:
+            - generic [ref=e24]:
+              - img "Avatar" [ref=e26]
+              - generic [ref=e27]:
+                - generic [ref=e28]: Jorge
+                - generic [ref=e29]: Proprietario
+          - text: 󰀉      󰍃
+  - generic [ref=e30]:
+    - link "Tango" [ref=e32] [cursor=pointer]:
+      - /url: https://schedinedinotifica.test
+      - img "Tango" [ref=e34]
+    - list [ref=e37]:
+      - listitem [ref=e38]:
+        - generic [ref=e39]: Menu
+      - listitem [ref=e40]:
+        - link "Dashboard" [ref=e41] [cursor=pointer]:
+          - /url: https://schedinedinotifica.test
+          - generic [ref=e42]: Dashboard
+      - listitem [ref=e43]:
+        - link "Dati struttura" [ref=e44] [cursor=pointer]:
+          - /url: https://schedinedinotifica.test/struttura
+          - generic [ref=e45]: Dati struttura
+      - listitem [ref=e46]:
+        - button "Configurazioni 󰅂" [ref=e47] [cursor=pointer]:
+          - generic [ref=e48]: Configurazioni
+          - text: 󰅂
+      - listitem [ref=e49]:
+        - button "Clienti 󰅂" [ref=e50] [cursor=pointer]:
+          - generic [ref=e51]: Clienti
+          - text: 󰅂
+      - listitem [ref=e52]:
+        - button "Schedine 󰅂" [expanded] [ref=e53] [cursor=pointer]:
+          - generic [ref=e54]: Schedine
+          - text: 󰅂
+        - list [ref=e56]:
+          - listitem [ref=e57]:
+            - link "Nuova schedina" [ref=e58] [cursor=pointer]:
+              - /url: https://schedinedinotifica.test/schedine/nuova
+          - listitem [ref=e59]:
+            - link "Schedine" [ref=e60] [cursor=pointer]:
+              - /url: https://schedinedinotifica.test/schedine
+          - listitem [ref=e61]:
+            - link "Arrivi" [ref=e62] [cursor=pointer]:
+              - /url: https://schedinedinotifica.test/arrivi
+          - listitem [ref=e63]:
+            - link "Web Check-in" [ref=e64] [cursor=pointer]:
+              - /url: https://schedinedinotifica.test/web-checkin
+      - listitem [ref=e65]:
+        - button "Invio telematico 󰅂" [ref=e66] [cursor=pointer]:
+          - generic [ref=e67]: Invio telematico
+          - text: 󰅂
+      - listitem [ref=e68]:
+        - button "Statistica 󰅂" [ref=e69] [cursor=pointer]:
+          - generic [ref=e70]: Statistica
+          - text: 󰅂
+      - listitem [ref=e71]:
+        - link "Calendario" [ref=e72] [cursor=pointer]:
+          - /url: https://schedinedinotifica.test/calendario
+          - generic [ref=e73]: Calendario
+      - listitem [ref=e74]:
+        - link "Cestino" [ref=e75] [cursor=pointer]:
+          - /url: https://schedinedinotifica.test/cestino
+          - generic [ref=e76]: Cestino
+    - generic [ref=e79]: "ID: H-001"
+  - generic [ref=e81]:
+    - generic [ref=e83]:
+      - generic [ref=e86]:
+        - heading "Nuova schedina" [level=4] [ref=e87]
+        - list [ref=e89]:
+          - listitem [ref=e90]:
+            - link "Schedine" [ref=e91] [cursor=pointer]:
+              - /url: "javascript: void(0);"
+          - listitem [ref=e92]: 󰅂 Nuova schedina
+      - generic [ref=e95]:
+        - heading "Nuova schedina" [level=4] [ref=e97]
+        - generic [ref=e99]:
+          - tablist [ref=e101]:
+            - tab "Schedina" [selected] [ref=e102] [cursor=pointer]
+            - tab "Anagrafica" [ref=e103] [cursor=pointer]
+            - tab "Residenza / Doc." [ref=e104] [cursor=pointer]
+            - tab "Contatti" [ref=e105] [cursor=pointer]
+            - tab "Componenti" [ref=e106] [cursor=pointer]
+            - tab "Tassa di soggiorno" [ref=e107] [cursor=pointer]
+          - generic [ref=e108]:
+            - tabpanel "Schedina" [ref=e109]:
+              - generic [ref=e110]:
+                - generic [ref=e111]:
+                  - generic [ref=e112]: 
+                  - heading "Dati soggiorno" [level=5] [ref=e113]
+                - generic [ref=e115]:
+                  - generic [ref=e117]:
+                    - generic [ref=e118]: Arrivo
+                    - textbox "gg/mm/aaaa" [ref=e119]
+                  - generic [ref=e121]:
+                    - generic [ref=e122]: Partenza
+                    - textbox "gg/mm/aaaa" [ref=e123]
+                  - generic [ref=e125]:
+                    - generic [ref=e126]: Tipo alloggiato
+                    - combobox [ref=e127]
+                    - combobox "OSPITE SINGOLO" [ref=e130] [cursor=pointer]:
+                      - textbox "OSPITE SINGOLO" [ref=e131]
+                  - generic [ref=e133]:
+                    - generic [ref=e134]: Esente
+                    - combobox [ref=e135]
+                    - combobox "No" [ref=e138] [cursor=pointer]:
+                      - textbox "No" [ref=e139]
+              - generic [ref=e140]:
+                - generic [ref=e141]:
+                  - generic [ref=e142]: 
+                  - heading "Dati cliente" [level=5] [ref=e143]
+                - generic [ref=e144]:
+                  - generic [ref=e145]:
+                    - generic [ref=e146]:
+                      - generic [ref=e147]: Quantità persone
+                      - spinbutton [ref=e148]: "1"
+                    - generic [ref=e149]:
+                      - generic [ref=e150]: Camera
+                      - spinbutton [ref=e151]
+                    - generic [ref=e152]:
+                      - generic [ref=e153]: Letti
+                      - spinbutton [ref=e154]
+                  - generic [ref=e155]:
+                    - generic [ref=e157]:
+                      - generic [ref=e158]:
+                        - generic [ref=e159]: Gruppo I
+                        - combobox [ref=e160]
+                        - combobox "Seleziona..." [ref=e163] [cursor=pointer]:
+                          - textbox "Seleziona..." [ref=e164]
+                      - generic [ref=e165]:
+                        - generic [ref=e166]: Gruppo II
+                        - combobox [ref=e167]
+                        - combobox "Seleziona..." [ref=e170] [cursor=pointer]:
+                          - textbox "Seleziona..." [ref=e171]
+                      - generic [ref=e172]:
+                        - generic [ref=e173]: Gruppo III
+                        - combobox [ref=e174]
+                        - combobox "Seleziona..." [ref=e177] [cursor=pointer]:
+                          - textbox "Seleziona..." [ref=e178]
+                    - generic [ref=e179]:
+                      - generic [ref=e180]: Titolo
+                      - combobox [ref=e181]
+                      - combobox "Amm." [ref=e184] [cursor=pointer]:
+                        - textbox "Amm." [ref=e185]
+                    - generic [ref=e186]:
+                      - generic [ref=e187]: Nome
+                      - textbox [ref=e188]
+                    - generic [ref=e189]:
+                      - generic [ref=e190]: Cognome
+                      - textbox [ref=e191]
+                    - generic [ref=e192]:
+                      - generic [ref=e193]: Sesso
+                      - combobox [ref=e194]
+                      - combobox "M" [ref=e197] [cursor=pointer]:
+                        - textbox "M" [ref=e198]
+              - generic [ref=e199]:
+                - generic [ref=e200]:
+                  - generic [ref=e201]: 
+                  - heading "Osservazioni" [level=5] [ref=e202]
+                - generic [ref=e206]:
+                  - generic [ref=e207]: Osservazione
+                  - textbox [ref=e208]
+              - generic [ref=e209]:
+                - generic [ref=e210]:
+                  - generic [ref=e211]: 
+                  - heading "Dati statistici Tavola A" [level=5] [ref=e212]
+                - generic [ref=e214]:
+                  - generic [ref=e215]:
+                    - generic [ref=e216]: Tipo turismo
+                    - combobox [ref=e217]
+                    - combobox "Seleziona..." [ref=e220] [cursor=pointer]:
+                      - textbox "Seleziona..." [ref=e221]
+                  - generic [ref=e222]:
+                    - generic [ref=e223]: Mezzo di trasporto
+                    - combobox [ref=e224]
+                    - combobox "Seleziona..." [ref=e227] [cursor=pointer]:
+                      - textbox "Seleziona..." [ref=e228]
+                  - generic [ref=e229]:
+                    - generic [ref=e230]: Canale prenotazione
+                    - combobox [ref=e231]
+                    - combobox "Seleziona..." [ref=e234] [cursor=pointer]:
+                      - textbox "Seleziona..." [ref=e235]
+                  - generic [ref=e236]:
+                    - generic [ref=e237]: Titolo di studio
+                    - combobox [ref=e238]
+                    - combobox "Seleziona..." [ref=e241] [cursor=pointer]:
+                      - textbox "Seleziona..." [ref=e242]
+                  - generic [ref=e243]:
+                    - generic [ref=e244]: Professione
+                    - combobox [ref=e245]
+                    - combobox "Seleziona..." [ref=e248] [cursor=pointer]:
+                      - textbox "Seleziona..." [ref=e249]
+                  - generic [ref=e250]:
+                    - generic [ref=e251]: Codice prenotazione
+                    - textbox [ref=e252]
+                  - generic [ref=e253]:
+                    - generic [ref=e254]:
+                      - switch "Ospite non turista" [ref=e255] [cursor=pointer]
+                      - generic [ref=e256] [cursor=pointer]: Ospite non turista
+                    - generic [ref=e257]: Se attivo, questa schedina non viene conteggiata nella Tavola A.
+              - button " Avanti" [ref=e259] [cursor=pointer]:
+                - generic [ref=e260]: 
+                - text: Avanti
+            - text:                           
+    - contentinfo [ref=e261]:
+      - generic [ref=e263]:
+        - generic [ref=e265]: Schedine di Notifica - Tanggo Platform | Versione 2.0
+        - generic [ref=e268]: © 2026 Xperience S.r.l. - Tutti i diritti riservati | tanggo.pro | tanggo.software
+```

@@ -1,0 +1,32 @@
+{
+  "name": "@tanggo/js-geo-address",
+  "version": "0.1.0",
+  "description": "GeoSelect (Nazione→Regione→Provincia→Città→CAP) e AddressFields UMD/ESM riutilizzabili",
+  "license": "MIT",
+  "main": "src/geo/GeoSelect.js",
+  "module": "src/geo/GeoSelect.js",
+  "unpkg": "dist/browser.js",
+  "jsdelivr": "dist/browser.js",
+  "exports": {
+    ".": "./src/geo/GeoSelect.js",
+    "./geo": "./src/geo/GeoSelect.js",
+    "./address": "./src/address/AddressFields.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://example.com/tanggo/js-geo-address.git"
+  },
+  "keywords": ["select2", "geo", "address", "jquery", "cap", "italia"],
+  "peerDependencies": {
+    "jquery": ">=3.6.0",
+    "select2": ">=4.1.0-rc.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "node -e \"const fs=require('fs');const a=fs.readFileSync('src/geo/GeoSelect.js','utf8');const b=fs.readFileSync('src/address/AddressFields.js','utf8');fs.writeFileSync('dist/browser.js', a+'\n'+b);console.log('Built dist/browser.js');\""
+  }
+}
