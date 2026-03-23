@@ -31,3 +31,9 @@ Homestead.json
 /storage/logs/
 /backup/
 /tmp/
+
+# Local release backups
+backups/
+
+# Local release backups
+backups/
