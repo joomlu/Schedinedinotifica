@@ -35,5 +35,5 @@ Homestead.json
 # Local release backups
 backups/
 
-# Local release backups
-backups/
+# Legacy local SQL dumps
+/schedinedinotifica_backup.sql
