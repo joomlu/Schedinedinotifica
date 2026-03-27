@@ -382,6 +382,7 @@ Route::middleware(['auth'])->group(function () {
     // Tavola A / ISTAT
     Route::get('/istat-tabella-a', [IstatTabellaAController::class, 'index'])->name('istat.tabella_a.index');
     Route::post('/istat-tabella-a/controllo', [IstatTabellaAController::class, 'saveControllo'])->name('istat.tabella_a.controllo.save');
+    Route::get('/istat-tabella-a/print-summary', [IstatTabellaAController::class, 'printSummary'])->name('istat.tabella_a.print.summary');
     Route::get('/istat-tabella-a/download/xml', [IstatTabellaAController::class, 'downloadXml'])->name('istat.tabella_a.download.xml');
     Route::get('/istat-tabella-a/download/storico/{id}', [IstatTabellaAController::class, 'downloadStorico'])->name('istat.tabella_a.download.storico');
     Route::post('/istat-tabella-a/ws/verify', [IstatTabellaAController::class, 'verifyPeriodo'])->name('istat.tabella_a.ws.verify');
