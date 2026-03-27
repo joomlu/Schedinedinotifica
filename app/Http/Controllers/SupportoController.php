@@ -6,6 +6,7 @@ use App\Models\SupportTicket;
 use App\Models\SupportTicketMessage;
 use App\Models\LicenzaAssegnazione;
 use App\Models\Struttura;
+use App\Models\User;
 use App\Support\StrutturaCorrente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
