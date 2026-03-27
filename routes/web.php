@@ -407,6 +407,7 @@ Route::middleware(['auth'])->group(function () {
     // Utenti, consegne e notifiche interne
     Route::get('/gestione-operativa', [GestioneOperativaController::class, 'index'])->name('gestione.operativa.index');
     Route::post('/gestione-operativa/profilo', [GestioneOperativaController::class, 'updateProfile'])->name('gestione.operativa.profile.update');
+    Route::post('/gestione-operativa/profilo/password', [GestioneOperativaController::class, 'updateMyPassword'])->name('gestione.operativa.profile.password');
     Route::post('/gestione-operativa/utenti', [GestioneOperativaController::class, 'storeUtente'])->name('gestione.operativa.utenti.store');
     Route::post('/gestione-operativa/utenti/{id}', [GestioneOperativaController::class, 'updateUtente'])->name('gestione.operativa.utenti.update');
     Route::post('/gestione-operativa/utenti/{id}/password', [GestioneOperativaController::class, 'resetPassword'])->name('gestione.operativa.utenti.password');
