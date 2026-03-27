@@ -32,6 +32,26 @@
     $superadminNeedsStrutturaSelection = $ruoloSidebar === 'super_admin';
     $superadminHasSelectedStruttura = !$superadminNeedsStrutturaSelection || (bool) $currentStrutturaSidebar;
 @endphp
+<style>
+    .app-menu.navbar-menu {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .app-menu.navbar-menu #scrollbar {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+    .app-menu.navbar-menu .struttura-sidebar-meta {
+        flex-shrink: 0;
+        background: var(--vz-vertical-menu-bg, #fff);
+        position: relative;
+        z-index: 2;
+    }
+</style>
 <div class="app-menu navbar-menu">
     <div class="navbar-brand-box">
         <a href="{{ route('root') }}" class="logo logo-dark">
