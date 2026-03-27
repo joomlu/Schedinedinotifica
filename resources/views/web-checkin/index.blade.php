@@ -142,7 +142,7 @@
                         if ($richiesta->whatsapp) {
                             $contatto .= ' · ' . $richiesta->whatsapp;
                         }
-                        $publicUrl = route('web_checkin.public.short.show', ['access' => $richiesta->codice . '-' . substr((string) $richiesta->token, 0, 8)]);
+                        $publicUrl = route('web_checkin.public.short.show', ['token' => $richiesta->codice . '-' . substr((string) $richiesta->token, 0, 8)]);
                         $mailSubject = 'Benvenuto in ' . ($richiesta->struttura->nome_struttura ?? 'Struttura') . ' | Completa il tuo Web Check-in';
                         $mailBody = "Gentile {$richiesta->nome_referente},\n\n"
                             . 'abbiamo preparato il tuo invito al Web Check-in per ' . ($richiesta->struttura->nome_struttura ?? 'la struttura') . ".\n"

@@ -492,7 +492,7 @@ class WebCheckinController extends SchedinaController
 
     private function publicUrl(WebCheckinRichiesta $richiesta): string
     {
-        return route('web_checkin.public.short.show', ['access' => $this->publicAccessKey($richiesta)]);
+        return route('web_checkin.public.short.show', ['token' => $this->publicAccessKey($richiesta)]);
     }
 
     private function mailToUrl(WebCheckinRichiesta $richiesta): string
