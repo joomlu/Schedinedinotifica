@@ -256,31 +256,6 @@
             </ul>
         </div>
     </div>
-    @if($currentStrutturaSidebar)
-        <div class="border-top px-3 py-3 struttura-sidebar-meta">
-            <div class="rounded-3 border bg-body-secondary p-3">
-                <div class="small text-muted text-uppercase mb-1">Struttura selezionata</div>
-                <div class="fw-semibold text-truncate">{{ $currentStrutturaSidebar->nome_struttura }}</div>
-                <div class="small text-muted text-truncate">
-                    {{ $currentStrutturaSidebar->citta ?: 'Citta non impostata' }}
-                    @if($currentStrutturaSidebar->provincia)
-                        · {{ $currentStrutturaSidebar->provincia }}
-                    @endif
-                </div>
-                <div class="small text-muted mt-2">ID: {{ $strutturaBadgeSidebar }}</div>
-                <div class="d-flex flex-wrap gap-2 mt-2">
-                    <span class="badge {{ $currentStrutturaSidebar->servizioAttivo() ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger' }}">
-                        {{ $currentStrutturaSidebar->servizioAttivo() ? 'Servizio attivo' : 'Servizio offline' }}
-                    </span>
-                    @if($currentStrutturaSidebar->scadenza_servizio)
-                        <span class="badge {{ $currentStrutturaSidebar->scadenza_servizio->isPast() ? 'bg-danger-subtle text-danger' : ($currentStrutturaSidebar->scadenza_servizio->diffInDays(now()) <= 30 ? 'bg-warning-subtle text-warning' : 'bg-info-subtle text-info') }}">
-                            Scadenza {{ $currentStrutturaSidebar->scadenza_servizio->format('d/m/Y') }}
-                        </span>
-                    @endif
-                </div>
-            </div>
-        </div>
-    @endif
     <div class="sidebar-background"></div>
 </div>
 <div class="vertical-overlay"></div>

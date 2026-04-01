@@ -14,11 +14,44 @@
         $dashboardAdmin = $dashboardData['ownerAdmin'] ?? null;
         $dashboardLicenza = $dashboardData['licenza_principale'] ?? null;
         $dashboardProssimaScadenza = $dashboardData['prossima_scadenza'] ?? null;
+        $dashboardStrutturaCode = strtoupper(substr((string) ($dashboardStruttura?->tipologia_struttura ?? $dashboardStruttura?->tipologia_generale ?? 'STR'), 0, 1));
+        $dashboardStrutturaBadge = $dashboardStruttura ? $dashboardStrutturaCode . '-' . str_pad((string) $dashboardStruttura->id, 3, '0', STR_PAD_LEFT) : null;
+        $dashboardServizioBadgeClass = 'bg-info-subtle text-info';
+
+        if ($dashboardStruttura?->servizioAttivo()) {
+            $dashboardServizioBadgeClass = 'bg-success-subtle text-success';
+        } elseif ($dashboardStruttura?->scadenza_servizio?->isPast()) {
+            $dashboardServizioBadgeClass = 'bg-danger-subtle text-danger';
+        } elseif ($dashboardStruttura?->scadenza_servizio && $dashboardStruttura->scadenza_servizio->diffInDays(now()) <= 30) {
+            $dashboardServizioBadgeClass = 'bg-warning-subtle text-warning';
+        }
     @endphp
 
     @if($dashboardStruttura)
         <div class="row g-3 mb-4">
-            <div class="col-xxl-3 col-md-6">
+            <div class="col-xl-3 col-md-6">
+                <div class="card border shadow-sm h-100 mb-0">
+                    <div class="card-body">
+                        <div class="text-muted small text-uppercase mb-2">Servizio struttura</div>
+                        <div class="fw-semibold fs-5">{{ $dashboardStruttura->nome_struttura }}</div>
+                        <div class="small text-muted mt-2">
+                            {{ $dashboardStruttura->citta ?: 'Citta non impostata' }}
+                            @if($dashboardStruttura->provincia)
+                                · {{ $dashboardStruttura->provincia }}
+                            @endif
+                            @if($dashboardStrutturaBadge)
+                                · {{ $dashboardStrutturaBadge }}
+                            @endif
+                        </div>
+                        <div class="d-flex flex-wrap gap-2 mt-3">
+                            <span class="badge {{ $dashboardStruttura->servizioAttivo() ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger' }}">
+                                {{ $dashboardStruttura->servizioAttivo() ? 'Servizio attivo' : 'Servizio offline' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
                 <div class="card border shadow-sm h-100 mb-0">
                     <div class="card-body">
                         <div class="text-muted small text-uppercase mb-2">Licenza in uso</div>
@@ -27,25 +60,27 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xxl-3 col-md-6">
+            <div class="col-xl-3 col-md-6">
                 <div class="card border shadow-sm h-100 mb-0">
                     <div class="card-body">
-                        <div class="text-muted small text-uppercase mb-2">Scadenza principale</div>
+                        <div class="text-muted small text-uppercase mb-2">Scadenza e stato</div>
                         <div class="fw-semibold fs-5">{{ optional($dashboardProssimaScadenza)->format('d/m/Y') ?: 'Non impostata' }}</div>
-                        <div class="small text-muted mt-2">{{ $dashboardLicenza && $dashboardLicenza->data_scadenza ? 'Licenza struttura' : 'Servizio struttura' }}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xxl-3 col-md-6">
-                <div class="card border shadow-sm h-100 mb-0">
-                    <div class="card-body">
-                        <div class="text-muted small text-uppercase mb-2">Stato conto</div>
-                        <div class="fw-semibold fs-5">{{ ucfirst(str_replace('_', ' ', $dashboardStruttura->stato_pagamento ?: 'non definito')) }}</div>
+                        <div class="small text-muted mt-2">
+                            {{ $dashboardLicenza && $dashboardLicenza->data_scadenza ? 'Licenza struttura' : 'Servizio struttura' }}
+                            · {{ ucfirst(str_replace('_', ' ', $dashboardStruttura->stato_pagamento ?: 'non definito')) }}
+                        </div>
                         <div class="small text-muted mt-2">{{ number_format((float) ($dashboardData['totale_licenze'] ?? 0), 2, ',', '.') }} totale licenze</div>
+                        @if($dashboardStruttura->scadenza_servizio)
+                            <div class="mt-3">
+                                <span class="badge {{ $dashboardServizioBadgeClass }}">
+                                    Servizio {{ $dashboardStruttura->scadenza_servizio->format('d/m/Y') }}
+                                </span>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
-            <div class="col-xxl-3 col-md-6">
+            <div class="col-xl-3 col-md-6">
                 <div class="card border shadow-sm h-100 mb-0">
                     <div class="card-body">
                         <div class="text-muted small text-uppercase mb-2">Alert da seguire</div>
