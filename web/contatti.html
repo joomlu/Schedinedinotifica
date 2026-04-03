@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contatti e richiesta demo di Schedine di Notifica Tanggo Platform 2.0">
+  <title>Contatti | Schedine di Notifica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="./index.html">
+        <img src="./assets/img/logo-tango.png" alt="Logo Tanggo" class="brand-logo">
+        <span class="brand-copy">
+          <strong>Schedine di Notifica</strong>
+          <span>Tanggo Platform 2.0</span>
+        </span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="site-nav" class="site-nav">
+        <a href="./index.html">Panoramica</a>
+        <a href="./moduli.html">Moduli</a>
+        <a href="./demo.html">Percorso guidato</a>
+        <a href="./prezzi.html">Prezzi</a>
+        <a href="./accesso.html">Accesso</a>
+        <a href="./contatti.html" class="active">Contatti</a>
+        <a href="./contatti.html#demo" class="nav-cta">Richiedi una demo</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero page-hero-compact">
+        <p class="eyebrow">Contatti</p>
+        <h1>Una pagina unica per contatto commerciale, richiesta demo e primo dialogo con la struttura.</h1>
+        <p class="lead">Qui raccogli in modo ordinato le richieste reali sul prodotto: informazioni, presentazione commerciale, demo guidata e accesso al contatto diretto.</p>
+      </section>
+
+      <section class="section-block section-breathing two-col-layout">
+        <article class="info-card large-card">
+          <span class="card-label">Contatto diretto</span>
+          <h3>Tanggo Experience</h3>
+          <p>Via Roma, 35 · 47814 Bellaria Igea Marina · RN</p>
+          <p>Tel. 05411796994 · Fax 05411792229</p>
+          <p>info@tanggo.org · www.tangoschedine.com</p>
+        </article>
+        <article class="info-card light-card">
+          <span class="card-label">Quando usarla</span>
+          <h3>Contatto commerciale e richiesta demo stanno nello stesso spazio.</h3>
+          <p>In questo modo il sito resta coerente: footer con dati aziendali, pagina contatti con richieste commerciali vere e CTA demo sempre raggiungibile.</p>
+        </article>
+      </section>
+
+      <section class="section-block section-breathing" id="demo">
+        <form class="contact-form-card contact-form-page" data-demo-form novalidate>
+          <input type="text" name="website" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="contact-form-heading">
+            <span class="card-label">Modulo contatti</span>
+            <h3>Richieste informazioni, contatto commerciale e richiesta demo del prodotto.</h3>
+            <p>Il modulo usa validazione browser, limiti di lunghezza, honeypot anti-bot e composizione locale del messaggio. Nessun endpoint del sito viene esposto.</p>
+          </div>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Nome e cognome</span>
+              <input type="text" name="name" maxlength="80" required>
+            </label>
+            <label class="form-field">
+              <span>Struttura</span>
+              <input type="text" name="company" maxlength="100" required>
+            </label>
+            <label class="form-field">
+              <span>Email</span>
+              <input type="email" name="email" maxlength="120" required>
+            </label>
+            <label class="form-field">
+              <span>Telefono</span>
+              <input type="tel" name="phone" maxlength="30" pattern="[0-9+()\\-\\s/]*">
+            </label>
+            <label class="form-field form-field-full">
+              <span>Motivo del contatto</span>
+              <select name="topic" data-contact-topic required>
+                <option value="Informazioni generali">Informazioni generali</option>
+                <option value="Richiesta demo">Richiesta demo</option>
+                <option value="Richiesta commerciale">Richiesta commerciale</option>
+                <option value="Supporto e attivazione">Supporto e attivazione</option>
+              </select>
+            </label>
+            <label class="form-field form-field-full">
+              <span>Messaggio</span>
+              <textarea name="message" rows="5" maxlength="1000" placeholder="Scrivi qui la tua richiesta sul prodotto." required></textarea>
+            </label>
+            <label class="form-consent form-field-full">
+              <input type="checkbox" name="consent" required>
+              <span>Autorizzo il contatto commerciale in relazione alla mia richiesta.</span>
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Invia la richiesta</button>
+            <p class="form-note">Alla conferma si apre il tuo client email con il messaggio gia preparato.</p>
+          </div>
+          <p class="form-status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer minimal-footer">
+      <div class="footer-cols footer-cols-wide">
+        <div><h4>Contatti</h4><p>Contatto commerciale, richieste prodotto e demo guidata in una sola pagina.</p></div>
+        <div><h4>Panoramica</h4><p><a href="./index.html">Torna alla panoramica</a></p></div>
+        <div><h4>Percorso guidato</h4><p><a href="./demo.html">Apri il percorso guidato</a></p></div>
+        <div><h4>Accesso</h4><p><a href="./accesso.html">Vai all'accesso</a></p></div>
+      </div>
+      <div class="footer-legal">
+        <p>&copy; 2026 Experience S.r.l. - Tutti i diritti riservati | tanggo.pro | tanggo.software</p>
+      </div>
+    </footer>
+    <div class="site-signature">
+      <p>Ideato, studiato, progettato, realizzato, eseguito e architettato da <a href="https://www.cv.joomlu.com/" target="_blank" rel="noreferrer">Jorge Omar Luccitelli</a>.</p>
+    </div>
+  </div>
+  <script src="./assets/app.js"></script>
+</body>
+</html>
