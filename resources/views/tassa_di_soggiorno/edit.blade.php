@@ -250,11 +250,11 @@
 
                         <div class="tab-pane fade" id="pane-export" role="tabpanel" aria-labelledby="tab-export">
                             <div class="alert alert-secondary">Anteprima CSV (separatore ";")</div>
-                            <pre class="bg-light p-3 border rounded small mb-3">tipo;data_reg;arrivo;partenza;nominativo;soggetti;pernottamenti_imponibili;tariffa
-0;2026-03-05;2026-03-05;2026-03-10;Mario Rossi;1;5;{{ $tassa->tassa_soggiorno }}
-777;2026-03-05;2026-03-05;2026-03-10;Mario Rossi;1;{{ max(0, (int)($tassa->giorni_massimo ?? 6) ? 10 - (int)$tassa->giorni_massimo : 0) }};0
+                            <pre class="bg-light p-3 border rounded small mb-3">01/03/2026;31/03/2026;
+0;05/03/2026;05/03/2026;10/03/2026;Mario Rossi;1;5;{{ $tassa->tassa_soggiorno }};
+777;05/03/2026;05/03/2026;10/03/2026;Mario Rossi;1;{{ max(0, (int)($tassa->giorni_massimo ?? 6) ? 10 - (int)$tassa->giorni_massimo : 0) }};0;
 </pre>
-                            <p class="text-muted mb-0">Le righe con tipo 777 indicano solo le notti oltre il limite massimo imponibile. Non sono esenzioni e non generano importo da pagare.</p>
+                            <p class="text-muted mb-0">La prima riga e il record di testa del periodo mensile. Le righe successive sono i record di registrazione. Il codice 777 indica solo le notti oltre il limite massimo imponibile: restano dichiarate ma non generano importo da pagare.</p>
                         </div>
                     </div>
                 </div>
