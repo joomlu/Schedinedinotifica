@@ -101,6 +101,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/tassa_di_soggiorno/rapporto', [TassaReportController::class, 'index'])->name('tassa_di_soggiorno.rapporto');
     Route::get('/tassa_di_soggiorno/rapporto/csv', [TassaReportController::class, 'exportCsv'])->name('tassa_di_soggiorno.rapporto.csv');
+    Route::get('/tassa_di_soggiorno/rapporto/controllo', [TassaReportController::class, 'controllo'])->name('tassa_di_soggiorno.rapporto.controllo');
+    Route::get('/tassa_di_soggiorno/rapporto/controllo/csv', [TassaReportController::class, 'exportControlloCsv'])->name('tassa_di_soggiorno.rapporto.controllo.csv');
+    Route::get('/tassa_di_soggiorno/rapporto/controllo/stampa', [TassaReportController::class, 'printControllo'])->name('tassa_di_soggiorno.rapporto.controllo.print');
 
     Route::resource('tassa_esenzioni', TassaEsenzioneController::class)->only(['store', 'update', 'destroy'])->names('tassa_esenzioni');
 

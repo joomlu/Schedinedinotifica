@@ -64,21 +64,15 @@
         }
         .table-schede th:nth-child(4),
         .table-schede td:nth-child(4) {
-            width: 17%;
+            width: 15%;
         }
         .table-persone th:nth-child(4),
-        .table-persone td:nth-child(4),
-        .table-persone th:nth-child(7),
-        .table-persone td:nth-child(7) {
-            width: 10%;
-        }
-        .table-persone th:nth-child(5),
-        .table-persone td:nth-child(5) {
-            width: 14%;
-        }
-        .table-persone th:nth-child(8),
-        .table-persone td:nth-child(8) {
+        .table-persone td:nth-child(4) {
             width: 12%;
+        }
+        .table-persone th:nth-child(9),
+        .table-persone td:nth-child(9) {
+            width: 14%;
         }
         tr {
             page-break-inside: avoid;
@@ -118,14 +112,16 @@
             <table class="table-schede">
                 <thead>
                     <tr>
+                        <th>N. Scheda</th>
                         <th>Arrivo</th>
                         <th>Partenza</th>
-                        <th>N. Scheda</th>
                         <th>Riferimento</th>
                         <th>Persone</th>
+                        <th>Adulti</th>
+                        <th>Minori</th>
                         <th>Paganti</th>
                         <th>Esenti</th>
-                        <th>Notti imp.</th>
+                        <th>Notti tassate</th>
                         <th>Oltre max</th>
                         <th>Totale tassa</th>
                     </tr>
@@ -133,11 +129,13 @@
                 <tbody>
                     @forelse($schedeSummary as $scheda)
                         <tr>
+                            <td>{{ $scheda['scheda'] }}</td>
                             <td>{{ $fmtData($scheda['arrivo']) }}</td>
                             <td>{{ $fmtData($scheda['partenza']) }}</td>
-                            <td>{{ $scheda['scheda'] }}</td>
                             <td class="text-left">{{ $scheda['riferimento'] }}</td>
                             <td>{{ $scheda['persone_totali'] }}</td>
+                            <td>{{ $scheda['adulti_totali'] }}</td>
+                            <td>{{ $scheda['minori_totali'] }}</td>
                             <td>{{ $scheda['soggetti_paganti'] }}</td>
                             <td>{{ $scheda['soggetti_esenti'] }}</td>
                             <td>{{ $scheda['notti_imponibili'] }}</td>
@@ -145,7 +143,7 @@
                             <td class="text-right">{{ number_format((float) $scheda['tassa_totale'], 2, ',', '.') }} €</td>
                         </tr>
                     @empty
-                        <tr><td colspan="10">Nessun dato nel periodo selezionato.</td></tr>
+                        <tr><td colspan="12">Nessun dato nel periodo selezionato.</td></tr>
                     @endforelse
                 </tbody>
             </table>
@@ -158,16 +156,17 @@
                     <tr>
                         <th>Arrivo</th>
                         <th>Partenza</th>
-                        <th>Scheda</th>
                         <th>Nominativo</th>
                         <th>Età</th>
+                        <th>Minore</th>
+                        <th>Paga</th>
                         <th>Esente</th>
                         <th>Motivo</th>
-                        <th>Notti</th>
-                        <th>Nel periodo</th>
-                        <th>Imponibili</th>
-                        <th>Oltre max</th>
-                        <th>Tariffa</th>
+                        <th>N. tot.</th>
+                        <th>N. per.</th>
+                        <th>N. tass.</th>
+                        <th>Oltre</th>
+                        <th>Tar.</th>
                         <th>Tassa</th>
                     </tr>
                 </thead>
@@ -176,9 +175,10 @@
                         <tr>
                             <td>{{ $fmtData($row['arrivo']) }}</td>
                             <td>{{ $fmtData($row['partenza']) }}</td>
-                            <td>{{ $row['scheda'] }}</td>
                             <td class="text-left">{{ $row['nominativo'] }}</td>
                             <td>{{ $row['eta'] ?? '—' }}</td>
+                            <td>{{ !empty($row['minore']) ? 'Sì' : 'No' }}</td>
+                            <td>{{ !empty($row['paga']) ? 'Sì' : 'No' }}</td>
                             <td>{{ $row['esente'] ? 'Sì' : 'No' }}</td>
                             <td class="text-left">{{ $row['motivo'] ?? '—' }}</td>
                             <td>{{ $row['notti_totali'] ?? '—' }}</td>
@@ -189,7 +189,7 @@
                             <td class="text-right">{{ number_format((float) $row['tassa'], 2, ',', '.') }} €</td>
                         </tr>
                     @empty
-                        <tr><td colspan="13">Nessun dato nel periodo selezionato.</td></tr>
+                        <tr><td colspan="14">Nessun dato nel periodo selezionato.</td></tr>
                     @endforelse
                 </tbody>
             </table>

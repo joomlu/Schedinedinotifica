@@ -8,6 +8,20 @@
     @slot('title') Rapporto mensile Tassa di soggiorno @endslot
 @endcomponent
 
+<style>
+    .btn-tanggo-control {
+        background: #ffe2cc;
+        color: #8a3b12;
+        border: 0;
+        font-weight: 600;
+    }
+    .btn-tanggo-control:hover,
+    .btn-tanggo-control:focus {
+        background: #ffd1b0;
+        color: #6f2f0e;
+    }
+</style>
+
 @if(!empty($missingSchedina))
     <div class="alert alert-warning"><strong>Tabella schedina assente.</strong> Esegui le migrazioni o importa il dump iniziale prima di generare il rapporto.</div>
 @endif
@@ -31,6 +45,11 @@
                     </div>
                     <div class="col-md-7 d-flex gap-2 justify-content-end">
                         <button type="submit" class="btn btn-primary"><i class="ri-refresh-line me-1"></i> Aggiorna</button>
+                        <a href="{{ route('tassa_di_soggiorno.rapporto.controllo', ['mese' => $mese, 'anno' => $anno]) }}"
+                           class="btn btn-tanggo-control {{ !empty($missingSchedina) ? 'disabled' : '' }}"
+                           @if(!empty($missingSchedina)) aria-disabled="true" tabindex="-1" @endif>
+                            <i class="ri-file-list-3-line me-1"></i> Controllo interno
+                        </a>
                         <a href="{{ route('tassa_di_soggiorno.rapporto.csv', ['mese' => $mese, 'anno' => $anno]) }}"
                            class="btn btn-outline-success {{ !empty($missingSchedina) ? 'disabled' : '' }}"
                            @if(!empty($missingSchedina)) aria-disabled="true" tabindex="-1" @endif>
