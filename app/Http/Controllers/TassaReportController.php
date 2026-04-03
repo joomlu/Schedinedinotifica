@@ -9,7 +9,6 @@ use App\Models\TassaDiSoggiorno;
 use App\Models\TassaEsenzione;
 use App\Services\TassaDiSoggiornoService;
 use App\Support\StrutturaCorrente;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -86,20 +85,19 @@ class TassaReportController extends Controller
         $struttura = Struttura::findOrFail($strutturaId);
         $righe = $this->buildRows($mese, $anno, $strutturaId, $struttura, $config, $esenzioni);
         $lines = [];
-        $inizioPeriodo = Carbon::create($anno, $mese, 1)->startOfDay();
-        $finePeriodo = $inizioPeriodo->copy()->endOfMonth();
-        $lines[] = $inizioPeriodo->format('d/m/Y') . ';' . $finePeriodo->format('d/m/Y') . ';';
+        $lines[] = 'data_inizio;data_fine;tipo;data_reg;arrivo;partenza;nominativo;soggetti;pernottamenti_imponibili;tariffa';
         foreach ($righe as $riga) {
             $lines[] = implode(';', [
+                $riga['arrivo'],
+                $riga['partenza'],
                 $riga['tipo'],
-                $this->formatCsvDate($riga['data_reg']),
-                $this->formatCsvDate($riga['arrivo']),
-                $this->formatCsvDate($riga['partenza']),
+                $riga['data_reg'],
+                $riga['arrivo'],
+                $riga['partenza'],
                 str_replace(';', ',', $riga['nominativo']),
                 $riga['soggetti'],
                 $riga['pernottamenti_imponibili'],
                 $riga['tariffa'],
-                '',
             ]);
         }
 
@@ -172,18 +170,5 @@ class TassaReportController extends Controller
         }
 
         return $righe;
-    }
-
-    private function formatCsvDate(?string $value): string
-    {
-        if (!$value) {
-            return '';
-        }
-
-        try {
-            return Carbon::parse($value)->format('d/m/Y');
-        } catch (\Throwable $e) {
-            return (string) $value;
-        }
     }
 }

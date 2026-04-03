@@ -38,9 +38,7 @@ class ImpostaStrutturaCorrente
             $allowed = Struttura::where('proprietario_id', $user->proprietario_id)->pluck('id')->all();
             $currentId = $this->resolveCurrentId($request, $allowed);
             if ($currentId === null) {
-                StrutturaCorrente::setId(null);
-                $request->session()->forget('struttura_corrente_id');
-                return $next($request);
+                abort(403, 'Nessuna struttura associata.');
             }
             StrutturaCorrente::setId($currentId);
             return $next($request);
@@ -57,9 +55,7 @@ class ImpostaStrutturaCorrente
             })->pluck('id')->all();
             $currentId = $this->resolveCurrentId($request, $allowed);
             if ($currentId === null) {
-                StrutturaCorrente::setId(null);
-                $request->session()->forget('struttura_corrente_id');
-                return $next($request);
+                abort(403, 'Nessuna struttura disponibile.');
             }
             StrutturaCorrente::setId($currentId);
             return $next($request);
@@ -92,14 +88,7 @@ class ImpostaStrutturaCorrente
             return (int) $selected;
         }
 
-        $firstActive = Struttura::whereIn('id', $allowed)
-            ->where('attiva', true)
-            ->where(function ($query) {
-                $query->whereNull('scadenza_servizio')
-                    ->orWhereDate('scadenza_servizio', '>=', now()->toDateString());
-            })
-            ->orderBy('id')
-            ->value('id');
+        $firstActive = Struttura::whereIn('id', $allowed)->where('attiva', true)->orderBy('id')->value('id');
         if ($firstActive !== null) {
             return (int) $firstActive;
         }

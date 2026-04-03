@@ -29,29 +29,7 @@
     $openAdmin = $isRoute('admin.*');
     $openSuperAdmin = $isRoute('superadmin.*');
     $openQa = $isRoute('qa.*');
-    $superadminNeedsStrutturaSelection = $ruoloSidebar === 'super_admin';
-    $superadminHasSelectedStruttura = !$superadminNeedsStrutturaSelection || (bool) $currentStrutturaSidebar;
 @endphp
-<style>
-    .app-menu.navbar-menu {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
-
-    .app-menu.navbar-menu #scrollbar {
-        flex: 1 1 auto;
-        min-height: 0;
-        overflow-y: auto;
-    }
-
-    .app-menu.navbar-menu .struttura-sidebar-meta {
-        flex-shrink: 0;
-        background: var(--vz-vertical-menu-bg, #fff);
-        position: relative;
-        z-index: 2;
-    }
-</style>
 <div class="app-menu navbar-menu">
     <div class="navbar-brand-box">
         <a href="{{ route('root') }}" class="logo logo-dark">
@@ -92,7 +70,6 @@
                         <div class="collapse menu-dropdown {{ $openSuperAdmin ? 'show' : '' }}" id="sidebarSuperadmin">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item"><a href="{{ route('superadmin.amministratori.index') }}" class="nav-link {{ $isRoute('superadmin.amministratori.*') ? 'active' : '' }}">Amministratori</a></li>
-                                <li class="nav-item"><a href="{{ route('superadmin.articoli.index') }}" class="nav-link {{ $isRoute('superadmin.articoli.*') ? 'active' : '' }}">Articoli</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.proprietari.index') }}" class="nav-link {{ $isRoute('superadmin.proprietari.*') ? 'active' : '' }}">Proprietari</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.strutture.index') }}" class="nav-link {{ $isRoute('superadmin.strutture.*') ? 'active' : '' }}">Strutture</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.pagamenti.index') }}" class="nav-link {{ $isRoute('superadmin.pagamenti.*') ? 'active' : '' }}">Pagamenti / Licenze</a></li>
@@ -125,8 +102,6 @@
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item"><a href="{{ route('admin.proprietari.index') }}" class="nav-link {{ $isRoute('admin.proprietari.*') ? 'active' : '' }}">Proprietari</a></li>
                                 <li class="nav-item"><a href="{{ route('admin.strutture.index') }}" class="nav-link {{ $isRoute('admin.strutture.*') ? 'active' : '' }}">Strutture</a></li>
-                                <li class="nav-item"><a href="{{ route('admin.pagamenti.index', ['tab' => 'articoli']) }}" class="nav-link {{ $isRoute('admin.pagamenti.*') && request('tab') === 'articoli' ? 'active' : '' }}">Catalogo articoli</a></li>
-                                <li class="nav-item"><a href="{{ route('admin.pagamenti.index') }}" class="nav-link {{ $isRoute('admin.pagamenti.*') ? 'active' : '' }}">Pagamenti / Licenze</a></li>
                             </ul>
                         </div>
                     </li>
@@ -140,24 +115,6 @@
                     </li>
                 @endif
 
-                @if($ruoloSidebar === 'super_admin')
-                    <li class="nav-item">
-                        <a class="nav-link menu-link {{ $isRoute('strutture.seleziona.*') ? 'active' : '' }}" href="{{ route('strutture.seleziona.index') }}">
-                            <i data-feather="crosshair" class="icon-dual"></i> <span>Seleziona struttura</span>
-                        </a>
-                    </li>
-                @endif
-
-                @if($superadminNeedsStrutturaSelection && !$superadminHasSelectedStruttura)
-                    <li class="nav-item">
-                        <div class="mx-3 my-2 p-3 rounded-3 border bg-body-secondary">
-                            <div class="fw-semibold mb-1">Struttura non selezionata</div>
-                            <div class="small text-muted">Per vedere il menu operativo della struttura seleziona prima una struttura dal pannello dedicato.</div>
-                        </div>
-                    </li>
-                @endif
-
-                @if(!$superadminNeedsStrutturaSelection || $superadminHasSelectedStruttura)
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ $isRoute('struttura.edit') ? 'active' : '' }}" href="{{ route('struttura.edit') }}">
                         <i data-feather="building" class="icon-dual"></i> <span>Dati struttura</span>
@@ -252,10 +209,16 @@
                         <i data-feather="trash-2" class="icon-dual"></i> <span>Cestino</span>
                     </a>
                 </li>
-                @endif
             </ul>
         </div>
     </div>
+    @if($currentStrutturaSidebar)
+        <div class="border-top px-3 py-3 struttura-sidebar-meta">
+            <div class="rounded-3 border bg-body-secondary p-3">
+                <div class="fw-semibold text-truncate">ID: {{ $strutturaBadgeSidebar }}</div>
+            </div>
+        </div>
+    @endif
     <div class="sidebar-background"></div>
 </div>
 <div class="vertical-overlay"></div>

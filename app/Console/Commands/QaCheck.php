@@ -137,13 +137,14 @@ class QaCheck extends Command
 
     protected function checkDemoIntegrity(array &$warnings, array &$fails): void
     {
-        $this->info('- Integrità base');
+        $this->info('- Integrità demo');
 
+        // strutture/proprietari
         if (Schema::hasTable('struttura')) {
             $structures = DB::table('struttura')->count();
             $this->line('  Strutture: ' . $structures);
-            if ($structures < 1) {
-                $fails[] = 'Nessuna struttura presente.';
+            if ($structures !== 6) {
+                $warnings[] = 'Attese 6 strutture, trovate ' . $structures;
             }
 
             if (Schema::hasColumn('struttura', 'proprietario_id')) {
@@ -151,25 +152,26 @@ class QaCheck extends Command
                 if ($ownersPerStructure > 0) {
                     $warnings[] = 'Strutture senza proprietario_id: ' . $ownersPerStructure;
                 }
+
+                $distinctOwners = DB::table('struttura')->whereNotNull('proprietario_id')->distinct('proprietario_id')->count('proprietario_id');
+                if ($distinctOwners !== 6) {
+                    $warnings[] = 'Proprietario_id associati non univoci (trovati ' . $distinctOwners . ')';
+                }
             }
         }
 
         if (Schema::hasTable('proprietari')) {
             $owners = DB::table('proprietari')->count();
             $this->line('  Proprietari: ' . $owners);
-            if ($owners < 1) {
-                $fails[] = 'Nessun proprietario presente.';
+            if ($owners !== 6) {
+                $warnings[] = 'Attesi 6 proprietari, trovati ' . $owners;
             }
 
             if (Schema::hasTable('struttura') && Schema::hasColumn('struttura', 'proprietario_id')) {
                 $counts = DB::table('struttura')->select('proprietario_id', DB::raw('count(*) as total'))->groupBy('proprietario_id')->get();
                 foreach ($counts as $row) {
-                    if ($row->proprietario_id === null) {
-                        continue;
-                    }
-
-                    if ($row->total < 1) {
-                        $warnings[] = 'Proprietario_id ' . $row->proprietario_id . ' non ha strutture associate.';
+                    if ($row->total !== 1) {
+                        $warnings[] = 'Proprietario_id ' . $row->proprietario_id . ' ha ' . $row->total . ' strutture (atteso 1)';
                     }
                 }
             }
@@ -183,16 +185,16 @@ class QaCheck extends Command
 
             $expect = [
                 'super_admin' => 1,
-                'admin' => 1,
-                'proprietario' => 1,
-                'struttura_user' => 1,
+                'admin' => 2,
+                'proprietario' => 6,
+                'struttura_user' => 6,
             ];
 
             foreach ($expect as $role => $expectedCount) {
                 $found = (int) ($roles[$role] ?? 0);
                 $this->line('  Ruolo ' . $role . ': ' . $found);
-                if ($found < $expectedCount) {
-                    $fails[] = "Attesi almeno $expectedCount utenti ruolo $role, trovati $found";
+                if ($found !== $expectedCount) {
+                    $warnings[] = "Attesi $expectedCount utenti ruolo $role, trovati $found";
                 }
             }
         }

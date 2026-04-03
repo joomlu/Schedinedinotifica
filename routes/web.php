@@ -27,13 +27,11 @@ use App\Http\Controllers\TitleController;
 use App\Http\Controllers\TipoViaController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\Superadmin\AmministratoriController;
-use App\Http\Controllers\Superadmin\ArticoliController;
 use App\Http\Controllers\Superadmin\ProprietariController as SuperadminProprietariController;
 use App\Http\Controllers\Superadmin\StruttureController as SuperadminStruttureController;
 use App\Http\Controllers\Superadmin\PagamentiController;
 use App\Http\Controllers\Superadmin\ImpersonazioneController;
 use App\Http\Controllers\Admin\ProprietariController as AdminProprietariController;
-use App\Http\Controllers\Admin\PagamentiController as AdminPagamentiController;
 use App\Http\Controllers\Admin\StruttureController as AdminStruttureController;
 use App\Http\Controllers\Proprietario\StruttureController as ProprietarioStruttureController;
 use App\Http\Controllers\QaController;
@@ -131,20 +129,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/amministratori/{id}/edit', [AmministratoriController::class, 'edit'])->name('superadmin.amministratori.edit');
         Route::put('/amministratori/{id}', [AmministratoriController::class, 'update'])->name('superadmin.amministratori.update');
         Route::post('/amministratori/{id}/disable', [AmministratoriController::class, 'disable'])->name('superadmin.amministratori.disable');
-        Route::post('/amministratori/{id}/enable', [AmministratoriController::class, 'enable'])->name('superadmin.amministratori.enable');
-        Route::get('/amministratori/{id}/proforme/create', [AmministratoriController::class, 'createProformaPage'])->name('superadmin.amministratori.proforme.create');
-        Route::post('/amministratori/{id}/proforme', [AmministratoriController::class, 'storeProforma'])->name('superadmin.amministratori.proforme.store');
-        Route::get('/amministratori/{id}/proforme/{fatturazione}', [AmministratoriController::class, 'showProforma'])->name('superadmin.amministratori.proforme.show');
-        Route::get('/amministratori/{id}/proforme/{fatturazione}/edit', [AmministratoriController::class, 'editProforma'])->name('superadmin.amministratori.proforme.edit');
-        Route::put('/amministratori/{id}/proforme/{fatturazione}', [AmministratoriController::class, 'updateProforma'])->name('superadmin.amministratori.proforme.update');
-        Route::post('/amministratori/{id}/proforme/{fatturazione}/chiudi', [AmministratoriController::class, 'closeProforma'])->name('superadmin.amministratori.proforme.close');
-        Route::post('/amministratori/{id}/proforme/{fatturazione}/fatturata', [AmministratoriController::class, 'markProformaFatturata'])->name('superadmin.amministratori.proforme.mark_fatturata');
-        Route::get('/amministratori/{id}/proforme/{fatturazione}/stampa', [AmministratoriController::class, 'printProforma'])->name('superadmin.amministratori.proforme.print');
-
-        Route::get('/articoli', [ArticoliController::class, 'index'])->name('superadmin.articoli.index');
-        Route::post('/articoli', [ArticoliController::class, 'store'])->name('superadmin.articoli.store');
-        Route::put('/articoli/{id}', [ArticoliController::class, 'update'])->name('superadmin.articoli.update');
-        Route::delete('/articoli/{id}', [ArticoliController::class, 'destroy'])->name('superadmin.articoli.destroy');
 
         Route::get('/proprietari', [SuperadminProprietariController::class, 'index'])->name('superadmin.proprietari.index');
         Route::get('/proprietari/create', [SuperadminProprietariController::class, 'create'])->name('superadmin.proprietari.create');
@@ -153,15 +137,6 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/proprietari/{id}', [SuperadminProprietariController::class, 'update'])->name('superadmin.proprietari.update');
         Route::post('/proprietari/{id}/disable', [SuperadminProprietariController::class, 'disable'])->name('superadmin.proprietari.disable');
         Route::put('/proprietari/{id}/assegna-admin', [SuperadminProprietariController::class, 'assegnaAdmin'])->name('superadmin.proprietari.assegna_admin');
-        Route::post('/proprietari/{id}/assegna-struttura', [SuperadminProprietariController::class, 'assegnaStruttura'])->name('superadmin.proprietari.assegna_struttura');
-        Route::get('/proprietari/{id}/proforme/create', [SuperadminProprietariController::class, 'createProformaPage'])->name('superadmin.proprietari.proforme.create');
-        Route::post('/proprietari/{id}/proforme', [SuperadminProprietariController::class, 'storeProforma'])->name('superadmin.proprietari.proforme.store');
-        Route::get('/proprietari/{id}/proforme/{fatturazione}', [SuperadminProprietariController::class, 'showProforma'])->name('superadmin.proprietari.proforme.show');
-        Route::get('/proprietari/{id}/proforme/{fatturazione}/edit', [SuperadminProprietariController::class, 'editProforma'])->name('superadmin.proprietari.proforme.edit');
-        Route::put('/proprietari/{id}/proforme/{fatturazione}', [SuperadminProprietariController::class, 'updateProforma'])->name('superadmin.proprietari.proforme.update');
-        Route::post('/proprietari/{id}/proforme/{fatturazione}/chiudi', [SuperadminProprietariController::class, 'closeProforma'])->name('superadmin.proprietari.proforme.close');
-        Route::post('/proprietari/{id}/proforme/{fatturazione}/fatturata', [SuperadminProprietariController::class, 'markProformaFatturata'])->name('superadmin.proprietari.proforme.mark_fatturata');
-        Route::get('/proprietari/{id}/proforme/{fatturazione}/stampa', [SuperadminProprietariController::class, 'printProforma'])->name('superadmin.proprietari.proforme.print');
 
         Route::get('/strutture', [SuperadminStruttureController::class, 'index'])->name('superadmin.strutture.index');
         Route::get('/strutture/create', [SuperadminStruttureController::class, 'create'])->name('superadmin.strutture.create');
@@ -171,10 +146,6 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/strutture/{id}/servizio', [SuperadminStruttureController::class, 'updateServizio'])->name('superadmin.strutture.servizio');
 
         Route::get('/pagamenti', [PagamentiController::class, 'index'])->name('superadmin.pagamenti.index');
-        Route::post('/pagamenti/licenze', [PagamentiController::class, 'storeAssegnazione'])->name('superadmin.pagamenti.licenze.store');
-        Route::put('/pagamenti/licenze/{id}', [PagamentiController::class, 'updateAssegnazione'])->name('superadmin.pagamenti.licenze.update');
-        Route::delete('/pagamenti/licenze/{id}', [PagamentiController::class, 'destroyAssegnazione'])->name('superadmin.pagamenti.licenze.destroy');
-        Route::get('/pagamenti/licenze/{id}/stampa', [PagamentiController::class, 'printAssegnazione'])->name('superadmin.pagamenti.licenze.print');
 
         Route::get('/impersonazione', [ImpersonazioneController::class, 'index'])->name('superadmin.impersonazione.index');
         Route::post('/impersona/{userId}', [ImpersonazioneController::class, 'impersona'])->name('superadmin.impersona.start');
@@ -198,15 +169,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/proprietari/{id}/edit', [AdminProprietariController::class, 'edit'])->name('admin.proprietari.edit');
         Route::put('/proprietari/{id}', [AdminProprietariController::class, 'update'])->name('admin.proprietari.update');
         Route::post('/proprietari/{id}/disable', [AdminProprietariController::class, 'disable'])->name('admin.proprietari.disable');
-        Route::post('/proprietari/{id}/assegna-struttura', [AdminProprietariController::class, 'assegnaStruttura'])->name('admin.proprietari.assegna_struttura');
-        Route::get('/proprietari/{id}/proforme/create', [AdminProprietariController::class, 'createProformaPage'])->name('admin.proprietari.proforme.create');
-        Route::post('/proprietari/{id}/proforme', [AdminProprietariController::class, 'storeProforma'])->name('admin.proprietari.proforme.store');
-        Route::get('/proprietari/{id}/proforme/{fatturazione}', [AdminProprietariController::class, 'showProforma'])->name('admin.proprietari.proforme.show');
-        Route::get('/proprietari/{id}/proforme/{fatturazione}/edit', [AdminProprietariController::class, 'editProforma'])->name('admin.proprietari.proforme.edit');
-        Route::put('/proprietari/{id}/proforme/{fatturazione}', [AdminProprietariController::class, 'updateProforma'])->name('admin.proprietari.proforme.update');
-        Route::post('/proprietari/{id}/proforme/{fatturazione}/chiudi', [AdminProprietariController::class, 'closeProforma'])->name('admin.proprietari.proforme.close');
-        Route::post('/proprietari/{id}/proforme/{fatturazione}/fatturata', [AdminProprietariController::class, 'markProformaFatturata'])->name('admin.proprietari.proforme.mark_fatturata');
-        Route::get('/proprietari/{id}/proforme/{fatturazione}/stampa', [AdminProprietariController::class, 'printProforma'])->name('admin.proprietari.proforme.print');
 
         Route::get('/strutture', [AdminStruttureController::class, 'index'])->name('admin.strutture.index');
         Route::get('/strutture/create', [AdminStruttureController::class, 'create'])->name('admin.strutture.create');
@@ -214,12 +176,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/strutture/{id}/edit', [AdminStruttureController::class, 'edit'])->name('admin.strutture.edit');
         Route::put('/strutture/{id}', [AdminStruttureController::class, 'update'])->name('admin.strutture.update');
         Route::put('/strutture/{id}/servizio', [AdminStruttureController::class, 'updateServizio'])->name('admin.strutture.servizio');
-
-        Route::get('/pagamenti', [AdminPagamentiController::class, 'index'])->name('admin.pagamenti.index');
-        Route::post('/pagamenti/licenze', [AdminPagamentiController::class, 'storeAssegnazione'])->name('admin.pagamenti.licenze.store');
-        Route::put('/pagamenti/licenze/{id}', [AdminPagamentiController::class, 'updateAssegnazione'])->name('admin.pagamenti.licenze.update');
-        Route::delete('/pagamenti/licenze/{id}', [AdminPagamentiController::class, 'destroyAssegnazione'])->name('admin.pagamenti.licenze.destroy');
-        Route::get('/pagamenti/licenze/{id}/stampa', [AdminPagamentiController::class, 'printAssegnazione'])->name('admin.pagamenti.licenze.print');
     });
 
     // Proprietario area
@@ -375,7 +331,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/questura/download/periodo', [QuesturaExportController::class, 'downloadPeriodo'])->name('questura.download.periodo');
     Route::get('/questura/download/schedina/{id}', [QuesturaExportController::class, 'downloadSchedina'])->name('questura.download.schedina');
     Route::get('/questura/download/storico/{id}', [QuesturaExportController::class, 'downloadStorico'])->name('questura.download.storico');
-    Route::post('/questura/ws/tables', [QuesturaExportController::class, 'downloadOfficialTables'])->name('questura.ws.tables');
     Route::post('/questura/ws/verify', [QuesturaExportController::class, 'verifyPeriodo'])->name('questura.ws.verify');
     Route::post('/questura/ws/send', [QuesturaExportController::class, 'sendPeriodo'])->name('questura.ws.send');
     Route::get('/questura/ws/receipt/{id}', [QuesturaExportController::class, 'downloadReceipt'])->name('questura.ws.receipt');
@@ -383,7 +338,6 @@ Route::middleware(['auth'])->group(function () {
     // Tavola A / ISTAT
     Route::get('/istat-tabella-a', [IstatTabellaAController::class, 'index'])->name('istat.tabella_a.index');
     Route::post('/istat-tabella-a/controllo', [IstatTabellaAController::class, 'saveControllo'])->name('istat.tabella_a.controllo.save');
-    Route::get('/istat-tabella-a/print-summary', [IstatTabellaAController::class, 'printSummary'])->name('istat.tabella_a.print.summary');
     Route::get('/istat-tabella-a/download/xml', [IstatTabellaAController::class, 'downloadXml'])->name('istat.tabella_a.download.xml');
     Route::get('/istat-tabella-a/download/storico/{id}', [IstatTabellaAController::class, 'downloadStorico'])->name('istat.tabella_a.download.storico');
     Route::post('/istat-tabella-a/ws/verify', [IstatTabellaAController::class, 'verifyPeriodo'])->name('istat.tabella_a.ws.verify');
@@ -409,7 +363,6 @@ Route::middleware(['auth'])->group(function () {
     // Utenti, consegne e notifiche interne
     Route::get('/gestione-operativa', [GestioneOperativaController::class, 'index'])->name('gestione.operativa.index');
     Route::post('/gestione-operativa/profilo', [GestioneOperativaController::class, 'updateProfile'])->name('gestione.operativa.profile.update');
-    Route::post('/gestione-operativa/profilo/password', [GestioneOperativaController::class, 'updateMyPassword'])->name('gestione.operativa.profile.password');
     Route::post('/gestione-operativa/utenti', [GestioneOperativaController::class, 'storeUtente'])->name('gestione.operativa.utenti.store');
     Route::post('/gestione-operativa/utenti/{id}', [GestioneOperativaController::class, 'updateUtente'])->name('gestione.operativa.utenti.update');
     Route::post('/gestione-operativa/utenti/{id}/password', [GestioneOperativaController::class, 'resetPassword'])->name('gestione.operativa.utenti.password');
@@ -420,8 +373,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Centro assistenza
     Route::get('/aiuto', [HelpCenterController::class, 'index'])->name('help.index');
-    Route::get('/aiuto/generale', [HelpCenterController::class, 'general'])->name('help.general');
-    Route::get('/aiuto/admin', [HelpCenterController::class, 'admin'])->name('help.admin');
     Route::get('/aiuto/stampa', [HelpCenterController::class, 'print'])->name('help.print');
     Route::get('/aiuto/moduli/{slug}', [HelpCenterController::class, 'module'])->name('help.module');
     Route::get('/aiuto/gestione/{slug}', [HelpCenterController::class, 'management'])->name('help.management');

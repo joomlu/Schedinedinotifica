@@ -9,7 +9,7 @@
             <div class="col-sm-6">
                 <div class="text-sm-end">
                     <div class="text-muted small">
-                        &copy; 2026 Experience S.r.l. - Tutti i diritti riservati | tanggo.pro | tanggo.software
+                        &copy; 2026 Xperience S.r.l. - Tutti i diritti riservati | tanggo.pro | tanggo.software
                     </div>
                 </div>
             </div>

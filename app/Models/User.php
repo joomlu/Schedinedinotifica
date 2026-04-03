@@ -27,27 +27,6 @@ class User extends Authenticatable
         'username',
         'display_name',
         'telefono',
-        'qualifica',
-        'ragione_sociale',
-        'codice_fiscale',
-        'partita_iva',
-        'codice_destinatario',
-        'codice_unico',
-        'pec',
-        'indirizzo',
-        'numero_civico',
-        'cap',
-        'citta',
-        'provincia',
-        'regione',
-        'nazione',
-        'geo_manual',
-        'latitudine',
-        'longitudine',
-        'google_maps_url',
-        'compenso_servizio',
-        'note_servizio',
-        'note_amministrative',
         'ruolo',
         'ruolo_operativo',
         'struttura_id',
@@ -75,10 +54,6 @@ class User extends Authenticatable
         'attivo' => 'boolean',
         'ultimo_accesso_at' => 'datetime',
         'ultima_uscita_at' => 'datetime',
-        'geo_manual' => 'boolean',
-        'latitudine' => 'decimal:7',
-        'longitudine' => 'decimal:7',
-        'compenso_servizio' => 'decimal:2',
     ];
 
     public function struttura()
@@ -89,21 +64,6 @@ class User extends Authenticatable
     public function proprietario()
     {
         return $this->belongsTo(Proprietario::class, 'proprietario_id');
-    }
-
-    public function proprietariGestiti()
-    {
-        return $this->hasMany(Proprietario::class, 'admin_id');
-    }
-
-    public function adminServizi()
-    {
-        return $this->hasMany(AdminServizio::class, 'user_id');
-    }
-
-    public function fatturazioniAmministratore()
-    {
-        return $this->hasMany(AdminFatturazione::class, 'user_id');
     }
 
     public function isSuperAdmin(): bool

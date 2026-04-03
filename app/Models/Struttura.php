@@ -92,11 +92,6 @@ class Struttura extends Model
         return $this->belongsTo(Proprietario::class, 'proprietario_id');
     }
 
-    public function licenzeAssegnate()
-    {
-        return $this->hasMany(LicenzaAssegnazione::class, 'struttura_id');
-    }
-
     public function tipologiaStruttura()
     {
         return $this->belongsTo(TipologiaStruttura::class, 'tipologia_struttura_id');

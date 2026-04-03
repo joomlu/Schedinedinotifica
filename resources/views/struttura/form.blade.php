@@ -1,18 +1,6 @@
 @php
     $zoneOptions = collect($zoneOptions ?? []);
     $localitaOptions = collect($localitaOptions ?? []);
-    $activeTab = old('active_tab', $activeTab ?? request('tab', 'identita'));
-    $owner = $struttura->proprietario;
-    $ownerAdmin = $owner?->admin;
-    $licenzeCollection = collect($licenzeAssegnate ?? []);
-    $licenzeAttive = $licenzeCollection->where('attiva', true);
-    $licenzeDaPagare = $licenzeCollection->where('stato_pagamento', 'da_pagare');
-    $prossimaScadenzaLicenza = $licenzeCollection
-        ->filter(fn ($licenza) => filled($licenza->data_scadenza))
-        ->sortBy('data_scadenza')
-        ->first();
-    $prodottiInUso = $licenzeAttive->map(fn ($licenza) => $licenza->articolo?->nome)->filter()->unique()->values();
-    $movimentiStruttura = collect($movimentiStruttura ?? []);
 @endphp
 
 @push('scripts')
@@ -32,8 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var localitaSelect = document.getElementById('strutturaLocalitaSelect');
     var passwordToggles = document.querySelectorAll('[data-password-toggle]');
     var comuneSelect = document.getElementById('geo_comune_id');
-    var activeTabInput = document.getElementById('struttura_active_tab');
-    var saveActions = document.getElementById('struttura-save-actions');
 
     function setCalendarState(input, disabled, clearValue) {
         if (!input) return;
@@ -197,22 +183,6 @@ document.addEventListener('DOMContentLoaded', function() {
             button.setAttribute('title', reveal ? 'Nascondi password' : 'Mostra password');
         });
     });
-
-    document.querySelectorAll('[data-bs-toggle="tab"][data-struttura-tab]').forEach(function (button) {
-        button.addEventListener('shown.bs.tab', function () {
-            var currentTab = button.getAttribute('data-struttura-tab') || 'identita';
-            if (activeTabInput) {
-                activeTabInput.value = currentTab;
-            }
-            if (saveActions) {
-                saveActions.classList.toggle('d-none', currentTab !== 'identita');
-            }
-        });
-    });
-
-    if (saveActions) {
-        saveActions.classList.toggle('d-none', (activeTabInput ? activeTabInput.value : 'identita') !== 'identita');
-    }
 });
 
 </script>
@@ -228,35 +198,14 @@ document.addEventListener('DOMContentLoaded', function() {
     @endcomponent
 
     <div class="row config-page">
-        <div class="col-lg-12">
+        <div class="col-lg-10 mx-auto">
             <div class="card">
                 <div class="card-body">
-                    <x-table-topbar
-                        title="Dati struttura"
-                        subtitle="{{ $struttura->nome_struttura ?? 'Struttura' }} — {{ $struttura->citta ?: 'Città non impostata' }}"
-                        :showSearch="false"
-                    />
-
                     <form method="POST" action="{{ route('struttura.update') }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="active_tab" id="struttura_active_tab" value="{{ $activeTab }}">
 
-                        <ul class="nav nav-tabs nav-tabs-custom nav-justified mb-4" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link {{ $activeTab === 'identita' ? 'active' : '' }}" data-bs-toggle="tab" data-bs-target="#struttura-pane-identita" data-struttura-tab="identita" type="button" role="tab">Identità struttura</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link {{ $activeTab === 'relazioni' ? 'active' : '' }}" data-bs-toggle="tab" data-bs-target="#struttura-pane-relazioni" data-struttura-tab="relazioni" type="button" role="tab">Relazioni e pagamenti</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link {{ $activeTab === 'licenze' ? 'active' : '' }}" data-bs-toggle="tab" data-bs-target="#struttura-pane-licenze" data-struttura-tab="licenze" type="button" role="tab">Licenze e conto</button>
-                            </li>
-                        </ul>
-
-                        <div class="tab-content">
-                            <div class="tab-pane fade {{ $activeTab === 'identita' ? 'show active' : '' }}" id="struttura-pane-identita" role="tabpanel">
-                                <div class="row g-4">
+                        <div class="row g-4">
                             <!-- Identità Struttura -->
                             <div class="col-12">
                                 <div class="card mb-4 border-0 shadow-sm">
@@ -691,205 +640,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             </div>
                         </div>
-                            </div>
 
-                            <div class="tab-pane fade {{ $activeTab === 'relazioni' ? 'show active' : '' }}" id="struttura-pane-relazioni" role="tabpanel">
-                                <div class="row g-3">
-                                    <div class="col-lg-4">
-                                        <div class="card border-0 shadow-sm h-100">
-                                            <div class="card-header border-0 bg-light-subtle d-flex align-items-center">
-                                                <i class="ri-user-heart-line me-2 text-primary"></i>
-                                                <h5 class="card-title mb-0">Proprietario</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="fw-semibold">{{ $owner?->nome ?: 'Non assegnato' }}</div>
-                                                <div class="small text-muted">{{ $owner?->email ?: 'Nessuna email' }}</div>
-                                                <div class="small text-muted">{{ $owner?->telefono ?: 'Nessun telefono' }}</div>
-                                                @if($owner)
-                                                    <div class="mt-3">
-                                                        <div class="text-muted small text-uppercase mb-1">Dati fiscali</div>
-                                                        <div class="small text-body">{{ $owner->ragione_sociale ?: 'Nessuna ragione sociale' }}</div>
-                                                        <div class="small text-muted">P.IVA {{ $owner->partita_iva ?: '—' }} · CF {{ $owner->codice_fiscale ?: '—' }}</div>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="card border-0 shadow-sm h-100">
-                                            <div class="card-header border-0 bg-light-subtle d-flex align-items-center">
-                                                <i class="ri-briefcase-4-line me-2 text-primary"></i>
-                                                <h5 class="card-title mb-0">Amministratore</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="fw-semibold">{{ $ownerAdmin?->name ?: 'Non assegnato' }}</div>
-                                                <div class="small text-muted">{{ $ownerAdmin?->email ?: 'Nessuna email' }}</div>
-                                                <div class="small text-muted">{{ $ownerAdmin?->telefono ?: 'Nessun telefono' }}</div>
-                                                @if($ownerAdmin)
-                                                    <div class="mt-3">
-                                                        <div class="text-muted small text-uppercase mb-1">Contatto amministrativo</div>
-                                                        <div class="small text-body">{{ $ownerAdmin->qualifica ?: 'Amministratore di riferimento' }}</div>
-                                                        <div class="small text-muted">{{ $ownerAdmin->citta ?: 'Città non indicata' }}{{ $ownerAdmin->provincia ? ' · '.$ownerAdmin->provincia : '' }}</div>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="card border-0 shadow-sm h-100">
-                                            <div class="card-header border-0 bg-light-subtle d-flex align-items-center">
-                                                <i class="ri-bank-card-line me-2 text-primary"></i>
-                                                <h5 class="card-title mb-0">Pagamento e servizio</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="row g-3">
-                                                    <div class="col-12">
-                                                        <div class="border rounded-3 p-3 bg-light-subtle">
-                                                            <div class="text-muted small text-uppercase mb-1">Stato pagamento</div>
-                                                            <div class="fw-semibold">{{ $struttura->stato_pagamento ?: 'Non definito' }}</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="border rounded-3 p-3 bg-light-subtle">
-                                                            <div class="text-muted small text-uppercase mb-1">Piano</div>
-                                                            <div class="fw-semibold">{{ $struttura->piano ?: 'Non definito' }}</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="border rounded-3 p-3 bg-light-subtle">
-                                                            <div class="text-muted small text-uppercase mb-1">Scadenza servizio</div>
-                                                            <div class="fw-semibold">{{ $struttura->scadenza_servizio?->format('d/m/Y') ?: 'Non impostata' }}</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="text-muted small mt-3">
-                                                    Questa sezione ti aiuta a leggere il rapporto commerciale della struttura con amministratore e superamministrazione.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="tab-pane fade {{ $activeTab === 'licenze' ? 'show active' : '' }}" id="struttura-pane-licenze" role="tabpanel">
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-3">
-                                        <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                                            <div class="text-muted small text-uppercase mb-1">Licenze attive</div>
-                                            <div class="fw-bold fs-4">{{ $licenzeAttive->count() }}</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                                            <div class="text-muted small text-uppercase mb-1">Da pagare</div>
-                                            <div class="fw-bold fs-4 text-danger">{{ $licenzeDaPagare->count() }}</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                                            <div class="text-muted small text-uppercase mb-1">Codice licenza</div>
-                                            <div class="fw-semibold">{{ $licenzeCollection->first()?->numero_licenza ?: 'Non assegnato' }}</div>
-                                            <div class="small text-muted mt-1">{{ $licenzeCollection->first()?->codice_tracking ?: 'Tracking non disponibile' }}</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                                            <div class="text-muted small text-uppercase mb-1">Totale licenze</div>
-                                            <div class="fw-bold fs-4">{{ number_format((float) $licenzeCollection->sum('prezzo'), 2, ',', '.') }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card border-0 shadow-sm mb-3">
-                                    <div class="card-header border-0 bg-light-subtle d-flex align-items-center">
-                                        <i class="ri-key-2-line me-2 text-primary"></i>
-                                        <h5 class="card-title mb-0">Licenze della struttura</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table align-middle mb-0">
-                                                <thead class="table-light">
-                                                    <tr>
-                                                        <th>Licenza</th>
-                                                        <th>Tracking</th>
-                                                        <th>Prezzo</th>
-                                                        <th>Stato</th>
-                                                        <th>Scadenza</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @forelse($licenzeCollection as $licenza)
-                                                        <tr>
-                                                            <td>
-                                                                <div class="fw-semibold">{{ $licenza->articolo?->nome ?: 'Licenza' }}</div>
-                                                                <div class="small text-muted">{{ $licenza->numero_licenza ?: 'Numero non assegnato' }}</div>
-                                                            </td>
-                                                            <td class="small">{{ $licenza->codice_tracking }}</td>
-                                                            <td class="fw-semibold">{{ number_format((float) $licenza->prezzo, 2, ',', '.') }}</td>
-                                                            <td>
-                                                                <span class="badge {{ $licenza->stato_pagamento === 'pagato' ? 'bg-success-subtle text-success' : ($licenza->stato_pagamento === 'parziale' ? 'bg-warning-subtle text-warning' : ($licenza->stato_pagamento === 'sospeso' ? 'bg-secondary-subtle text-secondary' : 'bg-danger-subtle text-danger')) }}">
-                                                                    {{ ucfirst(str_replace('_', ' ', $licenza->stato_pagamento)) }}
-                                                                </span>
-                                                                <div class="small text-muted mt-1">{{ $licenza->attiva ? 'Attiva' : 'Non attiva' }}</div>
-                                                            </td>
-                                                            <td>{{ optional($licenza->data_scadenza)->format('d/m/Y') ?: '—' }}</td>
-                                                        </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <td colspan="5" class="text-center py-4 text-muted">Nessuna licenza collegata a questa struttura.</td>
-                                                        </tr>
-                                                    @endforelse
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card border-0 shadow-sm">
-                                    <div class="card-header border-0 bg-light-subtle d-flex align-items-center">
-                                        <i class="ri-file-list-3-line me-2 text-primary"></i>
-                                        <h5 class="card-title mb-0">Movimenti e documenti collegati</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table align-middle mb-0">
-                                                <thead class="table-light">
-                                                    <tr>
-                                                        <th>Documento</th>
-                                                        <th>Proprietario</th>
-                                                        <th>Data</th>
-                                                        <th>Stato</th>
-                                                        <th class="text-end">Totale</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @forelse($movimentiStruttura as $movimento)
-                                                        <tr>
-                                                            <td>
-                                                                <div class="fw-semibold">{{ $movimento->numero }}</div>
-                                                                <div class="small text-muted">Proforma collegata alla struttura</div>
-                                                            </td>
-                                                            <td>{{ $movimento->proprietario?->nome ?: '—' }}</td>
-                                                            <td>{{ optional($movimento->data_documento)->format('d/m/Y') ?: '—' }}</td>
-                                                            <td>
-                                                                <span class="badge bg-light text-body">{{ ucfirst($movimento->stato) }}</span>
-                                                            </td>
-                                                            <td class="text-end fw-semibold">{{ number_format((float) $movimento->totale, 2, ',', '.') }}</td>
-                                                        </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <td colspan="5" class="text-center py-4 text-muted">Nessun documento collegato a questa struttura.</td>
-                                                        </tr>
-                                                    @endforelse
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 text-end {{ $activeTab !== 'identita' ? 'd-none' : '' }}" id="struttura-save-actions">
+                        <div class="mt-4 text-end">
                             <button type="submit" class="btn btn-success">Salva</button>
                         </div>
                     </form>

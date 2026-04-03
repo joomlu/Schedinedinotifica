@@ -1,4 +1,6 @@
 @php
+    use App\Models\StrutturaComanda;
+
     $utenteTopbar = auth()->user();
     $nomeTopbar = $utenteTopbar?->display_name ?? $utenteTopbar?->name ?? 'Utente';
     $ruoloTopbar = match ($utenteTopbar->ruolo ?? null) {
@@ -15,10 +17,18 @@
     $notificheTopbar = collect();
     $notificheNonLette = 0;
 
-    if ($utenteTopbar && ($utenteTopbar->struttura_id || \App\Support\StrutturaCorrente::getId())) {
-        $notificheData = app(\App\Services\NotificheService::class)->topbarForUser($utenteTopbar);
-        $notificheTopbar = collect($notificheData['items'] ?? []);
-        $notificheNonLette = (int) ($notificheData['non_lette'] ?? 0);
+    if ($utenteTopbar && $utenteTopbar->struttura_id) {
+        $notificheTopbar = StrutturaComanda::query()
+            ->with(['mittente'])
+            ->visibleForUser($utenteTopbar)
+            ->orderByRaw("case when stato = 'da_leggere' then 0 when stato = 'letta' then 1 else 2 end")
+            ->orderByDesc('created_at')
+            ->limit(5)
+            ->get();
+
+        $notificheNonLette = StrutturaComanda::query()
+            ->unreadForUser($utenteTopbar)
+            ->count();
     }
 @endphp
 <header id="page-topbar">
@@ -135,11 +145,7 @@
                                             <div class="text-muted small text-truncate mb-2">{{ $notifica->messaggio }}</div>
                                             <div class="d-flex gap-2">
                                                 <button type="button" class="btn btn-soft-primary btn-sm topbar-open-notifica" data-bs-toggle="modal" data-bs-target="#topbar-notifica-{{ $notifica->id }}">Apri</button>
-                                                @if(!empty($notifica->detail_link))
-                                                    <a href="{{ $notifica->detail_link }}" class="btn btn-light btn-sm">{{ $notifica->detail_link_label ?? 'Apri dettaglio' }}</a>
-                                                @else
-                                                    <a href="{{ route('notifiche.index') }}" class="btn btn-light btn-sm">Vai al centro</a>
-                                                @endif
+                                                <a href="{{ route('notifiche.index') }}" class="btn btn-light btn-sm">Vai al centro</a>
                                             </div>
                                         </div>
                                     </div>
@@ -217,19 +223,15 @@
                     <div style="white-space: pre-wrap;">{{ $notifica->messaggio }}</div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    @if(!empty($notifica->detail_link))
-                        <a href="{{ $notifica->detail_link }}" class="btn btn-light">{{ $notifica->detail_link_label ?? 'Apri dettaglio' }}</a>
-                    @else
-                        <a href="{{ route('notifiche.index') }}" class="btn btn-light">Apri centro notifiche</a>
-                    @endif
+                    <a href="{{ route('notifiche.index') }}" class="btn btn-light">Apri centro notifiche</a>
                     <div class="d-flex gap-2">
-                        @if($notifica->stato === 'da_leggere' && !empty($notifica->can_mark))
+                        @if($notifica->stato === 'da_leggere')
                             <form method="POST" action="{{ route('gestione.operativa.comande.read', $notifica->id) }}">
                                 @csrf
                                 <button type="submit" class="btn btn-warning">Segna vista</button>
                             </form>
                         @endif
-                        @if($notifica->stato !== 'chiusa' && !empty($notifica->can_close))
+                        @if($notifica->stato !== 'chiusa')
                             <form method="POST" action="{{ route('gestione.operativa.comande.close', $notifica->id) }}">
                                 @csrf
                                 <button type="submit" class="btn btn-success">Chiudi</button>

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LicenzaAssegnazione;
-use App\Models\ProprietarioFatturazione;
 use App\Models\Struttura;
 use App\Http\Requests\StrutturaRequest;
 use App\Models\TipologiaGenerale;
@@ -24,7 +22,7 @@ class StrutturaController extends Controller
     public function edit()
     {
         $currentId = \App\Support\StrutturaCorrente::getId();
-        $strutturaQuery = \App\Models\Struttura::with('proprietario.admin');
+        $strutturaQuery = \App\Models\Struttura::query();
         $struttura = $currentId
             ? $strutturaQuery->findOrFail($currentId)
             : $strutturaQuery->firstOrFail();
@@ -34,17 +32,6 @@ class StrutturaController extends Controller
         $geoComuneId = $this->resolveGeoComuneId($struttura->citta);
         $zoneOptions = $this->buildZoneOptions($struttura, $geoComuneId, 'zona');
         $localitaOptions = $this->buildZoneOptions($struttura, $geoComuneId, 'localita');
-        $licenzeAssegnate = LicenzaAssegnazione::with(['articolo.parent', 'admin', 'proprietario'])
-            ->where('struttura_id', $struttura->id)
-            ->orderByDesc('attiva')
-            ->orderByDesc('data_scadenza')
-            ->orderByDesc('id')
-            ->get();
-        $movimentiStruttura = ProprietarioFatturazione::with(['proprietario', 'righe'])
-            ->whereHas('righe', fn ($query) => $query->where('struttura_id', $struttura->id))
-            ->orderByDesc('data_documento')
-            ->orderByDesc('id')
-            ->get();
 
         return view('struttura.edit', [
             'struttura' => $struttura,
@@ -53,9 +40,6 @@ class StrutturaController extends Controller
             'classificazioni' => $classificazioni,
             'zoneOptions' => $zoneOptions,
             'localitaOptions' => $localitaOptions,
-            'licenzeAssegnate' => $licenzeAssegnate,
-            'movimentiStruttura' => $movimentiStruttura,
-            'activeTab' => request('tab', 'identita'),
         ]);
     }
 

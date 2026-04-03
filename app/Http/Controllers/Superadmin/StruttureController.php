@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
-use App\Models\LicenzaArticolo;
-use App\Models\LicenzaAssegnazione;
 use App\Models\Proprietario;
-use App\Models\ProprietarioFatturazione;
 use App\Models\Struttura;
 use Illuminate\Http\Request;
 
@@ -28,17 +25,9 @@ class StruttureController extends Controller
         $proprietari = Proprietario::orderBy('nome')->get();
 
         return view('superadmin.strutture.form', [
-            'struttura' => new Struttura([
-                'proprietario_id' => request()->integer('proprietario_id') ?: null,
-            ]),
+            'struttura' => new Struttura(),
             'proprietari' => $proprietari,
-            'articoli' => LicenzaArticolo::with('parent')->orderBy('ordine')->orderBy('nome')->get(),
-            'licenzeAssegnate' => collect(),
-            'movimentiStruttura' => collect(),
-            'statiLicenza' => ['da_pagare', 'pagato', 'parziale', 'sospeso'],
             'mode' => 'create',
-            'returnToOwnerId' => request()->integer('return_to_owner_id') ?: null,
-            'activeTab' => request('tab', 'dati'),
         ]);
     }
 
@@ -53,11 +42,9 @@ class StruttureController extends Controller
             'scadenza_servizio' => ['nullable', 'date'],
             'piano' => ['nullable', 'string', 'max:100'],
             'stato_pagamento' => ['nullable', 'string', 'max:100'],
-            'return_to_owner_id' => ['nullable', 'integer', 'exists:proprietari,id'],
-            'active_tab' => ['nullable', 'string', 'max:50'],
         ]);
 
-        $struttura = Struttura::create([
+        Struttura::create([
             'nome_struttura' => $data['nome_struttura'],
             'citta' => $data['citta'] ?? null,
             'provincia' => $data['provincia'] ?? null,
@@ -68,40 +55,18 @@ class StruttureController extends Controller
             'stato_pagamento' => $data['stato_pagamento'] ?? null,
         ]);
 
-        if (!empty($data['return_to_owner_id'])) {
-            return redirect()
-                ->route('superadmin.proprietari.edit', ['id' => $data['return_to_owner_id'], 'tab' => 'strutture'])
-                ->with('success', 'Struttura creata e assegnata correttamente.');
-        }
-
-        return redirect()
-            ->route('superadmin.strutture.edit', ['id' => $struttura->id, 'tab' => $data['active_tab'] ?? 'dati'])
-            ->with('status', 'Struttura creata');
+        return redirect()->route('superadmin.strutture.index')->with('status', 'Struttura creata');
     }
 
     public function edit(int $id)
     {
-        $struttura = Struttura::with(['proprietario.admin'])->findOrFail($id);
+        $struttura = Struttura::findOrFail($id);
         $proprietari = Proprietario::orderBy('nome')->get();
 
         return view('superadmin.strutture.form', [
             'struttura' => $struttura,
             'proprietari' => $proprietari,
-            'articoli' => LicenzaArticolo::with('parent')->orderBy('ordine')->orderBy('nome')->get(),
-            'licenzeAssegnate' => LicenzaAssegnazione::with(['articolo.parent', 'admin', 'proprietario'])
-                ->where('struttura_id', $struttura->id)
-                ->orderByDesc('attiva')
-                ->orderByDesc('data_scadenza')
-                ->get(),
-            'movimentiStruttura' => ProprietarioFatturazione::with(['proprietario', 'righe'])
-                ->whereHas('righe', fn ($query) => $query->where('struttura_id', $struttura->id))
-                ->orderByDesc('data_documento')
-                ->orderByDesc('id')
-                ->get(),
-            'statiLicenza' => ['da_pagare', 'pagato', 'parziale', 'sospeso'],
             'mode' => 'edit',
-            'returnToOwnerId' => request()->integer('return_to_owner_id') ?: null,
-            'activeTab' => request('tab', 'dati'),
         ]);
     }
 
@@ -118,8 +83,6 @@ class StruttureController extends Controller
             'scadenza_servizio' => ['nullable', 'date'],
             'piano' => ['nullable', 'string', 'max:100'],
             'stato_pagamento' => ['nullable', 'string', 'max:100'],
-            'return_to_owner_id' => ['nullable', 'integer', 'exists:proprietari,id'],
-            'active_tab' => ['nullable', 'string', 'max:50'],
         ]);
 
         $struttura->update([
@@ -133,15 +96,7 @@ class StruttureController extends Controller
             'stato_pagamento' => $data['stato_pagamento'] ?? null,
         ]);
 
-        if (!empty($data['return_to_owner_id'])) {
-            return redirect()
-                ->route('superadmin.proprietari.edit', ['id' => $data['return_to_owner_id'], 'tab' => 'strutture'])
-                ->with('success', 'Struttura aggiornata.');
-        }
-
-        return redirect()
-            ->route('superadmin.strutture.edit', ['id' => $struttura->id, 'tab' => $data['active_tab'] ?? 'dati'])
-            ->with('status', 'Struttura aggiornata');
+        return redirect()->route('superadmin.strutture.index')->with('status', 'Struttura aggiornata');
     }
 
     public function updateServizio(Request $request, int $id)
