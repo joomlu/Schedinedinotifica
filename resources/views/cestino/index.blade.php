@@ -80,7 +80,21 @@
                                         <i class="ri-arrow-go-back-line fs-16 align-middle"></i>
                                     </button>
                                 </form>
-                                <form action="{{ route('cestino.destroy', ['id' => $item->id]) }}" method="POST" class="d-inline">
+                                <form
+                                    action="{{ route('cestino.destroy', ['id' => $item->id]) }}"
+                                    method="POST"
+                                    class="d-inline"
+                                    data-confirm-title="Conferma eliminazione dal cestino"
+                                    data-done-title="Eliminazione definitiva confermata"
+                                    data-done-text="Premi OK per procedere con l'eliminazione definitiva dal cestino."
+                                    data-confirm-label="{{ $item->source === 'Web Check-in' || $item->entity_type === 'Web Check-in'
+                                        ? ($item->title ? 'il contenuto del cestino di Web Check-in ' . $item->title : ($item->code ? 'il contenuto del cestino di Web Check-in ' . $item->code : 'il contenuto del cestino di Web Check-in'))
+                                        : ($item->entity_type === 'Schedina'
+                                            ? ($item->code ? 'la schedina nel cestino ' . $item->code : ($item->title ? 'la schedina nel cestino ' . $item->title : 'la schedina nel cestino'))
+                                            : ($item->entity_type === 'Componente'
+                                                ? ($item->title ? 'il componente nel cestino ' . $item->title : ($item->code ? 'il componente nel cestino della schedina ' . $item->code : 'il componente nel cestino'))
+                                                : ($item->title ? 'l\'elemento nel cestino ' . $item->title : ($item->code ? 'l\'elemento nel cestino ' . $item->code : ($item->entity_type ? 'l\'elemento nel cestino ' . $item->entity_type : 'questo elemento del cestino'))))) }}"
+                                >
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-soft-danger" title="Elimina definitivamente">
@@ -164,13 +178,11 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const tipoFilter = document.getElementById('cestinoTipoFilter');
-        if (!tipoFilter || !tipoFilter.form) {
-            return;
+        if (tipoFilter && tipoFilter.form) {
+            tipoFilter.addEventListener('change', function () {
+                tipoFilter.form.submit();
+            });
         }
-
-        tipoFilter.addEventListener('change', function () {
-            tipoFilter.form.submit();
-        });
     });
 </script>
 @endpush

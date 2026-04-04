@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TassaEsenzione;
+use App\Services\CestinoService;
 use App\Support\StrutturaCorrente;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -51,9 +52,12 @@ class TassaEsenzioneController extends Controller
         $this->ensureAdminAccess(request());
 
         $esenzione = TassaEsenzione::findOrFail($id);
+        app(CestinoService::class)->archiveModel($esenzione, [
+            'source' => 'Esenzioni tassa',
+        ]);
         $esenzione->delete();
 
-        return back()->with('success', 'Esenzione eliminata.');
+        return back()->with('success', 'Esenzione spostata nel cestino.');
     }
 
     private function validatePayload(Request $request, int $strutturaId, ?int $ignoreId = null): array

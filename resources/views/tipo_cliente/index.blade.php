@@ -45,7 +45,7 @@
                                     <i class="ri-edit-line fs-16 align-middle"></i>
                                 </button>
 
-                                <form action="{{ route('tipo_cliente.destroy', $tipoCliente->id) }}" method="POST" class="d-inline">
+                                <form action="{{ route('tipo_cliente.destroy', $tipoCliente->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il tipo cliente ' . $tipoCliente->descrizione }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-soft-danger btn-sm">
@@ -63,7 +63,7 @@
                                     <h5 class="modal-title" id="tipoClienteEditLabel{{ $tipoCliente->id }}">Modifica Tipo Cliente</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form method="POST" action="{{ route('tipo_cliente.update', $tipoCliente->id) }}">
+                                <form method="POST" action="{{ route('tipo_cliente.update', $tipoCliente->id) }}" data-confirm-label="{{ 'il tipo cliente ' . $tipoCliente->descrizione }}">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-body">
@@ -128,4 +128,3 @@
     </div>
 </div>
 @endsection
-

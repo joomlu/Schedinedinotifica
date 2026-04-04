@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Gruppo;
+use App\Services\CestinoService;
 
 class GroupController extends Controller
 {
@@ -103,9 +104,12 @@ class GroupController extends Controller
     public function destroy($id)
     {
         $gruppo = Gruppo::findOrFail($id);
+        app(CestinoService::class)->archiveModel($gruppo, [
+            'source' => 'Gruppi',
+        ]);
         $gruppo->delete();
 
-        return redirect()->back()->with('success', 'Gruppo eliminato con successo.');
+        return redirect()->back()->with('success', 'Gruppo spostato nel cestino.');
     }
 
     private function validateHierarchy($validator, int $livello, $parentId): void

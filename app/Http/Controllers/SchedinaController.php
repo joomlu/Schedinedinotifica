@@ -19,6 +19,7 @@ use App\Models\TipoVia;
 use App\Models\Titolo;
 use App\Models\RilasciatoDa;
 use App\Services\TassaDiSoggiornoService;
+use App\Services\CestinoService;
 use App\Support\StrutturaCorrente;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -339,9 +340,13 @@ class SchedinaController extends Controller
     public function destroy(int $id)
     {
         $schedina = Schedina::query()->findOrFail($id);
+        app(CestinoService::class)->archiveModel($schedina, [
+            'source' => 'Schedine',
+            'circuito' => 'schedina',
+        ]);
         $schedina->delete();
 
-        return redirect()->back()->with('success', 'Schedina eliminata con successo.');
+        return redirect()->back()->with('success', 'Schedina spostata nel cestino.');
     }
 
     private function schedinaCopyPayload(Schedina $schedina): array

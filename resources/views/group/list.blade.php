@@ -71,8 +71,7 @@
                                 <td>{{$group->id}}</td>
                                 <td>{{$group->name}}</td>
                                 <td> <button type="button" class="btn btn-success btn-icon waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#ModalEdit{{$group->id}}"><i class=" ri-pencil-line"></i></button> 
-                                <a  href="{{ route('group.destroy',['id' => $group->id] )}}" onclick=
-return confirm('Seguro deseas eliminar este grupo definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
+                                <a href="{{ route('group.destroy',['id' => $group->id] )}}" type="button" class="btn btn-danger btn-icon waves-effect waves-light" data-confirm-label="{{ 'il gruppo ' . $group->name }}">
                       <i class="ri-delete-bin-5-line"></i><a>     
                                 </td>
                             </tr>

@@ -99,9 +99,13 @@
                                                 <button type="button" class="btn btn-soft-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalArticoloEdit{{ $articolo->id }}">
                                                     <i class="ri-edit-line fs-16 align-middle"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-soft-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalArticoloDelete{{ $articolo->id }}">
-                                                    <i class="ri-delete-bin-line fs-16 align-middle"></i>
-                                                </button>
+                                                <form method="POST" action="{{ route('superadmin.articoli.destroy', $articolo->id) }}" class="d-inline" data-confirm-label="{{ 'l articolo ' . $articolo->nome }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-soft-danger btn-sm" title="Elimina">
+                                                        <i class="ri-delete-bin-line fs-16 align-middle"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -113,7 +117,7 @@
                                                     <h5 class="modal-title" id="articoloEditLabel{{ $articolo->id }}">Modifica articolo</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <form method="POST" action="{{ route('superadmin.articoli.update', $articolo->id) }}">
+                                                <form method="POST" action="{{ route('superadmin.articoli.update', $articolo->id) }}" data-confirm-label="{{ 'l articolo ' . $articolo->nome }}">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-body">
@@ -170,28 +174,6 @@
                                                         <button type="submit" class="btn btn-primary btn-sm">Salva</button>
                                                     </div>
                                                 </form>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div id="modalArticoloDelete{{ $articolo->id }}" class="modal fade" tabindex="-1" aria-labelledby="articoloDeleteLabel{{ $articolo->id }}" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="articoloDeleteLabel{{ $articolo->id }}">Conferma eliminazione</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p class="mb-0">Eliminare definitivamente "{{ $articolo->nome }}"?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Annulla</button>
-                                                    <form method="POST" action="{{ route('superadmin.articoli.destroy', $articolo->id) }}">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
-                                                    </form>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

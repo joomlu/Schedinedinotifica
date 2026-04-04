@@ -7,6 +7,7 @@ use App\Models\Componenti;
 use App\Models\Gruppo;
 // Gruppi secondari rimossi: tabelle eliminate
 use App\Models\TipoVia;
+use App\Services\CestinoService;
 use App\Services\NationService;
 use App\Models\GeoNazione;
 use App\Models\GeoComune;
@@ -129,8 +130,11 @@ class ComponentiController extends Controller
     public function destroy($id)
     { 
         $customer = Componenti::find($id);
+        app(CestinoService::class)->archiveModel($customer, [
+            'source' => 'Componenti',
+        ]);
         $customer->delete();
-            return redirect()->back(); 
+            return redirect()->back()->with('success', 'Componente spostato nel cestino.'); 
 
     }
 

@@ -109,10 +109,15 @@
                                 <a href="{{ route('schedina.edit', ['id' => $schedina->id]) }}" class="btn btn-soft-info btn-sm" title="Modifica">
                                     <i class="ri-edit-line fs-16 align-middle"></i>
                                 </a>
-                                <form action="{{ route('schedina.destroy', ['id' => $schedina->id]) }}" method="POST" class="d-inline js-schedina-delete-form" data-confirm="off">
+                                <form
+                                    action="{{ route('schedina.destroy', ['id' => $schedina->id]) }}"
+                                    method="POST"
+                                    class="d-inline js-schedina-delete-form"
+                                    data-confirm-label="{{ $schedina->scheda ? 'la schedina ' . $schedina->scheda . (trim(($schedina->name ?: '') . ' ' . ($schedina->surname ?: '')) !== '' ? ' di ' . trim(($schedina->name ?: '') . ' ' . ($schedina->surname ?: '')) : '') : (trim(($schedina->name ?: '') . ' ' . ($schedina->surname ?: '')) !== '' ? 'la schedina di ' . trim(($schedina->name ?: '') . ' ' . ($schedina->surname ?: '')) : 'questa schedina') }}"
+                                >
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" class="btn btn-soft-danger btn-sm js-schedina-delete-btn" title="Elimina" data-confirm-ignore>
+                                    <button type="submit" class="btn btn-soft-danger btn-sm" title="Elimina">
                                         <i class="ri-delete-bin-line fs-16 align-middle"></i>
                                     </button>
                                 </form>
@@ -135,43 +140,6 @@
             });
         });
 
-        document.querySelectorAll('.js-schedina-delete-btn').forEach(function (button) {
-            button.addEventListener('click', async function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-
-                const form = button.closest('form');
-                if (!form) return;
-
-                if (window.Swal && typeof window.Swal.fire === 'function') {
-                    const first = await window.Swal.fire({
-                        title: 'Conferma eliminazione',
-                        text: 'Stai per eliminare una schedina. Vuoi continuare?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sì, elimina',
-                        cancelButtonText: 'Annulla',
-                        reverseButtons: true,
-                        focusCancel: true,
-                    });
-
-                    if (!first.isConfirmed) return;
-
-                    const second = await window.Swal.fire({
-                        title: 'Eliminazione confermata',
-                        text: 'Premi OK per procedere con l eliminazione.',
-                        icon: 'success',
-                        confirmButtonText: 'OK',
-                    });
-
-                    if (!second.isConfirmed) return;
-                } else if (!window.confirm('Stai per eliminare una schedina. Vuoi continuare?')) {
-                    return;
-                }
-
-                form.submit();
-            });
-        });
     });
 </script>
 @endsection

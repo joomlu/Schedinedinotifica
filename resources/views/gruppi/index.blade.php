@@ -52,9 +52,13 @@
                                     <i class="ri-edit-line fs-16 align-middle"></i>
                                 </button>
 
-                                <button type="button" class="btn btn-soft-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalGruppoDelete{{ $gruppo->id }}">
-                                    <i class="ri-delete-bin-line fs-16 align-middle"></i>
-                                </button>
+                                <form action="{{ route('gruppo.destroy', $gruppo->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il gruppo ' . $gruppo->nome }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-soft-danger btn-sm" title="Elimina">
+                                        <i class="ri-delete-bin-line fs-16 align-middle"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -66,7 +70,7 @@
                                     <h5 class="modal-title" id="gruppoEditLabel{{ $gruppo->id }}">Modifica Gruppo</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form method="POST" action="{{ route('gruppo.update', $gruppo->id) }}">
+                                <form method="POST" action="{{ route('gruppo.update', $gruppo->id) }}" data-confirm-label="{{ 'il gruppo ' . $gruppo->nome }}">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-body">
@@ -104,28 +108,6 @@
                                         <button type="submit" class="btn btn-primary btn-sm">Salva</button>
                                     </div>
                                 </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="modalGruppoDelete{{ $gruppo->id }}" class="modal fade" tabindex="-1" aria-labelledby="gruppoDeleteLabel{{ $gruppo->id }}" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="gruppoDeleteLabel{{ $gruppo->id }}">Conferma eliminazione</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p class="mb-0">Eliminare definitivamente "{{ $gruppo->nome }}"?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Annulla</button>
-                                    <form action="{{ route('gruppo.destroy', $gruppo->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     </div>

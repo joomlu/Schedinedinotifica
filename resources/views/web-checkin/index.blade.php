@@ -216,7 +216,12 @@
                                         <i class="ri-file-list-3-line fs-16 align-middle"></i>
                                     </a>
                                 @endif
-                                <form action="{{ route('web_checkin.destroy', ['id' => $richiesta->id]) }}" method="POST" class="d-inline">
+                                <form
+                                    action="{{ route('web_checkin.destroy', ['id' => $richiesta->id]) }}"
+                                    method="POST"
+                                    class="d-inline"
+                                    data-confirm-label="{{ $richiesta->codice ? 'la richiesta Web Check-in ' . $richiesta->codice . ($richiesta->nome_referente ? ' di ' . $richiesta->nome_referente : '') : ($richiesta->nome_referente ? 'la richiesta Web Check-in di ' . $richiesta->nome_referente : 'questa richiesta Web Check-in') }}"
+                                >
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-soft-danger btn-sm" title="Elimina">

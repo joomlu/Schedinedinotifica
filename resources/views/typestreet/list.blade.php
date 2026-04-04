@@ -72,8 +72,7 @@
                                 <td>{{$typestreets->name}}</td>
                                 
                                 <td> <button type="button" class="btn btn-success btn-icon waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#ModalEdit{{$typestreets->id}}"><i class=" ri-pencil-line"></i></button> 
-                                <a  href="{{ route('typestreet.destroy',['id' => $typestreets->id] )}}" onclick="
-return confirm('Seguro deseas eliminar este Tipo di via definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
+                                <a href="{{ route('typestreet.destroy',['id' => $typestreets->id] )}}" type="button" class="btn btn-danger btn-icon waves-effect waves-light" data-confirm-label="{{ 'il tipo via ' . $typestreets->name }}">
                       <i class="ri-delete-bin-5-line"></i><a>     
                                 </td>
                             </tr>

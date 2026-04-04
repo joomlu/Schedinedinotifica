@@ -8,6 +8,7 @@ use App\Models\LicenzaAssegnazione;
 use App\Models\Proprietario;
 use App\Models\ProprietarioFatturazione;
 use App\Models\Struttura;
+use App\Services\CestinoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -219,10 +220,13 @@ class PagamentiController extends Controller
     {
         $assegnazione = $this->findOwnedAssegnazione($request, $id);
         $strutturaId = $assegnazione->struttura_id;
+        app(CestinoService::class)->archiveModel($assegnazione, [
+            'source' => 'Licenze',
+        ]);
         $assegnazione->delete();
         $this->syncStrutturaCommercialState($request, $strutturaId);
 
-        return $this->redirectAfterLicenza($request, 'Licenza eliminata correttamente.');
+        return $this->redirectAfterLicenza($request, 'Licenza spostata nel cestino.');
     }
 
     public function printAssegnazione(Request $request, int $id)

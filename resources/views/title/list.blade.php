@@ -82,10 +82,10 @@
                                     <button type="button" class="btn btn-soft-info btn-sm" data-bs-toggle="modal" data-bs-target="#ModalEdit{{ $titolo->id }}">
                                         Modifica
                                     </button>
-                                    <form action="{{ route('titolo.destroy', $titolo->id) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('titolo.destroy', $titolo->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il titolo ' . $titolo->nome }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-soft-danger btn-sm" onclick="return confirm('Sei sicuro di voler eliminare questo titolo?')">
+                                        <button type="submit" class="btn btn-soft-danger btn-sm">
                                             Elimina
                                         </button>
                                     </form>

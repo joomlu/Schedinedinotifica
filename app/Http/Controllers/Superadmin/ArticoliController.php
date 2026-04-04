@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
 use App\Models\LicenzaArticolo;
+use App\Services\CestinoService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -48,9 +49,12 @@ class ArticoliController extends Controller
                 ->with('warning', 'Questo articolo e gia usato in licenze esistenti. Disattivalo invece di eliminarlo.');
         }
 
+        app(CestinoService::class)->archiveModel($articolo, [
+            'source' => 'Articoli',
+        ]);
         $articolo->delete();
 
-        return redirect()->route('superadmin.articoli.index')->with('status', 'Articolo eliminato correttamente.');
+        return redirect()->route('superadmin.articoli.index')->with('status', 'Articolo spostato nel cestino.');
     }
 
     private function validateArticolo(Request $request, ?int $ignoreId = null): array

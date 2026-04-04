@@ -35,7 +35,7 @@
                                     <i class="ri-edit-line fs-16 align-middle"></i>
                                 </button>
 
-                                <form action="{{ route('rilasciato.destroy', $item->id) }}" method="POST" class="d-inline">
+                                <form action="{{ route('rilasciato.destroy', $item->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il rilascio documento ' . $item->name }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-soft-danger btn-sm">
@@ -53,7 +53,7 @@
                                     <h5 class="modal-title" id="rilasciatoEditLabel{{ $item->id }}">Modifica Rilasciato da</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form method="POST" action="{{ route('rilasciato.update', $item->id) }}">
+                                <form method="POST" action="{{ route('rilasciato.update', $item->id) }}" data-confirm-label="{{ 'il rilascio documento ' . $item->name }}">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-body">

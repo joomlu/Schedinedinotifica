@@ -6,6 +6,8 @@ use App\Models\CestinoItem;
 use App\Models\Componenti;
 use App\Models\Customers;
 use App\Models\Gruppo;
+use App\Models\LicenzaAssegnazione;
+use App\Models\LicenzaArticolo;
 use App\Models\RilasciatoDa;
 use App\Models\Schedina;
 use App\Models\SchedinaCamera;
@@ -60,6 +62,8 @@ class CestinoService
                 RilasciatoDa::class => $this->restoreSimpleModel(RilasciatoDa::class, $payload),
                 TassaEsenzione::class => $this->restoreSimpleModel(TassaEsenzione::class, $payload),
                 Struttura::class => $this->restoreSimpleModel(Struttura::class, $payload),
+                LicenzaArticolo::class => $this->restoreSimpleModel(LicenzaArticolo::class, $payload),
+                LicenzaAssegnazione::class => $this->restoreSimpleModel(LicenzaAssegnazione::class, $payload),
                 default => throw new \RuntimeException('Ripristino non supportato per questa entità.'),
             };
 
@@ -311,6 +315,8 @@ class CestinoService
             'TipoDocumento' => 'Tipo Documento',
             'RilasciatoDa' => 'Rilasciato da',
             'TassaEsenzione' => 'Esenzione tassa',
+            'LicenzaArticolo' => 'Articolo',
+            'LicenzaAssegnazione' => 'Licenza',
             default => class_basename($model),
         };
     }

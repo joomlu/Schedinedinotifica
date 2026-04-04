@@ -110,7 +110,12 @@
                                             <i class="ri-check-line fs-16 align-middle"></i>
                                         </button>
                                     </form>
-                                    <form action="{{ route('arrivals.destroy', $arrival->id) }}" method="POST" class="d-inline">
+                                    <form
+                                        action="{{ route('arrivals.destroy', $arrival->id) }}"
+                                        method="POST"
+                                        class="d-inline"
+                                        data-confirm-label="{{ $arrival->scheda ? 'l\'arrivo ' . $arrival->scheda . (trim(($arrival->name ?: '') . ' ' . ($arrival->surname ?: '')) !== '' ? ' di ' . trim(($arrival->name ?: '') . ' ' . ($arrival->surname ?: '')) : '') : (trim(($arrival->name ?: '') . ' ' . ($arrival->surname ?: '')) !== '' ? 'l\'arrivo di ' . trim(($arrival->name ?: '') . ' ' . ($arrival->surname ?: '')) : 'questo arrivo') }}"
+                                    >
                                         @csrf
                                         <button class="btn btn-soft-danger btn-sm" type="submit" title="Elimina arrivo">
                                             <i class="ri-delete-bin-line fs-16 align-middle"></i>

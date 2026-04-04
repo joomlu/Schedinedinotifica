@@ -17,6 +17,7 @@ use App\Models\GeoRegione;
 use App\Models\Schedina;
 use App\Support\StrutturaCorrente;
 use App\Models\GeoComune;
+use App\Services\CestinoService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
@@ -337,8 +338,11 @@ class CustomerController extends Controller
     public function destroy($id)
     { 
         $customer = Customers::query()->findOrFail($id);
+        app(CestinoService::class)->archiveModel($customer, [
+            'source' => 'Clienti',
+        ]);
         $customer->delete();
-            return redirect()->back()->with('success', 'Cliente eliminato con successo.'); 
+            return redirect()->back()->with('success', 'Cliente spostato nel cestino.'); 
 
     }
 

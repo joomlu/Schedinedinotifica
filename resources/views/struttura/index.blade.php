@@ -94,10 +94,10 @@
 													<a href="{{ route('struttura.edit', $struttura->id) }}" class="text-primary" title="Modifica"><i class="ri-edit-2-line fs-16"></i></a>
 												</li>
 												<li class="list-inline-item">
-													<form action="{{ route('struttura.destroy', $struttura->id) }}" method="POST" style="display:inline;">
+													<form action="{{ route('struttura.destroy', $struttura->id) }}" method="POST" style="display:inline;" data-confirm-label="{{ 'la struttura ' . $struttura->nome_struttura }}">
 														@csrf
 														@method('DELETE')
-														<button type="submit" class="btn btn-link p-0 m-0 align-baseline text-danger" title="Elimina" onclick="return confirm('Sei sicuro di voler eliminare questa struttura?')">
+														<button type="submit" class="btn btn-link p-0 m-0 align-baseline text-danger" title="Elimina">
 															<i class="ri-delete-bin-2-line fs-16"></i>
 														</button>
 													</form>

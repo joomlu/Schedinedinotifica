@@ -67,10 +67,10 @@
                                                 <button type="submit" class="btn btn-primary btn-sm">Carica</button>
                                             </form>
                                             @if($logoComune)
-                                                <form method="POST" action="{{ route('geo.comuni.logo.destroy', $comune->id) }}" class="d-inline">
+                                                <form method="POST" action="{{ route('geo.comuni.logo.destroy', $comune->id) }}" class="d-inline" data-confirm-label="{{ 'il logo del comune di ' . $comune->nome }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Rimuovere il logo?')">Rimuovi</button>
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm">Rimuovi</button>
                                                 </form>
                                             @endif
                                         </td>

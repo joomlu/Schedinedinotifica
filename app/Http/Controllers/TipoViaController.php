@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\TipoVia;
+use App\Services\CestinoService;
 
 class TipoViaController extends Controller
 {
@@ -80,8 +81,11 @@ class TipoViaController extends Controller
     public function destroy($id)
     {
         $tipovia = TipoVia::findOrFail($id);
+        app(CestinoService::class)->archiveModel($tipovia, [
+            'source' => 'Tipo Via',
+        ]);
         $tipovia->delete();
-        return redirect()->back()->with('success', 'Tipo via eliminato con successo.');
+        return redirect()->back()->with('success', 'Tipo via spostato nel cestino.');
     }
 
     private function normalizedTerms(string $value): array

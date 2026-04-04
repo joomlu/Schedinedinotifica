@@ -52,7 +52,7 @@
                                 <td><a href="#" class="link-success">Link <i class="ri-arrow-right-line align-middle"></i></a></td>
                                 <td>
                                     <a href="{{url('/editcomponenti')}}/{{$customer->id}}" type="button" class="btn btn-success btn-icon waves-effect waves-light"><i class="ri-search-line"></i></a>
-                                    <form action="{{ route('componenti.destroy', ['id' => $customer->id]) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('componenti.destroy', ['id' => $customer->id]) }}" method="POST" class="d-inline" data-confirm-label="{{ trim(($customer->name ?: '') . ' ' . ($customer->surname ?: '')) !== '' ? 'il componente ' . trim(($customer->name ?: '') . ' ' . ($customer->surname ?: '')) : 'questo componente' }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-icon waves-effect waves-light">

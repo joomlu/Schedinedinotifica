@@ -40,7 +40,7 @@
                             <button type="button" class="btn btn-soft-info btn-sm" data-bs-toggle="modal" data-bs-target="#ModalEdit{{ $titolo->id }}">
                                 <i class="ri-pencil-line align-middle me-1"></i> Modifica
                             </button>
-                            <form action="{{ route('titolo.destroy', $titolo->id) }}" method="POST" class="d-inline">
+                            <form action="{{ route('titolo.destroy', $titolo->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il titolo ' . $titolo->nome }}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-soft-danger btn-sm">
@@ -57,7 +57,7 @@
                                     <h5 class="modal-title" id="myModalEditLabel{{ $titolo->id }}">Modifica Titolo</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
                                 </div>
-                                <form method="POST" action="{{ route('titolo.update', $titolo->id) }}">
+                                <form method="POST" action="{{ route('titolo.update', $titolo->id) }}" data-confirm-label="{{ 'il titolo ' . $titolo->nome }}">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-body">

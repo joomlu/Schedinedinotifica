@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\RilasciatoDa;
+use App\Services\CestinoService;
 
 class RilasciatoDaController extends Controller
 {
@@ -58,9 +59,12 @@ class RilasciatoDaController extends Controller
     public function destroy($id)
     {
         $rilasciato = RilasciatoDa::findOrFail($id);
+        app(CestinoService::class)->archiveModel($rilasciato, [
+            'source' => 'Rilasciato da',
+        ]);
         $rilasciato->delete();
 
-        return redirect()->back()->with('success', 'Rilasciato da eliminato con successo.');
+        return redirect()->back()->with('success', 'Rilasciato da spostato nel cestino.');
     }
 
     private function normalizedTerms(string $value): array

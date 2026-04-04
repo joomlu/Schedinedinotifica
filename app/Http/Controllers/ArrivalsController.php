@@ -14,6 +14,7 @@ use App\Models\GeoRegione;
 use App\Models\Customers;
 use App\Models\Componenti;
 use App\Models\Struttura;
+use App\Services\CestinoService;
 use App\Support\StrutturaCorrente;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
@@ -240,8 +241,13 @@ class ArrivalsController extends Controller
             ->where('struttura_id', $currentId)
             ->where('is_arrive', 1)
             ->findOrFail($id);
+        app(CestinoService::class)->archiveModel($schedina, [
+            'source' => 'Arrivi',
+            'entity_type' => 'Arrivo',
+            'circuito' => 'arrivi',
+        ]);
         $schedina->delete();
-        return redirect()->back()->with('success', 'Arrivo eliminato.');
+        return redirect()->back()->with('success', 'Arrivo spostato nel cestino.');
     }
 
     private function resolveStruttura(Request $request): Struttura

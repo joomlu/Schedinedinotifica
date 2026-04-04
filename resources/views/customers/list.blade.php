@@ -147,10 +147,15 @@
                                 <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-soft-info btn-sm">
                                     <i class="ri-edit-line fs-16 align-middle"></i>
                                 </a>
-                                <form action="{{ route('customer.destroy', $customer->id) }}" method="POST" class="d-inline" data-confirm="off">
+                                <form
+                                    action="{{ route('customer.destroy', $customer->id) }}"
+                                    method="POST"
+                                    class="d-inline"
+                                    data-confirm-label="{{ trim($customer->name . ' ' . $customer->surname) !== '' ? 'il cliente ' . trim($customer->name . ' ' . $customer->surname) : 'questo cliente' }}"
+                                >
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-soft-danger btn-sm js-customer-delete" data-customer-name="{{ trim($customer->name . ' ' . $customer->surname) }}">
+                                    <button type="submit" class="btn btn-soft-danger btn-sm">
                                         <i class="ri-delete-bin-line fs-16 align-middle"></i>
                                     </button>
                                 </form>
@@ -167,40 +172,6 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.js-customer-delete').forEach((button) => {
-            button.addEventListener('click', async function (event) {
-                event.preventDefault();
-                const form = button.closest('form');
-                if (!form || !window.Swal) return;
-
-                const customerName = (button.dataset.customerName || '').trim();
-                const label = customerName || 'questo cliente';
-
-                const first = await window.Swal.fire({
-                    title: 'Conferma eliminazione',
-                    text: `Stai per eliminare ${label}. Vuoi continuare?`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sì, elimina',
-                    cancelButtonText: 'Annulla',
-                    reverseButtons: true,
-                    focusCancel: true,
-                });
-
-                if (!first.isConfirmed) return;
-
-                const second = await window.Swal.fire({
-                    title: 'Eliminazione confermata',
-                    text: 'Premi OK per procedere con l\'eliminazione.',
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                });
-
-                if (!second.isConfirmed) return;
-                form.submit();
-            });
-        });
-
         document.querySelectorAll('.js-customer-print').forEach((link) => {
             link.addEventListener('click', function (event) {
                 event.preventDefault();

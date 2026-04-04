@@ -48,7 +48,7 @@
                                     <i class="ri-edit-line fs-16 align-middle"></i>
                                 </button>
 
-                                <form method="POST" action="{{ route('tipovia.update', $via->id) }}">
+                                <form method="POST" action="{{ route('tipovia.update', $via->id) }}" data-confirm-label="{{ 'il tipo via ' . $via->descrizione }}">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="abbr" value="{{ $via->abbr }}">
@@ -59,9 +59,13 @@
                                     </button>
                                 </form>
 
-                                <button type="button" class="btn btn-soft-danger btn-sm" data-bs-toggle="modal" data-bs-target="#tipoviaDeleteModal{{ $via->id }}">
-                                    <i class="ri-delete-bin-line fs-16 align-middle"></i>
-                                </button>
+                                <form action="{{ route('tipovia.destroy', $via->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il tipo via ' . $via->descrizione }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-soft-danger btn-sm" title="Elimina">
+                                        <i class="ri-delete-bin-line fs-16 align-middle"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -74,7 +78,7 @@
                                     <h5 class="modal-title" id="tipoviaEditLabel{{ $via->id }}">Modifica Tipo Via</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form method="POST" action="{{ route('tipovia.update', $via->id) }}">
+                                <form method="POST" action="{{ route('tipovia.update', $via->id) }}" data-confirm-label="{{ 'il tipo via ' . $via->descrizione }}">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-body">
@@ -96,29 +100,6 @@
                                         <button type="submit" class="btn btn-primary btn-sm">Salva</button>
                                     </div>
                                 </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Modal Delete -->
-                    <div id="tipoviaDeleteModal{{ $via->id }}" class="modal fade" tabindex="-1" aria-labelledby="tipoviaDeleteLabel{{ $via->id }}" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="tipoviaDeleteLabel{{ $via->id }}">Conferma eliminazione</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p class="mb-0">Eliminare definitivamente "{{ $via->descrizione }}"?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Annulla</button>
-                                    <form action="{{ route('tipovia.destroy', $via->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     </div>

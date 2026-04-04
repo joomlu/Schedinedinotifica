@@ -196,7 +196,7 @@ class WebCheckinController extends SchedinaController
 
         $richiesta->delete();
 
-        return redirect()->route('schedina.web')->with('success', 'Richiesta Web Check-in eliminata.');
+        return redirect()->route('schedina.web')->with('success', 'Richiesta Web Check-in spostata nel cestino.');
     }
 
     public function publicShow(string $token)

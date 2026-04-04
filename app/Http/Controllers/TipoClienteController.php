@@ -71,7 +71,7 @@ class TipoClienteController extends Controller
         ]);
         $tipo_cliente->delete();
 
-        return redirect()->back()->with('success', 'Tipo cliente eliminato con successo.');
+        return redirect()->back()->with('success', 'Tipo cliente spostato nel cestino.');
     }
 
     private function normalizedTerms(string $value): array

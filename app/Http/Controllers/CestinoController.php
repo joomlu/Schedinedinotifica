@@ -22,6 +22,8 @@ class CestinoController extends Controller
         'Tipo Documento' => 'Configurazioni',
         'Rilasciato da' => 'Configurazioni',
         'Esenzione tassa' => 'Configurazioni',
+        'Articolo' => 'Configurazioni',
+        'Licenza' => 'Configurazioni',
     ];
 
     public function index(Request $request)

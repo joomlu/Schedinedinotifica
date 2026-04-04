@@ -72,8 +72,7 @@
                                 <td>{{$release->name}}</td>
                                 
                                 <td> <button type="button" class="btn btn-success btn-icon waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#ModalEdit{{$release->id}}"><i class=" ri-pencil-line"></i></button> 
-                                <a  href="{{ route('released.destroy',['id' => $release->id] )}}" onclick="
-return confirm('Seguro deseas eliminar este titulo definitivamente?')" type="button"  class="btn btn-danger btn-icon waves-effect waves-light">
+                                <a href="{{ route('released.destroy',['id' => $release->id] )}}" type="button" class="btn btn-danger btn-icon waves-effect waves-light" data-confirm-label="{{ 'il rilascio documento ' . $release->name }}">
                       <i class="ri-delete-bin-5-line"></i><a>     
                                 </td>
                             </tr>

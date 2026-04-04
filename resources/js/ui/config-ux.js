@@ -121,7 +121,98 @@ function inferActionType(form, submitter) {
     return 'save';
 }
 
-function buildAlertCopy(type, form = null) {
+function readOverride(form = null, submitter = null, key) {
+    return submitter?.dataset?.[key] || form?.dataset?.[key] || '';
+}
+
+function prettifyResource(resource) {
+    return (resource || '')
+        .replace(/^js\s+/i, '')
+        .replace(/[_-]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function inferSubjectFromAction(action = '') {
+    const path = (action || '').toLowerCase();
+
+    if (path.includes('/cestino/')) return 'questo elemento del cestino';
+    if (path.includes('/web_checkin') || path.includes('/web-checkin')) return 'questa richiesta Web Check-in';
+    if (path.includes('/arrivals')) return 'questo arrivo';
+    if (path.includes('/customer') || path.includes('/customers')) return 'questo cliente';
+    if (path.includes('/schedina') || path.includes('/schedine')) return 'questa schedina';
+    if (path.includes('/struttura')) return 'questa struttura';
+    if (path.includes('/gruppi')) return 'questo gruppo';
+    if (path.includes('/tipo_cliente')) return 'questo tipo cliente';
+    if (path.includes('/tipo_documento')) return 'questo tipo documento';
+    if (path.includes('/tipovia') || path.includes('/tipo_via')) return 'questo tipo via';
+    if (path.includes('/titolo') || path.includes('/title')) return 'questo titolo';
+    if (path.includes('/rilasciato')) return 'questo rilascio documento';
+    if (path.includes('/questura')) return 'questa operazione Questura';
+
+    const segments = path
+        .split('?')[0]
+        .split('/')
+        .filter(Boolean)
+        .filter((segment) => !/^\d+$/.test(segment) && !['store', 'update', 'destroy', 'delete'].includes(segment));
+
+    const resource = prettifyResource(segments[segments.length - 1] || '');
+    return resource ? `questo elemento di ${resource}` : 'questo elemento';
+}
+
+function applyOverrides(copy, form = null, submitter = null) {
+    const overridden = { ...copy };
+    const fields = [
+        ['confirmTitle', 'confirmTitle'],
+        ['confirmText', 'confirmText'],
+        ['confirmButton', 'confirmButton'],
+        ['doneTitle', 'doneTitle'],
+        ['doneText', 'doneText'],
+        ['successTitle', 'successTitle'],
+        ['successText', 'successText'],
+    ];
+
+    fields.forEach(([target, key]) => {
+        const value = readOverride(form, submitter, key);
+        if (value) {
+            overridden[target] = value;
+        }
+    });
+
+    return overridden;
+}
+
+function contextualCopy(type, form = null, submitter = null) {
+    const subject = readOverride(form, submitter, 'confirmLabel') || inferSubjectFromAction(form?.getAttribute('action') || '');
+
+    if (type === 'delete') {
+        return {
+            confirmTitle: 'Conferma eliminazione',
+            confirmText: `Stai per eliminare ${subject}. Vuoi continuare?`,
+            confirmButton: 'Sì, elimina',
+            doneTitle: 'Eliminazione confermata',
+            doneText: `Premi OK per procedere con l'eliminazione di ${subject}.`,
+            successTitle: 'Eliminato',
+            successText: 'Operazione completata correttamente.',
+        };
+    }
+
+    if (type === 'update') {
+        return {
+            confirmTitle: 'Conferma modifica',
+            confirmText: `Stai per modificare ${subject}. Vuoi continuare?`,
+            confirmButton: 'Sì, modifica',
+            doneTitle: 'Modifica confermata',
+            doneText: `Premi OK per procedere con la modifica di ${subject}.`,
+            successTitle: 'Modificato',
+            successText: 'Operazione completata correttamente.',
+        };
+    }
+
+    return null;
+}
+
+function buildAlertCopy(type, form = null, submitter = null) {
     const confirmKind = form?.dataset?.confirmKind || '';
 
     if (confirmKind === 'import-schedina') {
@@ -160,33 +251,14 @@ function buildAlertCopy(type, form = null) {
         };
     }
 
-    if (type === 'delete') {
-        return {
-            confirmTitle: 'Conferma eliminazione',
-            confirmText: 'Stai per eliminare un record. Vuoi continuare?',
-            confirmButton: 'Sì, elimina',
-            doneTitle: 'Eliminazione confermata',
-            doneText: 'Premi OK per procedere con l\'eliminazione.',
-            successTitle: 'Eliminato',
-            successText: 'Operazione completata correttamente.',
-        };
-    }
-
-    if (type === 'update') {
-        return {
-            confirmTitle: 'Conferma modifica',
-            confirmText: 'Stai per modificare i dati. Vuoi continuare?',
-            confirmButton: 'Sì, modifica',
-            doneTitle: 'Modifica confermata',
-            doneText: 'Premi OK per procedere con la modifica.',
-            successTitle: 'Modificato',
-            successText: 'Operazione completata correttamente.',
-        };
+    const contextual = contextualCopy(type, form, submitter);
+    if (contextual) {
+        return applyOverrides(contextual, form, submitter);
     }
 
     if (type === 'draft') {
         if ((form?.getAttribute('action') || '').toLowerCase().includes('/schedine')) {
-            return {
+            return applyOverrides({
                 confirmTitle: 'Conferma salvataggio bozza',
                 confirmText: 'La schedina verrà salvata come bozza provvisoria. Vuoi continuare?',
                 confirmButton: 'Sì, salva bozza',
@@ -194,10 +266,10 @@ function buildAlertCopy(type, form = null) {
                 doneText: 'Premi OK per procedere con il salvataggio provvisorio.',
                 successTitle: 'Bozza schedina salvata',
                 successText: 'La schedina è stata salvata come bozza.',
-            };
+            }, form, submitter);
         }
 
-        return {
+        return applyOverrides({
             confirmTitle: 'Conferma salvataggio bozza',
             confirmText: 'Il cliente verrà salvato come bozza provvisoria. Vuoi continuare?',
             confirmButton: 'Sì, salva bozza',
@@ -205,11 +277,11 @@ function buildAlertCopy(type, form = null) {
             doneText: 'Premi OK per procedere con il salvataggio provvisorio.',
             successTitle: 'Bozza salvata',
             successText: 'La bozza è stata salvata correttamente.',
-        };
+        }, form, submitter);
     }
 
     if (type === 'to_schedina') {
-        return {
+        return applyOverrides({
             confirmTitle: 'Salva e apri schedina',
             confirmText: 'Il cliente verrà salvato e subito aperto in una nuova schedina precompilata. Vuoi continuare?',
             confirmButton: 'Sì, salva in schedina',
@@ -217,11 +289,11 @@ function buildAlertCopy(type, form = null) {
             doneText: 'Premi OK per salvare il cliente e aprire la schedina nuova.',
             successTitle: 'Cliente salvato in schedina',
             successText: 'La schedina nuova è pronta con i dati del cliente.',
-        };
+        }, form, submitter);
     }
 
     if (type === 'to_arrivi') {
-        return {
+        return applyOverrides({
             confirmTitle: 'Salva in arrivi',
             confirmText: 'La schedina verrà salvata nel circuito Arrivi. Vuoi continuare?',
             confirmButton: 'Sì, salva in arrivi',
@@ -229,10 +301,10 @@ function buildAlertCopy(type, form = null) {
             doneText: 'Premi OK per salvare la schedina nel circuito Arrivi.',
             successTitle: 'Schedina salvata in arrivi',
             successText: 'La registrazione è stata spostata nel circuito Arrivi.',
-        };
+        }, form, submitter);
     }
 
-    return {
+    return applyOverrides({
         confirmTitle: 'Conferma salvataggio',
         confirmText: 'Stai per salvare i dati. Vuoi continuare?',
         confirmButton: 'Sì, salva',
@@ -240,11 +312,11 @@ function buildAlertCopy(type, form = null) {
         doneText: 'Premi OK per procedere con il salvataggio.',
         successTitle: 'Salvato',
         successText: 'Operazione completata correttamente.',
-    };
+    }, form, submitter);
 }
 
-async function confirmTwoStage(type, form = null) {
-    const copy = buildAlertCopy(type, form);
+async function confirmTwoStage(type, form = null, submitter = null) {
+    const copy = buildAlertCopy(type, form, submitter);
 
     const first = await Swal.fire({
         title: copy.confirmTitle,
@@ -298,7 +370,7 @@ function bindCrudLinks(scope) {
 
         link.addEventListener('click', async (event) => {
             event.preventDefault();
-            const ok = await confirmTwoStage('delete');
+            const ok = await confirmTwoStage('delete', null, link);
             if (ok) window.location.assign(link.href);
         });
     });
@@ -398,7 +470,7 @@ function bindFormBehavior(form) {
             event.stopPropagation();
 
             const type = inferActionType(form, event.submitter);
-            const confirmed = await confirmTwoStage(type, form);
+            const confirmed = await confirmTwoStage(type, form, event.submitter);
             if (!confirmed) return;
 
             form.dataset.confirmedAction = '1';

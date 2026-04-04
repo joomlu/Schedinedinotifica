@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Titolo;
+use App\Services\CestinoService;
 
 class TitleController extends Controller
 {
@@ -62,8 +63,11 @@ class TitleController extends Controller
 
     public function destroy(Titolo $titolo)
     {
+        app(CestinoService::class)->archiveModel($titolo, [
+            'source' => 'Titoli',
+        ]);
         $titolo->delete();
-        return redirect()->back()->with('success', 'Titolo eliminato con successo.');
+        return redirect()->back()->with('success', 'Titolo spostato nel cestino.');
     }
 
     private function normalizedTerms(string $value): array
