@@ -4,6 +4,12 @@
 @php
     $areaLabel = $areaLabel ?? 'SuperAdmin';
     $ownerRoutePrefix = $ownerRoutePrefix ?? 'superadmin.proprietari';
+    $proformaRows = collect($proforma?->righe ?? []);
+    $recipientStructures = $proformaRows->pluck('struttura')->filter()->unique('id')->values();
+    $hasGeneralRows = $proformaRows->contains(fn ($riga) => !$riga->struttura_id);
+    $destinatario = ($recipientStructures->count() === 1 && !$hasGeneralRows)
+        ? $recipientStructures->first()
+        : $proprietario;
 @endphp
 
 @section('content')
@@ -47,16 +53,21 @@
                 <div class="row g-3 mb-4">
                     <div class="col-md-4">
                         <div class="border rounded-3 p-3 bg-light-subtle h-100">
-                            <div class="text-muted small text-uppercase mb-1">Proprietario</div>
-                            <div class="fw-semibold">{{ $proprietario->nome }}</div>
-                            <div class="small text-muted">{{ $proprietario->email }}</div>
+                            <div class="text-muted small text-uppercase mb-1">Emittente</div>
+                            <div class="fw-semibold">Spire</div>
+                            <div class="small text-muted">Società emittente della proforma</div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="border rounded-3 p-3 bg-light-subtle h-100">
-                            <div class="text-muted small text-uppercase mb-1">Intestazione</div>
-                            <div class="fw-semibold">{{ $proprietario->ragione_sociale ?: $proprietario->nome }}</div>
-                            <div class="small text-muted">P.IVA {{ $proprietario->partita_iva ?: 'non impostata' }}</div>
+                            <div class="text-muted small text-uppercase mb-1">Destinatario</div>
+                            <div class="fw-semibold">{{ $destinatario->ragione_sociale ?? $destinatario->nome_struttura ?? $destinatario->nome ?? 'Non definito' }}</div>
+                            <div class="small text-muted">
+                                P.IVA {{ $destinatario->partita_iva ?: 'non impostata' }}
+                                @if(!empty($destinatario->codice_fiscale))
+                                    · C.F. {{ $destinatario->codice_fiscale }}
+                                @endif
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -110,8 +121,21 @@
                                 />
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Note documento</label>
-                                <textarea name="proforma_note" class="form-control" rows="3" placeholder="Note interne o testo libero della proforma">{{ old('proforma_note', $proforma?->note) }}</textarea>
+                                <label class="form-label">Osservazioni</label>
+                                <textarea name="proforma_note" class="form-control" rows="3" placeholder="Osservazioni visibili nel documento o note amministrative della proforma">{{ old('proforma_note', $proforma?->note) }}</textarea>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Numero fattura</label>
+                                <input type="text" name="numero_fattura" class="form-control" value="{{ old('numero_fattura', $proforma?->numero_fattura) }}" placeholder="Compila quando è pagata">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Data pagamento</label>
+                                <x-calendario
+                                    name="data_pagamento"
+                                    variant="single"
+                                    :value="old('data_pagamento', optional($proforma?->data_pagamento)->toDateString())"
+                                    placeholder="gg/mm/aaaa"
+                                />
                             </div>
                         </div>
                     </div>

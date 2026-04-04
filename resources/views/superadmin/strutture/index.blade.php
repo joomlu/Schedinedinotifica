@@ -30,6 +30,7 @@
                             <th>Scadenza</th>
                             <th>Piano</th>
                             <th>Pagamento</th>
+                            <th>Avviso</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -44,6 +45,7 @@
                                 <td>{{ $struttura->scadenza_servizio }}</td>
                                 <td>{{ $struttura->piano }}</td>
                                 <td>{{ $struttura->stato_pagamento }}</td>
+                                <td>{{ $struttura->avviso ?: 'attivo' }}</td>
                                 <td class="text-end">
                                     <a href="{{ route('superadmin.strutture.edit', $struttura->id) }}" class="btn btn-sm btn-outline-secondary">Modifica</a>
                                 </td>

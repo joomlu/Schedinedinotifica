@@ -72,6 +72,7 @@
                                 <li class="nav-item"><a href="{{ route('superadmin.amministratori.index') }}" class="nav-link {{ $isRoute('superadmin.amministratori.*') ? 'active' : '' }}">Amministratori</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.proprietari.index') }}" class="nav-link {{ $isRoute('superadmin.proprietari.*') ? 'active' : '' }}">Proprietari</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.strutture.index') }}" class="nav-link {{ $isRoute('superadmin.strutture.*') ? 'active' : '' }}">Strutture</a></li>
+                                <li class="nav-item"><a href="{{ route('superadmin.proforme.index') }}" class="nav-link {{ $isRoute('superadmin.proforme.*') ? 'active' : '' }}">Proforme</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.pagamenti.index') }}" class="nav-link {{ $isRoute('superadmin.pagamenti.*') ? 'active' : '' }}">Pagamenti / Licenze</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.impersonazione.index') }}" class="nav-link {{ $isRoute('superadmin.impersonazione.*') ? 'active' : '' }}">Impersonazione</a></li>
                             </ul>
@@ -102,6 +103,8 @@
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item"><a href="{{ route('admin.proprietari.index') }}" class="nav-link {{ $isRoute('admin.proprietari.*') ? 'active' : '' }}">Proprietari</a></li>
                                 <li class="nav-item"><a href="{{ route('admin.strutture.index') }}" class="nav-link {{ $isRoute('admin.strutture.*') ? 'active' : '' }}">Strutture</a></li>
+                                <li class="nav-item"><a href="{{ route('admin.proforme.index') }}" class="nav-link {{ $isRoute('admin.proforme.*') ? 'active' : '' }}">Proforme</a></li>
+                                <li class="nav-item"><a href="{{ route('admin.pagamenti.index') }}" class="nav-link {{ $isRoute('admin.pagamenti.*') ? 'active' : '' }}">Pagamenti / Licenze</a></li>
                             </ul>
                         </div>
                     </li>

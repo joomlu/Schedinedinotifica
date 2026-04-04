@@ -62,10 +62,8 @@ class HomeController extends Controller
 
             $licenzeAttive = $licenze->where('attiva', true);
             $licenzeDaPagare = $licenze->whereIn('stato_pagamento', ['da_pagare', 'sospeso']);
-            $prossimaScadenza = $licenze
-                ->filter(fn ($licenza) => filled($licenza->data_scadenza))
-                ->sortBy('data_scadenza')
-                ->first()?->data_scadenza ?: $strutturaDashboard->scadenza_servizio;
+            $licenzaPrincipale = $licenzeAttive->first() ?: $licenze->first();
+            $prossimaScadenza = $licenzaPrincipale?->data_scadenza ?: $strutturaDashboard->scadenza_servizio;
             $prodottoPrincipale = $licenzeAttive->first()?->articolo?->nome
                 ?: ($strutturaDashboard->piano ? 'Schedine di Notifica ' . strtoupper((string) $strutturaDashboard->piano) : null);
             $notificheTopbar = app(NotificheService::class)->topbarForUser($user);
@@ -77,10 +75,13 @@ class HomeController extends Controller
                 'licenze' => $licenze,
                 'licenze_attive' => $licenzeAttive->count(),
                 'licenze_da_pagare' => $licenzeDaPagare->count(),
-                'licenza_principale' => $licenzeAttive->first() ?: $licenze->first(),
+                'licenza_principale' => $licenzaPrincipale,
                 'prodotto_principale' => $prodottoPrincipale ?: 'Nessuna licenza attiva',
+                'servizio_data_inizio' => $licenzaPrincipale?->data_inizio,
                 'prossima_scadenza' => $prossimaScadenza,
-                'totale_licenze' => (float) $licenze->sum('prezzo'),
+                'totale_licenze' => (int) $licenze->sum(function (LicenzaAssegnazione $licenza) {
+                    return max(1, (int) ($licenza->quantita ?? 1));
+                }),
                 'notifiche_non_lette' => (int) ($notificheTopbar['non_lette'] ?? 0),
                 'supporto_aperto' => SupportTicket::query()
                     ->where('struttura_id', $strutturaDashboard->id)

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -89,6 +90,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        $this->ensureStrutturaAccessAllowed($request, $user);
         app(AccessoOperativoService::class)->open($user, $request);
     }
 
@@ -97,5 +99,50 @@ class LoginController extends Controller
         app(AccessoOperativoService::class)->close($request->user(), $request);
 
         return $this->performLogout($request);
+    }
+
+    protected function ensureStrutturaAccessAllowed(Request $request, User $user): void
+    {
+        if (!$user->isStrutturaUser()) {
+            return;
+        }
+
+        $struttura = $user->struttura;
+        if (!$struttura) {
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'login' => 'Struttura non disponibile. Contatta l\'amministratore.',
+            ]);
+        }
+
+        if (!$struttura->attiva) {
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'login' => trim((string) ($struttura->messaggio_offline ?: 'Il servizio non è disponibile. Contatta l\'amministratore.')),
+            ]);
+        }
+
+        if (!$struttura->servizioAttivo()) {
+            Auth::logout();
+
+            $defaultExpiredMessage = $struttura->scadenza_servizio
+                ? 'Il servizio non è attivo dal '.$struttura->scadenza_servizio->format('d/m/Y').'. Regolarizza il pagamento o contatta l\'amministratore.'
+                : 'Il servizio non è attivo. Regolarizza il pagamento o contatta l\'amministratore.';
+
+            throw ValidationException::withMessages([
+                'login' => trim((string) ($struttura->messaggio_offline ?: $defaultExpiredMessage)),
+            ]);
+        }
+
+        if (in_array((string) $struttura->avviso, ['sospeso', 'inattivo'], true)) {
+            Auth::logout();
+            $defaultMessage = $struttura->avviso === 'sospeso'
+                ? 'Il servizio è sospeso. Contatta l\'amministratore.'
+                : 'Il servizio è inattivo. Contatta l\'amministratore.';
+
+            throw ValidationException::withMessages([
+                'login' => trim((string) ($struttura->messaggio_avviso ?: $defaultMessage)),
+            ]);
+        }
     }
 }

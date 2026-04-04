@@ -80,6 +80,21 @@ class PagamentiController extends Controller
                     ->orWhereHas('proprietario', fn ($ownerQuery) => $ownerQuery->where('admin_id', $adminId))
                     ->orWhereHas('struttura.proprietario', fn ($ownerQuery) => $ownerQuery->where('admin_id', $adminId));
             })
+            ->when($filters['q'] !== '', function ($query) use ($filters) {
+                $term = $filters['q'];
+                $query->where(function ($subquery) use ($term) {
+                    $subquery->where('numero_licenza', 'like', '%' . $term . '%')
+                        ->orWhere('stato_pagamento', 'like', '%' . $term . '%')
+                        ->orWhereHas('articolo', fn ($itemQuery) => $itemQuery->where('nome', 'like', '%' . $term . '%')->orWhere('codice', 'like', '%' . $term . '%'))
+                        ->orWhereHas('proprietario', fn ($ownerQuery) => $ownerQuery->where('nome', 'like', '%' . $term . '%')->orWhere('ragione_sociale', 'like', '%' . $term . '%'))
+                        ->orWhereHas('struttura', fn ($structureQuery) => $structureQuery->where('nome_struttura', 'like', '%' . $term . '%')->orWhere('citta', 'like', '%' . $term . '%'));
+                });
+            })
+            ->when($filters['attiva'] !== '', fn ($query) => $query->where('attiva', $filters['attiva'] === '1'))
+            ->when($filters['stato_pagamento'] !== '', fn ($query) => $query->where('stato_pagamento', $filters['stato_pagamento']))
+            ->when($filters['scadenza'] === 'scadute', fn ($query) => $query->whereDate('data_scadenza', '<', now()->toDateString()))
+            ->when($filters['scadenza'] === 'entro_30', fn ($query) => $query->whereBetween('data_scadenza', [now()->toDateString(), now()->addDays(30)->toDateString()]))
+            ->when($filters['scadenza'] === 'senza_data', fn ($query) => $query->whereNull('data_scadenza'))
             ->orderByDesc('attiva')
             ->orderByDesc('data_scadenza')
             ->orderByDesc('id')
@@ -118,7 +133,7 @@ class PagamentiController extends Controller
             'servizioRoutePrefix' => 'admin.strutture',
             'strutturaEditRoute' => 'admin.strutture.edit',
             'contoFilters' => $contoFilters,
-            'statoConto' => $this->buildStatoConto($assegnazioni, $contoFilters),
+            'statoConto' => $this->buildStatoConto($assegnazioni, array_merge($contoFilters, $filters)),
             'adminProformeConto' => collect(),
         ]);
     }
@@ -131,6 +146,15 @@ class PagamentiController extends Controller
                     return false;
                 }
                 if ($filters['struttura_id'] && (int) $assegnazione->struttura_id !== (int) $filters['struttura_id']) {
+                    return false;
+                }
+                if (($filters['attiva'] ?? '') !== '' && (bool) $assegnazione->attiva !== (($filters['attiva'] ?? '') === '1')) {
+                    return false;
+                }
+                if (($filters['stato_pagamento'] ?? '') !== '' && (string) $assegnazione->stato_pagamento !== (string) $filters['stato_pagamento']) {
+                    return false;
+                }
+                if (!$this->matchesScadenzaFilter($assegnazione->data_scadenza, (string) ($filters['scadenza'] ?? ''))) {
                     return false;
                 }
 
@@ -149,6 +173,9 @@ class PagamentiController extends Controller
                     'scadenza' => $assegnazione->data_scadenza,
                     'totale' => (float) $assegnazione->prezzo,
                     'tracking' => $assegnazione->codice_tracking,
+                    'licenza_id' => $assegnazione->id,
+                    'proforma_id' => null,
+                    'proprietario_id' => $assegnazione->proprietario_id,
                 ];
             });
 
@@ -161,7 +188,24 @@ class PagamentiController extends Controller
                     return true;
                 }
 
-                return $fatturazione->righe->contains(fn ($riga) => (int) $riga->struttura_id === (int) $filters['struttura_id']);
+                if (!$fatturazione->righe->contains(fn ($riga) => (int) $riga->struttura_id === (int) $filters['struttura_id'])) {
+                    return false;
+                }
+
+                return true;
+            })
+            ->filter(function (ProprietarioFatturazione $fatturazione) use ($filters) {
+                if (!$this->matchesProformaStatoFilter($fatturazione, (string) ($filters['stato_pagamento'] ?? ''))) {
+                    return false;
+                }
+                if (($filters['attiva'] ?? '') !== '' && !$this->matchesProformaAttivaFilter($fatturazione, ($filters['attiva'] ?? '') === '1')) {
+                    return false;
+                }
+                if (!$this->matchesProformaScadenzaFilter($fatturazione, (string) ($filters['scadenza'] ?? ''))) {
+                    return false;
+                }
+
+                return true;
             })
             ->map(function (ProprietarioFatturazione $fatturazione) {
                 $strutture = $fatturazione->righe->pluck('struttura.nome_struttura')->filter()->unique()->values();
@@ -178,10 +222,29 @@ class PagamentiController extends Controller
                     'scadenza' => null,
                     'totale' => (float) $fatturazione->totale,
                     'tracking' => null,
+                    'licenza_id' => null,
+                    'proforma_id' => $fatturazione->id,
+                    'proprietario_id' => $fatturazione->proprietario_id,
                 ];
             });
 
-        $righe = $licenze->concat($proforme)->sortByDesc(function ($row) {
+        $righe = $licenze->concat($proforme)->filter(function (array $row) use ($filters) {
+            $term = trim((string) ($filters['q'] ?? ''));
+            if ($term === '') {
+                return true;
+            }
+
+            $haystack = mb_strtolower(implode(' ', array_filter([
+                $row['tipo'] ?? '',
+                $row['proprietario'] ?? '',
+                $row['struttura'] ?? '',
+                $row['descrizione'] ?? '',
+                $row['documento'] ?? '',
+                $row['stato'] ?? '',
+            ])));
+
+            return str_contains($haystack, mb_strtolower($term));
+        })->sortByDesc(function ($row) {
             return optional($row['data'])->timestamp ?: 0;
         })->values();
 
@@ -191,6 +254,71 @@ class PagamentiController extends Controller
             'licenze' => $licenze->sum('totale'),
             'proforme' => $proforme->sum('totale'),
         ];
+    }
+
+    private function matchesScadenzaFilter($date, string $filter): bool
+    {
+        if ($filter === '') {
+            return true;
+        }
+
+        if (blank($date)) {
+            return $filter === 'senza_data';
+        }
+
+        $today = now()->startOfDay();
+        $value = $date instanceof \Illuminate\Support\Carbon
+            ? $date->copy()->startOfDay()
+            : \Illuminate\Support\Carbon::parse($date)->startOfDay();
+
+        return match ($filter) {
+            'scadute' => $value->lt($today),
+            'entro_30' => $value->between($today, $today->copy()->addDays(30)),
+            'senza_data' => false,
+            default => true,
+        };
+    }
+
+    private function matchesProformaStatoFilter(ProprietarioFatturazione $fatturazione, string $filter): bool
+    {
+        if ($filter === '') {
+            return true;
+        }
+
+        $isPaid = in_array($fatturazione->stato, ['pagata', 'fatturata'], true);
+
+        return match ($filter) {
+            'ok', 'pagato' => $isPaid,
+            'da_pagare' => !$isPaid,
+            'sospeso' => false,
+            default => true,
+        };
+    }
+
+    private function matchesProformaAttivaFilter(ProprietarioFatturazione $fatturazione, bool $expected): bool
+    {
+        $strutture = $fatturazione->righe->pluck('struttura')->filter();
+
+        if ($strutture->isEmpty()) {
+            return true;
+        }
+
+        return $strutture->contains(fn ($struttura) => (bool) $struttura->attiva === $expected);
+    }
+
+    private function matchesProformaScadenzaFilter(ProprietarioFatturazione $fatturazione, string $filter): bool
+    {
+        if ($filter === '') {
+            return true;
+        }
+
+        $strutture = $fatturazione->righe->pluck('struttura')->filter();
+
+        if ($strutture->isEmpty()) {
+            return $filter === 'senza_data';
+        }
+
+        return $strutture->contains(fn ($struttura) => $this->matchesScadenzaFilter($struttura->scadenza_servizio, $filter));
     }
 
     public function storeAssegnazione(Request $request)

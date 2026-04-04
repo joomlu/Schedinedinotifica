@@ -29,11 +29,14 @@ class ProprietarioFatturazione extends Model
         'totale_sconto',
         'totale_iva',
         'totale',
+        'numero_fattura',
+        'data_pagamento',
         'note',
     ];
 
     protected $casts = [
         'data_documento' => 'date',
+        'data_pagamento' => 'date',
         'imponibile' => 'decimal:2',
         'totale_sconto' => 'decimal:2',
         'totale_iva' => 'decimal:2',

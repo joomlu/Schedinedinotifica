@@ -62,9 +62,13 @@ class Struttura extends Model
         'questura_ws_simulazione',
         'camere_reali_enabled',
         'attiva',
+        'avviso',
+        'messaggio_offline',
+        'messaggio_avviso',
         'scadenza_servizio',
         'piano',
         'stato_pagamento',
+        'numero_ricevuta_pagamento',
         'telefono',
         'telefono_secondario',
         'fax',
@@ -92,6 +96,13 @@ class Struttura extends Model
         return $this->belongsTo(Proprietario::class, 'proprietario_id');
     }
 
+    public function accessoPrincipale()
+    {
+        return $this->hasOne(User::class, 'struttura_id')
+            ->where('ruolo', 'struttura_user')
+            ->latestOfMany();
+    }
+
     public function tipologiaStruttura()
     {
         return $this->belongsTo(TipologiaStruttura::class, 'tipologia_struttura_id');
@@ -109,7 +120,7 @@ class Struttura extends Model
         }
 
         if (empty($this->scadenza_servizio)) {
-            return true;
+            return false;
         }
 
         return now()->toDateString() <= $this->scadenza_servizio;
@@ -120,9 +131,19 @@ class Struttura extends Model
         return $value ?? ($this->attributes['città'] ?? null);
     }
 
+    public function setCittaAttribute($value): void
+    {
+        $this->attributes['città'] = $value;
+    }
+
     public function getLocalitaAttribute($value)
     {
         return $value ?? ($this->attributes['località'] ?? null);
+    }
+
+    public function setLocalitaAttribute($value): void
+    {
+        $this->attributes['località'] = $value;
     }
 
     public function getLogoCittaAttribute($value)

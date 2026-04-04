@@ -1,3 +1,10 @@
+@php
+    $recipientStructures = $proforma->righe->pluck('struttura')->filter()->unique('id')->values();
+    $hasGeneralRows = $proforma->righe->contains(fn ($riga) => !$riga->struttura_id);
+    $destinatario = ($recipientStructures->count() === 1 && !$hasGeneralRows)
+        ? $recipientStructures->first()
+        : $proprietario;
+@endphp
 <!doctype html>
 <html lang="it">
 <head>
@@ -19,12 +26,16 @@
         <div>
             <h1>Proforma {{ $proforma->numero }}</h1>
             <p class="muted">{{ optional($proforma->data_documento)->format('d/m/Y') }}</p>
+            <div style="margin-top:16px">
+                <h3>Spire</h3>
+                <p class="muted">Società emittente della proforma</p>
+            </div>
         </div>
         <div style="text-align:right">
-            <h3>{{ $proforma->intestazione }}</h3>
-            <p class="muted">P.IVA {{ $proforma->partita_iva ?: '-' }}</p>
-            <p class="muted">C.F. {{ $proforma->codice_fiscale ?: '-' }}</p>
-            <p class="muted">{{ trim(collect([$proforma->indirizzo, $proforma->cap, $proforma->citta, $proforma->provincia])->filter()->implode(', ')) }}</p>
+            <h3>{{ $destinatario->ragione_sociale ?? $destinatario->nome_struttura ?? $destinatario->nome ?? 'Destinatario' }}</h3>
+            <p class="muted">P.IVA {{ $destinatario->partita_iva ?: '-' }}</p>
+            <p class="muted">C.F. {{ $destinatario->codice_fiscale ?: '-' }}</p>
+            <p class="muted">{{ trim(collect([$destinatario->indirizzo ?? null, $destinatario->numero_civico ?? null, $destinatario->cap ?? null, $destinatario->citta ?? null, $destinatario->provincia ?? null])->filter()->implode(', ')) }}</p>
         </div>
     </div>
 
@@ -66,7 +77,7 @@
 
     @if($proforma->note)
         <div style="margin-top:24px">
-            <h3>Note</h3>
+            <h3>Osservazioni</h3>
             <p class="muted">{{ $proforma->note }}</p>
         </div>
     @endif

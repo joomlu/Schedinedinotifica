@@ -13,6 +13,7 @@
         $dashboardOwner = $dashboardData['owner'] ?? null;
         $dashboardAdmin = $dashboardData['ownerAdmin'] ?? null;
         $dashboardLicenza = $dashboardData['licenza_principale'] ?? null;
+        $dashboardServizioInizio = $dashboardData['servizio_data_inizio'] ?? null;
         $dashboardProssimaScadenza = $dashboardData['prossima_scadenza'] ?? null;
         $dashboardStrutturaCode = strtoupper(substr((string) ($dashboardStruttura?->tipologia_struttura ?? $dashboardStruttura?->tipologia_generale ?? 'STR'), 0, 1));
         $dashboardStrutturaBadge = $dashboardStruttura ? $dashboardStrutturaCode . '-' . str_pad((string) $dashboardStruttura->id, 3, '0', STR_PAD_LEFT) : null;
@@ -69,11 +70,11 @@
                             {{ $dashboardLicenza && $dashboardLicenza->data_scadenza ? 'Licenza struttura' : 'Servizio struttura' }}
                             · {{ ucfirst(str_replace('_', ' ', $dashboardStruttura->stato_pagamento ?: 'non definito')) }}
                         </div>
-                        <div class="small text-muted mt-2">{{ number_format((float) ($dashboardData['totale_licenze'] ?? 0), 2, ',', '.') }} totale licenze</div>
-                        @if($dashboardStruttura->scadenza_servizio)
+                        <div class="small text-muted mt-2">{{ (int) ($dashboardData['totale_licenze'] ?? 0) }} totale licenze</div>
+                        @if($dashboardServizioInizio)
                             <div class="mt-3">
                                 <span class="badge {{ $dashboardServizioBadgeClass }}">
-                                    Servizio {{ $dashboardStruttura->scadenza_servizio->format('d/m/Y') }}
+                                    Servizio dal {{ $dashboardServizioInizio->format('d/m/Y') }}
                                 </span>
                             </div>
                         @endif
