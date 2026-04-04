@@ -30,6 +30,7 @@ class TassaReportController extends Controller
         $anno = (int) $request->input('anno', now()->year);
         $page = max(1, (int) $request->input('page', 1));
         $perPage = 10;
+        $q = trim((string) $request->input('q', ''));
         $missingSchedina = !Schema::hasTable('schedina');
 
         $strutturaId = StrutturaCorrente::getId() ?? $request->user()->struttura_id;
@@ -45,6 +46,9 @@ class TassaReportController extends Controller
 
         $righe = $missingSchedina ? [] : $this->buildRows($mese, $anno, $strutturaId, $struttura, $config, $esenzioni);
         $collection = collect($righe);
+        if ($q !== '') {
+            $collection = $collection->filter(fn (array $riga) => $this->matchesRapportoSearch($riga, $q))->values();
+        }
         $paginator = new LengthAwarePaginator(
             $collection->forPage($page, $perPage)->values(),
             $collection->count(),
@@ -60,12 +64,14 @@ class TassaReportController extends Controller
             'config' => $config,
             'struttura' => $struttura,
             'missingSchedina' => $missingSchedina,
+            'q' => $q,
         ]);
     }
 
     public function controllo(Request $request)
     {
         [$mese, $anno, $struttura, $config, $esenzioni] = $this->loadContext($request);
+        $q = trim((string) $request->input('q', ''));
 
         if (!Schema::hasTable('schedina')) {
             return redirect()->route('tassa_di_soggiorno.rapporto', ['mese' => $mese, 'anno' => $anno])
@@ -73,12 +79,16 @@ class TassaReportController extends Controller
         }
 
         $dataset = $this->buildControlDataset($mese, $anno, (int) $struttura->id, $struttura, $config, $esenzioni);
+        if ($q !== '') {
+            $dataset = $this->filterControlDataset($dataset, $q);
+        }
 
         return view('tassa_di_soggiorno.rapporto-controllo', array_merge($dataset, [
             'mese' => $mese,
             'anno' => $anno,
             'config' => $config,
             'struttura' => $struttura,
+            'q' => $q,
         ]));
     }
 
@@ -402,7 +412,7 @@ class TassaReportController extends Controller
                     'esente' => $riga['esente'],
                     'motivo' => $riga['motivo'],
                     'pernottamenti_imponibili' => $riga['notti_imponibili'],
-                    'pernottamenti_oltre_max' => $riga['notti_oltre_max'],
+                    'pernottamenti_oltre_max' => 0,
                     'tassa' => $riga['subtotale'],
                     'tariffa' => $riga['aliquota'],
                     'tipo' => $riga['codice'] ?? 0,
@@ -417,9 +427,9 @@ class TassaReportController extends Controller
                         'scheda' => $schedina->scheda,
                         'nominativo' => $riga['nome'],
                         'eta' => $riga['eta'],
-                        'esente' => $riga['esente'],
+                        'esente' => true,
                         'motivo' => 'Oltre giorni max',
-                        'pernottamenti_imponibili' => $riga['notti_oltre_max'],
+                        'pernottamenti_imponibili' => 0,
                         'pernottamenti_oltre_max' => $riga['notti_oltre_max'],
                         'tassa' => 0,
                         'tariffa' => 0,
@@ -432,5 +442,123 @@ class TassaReportController extends Controller
         }
 
         return $righe;
+    }
+
+    private function filterControlDataset(array $dataset, string $query): array
+    {
+        $rowsCollection = collect($dataset['rows'] ?? [])
+            ->filter(fn (array $row) => $this->matchesControlloRowSearch($row, $query))
+            ->values();
+
+        $matchedSchede = $rowsCollection->pluck('scheda')->filter()->unique()->values();
+
+        $schedeCollection = collect($dataset['schedeSummary'] ?? [])
+            ->filter(function (array $scheda) use ($query, $matchedSchede) {
+                return $matchedSchede->contains($scheda['scheda'])
+                    || $this->matchesControlloSchedaSearch($scheda, $query);
+            })
+            ->values();
+
+        $summary = [
+            'totale_schedine' => $schedeCollection->count(),
+            'totale_ospiti' => $rowsCollection->count(),
+            'totale_paganti' => $rowsCollection->where('paga', true)->count(),
+            'totale_esenti' => $rowsCollection->where('esente', true)->count(),
+            'totale_minori' => $rowsCollection->where('minore', true)->count(),
+            'totale_notti_imponibili' => (int) $rowsCollection->sum('notti_tassate'),
+            'totale_tassa' => (float) $rowsCollection->sum('tassa'),
+        ];
+
+        return array_merge($dataset, [
+            'rows' => $rowsCollection,
+            'schedeSummary' => $schedeCollection,
+            'summary' => $summary,
+        ]);
+    }
+
+    private function matchesRapportoSearch(array $row, string $query): bool
+    {
+        $needle = $this->normalizeSearchText($query);
+        $values = [
+            $row['scheda'] ?? null,
+            $row['nominativo'] ?? null,
+            $row['motivo'] ?? null,
+            $row['arrivo'] ?? null,
+            $row['partenza'] ?? null,
+            isset($row['arrivo']) ? $this->formatSearchDate($row['arrivo']) : null,
+            isset($row['partenza']) ? $this->formatSearchDate($row['partenza']) : null,
+        ];
+
+        foreach ($values as $value) {
+            if (str_contains($this->normalizeSearchText($value), $needle)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function matchesControlloRowSearch(array $row, string $query): bool
+    {
+        $needle = $this->normalizeSearchText($query);
+        $values = [
+            $row['scheda'] ?? null,
+            $row['riferimento'] ?? null,
+            $row['nominativo'] ?? null,
+            $row['motivo'] ?? null,
+            $row['arrivo'] ?? null,
+            $row['partenza'] ?? null,
+            isset($row['arrivo']) ? $this->formatSearchDate($row['arrivo']) : null,
+            isset($row['partenza']) ? $this->formatSearchDate($row['partenza']) : null,
+        ];
+
+        foreach ($values as $value) {
+            if (str_contains($this->normalizeSearchText($value), $needle)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function matchesControlloSchedaSearch(array $row, string $query): bool
+    {
+        $needle = $this->normalizeSearchText($query);
+        $values = [
+            $row['scheda'] ?? null,
+            $row['riferimento'] ?? null,
+            $row['arrivo'] ?? null,
+            $row['partenza'] ?? null,
+            isset($row['arrivo']) ? $this->formatSearchDate($row['arrivo']) : null,
+            isset($row['partenza']) ? $this->formatSearchDate($row['partenza']) : null,
+        ];
+
+        foreach ($values as $value) {
+            if (str_contains($this->normalizeSearchText($value), $needle)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function normalizeSearchText(mixed $value): string
+    {
+        $text = mb_strtolower(trim((string) $value));
+
+        return str_replace(['/', '-', '.', ',', '  '], [' ', ' ', ' ', ' ', ' '], $text);
+    }
+
+    private function formatSearchDate(?string $date): string
+    {
+        if (!$date) {
+            return '';
+        }
+
+        try {
+            return Carbon::parse($date)->format('d/m/Y');
+        } catch (\Throwable) {
+            return (string) $date;
+        }
     }
 }

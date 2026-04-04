@@ -334,6 +334,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/questura/download/periodo', [QuesturaExportController::class, 'downloadPeriodo'])->name('questura.download.periodo');
     Route::get('/questura/download/schedina/{id}', [QuesturaExportController::class, 'downloadSchedina'])->name('questura.download.schedina');
     Route::get('/questura/download/storico/{id}', [QuesturaExportController::class, 'downloadStorico'])->name('questura.download.storico');
+    Route::post('/questura/ws/tables', [QuesturaExportController::class, 'downloadOfficialTables'])->name('questura.ws.tables');
     Route::post('/questura/ws/verify', [QuesturaExportController::class, 'verifyPeriodo'])->name('questura.ws.verify');
     Route::post('/questura/ws/send', [QuesturaExportController::class, 'sendPeriodo'])->name('questura.ws.send');
     Route::get('/questura/ws/receipt/{id}', [QuesturaExportController::class, 'downloadReceipt'])->name('questura.ws.receipt');
@@ -341,6 +342,7 @@ Route::middleware(['auth'])->group(function () {
     // Tavola A / ISTAT
     Route::get('/istat-tabella-a', [IstatTabellaAController::class, 'index'])->name('istat.tabella_a.index');
     Route::post('/istat-tabella-a/controllo', [IstatTabellaAController::class, 'saveControllo'])->name('istat.tabella_a.controllo.save');
+    Route::get('/istat-tabella-a/stampa-riepilogo', [IstatTabellaAController::class, 'printSummary'])->name('istat.tabella_a.print.summary');
     Route::get('/istat-tabella-a/download/xml', [IstatTabellaAController::class, 'downloadXml'])->name('istat.tabella_a.download.xml');
     Route::get('/istat-tabella-a/download/storico/{id}', [IstatTabellaAController::class, 'downloadStorico'])->name('istat.tabella_a.download.storico');
     Route::post('/istat-tabella-a/ws/verify', [IstatTabellaAController::class, 'verifyPeriodo'])->name('istat.tabella_a.ws.verify');
@@ -366,6 +368,7 @@ Route::middleware(['auth'])->group(function () {
     // Utenti, consegne e notifiche interne
     Route::get('/gestione-operativa', [GestioneOperativaController::class, 'index'])->name('gestione.operativa.index');
     Route::post('/gestione-operativa/profilo', [GestioneOperativaController::class, 'updateProfile'])->name('gestione.operativa.profile.update');
+    Route::post('/gestione-operativa/profilo/password', [GestioneOperativaController::class, 'updateMyPassword'])->name('gestione.operativa.profile.password');
     Route::post('/gestione-operativa/utenti', [GestioneOperativaController::class, 'storeUtente'])->name('gestione.operativa.utenti.store');
     Route::post('/gestione-operativa/utenti/{id}', [GestioneOperativaController::class, 'updateUtente'])->name('gestione.operativa.utenti.update');
     Route::post('/gestione-operativa/utenti/{id}/password', [GestioneOperativaController::class, 'resetPassword'])->name('gestione.operativa.utenti.password');

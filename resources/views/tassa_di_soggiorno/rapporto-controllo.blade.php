@@ -9,61 +9,18 @@
 @endcomponent
 
 <style>
-    .tassa-controllo-toolbar {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: end;
-        gap: 12px;
-    }
-    .tassa-controllo-toolbar__field {
-        flex: 0 0 auto;
-    }
-    .tassa-controllo-toolbar__actions {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 8px;
-        margin-left: auto;
-    }
-    .btn-controllo-csv {
-        background: #dbeafe;
-        color: #0f3d91;
-        border-color: transparent;
-    }
-    .btn-controllo-csv:hover,
-    .btn-controllo-csv:focus {
-        background: #bfdbfe;
-        color: #0b2f73;
-    }
-    .btn-controllo-print {
-        background: #ffe8a3;
-        color: #8a4b00;
-        border-color: transparent;
-    }
-    .btn-controllo-print:hover,
-    .btn-controllo-print:focus {
-        background: #ffd86b;
-        color: #713f12;
-    }
-    .btn-controllo-ufficiale {
-        background: #dff3ec;
-        color: #0f6b57;
-        border-color: transparent;
-    }
-    .btn-controllo-ufficiale:hover,
-    .btn-controllo-ufficiale:focus {
-        background: #c8eadf;
-        color: #0c5647;
-    }
-    @media (max-width: 991.98px) {
-        .tassa-controllo-toolbar {
-            flex-wrap: wrap;
+    @media (min-width: 1200px) {
+        .tassa-controllo-periodo .col-mese {
+            flex: 0 0 220px;
+            width: 220px;
         }
-        .tassa-controllo-toolbar__actions {
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            margin-left: 0;
+        .tassa-controllo-periodo .col-anno {
+            flex: 0 0 120px;
+            width: 120px;
+        }
+        .tassa-controllo-periodo .col-azioni {
+            flex: 1 1 auto;
+            width: auto;
         }
     }
 </style>
@@ -72,32 +29,40 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <form method="GET" class="tassa-controllo-toolbar mb-3" action="{{ route('tassa_di_soggiorno.rapporto.controllo') }}">
-                    <div class="tassa-controllo-toolbar__field">
-                        <label class="form-label">Mese</label>
-                        <x-ui.select name="mese">
-                            @for($m = 1; $m <= 12; $m++)
-                                <option value="{{ $m }}" {{ (int)$mese === $m ? 'selected' : '' }}>{{ \Carbon\Carbon::create(null, $m, 1)->locale('it')->monthName }}</option>
-                            @endfor
-                        </x-ui.select>
+                <div class="card border-0 bg-light-subtle mb-3">
+                    <div class="card-header border-0 py-2 d-flex align-items-center">
+                        <i class="ri-calendar-event-line me-2 text-primary"></i>
+                        <h5 class="card-title mb-0 fs-6">Periodo e filtri</h5>
                     </div>
-                    <div class="tassa-controllo-toolbar__field">
-                        <label class="form-label">Anno</label>
-                        <input type="number" class="form-control" name="anno" value="{{ $anno }}" min="2015" max="2100">
+                    <div class="card-body pt-2">
+                        <form method="GET" class="row g-3 align-items-end tassa-controllo-periodo" action="{{ route('tassa_di_soggiorno.rapporto.controllo') }}">
+                            <div class="col-xl-3 col-md-6 col-mese">
+                                <label class="form-label">Mese</label>
+                                <x-ui.select name="mese">
+                                    @for($m = 1; $m <= 12; $m++)
+                                        <option value="{{ $m }}" {{ (int)$mese === $m ? 'selected' : '' }}>{{ \Carbon\Carbon::create(null, $m, 1)->locale('it')->monthName }}</option>
+                                    @endfor
+                                </x-ui.select>
+                            </div>
+                            <div class="col-xl-2 col-md-6 col-anno">
+                                <label class="form-label">Anno</label>
+                                <input type="number" class="form-control" name="anno" value="{{ $anno }}" min="2015" max="2100">
+                            </div>
+                            <div class="col-xl-7 col-md-12 col-azioni d-flex justify-content-xl-end flex-wrap gap-2">
+                                <button type="submit" class="btn btn-primary"><i class="ri-refresh-line me-1"></i> Aggiorna</button>
+                                <a href="{{ route('tassa_di_soggiorno.rapporto', ['mese' => $mese, 'anno' => $anno]) }}" class="btn btn-light">
+                                    <i class="ri-arrow-left-line me-1"></i> Rapporto ufficiale
+                                </a>
+                                <a href="{{ route('tassa_di_soggiorno.rapporto.controllo.csv', ['mese' => $mese, 'anno' => $anno]) }}" class="btn btn-success">
+                                    <i class="ri-file-download-line me-1"></i> CSV controllo
+                                </a>
+                                <a href="{{ route('tassa_di_soggiorno.rapporto.controllo.print', ['mese' => $mese, 'anno' => $anno]) }}" target="_blank" class="btn btn-info text-white">
+                                    <i class="ri-printer-line me-1"></i> Stampa controllo
+                                </a>
+                            </div>
+                        </form>
                     </div>
-                    <div class="tassa-controllo-toolbar__actions">
-                        <button type="submit" class="btn btn-primary"><i class="ri-refresh-line me-1"></i> Aggiorna</button>
-                        <a href="{{ route('tassa_di_soggiorno.rapporto', ['mese' => $mese, 'anno' => $anno]) }}" class="btn btn-controllo-ufficiale">
-                            <i class="ri-arrow-left-line me-1"></i> Rapporto ufficiale
-                        </a>
-                        <a href="{{ route('tassa_di_soggiorno.rapporto.controllo.csv', ['mese' => $mese, 'anno' => $anno]) }}" class="btn btn-controllo-csv">
-                            <i class="ri-file-download-line me-1"></i> CSV controllo
-                        </a>
-                        <a href="{{ route('tassa_di_soggiorno.rapporto.controllo.print', ['mese' => $mese, 'anno' => $anno]) }}" target="_blank" class="btn btn-controllo-print">
-                            <i class="ri-printer-line me-1"></i> Stampa controllo
-                        </a>
-                    </div>
-                </form>
+                </div>
 
                 <div class="alert alert-info">
                     <strong>Struttura:</strong> {{ $struttura->nome_struttura ?? '—' }}
@@ -105,6 +70,33 @@
                     — <strong>Giorni max:</strong> {{ $config->giorni_massimo ?? 'n/d' }}
                     — <strong>Età max bimbi:</strong> {{ $config->max_age_children ?? 'n/d' }}
                     — <strong>Età min adulti:</strong> {{ $config->min_age_adult ?? 'n/d' }}
+                </div>
+
+                <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3">
+                    <div style="width: 360px; max-width: 100%;">
+                        <div class="input-group position-relative">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="ri-search-line"></i>
+                            </span>
+                            <input
+                                type="text"
+                                id="tassaControlloSearch"
+                                class="form-control border-start-0"
+                                placeholder="Cerca per schedina, arrivo, partenza o nominativo..."
+                                value="{{ $q ?? request('q', '') }}"
+                                autocomplete="off"
+                            >
+                            <button
+                                class="btn btn-light border"
+                                type="button"
+                                id="tassaControlloSearchClear"
+                                aria-label="Pulisci"
+                                style="{{ filled($q ?? request('q')) ? '' : 'display:none;' }}"
+                            >
+                                <i class="ri-close-line"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row g-3 mb-4">
@@ -238,3 +230,55 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        try {
+            const input = document.getElementById('tassaControlloSearch');
+            const clearBtn = document.getElementById('tassaControlloSearchClear');
+            if (!input) return;
+
+            let debounceTimer = null;
+            const submitSearch = function () {
+                const url = new URL(window.location.href);
+                const q = (input.value || '').trim();
+
+                if (q) {
+                    url.searchParams.set('q', q);
+                } else {
+                    url.searchParams.delete('q');
+                }
+
+                url.searchParams.delete('page');
+                window.location.assign(url.toString());
+            };
+
+            input.addEventListener('input', function () {
+                if (clearBtn) {
+                    clearBtn.style.display = input.value.trim() ? '' : 'none';
+                }
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(submitSearch, 350);
+            });
+
+            input.addEventListener('keydown', function (event) {
+                if (event.key !== 'Enter') return;
+                event.preventDefault();
+                clearTimeout(debounceTimer);
+                submitSearch();
+            });
+
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function () {
+                    input.value = '';
+                    clearBtn.style.display = 'none';
+                    submitSearch();
+                });
+            }
+        } catch (error) {
+            console.error('tassa controllo search init error', error);
+        }
+    });
+</script>
+@endpush

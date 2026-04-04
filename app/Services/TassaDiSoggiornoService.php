@@ -151,23 +151,37 @@ class TassaDiSoggiornoService
         if (!$isEsente && $eta !== null) {
             if ($config && $config->max_age_children && $eta <= (int) $config->max_age_children) {
                 $isEsente = true;
-                $esenzione = $esenzione ?? $this->makeVirtualEsenzione('ETA_BIMBI', 'Esente per età bambini');
+                $esenzione = $esenzione ?? $this->resolveAutomaticEsenzione(
+                    $esenzioni,
+                    ['400', 'ETA_BIMBI'],
+                    ['minori', 'bambini', 'minore'],
+                    'ETA_BIMBI',
+                    'Esente per età bambini'
+                );
             }
             if ($config && $config->min_age_adult && $eta < (int) $config->min_age_adult) {
                 $isEsente = true;
-                $esenzione = $esenzione ?? $this->makeVirtualEsenzione('ETA_MIN', 'Esente per età minima');
+                $esenzione = $esenzione ?? $this->resolveAutomaticEsenzione(
+                    $esenzioni,
+                    ['ETA_MIN'],
+                    ['eta minima', 'età minima'],
+                    'ETA_MIN',
+                    'Esente per età minima'
+                );
             }
         }
 
-        $nottiImponibili = $isEsente ? 0 : $nottiNelPeriodo;
-        if (!$isEsente && $giorniMax !== null) {
+        $nottiImponibili = $nottiNelPeriodo;
+        if ($giorniMax !== null) {
             $nottiImponibili = min($nottiNelPeriodo, $giorniMax);
         }
 
-        $nottiOltre = 0;
-        if (!$isEsente && $giorniMax !== null) {
-            $nottiOltre = max(0, $nottiNelPeriodo - $giorniMax);
-        }
+        $nottiOltre = $giorniMax !== null
+            ? max(0, $nottiNelPeriodo - $giorniMax)
+            : 0;
+
+        $nottiTassate = $isEsente ? 0 : $nottiImponibili;
+        $aliquotaApplicata = $isEsente ? 0.0 : $aliquota;
 
         $motivo = $esenzione?->descrizione;
         if (!$isEsente && $nottiTot > 0 && $nottiNelPeriodo === 0) {
@@ -189,9 +203,10 @@ class TassaDiSoggiornoService
             'notti_periodo' => $nottiNelPeriodo,
             'notti_totali' => $nottiTot,
             'notti_imponibili' => $nottiImponibili,
+            'notti_tassate' => $nottiTassate,
             'notti_oltre_max' => $nottiOltre,
-            'aliquota' => $aliquota,
-            'subtotale' => $nottiImponibili * $aliquota,
+            'aliquota' => $aliquotaApplicata,
+            'subtotale' => $nottiTassate * $aliquotaApplicata,
         ];
     }
 
@@ -242,6 +257,31 @@ class TassaDiSoggiornoService
         $fake->richiede_nota = false;
         $fake->ordine = 9999;
         return $fake;
+    }
+
+    private function resolveAutomaticEsenzione(Collection $esenzioni, array $codes, array $descriptionFragments, string $fallbackCode, string $fallbackDescription): TassaEsenzione
+    {
+        foreach ($codes as $code) {
+            $match = $esenzioni->first(function ($row) use ($code) {
+                return strcasecmp((string) $row->codice, $code) === 0;
+            });
+
+            if ($match) {
+                return $match;
+            }
+        }
+
+        foreach ($descriptionFragments as $fragment) {
+            $match = $esenzioni->first(function ($row) use ($fragment) {
+                return str_contains(mb_strtolower((string) $row->descrizione), mb_strtolower($fragment));
+            });
+
+            if ($match) {
+                return $match;
+            }
+        }
+
+        return $this->makeVirtualEsenzione($fallbackCode, $fallbackDescription);
     }
 
 }
