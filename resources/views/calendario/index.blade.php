@@ -11,13 +11,28 @@
 @php
     use Illuminate\Support\Str;
     $giorniSettimana = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-    $currentMonthLink = route('calendario.index', ['contesto' => $contesto, 'mese' => now()->format('Y-m'), 'giorno' => now()->toDateString(), 'vista' => 'month']);
-    $currentDayLink = route('calendario.index', ['contesto' => $contesto, 'mese' => now()->format('Y-m'), 'giorno' => now()->toDateString(), 'vista' => 'day']);
+    $mesiItaliani = [
+        1 => 'gennaio', 2 => 'febbraio', 3 => 'marzo', 4 => 'aprile', 5 => 'maggio', 6 => 'giugno',
+        7 => 'luglio', 8 => 'agosto', 9 => 'settembre', 10 => 'ottobre', 11 => 'novembre', 12 => 'dicembre',
+    ];
+    $baseRouteParams = ['contesto' => $contesto, 'struttura_id' => $selectedStructureId, 'mese' => $month->format('Y-m'), 'giorno' => $selectedDay->toDateString(), 'vista' => $vista];
     $sezione = request('sezione', 'calendario');
-    $calendarTitle = $contesto === 'personale' ? 'Calendario personale' : 'Calendario struttura';
-    $calendarSubtitle = $contesto === 'personale'
-        ? 'Agenda privata del ruolo corrente. Le note qui restano personali e indipendenti dalla struttura.'
-        : 'Agenda comune della struttura selezionata, con note manuali e automatismi del sistema.';
+    $calendarTitle = match ($contesto) {
+        'personale' => 'Calendario personale',
+        'portfolio' => $portfolioLabel,
+        default => 'Calendario struttura',
+    };
+    $calendarSubtitle = match ($contesto) {
+        'personale' => 'Agenda privata del ruolo corrente. Le note qui restano personali e indipendenti dalle strutture.',
+        'portfolio' => 'Vista aggregata delle strutture accessibili, con arrivi, partenze, compleanni, scadenze e note manuali.',
+        default => 'Agenda comune della struttura corrente, con note manuali e automatismi del sistema.',
+    };
+@endphp
+
+@php
+    $periodoLabel = $vista === 'day'
+        ? 'Giorno selezionato: ' . $selectedDay->format('d/m/Y')
+        : ucfirst($mesiItaliani[(int) $month->format('n')] ?? $month->locale('it')->translatedFormat('F')) . ' ' . $month->format('Y');
 @endphp
 
 <div class="card border-0 shadow-sm mb-3">
@@ -28,6 +43,8 @@
                 <div class="text-muted">{{ $calendarSubtitle }}</div>
                 @if($contesto === 'struttura' && $struttura)
                     <div class="small text-muted mt-1">Struttura selezionata: <span class="fw-semibold text-body">{{ $struttura->nome_struttura }}</span></div>
+                @elseif($contesto === 'portfolio')
+                    <div class="small text-muted mt-1">{{ $portfolioLabel }}@if($struttureDisponibili->count()) · {{ $struttureDisponibili->count() }} strutture @endif</div>
                 @endif
             </div>
             <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -38,20 +55,60 @@
         </div>
     </div>
     <div class="card-body py-3">
-        <div class="row g-3 align-items-end">
-            <div class="col-xl-8">
-                <div class="d-flex flex-wrap align-items-center gap-2">
-                    <a href="{{ route('calendario.index', ['contesto' => $contesto, 'mese' => now()->format('Y-m'), 'giorno' => now()->toDateString(), 'vista' => 'month', 'sezione' => 'calendario']) }}" class="btn btn-light">Oggi</a>
-                    <a href="{{ route('calendario.index', ['contesto' => $contesto, 'mese' => $prevMonth, 'giorno' => $selectedDay->toDateString(), 'vista' => $vista, 'sezione' => $sezione]) }}" class="btn btn-light">
-                        <i class="ri-arrow-left-s-line align-bottom"></i>
-                    </a>
-                    <a href="{{ route('calendario.index', ['contesto' => $contesto, 'mese' => $nextMonth, 'giorno' => $selectedDay->toDateString(), 'vista' => $vista, 'sezione' => $sezione]) }}" class="btn btn-light">
-                        <i class="ri-arrow-right-s-line align-bottom"></i>
-                    </a>
-                    <div class="ps-1">
-                        <h5 class="mb-0">{{ $vista === 'day' ? $selectedDay->translatedFormat('l d F Y') : $month->locale('it')->translatedFormat('F Y') }}</h5>
-                        <div class="text-muted small">Vista rapida del periodo scelto</div>
+        <div class="rounded-3 border bg-light-subtle px-3 py-3 mb-3">
+            <form method="GET" action="{{ route('calendario.index') }}" class="row g-3 align-items-end">
+                <input type="hidden" name="contesto" value="{{ $contesto }}">
+                <input type="hidden" name="sezione" value="{{ $sezione }}">
+                <div class="col-12">
+                    <label class="form-label mb-1">Filtro rapido</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="ri-search-line"></i></span>
+                        <input type="text" name="q" id="calendarioToolbarSearch" class="form-control" value="{{ $q ?? '' }}" placeholder="Cerca nota, compleanno, check-in, check-out, cliente o struttura...">
                     </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <label class="form-label mb-1">Data di riferimento</label>
+                    <x-calendario name="giorno" variant="single" :value="$selectedDay->toDateString()" id="calendarioToolbarDay" />
+                </div>
+                <div class="col-xl-2 col-md-6">
+                    <label class="form-label mb-1">Vista</label>
+                    <x-ui.select name="vista" id="calendarioToolbarVista">
+                        <option value="month" @selected($vista === 'month')>Mese</option>
+                        <option value="day" @selected($vista === 'day')>Giorno</option>
+                    </x-ui.select>
+                </div>
+                @if($canSelectStructure)
+                    <div class="col-xl-3 col-md-6">
+                        <label class="form-label mb-1">Struttura</label>
+                        <x-ui.select name="struttura_id" id="calendarioToolbarStruttura">
+                            @if($contesto === 'portfolio')
+                                <option value="">Tutte</option>
+                            @endif
+                            @foreach($struttureDisponibili as $item)
+                                <option value="{{ $item->id }}" @selected((string) $selectedStructureId === (string) $item->id)>{{ $item->nome_struttura }}</option>
+                            @endforeach
+                        </x-ui.select>
+                    </div>
+                @endif
+                <div class="col-xl-{{ $canSelectStructure ? '3' : '6' }} col-md-12">
+                    <div class="d-flex flex-wrap gap-2 justify-content-xl-end">
+                        <a href="{{ route('calendario.index', ['contesto' => $contesto, 'struttura_id' => $selectedStructureId, 'mese' => now()->format('Y-m'), 'giorno' => now()->toDateString(), 'vista' => 'month', 'sezione' => $sezione]) }}" class="btn btn-light">Oggi</a>
+                        <button type="submit" class="btn btn-primary">Aggiorna</button>
+                    </div>
+                </div>
+            </form>
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-3 pt-3 border-top">
+                <div>
+                    <div class="text-muted small">Periodo attivo</div>
+                    <div class="fw-semibold fs-5">{{ $periodoLabel }}</div>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{{ route('calendario.index', ['contesto' => $contesto, 'struttura_id' => $selectedStructureId, 'mese' => $prevMonth, 'giorno' => $selectedDay->copy()->subMonthNoOverflow()->toDateString(), 'vista' => $vista, 'sezione' => $sezione, 'q' => $q]) }}" class="btn btn-light">
+                        <i class="ri-arrow-left-s-line align-bottom me-1"></i> Precedente
+                    </a>
+                    <a href="{{ route('calendario.index', ['contesto' => $contesto, 'struttura_id' => $selectedStructureId, 'mese' => $nextMonth, 'giorno' => $selectedDay->copy()->addMonthNoOverflow()->toDateString(), 'vista' => $vista, 'sezione' => $sezione, 'q' => $q]) }}" class="btn btn-light">
+                        Successivo <i class="ri-arrow-right-s-line align-bottom ms-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -87,18 +144,25 @@
 <div class="step-arrow-nav mb-4">
     <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
         <li class="nav-item" role="presentation">
-            <a class="nav-link {{ $contesto === 'personale' ? 'active' : '' }}" href="{{ route('calendario.index', ['contesto' => 'personale', 'mese' => $month->format('Y-m'), 'giorno' => $selectedDay->toDateString(), 'vista' => $vista, 'sezione' => $sezione]) }}">
-                <span class="d-block">Calendario personale</span>
-            </a>
-        </li>
+                <a class="nav-link {{ $contesto === 'personale' ? 'active' : '' }}" href="{{ route('calendario.index', ['contesto' => 'personale', 'mese' => $month->format('Y-m'), 'giorno' => $selectedDay->toDateString(), 'vista' => $vista, 'sezione' => $sezione, 'q' => $q]) }}">
+                    <span class="d-block">Calendario personale</span>
+                </a>
+            </li>
+        @if($struttureDisponibili->isNotEmpty() && !$hasStrutturaContext)
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {{ $contesto === 'portfolio' ? 'active' : '' }}" href="{{ route('calendario.index', ['contesto' => 'portfolio', 'mese' => $month->format('Y-m'), 'giorno' => $selectedDay->toDateString(), 'vista' => $vista, 'sezione' => $sezione, 'struttura_id' => $selectedStructureId, 'q' => $q]) }}">
+                    <span class="d-block">{{ $portfolioLabel }}</span>
+                </a>
+            </li>
+        @endif
         <li class="nav-item" role="presentation">
             @if($hasStrutturaContext)
-                <a class="nav-link {{ $contesto === 'struttura' ? 'active' : '' }}" href="{{ route('calendario.index', ['contesto' => 'struttura', 'mese' => $month->format('Y-m'), 'giorno' => $selectedDay->toDateString(), 'vista' => $vista, 'sezione' => $sezione]) }}">
-                    <span class="d-block">Calendario struttura selezionata</span>
+                <a class="nav-link {{ $contesto === 'struttura' ? 'active' : '' }}" href="{{ route('calendario.index', ['contesto' => 'struttura', 'mese' => $month->format('Y-m'), 'giorno' => $selectedDay->toDateString(), 'vista' => $vista, 'sezione' => $sezione, 'struttura_id' => $selectedStructureId, 'q' => $q]) }}">
+                    <span class="d-block">{{ $struttura?->nome_struttura ?: 'Calendario struttura' }}</span>
                 </a>
             @else
                 <button class="nav-link disabled" type="button">
-                    <span class="d-block">Calendario struttura selezionata</span>
+                    <span class="d-block">Calendario struttura</span>
                 </button>
             @endif
         </li>
@@ -119,37 +183,6 @@
         </li>
     </ul>
 </div>
-
-@if($sezione === 'calendario')
-    <div class="card border shadow-sm mb-3">
-        <div class="card-body">
-            <form method="GET" action="{{ route('calendario.index') }}" class="row g-3 align-items-end">
-                <input type="hidden" name="contesto" value="{{ $contesto }}">
-                <input type="hidden" name="sezione" value="calendario">
-                <div class="col-xl-4">
-                    <label class="form-label mb-1">Vai al giorno</label>
-                    <x-calendario name="giorno" variant="single" :value="$selectedDay->toDateString()" id="calendarioToolbarDay" />
-                </div>
-                <div class="col-xl-3">
-                    <label class="form-label mb-1">Vista</label>
-                    <x-ui.select name="vista" id="calendarioToolbarVista">
-                        <option value="month" @selected($vista === 'month')>Mese</option>
-                        <option value="day" @selected($vista === 'day')>Giorno</option>
-                    </x-ui.select>
-                </div>
-                <div class="col-xl-5">
-                    <div class="d-flex flex-wrap gap-2 justify-content-xl-end">
-                        <a href="{{ route('calendario.index', ['contesto' => $contesto, 'mese' => now()->format('Y-m'), 'giorno' => now()->toDateString(), 'vista' => 'month', 'sezione' => 'calendario']) }}" class="btn btn-light">Oggi</a>
-                        <button type="submit" class="btn btn-primary">Aggiorna</button>
-                        <button type="button" class="btn btn-soft-primary" data-bs-toggle="modal" data-bs-target="#modalNuovoEvento">
-                            <i class="ri-add-line align-bottom me-1"></i> Nuova nota
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-@endif
 
 @if($sezione === 'calendario' && $vista === 'month')
     <div class="card border shadow-sm mb-3">
@@ -184,6 +217,10 @@
                                     <div class="d-flex flex-column gap-1 overflow-hidden">
                                         @foreach($dayEvents->take(4) as $event)
                                             <div class="rounded-2 px-2 py-1 small text-truncate {{ $event['badge_class'] }} {{ $event['priorita'] === 'urgente' ? 'border border-danger' : '' }}">
+                                                @if($contesto === 'portfolio' && !empty($event['struttura_label']))
+                                                    <span class="fw-semibold">{{ Str::limit($event['struttura_label'], 12) }}</span>
+                                                    <span class="mx-1">·</span>
+                                                @endif
                                                 @if($event['ora_evento'])
                                                     <span class="fw-semibold">{{ substr($event['ora_evento'], 0, 5) }}</span>
                                                     <span class="mx-1">·</span>
@@ -233,6 +270,9 @@
                                             @endif
                                         </div>
                                         <div class="fw-semibold fs-15">{{ $event['titolo'] }}</div>
+                                        @if(!empty($event['struttura_label']) && $contesto !== 'struttura')
+                                            <div class="text-muted small">{{ $event['struttura_label'] }}</div>
+                                        @endif
                                         <div class="text-muted small">{{ $event['creator_role'] }}: {{ $event['creator_label'] }}</div>
                                     </div>
                                     @if($event['is_manual'])
@@ -307,7 +347,7 @@
                     @else
                         <div>
                             <div class="fw-semibold">Compleanni clienti</div>
-                            <div class="text-muted small">Annuncio automatico nel giorno del compleanno.</div>
+                            <div class="text-muted small">Annuncio automatico per clienti e componenti nel giorno del compleanno.</div>
                         </div>
                         <div>
                             <div class="fw-semibold">Check-in previsti</div>
@@ -335,6 +375,7 @@
             <div class="card-body border-bottom">
                 <form method="GET" action="{{ route('calendario.index') }}" class="row g-3 align-items-end">
                     <input type="hidden" name="contesto" value="{{ $contesto }}">
+                    <input type="hidden" name="struttura_id" value="{{ $selectedStructureId }}">
                     <input type="hidden" name="sezione" value="storico">
                     <input type="hidden" name="vista" value="day">
                     <div class="col-xl-4">
@@ -351,9 +392,16 @@
                             <option value="da_fare" @selected($statoStorico === 'da_fare')>Da fare</option>
                         </x-ui.select>
                     </div>
+                    <div class="col-xl-4">
+                        <label class="form-label mb-1">Filtro rapido</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="ri-search-line"></i></span>
+                            <input type="text" name="q" class="form-control" value="{{ $q ?? '' }}" placeholder="Cerca evento, nota o struttura...">
+                        </div>
+                    </div>
                     <div class="col-xl-5">
                         <div class="d-flex flex-wrap gap-2 justify-content-xl-end">
-                            <a href="{{ route('calendario.index', ['contesto' => $contesto, 'mese' => now()->format('Y-m'), 'giorno' => now()->toDateString(), 'vista' => 'day', 'sezione' => 'storico']) }}" class="btn btn-light">Oggi</a>
+                            <a href="{{ route('calendario.index', ['contesto' => $contesto, 'struttura_id' => $selectedStructureId, 'mese' => now()->format('Y-m'), 'giorno' => now()->toDateString(), 'vista' => 'day', 'sezione' => 'storico']) }}" class="btn btn-light">Oggi</a>
                             <button type="submit" class="btn btn-primary">Aggiorna</button>
                         </div>
                     </div>
@@ -418,22 +466,26 @@
                             <label class="form-label">Titolo *</label>
                             <input type="text" name="titolo" class="form-control" value="{{ old('titolo') }}" required>
                         </div>
-                        <div class="col-lg-5">
-                            <label class="form-label">Quando</label>
-                            <input
-                                type="text"
-                                class="form-control js-event-datetime"
-                                data-ui="datepicker"
-                                data-enable-time="1"
-                                data-time-24hr="1"
-                                data-format="Y-m-d H:i"
-                                data-alt-input="1"
-                                data-alt-format="d/m/Y H:i"
-                                value="{{ trim(old('data_evento', $selectedDay->toDateString()) . ' ' . old('ora_evento', '09:00')) }}"
-                            >
-                            <input type="hidden" name="data_evento" value="{{ old('data_evento', $selectedDay->toDateString()) }}">
-                            <input type="hidden" name="ora_evento" value="{{ old('ora_evento', '09:00') }}">
+                        <div class="col-lg-3">
+                            <label class="form-label">Data</label>
+                            <x-calendario name="data_evento" variant="single" :value="old('data_evento', $selectedDay->toDateString())" id="modalNuovoEventoData" />
                         </div>
+                        <div class="col-lg-2">
+                            <label class="form-label">Ora</label>
+                            <input type="time" name="ora_evento" class="form-control" value="{{ old('ora_evento', '09:00') }}">
+                        </div>
+                        @if($contesto !== 'personale' && $canSelectStructure)
+                            <div class="col-lg-3">
+                                <label class="form-label">Struttura</label>
+                                <x-ui.select name="struttura_id" required>
+                                    @foreach($struttureDisponibili as $item)
+                                        <option value="{{ $item->id }}" @selected((string) old('struttura_id', $selectedStructureId) === (string) $item->id)>{{ $item->nome_struttura }}</option>
+                                    @endforeach
+                                </x-ui.select>
+                            </div>
+                        @elseif($contesto === 'struttura' && $struttura)
+                            <input type="hidden" name="struttura_id" value="{{ $struttura->id }}">
+                        @endif
                         <div class="col-lg-4">
                             <label class="form-label">Priorita *</label>
                             <x-ui.select name="priorita">
@@ -482,7 +534,10 @@
                 <form method="POST" action="{{ route('calendario.update', $evento->id) }}">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" name="contesto" value="{{ $evento->ambito === 'personale' ? 'personale' : 'struttura' }}">
+                    <input type="hidden" name="contesto" value="{{ $contesto }}">
+                    @if($evento->struttura_id)
+                        <input type="hidden" name="struttura_id" value="{{ $evento->struttura_id }}">
+                    @endif
                     <div class="modal-body">
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
@@ -499,21 +554,13 @@
                                 <label class="form-label">Titolo *</label>
                                 <input type="text" name="titolo" class="form-control" value="{{ $evento->titolo }}" required>
                             </div>
-                            <div class="col-lg-5">
-                                <label class="form-label">Quando</label>
-                                <input
-                                    type="text"
-                                    class="form-control js-event-datetime"
-                                    data-ui="datepicker"
-                                    data-enable-time="1"
-                                    data-time-24hr="1"
-                                    data-format="Y-m-d H:i"
-                                    data-alt-input="1"
-                                    data-alt-format="d/m/Y H:i"
-                                    value="{{ trim(optional($evento->data_evento)->toDateString() . ' ' . ($evento->ora_evento ? substr($evento->ora_evento, 0, 5) : '09:00')) }}"
-                                >
-                                <input type="hidden" name="data_evento" value="{{ optional($evento->data_evento)->toDateString() }}">
-                                <input type="hidden" name="ora_evento" value="{{ $evento->ora_evento ? substr($evento->ora_evento, 0, 5) : '09:00' }}">
+                            <div class="col-lg-3">
+                                <label class="form-label">Data</label>
+                                <x-calendario name="data_evento" variant="single" :value="optional($evento->data_evento)->toDateString()" id="evento-data-{{$evento->id}}" />
+                            </div>
+                            <div class="col-lg-2">
+                                <label class="form-label">Ora</label>
+                                <input type="time" name="ora_evento" class="form-control" value="{{ $evento->ora_evento ? substr($evento->ora_evento, 0, 5) : '09:00' }}">
                             </div>
                             <div class="col-lg-4">
                                 <label class="form-label">Priorita *</label>
@@ -560,21 +607,30 @@
                 @if($evento->stato !== 'vista')
                     <form id="status-evento-vista-{{ $evento->id }}" method="POST" action="{{ route('calendario.status', $evento->id) }}" class="d-none">
                         @csrf
-                        <input type="hidden" name="contesto" value="{{ $evento->ambito === 'personale' ? 'personale' : 'struttura' }}">
+                        <input type="hidden" name="contesto" value="{{ $contesto }}">
+                        @if($evento->struttura_id)
+                            <input type="hidden" name="struttura_id" value="{{ $evento->struttura_id }}">
+                        @endif
                         <input type="hidden" name="stato" value="vista">
                     </form>
                 @endif
                 @if($evento->stato !== 'completata')
                     <form id="status-evento-completata-{{ $evento->id }}" method="POST" action="{{ route('calendario.status', $evento->id) }}" class="d-none">
                         @csrf
-                        <input type="hidden" name="contesto" value="{{ $evento->ambito === 'personale' ? 'personale' : 'struttura' }}">
+                        <input type="hidden" name="contesto" value="{{ $contesto }}">
+                        @if($evento->struttura_id)
+                            <input type="hidden" name="struttura_id" value="{{ $evento->struttura_id }}">
+                        @endif
                         <input type="hidden" name="stato" value="completata">
                     </form>
                 @endif
                 @if($evento->stato !== 'chiusa')
                     <form id="status-evento-chiusa-{{ $evento->id }}" method="POST" action="{{ route('calendario.status', $evento->id) }}" class="d-none">
                         @csrf
-                        <input type="hidden" name="contesto" value="{{ $evento->ambito === 'personale' ? 'personale' : 'struttura' }}">
+                        <input type="hidden" name="contesto" value="{{ $contesto }}">
+                        @if($evento->struttura_id)
+                            <input type="hidden" name="struttura_id" value="{{ $evento->struttura_id }}">
+                        @endif
                         <input type="hidden" name="stato" value="chiusa">
                     </form>
                 @endif
@@ -589,11 +645,34 @@
     document.addEventListener('DOMContentLoaded', function () {
         const toolbarDay = document.getElementById('calendarioToolbarDay');
         const toolbarVista = document.getElementById('calendarioToolbarVista');
+        const toolbarStruttura = document.getElementById('calendarioToolbarStruttura');
+        const toolbarMese = document.getElementById('calendarioToolbarMese');
+        const toolbarAnno = document.getElementById('calendarioToolbarAnno');
         const toolbarForm = toolbarDay ? toolbarDay.closest('form') : null;
         const newEventModalEl = document.getElementById('modalNuovoEvento');
         const newEventModal = newEventModalEl ? new bootstrap.Modal(newEventModalEl) : null;
-        const dateInput = newEventModalEl ? newEventModalEl.querySelector('input[name="data_evento"]') : null;
+        const dateInput = document.getElementById('modalNuovoEventoData');
         const titleInput = newEventModalEl ? newEventModalEl.querySelector('[name="titolo"]') : null;
+
+        function syncMonthYear() {
+            if (!toolbarMese || !toolbarAnno) return;
+            const value = String(toolbarMese.value || '');
+            const parts = value.split('-');
+            if (parts.length === 2) {
+                toolbarAnno.value = parts[0];
+            }
+        }
+
+        function applyMonthYearToDate() {
+            if (!toolbarMese || !toolbarAnno || !toolbarDay) return;
+            const monthValue = String(toolbarMese.value || '');
+            const yearValue = String(toolbarAnno.value || '').padStart(4, '0');
+            const parts = monthValue.split('-');
+            const monthPart = parts.length === 2 ? parts[1] : String(new Date().getMonth() + 1).padStart(2, '0');
+            const currentDate = String(toolbarDay.value || '');
+            const dayPart = currentDate ? currentDate.split('-')[2] : '01';
+            toolbarDay.value = `${yearValue}-${monthPart}-${dayPart}`;
+        }
 
         if (toolbarDay) {
             toolbarDay.addEventListener('change', function () {
@@ -607,37 +686,26 @@
             });
         }
 
-        function syncDateTimeField(field) {
-            const wrapper = field.closest('.col-lg-5, .col-md-5, .col-sm-5, .col-12') || field.parentElement;
-            const form = field.closest('form');
-            const hiddenDate = form ? form.querySelector('input[name="data_evento"]') : null;
-            const hiddenTime = form ? form.querySelector('input[name="ora_evento"]') : null;
-            if (!hiddenDate || !hiddenTime) return;
-
-            const picker = field._flatpickr;
-            const applyValue = (date) => {
-                if (!date) return;
-                const yyyy = date.getFullYear();
-                const mm = String(date.getMonth() + 1).padStart(2, '0');
-                const dd = String(date.getDate()).padStart(2, '0');
-                const hh = String(date.getHours()).padStart(2, '0');
-                const ii = String(date.getMinutes()).padStart(2, '0');
-                hiddenDate.value = `${yyyy}-${mm}-${dd}`;
-                hiddenTime.value = `${hh}:${ii}`;
-            };
-
-            if (picker?.selectedDates?.[0]) {
-                applyValue(picker.selectedDates[0]);
-            }
-
-            if (picker) {
-                picker.config.onChange.push(function (selectedDates) {
-                    applyValue(selectedDates[0] || null);
-                });
-            }
+        if (toolbarStruttura) {
+            toolbarStruttura.addEventListener('change', function () {
+                toolbarForm?.submit();
+            });
         }
 
-        document.querySelectorAll('.js-event-datetime').forEach(syncDateTimeField);
+        if (toolbarMese) {
+            toolbarMese.addEventListener('change', function () {
+                syncMonthYear();
+                applyMonthYearToDate();
+                toolbarForm?.submit();
+            });
+        }
+
+        if (toolbarAnno) {
+            toolbarAnno.addEventListener('change', function () {
+                applyMonthYearToDate();
+                toolbarForm?.submit();
+            });
+        }
 
         document.querySelectorAll('.js-calendar-day').forEach(function (card) {
             let clickTimer = null;
@@ -661,11 +729,6 @@
                 if (dateInput) {
                     dateInput.value = date;
                     dateInput.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-                const newPicker = newEventModalEl ? newEventModalEl.querySelector('.js-event-datetime') : null;
-                if (newPicker?._flatpickr) {
-                    const currentTime = newEventModalEl.querySelector('input[name="ora_evento"]')?.value || '09:00';
-                    newPicker._flatpickr.setDate(`${date} ${currentTime}`, true, 'Y-m-d H:i');
                 }
                 if (newEventModal) {
                     newEventModal.show();
@@ -695,11 +758,6 @@
                 if (dateInput) {
                     dateInput.value = date;
                     dateInput.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-                const newPicker = newEventModalEl ? newEventModalEl.querySelector('.js-event-datetime') : null;
-                if (newPicker?._flatpickr) {
-                    const currentTime = newEventModalEl.querySelector('input[name="ora_evento"]')?.value || '09:00';
-                    newPicker._flatpickr.setDate(`${date} ${currentTime}`, true, 'Y-m-d H:i');
                 }
                 if (newEventModal) {
                     newEventModal.show();

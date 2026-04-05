@@ -133,6 +133,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/amministratori/{id}/edit', [AmministratoriController::class, 'edit'])->name('superadmin.amministratori.edit');
         Route::put('/amministratori/{id}', [AmministratoriController::class, 'update'])->name('superadmin.amministratori.update');
         Route::post('/amministratori/{id}/disable', [AmministratoriController::class, 'disable'])->name('superadmin.amministratori.disable');
+        Route::get('/amministratori/{id}/proforme/create', [AmministratoriController::class, 'createProforma'])->name('superadmin.amministratori.proforme.create');
+        Route::post('/amministratori/{id}/proforme', [AmministratoriController::class, 'storeProforma'])->name('superadmin.amministratori.proforme.store');
+        Route::get('/amministratori/{id}/proforme/{fatturazione}', [AmministratoriController::class, 'showProforma'])->name('superadmin.amministratori.proforme.show');
+        Route::get('/amministratori/{id}/proforme/{fatturazione}/edit', [AmministratoriController::class, 'editProforma'])->name('superadmin.amministratori.proforme.edit');
+        Route::put('/amministratori/{id}/proforme/{fatturazione}', [AmministratoriController::class, 'updateProforma'])->name('superadmin.amministratori.proforme.update');
+        Route::post('/amministratori/{id}/proforme/{fatturazione}/close', [AmministratoriController::class, 'closeProforma'])->name('superadmin.amministratori.proforme.close');
+        Route::post('/amministratori/{id}/proforme/{fatturazione}/mark-fatturata', [AmministratoriController::class, 'markFatturata'])->name('superadmin.amministratori.proforme.mark_fatturata');
+        Route::get('/amministratori/{id}/proforme/{fatturazione}/print', [AmministratoriController::class, 'printProforma'])->name('superadmin.amministratori.proforme.print');
 
         Route::get('/proprietari', [SuperadminProprietariController::class, 'index'])->name('superadmin.proprietari.index');
         Route::get('/proforme', [SuperadminProprietariController::class, 'indexProforme'])->name('superadmin.proforme.index');
@@ -393,10 +401,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Utenti, consegne e notifiche interne
     Route::get('/gestione-operativa', [GestioneOperativaController::class, 'index'])->name('gestione.operativa.index');
-    Route::post('/gestione-operativa/profilo', [GestioneOperativaController::class, 'updateProfile'])->name('gestione.operativa.profile.update');
+    Route::put('/gestione-operativa/profilo', [GestioneOperativaController::class, 'updateProfile'])->name('gestione.operativa.profile.update');
     Route::post('/gestione-operativa/profilo/password', [GestioneOperativaController::class, 'updateMyPassword'])->name('gestione.operativa.profile.password');
     Route::post('/gestione-operativa/utenti', [GestioneOperativaController::class, 'storeUtente'])->name('gestione.operativa.utenti.store');
-    Route::post('/gestione-operativa/utenti/{id}', [GestioneOperativaController::class, 'updateUtente'])->name('gestione.operativa.utenti.update');
+    Route::put('/gestione-operativa/utenti/{id}', [GestioneOperativaController::class, 'updateUtente'])->name('gestione.operativa.utenti.update');
     Route::post('/gestione-operativa/utenti/{id}/password', [GestioneOperativaController::class, 'resetPassword'])->name('gestione.operativa.utenti.password');
     Route::post('/gestione-operativa/consegne', [GestioneOperativaController::class, 'storeComanda'])->name('gestione.operativa.comande.store');
     Route::post('/gestione-operativa/consegne/{id}/vista', [GestioneOperativaController::class, 'markComandaRead'])->name('gestione.operativa.comande.read');

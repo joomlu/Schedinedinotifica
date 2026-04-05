@@ -245,36 +245,49 @@
                     <div class="col-xl-4">
                         <div class="card border shadow-sm mb-0">
                             <div class="card-header border-0 bg-light-subtle">
-                                <h5 class="card-title mb-0">Chi sta lavorando adesso</h5>
+                                <h5 class="card-title mb-0">Identità struttura</h5>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-3 mb-3">
-                                    <img class="rounded-circle flex-shrink-0" src="@if ($utenteCorrente->avatar != ''){{ URL::asset('images/' . $utenteCorrente->avatar) }}@else{{ URL::asset('build/images/users/avatar-1.jpg') }}@endif" alt="Avatar" width="72" height="72" style="object-fit: cover;">
+                                    @if($utenteCorrente->avatar)
+                                        <img class="rounded-circle flex-shrink-0" src="{{ URL::asset('images/' . $utenteCorrente->avatar) }}" alt="Avatar utente" width="72" height="72" style="object-fit: cover;">
+                                    @elseif($struttura->logo)
+                                        <img class="rounded-circle flex-shrink-0" src="{{ asset($struttura->logo) }}" alt="Logo struttura" width="72" height="72" style="object-fit: cover;">
+                                    @else
+                                        <span class="avatar-title bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center flex-shrink-0" style="width:72px;height:72px;">
+                                            {{ strtoupper(substr((string) $struttura->nome_struttura, 0, 1)) }}
+                                        </span>
+                                    @endif
                                     <div>
-                                        <h5 class="mb-1">{{ $utenteCorrente->displayLabel() }}</h5>
-                                        <p class="text-muted mb-1">{{ $utenteCorrente->ruoloOperativoLabel() }}</p>
-                                        <p class="text-muted mb-0">{{ $struttura->nome_struttura }}</p>
+                                        <h5 class="mb-1">{{ $struttura->nome_struttura }}</h5>
+                                        <p class="text-muted mb-1">{{ $struttura->citta }}@if($struttura->provincia) ({{ $struttura->provincia }}) @endif</p>
+                                        <p class="text-muted mb-0">{{ $struttura->tipologia_struttura ?: ($struttura->tipologia_generale ?: 'Struttura ricettiva') }}</p>
                                     </div>
                                 </div>
                                 <div class="border rounded-3 p-3 bg-light-subtle">
                                     <div class="row g-3">
                                         <div class="col-12">
-                                            <div class="text-muted small">Nome completo</div>
-                                            <div>{{ $utenteCorrente->name }}</div>
+                                            <div class="text-muted small">Identificazione</div>
+                                            <div>{{ $struttura->nome_struttura }}</div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="text-muted small">Telefono</div>
-                                            <div>{{ $utenteCorrente->telefono ?: 'Non disponibile' }}</div>
+                                            <div class="text-muted small">Stato servizio</div>
+                                            <div>{{ $struttura->servizioAttivo() ? 'Servizio attivo' : 'Servizio offline' }}</div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="text-muted small">Email</div>
-                                            <div>{{ str_ends_with($utenteCorrente->email, '.local') ? 'Non disponibile' : $utenteCorrente->email }}</div>
+                                            <div class="text-muted small">Scadenza servizio</div>
+                                            <div>{{ optional($struttura->scadenza_servizio)->format('d/m/Y') ?: 'Non disponibile' }}</div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="text-muted small">Ultimo accesso</div>
-                                            <div>{{ $utenteCorrente->ultimo_accesso_at?->format('d/m/Y H:i') ?: 'Non disponibile' }}</div>
+                                            <div class="text-muted small">Accesso condiviso</div>
+                                            <div>{{ $sharedUsername }}</div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="border rounded-3 p-3 mt-3">
+                                    <div class="text-muted small mb-2">Persona attualmente in lavoro</div>
+                                    <div class="fw-semibold">{{ $utenteCorrente->displayLabel() }}</div>
+                                    <div class="small text-muted">{{ $utenteCorrente->ruoloOperativoLabel() }}</div>
                                 </div>
                             </div>
                         </div>

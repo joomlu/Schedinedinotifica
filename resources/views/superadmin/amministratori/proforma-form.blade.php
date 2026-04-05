@@ -105,6 +105,19 @@
                                 <label class="form-label">Note documento</label>
                                 <textarea name="proforma_note" class="form-control" rows="3" placeholder="Note interne o testo libero della proforma">{{ old('proforma_note', $proforma?->note) }}</textarea>
                             </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Numero fattura</label>
+                                <input type="text" name="numero_fattura" class="form-control" value="{{ old('numero_fattura', $proforma?->numero_fattura) }}">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Data pagamento</label>
+                                <x-calendario
+                                    name="data_pagamento"
+                                    variant="single"
+                                    :value="old('data_pagamento', optional($proforma?->data_pagamento)->toDateString())"
+                                    placeholder="gg/mm/aaaa"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

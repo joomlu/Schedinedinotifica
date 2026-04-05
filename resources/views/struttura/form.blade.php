@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
     @endcomponent
 
     <div class="row config-page">
-        <div class="col-lg-10 mx-auto">
+        <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <form method="POST" action="{{ route('struttura.update') }}" enctype="multipart/form-data">

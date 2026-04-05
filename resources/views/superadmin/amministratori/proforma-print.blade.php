@@ -25,6 +25,9 @@
             <p class="muted">P.IVA {{ $proforma->partita_iva ?: '-' }}</p>
             <p class="muted">C.F. {{ $proforma->codice_fiscale ?: '-' }}</p>
             <p class="muted">{{ trim(collect([$proforma->indirizzo, $proforma->cap, $proforma->citta, $proforma->provincia])->filter()->implode(', ')) }}</p>
+            @if($proforma->numero_fattura)
+                <p class="muted">Fattura {{ $proforma->numero_fattura }}</p>
+            @endif
         </div>
     </div>
 

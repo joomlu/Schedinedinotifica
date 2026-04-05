@@ -7,6 +7,9 @@ use App\Models\LicenzaAssegnazione;
 use App\Models\Schedina;
 use App\Models\Struttura;
 use App\Models\SupportTicket;
+use App\Models\AdminFatturazione;
+use App\Models\Proprietario;
+use App\Models\ProprietarioFatturazione;
 use App\Models\User;
 use App\Models\WebCheckinRichiesta;
 use App\Services\NotificheService;
@@ -51,6 +54,7 @@ class HomeController extends Controller
             : null;
 
         $dashboardData = null;
+        $superadminDashboardData = null;
 
         if ($strutturaDashboard) {
             $licenze = LicenzaAssegnazione::query()
@@ -187,10 +191,97 @@ class HomeController extends Controller
                     ],
                 ],
             ];
+        } elseif (($user?->ruolo ?? null) === 'super_admin') {
+            $admins = User::query()->whereIn('ruolo', ['admin', 'admin_disabled'])->get();
+            $proprietari = Proprietario::query()->withCount('strutture')->get();
+            $strutture = Struttura::query()->with('proprietario')->get();
+            $licenze = LicenzaAssegnazione::query()->with(['articolo', 'proprietario', 'struttura'])->get();
+            $proformeProprietari = ProprietarioFatturazione::query()->get();
+            $proformeAdmin = AdminFatturazione::query()->get();
+
+            $superadminDashboardData = [
+                'stats' => [
+                    [
+                        'title' => 'Amministratori',
+                        'value' => $admins->count(),
+                        'description' => $admins->where('attivo', true)->count() . ' attivi · ' . $admins->where('attivo', false)->count() . ' disattivi',
+                    ],
+                    [
+                        'title' => 'Proprietari',
+                        'value' => $proprietari->count(),
+                        'description' => $proprietari->sum('strutture_count') . ' strutture collegate',
+                    ],
+                    [
+                        'title' => 'Strutture',
+                        'value' => $strutture->count(),
+                        'description' => $strutture->where('attiva', true)->count() . ' online · ' . $strutture->where('attiva', false)->count() . ' offline',
+                    ],
+                    [
+                        'title' => 'Licenze attive',
+                        'value' => $licenze->where('attiva', true)->count(),
+                        'description' => $licenze->whereIn('stato_pagamento', ['da_pagare', 'sospeso'])->count() . ' da riallineare',
+                    ],
+                ],
+                'sections' => [
+                    [
+                        'title' => 'Amministratori',
+                        'icon' => 'ri-admin-line',
+                        'route' => route('superadmin.amministratori.index'),
+                        'description' => 'Scheda completa degli amministratori con accesso, servizi, proforme e storico.',
+                        'badge' => $admins->count() . ' profili',
+                    ],
+                    [
+                        'title' => 'Proprietari',
+                        'icon' => 'ri-user-settings-line',
+                        'route' => route('superadmin.proprietari.index'),
+                        'description' => 'Anagrafiche fiscali, strutture collegate, proforme e circuito economico dei proprietari.',
+                        'badge' => $proprietari->count() . ' proprietari',
+                    ],
+                    [
+                        'title' => 'Strutture',
+                        'icon' => 'ri-building-2-line',
+                        'route' => route('superadmin.strutture.index'),
+                        'description' => 'Vista globale delle strutture con stato servizio, storico licenze e accessi.',
+                        'badge' => $strutture->count() . ' strutture',
+                    ],
+                    [
+                        'title' => 'Proforme',
+                        'icon' => 'ri-file-copy-2-line',
+                        'route' => route('superadmin.proforme.index'),
+                        'description' => 'Indice centrale di proforme, destinatari e stato di emissione o pagamento.',
+                        'badge' => ($proformeProprietari->count() + $proformeAdmin->count()) . ' documenti',
+                    ],
+                    [
+                        'title' => 'Pagamenti / Licenze',
+                        'icon' => 'ri-bank-card-line',
+                        'route' => route('superadmin.pagamenti.index'),
+                        'description' => 'Quadro centrale di licenze, servizi, proforme e scadenze da controllare.',
+                        'badge' => $licenze->count() . ' licenze',
+                    ],
+                    [
+                        'title' => 'Impersonazione',
+                        'icon' => 'ri-user-shared-line',
+                        'route' => route('superadmin.impersonazione.index'),
+                        'description' => 'Accesso guidato alle aree delegate per verifiche e assistenza operativa.',
+                    ],
+                    [
+                        'title' => 'QA',
+                        'icon' => 'ri-shield-check-line',
+                        'route' => route('qa.index'),
+                        'description' => 'Controlli tecnici, sessione QA, accesso e tenancy del sistema.',
+                    ],
+                ],
+                'prossime_scadenze' => $licenze
+                    ->filter(fn (LicenzaAssegnazione $licenza) => $licenza->data_scadenza)
+                    ->sortBy('data_scadenza')
+                    ->take(6)
+                    ->values(),
+            ];
         }
 
         return view('index', [
             'dashboardData' => $dashboardData,
+            'superadminDashboardData' => $superadminDashboardData,
         ]);
     }
 

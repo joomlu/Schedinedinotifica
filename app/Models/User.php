@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Struttura;
 use App\Models\Proprietario;
+use App\Models\AdminServizio;
+use App\Models\AdminFatturazione;
 
 class User extends Authenticatable
 {
@@ -27,6 +29,19 @@ class User extends Authenticatable
         'username',
         'display_name',
         'telefono',
+        'qualifica',
+        'ragione_sociale',
+        'codice_fiscale',
+        'partita_iva',
+        'codice_destinatario',
+        'pec',
+        'indirizzo',
+        'numero_civico',
+        'cap',
+        'citta',
+        'provincia',
+        'regione',
+        'nazione',
         'ruolo',
         'ruolo_operativo',
         'struttura_id',
@@ -64,6 +79,21 @@ class User extends Authenticatable
     public function proprietario()
     {
         return $this->belongsTo(Proprietario::class, 'proprietario_id');
+    }
+
+    public function proprietariGestiti()
+    {
+        return $this->hasMany(Proprietario::class, 'admin_id');
+    }
+
+    public function adminServizi()
+    {
+        return $this->hasMany(AdminServizio::class, 'user_id');
+    }
+
+    public function adminFatturazioni()
+    {
+        return $this->hasMany(AdminFatturazione::class, 'user_id');
     }
 
     public function isSuperAdmin(): bool

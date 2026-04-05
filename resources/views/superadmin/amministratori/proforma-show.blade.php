@@ -28,13 +28,6 @@
                         Chiudi
                     </button>
                 </form>
-                <form action="{{ route('superadmin.amministratori.proforme.mark_fatturata', ['id' => $admin->id, 'fatturazione' => $proforma->id]) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-success">
-                        <i class="ri-checkbox-circle-line align-bottom me-1"></i>
-                        Segna fatturata
-                    </button>
-                </form>
             @endif
             <button
                 type="button"
@@ -70,10 +63,10 @@
                             <div class="text-muted small text-uppercase mb-1">Stato</div>
                             <div>
                                 <span class="badge {{
-                                    $proforma->stato === 'fatturata' ? 'bg-success-subtle text-success' :
+                                    in_array($proforma->stato, ['pagata', 'fatturata'], true) ? 'bg-success-subtle text-success' :
                                     ($proforma->stato === 'chiusa' ? 'bg-warning-subtle text-warning' : 'bg-info-subtle text-info')
                                 }}">
-                                    {{ ucfirst($proforma->stato) }}
+                                    {{ in_array($proforma->stato, ['pagata', 'fatturata'], true) ? 'Pagata' : ucfirst($proforma->stato) }}
                                 </span>
                             </div>
                         </div>
@@ -88,6 +81,33 @@
                     </div>
                 </div>
             </div>
+
+            @if($proforma->stato === 'proforma')
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-light-subtle border-0">
+                        <div class="fw-semibold">Chiusura pagamento</div>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('superadmin.amministratori.proforme.mark_fatturata', ['id' => $admin->id, 'fatturazione' => $proforma->id]) }}" method="POST" class="row g-3 align-items-end">
+                            @csrf
+                            <div class="col-md-4">
+                                <label class="form-label">Numero fattura</label>
+                                <input type="text" name="numero_fattura" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Data pagamento</label>
+                                <x-calendario name="data_pagamento" variant="single" :value="now()->toDateString()" />
+                            </div>
+                            <div class="col-md-4 d-grid">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="ri-checkbox-circle-line align-bottom me-1"></i>
+                                    Segna pagata
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            @endif
 
             <div class="table-responsive border rounded-3">
                 <table class="table align-middle">
@@ -143,6 +163,18 @@
                 <div class="mt-3">
                     <div class="fw-semibold mb-1">Note</div>
                     <div class="text-muted">{{ $proforma->note }}</div>
+                </div>
+            @endif
+
+            @if($proforma->numero_fattura || $proforma->data_pagamento)
+                <div class="mt-3">
+                    <div class="fw-semibold mb-1">Pagamento</div>
+                    <div class="text-muted">
+                        {{ $proforma->numero_fattura ? 'Fattura ' . $proforma->numero_fattura : 'N. fattura non indicato' }}
+                        @if($proforma->data_pagamento)
+                            · Pagata {{ optional($proforma->data_pagamento)->format('d/m/Y') }}
+                        @endif
+                    </div>
                 </div>
             @endif
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CalendarioEvento;
+use App\Models\Componenti;
 use App\Models\Customers;
 use App\Models\LicenzaAssegnazione;
 use App\Models\Schedina;
@@ -22,32 +23,50 @@ class CalendarioController extends Controller
         $calendar = $this->resolveCalendarContext($request);
         $struttura = $calendar['struttura'];
         $contesto = $calendar['contesto'];
+        $struttureDisponibili = $calendar['strutture_disponibili'];
+        $canSelectStructure = $calendar['can_select_structure'];
+        $allowedStructureIds = $calendar['allowed_structure_ids'];
+        $portfolioLabel = $calendar['portfolio_label'];
+        $scopeStructures = $contesto === 'portfolio'
+            ? ($struttura ? collect([$struttura]) : $struttureDisponibili)
+            : $struttureDisponibili;
+        $scopeStructureIds = $contesto === 'portfolio'
+            ? $scopeStructures->pluck('id')->map(fn ($id) => (int) $id)->all()
+            : $allowedStructureIds;
 
         $month = $this->parseMonth($request->query('mese'), $request->query('giorno'));
         $selectedDay = $this->parseDay($request->query('giorno'), $month);
         $vista = (string) $request->query('vista', ($request->has('giorno') ? 'day' : 'month'));
         $statoStorico = (string) $request->query('stato_storico', '');
+        $q = trim((string) $request->query('q', ''));
 
         $monthStart = $month->copy()->startOfMonth();
         $monthEnd = $month->copy()->endOfMonth();
         $gridStart = $monthStart->copy()->startOfWeek(Carbon::MONDAY);
         $gridEnd = $monthEnd->copy()->endOfWeek(Carbon::SUNDAY);
 
-        $manualMonthEvents = $this->manualEventsQuery($user, $contesto, $struttura?->id)
-            ->with(['creator', 'closer', 'owner'])
+        $manualMonthEvents = $this->manualEventsQuery($user, $contesto, $struttura?->id, $scopeStructureIds)
+            ->with(['creator', 'closer', 'owner', 'struttura'])
             ->whereBetween('data_evento', [$gridStart->toDateString(), $gridEnd->toDateString()])
             ->orderBy('data_evento')
             ->orderBy('ora_evento')
             ->orderByDesc('id')
             ->get();
 
-        $automaticMonthEvents = $contesto === 'struttura' && $struttura
-            ? collect($this->automaticEvents($struttura->id, $monthStart, $monthEnd))
-            : collect();
+        $automaticMonthEvents = collect();
+
+        if ($contesto === 'struttura' && $struttura) {
+            $automaticMonthEvents = collect($this->automaticEvents($struttura, $monthStart, $monthEnd));
+        } elseif ($contesto === 'portfolio') {
+            $automaticMonthEvents = $scopeStructures
+                ->flatMap(fn (Struttura $item) => $this->automaticEvents($item, $monthStart, $monthEnd))
+                ->values();
+        }
 
         $allMonthEvents = $manualMonthEvents
             ->map(fn (CalendarioEvento $evento) => $this->presentManualEvent($evento))
             ->concat($automaticMonthEvents)
+            ->filter(fn (array $event) => $this->calendarSearchMatches($event, $q))
             ->sortBy([['data_evento', 'asc'], ['sort_time', 'asc'], ['titolo', 'asc']])
             ->values();
 
@@ -56,24 +75,29 @@ class CalendarioController extends Controller
         $agendaEvents = collect();
 
         if ($contesto === 'struttura' && $struttura) {
-            $agendaEvents = $agendaEvents->concat($this->automaticEvents($struttura->id, $selectedDay, $selectedDay));
+            $agendaEvents = $agendaEvents->concat($this->automaticEvents($struttura, $selectedDay, $selectedDay));
+        } elseif ($contesto === 'portfolio') {
+            $agendaEvents = $agendaEvents->concat(
+                $struttureDisponibili->flatMap(fn (Struttura $item) => $this->automaticEvents($item, $selectedDay, $selectedDay))
+            );
         }
 
         $agendaEvents = $agendaEvents
             ->concat(
-                $this->manualEventsQuery($user, $contesto, $struttura?->id)
-                    ->with(['creator', 'closer', 'owner'])
+                $this->manualEventsQuery($user, $contesto, $struttura?->id, $scopeStructureIds)
+                    ->with(['creator', 'closer', 'owner', 'struttura'])
                     ->whereDate('data_evento', $selectedDay->toDateString())
                     ->orderBy('ora_evento')
                     ->orderByDesc('id')
                     ->get()
                     ->map(fn (CalendarioEvento $evento) => $this->presentManualEvent($evento))
             )
+            ->filter(fn (array $event) => $this->calendarSearchMatches($event, $q))
             ->sortBy([['sort_time', 'asc'], ['titolo', 'asc']])
             ->values();
 
-        $history = $this->manualEventsQuery($user, $contesto, $struttura?->id)
-            ->with(['creator', 'closer', 'owner'])
+        $history = $this->manualEventsQuery($user, $contesto, $struttura?->id, $scopeStructureIds)
+            ->with(['creator', 'closer', 'owner', 'struttura'])
             ->where(function ($query) use ($selectedDay) {
                 $query->whereIn('stato', ['completata', 'chiusa'])
                     ->orWhereDate('data_evento', '<', $selectedDay->toDateString());
@@ -83,6 +107,21 @@ class CalendarioController extends Controller
             ->orderByDesc('ora_evento')
             ->limit(80)
             ->get();
+
+        if ($q !== '') {
+            $history = $history->filter(function (CalendarioEvento $evento) use ($q) {
+                $haystack = mb_strtolower(implode(' ', array_filter([
+                    $evento->titolo,
+                    $evento->descrizione,
+                    $evento->creator?->displayLabel(),
+                    $evento->struttura?->nome_struttura,
+                    $evento->tipo,
+                    $evento->stato,
+                ])));
+
+                return str_contains($haystack, mb_strtolower($q));
+            })->values();
+        }
 
         $utenti = $contesto === 'struttura' && $struttura
             ? User::query()
@@ -94,7 +133,7 @@ class CalendarioController extends Controller
             : collect();
 
         $contatori = [
-            'manuali_aperte' => $this->manualEventsQuery($user, $contesto, $struttura?->id)->whereIn('stato', ['da_fare', 'vista'])->count(),
+            'manuali_aperte' => $this->manualEventsQuery($user, $contesto, $struttura?->id, $scopeStructureIds)->whereIn('stato', ['da_fare', 'vista'])->count(),
             'oggi' => $agendaEvents->count(),
             'compleanni' => $automaticMonthEvents->where('tipo', 'compleanno')->count(),
             'movimenti' => $automaticMonthEvents->whereIn('tipo', ['checkin', 'checkout'])->count(),
@@ -118,10 +157,15 @@ class CalendarioController extends Controller
             'utenti' => $utenti,
             'contatori' => $contatori,
             'statoStorico' => $statoStorico,
+            'q' => $q,
             'prevMonth' => $month->copy()->subMonthNoOverflow()->format('Y-m'),
             'nextMonth' => $month->copy()->addMonthNoOverflow()->format('Y-m'),
             'contesto' => $contesto,
             'hasStrutturaContext' => (bool) $struttura,
+            'canSelectStructure' => $canSelectStructure,
+            'struttureDisponibili' => $struttureDisponibili,
+            'selectedStructureId' => $struttura?->id,
+            'portfolioLabel' => $portfolioLabel,
         ]);
     }
 
@@ -130,11 +174,12 @@ class CalendarioController extends Controller
         $calendar = $this->resolveCalendarContext($request);
         $data = $this->validateEvento($request);
         $user = $request->user();
+        $targetStrutturaId = $this->resolveManualEventTargetStrutturaId($request, $calendar);
 
         CalendarioEvento::withoutGlobalScopes()->create([
-            'struttura_id' => $calendar['contesto'] === 'struttura' ? $calendar['struttura']?->id : null,
-            'ambito' => $calendar['contesto'],
-            'user_scope_id' => $calendar['contesto'] === 'personale' ? $user->id : null,
+            'struttura_id' => $targetStrutturaId,
+            'ambito' => $targetStrutturaId ? 'struttura' : 'personale',
+            'user_scope_id' => $targetStrutturaId ? null : $user->id,
             'tipo' => 'manuale',
             'titolo' => $data['titolo'],
             'descrizione' => $data['descrizione'] ?? null,
@@ -152,6 +197,7 @@ class CalendarioController extends Controller
 
         return redirect()->route('calendario.index', [
             'contesto' => $calendar['contesto'],
+            'struttura_id' => $targetStrutturaId ?: null,
             'mese' => Carbon::parse($data['data_evento'])->format('Y-m'),
             'giorno' => $data['data_evento'],
             'vista' => 'day',
@@ -180,6 +226,7 @@ class CalendarioController extends Controller
 
         return redirect()->route('calendario.index', [
             'contesto' => $calendar['contesto'],
+            'struttura_id' => $evento->struttura_id,
             'mese' => Carbon::parse($data['data_evento'])->format('Y-m'),
             'giorno' => $data['data_evento'],
             'vista' => 'day',
@@ -203,6 +250,7 @@ class CalendarioController extends Controller
 
         return redirect()->route('calendario.index', [
             'contesto' => $calendar['contesto'],
+            'struttura_id' => $evento->struttura_id,
             'mese' => optional($evento->data_evento)->format('Y-m'),
             'giorno' => optional($evento->data_evento)->toDateString(),
             'vista' => 'day',
@@ -245,7 +293,7 @@ class CalendarioController extends Controller
         }
     }
 
-    private function manualEventsQuery(User $user, string $contesto, ?int $strutturaId)
+    private function manualEventsQuery(User $user, string $contesto, ?int $strutturaId, array $allowedStructureIds = [])
     {
         return CalendarioEvento::withoutGlobalScopes()
             ->where('tipo', 'manuale')
@@ -254,31 +302,122 @@ class CalendarioController extends Controller
                 ->where('user_scope_id', $user->id))
             ->when($contesto === 'struttura' && $strutturaId, fn ($query) => $query
                 ->where('ambito', 'struttura')
-                ->where('struttura_id', $strutturaId));
+                ->where('struttura_id', $strutturaId))
+            ->when($contesto === 'portfolio', fn ($query) => $query
+                ->where('ambito', 'struttura')
+                ->whereIn('struttura_id', $allowedStructureIds));
     }
 
     private function resolveCalendarContext(Request $request): array
     {
         $user = $request->user();
-        $requested = (string) $request->input('contesto', $request->query('contesto', ($user->isStrutturaUser() ? 'struttura' : 'personale')));
-        $struttura = $this->resolveSelectedStruttura($user);
+        $struttureDisponibili = $this->accessibleStructures($user);
+        $allowedStructureIds = $struttureDisponibili->pluck('id')->map(fn ($id) => (int) $id)->all();
+        $requested = (string) $request->input('contesto', $request->query('contesto', $this->defaultCalendarContext($user, $struttureDisponibili)));
+        $selectedStructureId = (int) ($request->input('struttura_id', $request->query('struttura_id')) ?: 0);
 
-        if ($requested === 'struttura' && $struttura) {
-            return ['contesto' => 'struttura', 'struttura' => $struttura];
+        $selectedStruttura = null;
+        if (!empty($allowedStructureIds)) {
+            if ($selectedStructureId && in_array($selectedStructureId, $allowedStructureIds, true)) {
+                $selectedStruttura = $struttureDisponibili->firstWhere('id', $selectedStructureId);
+            } elseif ($user->isStrutturaUser()) {
+                $selectedStruttura = $struttureDisponibili->first();
+            } elseif ($requested === 'struttura') {
+                $selectedStruttura = $struttureDisponibili->first();
+            }
         }
 
-        return ['contesto' => 'personale', 'struttura' => $struttura];
+        $portfolioLabel = match (true) {
+            $user->isSuperAdmin() => 'Calendario generale strutture',
+            $user->isAdmin() => 'Calendario amministratore',
+            $user->isProprietario() => 'Calendario proprietario',
+            default => 'Calendario strutture',
+        };
+
+        if ($requested === 'struttura' && $selectedStruttura) {
+            return [
+                'contesto' => 'struttura',
+                'struttura' => $selectedStruttura,
+                'strutture_disponibili' => $struttureDisponibili,
+                'allowed_structure_ids' => $allowedStructureIds,
+                'can_select_structure' => !$user->isStrutturaUser() && $struttureDisponibili->isNotEmpty(),
+                'portfolio_label' => $portfolioLabel,
+            ];
+        }
+
+        if ($requested === 'portfolio' && $struttureDisponibili->isNotEmpty()) {
+            return [
+                'contesto' => 'portfolio',
+                'struttura' => $selectedStruttura,
+                'strutture_disponibili' => $struttureDisponibili,
+                'allowed_structure_ids' => $allowedStructureIds,
+                'can_select_structure' => !$user->isStrutturaUser() && $struttureDisponibili->isNotEmpty(),
+                'portfolio_label' => $portfolioLabel,
+            ];
+        }
+
+        return [
+            'contesto' => 'personale',
+            'struttura' => $selectedStruttura,
+            'strutture_disponibili' => $struttureDisponibili,
+            'allowed_structure_ids' => $allowedStructureIds,
+            'can_select_structure' => !$user->isStrutturaUser() && $struttureDisponibili->isNotEmpty(),
+            'portfolio_label' => $portfolioLabel,
+        ];
     }
 
-    private function resolveSelectedStruttura(User $user): ?Struttura
+    private function accessibleStructures(User $user)
     {
         if ($user->struttura_id) {
             StrutturaCorrente::setId($user->struttura_id);
-            return Struttura::query()->find($user->struttura_id);
+            return Struttura::query()->whereKey($user->struttura_id)->get();
+        }
+
+        if ($user->isSuperAdmin()) {
+            return Struttura::query()->orderBy('nome_struttura')->get();
+        }
+
+        if ($user->isAdmin()) {
+            return Struttura::query()
+                ->whereHas('proprietario', fn ($query) => $query->where('admin_id', $user->id))
+                ->orderBy('nome_struttura')
+                ->get();
+        }
+
+        if ($user->isProprietario()) {
+            return Struttura::query()
+                ->where('proprietario_id', $user->proprietario_id)
+                ->orderBy('nome_struttura')
+                ->get();
         }
 
         $strutturaId = StrutturaCorrente::getId();
-        return $strutturaId ? Struttura::query()->find($strutturaId) : null;
+        return $strutturaId ? Struttura::query()->whereKey($strutturaId)->get() : collect();
+    }
+
+    private function defaultCalendarContext(User $user, $struttureDisponibili): string
+    {
+        if ($user->isStrutturaUser()) {
+            return 'struttura';
+        }
+
+        if ($struttureDisponibili->isNotEmpty() && ($user->isSuperAdmin() || $user->isAdmin() || $user->isProprietario())) {
+            return 'portfolio';
+        }
+
+        return 'personale';
+    }
+
+    private function resolveManualEventTargetStrutturaId(Request $request, array $calendar): ?int
+    {
+        if (($calendar['contesto'] ?? 'personale') === 'personale') {
+            return null;
+        }
+
+        $selected = (int) ($request->input('struttura_id') ?: ($calendar['struttura']->id ?? 0));
+        abort_unless($selected && in_array($selected, $calendar['allowed_structure_ids'] ?? [], true), 403);
+
+        return $selected;
     }
 
     private function guardEventoAccess(User $user, CalendarioEvento $evento): void
@@ -307,23 +446,19 @@ class CalendarioController extends Controller
         abort_unless((int) $evento->struttura_id === (int) $user->struttura_id, 403);
     }
 
-    private function automaticEvents(int $strutturaId, Carbon $start, Carbon $end): array
+    private function automaticEvents(Struttura $struttura, Carbon $start, Carbon $end): array
     {
         return array_merge(
-            $this->birthdayEvents($strutturaId, $start, $end),
-            $this->schedinaMovementEvents($strutturaId, $start, $end),
-            $this->serviceDeadlineEvents($strutturaId, $start, $end),
-            $this->licenseDeadlineEvents($strutturaId, $start, $end)
+            $this->birthdayEvents($struttura, $start, $end),
+            $this->schedinaMovementEvents($struttura, $start, $end),
+            $this->serviceDeadlineEvents($struttura, $start, $end),
+            $this->licenseDeadlineEvents($struttura, $start, $end)
         );
     }
 
-    private function serviceDeadlineEvents(int $strutturaId, Carbon $start, Carbon $end): array
+    private function serviceDeadlineEvents(Struttura $struttura, Carbon $start, Carbon $end): array
     {
-        $struttura = Struttura::query()
-            ->select(['id', 'nome_struttura', 'scadenza_servizio', 'attiva', 'piano', 'stato_pagamento'])
-            ->find($strutturaId);
-
-        if (!$struttura || !$struttura->scadenza_servizio) {
+        if (!$struttura->scadenza_servizio) {
             return [];
         }
 
@@ -343,16 +478,17 @@ class CalendarioController extends Controller
             'priorita' => $isPast ? 'urgente' : 'alta',
             'stato' => $isPast ? 'chiusa' : 'da_fare',
             'creator_label' => 'Sistema',
-            'detail_link' => $this->calendarStructureDetailLink($strutturaId, 'relazione'),
+            'detail_link' => $this->calendarStructureDetailLink($struttura->id, 'relazione'),
             'detail_label' => 'Apri relazione e pagamenti',
+            'struttura_label' => $struttura->nome_struttura,
         ])];
     }
 
-    private function licenseDeadlineEvents(int $strutturaId, Carbon $start, Carbon $end): array
+    private function licenseDeadlineEvents(Struttura $struttura, Carbon $start, Carbon $end): array
     {
         return LicenzaAssegnazione::query()
             ->with('articolo')
-            ->where('struttura_id', $strutturaId)
+            ->where('struttura_id', $struttura->id)
             ->whereNotNull('data_scadenza')
             ->whereBetween('data_scadenza', [$start->toDateString(), $end->toDateString()])
             ->orderBy('data_scadenza')
@@ -370,19 +506,20 @@ class CalendarioController extends Controller
                     'priorita' => $isPast ? 'urgente' : ($licenza->stato_pagamento === 'da_pagare' ? 'alta' : 'normale'),
                     'stato' => $isPast ? 'chiusa' : 'da_fare',
                     'creator_label' => 'Sistema',
-                    'detail_link' => $this->calendarStructureDetailLink($strutturaId, 'licenze'),
+                    'detail_link' => $this->calendarStructureDetailLink($struttura->id, 'licenze'),
                     'detail_label' => 'Apri licenze',
+                    'struttura_label' => $struttura->nome_struttura,
                 ]);
             })
             ->all();
     }
 
-    private function birthdayEvents(int $strutturaId, Carbon $start, Carbon $end): array
+    private function birthdayEvents(Struttura $struttura, Carbon $start, Carbon $end): array
     {
         $events = [];
         $clienti = Customers::query()
             ->select(['id', 'name', 'surname', 'nac_reg'])
-            ->where('struttura_id', $strutturaId)
+            ->where('struttura_id', $struttura->id)
             ->whereNotNull('nac_reg')
             ->where('nac_reg', '<>', '')
             ->get();
@@ -406,6 +543,39 @@ class CalendarioController extends Controller
                         'priorita' => 'normale',
                         'stato' => $eventDate->isPast() ? 'chiusa' : 'da_fare',
                         'creator_label' => 'Sistema',
+                        'struttura_label' => $struttura->nome_struttura,
+                    ]);
+                }
+            }
+        }
+
+        $componenti = Componenti::query()
+            ->select(['id', 'name', 'surname', 'date_nac'])
+            ->where('struttura_id', $struttura->id)
+            ->whereNotNull('date_nac')
+            ->where('date_nac', '<>', '')
+            ->get();
+
+        foreach ($componenti as $componente) {
+            try {
+                $birth = Carbon::parse($componente->date_nac);
+            } catch (\Throwable $e) {
+                continue;
+            }
+
+            foreach ($this->yearsInRange($start, $end) as $year) {
+                $eventDate = $birth->copy()->setYear($year);
+                if ($eventDate->betweenIncluded($start, $end)) {
+                    $events[] = $this->automaticEventArray([
+                        'tipo' => 'compleanno',
+                        'titolo' => 'Compleanno componente: ' . trim(($componente->name ?? '') . ' ' . ($componente->surname ?? '')),
+                        'descrizione' => 'Il componente compie ' . $birth->copy()->diffInYears($eventDate) . ' anni.',
+                        'data_evento' => $eventDate->toDateString(),
+                        'ora_evento' => null,
+                        'priorita' => 'normale',
+                        'stato' => $eventDate->isPast() ? 'chiusa' : 'da_fare',
+                        'creator_label' => 'Sistema',
+                        'struttura_label' => $struttura->nome_struttura,
                     ]);
                 }
             }
@@ -414,12 +584,12 @@ class CalendarioController extends Controller
         return $events;
     }
 
-    private function schedinaMovementEvents(int $strutturaId, Carbon $start, Carbon $end): array
+    private function schedinaMovementEvents(Struttura $struttura, Carbon $start, Carbon $end): array
     {
         $events = [];
         $schedine = Schedina::query()
             ->select(['id', 'name', 'surname', 'arrive', 'departure', 'cant_people', 'circuito', 'is_arrive', 'struttura_id'])
-            ->where('struttura_id', $strutturaId)
+            ->where('struttura_id', $struttura->id)
             ->where(function ($query) {
                 $query->where('circuito', 'schedina')
                     ->orWhere('circuito', 'arrivi')
@@ -448,6 +618,7 @@ class CalendarioController extends Controller
                             'priorita' => 'alta',
                             'stato' => $arrive->isPast() ? 'chiusa' : 'da_fare',
                             'creator_label' => 'Sistema',
+                            'struttura_label' => $struttura->nome_struttura,
                         ]);
                     }
                 } catch (\Throwable $e) {
@@ -467,6 +638,7 @@ class CalendarioController extends Controller
                             'priorita' => 'normale',
                             'stato' => $departure->isPast() ? 'chiusa' : 'da_fare',
                             'creator_label' => 'Sistema',
+                            'struttura_label' => $struttura->nome_struttura,
                         ]);
                     }
                 } catch (\Throwable $e) {
@@ -499,6 +671,7 @@ class CalendarioController extends Controller
             'badge_class' => $evento->ambito === 'personale' ? 'bg-primary-subtle text-primary' : $evento->badgeClass(),
             'creator_label' => $creator?->displayLabel() ?? 'Utente',
             'creator_role' => $creator?->ruoloOperativoLabel() ?? 'Utente',
+            'struttura_label' => $evento->struttura?->nome_struttura,
             'model' => $evento,
         ];
     }
@@ -542,6 +715,7 @@ class CalendarioController extends Controller
             },
             'creator_label' => $payload['creator_label'] ?? 'Sistema',
             'creator_role' => 'Automatico',
+            'struttura_label' => $payload['struttura_label'] ?? null,
             'detail_link' => $payload['detail_link'] ?? null,
             'detail_label' => $payload['detail_label'] ?? null,
             'model' => null,
@@ -592,5 +766,24 @@ class CalendarioController extends Controller
         } catch (\Throwable $e) {
             return $month->copy()->startOfMonth();
         }
+    }
+
+    private function calendarSearchMatches(array $event, string $q): bool
+    {
+        if ($q === '') {
+            return true;
+        }
+
+        $haystack = mb_strtolower(implode(' ', array_filter([
+            $event['titolo'] ?? null,
+            $event['descrizione'] ?? null,
+            $event['tipo_label'] ?? null,
+            $event['creator_label'] ?? null,
+            $event['creator_role'] ?? null,
+            $event['struttura_label'] ?? null,
+            $event['stato_label'] ?? null,
+        ])));
+
+        return str_contains($haystack, mb_strtolower($q));
     }
 }

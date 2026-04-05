@@ -3,22 +3,6 @@
 
     $utenteSidebar = auth()->user();
     $ruoloSidebar = $utenteSidebar->ruolo ?? null;
-    $currentStrutturaId = \App\Support\StrutturaCorrente::getId() ?? ($utenteSidebar->struttura_id ?? null);
-    $currentStrutturaSidebar = $currentStrutturaId ? \App\Models\Struttura::query()->find($currentStrutturaId) : null;
-    $strutturaCodeSidebar = 'ST';
-    if ($currentStrutturaSidebar) {
-        $tipologiaSidebar = Str::lower((string) ($currentStrutturaSidebar->tipologia_struttura ?? $currentStrutturaSidebar->tipologia_generale ?? ''));
-        $strutturaCodeSidebar = match (true) {
-            Str::contains($tipologiaSidebar, 'hotel') => 'H',
-            Str::contains($tipologiaSidebar, 'camp') => 'C',
-            Str::contains($tipologiaSidebar, 'residence') => 'R',
-            Str::contains($tipologiaSidebar, 'appart') => 'A',
-            Str::contains($tipologiaSidebar, 'villaggio') => 'V',
-            Str::contains($tipologiaSidebar, 'b&b'), Str::contains($tipologiaSidebar, 'bed') => 'B',
-            default => 'ST',
-        };
-    }
-    $strutturaBadgeSidebar = $strutturaCodeSidebar . '-' . str_pad((string) $currentStrutturaSidebar?->id, 3, '0', STR_PAD_LEFT);
     $isRoute = fn (...$patterns) => request()->routeIs(...$patterns);
     $openConfig = $isRoute('tassa_di_soggiorno.*', 'gruppi', 'gruppo.*', 'titolo.*', 'tipo_cliente.*', 'tipo_alloggiato.*', 'tipo_documento.*', 'rilasciato.*', 'tipovia', 'tipovia.*', 'geo.comuni.logo*');
     $openClienti = $isRoute('customers', 'newcustomer', 'customer.*', 'customer.export.*');
@@ -30,7 +14,7 @@
     $openSuperAdmin = $isRoute('superadmin.*');
     $openQa = $isRoute('qa.*');
 @endphp
-<div class="app-menu navbar-menu">
+<div class="app-menu navbar-menu" style="min-height:100vh;">
     <div class="navbar-brand-box">
         <a href="{{ route('root') }}" class="logo logo-dark">
             <span class="logo-sm">
@@ -50,7 +34,7 @@
         </a>
     </div>
 
-    <div id="scrollbar">
+    <div id="scrollbar" style="height:calc(100vh - 70px); overflow-y:auto; overflow-x:hidden;">
         <div class="container-fluid">
             <div id="two-column-menu"></div>
             <ul class="navbar-nav" id="navbar-nav">
@@ -215,13 +199,34 @@
             </ul>
         </div>
     </div>
-    @if($currentStrutturaSidebar)
-        <div class="border-top px-3 py-3 struttura-sidebar-meta">
-            <div class="rounded-3 border bg-body-secondary p-3">
-                <div class="fw-semibold text-truncate">ID: {{ $strutturaBadgeSidebar }}</div>
-            </div>
-        </div>
-    @endif
     <div class="sidebar-background"></div>
 </div>
 <div class="vertical-overlay"></div>
+
+@once
+    @push('styles')
+        <style>
+            .app-menu.navbar-menu,
+            .app-menu.navbar-menu .sidebar-background {
+                background-color: var(--vz-vertical-menu-bg);
+            }
+
+            .app-menu.navbar-menu #scrollbar .container-fluid {
+                min-height: 100%;
+                padding-bottom: 0;
+            }
+
+            .app-menu.navbar-menu #scrollbar {
+                scrollbar-gutter: stable;
+            }
+
+            .app-menu.navbar-menu #navbar-nav {
+                padding-bottom: 56px;
+            }
+
+            .app-menu.navbar-menu #navbar-nav > .nav-item:last-child {
+                margin-bottom: 56px;
+            }
+        </style>
+    @endpush
+@endonce

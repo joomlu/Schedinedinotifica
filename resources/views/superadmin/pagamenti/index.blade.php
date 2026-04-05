@@ -91,7 +91,7 @@
             <div class="card-body">
                 <form method="GET" action="{{ route($pagamentiBaseRoute . '.index') }}" class="row g-3 align-items-end">
                     <div class="col-lg-5">
-                        <label class="form-label">Ricerca rapida admin</label>
+                        <label class="form-label">Ricerca rapida {{ \Illuminate\Support\Str::lower($areaLabel) }}</label>
                         <input type="text" name="q" class="form-control" value="{{ $filters['q'] ?? '' }}" placeholder="Hotel Capadue, proprietario, licenza, proforma...">
                     </div>
                     <div class="col-lg-2">

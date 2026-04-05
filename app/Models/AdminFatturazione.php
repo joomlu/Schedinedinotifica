@@ -29,6 +29,8 @@ class AdminFatturazione extends Model
         'totale_sconto',
         'totale_iva',
         'totale',
+        'numero_fattura',
+        'data_pagamento',
         'note',
     ];
 
@@ -38,6 +40,7 @@ class AdminFatturazione extends Model
         'totale_sconto' => 'decimal:2',
         'totale_iva' => 'decimal:2',
         'totale' => 'decimal:2',
+        'data_pagamento' => 'date',
     ];
 
     public function amministratore()

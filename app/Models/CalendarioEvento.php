@@ -42,6 +42,11 @@ class CalendarioEvento extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function struttura()
+    {
+        return $this->belongsTo(Struttura::class, 'struttura_id');
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_scope_id');

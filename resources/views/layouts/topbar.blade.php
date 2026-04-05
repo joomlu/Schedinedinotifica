@@ -111,7 +111,7 @@
                     <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end" aria-labelledby="page-header-notifications-dropdown">
                         <div class="p-3 border-bottom d-flex align-items-center justify-content-between gap-2">
                             <h6 class="m-0 fs-16 fw-semibold">Notifiche</h6>
-                            <a href="{{ route('notifiche.index') }}" class="btn btn-sm btn-light">Apri centro notifiche</a>
+                            <a href="{{ route('supporto.index') }}" class="btn btn-sm btn-light">Ticket e supporto</a>
                         </div>
 
                         <div data-simplebar style="max-height: 320px;">
