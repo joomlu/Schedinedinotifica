@@ -8,13 +8,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/styles.css">
+  <link rel="stylesheet" href="/site-assets/vendor/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/site-assets/vendor/flatpickr/flatpickr.min.css">
+  <link rel="stylesheet" href="/site-assets/styles.css">
 </head>
-<body>
+<body class="page-contatti">
   <div class="page-shell">
     <header class="site-header">
-      <a class="brand" href="./index.html">
-        <img src="./assets/img/logo-tango.png" alt="Logo Tanggo" class="brand-logo">
+      <a class="brand" href="/">
+        <img src="/site-assets/img/logo-tango.png" alt="Logo Tanggo" class="brand-logo">
         <span class="brand-copy">
           <strong>Schedine di Notifica</strong>
           <span>Tanggo Platform 2.0</span>
@@ -25,21 +27,26 @@
         <span></span>
       </button>
       <nav id="site-nav" class="site-nav">
-        <a href="./index.html">Panoramica</a>
-        <a href="./moduli.html">Moduli</a>
-        <a href="./demo.html">Percorso guidato</a>
-        <a href="./prezzi.html">Prezzi</a>
-        <a href="./accesso.html">Accesso</a>
-        <a href="./contatti.html" class="active">Contatti</a>
-        <a href="./contatti.html#demo" class="nav-cta">Richiedi una demo</a>
+        <a href="/">Panoramica</a>
+        <a href="/moduli">Moduli</a>
+        <a href="/demo">Percorso guidato</a>
+        <a href="/prezzi">Prezzi</a>
+        <a href="/contatti" class="active">Contatti</a>
+        <a href="/login" class="nav-cta">Accesso</a>
       </nav>
     </header>
 
     <main>
-      <section class="page-hero page-hero-compact">
+      <section class="page-hero page-hero-compact contatti-hero">
         <p class="eyebrow">Contatti</p>
         <h1>Una pagina unica per contatto commerciale, richiesta demo e primo dialogo con la struttura.</h1>
-        <p class="lead">Qui raccogli in modo ordinato le richieste reali sul prodotto: informazioni, presentazione commerciale, demo guidata e accesso al contatto diretto.</p>
+        <p class="lead">Qui raccogli in modo ordinato le richieste reali sul prodotto: informazioni, presentazione commerciale, demo guidata, attivazione e primo contatto utile.</p>
+        <div class="hero-inline-points">
+          <span>contatto diretto</span>
+          <span>richiesta demo</span>
+          <span>presentazione commerciale</span>
+          <span>primo onboarding</span>
+        </div>
       </section>
 
       <section class="section-block section-breathing two-col-layout">
@@ -53,7 +60,7 @@
         <article class="info-card light-card">
           <span class="card-label">Quando usarla</span>
           <h3>Contatto commerciale e richiesta demo stanno nello stesso spazio.</h3>
-          <p>In questo modo il sito resta coerente: footer con dati aziendali, pagina contatti con richieste commerciali vere e CTA demo sempre raggiungibile.</p>
+          <p>In questo modo il sito resta coerente: la struttura capisce subito dove chiedere informazioni, fissare una demo o lasciare i propri recapiti commerciali.</p>
         </article>
       </section>
 
@@ -63,16 +70,26 @@
           <div class="contact-form-heading">
             <span class="card-label">Modulo contatti</span>
             <h3>Richieste informazioni, contatto commerciale e richiesta demo del prodotto.</h3>
-            <p>Il modulo usa validazione browser, limiti di lunghezza, honeypot anti-bot e composizione locale del messaggio. Nessun endpoint del sito viene esposto.</p>
+            <p>Il modulo raccoglie i dati utili per una risposta seria: struttura, contatto, localita, recapiti, preferenza di orario e messaggio reale.</p>
           </div>
           <div class="form-grid">
+            <label class="form-field">
+              <span>Struttura</span>
+              <input type="text" name="company" maxlength="100" required>
+            </label>
             <label class="form-field">
               <span>Nome e cognome</span>
               <input type="text" name="name" maxlength="80" required>
             </label>
             <label class="form-field">
-              <span>Struttura</span>
-              <input type="text" name="company" maxlength="100" required>
+              <span>Persona di contatto</span>
+              <input type="text" name="contact_person" maxlength="80">
+            </label>
+            <label class="form-field">
+              <span>Localita</span>
+              <select name="city" class="form-select" data-ui="contact-city-select" data-placeholder="Seleziona o scrivi una localita">
+                <option value=""></option>
+              </select>
             </label>
             <label class="form-field">
               <span>Email</span>
@@ -82,9 +99,28 @@
               <span>Telefono</span>
               <input type="tel" name="phone" maxlength="30" pattern="[0-9+()\\-\\s/]*">
             </label>
+            <label class="form-field">
+              <span>Cellulare</span>
+              <input type="tel" name="mobile" maxlength="30" pattern="[0-9+()\\-\\s/]*">
+            </label>
+            <label class="form-field">
+              <span>Sito internet</span>
+              <input type="text" name="website_url" maxlength="180" placeholder="dominio.ext" inputmode="url">
+            </label>
             <label class="form-field form-field-full">
-              <span>Motivo del contatto</span>
-              <select name="topic" data-contact-topic required>
+              <span>Preferenza di contatto</span>
+              <div class="contact-preference-row">
+                <input type="text" name="contact_time" class="form-control" data-ui="contact-datetime" placeholder="Seleziona giorno e orario">
+                <label class="form-consent contact-anytime-toggle">
+                  <input type="checkbox" name="contact_anytime" value="1" data-contact-anytime>
+                  <span>Qualsiasi orario</span>
+                </label>
+              </div>
+            </label>
+            <label class="form-field form-field-full">
+              <span>Modalita di contatto</span>
+              <select name="topic" class="form-select" data-contact-topic data-ui="contact-basic-select" data-placeholder="Seleziona il motivo del contatto" required>
+                <option value=""></option>
                 <option value="Informazioni generali">Informazioni generali</option>
                 <option value="Richiesta demo">Richiesta demo</option>
                 <option value="Richiesta commerciale">Richiesta commerciale</option>
@@ -102,19 +138,69 @@
           </div>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">Invia la richiesta</button>
-            <p class="form-note">Alla conferma si apre il tuo client email con il messaggio gia preparato.</p>
           </div>
           <p class="form-status" aria-live="polite"></p>
         </form>
       </section>
+
+      <div class="contact-confirm-modal" data-contact-confirm hidden aria-hidden="true">
+        <div class="contact-confirm-backdrop" data-contact-confirm-close></div>
+        <div class="contact-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-confirm-title">
+          <button type="button" class="contact-confirm-close" data-contact-confirm-close aria-label="Chiudi messaggio di conferma">×</button>
+          <span class="card-label">Richiesta inviata</span>
+          <h3 id="contact-confirm-title">La sua richiesta è stata elaborata correttamente.</h3>
+          <div class="contact-confirm-copy">
+            <p>La ringraziamo per averci contattato e per l’interesse dimostrato verso le nostre soluzioni.</p>
+            <p>Abbiamo ricevuto correttamente la sua richiesta e il nostro team la ricontattera al piu presto per fornirle tutte le informazioni necessarie e valutare insieme le sue esigenze.</p>
+            <p>Sara un piacere mostrarle nel dettaglio le funzionalita di Schedinedinotifica e come puo supportare la sua attivita.</p>
+            <p>La ringraziamo per la fiducia accordata.</p>
+            <p>Rimaniamo a disposizione per qualsiasi ulteriore informazione.</p>
+          </div>
+          <div class="contact-confirm-contacts">
+            <strong>Contatti diretti</strong>
+            <span>Telefono: 05411796994</span>
+            <span>WhatsApp: +39 3930991968</span>
+            <span>Email: info@tanggo.org</span>
+          </div>
+          <div class="contact-confirm-actions">
+            <button type="button" class="btn btn-secondary" data-contact-confirm-close>Torna indietro</button>
+          </div>
+        </div>
+      </div>
     </main>
 
-    <footer class="site-footer minimal-footer">
-      <div class="footer-cols footer-cols-wide">
-        <div><h4>Contatti</h4><p>Contatto commerciale, richieste prodotto e demo guidata in una sola pagina.</p></div>
-        <div><h4>Panoramica</h4><p><a href="./index.html">Torna alla panoramica</a></p></div>
-        <div><h4>Percorso guidato</h4><p><a href="./demo.html">Apri il percorso guidato</a></p></div>
-        <div><h4>Accesso</h4><p><a href="./accesso.html">Vai all'accesso</a></p></div>
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <img src="/site-assets/img/logo-tango.png" alt="Logo Tanggo" class="footer-logo">
+        <div>
+          <strong>Schedine di Notifica · Tanggo Platform 2.0</strong>
+          <p>Software ricettivo per clienti, schedine, invio telematico, tassa di soggiorno, calendario, notifiche e controllo operativo.</p>
+        </div>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>Contatti</h4>
+          <p>Via Roma, 35 · 47814 Bellaria Igea Marina · RN</p>
+          <p>Tel. 05411796994 · Fax 05411792229</p>
+          <p>info@tanggo.org · www.tangoschedine.com</p>
+        </div>
+        <div>
+          <h4>Azienda</h4>
+          <p>Tanggo Experience</p>
+          <p>P. IVA: da inserire</p>
+          <p>Realizzato da Jorge Omar Luccitelli</p>
+        </div>
+        <div class="footer-links-compact">
+          <h4>Link rapidi</h4>
+          <div class="footer-link-grid">
+            <p><a href="/">Panoramica</a></p>
+            <p><a href="/demo">Percorso guidato</a></p>
+            <p><a href="/prezzi">Prezzi</a></p>
+            <p><a href="/login">Accedi alla piattaforma</a></p>
+            <p><a href="/contatti">Contatti</a></p>
+            <p class="footer-demo-row"><a class="footer-demo-cta" href="/contatti#demo">Richiedi una demo</a></p>
+          </div>
+        </div>
       </div>
       <div class="footer-legal">
         <p>&copy; 2026 Experience S.r.l. - Tutti i diritti riservati | tanggo.pro | tanggo.software</p>
@@ -124,6 +210,10 @@
       <p>Ideato, studiato, progettato, realizzato, eseguito e architettato da <a href="https://www.cv.joomlu.com/" target="_blank" rel="noreferrer">Jorge Omar Luccitelli</a>.</p>
     </div>
   </div>
-  <script src="./assets/app.js"></script>
+  <script src="/site-assets/vendor/jquery/jquery.min.js"></script>
+  <script src="/site-assets/vendor/select2/js/select2.full.min.js"></script>
+  <script src="/site-assets/vendor/flatpickr/flatpickr.min.js"></script>
+  <script src="/site-assets/vendor/flatpickr/l10n/it.js"></script>
+  <script src="/site-assets/app.js"></script>
 </body>
 </html>

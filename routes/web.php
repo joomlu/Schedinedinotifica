@@ -47,8 +47,25 @@ use App\Http\Controllers\PresenzeController;
 use App\Http\Controllers\QuesturaExportController;
 use App\Http\Controllers\SupportoController;
 use App\Http\Controllers\WebCheckinController;
+use App\Http\Controllers\PublicSiteController;
 
 Auth::routes();
+
+Route::get('/', [PublicSiteController::class, 'home'])->name('site.home');
+Route::get('/moduli', fn () => app(PublicSiteController::class)->page('moduli'))->name('site.moduli');
+Route::get('/demo', fn () => app(PublicSiteController::class)->page('demo'))->name('site.demo');
+Route::get('/prezzi', fn () => app(PublicSiteController::class)->page('prezzi'))->name('site.prezzi');
+Route::get('/contatti', fn () => app(PublicSiteController::class)->page('contatti'))->name('site.contatti');
+Route::redirect('/accesso', '/login')->name('site.accesso');
+Route::redirect('/index.html', '/');
+Route::redirect('/moduli.html', '/moduli');
+Route::redirect('/demo.html', '/demo');
+Route::redirect('/prezzi.html', '/prezzi');
+Route::redirect('/contatti.html', '/contatti');
+Route::redirect('/accesso.html', '/login');
+Route::get('/site-assets/{path}', [PublicSiteController::class, 'asset'])
+    ->where('path', '.*')
+    ->name('site.assets');
 
 Route::middleware(['auth'])->group(function () {
     // Fallback logout via GET to avoid 419 when no CSRF token is sent
@@ -221,7 +238,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Root
-    Route::get('/', [HomeController::class, 'root'])->name('root');
+    Route::get('/dashboard', [HomeController::class, 'root'])->name('root');
     Route::get('/home', function () {
         return redirect()->route('root');
     })->name('home');

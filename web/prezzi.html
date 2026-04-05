@@ -8,13 +8,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/styles.css">
+  <link rel="stylesheet" href="/site-assets/styles.css">
 </head>
-<body>
+<body class="page-prezzi">
   <div class="page-shell">
     <header class="site-header">
-      <a class="brand" href="./index.html">
-        <img src="./assets/img/logo-tango.png" alt="Logo Tanggo" class="brand-logo">
+      <a class="brand" href="/">
+        <img src="/site-assets/img/logo-tango.png" alt="Logo Tanggo" class="brand-logo">
         <span class="brand-copy">
           <strong>Schedine di Notifica</strong>
           <span>Tanggo Platform 2.0</span>
@@ -25,41 +25,46 @@
         <span></span>
       </button>
       <nav id="site-nav" class="site-nav">
-        <a href="./index.html">Panoramica</a>
-        <a href="./moduli.html">Moduli</a>
-        <a href="./demo.html">Percorso guidato</a>
-        <a href="./prezzi.html" class="active">Prezzi</a>
-        <a href="./accesso.html">Accesso</a>
-        <a href="./contatti.html">Contatti</a>
-        <a href="./contatti.html#demo" class="nav-cta">Richiedi una demo</a>
+        <a href="/">Panoramica</a>
+        <a href="/moduli">Moduli</a>
+        <a href="/demo">Percorso guidato</a>
+        <a href="/prezzi" class="active">Prezzi</a>
+        <a href="/contatti">Contatti</a>
+        <a href="/login" class="nav-cta">Accesso</a>
       </nav>
     </header>
 
     <main>
-      <section class="page-hero page-hero-compact">
+      <section class="page-hero page-hero-compact prezzi-hero">
         <p class="eyebrow">Catalogo prezzi</p>
-        <h1>Una struttura prezzi chiara deve trasmettere una cosa sola: il valore del software supera il costo gia nell'operativita quotidiana.</h1>
-        <p class="lead">Questa pagina e un impianto commerciale pronto da rifinire con il listino definitivo, ma gia organizzato in modo serio e vendibile.</p>
+        <h1>Una pagina prezzi chiara deve far capire subito che il valore del software si vede gia nel lavoro quotidiano.</h1>
+        <p class="lead">Questa pagina e un impianto commerciale ordinato: canone, attivazione, servizi e percorso di vendita leggibili anche per chi vede il prodotto per la prima volta.</p>
+        <div class="hero-inline-points">
+          <span>canone chiaro</span>
+          <span>valore percepito</span>
+          <span>demo guidata</span>
+          <span>attivazione ordinata</span>
+        </div>
       </section>
 
       <section class="section-block">
         <div class="pricing-grid">
           <article class="price-card">
             <span class="card-label">Essenziale</span>
-            <h3>Start</h3>
-            <div class="price-value">€ 59<span>/mese</span></div>
+            <h3>Basic</h3>
+            <div class="price-value">€ 200<span>/anno</span></div>
             <ul>
               <li>gestione clienti</li>
               <li>schedine e bozze</li>
               <li>utenti struttura</li>
               <li>supporto base</li>
             </ul>
-            <a href="./index.html#contatti" class="btn btn-secondary">Richiedi informazioni</a>
+            <a href="/contatti" class="btn btn-secondary">Richiedi informazioni</a>
           </article>
           <article class="price-card featured-price">
             <span class="card-label">Piu richiesto</span>
-            <h3>Professional</h3>
-            <div class="price-value">€ 99<span>/mese</span></div>
+            <h3>Professional Pro</h3>
+            <div class="price-value">€ 340<span>/anno</span></div>
             <ul>
               <li>tutto del piano Start</li>
               <li>web check-in</li>
@@ -67,11 +72,11 @@
               <li>Tabella A / ISTAT</li>
               <li>tassa di soggiorno</li>
             </ul>
-            <a href="./demo.html" class="btn btn-primary">Apri il percorso guidato</a>
+            <a href="/demo" class="btn btn-primary">Apri il percorso guidato</a>
           </article>
           <article class="price-card">
             <span class="card-label">Strutture evolute</span>
-            <h3>Enterprise</h3>
+            <h3>Pro / Enterprise</h3>
             <div class="price-value">su richiesta</div>
             <ul>
               <li>piu strutture</li>
@@ -79,7 +84,7 @@
               <li>workflow personalizzati</li>
               <li>supporto dedicato</li>
             </ul>
-            <a href="./index.html#contatti" class="btn btn-secondary">Parla con noi</a>
+            <a href="/contatti" class="btn btn-secondary">Parla con noi</a>
           </article>
         </div>
       </section>
@@ -94,11 +99,12 @@
               <li>il canone va collegato al tempo recuperato nel lavoro quotidiano</li>
               <li>il prezzo diventa piu credibile dopo una demo fatta nell'ordine giusto</li>
               <li>la struttura deve percepire che non compra schermate, ma continuita operativa</li>
+              <li>gli extra vanno spiegati come supporto alla partenza, non come costi accessori confusi</li>
             </ul>
           </article>
           <article class="info-card light-card">
             <span class="card-label">Extra consigliati</span>
-            <p>Gli extra non vanno presentati come accessori casuali. Servono per facilitare l'adozione, migliorare la partenza e aumentare la fiducia commerciale.</p>
+            <p>Gli extra non vanno presentati come accessori casuali. Servono per facilitare l'attivazione, migliorare la partenza e aumentare la fiducia commerciale.</p>
             <ul>
               <li>attivazione e configurazione iniziale</li>
               <li>migrazione dati</li>
@@ -118,7 +124,7 @@
           </article>
           <article class="info-card light-card">
             <span class="card-label">Listino consigliato</span>
-            <p>Separare canone, attivazione, migrazione e formazione rende la proposta piu pulita, piu professionale e piu facile da spiegare.</p>
+            <p>Separare canone, attivazione, migrazione e formazione rende la proposta piu pulita, piu professionale e piu facile da spiegare anche in trattativa.</p>
           </article>
         </div>
       </section>
@@ -132,12 +138,38 @@
       </section>
     </main>
 
-    <footer class="site-footer minimal-footer">
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <img src="/site-assets/img/logo-tango.png" alt="Logo Tanggo" class="footer-logo">
+        <div>
+          <strong>Schedine di Notifica · Tanggo Platform 2.0</strong>
+          <p>Software ricettivo per clienti, schedine, invio telematico, tassa di soggiorno, calendario, notifiche e controllo operativo.</p>
+        </div>
+      </div>
       <div class="footer-cols">
-        <div><h4>Prezzi</h4><p>Catalogo base modificabile secondo il listino commerciale reale.</p></div>
-        <div><h4>Percorso guidato</h4><p><a href="./demo.html">Apri il percorso guidato</a></p></div>
-        <div><h4>Accesso</h4><p><a href="./accesso.html">Vai all'area di accesso</a></p></div>
-        <div><h4>Contatti</h4><p><a href="./contatti.html">Apri la pagina contatti</a></p></div>
+        <div>
+          <h4>Contatti</h4>
+          <p>Via Roma, 35 · 47814 Bellaria Igea Marina · RN</p>
+          <p>Tel. 05411796994 · Fax 05411792229</p>
+          <p>info@tanggo.org · www.tangoschedine.com</p>
+        </div>
+        <div>
+          <h4>Azienda</h4>
+          <p>Tanggo Experience</p>
+          <p>P. IVA: da inserire</p>
+          <p>Realizzato da Jorge Omar Luccitelli</p>
+        </div>
+        <div class="footer-links-compact">
+          <h4>Link rapidi</h4>
+          <div class="footer-link-grid">
+            <p><a href="/">Panoramica</a></p>
+            <p><a href="/demo">Percorso guidato</a></p>
+            <p><a href="/prezzi">Prezzi</a></p>
+            <p><a href="/login">Accedi alla piattaforma</a></p>
+            <p><a href="/contatti">Contatti</a></p>
+            <p class="footer-demo-row"><a class="footer-demo-cta" href="/contatti#demo">Richiedi una demo</a></p>
+          </div>
+        </div>
       </div>
       <div class="footer-legal">
         <p>&copy; 2026 Experience S.r.l. - Tutti i diritti riservati | tanggo.pro | tanggo.software</p>
@@ -147,6 +179,6 @@
       <p>Ideato, studiato, progettato, realizzato, eseguito e architettato da <a href="https://www.cv.joomlu.com/" target="_blank" rel="noreferrer">Jorge Omar Luccitelli</a>.</p>
     </div>
   </div>
-  <script src="./assets/app.js"></script>
+  <script src="/site-assets/app.js"></script>
 </body>
 </html>

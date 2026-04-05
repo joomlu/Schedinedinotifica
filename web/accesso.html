@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/styles.css">
 </head>
-<body>
+<body class="page-accesso">
   <div class="page-shell">
     <header class="site-header">
       <a class="brand" href="./index.html">
@@ -29,43 +29,76 @@
         <a href="./moduli.html">Moduli</a>
         <a href="./demo.html">Percorso guidato</a>
         <a href="./prezzi.html">Prezzi</a>
-        <a href="./accesso.html" class="active">Accesso</a>
         <a href="./contatti.html">Contatti</a>
-        <a href="./contatti.html#demo" class="nav-cta">Richiedi una demo</a>
+        <a href="/login" class="nav-cta active">Accesso</a>
       </nav>
     </header>
 
     <main>
-      <section class="page-hero page-hero-compact">
-        <p class="eyebrow">Area accesso</p>
-        <h1>Una pagina dedicata per collegare il sito commerciale alla piattaforma operativa reale.</h1>
-        <p class="lead">Qui il percorso si chiude: dalla presentazione del prodotto si passa all'accesso diretto al sistema.</p>
-      </section>
-
-      <section class="section-block section-breathing">
-        <div class="two-col-grid">
-          <article class="info-card large-card">
-            <span class="card-label">Accesso piattaforma</span>
-            <h3>Entra nell'area login del gestionale</h3>
-            <p>Questo pulsante porta direttamente alla schermata reale di accesso con login e password del sistema. Da qui il percorso commerciale si collega all'operativita quotidiana della piattaforma.</p>
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="../public/index.php">Accedi alla piattaforma</a>
+      <section class="hero-section detail-section hero-impact accesso-hero">
+        <div class="hero-copy-panel hero-copy-panel-wide">
+          <p class="eyebrow">Area accesso</p>
+          <div class="accesso-hero-detail">
+            <div class="hero-copy">
+              <h1>Il punto in cui il sito pubblico accompagna l'utente dentro la piattaforma operativa reale.</h1>
+              <p class="lead">Questa pagina deve essere semplice, chiara e rassicurante: chi ha gia capito il prodotto trova subito l'ingresso corretto, chi ha bisogno di aiuto capisce dove chiedere supporto o una demo guidata.</p>
+              <div class="hero-inline-points">
+                <span>accesso diretto</span>
+                <span>supporto utenti</span>
+                <span>onboarding</span>
+                <span>demo guidata</span>
+              </div>
             </div>
-          </article>
-          <article class="info-card light-card">
-            <span class="card-label">Accesso e supporto</span>
-            <ul>
-              <li>schermata login reale del software</li>
-              <li>contatti supporto e assistenza</li>
-              <li>area onboarding per nuovi utenti</li>
-              <li>accesso demo privata su richiesta</li>
-            </ul>
-          </article>
+            <div class="hero-media">
+              <div class="illustration-card">
+                <img src="./assets/img/illustration-support.svg" alt="Illustrazione accesso e supporto operativo" class="hero-illustration">
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <section class="section-block section-breathing">
-        <div class="two-col-grid">
+        <div class="accesso-entry-grid">
+          <article class="info-card large-card accesso-entry-card">
+            <span class="card-label">Accesso piattaforma</span>
+            <h3>Entra nell'area login del gestionale</h3>
+            <p>Questo pulsante porta direttamente alla schermata reale di accesso con login e password del sistema. Da qui il percorso commerciale si collega all'operativita quotidiana della piattaforma.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="/login">Accedi alla piattaforma</a>
+            </div>
+            <div class="accesso-callouts">
+              <div class="accesso-callout">
+                <strong>Per utenti attivi</strong>
+                <span>Hotel, struttura, proprieta, amministrazione e operatori con credenziali gia abilitate.</span>
+              </div>
+              <div class="accesso-callout">
+                <strong>Ingresso ordinato</strong>
+                <span>Il sito accompagna alla piattaforma senza confondere area pubblica e area riservata.</span>
+              </div>
+            </div>
+          </article>
+          <div class="accesso-side-stack">
+            <article class="info-card light-card">
+              <span class="card-label">Accesso e supporto</span>
+              <ul>
+                <li>schermata login reale del software</li>
+                <li>contatti supporto e assistenza</li>
+                <li>area onboarding per nuovi utenti</li>
+                <li>accesso demo privata su richiesta</li>
+              </ul>
+            </article>
+            <article class="info-card accesso-summary-card">
+              <span class="card-label">Percorso corretto</span>
+              <h3>Prima si presenta il prodotto, poi si accompagna l'utente dentro l'area riservata.</h3>
+              <p>Questa pagina non deve spiegare tutto: deve solo chiarire bene dove si entra, chi entra e cosa fare se servono credenziali, attivazione o supporto.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block section-breathing">
+        <div class="two-col-grid accesso-flow-grid">
           <article class="info-card">
             <span class="card-label">Quando usarla</span>
             <h3>Questa pagina serve come ponte pulito tra comunicazione e utilizzo reale.</h3>
@@ -77,14 +110,54 @@
           </article>
         </div>
       </section>
+
+      <section class="section-block cta-band cta-band-balanced section-breathing">
+        <div class="cta-copy">
+          <p class="eyebrow">Passo finale</p>
+          <h2>Se l'utente non e ancora pronto a entrare, da qui deve poter scegliere subito tra contatto diretto, demo guidata o supporto.</h2>
+          <p>La pagina accesso deve chiudere bene il percorso pubblico: ingresso chiaro per chi lavora gia nel sistema, e percorso commerciale ordinato per chi sta ancora valutando o deve essere accompagnato.</p>
+        </div>
+        <div class="cta-panel">
+          <div class="cta-actions">
+            <a class="btn btn-primary" href="./contatti.html#demo">Richiedi una demo</a>
+            <a class="btn btn-secondary" href="./contatti.html">Contatti</a>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <footer class="site-footer minimal-footer">
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <img src="./assets/img/logo-tango.png" alt="Logo Tanggo" class="footer-logo">
+        <div>
+          <strong>Schedine di Notifica · Tanggo Platform 2.0</strong>
+          <p>Software ricettivo per clienti, schedine, invio telematico, tassa di soggiorno, calendario, notifiche e controllo operativo.</p>
+        </div>
+      </div>
       <div class="footer-cols">
-        <div><h4>Accesso</h4><p>Collegamento tra sito commerciale e piattaforma operativa.</p></div>
-        <div><h4>Panoramica</h4><p><a href="./index.html">Torna al sito principale</a></p></div>
-        <div><h4>Moduli</h4><p><a href="./moduli.html">Scopri i moduli</a></p></div>
-        <div><h4>Contatti</h4><p><a href="./contatti.html">Apri la pagina contatti</a></p></div>
+        <div>
+          <h4>Contatti</h4>
+          <p>Via Roma, 35 · 47814 Bellaria Igea Marina · RN</p>
+          <p>Tel. 05411796994 · Fax 05411792229</p>
+          <p>info@tanggo.org · www.tangoschedine.com</p>
+        </div>
+        <div>
+          <h4>Azienda</h4>
+          <p>Tanggo Experience</p>
+          <p>P. IVA: da inserire</p>
+          <p>Realizzato da Jorge Omar Luccitelli</p>
+        </div>
+        <div class="footer-links-compact">
+          <h4>Link rapidi</h4>
+          <div class="footer-link-grid">
+            <p><a href="./index.html">Panoramica</a></p>
+            <p><a href="./demo.html">Percorso guidato</a></p>
+            <p><a href="./prezzi.html">Prezzi</a></p>
+            <p><a href="/login">Accedi alla piattaforma</a></p>
+            <p><a href="./contatti.html">Contatti</a></p>
+            <p class="footer-demo-row"><a class="footer-demo-cta" href="./contatti.html#demo">Richiedi una demo</a></p>
+          </div>
+        </div>
       </div>
       <div class="footer-legal">
         <p>&copy; 2026 Experience S.r.l. - Tutti i diritti riservati | tanggo.pro | tanggo.software</p>
