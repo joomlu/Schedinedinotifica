@@ -220,6 +220,11 @@
                 scrollbar-gutter: stable;
             }
 
+            .app-menu.navbar-menu #scrollbar .simplebar-content,
+            .app-menu.navbar-menu #scrollbar .simplebar-content-wrapper {
+                padding-bottom: 56px !important;
+            }
+
             .app-menu.navbar-menu #navbar-nav {
                 padding-bottom: 56px;
             }

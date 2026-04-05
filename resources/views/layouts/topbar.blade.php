@@ -7,7 +7,7 @@
         'super_admin' => 'Super Admin',
         'admin' => 'Admin',
         'proprietario' => 'Proprietario',
-        default => (($utenteTopbar->ruolo_operativo ?? '') === 'proprietario' ? 'Proprietario' : 'Reception'),
+        default => (($utenteTopbar?->struttura_id ?? null) ? 'Struttura' : (($utenteTopbar->ruolo_operativo ?? '') === 'proprietario' ? 'Proprietario' : 'Reception')),
     };
     $avatarTopbar = !empty($utenteTopbar?->avatar) ? asset('images/' . $utenteTopbar->avatar) : null;
     $gestioneTabTopbar = method_exists($utenteTopbar, 'canManageGestioneOperativa') && $utenteTopbar->canManageGestioneOperativa($utenteTopbar->struttura_id ?? null)
