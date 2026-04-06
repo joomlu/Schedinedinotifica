@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class HelpCenterController extends Controller
 {
-    public function index(): View
+    public function index(): View|RedirectResponse
     {
+        $user = auth()->user();
+
+        if (!$user?->isSuperAdmin() && !$user?->isAdmin()) {
+            return redirect()->route('help.general');
+        }
+
         return view('help.index');
     }
 
@@ -32,6 +39,9 @@ class HelpCenterController extends Controller
 
     public function admin(): View
     {
+        $user = auth()->user();
+        abort_unless($user?->isSuperAdmin() || $user?->isAdmin(), 403);
+
         ['adminTopics' => $adminTopics] = $this->buildHelpData();
         $adminTopics = $this->orderAdminTopics($adminTopics);
 
@@ -1015,6 +1025,51 @@ class HelpCenterController extends Controller
                 ],
             ],
             [
+                'slug' => 'calendario',
+                'title' => 'Calendario',
+                'icon' => 'ri-calendar-event-line',
+                'keywords' => 'calendario agenda personale struttura storico note compleanni filtro ricerca mese giorno',
+                'route' => 'calendario.index',
+                'cta' => 'Apri calendario',
+                'summary' => 'Organizza agenda personale, agenda struttura, note operative, storico e automatismi del sistema.',
+                'when' => 'Usa Calendario quando devi annotare un impegno, cercare una nota, leggere lo storico oppure controllare compleanni, promemoria e appuntamenti della struttura.',
+                'result' => 'Hai un calendario leggibile per ruolo: la struttura vede il proprio lavoro, mentre proprietario, admin e superadmin possono vedere anche il quadro aggregato del loro perimetro.',
+                'items' => [
+                    'Calendario struttura',
+                    'Calendario personale',
+                    'Vista mese e giorno',
+                    'Filtro rapido di ricerca',
+                    'Storico note chiuse',
+                    'Compleanni automatici di clienti e componenti',
+                ],
+                'details' => [
+                    'Il calendario della struttura riguarda la struttura corrente: non serve scegliere una struttura quando stai gia lavorando dentro una struttura precisa.',
+                    'Il calendario personale resta separato da quello della struttura e serve per note private del ruolo corrente.',
+                    'Proprietario, admin e superadmin possono leggere sia il proprio calendario personale sia un calendario aggregato delle strutture del loro perimetro.',
+                    'Il filtro rapido cerca parole chiave dentro note, titoli, descrizioni, struttura e automatismi operativi.',
+                    'I compleanni vengono creati in automatico solo quando cliente o componente risultano davvero presenti nel giorno del compleanno.',
+                ],
+                'field_groups' => [
+                    [
+                        'title' => 'Come si usa',
+                        'items' => [
+                            'Data di riferimento: sceglie il giorno base da cui leggere il calendario.',
+                            'Vista mese / giorno: permette di passare da una lettura ampia a una piu dettagliata.',
+                            'Struttura: compare solo quando il ruolo puo vedere piu strutture.',
+                            'Filtro rapido: aiuta a trovare note, eventi, nominativi e riferimenti operativi senza cambiare modulo.',
+                        ],
+                    ],
+                    [
+                        'title' => 'Cosa contiene',
+                        'items' => [
+                            'Note manuali della struttura o personali.',
+                            'Automatismi del sistema, come compleanni e altri promemoria legati al lavoro reale.',
+                            'Storico delle note chiuse, utile per ritrovare comunicazioni gia gestite.',
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'slug' => 'utenti-consegne',
                 'title' => 'Utenti e consegne',
                 'icon' => 'ri-user-settings-line',
@@ -1104,6 +1159,11 @@ class HelpCenterController extends Controller
                 'keywords' => 'ticket supporto chi puo aprire struttura utente',
             ],
             [
+                'question' => 'Dove controllo proforme, pagamenti e licenze?',
+                'answer' => 'Nel circuito amministrativo. L admin li vede solo per il proprio perimetro, mentre il superadmin li vede per tutto il sistema. Da li puoi aprire la licenza, vedere la proforma e segnare il documento come pagato con data e numero fattura.',
+                'keywords' => 'proforme pagamenti licenze admin superadmin fattura pagato',
+            ],
+            [
                 'question' => 'Il file Questura che scarico è quello ufficiale?',
                 'answer' => 'Sì. Il TXT scaricato dalla schermata Questura è il file ufficiale da caricare manualmente nel portale Alloggiati Web, salvo credenziali attive per l invio diretto.',
                 'keywords' => 'questura txt ufficiale download',
@@ -1127,6 +1187,11 @@ class HelpCenterController extends Controller
                 'question' => 'Dove vedo quante persone ho oggi in hotel?',
                 'answer' => 'Apri Statistica > Presenze e usa il tab Situazione giornaliera. Puoi scegliere oggi oppure un giorno storico.',
                 'keywords' => 'oggi hotel persone presenti situazione giornaliera',
+            ],
+            [
+                'question' => 'Come funziona il calendario del sistema?',
+                'answer' => 'La struttura vede il proprio calendario struttura e il calendario personale. Proprietario, admin e superadmin vedono anche il calendario aggregato delle strutture del loro perimetro. Il filtro rapido ti aiuta a trovare note, compleanni, check-in e altri riferimenti operativi.',
+                'keywords' => 'calendario personale struttura aggregato filtro compleanni',
             ],
         ];
 
@@ -1324,6 +1389,7 @@ class HelpCenterController extends Controller
                     ['title' => 'Dashboard QA', 'route' => 'qa.index'],
                     ['title' => 'Seleziona struttura', 'route' => 'strutture.seleziona.index'],
                     ['title' => 'Articoli', 'route' => 'superadmin.articoli.index'],
+                    ['title' => 'Proforme', 'route' => 'superadmin.proforme.index'],
                     ['title' => 'Pagamenti e licenze', 'route' => 'superadmin.pagamenti.index'],
                     ['title' => 'Impersonazione', 'route' => 'superadmin.impersonazione.index'],
                     ['title' => 'Amministratori', 'route' => 'superadmin.amministratori.index'],
@@ -1371,6 +1437,7 @@ class HelpCenterController extends Controller
                             'Licenze assegnate contiene due sotto-sezioni: elenco licenze e nuova licenza. Da qui puoi assegnare una licenza a un proprietario o a una struttura, aggiornare stato pagamento, prezzo, scadenza e stampare la licenza.',
                             'Ogni licenza ha un numero univoco e un codice tracking. Questo serve per riconoscerla, stamparla e seguirla nel tempo.',
                             'Servizi struttura resta il quadro operativo della struttura: attiva o disattiva il servizio, gestisce scadenza, piano e stato pagamento.',
+                            'Le proforme vivono nello stesso circuito amministrativo: da li puoi leggere documenti aperti, stamparli, chiuderli e segnare il pagamento con data e numero fattura.',
                         ],
                     ],
                     [
@@ -1438,6 +1505,7 @@ class HelpCenterController extends Controller
                 'quick_links' => [
                     ['title' => 'Proprietari', 'route' => 'admin.proprietari.index'],
                     ['title' => 'Strutture', 'route' => 'admin.strutture.index'],
+                    ['title' => 'Proforme', 'route' => 'admin.proforme.index'],
                     ['title' => 'Pagamenti e licenze', 'route' => 'admin.pagamenti.index'],
                     ['title' => 'Seleziona struttura', 'route' => 'strutture.seleziona.index'],
                 ],
@@ -1474,6 +1542,7 @@ class HelpCenterController extends Controller
                             'Il catalogo articoli per l admin e in sola lettura: puo usarlo per assegnare licenze ma non per cambiare i prodotti globali del sistema.',
                             'Anche l admin puo aprire la scheda di una struttura e da li vedere proprietario, licenze attive, stato pagamento e aggiungere una nuova licenza alla struttura.',
                             'Quando aggiorna o assegna una licenza dalla scheda struttura, il sistema lo riporta alla stessa struttura per non spezzare il flusso di lavoro.',
+                            'Da Proforme vede il quadro documentale del proprio perimetro, apre il documento, lo stampa e puo segnare una proforma come pagata con numero fattura e data pagamento.',
                         ],
                     ],
                     [

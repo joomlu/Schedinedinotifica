@@ -24,7 +24,9 @@
             </div>
             <div class="col-12">
                 <div class="d-flex flex-wrap gap-2">
-                    <a href="{{ route('help.index') }}" class="btn btn-light">Torna alla scelta aiuto</a>
+                    @if(auth()->user()?->isSuperAdmin() || auth()->user()?->isAdmin())
+                        <a href="{{ route('help.index') }}" class="btn btn-light">Torna alla scelta aiuto</a>
+                    @endif
                     <a href="{{ route('supporto.index') }}" class="btn btn-warning text-dark">Apri supporto online</a>
                     <a href="{{ route('notifiche.index') }}" class="btn btn-light">Apri notifiche</a>
                     <a href="{{ route('help.print', ['section' => 'general']) }}" target="_blank" class="btn btn-light">Stampa centro assistenza</a>
@@ -55,15 +57,17 @@
 
         <div class="tab-content">
             <div class="tab-pane fade show active" id="help-pane-guida" role="tabpanel">
-                <div class="card border mb-4">
-                    <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3">
-                        <div>
-                            <h6 class="card-title mb-1">Guida amministrativa separata</h6>
-                            <p class="text-muted mb-0">Se vuoi la guida dedicata di admin e superadmin, la trovi separata senza alterare questo centro assistenza generale.</p>
+                @if(auth()->user()?->isSuperAdmin() || auth()->user()?->isAdmin())
+                    <div class="card border mb-4">
+                        <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3">
+                            <div>
+                                <h6 class="card-title mb-1">Guida amministrativa separata</h6>
+                                <p class="text-muted mb-0">Se vuoi la guida dedicata di admin e superadmin, la trovi separata senza alterare questo centro assistenza generale.</p>
+                            </div>
+                            <a href="{{ route('help.admin') }}" class="btn btn-primary">Apri guida admin e superadmin</a>
                         </div>
-                        <a href="{{ route('help.admin') }}" class="btn btn-primary">Apri guida admin e superadmin</a>
                     </div>
-                </div>
+                @endif
                 <div class="row g-3">
                     @foreach($guide as $item)
                         <div class="col-xl-6 help-item" data-help-search="{{ strtolower($item['title'].' '.$item['keywords'].' '.$item['summary'].' '.$item['result'].' '.implode(' ', $item['steps'])) }}">

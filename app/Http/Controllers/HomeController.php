@@ -12,6 +12,7 @@ use App\Models\Proprietario;
 use App\Models\ProprietarioFatturazione;
 use App\Models\User;
 use App\Models\WebCheckinRichiesta;
+use App\Models\CrmLead;
 use App\Services\NotificheService;
 use App\Support\StrutturaCorrente;
 use Illuminate\Support\Facades\Auth;
@@ -257,6 +258,13 @@ class HomeController extends Controller
                         'route' => route('superadmin.pagamenti.index'),
                         'description' => 'Quadro centrale di licenze, servizi, proforme e scadenze da controllare.',
                         'badge' => $licenze->count() . ' licenze',
+                    ],
+                    [
+                        'title' => 'CRM contatti',
+                        'icon' => 'ri-contacts-book-line',
+                        'route' => route('superadmin.crm.index'),
+                        'description' => 'Richieste dal sito, note, piccoli ticket commerciali e agenda dei prossimi contatti.',
+                        'badge' => CrmLead::query()->count() . ' contatti',
                     ],
                     [
                         'title' => 'Impersonazione',

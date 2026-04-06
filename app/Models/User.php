@@ -11,6 +11,8 @@ use App\Models\Struttura;
 use App\Models\Proprietario;
 use App\Models\AdminServizio;
 use App\Models\AdminFatturazione;
+use App\Models\CrmLead;
+use App\Models\CrmLeadActivity;
 
 class User extends Authenticatable
 {
@@ -94,6 +96,21 @@ class User extends Authenticatable
     public function adminFatturazioni()
     {
         return $this->hasMany(AdminFatturazione::class, 'user_id');
+    }
+
+    public function crmLeadsAssegnati()
+    {
+        return $this->hasMany(CrmLead::class, 'assigned_admin_id');
+    }
+
+    public function crmLeadsCreati()
+    {
+        return $this->hasMany(CrmLead::class, 'created_by_user_id');
+    }
+
+    public function crmLeadActivities()
+    {
+        return $this->hasMany(CrmLeadActivity::class, 'user_id');
     }
 
     public function isSuperAdmin(): bool

@@ -58,6 +58,7 @@
                                 <li class="nav-item"><a href="{{ route('superadmin.strutture.index') }}" class="nav-link {{ $isRoute('superadmin.strutture.*') ? 'active' : '' }}">Strutture</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.proforme.index') }}" class="nav-link {{ $isRoute('superadmin.proforme.*') ? 'active' : '' }}">Proforme</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.pagamenti.index') }}" class="nav-link {{ $isRoute('superadmin.pagamenti.*') ? 'active' : '' }}">Pagamenti / Licenze</a></li>
+                                <li class="nav-item"><a href="{{ route('superadmin.crm.index') }}" class="nav-link {{ $isRoute('superadmin.crm.*') ? 'active' : '' }}">CRM contatti</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.impersonazione.index') }}" class="nav-link {{ $isRoute('superadmin.impersonazione.*') ? 'active' : '' }}">Impersonazione</a></li>
                             </ul>
                         </div>
@@ -89,6 +90,7 @@
                                 <li class="nav-item"><a href="{{ route('admin.strutture.index') }}" class="nav-link {{ $isRoute('admin.strutture.*') ? 'active' : '' }}">Strutture</a></li>
                                 <li class="nav-item"><a href="{{ route('admin.proforme.index') }}" class="nav-link {{ $isRoute('admin.proforme.*') ? 'active' : '' }}">Proforme</a></li>
                                 <li class="nav-item"><a href="{{ route('admin.pagamenti.index') }}" class="nav-link {{ $isRoute('admin.pagamenti.*') ? 'active' : '' }}">Pagamenti / Licenze</a></li>
+                                <li class="nav-item"><a href="{{ route('admin.crm.index') }}" class="nav-link {{ $isRoute('admin.crm.*') ? 'active' : '' }}">CRM contatti</a></li>
                             </ul>
                         </div>
                     </li>

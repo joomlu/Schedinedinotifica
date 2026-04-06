@@ -48,6 +48,8 @@ use App\Http\Controllers\QuesturaExportController;
 use App\Http\Controllers\SupportoController;
 use App\Http\Controllers\WebCheckinController;
 use App\Http\Controllers\PublicSiteController;
+use App\Http\Controllers\WebsiteContactController;
+use App\Http\Controllers\CrmController;
 
 Auth::routes();
 
@@ -56,6 +58,9 @@ Route::get('/moduli', fn () => app(PublicSiteController::class)->page('moduli'))
 Route::get('/demo', fn () => app(PublicSiteController::class)->page('demo'))->name('site.demo');
 Route::get('/prezzi', fn () => app(PublicSiteController::class)->page('prezzi'))->name('site.prezzi');
 Route::get('/contatti', fn () => app(PublicSiteController::class)->page('contatti'))->name('site.contatti');
+Route::post('/contatti/richiesta', [WebsiteContactController::class, 'store'])
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])
+    ->name('site.contatti.store');
 Route::redirect('/accesso', '/login')->name('site.accesso');
 Route::redirect('/index.html', '/');
 Route::redirect('/moduli.html', '/moduli');
@@ -185,6 +190,15 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/pagamenti', [PagamentiController::class, 'index'])->name('superadmin.pagamenti.index');
         Route::get('/pagamenti/licenze/{id}/print', [PagamentiController::class, 'printAssegnazione'])->name('superadmin.pagamenti.licenze.print');
+        Route::get('/crm', [CrmController::class, 'index'])->name('superadmin.crm.index');
+        Route::post('/crm', [CrmController::class, 'storeLead'])->name('superadmin.crm.store');
+        Route::post('/crm/example', [CrmController::class, 'createExampleLead'])->name('superadmin.crm.example');
+        Route::post('/crm/agenda', [CrmController::class, 'storeIndexAgenda'])->name('superadmin.crm.agenda.store');
+        Route::get('/crm/{id}', [CrmController::class, 'show'])->name('superadmin.crm.show');
+        Route::put('/crm/{id}', [CrmController::class, 'update'])->name('superadmin.crm.update');
+        Route::post('/crm/{id}/attivita', [CrmController::class, 'storeActivity'])->name('superadmin.crm.attivita.store');
+        Route::put('/crm/{id}/attivita/{activityId}/stato', [CrmController::class, 'updateActivityStatus'])->name('superadmin.crm.attivita.stato');
+        Route::post('/crm/{id}/agenda-esempio', [CrmController::class, 'addExampleAgenda'])->name('superadmin.crm.agenda.example');
 
         Route::get('/impersonazione', [ImpersonazioneController::class, 'index'])->name('superadmin.impersonazione.index');
         Route::post('/impersona/{userId}', [ImpersonazioneController::class, 'impersona'])->name('superadmin.impersona.start');
@@ -230,6 +244,15 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/pagamenti/licenze/{id}', [AdminPagamentiController::class, 'updateAssegnazione'])->name('admin.pagamenti.licenze.update');
         Route::delete('/pagamenti/licenze/{id}', [AdminPagamentiController::class, 'destroyAssegnazione'])->name('admin.pagamenti.licenze.destroy');
         Route::get('/pagamenti/licenze/{id}/print', [AdminPagamentiController::class, 'printAssegnazione'])->name('admin.pagamenti.licenze.print');
+        Route::get('/crm', [CrmController::class, 'index'])->name('admin.crm.index');
+        Route::post('/crm', [CrmController::class, 'storeLead'])->name('admin.crm.store');
+        Route::post('/crm/example', [CrmController::class, 'createExampleLead'])->name('admin.crm.example');
+        Route::post('/crm/agenda', [CrmController::class, 'storeIndexAgenda'])->name('admin.crm.agenda.store');
+        Route::get('/crm/{id}', [CrmController::class, 'show'])->name('admin.crm.show');
+        Route::put('/crm/{id}', [CrmController::class, 'update'])->name('admin.crm.update');
+        Route::post('/crm/{id}/attivita', [CrmController::class, 'storeActivity'])->name('admin.crm.attivita.store');
+        Route::put('/crm/{id}/attivita/{activityId}/stato', [CrmController::class, 'updateActivityStatus'])->name('admin.crm.attivita.stato');
+        Route::post('/crm/{id}/agenda-esempio', [CrmController::class, 'addExampleAgenda'])->name('admin.crm.agenda.example');
     });
 
     // Proprietario area
@@ -430,6 +453,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Centro assistenza
     Route::get('/aiuto', [HelpCenterController::class, 'index'])->name('help.index');
+    Route::get('/aiuto/generale', [HelpCenterController::class, 'general'])->name('help.general');
+    Route::get('/aiuto/admin', [HelpCenterController::class, 'admin'])->name('help.admin');
     Route::get('/aiuto/stampa', [HelpCenterController::class, 'print'])->name('help.print');
     Route::get('/aiuto/moduli/{slug}', [HelpCenterController::class, 'module'])->name('help.module');
     Route::get('/aiuto/gestione/{slug}', [HelpCenterController::class, 'management'])->name('help.management');

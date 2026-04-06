@@ -300,35 +300,78 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       return;
     }
 
-    const subject = encodeURIComponent(`${topic} - Schedine di Notifica - ${company}`);
-    const body = encodeURIComponent(
-      [
-        'Richiesta dal sito commerciale',
-        '',
-        `Motivo: ${topic}`,
-        `Nome: ${name}`,
-        `Struttura: ${company}`,
-        `Persona di contatto: ${contactPerson || '-'}`,
-        `Localita: ${city || '-'}`,
-        `Email: ${email}`,
-        `Telefono: ${phone || '-'}`,
-        `Cellulare: ${mobile || '-'}`,
-        `Sito internet: ${websiteUrl || '-'}`,
-        `Orario preferito di contatto: ${contactAnytime ? 'Qualsiasi orario' : (contactTime || '-')}`,
-        '',
-        'Messaggio:',
-        message,
-      ].join('\n')
-    );
-
     if (status) {
       status.textContent = '';
       status.classList.remove('is-error');
       status.classList.remove('is-success');
     }
 
-    openConfirmModal();
-    window.location.href = `mailto:info@tanggo.org?subject=${subject}&body=${body}`;
+    const payload = {
+      company,
+      name,
+      contact_person: contactPerson,
+      city,
+      email,
+      phone,
+      mobile,
+      website_url: websiteUrl,
+      contact_time: contactAnytime ? 'Qualsiasi orario' : contactTime,
+      contact_datetime_iso: (!contactAnytime && contactTime) ? (() => {
+        const date = window.flatpickr && typeof window.flatpickr.parseDate === 'function'
+          ? window.flatpickr.parseDate(contactTime, 'd/m/Y H:i')
+          : null;
+        return date ? date.toISOString() : null;
+      })() : null,
+      contact_anytime: contactAnytime,
+      topic,
+      message,
+      website: '',
+    };
+
+    fetch('/contatti/richiesta', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(async (response) => {
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw data;
+        }
+        return data;
+      })
+      .then(() => {
+        form.reset();
+        if (window.jQuery && window.jQuery.fn && typeof window.jQuery.fn.select2 === 'function') {
+          window.jQuery(form.querySelector('[data-ui="contact-city-select"]')).val(null).trigger('change');
+          window.jQuery(form.querySelector('[data-contact-topic]')).val(null).trigger('change');
+        }
+        const anytimeToggle = form.querySelector('[data-contact-anytime]');
+        if (anytimeToggle) {
+          anytimeToggle.dispatchEvent(new Event('change'));
+        }
+        openConfirmModal();
+      })
+      .catch((error) => {
+        let messageText = 'Non siamo riusciti a registrare la richiesta. Riprova tra poco.';
+        if (error && typeof error === 'object') {
+          const firstError = Object.values(error.errors || {})[0];
+          if (Array.isArray(firstError) && firstError[0]) {
+            messageText = firstError[0];
+          } else if (typeof error.message === 'string' && error.message.trim() !== '') {
+            messageText = error.message;
+          }
+        }
+
+        if (status) {
+          status.textContent = messageText;
+          status.classList.remove('is-success');
+          status.classList.add('is-error');
+        }
+      });
   });
 
   if (topicField && window.location.hash === '#demo') {
