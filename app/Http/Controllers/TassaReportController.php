@@ -103,19 +103,20 @@ class TassaReportController extends Controller
 
         $righe = $this->buildRows($mese, $anno, (int) $struttura->id, $struttura, $config, $esenzioni);
         $lines = [];
-        $lines[] = 'data_inizio;data_fine;tipo;data_reg;arrivo;partenza;nominativo;soggetti;pernottamenti_imponibili;tariffa';
+        $inizioPeriodo = Carbon::create($anno, $mese, 1);
+        $finePeriodo = $inizioPeriodo->copy()->endOfMonth();
+        $lines[] = $inizioPeriodo->format('d/m/Y') . ';' . $finePeriodo->format('d/m/Y') . ';';
         foreach ($righe as $riga) {
             $lines[] = implode(';', [
-                $riga['arrivo'],
-                $riga['partenza'],
                 $riga['tipo'],
-                $riga['data_reg'],
-                $riga['arrivo'],
-                $riga['partenza'],
+                $this->formatCsvDate($riga['data_reg']),
+                $this->formatCsvDate($riga['arrivo']),
+                $this->formatCsvDate($riga['partenza']),
                 str_replace(';', ',', $riga['nominativo']),
                 $riga['soggetti'],
                 $riga['pernottamenti_imponibili'],
                 $riga['tariffa'],
+                '',
             ]);
         }
 
@@ -241,6 +242,19 @@ class TassaReportController extends Controller
             : collect();
 
         return [$mese, $anno, $struttura, $config, $esenzioni];
+    }
+
+    private function formatCsvDate($value): string
+    {
+        if (!$value) {
+            return '';
+        }
+
+        try {
+            return Carbon::parse($value)->format('d/m/Y');
+        } catch (\Throwable $e) {
+            return (string) $value;
+        }
     }
 
     private function buildControlDataset(int $mese, int $anno, int $strutturaId, Struttura $struttura, ?TassaDiSoggiorno $config, Collection $esenzioni): array
