@@ -484,7 +484,11 @@
                                     const li = document.createElement('li');
                                     li.classList.add('list-group-item', 'list-group-item-action');
                                     const labelCode = item.numero_cliente ? `${item.numero_cliente} - ` : '';
-                                    li.textContent = `${labelCode}${item.surname || ''} ${item.name || ''}`.trim();
+                                    const fullName = `${labelCode}${item.surname || ''} ${item.name || ''}`.trim();
+                                    const sourceLabel = item.shared_from_chain && item.struttura_nome
+                                        ? ` · ${item.struttura_nome}`
+                                        : '';
+                                    li.textContent = `${fullName}${sourceLabel}`.trim();
                                     li.addEventListener('mousedown', () => {
                                         applyCustomerDataToSchedina(item);
                                         resultsContainer.style.display = 'none';

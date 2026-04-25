@@ -5,7 +5,7 @@
     $ruoloSidebar = $utenteSidebar->ruolo ?? null;
     $isRoute = fn (...$patterns) => request()->routeIs(...$patterns);
     $openConfig = $isRoute('tassa_di_soggiorno.*', 'gruppi', 'gruppo.*', 'titolo.*', 'tipo_cliente.*', 'tipo_alloggiato.*', 'tipo_documento.*', 'rilasciato.*', 'tipovia', 'tipovia.*', 'geo.comuni.logo*');
-    $openClienti = $isRoute('customers', 'newcustomer', 'customer.*', 'customer.export.*');
+    $openClienti = $isRoute('customers', 'newcustomer', 'customer.*', 'customer.export.*', 'customer.import.*');
     $openSchedine = $isRoute('schedina', 'newschedina', 'schedina.*', 'arrivals', 'newarrival', 'arrival.*', 'a_schedina', 'schedina.web', 'web_checkin.*');
     $openInvio = $isRoute('tassa_di_soggiorno.rapporto*', 'questura.*', 'istat.tabella_a.*');
     $openStatistica = $isRoute('presenze.*');
@@ -57,6 +57,7 @@
                                 <li class="nav-item"><a href="{{ route('superadmin.proprietari.index') }}" class="nav-link {{ $isRoute('superadmin.proprietari.*') ? 'active' : '' }}">Proprietari</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.strutture.index') }}" class="nav-link {{ $isRoute('superadmin.strutture.*') ? 'active' : '' }}">Strutture</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.proforme.index') }}" class="nav-link {{ $isRoute('superadmin.proforme.*') ? 'active' : '' }}">Proforme</a></li>
+                                <li class="nav-item"><a href="{{ route('superadmin.articoli.index') }}" class="nav-link {{ $isRoute('superadmin.articoli.*') ? 'active' : '' }}">Articoli</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.pagamenti.index') }}" class="nav-link {{ $isRoute('superadmin.pagamenti.*') ? 'active' : '' }}">Pagamenti / Licenze</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.crm.index') }}" class="nav-link {{ $isRoute('superadmin.crm.*') ? 'active' : '' }}">CRM contatti</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.impersonazione.index') }}" class="nav-link {{ $isRoute('superadmin.impersonazione.*') ? 'active' : '' }}">Impersonazione</a></li>
@@ -139,6 +140,7 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item"><a href="{{ route('newcustomer') }}" class="nav-link {{ $isRoute('newcustomer') ? 'active' : '' }}">Nuovo</a></li>
                             <li class="nav-item"><a href="{{ route('customers') }}" class="nav-link {{ $isRoute('customers', 'customer.*') ? 'active' : '' }}">Lista</a></li>
+                            <li class="nav-item"><a href="{{ route('customer.import.index') }}" class="nav-link {{ $isRoute('customer.import.*') ? 'active' : '' }}">Import clienti</a></li>
                             <li class="nav-item"><a href="{{ route('customer.export.index') }}" class="nav-link {{ $isRoute('customer.export.*') ? 'active' : '' }}">Liste e export</a></li>
                         </ul>
                     </div>

@@ -15,6 +15,8 @@
     $localitaOptions = $localitaOptions->filter()->values();
     $zonaCorrente = old('zona', $struttura->zona);
     $localitaCorrente = old('localita', $struttura->localita);
+    $articoliCatalogo = collect($articoliCatalogo ?? []);
+    $servizioCorrenteId = (int) old('articolo_id', optional($licenzeStorico->firstWhere('articolo.parent_id', null))->articolo_id ?? 0);
     $proformeByStruttura = collect($proformeStorico ?? [])->reduce(function ($carry, $proforma) use ($struttura) {
         if (!$carry->has($struttura->id)) {
             $carry->put($struttura->id, $proforma);
@@ -187,15 +189,35 @@
                             <div class="card-body">
                                 <div class="row g-4 align-items-start">
                                     <div class="col-lg-3">
-                                        <input type="hidden" name="numero_civico" value="{{ old('numero_civico', $struttura->numero_civico) }}">
-                                        <input type="hidden" name="indirizzo" value="{{ old('indirizzo', $struttura->indirizzo) }}">
-                                        <input type="hidden" name="latitudine" value="{{ old('latitudine', $struttura->latitudine) }}">
-                                        <input type="hidden" name="longitudine" value="{{ old('longitudine', $struttura->longitudine) }}">
-                                        <div class="border rounded-3 p-3 h-100 d-flex align-items-center justify-content-center bg-light-subtle">
+                                        @unless($isCreateMode)
+                                            <input type="hidden" name="numero_civico" value="{{ old('numero_civico', $struttura->numero_civico) }}">
+                                            <input type="hidden" name="indirizzo" value="{{ old('indirizzo', $struttura->indirizzo) }}">
+                                            <input type="hidden" name="latitudine" value="{{ old('latitudine', $struttura->latitudine) }}">
+                                            <input type="hidden" name="longitudine" value="{{ old('longitudine', $struttura->longitudine) }}">
+                                        @endunless
+                                        <input type="hidden" id="struttura_admin_logo_citta" name="logo_citta" value="{{ old('logo_citta', $struttura->logo_citta) }}">
+                                        <div id="strutturaAdminLogoBox" class="border rounded-3 p-3 h-100 d-flex align-items-center justify-content-center bg-light-subtle">
                                             @if($struttura->logo_citta)
-                                                <img src="{{ asset($struttura->logo_citta) }}" alt="Logo città" class="img-fluid" style="max-height: 110px;">
+                                                <img
+                                                    id="strutturaAdminLogoImage"
+                                                    src="{{ asset($struttura->logo_citta) }}"
+                                                    alt="Logo città"
+                                                    class="img-fluid"
+                                                    style="max-height: 110px;"
+                                                >
+                                                <div id="strutturaAdminLogoEmpty" class="text-center text-muted d-none">
+                                                    <i class="ri-image-line fs-1 d-block mb-2"></i>
+                                                    Nessun logo città
+                                                </div>
                                             @else
-                                                <div class="text-center text-muted">
+                                                <img
+                                                    id="strutturaAdminLogoImage"
+                                                    src=""
+                                                    alt="Logo città"
+                                                    class="img-fluid d-none"
+                                                    style="max-height: 110px;"
+                                                >
+                                                <div id="strutturaAdminLogoEmpty" class="text-center text-muted">
                                                     <i class="ri-image-line fs-1 d-block mb-2"></i>
                                                     Nessun logo città
                                                 </div>
@@ -248,19 +270,45 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <label class="form-label">Numero civico</label>
-                                                <input type="text" class="form-control" value="{{ old('numero_civico', $struttura->numero_civico) }}" readonly>
+                                                <input
+                                                    type="text"
+                                                    name="{{ $isCreateMode ? 'numero_civico' : '' }}"
+                                                    class="form-control"
+                                                    value="{{ old('numero_civico', $struttura->numero_civico) }}"
+                                                    {{ $isCreateMode ? '' : 'readonly' }}
+                                                >
                                             </div>
                                             <div class="col-md-8">
                                                 <label class="form-label">Indirizzo</label>
-                                                <input type="text" class="form-control" value="{{ old('indirizzo', $struttura->indirizzo) }}" readonly>
+                                                <input
+                                                    type="text"
+                                                    name="{{ $isCreateMode ? 'indirizzo' : '' }}"
+                                                    class="form-control"
+                                                    value="{{ old('indirizzo', $struttura->indirizzo) }}"
+                                                    {{ $isCreateMode ? '' : 'readonly' }}
+                                                >
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-label">Latitudine</label>
-                                                <input type="text" class="form-control" value="{{ old('latitudine', $struttura->latitudine) }}" readonly>
+                                                <input
+                                                    type="text"
+                                                    id="struttura_admin_latitudine"
+                                                    name="{{ $isCreateMode ? 'latitudine' : '' }}"
+                                                    class="form-control"
+                                                    value="{{ old('latitudine', $struttura->latitudine) }}"
+                                                    {{ $isCreateMode ? '' : 'readonly' }}
+                                                >
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-label">Longitudine</label>
-                                                <input type="text" class="form-control" value="{{ old('longitudine', $struttura->longitudine) }}" readonly>
+                                                <input
+                                                    type="text"
+                                                    id="struttura_admin_longitudine"
+                                                    name="{{ $isCreateMode ? 'longitudine' : '' }}"
+                                                    class="form-control"
+                                                    value="{{ old('longitudine', $struttura->longitudine) }}"
+                                                    {{ $isCreateMode ? '' : 'readonly' }}
+                                                >
                                             </div>
                                         </div>
                                     </div>
@@ -292,7 +340,14 @@
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Servizio</label>
-                                <input type="text" class="form-control" value="{{ $licenzeStorico->pluck('articolo.nome')->filter()->unique()->values()->join(', ') ?: 'Nessun servizio assegnato' }}" readonly>
+                                <x-ui.select name="articolo_id">
+                                    <option value="">-- Seleziona servizio --</option>
+                                    @foreach($articoliCatalogo as $articoloCatalogo)
+                                        <option value="{{ $articoloCatalogo->id }}" @selected($servizioCorrenteId === (int) $articoloCatalogo->id)>
+                                            {{ $articoloCatalogo->nome }}
+                                        </option>
+                                    @endforeach
+                                </x-ui.select>
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Piano</label>
@@ -525,6 +580,158 @@
         </div>
     </div>
 </div>
+
+@if($isCreateMode)
+    @push('scripts')
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var geoRoot = document.querySelector('[data-ui="geo-italia"][data-prefix="struttura_geo_admin"]');
+            var comuneSelect = document.getElementById('struttura_geo_admin_comune_id');
+            var latInput = document.getElementById('struttura_admin_latitudine');
+            var lngInput = document.getElementById('struttura_admin_longitudine');
+            var logoInput = document.getElementById('struttura_admin_logo_citta');
+            var logoImage = document.getElementById('strutturaAdminLogoImage');
+            var logoEmpty = document.getElementById('strutturaAdminLogoEmpty');
+            var zonaSelect = document.getElementById('strutturaZonaSelect');
+            var localitaSelect = document.getElementById('strutturaLocalitaSelect');
+            var http = window.http || window.axios || null;
+            var appBaseUrl = @json(url('/'));
+
+            if (!geoRoot || !comuneSelect || !http) {
+                return;
+            }
+
+            function normalizeAssetPath(path) {
+                if (!path) {
+                    return '';
+                }
+
+                if (/^https?:\/\//i.test(path) || path.startsWith('/')) {
+                    return path;
+                }
+
+                return appBaseUrl.replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
+            }
+
+            function updateLogoPreview(path) {
+                if (!logoImage || !logoEmpty) {
+                    return;
+                }
+
+                var resolvedPath = normalizeAssetPath(path);
+
+                if (!resolvedPath) {
+                    if (logoInput) {
+                        logoInput.value = '';
+                    }
+                    logoImage.src = '';
+                    logoImage.classList.add('d-none');
+                    logoEmpty.classList.remove('d-none');
+                    return;
+                }
+
+                if (logoInput) {
+                    logoInput.value = path;
+                }
+                logoImage.src = resolvedPath;
+                logoImage.classList.remove('d-none');
+                logoEmpty.classList.add('d-none');
+            }
+
+            function refreshSelectOptions(select, items) {
+                if (!select) {
+                    return;
+                }
+
+                var currentValue = select.value || '';
+                select.innerHTML = '';
+                select.appendChild(new Option('', '', false, false));
+
+                (items || []).forEach(function (item) {
+                    var exists = Array.from(select.options).some(function (option) {
+                        return option.value === item;
+                    });
+
+                    if (!exists) {
+                        select.appendChild(new Option(item, item, false, false));
+                    }
+                });
+
+                if (currentValue) {
+                    var found = Array.from(select.options).some(function (option) {
+                        return option.value === currentValue;
+                    });
+
+                    if (!found) {
+                        select.appendChild(new Option(currentValue, currentValue, true, true));
+                    }
+
+                    select.value = currentValue;
+                }
+
+                if (window.jQuery) {
+                    window.jQuery(select).trigger('change.select2');
+                }
+            }
+
+            function refreshZoneSuggestions(comuneId) {
+                return http.get(@json(route('struttura.zone_suggestions')), {
+                    params: { geo_comune_id: comuneId || '' }
+                }).then(function (response) {
+                    var payload = response && response.data !== undefined ? response.data : response;
+                    refreshSelectOptions(zonaSelect, payload && payload.zona ? payload.zona : []);
+                    refreshSelectOptions(localitaSelect, payload && payload.localita ? payload.localita : []);
+                }).catch(function () {});
+            }
+
+            function hydrateComuneDetails(comuneId, force) {
+                if (!comuneId) {
+                    if (latInput) latInput.value = '';
+                    if (lngInput) lngInput.value = '';
+                    updateLogoPreview('');
+                    return Promise.resolve();
+                }
+
+                var hasCoordinates = latInput && lngInput
+                    ? !!String(latInput.value || '').trim() && !!String(lngInput.value || '').trim()
+                    : false;
+
+                return http.get('/geo/resolve', {
+                    params: { geo_comune_id: comuneId }
+                }).then(function (response) {
+                    var payload = response && response.data !== undefined ? response.data : response;
+                    var comune = payload && payload.comune ? payload.comune : null;
+
+                    if (!comune) {
+                        return;
+                    }
+
+                    if ((force || !hasCoordinates) && latInput) {
+                        latInput.value = comune.lat !== undefined && comune.lat !== null ? comune.lat : '';
+                    }
+
+                    if ((force || !hasCoordinates) && lngInput) {
+                        lngInput.value = comune.lng !== undefined && comune.lng !== null ? comune.lng : '';
+                    }
+
+                    updateLogoPreview(comune.logo_citta || comune.logo || '');
+                }).catch(function () {});
+            }
+
+            geoRoot.addEventListener('geoselect:change', function (event) {
+                var comuneId = event && event.detail && event.detail.comune ? event.detail.comune.value : null;
+                refreshZoneSuggestions(comuneId);
+                hydrateComuneDetails(comuneId, true);
+            });
+
+            if (comuneSelect.value) {
+                refreshZoneSuggestions(comuneSelect.value);
+                hydrateComuneDetails(comuneSelect.value, false);
+            }
+        });
+        </script>
+    @endpush
+@endif
 
 @once
     @push('scripts')

@@ -21,6 +21,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ArchivosController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerExportController;
+use App\Http\Controllers\CustomerImportController;
 use App\Http\Controllers\SchedinaController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\TitleController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\Superadmin\AmministratoriController;
 use App\Http\Controllers\Superadmin\ProprietariController as SuperadminProprietariController;
 use App\Http\Controllers\Superadmin\StruttureController as SuperadminStruttureController;
 use App\Http\Controllers\Superadmin\PagamentiController;
+use App\Http\Controllers\Superadmin\ArticoliController;
 use App\Http\Controllers\Superadmin\ImpersonazioneController;
 use App\Http\Controllers\Admin\ProprietariController as AdminProprietariController;
 use App\Http\Controllers\Admin\StruttureController as AdminStruttureController;
@@ -188,6 +190,11 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/strutture/{id}', [SuperadminStruttureController::class, 'update'])->name('superadmin.strutture.update');
         Route::put('/strutture/{id}/servizio', [SuperadminStruttureController::class, 'updateServizio'])->name('superadmin.strutture.servizio');
 
+        Route::get('/articoli', [ArticoliController::class, 'index'])->name('superadmin.articoli.index');
+        Route::post('/articoli', [ArticoliController::class, 'store'])->name('superadmin.articoli.store');
+        Route::put('/articoli/{id}', [ArticoliController::class, 'update'])->name('superadmin.articoli.update');
+        Route::delete('/articoli/{id}', [ArticoliController::class, 'destroy'])->name('superadmin.articoli.destroy');
+
         Route::get('/pagamenti', [PagamentiController::class, 'index'])->name('superadmin.pagamenti.index');
         Route::get('/pagamenti/licenze/{id}/print', [PagamentiController::class, 'printAssegnazione'])->name('superadmin.pagamenti.licenze.print');
         Route::get('/crm', [CrmController::class, 'index'])->name('superadmin.crm.index');
@@ -271,6 +278,13 @@ Route::middleware(['auth'])->group(function () {
 
     // clienti (slug italiano) + alias legacy
     Route::get('/clienti', [CustomerController::class, 'index'])->name('customers');
+    Route::get('/clienti/import', [CustomerImportController::class, 'index'])->name('customer.import.index');
+    Route::get('/clienti/import/template', [CustomerImportController::class, 'template'])->name('customer.import.template');
+    Route::post('/clienti/import', [CustomerImportController::class, 'store'])->name('customer.import.store');
+    Route::get('/clienti/import/{batch}', [CustomerImportController::class, 'show'])->name('customer.import.show');
+    Route::get('/clienti/import/{batch}/righe/{row}/modifica', [CustomerImportController::class, 'editRow'])->name('customer.import.row.edit');
+    Route::put('/clienti/import/{batch}/righe/{row}', [CustomerImportController::class, 'updateRow'])->name('customer.import.row.update');
+    Route::post('/clienti/import/{batch}/conferma', [CustomerImportController::class, 'commit'])->name('customer.import.commit');
     Route::get('/clienti/liste-export', [CustomerExportController::class, 'index'])->name('customer.export.index');
     Route::get('/clienti/liste-export/csv', [CustomerExportController::class, 'exportCsv'])->name('customer.export.csv');
     Route::get('/clienti/nuovo', [CustomerController::class, 'new'])->name('newcustomer');

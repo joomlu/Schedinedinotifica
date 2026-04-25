@@ -49,7 +49,7 @@ class StruttureController extends Controller
         $data = $this->validateFormData($request);
 
         $struttura = Struttura::create($this->extractStrutturaPayload($data));
-        $this->syncPrimaryLicenzaFromStruttura($struttura, $struttura->proprietario?->admin_id);
+        $this->syncPrimaryLicenzaFromStruttura($struttura, $struttura->proprietario?->admin_id, $data['articolo_id'] ?? null);
         $this->syncPrimaryAccessUser($struttura, $data);
 
         return redirect()->route('superadmin.strutture.index')->with('status', 'Struttura creata');
@@ -74,7 +74,7 @@ class StruttureController extends Controller
 
         $struttura->update($this->extractStrutturaPayload($data, $struttura));
         $struttura = $struttura->fresh();
-        $this->syncPrimaryLicenzaFromStruttura($struttura, $struttura->proprietario?->admin_id);
+        $this->syncPrimaryLicenzaFromStruttura($struttura, $struttura->proprietario?->admin_id, $data['articolo_id'] ?? null);
         $this->syncPrimaryAccessUser($struttura, $data);
 
         return redirect()->route('superadmin.strutture.index')->with('status', 'Struttura aggiornata');
@@ -85,6 +85,7 @@ class StruttureController extends Controller
         $struttura = Struttura::findOrFail($id);
 
         $data = $request->validate([
+            'articolo_id' => ['nullable', 'integer', 'exists:licenza_articoli,id'],
             'attiva' => ['nullable', 'boolean'],
             'avviso' => ['nullable', 'string', 'max:30'],
             'scadenza_servizio' => ['nullable', 'date'],
@@ -99,7 +100,7 @@ class StruttureController extends Controller
             'piano' => $data['piano'] ?? $struttura->piano,
             'stato_pagamento' => $data['stato_pagamento'] ?? $struttura->stato_pagamento,
         ]);
-        $this->syncPrimaryLicenzaFromStruttura($struttura->fresh(), $struttura->proprietario?->admin_id);
+        $this->syncPrimaryLicenzaFromStruttura($struttura->fresh(), $struttura->proprietario?->admin_id, $data['articolo_id'] ?? null);
 
         return redirect()->route('superadmin.strutture.index')->with('status', 'Servizio aggiornato');
     }
@@ -114,6 +115,7 @@ class StruttureController extends Controller
             'mode' => $mode,
             'accessoPrincipale' => $this->resolvePrimaryAccessUser($struttura),
             'licenzeStorico' => $this->loadLicenzeStorico($struttura),
+            'articoliCatalogo' => LicenzaArticolo::query()->where('attivo', true)->whereNull('parent_id')->orderBy('ordine')->orderBy('nome')->get(),
             'zoneOptions' => $this->buildZoneOptions($struttura, $geoComuneId, 'zona'),
             'localitaOptions' => $this->buildZoneOptions($struttura, $geoComuneId, 'localita'),
         ];
@@ -121,44 +123,51 @@ class StruttureController extends Controller
 
     private function validateFormData(Request $request, ?User $accessoPrincipale = null): array
     {
-        return $request->validate([
-            'nome_struttura' => ['required', 'string', 'max:255'],
-            'nazione' => ['nullable', 'string', 'max:120'],
-            'regione' => ['nullable', 'string', 'max:120'],
-            'citta' => ['nullable', 'string', 'max:255'],
-            'provincia' => ['nullable', 'string', 'max:255'],
-            'localita' => ['nullable', 'string', 'max:255'],
-            'zona' => ['nullable', 'string', 'max:255'],
-            'indirizzo' => ['nullable', 'string', 'max:255'],
-            'numero_civico' => ['nullable', 'string', 'max:30'],
-            'cap' => ['nullable', 'string', 'max:20'],
-            'latitudine' => ['nullable', 'string', 'max:50'],
-            'longitudine' => ['nullable', 'string', 'max:50'],
-            'proprietario_id' => ['nullable', 'integer', 'exists:proprietari,id'],
-            'attiva' => ['nullable', 'boolean'],
-            'avviso' => ['nullable', Rule::in(['attivo', 'sospeso', 'inattivo'])],
-            'messaggio_offline' => ['nullable', 'string'],
-            'messaggio_avviso' => ['nullable', 'string'],
-            'scadenza_servizio' => ['nullable', 'date'],
-            'piano' => ['nullable', 'string', 'max:100'],
-            'stato_pagamento' => ['nullable', Rule::in(['ok', 'pagato', 'da_pagare', 'sospeso'])],
-            'numero_ricevuta_pagamento' => ['nullable', 'string', 'max:120'],
-            'accesso_nome' => ['nullable', 'string', 'max:255'],
-            'accesso_username' => [
-                'nullable',
-                'required_with:accesso_email,accesso_password,accesso_nome',
-                'string',
-                'max:120',
-                Rule::unique('users', 'username')->ignore($accessoPrincipale?->id),
+        return $request->validate(
+            [
+                'nome_struttura' => ['required', 'string', 'max:255'],
+                'nazione' => ['nullable', 'string', 'max:120'],
+                'regione' => ['nullable', 'string', 'max:120'],
+                'citta' => ['nullable', 'string', 'max:255'],
+                'provincia' => ['nullable', 'string', 'max:255'],
+                'localita' => ['nullable', 'string', 'max:255'],
+                'zona' => ['nullable', 'string', 'max:255'],
+                'indirizzo' => ['nullable', 'string', 'max:255'],
+                'numero_civico' => ['nullable', 'string', 'max:30'],
+                'cap' => ['nullable', 'string', 'max:20'],
+                'latitudine' => ['nullable', 'string', 'max:50'],
+                'longitudine' => ['nullable', 'string', 'max:50'],
+                'articolo_id' => ['nullable', 'integer', 'exists:licenza_articoli,id'],
+                'proprietario_id' => ['nullable', 'integer', 'exists:proprietari,id'],
+                'attiva' => ['nullable', 'boolean'],
+                'avviso' => ['nullable', Rule::in(['attivo', 'sospeso', 'inattivo'])],
+                'messaggio_offline' => ['nullable', 'string'],
+                'messaggio_avviso' => ['nullable', 'string'],
+                'scadenza_servizio' => ['nullable', 'date'],
+                'piano' => ['nullable', 'string', 'max:100'],
+                'stato_pagamento' => ['nullable', Rule::in(['ok', 'pagato', 'da_pagare', 'sospeso'])],
+                'numero_ricevuta_pagamento' => ['nullable', 'string', 'max:120'],
+                'accesso_nome' => ['nullable', 'string', 'max:255'],
+                'accesso_username' => [
+                    'nullable',
+                    'required_with:accesso_email,accesso_password,accesso_nome',
+                    'string',
+                    'max:120',
+                    Rule::unique('users', 'username')->ignore($accessoPrincipale?->id),
+                ],
+                'accesso_email' => [
+                    'nullable',
+                    'email',
+                    'max:255',
+                    Rule::unique('users', 'email')->ignore($accessoPrincipale?->id),
+                ],
+                'accesso_password' => ['nullable', 'string', 'min:8'],
             ],
-            'accesso_email' => [
-                'nullable',
-                'email',
-                'max:255',
-                Rule::unique('users', 'email')->ignore($accessoPrincipale?->id),
-            ],
-            'accesso_password' => ['nullable', 'string', 'min:8'],
-        ]);
+            [
+                'accesso_username.unique' => 'Il nome di accesso e gia utilizzato da un altro utente.',
+                'accesso_email.unique' => 'L\'email di accesso e gia utilizzata da un altro utente.',
+            ]
+        );
     }
 
     private function extractStrutturaPayload(array $data, ?Struttura $struttura = null): array
@@ -440,7 +449,7 @@ class StruttureController extends Controller
             || str_contains($message, 'column not found');
     }
 
-    private function syncPrimaryLicenzaFromStruttura(Struttura $struttura, ?int $adminId): void
+    private function syncPrimaryLicenzaFromStruttura(Struttura $struttura, ?int $adminId, ?int $selectedArticoloId = null): void
     {
         $primaryLicenza = LicenzaAssegnazione::query()
             ->with('articolo')
@@ -451,7 +460,7 @@ class StruttureController extends Controller
             ->orderByDesc('id')
             ->first();
 
-        $articolo = $this->resolvePrimaryArticolo($struttura, $primaryLicenza?->articolo_id);
+        $articolo = $this->resolvePrimaryArticolo($struttura, $selectedArticoloId ?: $primaryLicenza?->articolo_id);
         if (!$primaryLicenza && !$articolo) {
             return;
         }

@@ -613,12 +613,27 @@ class SchedinaController extends Controller
 
     private function resolveCustomerFromRequest(Request $request): ?Customers
     {
+        $currentStrutturaId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
         $customerId = (int) $request->input('customer_id', 0);
-        if ($customerId <= 0) {
+        if ($customerId <= 0 || !$currentStrutturaId) {
             return null;
         }
 
-        return Customers::query()->find($customerId);
+        $allowedStrutturaIds = $this->customerSearchStructureIds((int) $currentStrutturaId);
+        $customer = Customers::query()
+            ->withoutGlobalScopes()
+            ->whereIn('struttura_id', $allowedStrutturaIds)
+            ->find($customerId);
+
+        if (!$customer) {
+            return null;
+        }
+
+        if ((int) $customer->struttura_id === (int) $currentStrutturaId) {
+            return $customer;
+        }
+
+        return $this->localizeChainCustomerForCurrentStruttura($customer, (int) $currentStrutturaId);
     }
 
     private function customerToSchedinaDefaults(Customers $customer): array
@@ -778,6 +793,129 @@ class SchedinaController extends Controller
         $payload['scheda'] = $this->shouldKeepCircuitCode($schedina, 'schedina')
             ? ($schedina?->scheda ?: $this->nextSchedaCode($strutturaId, 'schedina'))
             : $this->nextSchedaCode($strutturaId, 'schedina');
+    }
+
+    private function customerSearchStructureIds(int $currentStrutturaId): array
+    {
+        $struttura = Struttura::query()->find($currentStrutturaId);
+        if (!$struttura) {
+            return [$currentStrutturaId];
+        }
+
+        if (empty($struttura->proprietario_id)) {
+            return [$currentStrutturaId];
+        }
+
+        $ids = Struttura::query()
+            ->where('proprietario_id', $struttura->proprietario_id)
+            ->pluck('id')
+            ->all();
+
+        return !empty($ids) ? $ids : [$currentStrutturaId];
+    }
+
+    private function localizeChainCustomerForCurrentStruttura(Customers $sourceCustomer, int $currentStrutturaId): Customers
+    {
+        $existing = $this->findEquivalentCustomerInStruttura($sourceCustomer, $currentStrutturaId);
+        if ($existing) {
+            return $existing;
+        }
+
+        $copy = $sourceCustomer->replicate();
+        $copy->struttura_id = $currentStrutturaId;
+        $copy->numero_cliente = null;
+        $copy->created_at = now();
+        $copy->updated_at = now();
+        $copy->save();
+
+        $this->ensureNumeroClienteForLocalizedCustomer($copy);
+        $copy->save();
+
+        return $copy;
+    }
+
+    private function findEquivalentCustomerInStruttura(Customers $sourceCustomer, int $currentStrutturaId): ?Customers
+    {
+        $query = Customers::query()
+            ->withoutGlobalScopes()
+            ->where('struttura_id', $currentStrutturaId)
+            ->where('name', $sourceCustomer->name)
+            ->where('surname', $sourceCustomer->surname);
+
+        if (!empty($sourceCustomer->num_doc_reg)) {
+            return $query
+                ->where('num_doc_reg', $sourceCustomer->num_doc_reg)
+                ->when(!empty($sourceCustomer->nac_reg), fn ($inner) => $inner->where('nac_reg', $sourceCustomer->nac_reg))
+                ->latest('id')
+                ->first();
+        }
+
+        if (!empty($sourceCustomer->email)) {
+            return (clone $query)
+                ->where('email', $sourceCustomer->email)
+                ->latest('id')
+                ->first();
+        }
+
+        if (!empty($sourceCustomer->cellphone)) {
+            return (clone $query)
+                ->where('cellphone', $sourceCustomer->cellphone)
+                ->latest('id')
+                ->first();
+        }
+
+        if (!empty($sourceCustomer->phone)) {
+            return (clone $query)
+                ->where('phone', $sourceCustomer->phone)
+                ->latest('id')
+                ->first();
+        }
+
+        return null;
+    }
+
+    private function ensureNumeroClienteForLocalizedCustomer(Customers $customer): void
+    {
+        $prefix = $this->prefixByTipoCliente($customer->type_housed);
+        $yearTwoDigits = $customer->created_at
+            ? $customer->created_at->format('y')
+            : now()->format('y');
+        $expectedStart = "{$prefix}-{$yearTwoDigits}-";
+        $currentCode = (string) ($customer->numero_cliente ?? '');
+
+        if ($currentCode !== '' && str_starts_with($currentCode, $expectedStart)) {
+            return;
+        }
+
+        $nextSerial = $this->nextNumeroClienteSerialForStruttura((int) $customer->struttura_id, $prefix, $yearTwoDigits);
+        $customer->numero_cliente = sprintf('%s-%s-%04d', $prefix, $yearTwoDigits, $nextSerial);
+    }
+
+    private function prefixByTipoCliente(?string $tipoCliente): string
+    {
+        return match (trim((string) $tipoCliente)) {
+            'Richiesta' => 'R',
+            'Componente' => 'C',
+            default => 'O',
+        };
+    }
+
+    private function nextNumeroClienteSerialForStruttura(int $strutturaId, string $prefix, string $yearTwoDigits): int
+    {
+        $pattern = "{$prefix}-{$yearTwoDigits}-%";
+
+        $lastCode = Customers::query()
+            ->withoutGlobalScopes()
+            ->where('struttura_id', $strutturaId)
+            ->where('numero_cliente', 'like', $pattern)
+            ->orderByDesc('numero_cliente')
+            ->value('numero_cliente');
+
+        if (!$lastCode || !preg_match('/-(\d{4})$/', $lastCode, $matches)) {
+            return 1;
+        }
+
+        return ((int) $matches[1]) + 1;
     }
 
     private function redirectAfterSave(Schedina $schedina, Request $request, string $saveMode, bool $isUpdate)

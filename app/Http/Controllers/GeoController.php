@@ -427,6 +427,8 @@ class GeoController extends Controller
             'geo_provincia_id' => $comune->geo_provincia_id,
             'lat' => $comune->lat,
             'lng' => $comune->lng,
+            'logo_citta' => $comune->logo_citta,
+            'logo' => $comune->logo,
         ];
     }
 }

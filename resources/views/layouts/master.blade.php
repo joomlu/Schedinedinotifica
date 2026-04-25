@@ -25,17 +25,20 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
+                    @if(session('status'))
+                        <div class="alert alert-success" data-server-alert="success">{{ session('status') }}</div>
+                    @endif
                     @if(session('success'))
-                        <div class="alert alert-success d-none" data-server-alert="success">{{ session('success') }}</div>
+                        <div class="alert alert-success" data-server-alert="success">{{ session('success') }}</div>
                     @endif
                     @if(session('warning'))
-                        <div class="alert alert-warning d-none" data-server-alert="warning">{{ session('warning') }}</div>
+                        <div class="alert alert-warning" data-server-alert="warning">{{ session('warning') }}</div>
                     @endif
                     @if(session('error'))
-                        <div class="alert alert-danger d-none" data-server-alert="error">{{ session('error') }}</div>
+                        <div class="alert alert-danger" data-server-alert="error">{{ session('error') }}</div>
                     @endif
                     @if($errors->any())
-                        <div class="alert alert-danger d-none" data-server-alert="error">
+                        <div class="alert alert-danger" data-server-alert="error">
                             {{ collect($errors->all())->take(3)->implode(' ') }}
                         </div>
                     @endif

@@ -62,7 +62,7 @@ class StruttureController extends Controller
         }
 
         $struttura = Struttura::create($this->extractStrutturaPayload($data));
-        $this->syncPrimaryLicenzaFromStruttura($struttura, (int) $request->user()->id);
+        $this->syncPrimaryLicenzaFromStruttura($struttura, (int) $request->user()->id, $data['articolo_id'] ?? null);
         $this->syncPrimaryAccessUser($struttura, $data);
 
         return redirect()->route('admin.strutture.index')->with('status', 'Struttura creata');
@@ -92,7 +92,7 @@ class StruttureController extends Controller
 
         $struttura->update($this->extractStrutturaPayload($data, $struttura));
         $struttura = $struttura->fresh();
-        $this->syncPrimaryLicenzaFromStruttura($struttura, (int) $request->user()->id);
+        $this->syncPrimaryLicenzaFromStruttura($struttura, (int) $request->user()->id, $data['articolo_id'] ?? null);
         $this->syncPrimaryAccessUser($struttura, $data);
 
         return redirect()->route('admin.strutture.index')->with('status', 'Struttura aggiornata');
@@ -103,6 +103,7 @@ class StruttureController extends Controller
         $struttura = $this->baseQuery($request)->findOrFail($id);
 
         $data = $request->validate([
+            'articolo_id' => ['nullable', 'integer', 'exists:licenza_articoli,id'],
             'attiva' => ['nullable', 'boolean'],
             'avviso' => ['nullable', 'string', 'max:30'],
             'scadenza_servizio' => ['nullable', 'date'],
@@ -117,7 +118,7 @@ class StruttureController extends Controller
             'piano' => $data['piano'] ?? $struttura->piano,
             'stato_pagamento' => $data['stato_pagamento'] ?? $struttura->stato_pagamento,
         ]);
-        $this->syncPrimaryLicenzaFromStruttura($struttura->fresh(), (int) $request->user()->id);
+        $this->syncPrimaryLicenzaFromStruttura($struttura->fresh(), (int) $request->user()->id, $data['articolo_id'] ?? null);
 
         return redirect()->route('admin.strutture.index')->with('status', 'Servizio aggiornato');
     }
@@ -133,6 +134,7 @@ class StruttureController extends Controller
             'accessoPrincipale' => $this->resolvePrimaryAccessUser($struttura),
             'licenzeStorico' => $this->loadLicenzeStorico($struttura),
             'proformeStorico' => $this->loadProformeStorico($struttura),
+            'articoliCatalogo' => LicenzaArticolo::query()->where('attivo', true)->whereNull('parent_id')->orderBy('ordine')->orderBy('nome')->get(),
             'zoneOptions' => $this->buildZoneOptions($struttura, $geoComuneId, 'zona'),
             'localitaOptions' => $this->buildZoneOptions($struttura, $geoComuneId, 'localita'),
         ];
@@ -140,49 +142,64 @@ class StruttureController extends Controller
 
     private function validateFormData(Request $request, ?User $accessoPrincipale = null): array
     {
-        return $request->validate([
-            'nome_struttura' => ['required', 'string', 'max:255'],
-            'nazione' => ['nullable', 'string', 'max:120'],
-            'regione' => ['nullable', 'string', 'max:120'],
-            'citta' => ['nullable', 'string', 'max:255'],
-            'provincia' => ['nullable', 'string', 'max:255'],
-            'localita' => ['nullable', 'string', 'max:255'],
-            'zona' => ['nullable', 'string', 'max:255'],
-            'indirizzo' => ['nullable', 'string', 'max:255'],
-            'numero_civico' => ['nullable', 'string', 'max:30'],
-            'cap' => ['nullable', 'string', 'max:20'],
-            'latitudine' => ['nullable', 'string', 'max:50'],
-            'longitudine' => ['nullable', 'string', 'max:50'],
-            'proprietario_id' => ['required', 'integer'],
-            'attiva' => ['nullable', 'boolean'],
-            'avviso' => ['nullable', Rule::in(['attivo', 'sospeso', 'inattivo'])],
-            'messaggio_offline' => ['nullable', 'string'],
-            'messaggio_avviso' => ['nullable', 'string'],
-            'scadenza_servizio' => ['nullable', 'date'],
-            'piano' => ['nullable', 'string', 'max:100'],
-            'stato_pagamento' => ['nullable', Rule::in(['ok', 'pagato', 'da_pagare', 'sospeso'])],
-            'accesso_nome' => ['nullable', 'string', 'max:255'],
-            'accesso_username' => [
-                'nullable',
-                'required_with:accesso_email,accesso_password,accesso_nome',
-                'string',
-                'max:120',
-                Rule::unique('users', 'username')->ignore($accessoPrincipale?->id),
+        return $request->validate(
+            [
+                'nome_struttura' => ['required', 'string', 'max:255'],
+                'nazione' => ['nullable', 'string', 'max:120'],
+                'regione' => ['nullable', 'string', 'max:120'],
+                'citta' => ['nullable', 'string', 'max:255'],
+                'provincia' => ['nullable', 'string', 'max:255'],
+                'localita' => ['nullable', 'string', 'max:255'],
+                'zona' => ['nullable', 'string', 'max:255'],
+                'indirizzo' => ['required', 'string', 'max:255'],
+                'numero_civico' => ['nullable', 'string', 'max:30'],
+                'cap' => ['nullable', 'string', 'max:20'],
+                'latitudine' => ['nullable', 'string', 'max:50'],
+                'longitudine' => ['nullable', 'string', 'max:50'],
+                'logo_citta' => ['nullable', 'string', 'max:255'],
+                'articolo_id' => ['nullable', 'integer', 'exists:licenza_articoli,id'],
+                'proprietario_id' => ['required', 'integer'],
+                'attiva' => ['nullable', 'boolean'],
+                'avviso' => ['nullable', Rule::in(['attivo', 'sospeso', 'inattivo'])],
+                'messaggio_offline' => ['nullable', 'string'],
+                'messaggio_avviso' => ['nullable', 'string'],
+                'scadenza_servizio' => ['nullable', 'date'],
+                'piano' => ['nullable', 'string', 'max:100'],
+                'stato_pagamento' => ['nullable', Rule::in(['ok', 'pagato', 'da_pagare', 'sospeso'])],
+                'accesso_nome' => ['nullable', 'string', 'max:255'],
+                'accesso_username' => [
+                    'nullable',
+                    'required_with:accesso_email,accesso_password,accesso_nome',
+                    'string',
+                    'max:120',
+                    Rule::unique('users', 'username')->ignore($accessoPrincipale?->id),
+                ],
+                'accesso_email' => [
+                    'nullable',
+                    'email',
+                    'max:255',
+                    Rule::unique('users', 'email')->ignore($accessoPrincipale?->id),
+                ],
+                'accesso_password' => ['nullable', 'string', 'min:8'],
             ],
-            'accesso_email' => [
-                'nullable',
-                'email',
-                'max:255',
-                Rule::unique('users', 'email')->ignore($accessoPrincipale?->id),
-            ],
-            'accesso_password' => ['nullable', 'string', 'min:8'],
-        ]);
+            [
+                'indirizzo.required' => 'Inserisci l\'indirizzo della struttura.',
+                'accesso_username.unique' => 'Il nome di accesso e gia utilizzato da un altro utente.',
+                'accesso_email.unique' => 'L\'email di accesso e gia utilizzata da un altro utente.',
+            ]
+        );
     }
 
     private function extractStrutturaPayload(array $data, ?Struttura $struttura = null): array
     {
-        return $this->normalizeGeoLabels([
+        $proprietario = !empty($data['proprietario_id'])
+            ? Proprietario::find((int) $data['proprietario_id'])
+            : null;
+
+        $payload = $this->normalizeGeoLabels([
             'nome_struttura' => $data['nome_struttura'],
+            'tipologia_generale' => $data['tipologia_generale'] ?? ($struttura->tipologia_generale ?? 'Alberghiera'),
+            'tipologia_struttura' => $data['tipologia_struttura'] ?? ($struttura->tipologia_struttura ?? 'Hotel'),
             'nazione' => $data['nazione'] ?? ($struttura->nazione ?? null),
             'regione' => $data['regione'] ?? ($struttura->regione ?? null),
             'citta' => $data['citta'] ?? ($struttura->citta ?? null),
@@ -194,6 +211,7 @@ class StruttureController extends Controller
             'cap' => $data['cap'] ?? ($struttura->cap ?? null),
             'latitudine' => $data['latitudine'] ?? ($struttura->latitudine ?? null),
             'longitudine' => $data['longitudine'] ?? ($struttura->longitudine ?? null),
+            'logo_citta' => $data['logo_citta'] ?? ($struttura->logo_citta ?? null),
             'proprietario_id' => $data['proprietario_id'] ?? ($struttura->proprietario_id ?? null),
             'attiva' => (bool) ($data['attiva'] ?? ($struttura->attiva ?? true)),
             'avviso' => $data['avviso'] ?? ($struttura->avviso ?? 'attivo'),
@@ -202,7 +220,11 @@ class StruttureController extends Controller
             'scadenza_servizio' => $data['scadenza_servizio'] ?? ($struttura->scadenza_servizio ?? null),
             'piano' => $data['piano'] ?? ($struttura->piano ?? null),
             'stato_pagamento' => $data['stato_pagamento'] ?? ($struttura->stato_pagamento ?? 'pagato'),
+            'telefono' => $data['telefono'] ?? ($struttura->telefono ?? $proprietario?->telefono ?? ''),
+            'email' => $data['email'] ?? ($struttura->email ?? $proprietario?->email ?? ($data['accesso_email'] ?? '')),
         ]);
+
+        return $this->enrichGeoDefaults($payload);
     }
 
     private function loadLicenzeStorico(Struttura $struttura)
@@ -352,6 +374,36 @@ class StruttureController extends Controller
         return $data;
     }
 
+    private function enrichGeoDefaults(array $data): array
+    {
+        $geoComuneId = $this->resolveGeoComuneId($data['citta'] ?? null);
+        if (!$geoComuneId) {
+            return $data;
+        }
+
+        $comune = GeoComune::query()->find($geoComuneId, ['nome', 'lat', 'lng', 'logo_citta', 'logo']);
+        if (!$comune) {
+            return $data;
+        }
+
+        if (blank($data['latitudine'] ?? null) && !blank($comune->lat)) {
+            $data['latitudine'] = $comune->lat;
+        }
+
+        if (blank($data['longitudine'] ?? null) && !blank($comune->lng)) {
+            $data['longitudine'] = $comune->lng;
+        }
+
+        if (blank($data['logo_citta'] ?? null)) {
+            $logoComune = $comune->logo_citta ?? $comune->logo ?? null;
+            if ($logoComune) {
+                $data['logo_citta'] = $logoComune;
+            }
+        }
+
+        return $data;
+    }
+
     private function buildZoneOptions(Struttura $struttura, ?int $geoComuneId, string $tipo): array
     {
         $values = collect();
@@ -437,7 +489,7 @@ class StruttureController extends Controller
         }
 
         return GeoComune::query()
-            ->where('nome', (string) $value)
+            ->whereRaw('LOWER(nome) = ?', [mb_strtolower(trim((string) $value))])
             ->value('id');
     }
 
@@ -482,7 +534,7 @@ class StruttureController extends Controller
             || str_contains($message, 'column not found');
     }
 
-    private function syncPrimaryLicenzaFromStruttura(Struttura $struttura, int $adminId): void
+    private function syncPrimaryLicenzaFromStruttura(Struttura $struttura, int $adminId, ?int $selectedArticoloId = null): void
     {
         $primaryLicenza = LicenzaAssegnazione::query()
             ->with('articolo')
@@ -493,7 +545,7 @@ class StruttureController extends Controller
             ->orderByDesc('id')
             ->first();
 
-        $articolo = $this->resolvePrimaryArticolo($struttura, $primaryLicenza?->articolo_id);
+        $articolo = $this->resolvePrimaryArticolo($struttura, $selectedArticoloId ?: $primaryLicenza?->articolo_id);
         if (!$primaryLicenza && !$articolo) {
             return;
         }

@@ -6,6 +6,7 @@ use App\Models\Struttura;
 use App\Support\StrutturaCorrente;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class ImpostaStrutturaCorrente
@@ -38,7 +39,16 @@ class ImpostaStrutturaCorrente
             $allowed = Struttura::where('proprietario_id', $user->proprietario_id)->pluck('id')->all();
             $currentId = $this->resolveCurrentId($request, $allowed);
             if ($currentId === null) {
-                abort(403, 'Nessuna struttura associata.');
+                $request->session()->forget('struttura_corrente_id');
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return redirect()
+                    ->route('login')
+                    ->withErrors([
+                        'login' => 'Nessuna struttura associata a questo proprietario.',
+                    ]);
             }
             StrutturaCorrente::setId($currentId);
             return $next($request);

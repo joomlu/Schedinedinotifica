@@ -7,6 +7,8 @@
     $accessoEmail = old('accesso_email', $accessoPrincipale->email ?? '');
     $zoneOptions = collect($zoneOptions ?? []);
     $localitaOptions = collect($localitaOptions ?? []);
+    $articoliCatalogo = collect($articoliCatalogo ?? []);
+    $servizioCorrenteId = (int) old('articolo_id', optional($licenzeStorico->firstWhere('articolo.parent_id', null))->articolo_id ?? 0);
     $statoPagamentoLabel = in_array($statoPagamento, ['ok', 'pagato'], true) ? 'Pagato' : ucfirst(str_replace('_', ' ', $statoPagamento));
 @endphp
 
@@ -211,7 +213,14 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Servizio</label>
-                        <input type="text" class="form-control" value="Schedine di Notifica" readonly>
+                        <x-ui.select name="articolo_id">
+                            <option value="">-- Seleziona servizio --</option>
+                            @foreach($articoliCatalogo as $articoloCatalogo)
+                                <option value="{{ $articoloCatalogo->id }}" @selected($servizioCorrenteId === (int) $articoloCatalogo->id)>
+                                    {{ $articoloCatalogo->nome }}
+                                </option>
+                            @endforeach
+                        </x-ui.select>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Piano</label>

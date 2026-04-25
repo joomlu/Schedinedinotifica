@@ -35,4 +35,9 @@ class Customers extends Model
     {
         return $this->hasMany(Schedina::class, 'customer_id');
     }
+
+    public function struttura()
+    {
+        return $this->belongsTo(Struttura::class, 'struttura_id');
+    }
 }

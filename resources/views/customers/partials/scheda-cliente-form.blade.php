@@ -1,9 +1,13 @@
     @php
-        $isEdit = ($mode ?? 'create') === 'edit' && isset($customer) && $customer;
+        $effectiveMode = $formModeOverride
+            ?? ((($mode ?? 'create') === 'edit' && isset($customer) && $customer) ? 'edit' : 'create');
+        $isEdit = in_array($effectiveMode, ['edit', 'import'], true) && isset($customer) && $customer;
         $entity = $isEdit ? $customer : null;
-        $cardTitle = $isEdit ? 'Cliente - modifica' : 'Cliente - aggiungere';
-        $formAction = $isEdit ? route('customer.update', $entity->id) : route('customer.store');
+        $cardTitle = $cardTitleOverride ?? ($isEdit ? 'Cliente - modifica' : 'Cliente - aggiungere');
+        $formAction = $formActionOverride ?? ($isEdit ? route('customer.update', $entity->id) : route('customer.store'));
+        $formMethod = strtoupper($formMethodOverride ?? ($isEdit ? 'PUT' : 'POST'));
         $initialTab = old('active_tab', request('tab', 'steparrow-gen-info'));
+        $draftKey = $draftKeyOverride ?? ($isEdit ? ('clienti.edit.' . $entity->id . '.draft.v1') : 'clienti.nuovo.draft.v1');
         $fieldValue = function (string $field, $default = null) use ($entity) {
             return old($field, data_get($entity, $field, $default));
         };
@@ -41,12 +45,12 @@
                         action="{{ $formAction }}"
                         class="form-steps"
                         autocomplete="off"
-                        data-draft-key="{{ $isEdit ? ('clienti.edit.' . $entity->id . '.draft.v1') : 'clienti.nuovo.draft.v1' }}"
-                        data-mode="{{ $isEdit ? 'edit' : 'create' }}"
+                        data-draft-key="{{ $draftKey }}"
+                        data-mode="{{ $effectiveMode }}"
                     >
                     @csrf 
-                        @if($isEdit)
-                            @method('PUT')
+                        @if($formMethod !== 'POST')
+                            @method($formMethod)
                         @endif
                         <input type="hidden" name="save_mode_intent" id="customer_save_mode_intent" value="{{ old('save_mode_intent', '') }}">
                         <input type="hidden" name="country_reg_fallback" id="country_reg_fallback" value="{{ $fieldValue('country_reg_fallback', data_get($entity, 'country_reg')) }}">
@@ -236,18 +240,25 @@
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start justify-content-end gap-3 mt-4">
-                                    <button type="submit" name="save_mode" value="draft" formnovalidate class="btn btn-outline-primary btn-label">
-                                        <i class="ri-save-line label-icon align-middle fs-16 me-2"></i>
-                                        Salva a bozza
-                                    </button>
-                                    <button type="submit" name="save_mode" value="final" class="btn btn-success btn-label right">
-                                        <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
-                                        Salva a cliente
-                                    </button>
-                                    <button type="submit" name="save_mode" value="to_schedina" class="btn btn-info btn-label right">
-                                        <i class="ri-file-transfer-line label-icon align-middle fs-16 ms-2"></i>
-                                        Salva a schedina
-                                    </button>
+                                    @if(($submitLayout ?? 'customer') === 'import')
+                                        <button type="submit" class="btn btn-success btn-label right">
+                                            <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
+                                            {{ $primarySubmitLabel ?? 'Aggiorna riga importazione' }}
+                                        </button>
+                                    @else
+                                        <button type="submit" name="save_mode" value="draft" formnovalidate class="btn btn-outline-primary btn-label">
+                                            <i class="ri-save-line label-icon align-middle fs-16 me-2"></i>
+                                            Salva a bozza
+                                        </button>
+                                        <button type="submit" name="save_mode" value="final" class="btn btn-success btn-label right">
+                                            <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
+                                            Salva a cliente
+                                        </button>
+                                        <button type="submit" name="save_mode" value="to_schedina" class="btn btn-info btn-label right">
+                                            <i class="ri-file-transfer-line label-icon align-middle fs-16 ms-2"></i>
+                                            Salva a schedina
+                                        </button>
+                                    @endif
                                     @unless($isEdit)
                                     <button type="button" class="btn btn-soft-success btn-label right nexttab" data-nexttab="steparrow-description-info">
                                         <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
@@ -470,18 +481,25 @@
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start justify-content-end gap-3 mt-4">
-                                    <button type="submit" name="save_mode" value="draft" formnovalidate class="btn btn-outline-primary btn-label">
-                                        <i class="ri-save-line label-icon align-middle fs-16 me-2"></i>
-                                        Salva a bozza
-                                    </button>
-                                    <button type="submit" name="save_mode" value="final" class="btn btn-success btn-label right">
-                                        <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
-                                        Salva a cliente
-                                    </button>
-                                    <button type="submit" name="save_mode" value="to_schedina" class="btn btn-info btn-label right">
-                                        <i class="ri-file-transfer-line label-icon align-middle fs-16 ms-2"></i>
-                                        Salva a schedina
-                                    </button>
+                                    @if(($submitLayout ?? 'customer') === 'import')
+                                        <button type="submit" class="btn btn-success btn-label right">
+                                            <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
+                                            {{ $primarySubmitLabel ?? 'Aggiorna riga importazione' }}
+                                        </button>
+                                    @else
+                                        <button type="submit" name="save_mode" value="draft" formnovalidate class="btn btn-outline-primary btn-label">
+                                            <i class="ri-save-line label-icon align-middle fs-16 me-2"></i>
+                                            Salva a bozza
+                                        </button>
+                                        <button type="submit" name="save_mode" value="final" class="btn btn-success btn-label right">
+                                            <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
+                                            Salva a cliente
+                                        </button>
+                                        <button type="submit" name="save_mode" value="to_schedina" class="btn btn-info btn-label right">
+                                            <i class="ri-file-transfer-line label-icon align-middle fs-16 ms-2"></i>
+                                            Salva a schedina
+                                        </button>
+                                    @endif
                                     @unless($isEdit)
                                     <button type="button" class="btn btn-soft-success btn-label right nexttab" data-nexttab="steparrow-azienda-info">
                                         <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
@@ -606,18 +624,25 @@
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start justify-content-end gap-3 mt-4">
-                                    <button type="submit" name="save_mode" value="draft" formnovalidate class="btn btn-outline-primary btn-label">
-                                        <i class="ri-save-line label-icon align-middle fs-16 me-2"></i>
-                                        Salva a bozza
-                                    </button>
-                                    <button type="submit" name="save_mode" value="final" class="btn btn-success btn-label right">
-                                        <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
-                                        Salva a cliente
-                                    </button>
-                                    <button type="submit" name="save_mode" value="to_schedina" class="btn btn-info btn-label right">
-                                        <i class="ri-file-transfer-line label-icon align-middle fs-16 ms-2"></i>
-                                        Salva a schedina
-                                    </button>
+                                    @if(($submitLayout ?? 'customer') === 'import')
+                                        <button type="submit" class="btn btn-success btn-label right">
+                                            <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
+                                            {{ $primarySubmitLabel ?? 'Aggiorna riga importazione' }}
+                                        </button>
+                                    @else
+                                        <button type="submit" name="save_mode" value="draft" formnovalidate class="btn btn-outline-primary btn-label">
+                                            <i class="ri-save-line label-icon align-middle fs-16 me-2"></i>
+                                            Salva a bozza
+                                        </button>
+                                        <button type="submit" name="save_mode" value="final" class="btn btn-success btn-label right">
+                                            <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
+                                            Salva a cliente
+                                        </button>
+                                        <button type="submit" name="save_mode" value="to_schedina" class="btn btn-info btn-label right">
+                                            <i class="ri-file-transfer-line label-icon align-middle fs-16 ms-2"></i>
+                                            Salva a schedina
+                                        </button>
+                                    @endif
                                     @unless($isEdit)
                                     <button type="button" class="btn btn-soft-success btn-label right nexttab" data-nexttab="steparrow-contact-info">
                                         <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
@@ -749,18 +774,25 @@
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start justify-content-end gap-3 mt-4">
-                                    <button type="submit" name="save_mode" value="draft" formnovalidate class="btn btn-outline-primary btn-label">
-                                        <i class="ri-save-line label-icon align-middle fs-16 me-2"></i>
-                                        Salva a bozza
-                                    </button>
-                                    <button type="submit" name="save_mode" value="final" class="btn btn-success btn-label right">
-                                        <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
-                                        Salva a cliente
-                                    </button>
-                                    <button type="submit" name="save_mode" value="to_schedina" class="btn btn-info btn-label right">
-                                        <i class="ri-file-transfer-line label-icon align-middle fs-16 ms-2"></i>
-                                        Salva a schedina
-                                    </button>
+                                    @if(($submitLayout ?? 'customer') === 'import')
+                                        <button type="submit" class="btn btn-success btn-label right">
+                                            <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
+                                            {{ $primarySubmitLabel ?? 'Aggiorna riga importazione' }}
+                                        </button>
+                                    @else
+                                        <button type="submit" name="save_mode" value="draft" formnovalidate class="btn btn-outline-primary btn-label">
+                                            <i class="ri-save-line label-icon align-middle fs-16 me-2"></i>
+                                            Salva a bozza
+                                        </button>
+                                        <button type="submit" name="save_mode" value="final" class="btn btn-success btn-label right">
+                                            <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
+                                            Salva a cliente
+                                        </button>
+                                        <button type="submit" name="save_mode" value="to_schedina" class="btn btn-info btn-label right">
+                                            <i class="ri-file-transfer-line label-icon align-middle fs-16 ms-2"></i>
+                                            Salva a schedina
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                             </div>

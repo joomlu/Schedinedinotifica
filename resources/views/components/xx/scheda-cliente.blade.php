@@ -1,6 +1,13 @@
 @props([
     'mode' => 'create',
+    'formModeOverride' => null,
     'customer' => null,
+    'formActionOverride' => null,
+    'formMethodOverride' => null,
+    'cardTitleOverride' => null,
+    'draftKeyOverride' => null,
+    'submitLayout' => 'customer',
+    'primarySubmitLabel' => 'Aggiorna riga importazione',
     'tipiClienti' => collect(),
     'gruppiLivello1' => collect(),
     'gruppiLivello2' => collect(),

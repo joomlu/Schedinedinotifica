@@ -84,8 +84,22 @@
                         <form method="POST" action="{{ route($routePrefix . '.store') }}" class="row g-3">
                             @csrf
                             <div class="col-lg-4">
+                                <label class="form-label">Struttura registrata</label>
+                                <x-ui.select name="struttura_id" placeholder="Seleziona una struttura del sistema" allowClear="true">
+                                    <option value=""></option>
+                                    @foreach($struttureOptions as $strutturaOption)
+                                        <option value="{{ $strutturaOption->id }}" @selected((string) old('struttura_id') === (string) $strutturaOption->id)>
+                                            {{ $strutturaOption->nome_struttura }}
+                                            @if($strutturaOption->proprietario?->ragione_sociale)
+                                                · {{ $strutturaOption->proprietario->ragione_sociale }}
+                                            @endif
+                                        </option>
+                                    @endforeach
+                                </x-ui.select>
+                            </div>
+                            <div class="col-lg-4">
                                 <label class="form-label">Struttura</label>
-                                <input type="text" name="struttura" class="form-control" value="{{ old('struttura') }}" required>
+                                <input type="text" name="struttura" class="form-control" value="{{ old('struttura') }}" placeholder="Compila solo se il contatto non appartiene a una struttura già registrata">
                             </div>
                             <div class="col-lg-4">
                                 <label class="form-label">Nome e cognome</label>
@@ -213,7 +227,10 @@
                                     @forelse($leads as $lead)
                                         <tr>
                                             <td>
-                                                <div class="fw-semibold">{{ $lead->struttura }}</div>
+                                                <div class="fw-semibold">{{ $lead->displayStrutturaName() }}</div>
+                                                @if($lead->linkedStruttura?->proprietario?->ragione_sociale)
+                                                    <div class="small text-muted">{{ $lead->linkedStruttura->proprietario->ragione_sociale }}</div>
+                                                @endif
                                                 <div class="small text-muted">{{ $lead->nome_cognome }}</div>
                                                 @if($lead->persona_contatto)
                                                     <div class="small text-muted">{{ $lead->persona_contatto }}</div>
@@ -321,7 +338,7 @@
                                 <div class="d-flex justify-content-between align-items-start gap-3">
                                     <div class="flex-grow-1">
                                         <div class="fw-semibold">{{ $activity->titolo }}</div>
-                                        <div class="small text-muted">{{ $activity->lead?->struttura }} · {{ $activity->lead?->nome_cognome }}</div>
+                                        <div class="small text-muted">{{ $activity->lead?->displayStrutturaName() }} · {{ $activity->lead?->nome_cognome }}</div>
                                         <div class="small text-muted mt-1">
                                             {{ $activity->scheduled_at?->format('H:i') ?: 'Senza orario' }}
                                             @if($activity->user)
@@ -354,7 +371,7 @@
                                     <x-ui.select name="lead_id" placeholder="Seleziona una scheda CRM" required>
                                         <option value=""></option>
                                         @foreach($leadOptions as $leadOption)
-                                            <option value="{{ $leadOption->id }}">{{ $leadOption->struttura }} · {{ $leadOption->nome_cognome }}</option>
+                                            <option value="{{ $leadOption->id }}">{{ $leadOption->displayStrutturaName() }} · {{ $leadOption->nome_cognome }}</option>
                                         @endforeach
                                     </x-ui.select>
                                 </div>
@@ -428,7 +445,7 @@
                                                 <div class="d-flex flex-column gap-1 overflow-hidden">
                                                     @foreach($dayItems->take(3) as $activity)
                                                         <a href="{{ route($routePrefix . '.show', ['id' => $activity->lead->id, 'tab' => 'agenda']) }}" class="rounded-2 px-2 py-1 small text-decoration-none bg-info-subtle text-info text-truncate">
-                                                            {{ $activity->scheduled_at?->format('H:i') ?: '--:--' }} · {{ $activity->lead?->struttura }}
+                                                            {{ $activity->scheduled_at?->format('H:i') ?: '--:--' }} · {{ $activity->lead?->displayStrutturaName() }}
                                                         </a>
                                                     @endforeach
                                                     @if($dayItems->count() > 3)

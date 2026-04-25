@@ -108,8 +108,13 @@ class ArrivalsController extends Controller
             return response()->json([]);
         }
 
+        $strutturaCorrente = $this->resolveStruttura($request);
+        $allowedStrutturaIds = $this->customerSearchStructureIds($strutturaCorrente);
         $like = '%' . $query . '%';
         $results = Customers::query()
+            ->withoutGlobalScopes()
+            ->with(['struttura:id,nome_struttura'])
+            ->whereIn('struttura_id', $allowedStrutturaIds)
             ->where(function ($q) use ($like) {
                 $q->where('name', 'like', $like)
                     ->orWhere('surname', 'like', $like)
@@ -165,7 +170,14 @@ class ArrivalsController extends Controller
                 'marketing_consent_at',
                 'communication_consent',
                 'communication_consent_at',
-            ]);
+            ])
+            ->map(function (Customers $customer) use ($strutturaCorrente) {
+                $customer->setAttribute('struttura_nome', $customer->struttura?->nome_struttura);
+                $customer->setAttribute('shared_from_chain', (int) $customer->struttura_id !== (int) $strutturaCorrente->id);
+
+                return $customer;
+            })
+            ->values();
 
         return response()->json($results);
     }
@@ -256,6 +268,20 @@ class ArrivalsController extends Controller
         abort_unless($id, 403, 'Struttura non selezionata.');
 
         return Struttura::query()->findOrFail($id);
+    }
+
+    private function customerSearchStructureIds(Struttura $struttura): array
+    {
+        if (empty($struttura->proprietario_id)) {
+            return [$struttura->id];
+        }
+
+        $ids = Struttura::query()
+            ->where('proprietario_id', $struttura->proprietario_id)
+            ->pluck('id')
+            ->all();
+
+        return !empty($ids) ? $ids : [$struttura->id];
     }
 
     private function nextSchedaCode(int $strutturaId, string $circuito = 'schedina'): string

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CrmLead;
 use App\Models\CrmLeadActivity;
 use App\Models\GeoComune;
+use App\Models\Struttura;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -44,7 +45,7 @@ class CrmController extends Controller
             ? Carbon::parse((string) $request->query('mese_ref'))->startOfMonth()
             : $selectedDay->copy()->startOfMonth();
 
-        $query = CrmLead::query()->with(['assignedAdmin', 'activities']);
+        $query = CrmLead::query()->with(['assignedAdmin', 'activities', 'linkedStruttura.proprietario']);
         $this->applyVisibility($query, $user);
 
         if (array_key_exists($filters['stato'], CrmLead::STATI)) {
@@ -77,7 +78,7 @@ class CrmController extends Controller
             ->withQueryString();
 
         $agenda = CrmLeadActivity::query()
-            ->with(['lead.assignedAdmin', 'user'])
+            ->with(['lead.assignedAdmin', 'lead.linkedStruttura.proprietario', 'user'])
             ->whereNotNull('scheduled_at')
             ->whereIn('stato', ['da_fare', 'registrata'])
             ->whereHas('lead', function ($inner) use ($user) {
@@ -88,7 +89,7 @@ class CrmController extends Controller
             ->get();
 
         $agendaByDay = CrmLeadActivity::query()
-            ->with(['lead.assignedAdmin', 'user'])
+            ->with(['lead.assignedAdmin', 'lead.linkedStruttura.proprietario', 'user'])
             ->whereNotNull('scheduled_at')
             ->whereDate('scheduled_at', $selectedDay->toDateString())
             ->whereHas('lead', function ($inner) use ($user) {
@@ -98,7 +99,7 @@ class CrmController extends Controller
             ->get();
 
         $agendaByMonth = CrmLeadActivity::query()
-            ->with(['lead.assignedAdmin', 'user'])
+            ->with(['lead.assignedAdmin', 'lead.linkedStruttura.proprietario', 'user'])
             ->whereNotNull('scheduled_at')
             ->whereBetween('scheduled_at', [$selectedMonth->copy()->startOfMonth(), $selectedMonth->copy()->endOfMonth()])
             ->whereHas('lead', function ($inner) use ($user) {
@@ -119,9 +120,10 @@ class CrmController extends Controller
         $leadOptionsQuery = CrmLead::query();
         $this->applyVisibility($leadOptionsQuery, $user);
         $leadOptions = $leadOptionsQuery
+            ->with('linkedStruttura')
             ->orderBy('struttura')
             ->orderBy('nome_cognome')
-            ->get(['id', 'struttura', 'nome_cognome']);
+            ->get(['id', 'struttura_id', 'struttura', 'nome_cognome']);
 
         $localitaOptions = GeoComune::query()
             ->orderBy('nome')
@@ -129,6 +131,12 @@ class CrmController extends Controller
             ->filter()
             ->unique()
             ->values();
+
+        $struttureOptionsQuery = Struttura::query()->with('proprietario')->orderBy('nome_struttura');
+        if (!$isSuperAdmin) {
+            $struttureOptionsQuery->whereHas('proprietario', fn ($inner) => $inner->where('admin_id', $user->id));
+        }
+        $struttureOptions = $struttureOptionsQuery->get(['id', 'nome_struttura', 'proprietario_id']);
 
         return view('crm.index', [
             'routePrefix' => $isSuperAdmin ? 'superadmin.crm' : 'admin.crm',
@@ -143,6 +151,7 @@ class CrmController extends Controller
             'agendaByDay' => $agendaByDay,
             'agendaByMonth' => $agendaByMonth,
             'leadOptions' => $leadOptions,
+            'struttureOptions' => $struttureOptions,
             'localitaOptions' => $localitaOptions,
             'modalitaOptions' => self::MODALITA_CONTATTO,
             'contatori' => [
@@ -165,7 +174,8 @@ class CrmController extends Controller
             : ['nullable', Rule::in([$user->id])];
 
         $data = $request->validate([
-            'struttura' => ['required', 'string', 'max:120'],
+            'struttura_id' => ['nullable', 'integer', Rule::exists('struttura', 'id')],
+            'struttura' => ['nullable', 'string', 'max:120', 'required_without:struttura_id'],
             'nome_cognome' => ['required', 'string', 'max:120'],
             'persona_contatto' => ['nullable', 'string', 'max:120'],
             'localita' => ['nullable', 'string', 'max:120'],
@@ -178,16 +188,22 @@ class CrmController extends Controller
             'assigned_admin_id' => $adminRule,
         ]);
 
+        $linkedStruttura = !empty($data['struttura_id']) ? Struttura::query()->with('proprietario')->find((int) $data['struttura_id']) : null;
+        if ($linkedStruttura && !$user->isSuperAdmin()) {
+            abort_unless((int) ($linkedStruttura->proprietario?->admin_id ?? 0) === (int) $user->id, 403);
+        }
+
         $lead = CrmLead::create([
             'lead_code' => $this->nextLeadCode(),
             'fonte' => 'manuale_admin',
             'assigned_admin_id' => $data['assigned_admin_id'] ?? ($user->isAdmin() ? $user->id : null),
             'created_by_user_id' => $user->id,
             'stato' => 'nuovo',
-            'struttura' => trim((string) $data['struttura']),
+            'struttura_id' => $linkedStruttura?->id,
+            'struttura' => $linkedStruttura?->nome_struttura ?: trim((string) ($data['struttura'] ?? '')),
             'nome_cognome' => trim((string) $data['nome_cognome']),
             'persona_contatto' => filled($data['persona_contatto'] ?? null) ? trim((string) $data['persona_contatto']) : null,
-            'localita' => filled($data['localita'] ?? null) ? trim((string) $data['localita']) : null,
+            'localita' => filled($data['localita'] ?? null) ? trim((string) $data['localita']) : ($linkedStruttura?->citta ?: null),
             'email' => trim((string) $data['email']),
             'telefono' => filled($data['telefono'] ?? null) ? trim((string) $data['telefono']) : null,
             'cellulare' => filled($data['cellulare'] ?? null) ? trim((string) $data['cellulare']) : null,
@@ -278,7 +294,7 @@ class CrmController extends Controller
     public function show(Request $request, int $id): View
     {
         $lead = CrmLead::query()
-            ->with(['assignedAdmin', 'createdBy', 'activities.user'])
+            ->with(['assignedAdmin', 'createdBy', 'linkedStruttura.proprietario', 'activities.user'])
             ->findOrFail($id);
 
         $this->guardLeadAccess($request->user(), $lead);
@@ -295,6 +311,7 @@ class CrmController extends Controller
             'routePrefix' => $isSuperAdmin ? 'superadmin.crm' : 'admin.crm',
             'isSuperAdmin' => $isSuperAdmin,
             'admins' => $admins,
+            'struttureOptions' => $this->crmStruttureOptions($user, $isSuperAdmin),
             'stati' => CrmLead::STATI,
             'tipiAttivita' => CrmLeadActivity::TIPI,
             'direzioniAttivita' => CrmLeadActivity::DIREZIONI,
@@ -315,10 +332,16 @@ class CrmController extends Controller
         $data = $request->validate([
             'stato' => ['required', Rule::in(array_keys(CrmLead::STATI))],
             'assigned_admin_id' => $adminRule,
+            'struttura_id' => ['nullable', 'integer', Rule::exists('struttura', 'id')],
             'prossimo_contatto_data' => ['nullable', 'date'],
             'prossimo_contatto_ora' => ['nullable', 'date_format:H:i'],
             'note_interne' => ['nullable', 'string', 'max:10000'],
         ]);
+
+        $linkedStruttura = !empty($data['struttura_id']) ? Struttura::query()->with('proprietario')->find((int) $data['struttura_id']) : null;
+        if ($linkedStruttura && !$user->isSuperAdmin()) {
+            abort_unless((int) ($linkedStruttura->proprietario?->admin_id ?? 0) === (int) $user->id, 403);
+        }
 
         $prossimoContattoAt = $this->mergeDateAndTime(
             $data['prossimo_contatto_data'] ?? null,
@@ -328,6 +351,9 @@ class CrmController extends Controller
         $lead->fill([
             'stato' => $data['stato'],
             'assigned_admin_id' => $data['assigned_admin_id'] ?? ($user->isAdmin() ? $user->id : null),
+            'struttura_id' => $linkedStruttura?->id,
+            'struttura' => $linkedStruttura?->nome_struttura ?: $lead->struttura,
+            'localita' => $lead->localita ?: ($linkedStruttura?->citta ?: null),
             'prossimo_contatto_at' => $prossimoContattoAt,
             'note_interne' => $data['note_interne'] ?? null,
             'chiuso_at' => in_array($data['stato'], ['chiuso_vinto', 'chiuso_perso'], true) ? now() : null,
@@ -525,5 +551,15 @@ class CrmController extends Controller
         $timeValue = $time ?: '09:00';
 
         return Carbon::parse($date . ' ' . $timeValue);
+    }
+
+    private function crmStruttureOptions(User $user, bool $isSuperAdmin)
+    {
+        $query = Struttura::query()->with('proprietario')->orderBy('nome_struttura');
+        if (!$isSuperAdmin) {
+            $query->whereHas('proprietario', fn ($inner) => $inner->where('admin_id', $user->id));
+        }
+
+        return $query->get(['id', 'nome_struttura', 'proprietario_id']);
     }
 }

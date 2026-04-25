@@ -35,7 +35,10 @@
             <div class="col-lg-3 col-md-6">
                 <div class="rounded-3 border p-3 h-100">
                     <div class="text-muted small">Struttura</div>
-                    <div class="fw-semibold mt-1">{{ $lead->struttura }}</div>
+                    <div class="fw-semibold mt-1">{{ $lead->displayStrutturaName() }}</div>
+                    @if($lead->linkedStruttura?->proprietario?->ragione_sociale)
+                        <div class="small text-muted mt-2">{{ $lead->linkedStruttura->proprietario->ragione_sociale }}</div>
+                    @endif
                     <div class="small text-muted mt-2">{{ $lead->localita ?: 'Località non indicata' }}</div>
                 </div>
             </div>
@@ -101,7 +104,13 @@
                             </div>
                             <div class="card-body">
                                 <div class="row g-3">
-                                    <div class="col-12"><span class="text-muted small d-block">Struttura</span><span class="fw-semibold">{{ $lead->struttura }}</span></div>
+                                    <div class="col-12">
+                                        <span class="text-muted small d-block">Struttura</span>
+                                        <span class="fw-semibold">{{ $lead->displayStrutturaName() }}</span>
+                                        @if($lead->linkedStruttura?->proprietario?->ragione_sociale)
+                                            <span class="d-block small text-muted mt-1">{{ $lead->linkedStruttura->proprietario->ragione_sociale }}</span>
+                                        @endif
+                                    </div>
                                     <div class="col-6"><span class="text-muted small d-block">Nome e cognome</span><span class="fw-semibold">{{ $lead->nome_cognome }}</span></div>
                                     <div class="col-6"><span class="text-muted small d-block">Persona di contatto</span><span class="fw-semibold">{{ $lead->persona_contatto ?: '—' }}</span></div>
                                     <div class="col-6"><span class="text-muted small d-block">Email</span><span class="fw-semibold">{{ $lead->email }}</span></div>
@@ -412,6 +421,20 @@
                                     <option value=""></option>
                                     @foreach($admins as $admin)
                                         <option value="{{ $admin->id }}" @selected((string) old('assigned_admin_id', $lead->assigned_admin_id) === (string) $admin->id)>{{ $admin->displayLabel() }}</option>
+                                    @endforeach
+                                </x-ui.select>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="form-label">Struttura registrata</label>
+                                <x-ui.select name="struttura_id" placeholder="Collega una struttura del sistema" allowClear="true">
+                                    <option value=""></option>
+                                    @foreach($struttureOptions as $strutturaOption)
+                                        <option value="{{ $strutturaOption->id }}" @selected((string) old('struttura_id', $lead->struttura_id) === (string) $strutturaOption->id)>
+                                            {{ $strutturaOption->nome_struttura }}
+                                            @if($strutturaOption->proprietario?->ragione_sociale)
+                                                · {{ $strutturaOption->proprietario->ragione_sociale }}
+                                            @endif
+                                        </option>
                                     @endforeach
                                 </x-ui.select>
                             </div>

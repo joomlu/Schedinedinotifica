@@ -556,6 +556,7 @@
         const isComponente = tipo === 'componente';
         const isRichiesta = tipo === 'richiesta';
         const isClienteCompleto = isOspite || isComponente;
+        const isImportMode = customerMode === 'import';
 
         const setRequired = (name, required) => {
             const field = customerForm ? customerForm.querySelector(`[name="${name}"]`) : null;
@@ -570,34 +571,34 @@
         setRequired('name', true);
         setRequired('surname', true);
         setRequired('sex', isClienteCompleto);
-        setRequired('country', isClienteCompleto);
-        setRequired('region', isClienteCompleto);
-        setRequired('province', isClienteCompleto);
-        setRequired('city', isClienteCompleto);
-        setRequired('typeaway', isClienteCompleto);
-        setRequired('address', isClienteCompleto);
-        setRequired('number', isClienteCompleto);
+        setRequired('country', isImportMode ? false : isClienteCompleto);
+        setRequired('region', isImportMode ? false : isClienteCompleto);
+        setRequired('province', isImportMode ? false : isClienteCompleto);
+        setRequired('city', isImportMode ? false : isClienteCompleto);
+        setRequired('typeaway', isImportMode ? false : isClienteCompleto);
+        setRequired('address', isImportMode ? false : isClienteCompleto);
+        setRequired('number', isImportMode ? false : isClienteCompleto);
 
         setRequired('country_reg', isClienteCompleto);
-        setRequired('region_reg', isClienteCompleto);
-        setRequired('prov_reg', isClienteCompleto);
+        setRequired('region_reg', false);
+        setRequired('prov_reg', false);
         setRequired('city_reg', isClienteCompleto);
         setRequired('ciudadania_reg', isClienteCompleto);
         setRequired('nac_reg', isClienteCompleto);
 
         setRequired('type_doc_reg', isClienteCompleto);
         setRequired('num_doc_reg', isClienteCompleto);
-        setRequired('date_pub_reg', isClienteCompleto);
-        setRequired('expire_reg', isClienteCompleto);
-        setRequired('rilasciato_reg', isClienteCompleto);
-        setRequired('country_doc_reg', isClienteCompleto);
+        setRequired('date_pub_reg', isImportMode ? false : isClienteCompleto);
+        setRequired('expire_reg', isImportMode ? false : isClienteCompleto);
+        setRequired('rilasciato_reg', isImportMode ? false : isClienteCompleto);
+        setRequired('country_doc_reg', isImportMode ? false : isClienteCompleto);
 
         const countryDocValue = String(customerForm?.querySelector('[name="country_doc_reg"]')?.value || '').trim().toLowerCase();
         const countryDocItalia = countryDocValue.normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes('italia');
-        setRequired('city_doc_reg', isClienteCompleto && countryDocItalia);
+        setRequired('city_doc_reg', isImportMode ? false : (isClienteCompleto && countryDocItalia));
 
-        setRequired('email', isRichiesta || isClienteCompleto);
-        setRequired('phone', isRichiesta || isClienteCompleto);
+        setRequired('email', isImportMode ? false : (isRichiesta || isClienteCompleto));
+        setRequired('phone', isImportMode ? false : (isRichiesta || isClienteCompleto));
 
         const aziendaEnabled = !!hasAziendaSwitch?.checked;
         setRequired('azienda', aziendaEnabled);

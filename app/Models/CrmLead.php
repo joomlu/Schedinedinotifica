@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Struttura;
 
 class CrmLead extends Model
 {
@@ -31,6 +32,7 @@ class CrmLead extends Model
         'assigned_admin_id',
         'created_by_user_id',
         'stato',
+        'struttura_id',
         'struttura',
         'nome_cognome',
         'persona_contatto',
@@ -61,6 +63,11 @@ class CrmLead extends Model
     public function assignedAdmin()
     {
         return $this->belongsTo(User::class, 'assigned_admin_id');
+    }
+
+    public function linkedStruttura()
+    {
+        return $this->belongsTo(Struttura::class, 'struttura_id');
     }
 
     public function createdBy()
@@ -104,5 +111,10 @@ class CrmLead extends Model
             'chiuso_perso' => 'bg-danger-subtle text-danger',
             default => 'bg-light text-body',
         };
+    }
+
+    public function displayStrutturaName(): string
+    {
+        return $this->linkedStruttura?->nome_struttura ?: (string) $this->struttura;
     }
 }
