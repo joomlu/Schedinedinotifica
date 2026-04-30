@@ -16,6 +16,8 @@ use App\Models\StrutturaZona;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class StrutturaController extends Controller
 {
@@ -79,14 +81,7 @@ class StrutturaController extends Controller
             unset($data['logo']); // Non sovrascrivere se non caricato
         }
 
-        // Gestione upload logo città (campo: logo_citta)
-        if ($request->hasFile('logo_citta')) {
-            $file = $request->file('logo_citta');
-            $path = $file->store('uploads/loghi_citta', 'public');
-            $data['logo_citta'] = 'storage/' . $path;
-        } else {
-            unset($data['logo_citta']);
-        }
+        $data = $this->storeCityLogoUpload($request, $data, $struttura);
 
         // Gestione switch tipo_apertura
         if ($request->filled('tipo_apertura')) {
@@ -205,6 +200,61 @@ class StrutturaController extends Controller
         }
 
         return $data;
+    }
+
+    private function storeCityLogoUpload(Request $request, array $data, ?Struttura $struttura = null): array
+    {
+        $file = $request->file('logo_citta') ?: $request->file('logo_citta_upload');
+        if (!$file) {
+            unset($data['logo_citta']);
+            return $data;
+        }
+
+        $geoComuneId = $this->resolveGeoComuneId($data['citta'] ?? ($struttura->citta ?? null));
+        if (!$geoComuneId) {
+            $path = $file->store('uploads/loghi_citta', 'public');
+            $data['logo_citta'] = 'storage/' . $path;
+            return $data;
+        }
+
+        $comune = GeoComune::find($geoComuneId);
+        if (!$comune) {
+            $path = $file->store('uploads/loghi_citta', 'public');
+            $data['logo_citta'] = 'storage/' . $path;
+            return $data;
+        }
+
+        $slug = Str::slug($comune->nome) ?: 'comune';
+        $filename = $comune->id . '-' . $slug . '.' . $file->getClientOriginalExtension();
+        Storage::disk('public')->makeDirectory('geo_comuni/logo');
+        $storedPath = $file->storeAs('geo_comuni/logo', $filename, 'public');
+        $publicPath = 'storage/' . $storedPath;
+
+        $oldComuneLogo = $comune->logo_citta ?? $comune->logo;
+        if ($oldComuneLogo && $oldComuneLogo !== $publicPath) {
+            $this->deleteStoredLogo($oldComuneLogo);
+        }
+
+        $comune->update([
+            'logo_citta' => $publicPath,
+        ]);
+
+        $data['logo_citta'] = $publicPath;
+
+        return $data;
+    }
+
+    private function deleteStoredLogo(?string $path): void
+    {
+        $path = trim((string) $path);
+        if ($path === '') {
+            return;
+        }
+
+        $relative = str_starts_with($path, 'storage/') ? substr($path, 8) : $path;
+        if ($relative !== '') {
+            Storage::disk('public')->delete($relative);
+        }
     }
 
     private function resolveGeoComuneId($value): ?int

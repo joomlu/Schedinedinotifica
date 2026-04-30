@@ -16,7 +16,7 @@
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-light-subtle border-0">
                 <h4 class="card-title mb-1">Importazione clienti</h4>
-                <p class="text-muted mb-0">Carica il file, verifica le righe in staging e salva in <strong>Clienti</strong> solo ciò che è pronto.</p>
+                <p class="text-muted mb-0">Carica il file, controlla le righe in verifica e tieni pulito lo storico eliminando le importazioni non buone prima del salvataggio finale in <strong>Clienti</strong>.</p>
             </div>
             <div class="card-body">
                 <ul class="nav nav-pills custom-nav nav-justified mb-4" role="tablist">
@@ -87,6 +87,7 @@
                                             <th>Stato</th>
                                             <th>Righe</th>
                                             <th>Valide</th>
+                                            <th>Da completare</th>
                                             <th>Importate</th>
                                             <th class="text-end">Azioni</th>
                                         </tr>
@@ -103,11 +104,21 @@
                                                 </td>
                                                 <td>{{ $batch->total_rows }}</td>
                                                 <td>{{ $batch->valid_rows }}</td>
+                                                <td>{{ $batch->needs_review_rows }}</td>
                                                 <td>{{ $batch->imported_rows }}</td>
                                                 <td class="text-end">
-                                                    <a href="{{ route('customer.import.show', $batch) }}" class="btn btn-soft-primary btn-sm">
-                                                        Apri verifica
-                                                    </a>
+                                                    <div class="d-inline-flex gap-2 flex-wrap justify-content-end">
+                                                        <a href="{{ route('customer.import.show', $batch) }}" class="btn btn-soft-primary btn-sm">
+                                                            Apri verifica
+                                                        </a>
+                                                        <form method="POST" action="{{ route('customer.import.destroy', $batch) }}" onsubmit="return confirm('Eliminare questa importazione e tutte le righe di staging?');">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-soft-danger btn-sm">
+                                                                Elimina file
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach

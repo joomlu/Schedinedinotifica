@@ -169,12 +169,16 @@
                                 <div class="row g-3">
                                     <div class="col-lg-12">
                                         <div class="border rounded-3 p-3">
-                                            <div class="text-center mb-3">
-                                                @if($struttura->logo_citta)
-                                                    <img src="{{ asset($struttura->logo_citta) }}" alt="Logo città" class="img-fluid mb-2" style="max-height: 78px;">
-                                                @endif
-                                            </div>
-                                            <div class="row g-3">
+                            <div class="text-center mb-3">
+                                @if($struttura->logo_citta)
+                                    <img src="{{ asset($struttura->logo_citta) }}" alt="Logo città" class="img-fluid mb-2" style="max-height: 78px;">
+                                @endif
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Logo città</label>
+                                <input type="file" name="logo_citta_upload" class="form-control" accept="image/png,image/jpeg,image/webp">
+                            </div>
+                            <div class="row g-3">
                                                 <div class="col-md-4">
                                                     <label class="form-label">Zona</label>
                                                     <x-ui.select name="zona" data-allow-manual="1">

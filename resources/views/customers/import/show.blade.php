@@ -21,6 +21,13 @@
                 </div>
                 <div class="d-flex gap-2 flex-wrap">
                     <a href="{{ route('customer.import.index') }}" class="btn btn-light">Torna alle importazioni</a>
+                    <form method="POST" action="{{ route('customer.import.destroy', $batch) }}" onsubmit="return confirm('Eliminare questa importazione e tutte le righe di staging?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-soft-danger">
+                            Elimina importazione
+                        </button>
+                    </form>
                     @if($batch->valid_rows > 0)
                         <form method="POST" action="{{ route('customer.import.commit', $batch) }}">
                             @csrf
@@ -34,12 +41,12 @@
             </div>
             <div class="card-body">
                 <div class="row g-3 mb-4">
-                    <div class="col-md-2"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Totale righe</div><div class="fw-semibold fs-4">{{ $batch->total_rows }}</div></div></div>
+                    <div class="col-md-2"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Totale righe file</div><div class="fw-semibold fs-4">{{ $batch->total_rows }}</div></div></div>
                     <div class="col-md-2"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Valide</div><div class="fw-semibold fs-4 text-success">{{ $batch->valid_rows }}</div></div></div>
                     <div class="col-md-2"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Da completare</div><div class="fw-semibold fs-4 text-warning">{{ $batch->needs_review_rows }}</div></div></div>
-                    <div class="col-md-2"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Dup. file</div><div class="fw-semibold fs-4 text-danger">{{ $batch->duplicate_file_rows }}</div></div></div>
-                    <div class="col-md-2"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Dup. hotel</div><div class="fw-semibold fs-4 text-danger">{{ $batch->duplicate_hotel_rows }}</div></div></div>
-                    <div class="col-md-2"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Dup. catena</div><div class="fw-semibold fs-4 text-info">{{ $batch->duplicate_chain_rows }}</div></div></div>
+                    <div class="col-md-2"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Duplicati nel file</div><div class="fw-semibold fs-4 text-danger">{{ $batch->duplicate_file_rows }}</div></div></div>
+                    <div class="col-md-2"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Duplicati hotel</div><div class="fw-semibold fs-4 text-danger">{{ $batch->duplicate_hotel_rows }}</div></div></div>
+                    <div class="col-md-2"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Duplicati catena</div><div class="fw-semibold fs-4 text-info">{{ $batch->duplicate_chain_rows }}</div></div></div>
                 </div>
 
                 <div class="table-responsive">
@@ -63,8 +70,8 @@
                                 @endphp
                                 <tr>
                                     <td>
-                                        <div class="fw-semibold">{{ ($rows->firstItem() ?? 1) + $loop->index }}</div>
-                                        <div class="text-muted small">CSV riga {{ $row->row_number }}</div>
+                                        <div class="fw-semibold">Cliente {{ ($rows->firstItem() ?? 1) + $loop->index }}</div>
+                                        <div class="text-muted small">Origine CSV: riga {{ $row->row_number }}</div>
                                     </td>
                                     <td>
                                         <div class="fw-semibold">{{ trim(($payload['nome'] ?? '') . ' ' . ($payload['cognome'] ?? '')) ?: 'Riga senza nominativo' }}</div>
@@ -120,7 +127,12 @@
                 </div>
 
                 <div class="mt-3">
-                    {{ $rows->links() }}
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div class="text-muted small">
+                            Mostrando {{ $rows->firstItem() ?? 0 }} - {{ $rows->lastItem() ?? 0 }} di {{ $rows->total() }} righe in verifica.
+                        </div>
+                        {{ $rows->onEachSide(1)->links() }}
+                    </div>
                 </div>
             </div>
         </div>

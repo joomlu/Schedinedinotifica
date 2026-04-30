@@ -19,6 +19,7 @@ use App\Services\CustomerImportService;
 use App\Support\StrutturaCorrente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Fluent;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class CustomerImportController extends Controller
@@ -159,6 +160,23 @@ class CustomerImportController extends Controller
         return redirect()
             ->route('customer.import.show', $batch)
             ->with('success', 'Importazione completata: ' . $result['imported'] . ' clienti salvati in Clienti.');
+    }
+
+    public function destroy(CustomerImportBatch $batch)
+    {
+        $batch = $this->loadOwnedBatch($batch->id);
+
+        if ($batch->stored_path) {
+            Storage::disk('local')->delete($batch->stored_path);
+        }
+
+        $batch->rows()->delete();
+        $batchName = $batch->original_name;
+        $batch->delete();
+
+        return redirect()
+            ->route('customer.import.index')
+            ->with('success', 'Importazione eliminata: ' . $batchName . '.');
     }
 
     private function currentStruttura(): Struttura

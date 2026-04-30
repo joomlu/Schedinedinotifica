@@ -287,6 +287,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/clienti/import/template', [CustomerImportController::class, 'template'])->name('customer.import.template');
     Route::post('/clienti/import', [CustomerImportController::class, 'store'])->name('customer.import.store');
     Route::get('/clienti/import/{batch}', [CustomerImportController::class, 'show'])->name('customer.import.show');
+    Route::delete('/clienti/import/{batch}', [CustomerImportController::class, 'destroy'])->name('customer.import.destroy');
     Route::get('/clienti/import/{batch}/righe/{row}/modifica', [CustomerImportController::class, 'editRow'])->name('customer.import.row.edit');
     Route::put('/clienti/import/{batch}/righe/{row}', [CustomerImportController::class, 'updateRow'])->name('customer.import.row.update');
     Route::post('/clienti/import/{batch}/conferma', [CustomerImportController::class, 'commit'])->name('customer.import.commit');

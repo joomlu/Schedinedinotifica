@@ -22,6 +22,7 @@ use App\Services\CestinoService;
 use Illuminate\Validation\Rule;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class StruttureController extends Controller
 {
@@ -165,6 +166,7 @@ class StruttureController extends Controller
                 'latitudine' => ['nullable', 'string', 'max:50'],
                 'longitudine' => ['nullable', 'string', 'max:50'],
                 'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+                'logo_citta_upload' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
                 'logo_citta' => ['nullable', 'string', 'max:255'],
                 'articolo_id' => ['nullable', 'integer', 'exists:licenza_articoli,id'],
                 'proprietario_id' => ['nullable', 'integer', 'exists:proprietari,id'],
@@ -247,13 +249,67 @@ class StruttureController extends Controller
     private function storeStructureLogoUpload(Request $request, array $data, ?Struttura $struttura = null): array
     {
         if (!$request->hasFile('logo')) {
-            return $data;
+            return $this->storeGeoComuneLogoUpload($request, $data, $struttura);
         }
 
         $path = $request->file('logo')->store('uploads/loghi', 'public');
         $data['logo'] = 'storage/'.$path;
 
+        return $this->storeGeoComuneLogoUpload($request, $data, $struttura);
+    }
+
+    private function storeGeoComuneLogoUpload(Request $request, array $data, ?Struttura $struttura = null): array
+    {
+        $file = $request->file('logo_citta_upload');
+        if (!$file) {
+            return $data;
+        }
+
+        $geoComuneId = $this->resolveGeoComuneId($data['citta'] ?? ($struttura->citta ?? null));
+        if (!$geoComuneId) {
+            $path = $file->store('uploads/loghi_citta', 'public');
+            $data['logo_citta'] = 'storage/'.$path;
+            return $data;
+        }
+
+        $comune = GeoComune::find($geoComuneId);
+        if (!$comune) {
+            $path = $file->store('uploads/loghi_citta', 'public');
+            $data['logo_citta'] = 'storage/'.$path;
+            return $data;
+        }
+
+        $slug = Str::slug($comune->nome) ?: 'comune';
+        $filename = $comune->id.'-'.$slug.'.'.$file->getClientOriginalExtension();
+        Storage::disk('public')->makeDirectory('geo_comuni/logo');
+        $storedPath = $file->storeAs('geo_comuni/logo', $filename, 'public');
+        $publicPath = 'storage/'.$storedPath;
+
+        $oldComuneLogo = $comune->logo_citta ?? $comune->logo;
+        if ($oldComuneLogo && $oldComuneLogo !== $publicPath) {
+            $this->deleteStoredLogo($oldComuneLogo);
+        }
+
+        $comune->update([
+            'logo_citta' => $publicPath,
+        ]);
+
+        $data['logo_citta'] = $publicPath;
+
         return $data;
+    }
+
+    private function deleteStoredLogo(?string $path): void
+    {
+        $path = trim((string) $path);
+        if ($path === '') {
+            return;
+        }
+
+        $relative = str_starts_with($path, 'storage/') ? substr($path, 8) : $path;
+        if ($relative !== '') {
+            Storage::disk('public')->delete($relative);
+        }
     }
 
     private function enrichGeoDefaults(array $data): array

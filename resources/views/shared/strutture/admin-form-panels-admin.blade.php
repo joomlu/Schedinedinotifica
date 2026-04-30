@@ -234,6 +234,10 @@
                                                 </div>
                                             @endif
                                         </div>
+                                        <div class="mt-3">
+                                            <label class="form-label">Logo città</label>
+                                            <input type="file" name="logo_citta_upload" class="form-control" accept="image/png,image/jpeg,image/webp">
+                                        </div>
                                     </div>
                                     <div class="col-lg-9">
                                         <div class="row g-3">
