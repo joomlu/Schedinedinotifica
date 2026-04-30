@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Superadmin;
 use App\Http\Controllers\Controller;
 use App\Models\AdminFatturazione;
 use App\Models\AdminServizio;
+use App\Models\CrmLead;
 use App\Models\GeoComune;
 use App\Models\GeoNazione;
 use App\Models\GeoProvincia;
 use App\Models\GeoRegione;
+use App\Models\LicenzaAssegnazione;
 use App\Models\Proprietario;
 use App\Models\Struttura;
 use App\Models\User;
+use App\Services\CestinoService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -126,6 +129,29 @@ class AmministratoriController extends Controller
         $admin->save();
 
         return redirect()->route('superadmin.amministratori.index')->with('status', 'Amministratore disabilitato');
+    }
+
+    public function destroy(int $id)
+    {
+        $admin = User::query()
+            ->whereIn('ruolo', ['admin', 'admin_disabled'])
+            ->findOrFail($id);
+
+        DB::transaction(function () use ($admin) {
+            app(CestinoService::class)->archiveModel($admin, [
+                'entity_type' => 'Amministratore',
+                'source' => 'Amministratori',
+                'title' => $admin->name ?: ($admin->username ?: $admin->email),
+            ]);
+
+            Proprietario::query()->where('admin_id', $admin->id)->update(['admin_id' => null]);
+            LicenzaAssegnazione::query()->where('admin_id', $admin->id)->update(['admin_id' => null]);
+            CrmLead::query()->where('assigned_admin_id', $admin->id)->update(['assigned_admin_id' => null]);
+
+            $admin->delete();
+        });
+
+        return redirect()->route('superadmin.amministratori.index')->with('status', 'Amministratore spostato nel cestino.');
     }
 
     public function createProforma(Request $request, int $id)
@@ -329,8 +355,8 @@ class AmministratoriController extends Controller
             [
                 'name' => ['required', 'string', 'max:255'],
                 'display_name' => ['nullable', 'string', 'max:120'],
-                'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($admin?->id)],
-                'username' => ['required', 'string', 'max:120', Rule::unique('users', 'username')->ignore($admin?->id)],
+                'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->whereNull('deleted_at')->ignore($admin?->id)],
+                'username' => ['required', 'string', 'max:120', Rule::unique('users', 'username')->whereNull('deleted_at')->ignore($admin?->id)],
                 'password' => $passwordRule,
                 'telefono' => ['nullable', 'string', 'max:40'],
                 'qualifica' => ['nullable', 'string', 'max:120'],

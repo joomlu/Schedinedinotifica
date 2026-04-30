@@ -157,6 +157,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/amministratori/{id}/edit', [AmministratoriController::class, 'edit'])->name('superadmin.amministratori.edit');
         Route::put('/amministratori/{id}', [AmministratoriController::class, 'update'])->name('superadmin.amministratori.update');
         Route::post('/amministratori/{id}/disable', [AmministratoriController::class, 'disable'])->name('superadmin.amministratori.disable');
+        Route::delete('/amministratori/{id}', [AmministratoriController::class, 'destroy'])->name('superadmin.amministratori.destroy');
         Route::get('/amministratori/{id}/proforme/create', [AmministratoriController::class, 'createProforma'])->name('superadmin.amministratori.proforme.create');
         Route::post('/amministratori/{id}/proforme', [AmministratoriController::class, 'storeProforma'])->name('superadmin.amministratori.proforme.store');
         Route::get('/amministratori/{id}/proforme/{fatturazione}', [AmministratoriController::class, 'showProforma'])->name('superadmin.amministratori.proforme.show');
@@ -173,6 +174,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/proprietari/{id}/edit', [SuperadminProprietariController::class, 'edit'])->name('superadmin.proprietari.edit');
         Route::put('/proprietari/{id}', [SuperadminProprietariController::class, 'update'])->name('superadmin.proprietari.update');
         Route::post('/proprietari/{id}/disable', [SuperadminProprietariController::class, 'disable'])->name('superadmin.proprietari.disable');
+        Route::delete('/proprietari/{id}', [SuperadminProprietariController::class, 'destroy'])->name('superadmin.proprietari.destroy');
         Route::put('/proprietari/{id}/assegna-admin', [SuperadminProprietariController::class, 'assegnaAdmin'])->name('superadmin.proprietari.assegna_admin');
         Route::get('/proprietari/{id}/proforme/create', [SuperadminProprietariController::class, 'createProforma'])->name('superadmin.proprietari.proforme.create');
         Route::post('/proprietari/{id}/proforme', [SuperadminProprietariController::class, 'storeProforma'])->name('superadmin.proprietari.proforme.store');
@@ -189,6 +191,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/strutture/{id}/edit', [SuperadminStruttureController::class, 'edit'])->name('superadmin.strutture.edit');
         Route::put('/strutture/{id}', [SuperadminStruttureController::class, 'update'])->name('superadmin.strutture.update');
         Route::put('/strutture/{id}/servizio', [SuperadminStruttureController::class, 'updateServizio'])->name('superadmin.strutture.servizio');
+        Route::delete('/strutture/{id}', [SuperadminStruttureController::class, 'destroy'])->name('superadmin.strutture.destroy');
 
         Route::get('/articoli', [ArticoliController::class, 'index'])->name('superadmin.articoli.index');
         Route::post('/articoli', [ArticoliController::class, 'store'])->name('superadmin.articoli.store');
@@ -230,6 +233,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/proprietari/{id}/edit', [AdminProprietariController::class, 'edit'])->name('admin.proprietari.edit');
         Route::put('/proprietari/{id}', [AdminProprietariController::class, 'update'])->name('admin.proprietari.update');
         Route::post('/proprietari/{id}/disable', [AdminProprietariController::class, 'disable'])->name('admin.proprietari.disable');
+        Route::delete('/proprietari/{id}', [AdminProprietariController::class, 'destroy'])->name('admin.proprietari.destroy');
         Route::get('/proprietari/{id}/proforme/create', [AdminProprietariController::class, 'createProforma'])->name('admin.proprietari.proforme.create');
         Route::post('/proprietari/{id}/proforme', [AdminProprietariController::class, 'storeProforma'])->name('admin.proprietari.proforme.store');
         Route::get('/proprietari/{id}/proforme/{fatturazione}', [AdminProprietariController::class, 'showProforma'])->name('admin.proprietari.proforme.show');
@@ -245,6 +249,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/strutture/{id}/edit', [AdminStruttureController::class, 'edit'])->name('admin.strutture.edit');
         Route::put('/strutture/{id}', [AdminStruttureController::class, 'update'])->name('admin.strutture.update');
         Route::put('/strutture/{id}/servizio', [AdminStruttureController::class, 'updateServizio'])->name('admin.strutture.servizio');
+        Route::delete('/strutture/{id}', [AdminStruttureController::class, 'destroy'])->name('admin.strutture.destroy');
 
         Route::get('/pagamenti', [AdminPagamentiController::class, 'index'])->name('admin.pagamenti.index');
         Route::post('/pagamenti/licenze', [AdminPagamentiController::class, 'storeAssegnazione'])->name('admin.pagamenti.licenze.store');

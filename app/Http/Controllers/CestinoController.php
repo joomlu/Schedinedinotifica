@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 class CestinoController extends Controller
 {
     private const SECTION_MAP = [
+        'Amministratore' => 'Configurazioni',
+        'Proprietario' => 'Configurazioni',
+        'Struttura' => 'Configurazioni',
         'Cliente' => 'Clienti',
         'Schedina' => 'Schedine',
         'Arrivo' => 'Arrivi',
@@ -95,7 +98,7 @@ class CestinoController extends Controller
             }))
             ->findOrFail($id);
 
-        $item->delete();
+        app(CestinoService::class)->purgeItem($item);
 
         return redirect()->back()->with('success', 'Elemento eliminato definitivamente dal cestino.');
     }

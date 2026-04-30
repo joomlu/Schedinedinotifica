@@ -132,6 +132,17 @@
                                         <input type="text" name="nome_struttura" class="form-control" value="{{ old('nome_struttura', $struttura->nome_struttura) }}" required {{ $isCreateMode ? '' : 'readonly' }}>
                                     </div>
                                     <div class="col-12">
+                                        <label class="form-label">Logo struttura</label>
+                                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                                            @if($struttura->logo)
+                                                <img src="{{ asset($struttura->logo) }}" alt="Logo struttura" class="img-thumbnail" style="max-height: 72px;">
+                                            @else
+                                                <div class="border rounded-3 px-3 py-2 text-muted bg-light-subtle">Nessun logo struttura</div>
+                                            @endif
+                                            <input type="file" name="logo" class="form-control" accept="image/png,image/jpeg,image/webp">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
                                         @if($isCreateMode)
                                             <x-geo.italia
                                                 prefix="struttura_geo_admin"

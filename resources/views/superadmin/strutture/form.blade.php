@@ -7,7 +7,7 @@
         @slot('title') {{ $mode === 'create' ? 'Nuova struttura' : 'Modifica struttura' }} @endslot
     @endcomponent
 
-    <form method="POST" action="{{ $mode === 'create' ? route('superadmin.strutture.store') : route('superadmin.strutture.update', $struttura->id) }}">
+    <form method="POST" action="{{ $mode === 'create' ? route('superadmin.strutture.store') : route('superadmin.strutture.update', $struttura->id) }}" enctype="multipart/form-data">
         @csrf
         @if($mode === 'edit')
             @method('PUT')

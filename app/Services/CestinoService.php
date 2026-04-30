@@ -5,9 +5,11 @@ namespace App\Services;
 use App\Models\CestinoItem;
 use App\Models\Componenti;
 use App\Models\Customers;
+use App\Models\CrmLead;
 use App\Models\Gruppo;
 use App\Models\LicenzaAssegnazione;
 use App\Models\LicenzaArticolo;
+use App\Models\Proprietario;
 use App\Models\RilasciatoDa;
 use App\Models\Schedina;
 use App\Models\SchedinaCamera;
@@ -17,7 +19,9 @@ use App\Models\TipoCliente;
 use App\Models\TipoDocumento;
 use App\Models\TipoVia;
 use App\Models\Titolo;
+use App\Models\User;
 use App\Models\WebCheckinRichiesta;
+use App\Models\CustomerImportBatch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -61,7 +65,9 @@ class CestinoService
                 TipoDocumento::class => $this->restoreSimpleModel(TipoDocumento::class, $payload),
                 RilasciatoDa::class => $this->restoreSimpleModel(RilasciatoDa::class, $payload),
                 TassaEsenzione::class => $this->restoreSimpleModel(TassaEsenzione::class, $payload),
-                Struttura::class => $this->restoreSimpleModel(Struttura::class, $payload),
+                User::class => $this->restoreAmministratore($payload),
+                Proprietario::class => $this->restoreProprietario($payload),
+                Struttura::class => $this->restoreStruttura($payload),
                 LicenzaArticolo::class => $this->restoreSimpleModel(LicenzaArticolo::class, $payload),
                 LicenzaAssegnazione::class => $this->restoreSimpleModel(LicenzaAssegnazione::class, $payload),
                 default => throw new \RuntimeException('Ripristino non supportato per questa entità.'),
@@ -70,6 +76,24 @@ class CestinoService
             $item->delete();
 
             return $restored;
+        });
+    }
+
+    public function purgeItem(CestinoItem $item): void
+    {
+        DB::transaction(function () use ($item) {
+            $class = $item->entity_class;
+            $originalId = $item->original_id;
+
+            if (in_array($class, [User::class, Proprietario::class, Struttura::class], true) && $originalId) {
+                $record = $class::query()->withoutGlobalScopes()->find($originalId);
+
+                if ($record && method_exists($record, 'forceDelete')) {
+                    $record->forceDelete();
+                }
+            }
+
+            $item->delete();
         });
     }
 
@@ -122,6 +146,33 @@ class CestinoService
             ];
         }
 
+        if ($model instanceof User) {
+            return [
+                'title' => $model->name ?: ($model->username ?: $model->email),
+                'code' => $model->username ?: $model->email,
+                'source' => 'Amministratori',
+                'payload' => array_merge($model->getAttributes(), [
+                    'managed_proprietario_ids' => $model->proprietariGestiti()->withoutGlobalScopes()->pluck('id')->all(),
+                    'licenza_admin_ids' => LicenzaAssegnazione::query()->withoutGlobalScopes()->where('admin_id', $model->id)->pluck('id')->all(),
+                    'assigned_crm_lead_ids' => CrmLead::query()->withoutGlobalScopes()->where('assigned_admin_id', $model->id)->pluck('id')->all(),
+                ]),
+            ];
+        }
+
+        if ($model instanceof Proprietario) {
+            return [
+                'title' => $model->nome ?: 'Proprietario',
+                'code' => (string) $model->id,
+                'source' => 'Proprietari',
+                'payload' => array_merge($model->toArray(), [
+                    'struttura_ids' => $model->strutture()->withoutGlobalScopes()->pluck('id')->all(),
+                    'user_ids' => $model->utenti()->withoutGlobalScopes()->pluck('id')->all(),
+                    'licenza_ids' => LicenzaAssegnazione::query()->withoutGlobalScopes()->where('proprietario_id', $model->id)->pluck('id')->all(),
+                    'import_batch_ids' => CustomerImportBatch::query()->withoutGlobalScopes()->where('proprietario_id', $model->id)->pluck('id')->all(),
+                ]),
+            ];
+        }
+
         if ($model instanceof Componenti) {
             $title = trim(($model->surname ?? '') . ' ' . ($model->name ?? ''));
 
@@ -140,7 +191,11 @@ class CestinoService
                 'title' => $model->nome_struttura,
                 'code' => (string) $model->id,
                 'source' => 'Strutture',
-                'payload' => $model->toArray(),
+                'payload' => array_merge($model->toArray(), [
+                    'access_user_ids' => User::query()->withoutGlobalScopes()->where('struttura_id', $model->id)->pluck('id')->all(),
+                    'licenza_ids' => LicenzaAssegnazione::query()->withoutGlobalScopes()->where('struttura_id', $model->id)->pluck('id')->all(),
+                    'crm_lead_ids' => CrmLead::query()->withoutGlobalScopes()->where('struttura_id', $model->id)->pluck('id')->all(),
+                ]),
             ];
         }
 
@@ -272,6 +327,116 @@ class CestinoService
         return $componente;
     }
 
+    private function restoreAmministratore(array $payload): User
+    {
+        $proprietarioIds = Arr::pull($payload, 'managed_proprietario_ids', []);
+        $licenzaIds = Arr::pull($payload, 'licenza_admin_ids', []);
+        $crmLeadIds = Arr::pull($payload, 'assigned_crm_lead_ids', []);
+
+        /** @var User $admin */
+        $admin = $this->restoreSoftDeletedModel(User::class, $payload);
+
+        Proprietario::query()->withoutGlobalScopes()
+            ->whereIn('id', $proprietarioIds)
+            ->whereNull('admin_id')
+            ->update(['admin_id' => $admin->id]);
+
+        LicenzaAssegnazione::query()->withoutGlobalScopes()
+            ->whereIn('id', $licenzaIds)
+            ->whereNull('admin_id')
+            ->update(['admin_id' => $admin->id]);
+
+        CrmLead::query()->withoutGlobalScopes()
+            ->whereIn('id', $crmLeadIds)
+            ->whereNull('assigned_admin_id')
+            ->update(['assigned_admin_id' => $admin->id]);
+
+        return $admin;
+    }
+
+    private function restoreProprietario(array $payload): Proprietario
+    {
+        $strutturaIds = Arr::pull($payload, 'struttura_ids', []);
+        $userIds = Arr::pull($payload, 'user_ids', []);
+        $licenzaIds = Arr::pull($payload, 'licenza_ids', []);
+        $importBatchIds = Arr::pull($payload, 'import_batch_ids', []);
+
+        /** @var Proprietario $proprietario */
+        $proprietario = $this->restoreSoftDeletedModel(Proprietario::class, $payload);
+
+        Struttura::query()->withoutGlobalScopes()
+            ->whereIn('id', $strutturaIds)
+            ->whereNull('proprietario_id')
+            ->update(['proprietario_id' => $proprietario->id]);
+
+        User::query()->withoutGlobalScopes()
+            ->whereIn('id', $userIds)
+            ->whereNull('proprietario_id')
+            ->update(['proprietario_id' => $proprietario->id]);
+
+        LicenzaAssegnazione::query()->withoutGlobalScopes()
+            ->whereIn('id', $licenzaIds)
+            ->whereNull('proprietario_id')
+            ->update(['proprietario_id' => $proprietario->id]);
+
+        CustomerImportBatch::query()->withoutGlobalScopes()
+            ->whereIn('id', $importBatchIds)
+            ->whereNull('proprietario_id')
+            ->update(['proprietario_id' => $proprietario->id]);
+
+        return $proprietario;
+    }
+
+    private function restoreStruttura(array $payload): Struttura
+    {
+        $userIds = Arr::pull($payload, 'access_user_ids', []);
+        $licenzaIds = Arr::pull($payload, 'licenza_ids', []);
+        $crmLeadIds = Arr::pull($payload, 'crm_lead_ids', []);
+
+        /** @var Struttura $struttura */
+        $struttura = $this->restoreSoftDeletedModel(Struttura::class, $payload);
+
+        User::query()->withoutGlobalScopes()
+            ->whereIn('id', $userIds)
+            ->whereNull('struttura_id')
+            ->update(['struttura_id' => $struttura->id]);
+
+        LicenzaAssegnazione::query()->withoutGlobalScopes()
+            ->whereIn('id', $licenzaIds)
+            ->whereNull('struttura_id')
+            ->update(['struttura_id' => $struttura->id]);
+
+        CrmLead::query()->withoutGlobalScopes()
+            ->whereIn('id', $crmLeadIds)
+            ->whereNull('struttura_id')
+            ->update(['struttura_id' => $struttura->id]);
+
+        return $struttura;
+    }
+
+    private function restoreSoftDeletedModel(string $class, array $payload): Model
+    {
+        $model = new $class();
+        $data = Arr::only($payload, array_merge(['id'], $model->getFillable()));
+        $id = isset($payload['id']) ? (int) $payload['id'] : null;
+
+        if ($id) {
+            $existing = $this->baseQueryForClass($class)->find($id);
+            if ($existing) {
+                if (method_exists($existing, 'trashed') && $existing->trashed()) {
+                    $existing->restore();
+                }
+
+                $existing->fill(Arr::except($data, ['id']));
+                $existing->save();
+
+                return $existing->fresh();
+            }
+        }
+
+        return $this->restoreSimpleModel($class, $payload);
+    }
+
     private function restoreSimpleModel(string $class, array $payload, array $options = []): Model
     {
         /** @var Model $model */
@@ -304,10 +469,13 @@ class CestinoService
     private function resolveEntityType(Model $model): string
     {
         return match (class_basename($model)) {
+            'User' => 'Amministratore',
+            'Proprietario' => 'Proprietario',
             'Customers' => 'Cliente',
             'Schedina' => 'Schedina',
             'WebCheckinRichiesta' => 'Web Check-in',
             'Componenti' => 'Componente',
+            'Struttura' => 'Struttura',
             'Gruppo' => 'Gruppo',
             'Titolo' => 'Titolo',
             'TipoCliente' => 'Tipo Cliente',

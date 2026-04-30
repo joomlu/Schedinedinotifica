@@ -48,6 +48,11 @@
                                 <td>{{ $struttura->avviso ?: 'attivo' }}</td>
                                 <td class="text-end">
                                     <a href="{{ route('admin.strutture.edit', $struttura->id) }}" class="btn btn-sm btn-outline-secondary">Modifica</a>
+                                    <form action="{{ route('admin.strutture.destroy', $struttura->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'la struttura ' . $struttura->nome_struttura }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Cestino</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

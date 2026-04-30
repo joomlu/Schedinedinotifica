@@ -253,11 +253,11 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <label class="form-label">Lat.</label>
-                                        <input type="text" name="latitudine" class="form-control" value="{{ old('latitudine', $proprietario->latitudine) }}">
+                                        <input type="text" id="proprietario_latitudine" name="latitudine" class="form-control" value="{{ old('latitudine', $proprietario->latitudine) }}">
                                     </div>
                                     <div class="col-lg-2">
                                         <label class="form-label">Lng.</label>
-                                        <input type="text" name="longitudine" class="form-control" value="{{ old('longitudine', $proprietario->longitudine) }}">
+                                        <input type="text" id="proprietario_longitudine" name="longitudine" class="form-control" value="{{ old('longitudine', $proprietario->longitudine) }}">
                                     </div>
                                 </div>
                             </div>
@@ -528,6 +528,91 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const comuneSelect = document.getElementById('proprietario_geo_comune_id');
+    const capSelect = document.getElementById('proprietario_geo_cap');
+    const latInput = document.getElementById('proprietario_latitudine');
+    const lngInput = document.getElementById('proprietario_longitudine');
+
+    if ((!comuneSelect && !capSelect) || !latInput || !lngInput) {
+        return;
+    }
+
+    const fillCoordinates = function (data) {
+        const comune = data && data.comune ? data.comune : null;
+
+        if (!comune) {
+            return;
+        }
+
+        if (comuneSelect && comune.id && String(comuneSelect.value) !== String(comune.id)) {
+            comuneSelect.value = comune.id;
+            comuneSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        if (comune.lat !== null && comune.lat !== undefined && String(comune.lat).trim() !== '') {
+            latInput.value = comune.lat;
+        }
+
+        if (comune.lng !== null && comune.lng !== undefined && String(comune.lng).trim() !== '') {
+            lngInput.value = comune.lng;
+        }
+    };
+
+    const resolveGeo = function (query) {
+        fetch(`/geo/resolve?${query}`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => response.ok ? response.json() : null)
+            .then(data => {
+                if (!data) {
+                    return;
+                }
+                fillCoordinates(data);
+            })
+            .catch(() => {});
+    };
+
+    const applyComuneGeo = function () {
+        if (!comuneSelect || !comuneSelect.value) {
+            return;
+        }
+
+        resolveGeo(`geo_comune_id=${encodeURIComponent(comuneSelect.value)}`);
+    };
+
+    const applyCapGeo = function () {
+        if (!capSelect || !capSelect.value) {
+            return;
+        }
+
+        resolveGeo(`cap=${encodeURIComponent(capSelect.value)}`);
+    };
+
+    if (comuneSelect) {
+        comuneSelect.addEventListener('change', applyComuneGeo);
+    }
+
+    if (capSelect) {
+        capSelect.addEventListener('change', applyCapGeo);
+    }
+
+    if ((!latInput.value || latInput.value.trim() === '') || (!lngInput.value || lngInput.value.trim() === '')) {
+        if (capSelect && capSelect.value) {
+            applyCapGeo();
+        } else {
+            applyComuneGeo();
+        }
+    }
+});
+</script>
+@endpush
 
 @once
     @push('scripts')

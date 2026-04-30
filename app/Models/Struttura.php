@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Proprietario;
 
 class Struttura extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'struttura';
 
@@ -149,5 +150,28 @@ class Struttura extends Model
     public function getLogoCittaAttribute($value)
     {
         return $value ?? ($this->attributes['logo_città'] ?? null);
+    }
+
+    public function getLogoAttribute($value)
+    {
+        $value = trim((string) $value);
+
+        if ($value === '') {
+            return null;
+        }
+
+        if (preg_match('#^https?://#i', $value) || str_starts_with($value, '/')) {
+            return $value;
+        }
+
+        if (str_starts_with($value, 'storage/uploads/loghi/')) {
+            return $value;
+        }
+
+        if (str_starts_with($value, 'uploads/loghi/')) {
+            return 'storage/'.$value;
+        }
+
+        return $value;
     }
 }

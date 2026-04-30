@@ -103,6 +103,11 @@
                                         @csrf
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Disabilita</button>
                                     </form>
+                                    <form action="{{ route('superadmin.amministratori.destroy', $admin->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'l amministratore ' . ($admin->name ?: $admin->email) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Cestino</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

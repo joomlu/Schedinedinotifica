@@ -42,6 +42,11 @@
                                         @csrf
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Disabilita</button>
                                     </form>
+                                    <form action="{{ route('admin.proprietari.destroy', $proprietario->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il proprietario ' . $proprietario->nome }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Cestino</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

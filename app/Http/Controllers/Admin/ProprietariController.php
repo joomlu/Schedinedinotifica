@@ -8,12 +8,15 @@ use App\Models\GeoNazione;
 use App\Models\GeoProvincia;
 use App\Models\GeoRegione;
 use App\Models\AdminServizio;
+use App\Models\CustomerImportBatch;
 use App\Models\LicenzaAssegnazione;
 use App\Models\Proprietario;
 use App\Models\ProprietarioFatturazione;
 use App\Models\ProprietarioFatturazioneRiga;
+use App\Models\Struttura;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Services\CestinoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -121,6 +124,28 @@ class ProprietariController extends Controller
         $proprietario->save();
 
         return redirect()->route('admin.proprietari.index')->with('status', 'Proprietario disabilitato');
+    }
+
+    public function destroy(Request $request, int $id)
+    {
+        $proprietario = Proprietario::where('admin_id', $request->user()->id)->findOrFail($id);
+
+        DB::transaction(function () use ($proprietario) {
+            app(CestinoService::class)->archiveModel($proprietario, [
+                'entity_type' => 'Proprietario',
+                'source' => 'Proprietari',
+                'title' => $proprietario->nome,
+            ]);
+
+            Struttura::query()->where('proprietario_id', $proprietario->id)->update(['proprietario_id' => null]);
+            User::query()->where('proprietario_id', $proprietario->id)->update(['proprietario_id' => null]);
+            LicenzaAssegnazione::query()->where('proprietario_id', $proprietario->id)->update(['proprietario_id' => null]);
+            CustomerImportBatch::query()->where('proprietario_id', $proprietario->id)->update(['proprietario_id' => null]);
+
+            $proprietario->delete();
+        });
+
+        return redirect()->route('admin.proprietari.index')->with('status', 'Proprietario spostato nel cestino.');
     }
 
     public function showProforma(Request $request, int $id, int $fatturazione)
@@ -361,21 +386,26 @@ class ProprietariController extends Controller
                 'required_with:accesso_email,accesso_password,accesso_nome',
                 'string',
                 'max:120',
-                Rule::unique('users', 'username')->ignore($accessoPrincipale?->id),
+                Rule::unique('users', 'username')->whereNull('deleted_at')->ignore($accessoPrincipale?->id),
             ],
             'accesso_email' => [
                 'nullable',
                 'email',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($accessoPrincipale?->id),
+                Rule::unique('users', 'email')->whereNull('deleted_at')->ignore($accessoPrincipale?->id),
             ],
             'accesso_password' => ['nullable', 'string', 'min:8'],
+        ], [
+            'accesso_username.required_with' => 'Inserisci lo username di accesso del proprietario.',
+            'accesso_username.unique' => 'Lo username di accesso e gia utilizzato da un altro utente.',
+            'accesso_email.unique' => 'L email di accesso e gia utilizzata da un altro utente.',
+            'accesso_password.min' => 'La password di accesso deve contenere almeno 8 caratteri.',
         ]);
     }
 
     private function extractProprietarioPayload(array $data, ?Proprietario $proprietario = null): array
     {
-        return $this->normalizeGeoLabels([
+        return $this->enrichGeoDefaults($this->normalizeGeoLabels([
             'nome' => $data['nome'],
             'email' => $data['email'] ?? ($proprietario->email ?? null),
             'telefono' => $data['telefono'] ?? ($proprietario->telefono ?? null),
@@ -397,7 +427,48 @@ class ProprietariController extends Controller
             'longitudine' => $data['longitudine'] ?? ($proprietario->longitudine ?? null),
             'note' => $data['note'] ?? ($proprietario->note ?? null),
             'note_amministrative' => $data['note_amministrative'] ?? ($proprietario->note_amministrative ?? null),
-        ]);
+        ]));
+    }
+
+    private function enrichGeoDefaults(array $data): array
+    {
+        $geoComuneId = $this->resolveGeoComuneId($data['citta'] ?? null);
+        if (!$geoComuneId) {
+            return $data;
+        }
+
+        $comune = GeoComune::query()->find($geoComuneId, ['id', 'lat', 'lng']);
+        if (!$comune) {
+            return $data;
+        }
+
+        if (blank($data['latitudine'] ?? null) && !blank($comune->lat)) {
+            $data['latitudine'] = $comune->lat;
+        }
+
+        if (blank($data['longitudine'] ?? null) && !blank($comune->lng)) {
+            $data['longitudine'] = $comune->lng;
+        }
+
+        return $data;
+    }
+
+    private function resolveGeoComuneId(?string $value): ?int
+    {
+        $label = trim((string) $value);
+        if ($label === '') {
+            return null;
+        }
+
+        if (ctype_digit($label)) {
+            return GeoComune::query()->whereKey((int) $label)->value('id');
+        }
+
+        return GeoComune::query()
+            ->where('nome', $label)
+            ->orWhere('nome', str_replace('-', ' ', $label))
+            ->orWhere('nome', str_replace(' ', '-', $label))
+            ->value('id');
     }
 
     private function resolveAccessUser(Proprietario $proprietario): ?User
@@ -406,12 +477,40 @@ class ProprietariController extends Controller
             return null;
         }
 
-        return User::query()
-            ->where('proprietario_id', $proprietario->id)
-            ->where('ruolo', 'proprietario')
-            ->orderByDesc('attivo')
-            ->orderBy('id')
-            ->first();
+        $accesso = $proprietario->accessoPrincipale()->first();
+        if ($accesso) {
+            return $accesso;
+        }
+
+        $email = trim((string) ($proprietario->email ?? ''));
+        if ($email !== '') {
+            $byEmail = User::query()
+                ->where('ruolo', 'proprietario')
+                ->where('email', $email)
+                ->orderByDesc('attivo')
+                ->orderByDesc('id')
+                ->first();
+
+            if ($byEmail) {
+                return $byEmail;
+            }
+        }
+
+        $name = trim((string) ($proprietario->nome ?? ''));
+        if ($name !== '') {
+            $matches = User::query()
+                ->where('ruolo', 'proprietario')
+                ->where('name', $name)
+                ->orderByDesc('attivo')
+                ->orderByDesc('id')
+                ->get();
+
+            if ($matches->count() === 1) {
+                return $matches->first();
+            }
+        }
+
+        return null;
     }
 
     private function syncProprietarioAccessUser(Proprietario $proprietario, array $data): void

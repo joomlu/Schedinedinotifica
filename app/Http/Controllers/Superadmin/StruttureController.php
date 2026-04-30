@@ -8,6 +8,7 @@ use App\Models\LicenzaAssegnazione;
 use App\Models\Proprietario;
 use App\Models\Struttura;
 use App\Models\User;
+use App\Models\CrmLead;
 use App\Models\GeoNazione;
 use App\Models\GeoRegione;
 use App\Models\GeoProvincia;
@@ -17,6 +18,7 @@ use App\Models\StrutturaZona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Services\CestinoService;
 use Illuminate\Validation\Rule;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
@@ -49,6 +51,7 @@ class StruttureController extends Controller
     {
         $data = $this->validateFormData($request);
 
+        $data = $this->storeStructureLogoUpload($request, $data);
         $struttura = Struttura::create($this->extractStrutturaPayload($data));
         $this->syncPrimaryLicenzaFromStruttura($struttura, $struttura->proprietario?->admin_id, $data['articolo_id'] ?? null);
         $this->syncPrimaryAccessUser($struttura, $data);
@@ -73,6 +76,7 @@ class StruttureController extends Controller
         $struttura = Struttura::findOrFail($id);
         $data = $this->validateFormData($request, $this->resolvePrimaryAccessUser($struttura));
 
+        $data = $this->storeStructureLogoUpload($request, $data, $struttura);
         $struttura->update($this->extractStrutturaPayload($data, $struttura));
         $struttura = $struttura->fresh();
         $this->syncPrimaryLicenzaFromStruttura($struttura, $struttura->proprietario?->admin_id, $data['articolo_id'] ?? null);
@@ -104,6 +108,27 @@ class StruttureController extends Controller
         $this->syncPrimaryLicenzaFromStruttura($struttura->fresh(), $struttura->proprietario?->admin_id, $data['articolo_id'] ?? null);
 
         return redirect()->route('superadmin.strutture.index')->with('status', 'Servizio aggiornato');
+    }
+
+    public function destroy(int $id)
+    {
+        $struttura = Struttura::findOrFail($id);
+
+        \DB::transaction(function () use ($struttura) {
+            app(CestinoService::class)->archiveModel($struttura, [
+                'entity_type' => 'Struttura',
+                'source' => 'Strutture',
+                'title' => $struttura->nome_struttura,
+            ]);
+
+            User::query()->where('struttura_id', $struttura->id)->update(['struttura_id' => null]);
+            LicenzaAssegnazione::query()->where('struttura_id', $struttura->id)->update(['struttura_id' => null]);
+            CrmLead::query()->where('struttura_id', $struttura->id)->update(['struttura_id' => null]);
+
+            $struttura->delete();
+        });
+
+        return redirect()->route('superadmin.strutture.index')->with('status', 'Struttura spostata nel cestino.');
     }
 
     private function buildFormViewData(Struttura $struttura, $proprietari, string $mode): array
@@ -139,6 +164,7 @@ class StruttureController extends Controller
                 'cap' => ['nullable', 'string', 'max:20'],
                 'latitudine' => ['nullable', 'string', 'max:50'],
                 'longitudine' => ['nullable', 'string', 'max:50'],
+                'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
                 'logo_citta' => ['nullable', 'string', 'max:255'],
                 'articolo_id' => ['nullable', 'integer', 'exists:licenza_articoli,id'],
                 'proprietario_id' => ['nullable', 'integer', 'exists:proprietari,id'],
@@ -156,13 +182,13 @@ class StruttureController extends Controller
                     'required_with:accesso_email,accesso_password,accesso_nome',
                     'string',
                     'max:120',
-                    Rule::unique('users', 'username')->ignore($accessoPrincipale?->id),
+                    Rule::unique('users', 'username')->whereNull('deleted_at')->ignore($accessoPrincipale?->id),
                 ],
                 'accesso_email' => [
                     'nullable',
                     'email',
                     'max:255',
-                    Rule::unique('users', 'email')->ignore($accessoPrincipale?->id),
+                    Rule::unique('users', 'email')->whereNull('deleted_at')->ignore($accessoPrincipale?->id),
                 ],
                 'accesso_password' => [
                     Rule::requiredIf(function () use ($request, $accessoPrincipale) {
@@ -204,6 +230,7 @@ class StruttureController extends Controller
             'cap' => $data['cap'] ?? ($struttura->cap ?? null),
             'latitudine' => $data['latitudine'] ?? ($struttura->latitudine ?? null),
             'longitudine' => $data['longitudine'] ?? ($struttura->longitudine ?? null),
+            'logo' => $data['logo'] ?? ($struttura->logo ?? null),
             'logo_citta' => $data['logo_citta'] ?? ($struttura->logo_citta ?? null),
             'proprietario_id' => $data['proprietario_id'] ?? ($struttura->proprietario_id ?? null),
             'attiva' => (bool) ($data['attiva'] ?? ($struttura->attiva ?? true)),
@@ -215,6 +242,18 @@ class StruttureController extends Controller
             'stato_pagamento' => $data['stato_pagamento'] ?? ($struttura->stato_pagamento ?? 'pagato'),
             'numero_ricevuta_pagamento' => $data['numero_ricevuta_pagamento'] ?? ($struttura->numero_ricevuta_pagamento ?? null),
         ]));
+    }
+
+    private function storeStructureLogoUpload(Request $request, array $data, ?Struttura $struttura = null): array
+    {
+        if (!$request->hasFile('logo')) {
+            return $data;
+        }
+
+        $path = $request->file('logo')->store('uploads/loghi', 'public');
+        $data['logo'] = 'storage/'.$path;
+
+        return $data;
     }
 
     private function enrichGeoDefaults(array $data): array
