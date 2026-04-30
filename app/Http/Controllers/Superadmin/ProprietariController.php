@@ -164,7 +164,7 @@ class ProprietariController extends Controller
 
     public function showProforma(int $id, int $fatturazione)
     {
-        $proprietario = Proprietario::findOrFail($id);
+        $proprietario = Proprietario::withTrashed()->findOrFail($id);
         $proforma = $this->findOwnedProforma($proprietario, $fatturazione);
 
         return view('superadmin.proprietari.proforma-show', [
@@ -178,7 +178,7 @@ class ProprietariController extends Controller
 
     public function createProforma(Request $request, int $id)
     {
-        $proprietario = Proprietario::findOrFail($id);
+        $proprietario = Proprietario::withTrashed()->findOrFail($id);
 
         return view('superadmin.proprietari.proforma-form', [
             'proprietario' => $proprietario,
@@ -193,7 +193,7 @@ class ProprietariController extends Controller
 
     public function storeProforma(Request $request, int $id)
     {
-        $proprietario = Proprietario::findOrFail($id);
+        $proprietario = Proprietario::withTrashed()->findOrFail($id);
         $payload = $this->validateAndBuildProformaPayload($request, $proprietario);
 
         $proforma = DB::transaction(function () use ($proprietario, $request, $payload) {
@@ -233,7 +233,7 @@ class ProprietariController extends Controller
 
     public function editProforma(Request $request, int $id, int $fatturazione)
     {
-        $proprietario = Proprietario::findOrFail($id);
+        $proprietario = Proprietario::withTrashed()->findOrFail($id);
         $proforma = $this->findOwnedProforma($proprietario, $fatturazione);
 
         return view('superadmin.proprietari.proforma-form', [
@@ -249,7 +249,7 @@ class ProprietariController extends Controller
 
     public function updateProforma(Request $request, int $id, int $fatturazione)
     {
-        $proprietario = Proprietario::findOrFail($id);
+        $proprietario = Proprietario::withTrashed()->findOrFail($id);
         $proforma = $this->findOwnedProforma($proprietario, $fatturazione);
         $payload = $this->validateAndBuildProformaPayload($request, $proprietario);
 
@@ -286,7 +286,7 @@ class ProprietariController extends Controller
 
     public function closeProforma(Request $request, int $id, int $fatturazione)
     {
-        $proprietario = Proprietario::findOrFail($id);
+        $proprietario = Proprietario::withTrashed()->findOrFail($id);
         $proforma = $this->findOwnedProforma($proprietario, $fatturazione);
         $proforma->update(['stato' => 'chiusa']);
 
@@ -296,7 +296,7 @@ class ProprietariController extends Controller
 
     public function markFatturata(Request $request, int $id, int $fatturazione)
     {
-        $proprietario = Proprietario::findOrFail($id);
+        $proprietario = Proprietario::withTrashed()->findOrFail($id);
         $proforma = $this->findOwnedProforma($proprietario, $fatturazione);
         $data = $request->validate([
             'numero_fattura' => ['required', 'string', 'max:80'],
@@ -314,7 +314,7 @@ class ProprietariController extends Controller
 
     public function printProforma(int $id, int $fatturazione)
     {
-        $proprietario = Proprietario::findOrFail($id);
+        $proprietario = Proprietario::withTrashed()->findOrFail($id);
         $proforma = $this->findOwnedProforma($proprietario, $fatturazione);
 
         return view('superadmin.proprietari.proforma-print', [

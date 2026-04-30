@@ -10,6 +10,7 @@
     $articoliCatalogo = collect($articoliCatalogo ?? []);
     $servizioCorrenteId = (int) old('articolo_id', optional($licenzeStorico->firstWhere('articolo.parent_id', null))->articolo_id ?? 0);
     $statoPagamentoLabel = in_array($statoPagamento, ['ok', 'pagato'], true) ? 'Pagato' : ucfirst(str_replace('_', ' ', $statoPagamento));
+    $activeTab = request('tab', old('messaggio_offline') || old('messaggio_avviso') || old('scadenza_servizio') ? 'servizio' : (old('accesso_username') || old('accesso_password') ? 'accesso' : 'dati'));
 @endphp
 
 <div class="card border-0 shadow-sm mb-4">
@@ -81,15 +82,36 @@
     </div>
 </div>
 
-<div class="row g-4">
-    <div class="col-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-light-subtle border-0">
-                <h5 class="card-title mb-1">Dati struttura</h5>
-                <p class="text-muted mb-0">Anagrafica e riferimento geografico amministrativo della struttura.</p>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <div class="step-arrow-nav mb-4">
+            <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {{ $activeTab === 'dati' ? 'active' : '' }}" data-bs-toggle="pill" data-bs-target="#struttura-superadmin-pane-dati" type="button" role="tab">Dati struttura</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {{ $activeTab === 'servizio' ? 'active' : '' }}" data-bs-toggle="pill" data-bs-target="#struttura-superadmin-pane-servizio" type="button" role="tab">Servizio</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {{ $activeTab === 'accesso' ? 'active' : '' }}" data-bs-toggle="pill" data-bs-target="#struttura-superadmin-pane-accesso" type="button" role="tab">Accesso</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {{ $activeTab === 'storico' ? 'active' : '' }}" data-bs-toggle="pill" data-bs-target="#struttura-superadmin-pane-storico" type="button" role="tab">Storico</button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-pane fade {{ $activeTab === 'dati' ? 'show active' : '' }}" id="struttura-superadmin-pane-dati" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-light-subtle border-0">
+                                <h5 class="card-title mb-1">Dati struttura</h5>
+                                <p class="text-muted mb-0">Anagrafica e riferimento geografico amministrativo della struttura.</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
                     <div class="col-12">
                         <label class="form-label">Nome struttura</label>
                         <input type="text" name="nome_struttura" class="form-control" value="{{ old('nome_struttura', $struttura->nome_struttura) }}" required>
@@ -133,84 +155,86 @@
                         />
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-light-subtle border-0">
-                <h5 class="card-title mb-1">Dettaglio indirizzo</h5>
-                <p class="text-muted mb-0">Zona, località e dati di contesto visivo della struttura.</p>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-lg-12">
-                        <div class="border rounded-3 p-3">
-                            <div class="text-center mb-3">
-                                @if($struttura->logo_citta)
-                                    <img src="{{ asset($struttura->logo_citta) }}" alt="Logo città" class="img-fluid mb-2" style="max-height: 78px;">
-                                @endif
                             </div>
-                            <div class="row g-3">
-                                <div class="col-md-4">
-                                    <label class="form-label">Zona</label>
-                                    <x-ui.select name="zona" data-allow-manual="1">
-                                        <option value=""></option>
-                                        @foreach($zoneOptions as $zonaOption)
-                                            <option value="{{ $zonaOption }}" @selected(old('zona', $struttura->zona) === $zonaOption)>{{ $zonaOption }}</option>
-                                        @endforeach
-                                        @php $zonaCorrente = old('zona', $struttura->zona); @endphp
-                                        @if($zonaCorrente && !$zoneOptions->contains($zonaCorrente))
-                                            <option value="{{ $zonaCorrente }}" selected>{{ $zonaCorrente }}</option>
-                                        @endif
-                                    </x-ui.select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Quartiere / Località</label>
-                                    <x-ui.select name="localita" data-allow-manual="1">
-                                        <option value=""></option>
-                                        @foreach($localitaOptions as $localitaOption)
-                                            <option value="{{ $localitaOption }}" @selected(old('localita', $struttura->localita) === $localitaOption)>{{ $localitaOption }}</option>
-                                        @endforeach
-                                        @php $localitaCorrente = old('localita', $struttura->localita); @endphp
-                                        @if($localitaCorrente && !$localitaOptions->contains($localitaCorrente))
-                                            <option value="{{ $localitaCorrente }}" selected>{{ $localitaCorrente }}</option>
-                                        @endif
-                                    </x-ui.select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Numero civico</label>
-                                    <input type="text" name="numero_civico" class="form-control" value="{{ old('numero_civico', $struttura->numero_civico) }}">
-                                </div>
-                                <div class="col-md-8">
-                                    <label class="form-label">Indirizzo</label>
-                                    <input type="text" name="indirizzo" class="form-control" value="{{ old('indirizzo', $struttura->indirizzo) }}">
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label">Latitudine</label>
-                                    <input type="text" name="latitudine" class="form-control" value="{{ old('latitudine', $struttura->latitudine) }}">
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label">Longitudine</label>
-                                    <input type="text" name="longitudine" class="form-control" value="{{ old('longitudine', $struttura->longitudine) }}">
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-light-subtle border-0">
+                                <h5 class="card-title mb-1">Dettaglio indirizzo</h5>
+                                <p class="text-muted mb-0">Zona, località e dati di contesto visivo della struttura.</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-lg-12">
+                                        <div class="border rounded-3 p-3">
+                                            <div class="text-center mb-3">
+                                                @if($struttura->logo_citta)
+                                                    <img src="{{ asset($struttura->logo_citta) }}" alt="Logo città" class="img-fluid mb-2" style="max-height: 78px;">
+                                                @endif
+                                            </div>
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Zona</label>
+                                                    <x-ui.select name="zona" data-allow-manual="1">
+                                                        <option value=""></option>
+                                                        @foreach($zoneOptions as $zonaOption)
+                                                            <option value="{{ $zonaOption }}" @selected(old('zona', $struttura->zona) === $zonaOption)>{{ $zonaOption }}</option>
+                                                        @endforeach
+                                                        @php $zonaCorrente = old('zona', $struttura->zona); @endphp
+                                                        @if($zonaCorrente && !$zoneOptions->contains($zonaCorrente))
+                                                            <option value="{{ $zonaCorrente }}" selected>{{ $zonaCorrente }}</option>
+                                                        @endif
+                                                    </x-ui.select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Quartiere / Località</label>
+                                                    <x-ui.select name="localita" data-allow-manual="1">
+                                                        <option value=""></option>
+                                                        @foreach($localitaOptions as $localitaOption)
+                                                            <option value="{{ $localitaOption }}" @selected(old('localita', $struttura->localita) === $localitaOption)>{{ $localitaOption }}</option>
+                                                        @endforeach
+                                                        @php $localitaCorrente = old('localita', $struttura->localita); @endphp
+                                                        @if($localitaCorrente && !$localitaOptions->contains($localitaCorrente))
+                                                            <option value="{{ $localitaCorrente }}" selected>{{ $localitaCorrente }}</option>
+                                                        @endif
+                                                    </x-ui.select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Numero civico</label>
+                                                    <input type="text" name="numero_civico" class="form-control" value="{{ old('numero_civico', $struttura->numero_civico) }}">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <label class="form-label">Indirizzo</label>
+                                                    <input type="text" name="indirizzo" class="form-control" value="{{ old('indirizzo', $struttura->indirizzo) }}">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="form-label">Latitudine</label>
+                                                    <input type="text" name="latitudine" class="form-control" value="{{ old('latitudine', $struttura->latitudine) }}">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="form-label">Longitudine</label>
+                                                    <input type="text" name="longitudine" class="form-control" value="{{ old('longitudine', $struttura->longitudine) }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="col-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-light-subtle border-0">
-                <h5 class="card-title mb-1">Proprietà e servizio</h5>
-                <p class="text-muted mb-0">Assetto amministrativo della struttura, stato del servizio e controllo pagamenti.</p>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
+            <div class="tab-pane fade {{ $activeTab === 'servizio' ? 'show active' : '' }}" id="struttura-superadmin-pane-servizio" role="tabpanel">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light-subtle border-0">
+                        <h5 class="card-title mb-1">Proprietà e servizio</h5>
+                        <p class="text-muted mb-0">Assetto amministrativo della struttura, stato del servizio e controllo pagamenti.</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label">Proprietario</label>
                         <x-ui.select name="proprietario_id">
@@ -276,18 +300,18 @@
                         <label class="form-label">Messaggio Avviso</label>
                         <textarea name="messaggio_avviso" class="form-control" rows="4" placeholder="Messaggio da mostrare se lo stato è sospeso o inattivo.">{{ old('messaggio_avviso', $struttura->messaggio_avviso) }}</textarea>
                     </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="col-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-light-subtle border-0">
-                <h5 class="card-title mb-1">Accesso struttura</h5>
-                <p class="text-muted mb-0">Credenziali principali di accesso al software della struttura, separate dalle credenziali operative interne.</p>
-            </div>
-            <div class="card-body">
+            <div class="tab-pane fade {{ $activeTab === 'accesso' ? 'show active' : '' }}" id="struttura-superadmin-pane-accesso" role="tabpanel">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light-subtle border-0">
+                        <h5 class="card-title mb-1">Accesso struttura</h5>
+                        <p class="text-muted mb-0">Credenziali principali di accesso al software della struttura, separate dalle credenziali operative interne.</p>
+                    </div>
+                    <div class="card-body">
                 @if($accessoPrincipale)
                     <div class="alert alert-success">
                         Accesso principale collegato:
@@ -325,17 +349,17 @@
                         </div>
                     </div>
                 </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<div class="card border-0 shadow-sm mt-4">
-    <div class="card-header bg-light-subtle border-0">
-        <h5 class="card-title mb-1">Storico licenze e pagamenti</h5>
-        <p class="text-muted mb-0">Storico amministrativo completo della struttura, con piano, scadenze e stato pagamento.</p>
-    </div>
-    <div class="card-body">
+            <div class="tab-pane fade {{ $activeTab === 'storico' ? 'show active' : '' }}" id="struttura-superadmin-pane-storico" role="tabpanel">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light-subtle border-0">
+                        <h5 class="card-title mb-1">Storico licenze e pagamenti</h5>
+                        <p class="text-muted mb-0">Storico amministrativo completo della struttura, con piano, scadenze e stato pagamento.</p>
+                    </div>
+                    <div class="card-body">
         @if($licenzeStorico->isEmpty())
             <div class="text-muted">Nessuna licenza storica disponibile per questa struttura.</div>
         @else
@@ -375,6 +399,10 @@
                 @endforeach
             </div>
         @endif
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

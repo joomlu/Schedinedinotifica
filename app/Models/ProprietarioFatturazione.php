@@ -45,7 +45,7 @@ class ProprietarioFatturazione extends Model
 
     public function proprietario()
     {
-        return $this->belongsTo(Proprietario::class, 'proprietario_id');
+        return $this->belongsTo(Proprietario::class, 'proprietario_id')->withTrashed();
     }
 
     public function creatore()
