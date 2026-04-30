@@ -48,11 +48,6 @@
                                     Inserisci il tuo indirizzo email e riceverai le istruzioni per reimpostare la password.
                                 </div>
                                 <div class="p-2">
-                                    @if (session('status'))
-                                        <div class="alert alert-success text-center mb-4" role="alert">
-                                            {{ session('status') }}
-                                        </div>
-                                    @endif
                                     <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
                                         @csrf
                                         <div class="mb-3">

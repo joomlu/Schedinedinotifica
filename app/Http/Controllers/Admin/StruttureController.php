@@ -17,6 +17,7 @@ use App\Models\GeoComuneCap;
 use App\Models\StrutturaZona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
@@ -125,6 +126,7 @@ class StruttureController extends Controller
 
     private function buildFormViewData(Struttura $struttura, $proprietari, string $mode): array
     {
+        $this->hydrateGeoLogo($struttura);
         $geoComuneId = $this->resolveGeoComuneId($struttura->citta);
 
         return [
@@ -180,12 +182,28 @@ class StruttureController extends Controller
                     'max:255',
                     Rule::unique('users', 'email')->ignore($accessoPrincipale?->id),
                 ],
-                'accesso_password' => ['nullable', 'string', 'min:8'],
+                'accesso_password' => [
+                    Rule::requiredIf(function () use ($request, $accessoPrincipale) {
+                        if ($accessoPrincipale) {
+                            return false;
+                        }
+
+                        return filled($request->input('accesso_username'))
+                            || filled($request->input('accesso_email'))
+                            || filled($request->input('accesso_nome'));
+                    }),
+                    'nullable',
+                    'string',
+                    'min:8',
+                ],
             ],
             [
                 'indirizzo.required' => 'Inserisci l\'indirizzo della struttura.',
+                'accesso_username.required_with' => 'Inserisci il nome di accesso principale della struttura.',
                 'accesso_username.unique' => 'Il nome di accesso e gia utilizzato da un altro utente.',
                 'accesso_email.unique' => 'L\'email di accesso e gia utilizzata da un altro utente.',
+                'accesso_password.required' => 'Inserisci una password per creare l\'accesso principale della struttura.',
+                'accesso_password.min' => 'La password di accesso deve contenere almeno 8 caratteri.',
             ]
         );
     }
@@ -395,7 +413,7 @@ class StruttureController extends Controller
         }
 
         if (blank($data['logo_citta'] ?? null)) {
-            $logoComune = $comune->logo_citta ?? $comune->logo ?? null;
+            $logoComune = $this->resolveComuneLogoPath($comune);
             if ($logoComune) {
                 $data['logo_citta'] = $logoComune;
             }
@@ -491,6 +509,70 @@ class StruttureController extends Controller
         return GeoComune::query()
             ->whereRaw('LOWER(nome) = ?', [mb_strtolower(trim((string) $value))])
             ->value('id');
+    }
+
+    private function hydrateGeoLogo(Struttura $struttura): void
+    {
+        if (filled($struttura->logo_citta)) {
+            return;
+        }
+
+        $geoComuneId = $this->resolveGeoComuneId($struttura->citta);
+        if (!$geoComuneId) {
+            return;
+        }
+
+        $comune = GeoComune::query()->find($geoComuneId, ['id', 'nome', 'logo_citta', 'logo']);
+        if (!$comune) {
+            return;
+        }
+
+        $logoComune = $this->resolveComuneLogoPath($comune);
+        if ($logoComune) {
+            $struttura->logo_citta = $logoComune;
+        }
+    }
+
+    private function resolveComuneLogoPath(GeoComune $comune): ?string
+    {
+        foreach ([$comune->logo_citta, $comune->logo] as $candidate) {
+            $normalized = $this->normalizeLogoPath($candidate);
+            if ($normalized) {
+                return $normalized;
+            }
+        }
+
+        $slug = trim((string) preg_replace('/[^a-z0-9]+/i', '-', mb_strtolower($comune->nome)), '-');
+        foreach (['png', 'jpg', 'jpeg', 'webp'] as $extension) {
+            $relative = 'geo_comuni/logo/'.$comune->id.'-'.$slug.'.'.$extension;
+            if (Storage::disk('public')->exists($relative)) {
+                return 'storage/'.$relative;
+            }
+        }
+
+        return null;
+    }
+
+    private function normalizeLogoPath(?string $path): ?string
+    {
+        $path = trim((string) $path);
+        if ($path === '') {
+            return null;
+        }
+
+        if (preg_match('#^https?://#i', $path) || str_starts_with($path, '/')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'storage/geo_comuni/logo/')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'geo_comuni/logo/')) {
+            return 'storage/'.$path;
+        }
+
+        return $path;
     }
 
     private function resolveStrutturaCityColumn(): string

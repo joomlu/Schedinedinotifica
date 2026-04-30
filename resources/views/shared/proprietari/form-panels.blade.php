@@ -289,6 +289,12 @@
                                     </div>
                                 @endif
 
+                                @if(old('accesso_password'))
+                                    <div class="alert alert-info">
+                                        Password di accesso inserita in questa modifica: al salvataggio verrà sostituita con quella nuova.
+                                    </div>
+                                @endif
+
                                 <div class="row g-3">
                                     <div class="col-lg-4">
                                         <label class="form-label">Nome accesso</label>

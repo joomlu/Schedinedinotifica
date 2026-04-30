@@ -94,6 +94,13 @@ class LoginController extends Controller
         app(AccessoOperativoService::class)->open($user, $request);
     }
 
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            'login' => 'Credenziali di accesso non riconosciute. Controlla username o email e password personale.',
+        ]);
+    }
+
     public function logout(Request $request)
     {
         app(AccessoOperativoService::class)->close($request->user(), $request);

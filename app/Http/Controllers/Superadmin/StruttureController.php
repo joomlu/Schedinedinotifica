@@ -16,6 +16,7 @@ use App\Models\GeoComuneCap;
 use App\Models\StrutturaZona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
@@ -107,6 +108,7 @@ class StruttureController extends Controller
 
     private function buildFormViewData(Struttura $struttura, $proprietari, string $mode): array
     {
+        $this->hydrateGeoLogo($struttura);
         $geoComuneId = $this->resolveGeoComuneId($struttura->citta);
 
         return [
@@ -137,6 +139,7 @@ class StruttureController extends Controller
                 'cap' => ['nullable', 'string', 'max:20'],
                 'latitudine' => ['nullable', 'string', 'max:50'],
                 'longitudine' => ['nullable', 'string', 'max:50'],
+                'logo_citta' => ['nullable', 'string', 'max:255'],
                 'articolo_id' => ['nullable', 'integer', 'exists:licenza_articoli,id'],
                 'proprietario_id' => ['nullable', 'integer', 'exists:proprietari,id'],
                 'attiva' => ['nullable', 'boolean'],
@@ -161,18 +164,34 @@ class StruttureController extends Controller
                     'max:255',
                     Rule::unique('users', 'email')->ignore($accessoPrincipale?->id),
                 ],
-                'accesso_password' => ['nullable', 'string', 'min:8'],
+                'accesso_password' => [
+                    Rule::requiredIf(function () use ($request, $accessoPrincipale) {
+                        if ($accessoPrincipale) {
+                            return false;
+                        }
+
+                        return filled($request->input('accesso_username'))
+                            || filled($request->input('accesso_email'))
+                            || filled($request->input('accesso_nome'));
+                    }),
+                    'nullable',
+                    'string',
+                    'min:8',
+                ],
             ],
             [
+                'accesso_username.required_with' => 'Inserisci il nome di accesso principale della struttura.',
                 'accesso_username.unique' => 'Il nome di accesso e gia utilizzato da un altro utente.',
                 'accesso_email.unique' => 'L\'email di accesso e gia utilizzata da un altro utente.',
+                'accesso_password.required' => 'Inserisci una password per creare l\'accesso principale della struttura.',
+                'accesso_password.min' => 'La password di accesso deve contenere almeno 8 caratteri.',
             ]
         );
     }
 
     private function extractStrutturaPayload(array $data, ?Struttura $struttura = null): array
     {
-        return $this->normalizeGeoLabels([
+        return $this->enrichGeoDefaults($this->normalizeGeoLabels([
             'nome_struttura' => $data['nome_struttura'],
             'nazione' => $data['nazione'] ?? ($struttura->nazione ?? null),
             'regione' => $data['regione'] ?? ($struttura->regione ?? null),
@@ -185,6 +204,7 @@ class StruttureController extends Controller
             'cap' => $data['cap'] ?? ($struttura->cap ?? null),
             'latitudine' => $data['latitudine'] ?? ($struttura->latitudine ?? null),
             'longitudine' => $data['longitudine'] ?? ($struttura->longitudine ?? null),
+            'logo_citta' => $data['logo_citta'] ?? ($struttura->logo_citta ?? null),
             'proprietario_id' => $data['proprietario_id'] ?? ($struttura->proprietario_id ?? null),
             'attiva' => (bool) ($data['attiva'] ?? ($struttura->attiva ?? true)),
             'avviso' => $data['avviso'] ?? ($struttura->avviso ?? 'attivo'),
@@ -194,7 +214,37 @@ class StruttureController extends Controller
             'piano' => $data['piano'] ?? ($struttura->piano ?? null),
             'stato_pagamento' => $data['stato_pagamento'] ?? ($struttura->stato_pagamento ?? 'pagato'),
             'numero_ricevuta_pagamento' => $data['numero_ricevuta_pagamento'] ?? ($struttura->numero_ricevuta_pagamento ?? null),
-        ]);
+        ]));
+    }
+
+    private function enrichGeoDefaults(array $data): array
+    {
+        $geoComuneId = $this->resolveGeoComuneId($data['citta'] ?? null);
+        if (!$geoComuneId) {
+            return $data;
+        }
+
+        $comune = GeoComune::query()->find($geoComuneId, ['id', 'nome', 'lat', 'lng', 'logo_citta', 'logo']);
+        if (!$comune) {
+            return $data;
+        }
+
+        if (blank($data['latitudine'] ?? null) && !blank($comune->lat)) {
+            $data['latitudine'] = $comune->lat;
+        }
+
+        if (blank($data['longitudine'] ?? null) && !blank($comune->lng)) {
+            $data['longitudine'] = $comune->lng;
+        }
+
+        if (blank($data['logo_citta'] ?? null)) {
+            $logoComune = $this->resolveComuneLogoPath($comune);
+            if ($logoComune) {
+                $data['logo_citta'] = $logoComune;
+            }
+        }
+
+        return $data;
     }
 
     private function loadLicenzeStorico(Struttura $struttura)
@@ -406,6 +456,70 @@ class StruttureController extends Controller
         return GeoComune::query()
             ->where('nome', (string) $value)
             ->value('id');
+    }
+
+    private function hydrateGeoLogo(Struttura $struttura): void
+    {
+        if (filled($struttura->logo_citta)) {
+            return;
+        }
+
+        $geoComuneId = $this->resolveGeoComuneId($struttura->citta);
+        if (!$geoComuneId) {
+            return;
+        }
+
+        $comune = GeoComune::query()->find($geoComuneId, ['id', 'nome', 'logo_citta', 'logo']);
+        if (!$comune) {
+            return;
+        }
+
+        $logoComune = $this->resolveComuneLogoPath($comune);
+        if ($logoComune) {
+            $struttura->logo_citta = $logoComune;
+        }
+    }
+
+    private function resolveComuneLogoPath(GeoComune $comune): ?string
+    {
+        foreach ([$comune->logo_citta, $comune->logo] as $candidate) {
+            $normalized = $this->normalizeLogoPath($candidate);
+            if ($normalized) {
+                return $normalized;
+            }
+        }
+
+        $slug = trim((string) preg_replace('/[^a-z0-9]+/i', '-', mb_strtolower($comune->nome)), '-');
+        foreach (['png', 'jpg', 'jpeg', 'webp'] as $extension) {
+            $relative = 'geo_comuni/logo/'.$comune->id.'-'.$slug.'.'.$extension;
+            if (Storage::disk('public')->exists($relative)) {
+                return 'storage/'.$relative;
+            }
+        }
+
+        return null;
+    }
+
+    private function normalizeLogoPath(?string $path): ?string
+    {
+        $path = trim((string) $path);
+        if ($path === '') {
+            return null;
+        }
+
+        if (preg_match('#^https?://#i', $path) || str_starts_with($path, '/')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'storage/geo_comuni/logo/')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'geo_comuni/logo/')) {
+            return 'storage/'.$path;
+        }
+
+        return $path;
     }
 
     private function resolveStrutturaCityColumn(): string

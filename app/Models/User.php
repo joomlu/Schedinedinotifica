@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\Auth\ResetPasswordNotification;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Struttura;
 use App\Models\Proprietario;
@@ -198,5 +199,10 @@ class User extends Authenticatable
             'reception' => 'Reception',
             default => 'Utente',
         };
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

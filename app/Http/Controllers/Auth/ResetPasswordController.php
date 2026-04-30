@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
 {
@@ -27,4 +29,19 @@ class ResetPasswordController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+
+    protected function sendResetResponse(Request $request, $response)
+    {
+        return redirect($this->redirectPath())
+            ->with('status', 'Password aggiornata correttamente. Ora puoi accedere con la nuova password.');
+    }
+
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        return back()
+            ->withInput($request->only('email'))
+            ->withErrors([
+                'email' => 'Il link di recupero non è valido o è scaduto. Richiedine uno nuovo.',
+            ]);
+    }
 }

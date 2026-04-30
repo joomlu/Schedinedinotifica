@@ -39,7 +39,13 @@
             </div>
         @empty
             <div class="col-12">
-                <div class="alert alert-warning">Nessuna struttura disponibile.</div>
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="alert alert-warning mb-0">
+                            Nessuna struttura associata a questo proprietario. Quando una struttura verrà collegata, comparirà qui e potrai accedere normalmente al servizio.
+                        </div>
+                    </div>
+                </div>
             </div>
         @endforelse
     </div>

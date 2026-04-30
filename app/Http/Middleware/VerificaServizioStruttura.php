@@ -28,6 +28,9 @@ class VerificaServizioStruttura
         }
 
         if ($currentId === null) {
+            if (method_exists($user, 'isProprietario') && $user->isProprietario()) {
+                return $next($request);
+            }
             abort(403, 'Servizio non disponibile per questa struttura.');
         }
 

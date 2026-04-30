@@ -26,6 +26,7 @@ class StrutturaController extends Controller
         $struttura = $currentId
             ? $strutturaQuery->findOrFail($currentId)
             : $strutturaQuery->firstOrFail();
+        $this->hydrateTipologiaCascadeIds($struttura);
         $tipologieGenerali = TipologiaGenerale::all();
         $tipologieStruttura = TipologiaStruttura::with('generale')->get();
         $classificazioni = Classificazione::with('tipologieStruttura')->get();
@@ -255,6 +256,39 @@ class StrutturaController extends Controller
         }
 
         return $data;
+    }
+
+    private function hydrateTipologiaCascadeIds(Struttura $struttura): void
+    {
+        if (blank($struttura->tipologia_generale_id) && filled($struttura->tipologia_generale)) {
+            $struttura->tipologia_generale_id = TipologiaGenerale::query()
+                ->whereRaw('LOWER(nome) = ?', [mb_strtolower(trim((string) $struttura->tipologia_generale))])
+                ->value('id');
+        }
+
+        if (blank($struttura->tipologia_struttura_id) && filled($struttura->tipologia_struttura)) {
+            $tipologiaQuery = TipologiaStruttura::query()
+                ->whereRaw('LOWER(nome) = ?', [mb_strtolower(trim((string) $struttura->tipologia_struttura))]);
+
+            if (filled($struttura->tipologia_generale_id)) {
+                $tipologiaQuery->where('tipologia_generale_id', $struttura->tipologia_generale_id);
+            }
+
+            $struttura->tipologia_struttura_id = $tipologiaQuery->value('id');
+        }
+
+        if (blank($struttura->classificazione_id) && filled($struttura->classificazione)) {
+            $classificazioneQuery = Classificazione::query()
+                ->whereRaw('LOWER(nome) = ?', [mb_strtolower(trim((string) $struttura->classificazione))]);
+
+            if (filled($struttura->tipologia_struttura_id)) {
+                $classificazioneQuery->whereHas('tipologieStruttura', function ($query) use ($struttura) {
+                    $query->where('tipologie_struttura.id', $struttura->tipologia_struttura_id);
+                });
+            }
+
+            $struttura->classificazione_id = $classificazioneQuery->value('id');
+        }
     }
 
     private function buildZoneOptions(Struttura $struttura, ?int $geoComuneId, string $tipo): array

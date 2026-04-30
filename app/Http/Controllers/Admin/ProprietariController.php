@@ -102,11 +102,16 @@ class ProprietariController extends Controller
         $proprietario = Proprietario::where('admin_id', $request->user()->id)->findOrFail($id);
 
         $data = $this->validateFormData($request, $this->resolveAccessUser($proprietario));
+        $passwordAggiornata = filled($data['accesso_password'] ?? null);
 
         $proprietario->update($this->extractProprietarioPayload($data, $proprietario));
         $this->syncProprietarioAccessUser($proprietario->fresh(), $data);
 
-        return redirect()->route('admin.proprietari.index')->with('status', 'Proprietario aggiornato');
+        return redirect()
+            ->route('admin.proprietari.index')
+            ->with('status', $passwordAggiornata
+                ? 'Proprietario aggiornato. Password di accesso salvata correttamente.'
+                : 'Proprietario aggiornato');
     }
 
     public function disable(Request $request, int $id)

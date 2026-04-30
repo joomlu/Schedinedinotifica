@@ -37,18 +37,16 @@ class ImpostaStrutturaCorrente
                 return $next($request); // evita errore se migrazioni non eseguite
             }
             $allowed = Struttura::where('proprietario_id', $user->proprietario_id)->pluck('id')->all();
+            if (empty($allowed)) {
+                $request->session()->forget('struttura_corrente_id');
+                StrutturaCorrente::clear();
+                return $next($request);
+            }
             $currentId = $this->resolveCurrentId($request, $allowed);
             if ($currentId === null) {
                 $request->session()->forget('struttura_corrente_id');
-                Auth::logout();
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
-
-                return redirect()
-                    ->route('login')
-                    ->withErrors([
-                        'login' => 'Nessuna struttura associata a questo proprietario.',
-                    ]);
+                StrutturaCorrente::clear();
+                return $next($request);
             }
             StrutturaCorrente::setId($currentId);
             return $next($request);
@@ -63,9 +61,16 @@ class ImpostaStrutturaCorrente
                     $q2->where('admin_id', $user->id);
                 })->orWhereNull('proprietario_id'); // legacy senza proprietario
             })->pluck('id')->all();
+            if (empty($allowed)) {
+                $request->session()->forget('struttura_corrente_id');
+                StrutturaCorrente::clear();
+                return $next($request);
+            }
             $currentId = $this->resolveCurrentId($request, $allowed);
             if ($currentId === null) {
-                abort(403, 'Nessuna struttura disponibile.');
+                $request->session()->forget('struttura_corrente_id');
+                StrutturaCorrente::clear();
+                return $next($request);
             }
             StrutturaCorrente::setId($currentId);
             return $next($request);

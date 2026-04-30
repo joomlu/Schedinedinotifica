@@ -294,15 +294,15 @@
                 <div class="row g-3">
                     <div class="col-md-4">
                         <label class="form-label">Nome accesso</label>
-                        <input type="text" name="accesso_nome" class="form-control" value="{{ $accessoNome }}" placeholder="Hotel K2 Accesso">
+                        <input type="text" name="accesso_nome" class="form-control" value="{{ $accessoNome }}" placeholder="Nome accesso struttura">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Username</label>
-                        <input type="text" name="accesso_username" class="form-control" value="{{ $accessoUsername }}" placeholder="hotelk2">
+                        <input type="text" name="accesso_username" class="form-control" value="{{ $accessoUsername }}" placeholder="username-struttura">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Email accesso</label>
-                        <input type="email" name="accesso_email" class="form-control" value="{{ $accessoEmail }}" placeholder="hotelk2@example.com">
+                        <input type="email" name="accesso_email" class="form-control" value="{{ $accessoEmail }}" placeholder="struttura@example.com">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Password</label>

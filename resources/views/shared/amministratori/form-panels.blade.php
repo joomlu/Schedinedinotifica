@@ -116,7 +116,8 @@
                             </div>
                             <div class="col-lg-4">
                                 <label class="form-label">Email</label>
-                                <input type="email" name="email" class="form-control" value="{{ old('email', $admin->email) }}">
+                                <input type="email" class="form-control" id="admin-email-profilo" value="{{ old('email', $admin->email) }}">
+                                <small class="text-muted">Si sincronizza con l'email di accesso.</small>
                             </div>
                             <div class="col-lg-4">
                                 <label class="form-label">Telefono</label>
@@ -225,7 +226,7 @@
                             </div>
                             <div class="col-lg-4">
                                 <label class="form-label">Email accesso</label>
-                                <input type="email" name="email" class="form-control" value="{{ old('email', $admin->email) }}">
+                                <input type="email" name="email" class="form-control" id="admin-email-accesso" value="{{ old('email', $admin->email) }}">
                             </div>
                             <div class="col-lg-4">
                                 <label class="form-label">Password @if($mode === 'edit')<small class="text-muted">(lascia vuota per non cambiarla)</small>@endif</label>
@@ -453,6 +454,29 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const profilo = document.getElementById('admin-email-profilo');
+            const accesso = document.getElementById('admin-email-accesso');
+
+            if (!profilo || !accesso) return;
+
+            const sync = (source, target) => {
+                target.value = source.value;
+            };
+
+            profilo.addEventListener('input', function () {
+                sync(profilo, accesso);
+            });
+
+            accesso.addEventListener('input', function () {
+                sync(accesso, profilo);
+            });
+        });
+    </script>
+@endpush
 
 @push('scripts')
 <script>

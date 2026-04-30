@@ -40,11 +40,6 @@
                                     <div class="mb-3">
                                         <label for="login" class="form-label">Nome di accesso o email <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control @error('login') is-invalid @enderror" value="{{ old('login') }}" id="login" name="login" placeholder="Inserisci il nome di accesso della struttura o l'email">
-                                        @error('login')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
                                     </div>
 
                                     <div class="mb-3">

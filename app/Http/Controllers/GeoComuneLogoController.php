@@ -37,6 +37,7 @@ class GeoComuneLogoController extends Controller
         $file = $data['logo'];
         $slug = Str::slug($comune->nome) ?: 'comune';
         $filename = $comune->id . '-' . $slug . '.' . $file->getClientOriginalExtension();
+        Storage::disk('public')->makeDirectory('geo_comuni/logo');
         $storedPath = $file->storeAs('geo_comuni/logo', $filename, 'public');
         $publicPath = 'storage/' . $storedPath;
 

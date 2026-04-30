@@ -49,6 +49,16 @@ class HomeController extends Controller
     public function root()
     {
         $user = Auth::user();
+        if ($user?->isProprietario() && !$user->struttura_id && !StrutturaCorrente::getId()) {
+            $hasStrutture = Proprietario::query()
+                ->whereKey($user->proprietario_id)
+                ->whereHas('strutture')
+                ->exists();
+
+            if (!$hasStrutture) {
+                return redirect()->route('proprietario.strutture.index');
+            }
+        }
         $strutturaId = StrutturaCorrente::getId() ?? $user?->struttura_id;
         $strutturaDashboard = $strutturaId
             ? Struttura::query()->with(['proprietario.admin'])->find($strutturaId)

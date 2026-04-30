@@ -10,6 +10,7 @@ use App\Models\GeoProvincia;
 use App\Models\GeoRegione;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Storage;
 
 class GeoController extends Controller
 {
@@ -419,6 +420,8 @@ class GeoController extends Controller
             return null;
         }
 
+        $logoComune = $this->resolveComuneLogoPath($comune);
+
         return [
             'id' => $comune->id,
             'nome' => $comune->nome,
@@ -427,8 +430,50 @@ class GeoController extends Controller
             'geo_provincia_id' => $comune->geo_provincia_id,
             'lat' => $comune->lat,
             'lng' => $comune->lng,
-            'logo_citta' => $comune->logo_citta,
-            'logo' => $comune->logo,
+            'logo_citta' => $logoComune,
+            'logo' => $logoComune ?: $comune->logo,
         ];
+    }
+
+    private function resolveComuneLogoPath(GeoComune $comune): ?string
+    {
+        foreach ([$comune->logo_citta, $comune->logo] as $candidate) {
+            $normalized = $this->normalizeLogoPath($candidate);
+            if ($normalized) {
+                return $normalized;
+            }
+        }
+
+        $slug = trim((string) preg_replace('/[^a-z0-9]+/i', '-', mb_strtolower($comune->nome)), '-');
+        foreach (['png', 'jpg', 'jpeg', 'webp'] as $extension) {
+            $relative = 'geo_comuni/logo/'.$comune->id.'-'.$slug.'.'.$extension;
+            if (Storage::disk('public')->exists($relative)) {
+                return 'storage/'.$relative;
+            }
+        }
+
+        return null;
+    }
+
+    private function normalizeLogoPath(?string $path): ?string
+    {
+        $path = trim((string) $path);
+        if ($path === '') {
+            return null;
+        }
+
+        if (preg_match('#^https?://#i', $path) || str_starts_with($path, '/')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'storage/geo_comuni/logo/')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'geo_comuni/logo/')) {
+            return 'storage/'.$path;
+        }
+
+        return $path;
     }
 }
