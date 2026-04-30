@@ -231,11 +231,14 @@
                             <div class="col-lg-4">
                                 <label class="form-label">Password @if($mode === 'edit')<small class="text-muted">(lascia vuota per non cambiarla)</small>@endif</label>
                                 <div class="input-group">
-                                    <input type="password" name="password" class="form-control" id="admin-password-input">
+                                    <input type="password" name="password" class="form-control" id="admin-password-input" autocomplete="new-password">
                                     <button class="btn btn-outline-secondary" type="button" id="toggle-admin-password">
                                         <i class="ri-eye-line"></i>
                                     </button>
                                 </div>
+                                @if(old('password'))
+                                    <small class="text-muted d-block mt-2">Password inserita in questa modifica: al salvataggio verrà sostituita con quella nuova.</small>
+                                @endif
                             </div>
                             <div class="col-lg-4">
                                 <label class="form-label">Stato accesso</label>

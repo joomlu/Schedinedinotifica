@@ -100,6 +100,7 @@ class AmministratoriController extends Controller
             ->findOrFail($id);
 
         $data = $this->validateFormData($request, $admin);
+        $passwordAggiornata = filled($data['password'] ?? null);
 
         $admin->fill($this->extractAdminPayload($data, $admin));
         if (filled($data['password'] ?? null)) {
@@ -109,7 +110,12 @@ class AmministratoriController extends Controller
 
         $this->syncAdminServizi($admin, $data['servizi'] ?? []);
 
-        return redirect()->route('superadmin.amministratori.index')->with('status', 'Amministratore aggiornato');
+        return redirect()->route('superadmin.amministratori.index')->with(
+            'status',
+            $passwordAggiornata
+                ? 'Amministratore aggiornato. Password di accesso salvata correttamente.'
+                : 'Amministratore aggiornato'
+        );
     }
 
     public function disable(int $id)
