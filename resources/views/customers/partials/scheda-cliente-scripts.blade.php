@@ -491,6 +491,7 @@
     const publishedCountrySelect = document.getElementById('customer-published-country');
     const publishedCityWrap = document.getElementById('customer-published-city-wrap');
     const publishedCitySelect = document.getElementById('customer-published-city');
+    let publishedCityVisible = null;
     const togglePublishedCity = () => {
         if (!publishedCountrySelect || !publishedCityWrap) return;
 
@@ -501,8 +502,13 @@
             .toLowerCase();
         const isItalia = country === 'italia' || country.includes('italia');
 
+        if (publishedCityVisible === isItalia) {
+            return;
+        }
+
+        publishedCityVisible = isItalia;
         publishedCityWrap.classList.toggle('d-none', !isItalia);
-        if (!isItalia && publishedCitySelect) {
+        if (!isItalia && publishedCitySelect && String(publishedCitySelect.value || '').trim() !== '') {
             publishedCitySelect.value = '';
             if (window.jQuery) {
                 window.jQuery(publishedCitySelect).val(null).trigger('change');
@@ -539,7 +545,6 @@
             }
         }, 0);
 
-        window.setInterval(togglePublishedCity, 250);
     }
 
     // Selecciona todos los inputs con la clase "number"
