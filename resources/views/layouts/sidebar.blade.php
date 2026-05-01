@@ -157,7 +157,7 @@
                         </a>
                         <div class="collapse menu-dropdown {{ $openSchedine ? 'show' : '' }}" id="sidebarTickets">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item"><a href="{{ route('schedina') }}" class="nav-link {{ $isRoute('schedina', 'schedina.*') ? 'active' : '' }}">Schedine liste</a></li>
+                                <li class="nav-item"><a href="{{ route('schedina') }}" class="nav-link {{ $isRoute('schedina', 'newschedina', 'schedina.store', 'schedina.copy', 'schedina.edit', 'schedina.update', 'schedina.destroy', 'schedina.tassa.print') ? 'active' : '' }}">Schedine liste</a></li>
                                 <li class="nav-item"><a href="{{ route('schedina.bozze') }}" class="nav-link {{ $isRoute('schedina.bozze') ? 'active' : '' }}">Schedine bozze</a></li>
                                 <li class="nav-item"><a href="{{ route('arrivals') }}" class="nav-link {{ $isRoute('arrivals', 'newarrival', 'arrival.*', 'a_schedina') ? 'active' : '' }}">Schedine arrivi</a></li>
                             </ul>
