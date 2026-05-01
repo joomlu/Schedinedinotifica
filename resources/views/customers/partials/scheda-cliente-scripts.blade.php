@@ -602,8 +602,8 @@
         const countryDocItalia = countryDocValue.normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes('italia');
         setRequired('city_doc_reg', isImportMode ? false : (isClienteCompleto && countryDocItalia));
 
-        setRequired('email', isImportMode ? false : (isRichiesta || isClienteCompleto));
-        setRequired('phone', isImportMode ? false : (isRichiesta || isClienteCompleto));
+        setRequired('email', false);
+        setRequired('phone', false);
 
         const aziendaEnabled = !!hasAziendaSwitch?.checked;
         setRequired('azienda', aziendaEnabled);

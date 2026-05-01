@@ -76,15 +76,15 @@
                                     <div class="modal-body">
                                         <div class="mb-3">
                                             <label for="livelloEdit{{ $gruppo->id }}" class="form-label">Livello</label>
-                                            <x-ui.select name="livello" id="livelloEdit{{ $gruppo->id }}" required data-field="livello">
+                                            <select name="livello" id="livelloEdit{{ $gruppo->id }}" class="form-select" required data-field="livello">
                                                 <option value="1" {{ $gruppo->livello == 1 ? 'selected' : '' }}>Gruppi I (livello 1)</option>
                                                 <option value="2" {{ $gruppo->livello == 2 ? 'selected' : '' }}>Gruppi II (livello 2)</option>
                                                 <option value="3" {{ $gruppo->livello == 3 ? 'selected' : '' }}>Gruppi III (livello 3)</option>
-                                            </x-ui.select>
+                                            </select>
                                         </div>
                                         <div class="mb-3">
                                             <label for="parentEdit{{ $gruppo->id }}" class="form-label">Padre</label>
-                                            <x-ui.select name="parent_id" id="parentEdit{{ $gruppo->id }}" data-field="parent" data-selected="{{ $gruppo->parent_id ?? '' }}">
+                                            <select name="parent_id" id="parentEdit{{ $gruppo->id }}" class="form-select" data-field="parent" data-selected="{{ $gruppo->parent_id ?? '' }}">
                                                 <option value="">Nessun padre</option>
                                                 @foreach($gruppiLivello1 as $g1)
                                                     <option value="{{ $g1->id }}" data-parent-level="1">{{ $g1->nome }}</option>
@@ -92,7 +92,7 @@
                                                 @foreach($gruppiLivello2 as $g2)
                                                     <option value="{{ $g2->id }}" data-parent-level="2">{{ $g2->nome }} ({{ $g2->parent?->nome }})</option>
                                                 @endforeach
-                                            </x-ui.select>
+                                            </select>
                                         </div>
                                         <div class="mb-3">
                                             <label for="nomeEdit{{ $gruppo->id }}" class="form-label">Nome</label>
@@ -131,15 +131,15 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="livelloCreate" class="form-label">Livello</label>
-                        <x-ui.select name="livello" id="livelloCreate" required data-field="livello">
+                        <select name="livello" id="livelloCreate" class="form-select" required data-field="livello">
                             <option value="1">Gruppi I (livello 1)</option>
                             <option value="2">Gruppi II (livello 2)</option>
                             <option value="3">Gruppi III (livello 3)</option>
-                        </x-ui.select>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="parentCreate" class="form-label">Padre</label>
-                        <x-ui.select name="parent_id" id="parentCreate" data-field="parent" data-selected="">
+                        <select name="parent_id" id="parentCreate" class="form-select" data-field="parent" data-selected="">
                             <option value="">Nessun padre</option>
                             @foreach($gruppiLivello1 as $g1)
                                 <option value="{{ $g1->id }}" data-parent-level="1">{{ $g1->nome }}</option>
@@ -147,7 +147,7 @@
                             @foreach($gruppiLivello2 as $g2)
                                 <option value="{{ $g2->id }}" data-parent-level="2">{{ $g2->nome }} ({{ $g2->parent?->nome }})</option>
                             @endforeach
-                        </x-ui.select>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="nomeCreate" class="form-label">Nome</label>
@@ -219,6 +219,12 @@
 
             if (levelSelect) {
                 levelSelect.addEventListener('change', updateParentSelect);
+            }
+
+            if (parentSelect) {
+                parentSelect.addEventListener('change', function () {
+                    parentSelect.dataset.selected = parentSelect.value || '';
+                });
             }
 
             updateParentSelect();

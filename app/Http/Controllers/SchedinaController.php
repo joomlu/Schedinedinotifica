@@ -308,7 +308,7 @@ class SchedinaController extends Controller
             $this->syncComponenti($schedina, $request);
 
             return redirect()
-                ->route('schedina.edit', ['id' => $schedina->id])
+                ->route('schedina.edit', ['id' => $schedina->id, 'active_tab' => 'schedina-step-comp'])
                 ->withInput($request->except(['componenti']))
                 ->with('success', 'Componente salvato con successo.')
                 ->with('active_tab', 'schedina-step-comp');

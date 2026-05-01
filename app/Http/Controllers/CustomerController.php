@@ -640,8 +640,8 @@ class CustomerController extends Controller
 
         if ($tipo === 'Richiesta') {
             return $this->withAziendaRules($base + [
-                'email' => ['required', 'email', 'max:191'],
-                'phone' => ['required', 'string', 'max:191', 'regex:/^[0-9\+\(\)\s\-\/]*$/'],
+                'email' => ['nullable', 'email', 'max:191'],
+                'phone' => ['nullable', 'string', 'max:191', 'regex:/^[0-9\+\(\)\s\-\/]*$/'],
             ]);
         }
 
@@ -654,8 +654,8 @@ class CustomerController extends Controller
             'typeaway' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:191'],
             'address' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:191'],
             'number' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:50'],
-            'email' => [$strictClienteMode ? 'required' : 'nullable', 'email', 'max:191'],
-            'phone' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:191', 'regex:/^[0-9\+\(\)\s\-\/]*$/'],
+            'email' => ['nullable', 'email', 'max:191'],
+            'phone' => ['nullable', 'string', 'max:191', 'regex:/^[0-9\+\(\)\s\-\/]*$/'],
             'country_reg' => ['required', 'string', 'max:191'],
             'region_reg' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:191'],
             'prov_reg' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:191'],
