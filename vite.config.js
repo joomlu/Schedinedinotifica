@@ -57,9 +57,10 @@ export default defineConfig({
                         fs.copy(folder.src_assets + 'fonts', folder.dist_assets + 'fonts'),
                         fs.copy(folder.src_assets + 'images', folder.dist_assets + 'images'),
                         fs.copy(folder.src_assets + 'json', folder.dist_assets + 'json'),
+                        fs.copy(folder.src_assets + 'js/pages', folder.dist_assets + 'js/pages'),
                     ]);
                 } catch (error) {
-                    console.error('Error copying assets:', error);
+                    throw new Error('Error copying assets', { cause: error });
                 }
 
                 const outputPath = path.resolve(__dirname, folder.dist_assets); // Adjust the destination path
@@ -80,11 +81,11 @@ export default defineConfig({
                             await fs.access(sourcePath, fs.constants.F_OK);
                             await fs.copy(sourcePath, destPackagePath);
                         } catch (error) {
-                            console.error(`Package ${packageName} does not exist.`);
+                            throw new Error(`Cannot copy package ${packageName}`, { cause: error });
                         }
                     }
                 } catch (error) {
-                    console.error('Error copying and renaming packages:', error);
+                    throw new Error('Error copying packages', { cause: error });
                 }
             },
         },

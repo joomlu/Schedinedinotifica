@@ -15,6 +15,10 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'qa_enabled' => env('QA_ENABLED', false),
+    'camere_reali_enabled' => env('CAMERE_REALI_ENABLED', false),
+    'camere_reali_strutture' => env('CAMERE_REALI_STRUTTURE', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

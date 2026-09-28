@@ -21,7 +21,7 @@ mysql -h 127.0.0.1 -P 3306 -u root
 ### Accedere al database schedinedinotifica come utente tanggo:
 ```bash
 mysql -h 127.0.0.1 -P 3306 -u tanggo -p
-# password: tanggo
+# password: <PASSWORD_PRIVATA>
 ```
 
 ### Comandi utili dentro MySQL:
@@ -64,13 +64,13 @@ php artisan config:cache
 ### Dump:
 ```bash
 mysqldump -h 127.0.0.1 -P 3306 -u tanggo -p schedinedinotifica > schedinedinotifica_dump.sql
-# password: tanggo
+# password: <PASSWORD_PRIVATA>
 ```
 
 ### Restore:
 ```bash
 mysql -h 127.0.0.1 -P 3306 -u tanggo -p schedinedinotifica < schedinedinotifica_dump.sql
-# password: tanggo
+# password: <PASSWORD_PRIVATA>
 ```
 
 ---
@@ -83,7 +83,7 @@ mysql -h 127.0.0.1 -P 3306 -u tanggo -p schedinedinotifica < schedinedinotifica_
 - Per il progetto Laravel, la connessione applicativa DEVE usare:
   - database: schedinedinotifica
   - utente: tanggo
-  - password: tanggo
+  - password: <PASSWORD_PRIVATA>
 
 Non modificare il codice del progetto riguardo a utenti, middleware, ecc. Queste sono solo credenziali da usare in .env e nei comandi MySQL manuali.
 

@@ -10,7 +10,7 @@ class QaEnabled
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $enabled = app()->environment() !== 'production' || (bool) env('QA_ENABLED', false);
+        $enabled = app()->environment() !== 'production' || (bool) config('app.qa_enabled', false);
 
         if (!$enabled) {
             abort(403, 'QA non abilitata in produzione.');

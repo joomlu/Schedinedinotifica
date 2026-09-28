@@ -111,8 +111,8 @@
 @endphp
 
 @php
-    $camereEnabledFlag = (bool) config('app.camere_reali_enabled', env('CAMERE_REALI_ENABLED', false));
-    $allowedStrutture = collect(explode(',', (string) env('CAMERE_REALI_STRUTTURE', '')))
+    $camereEnabledFlag = (bool) config('app.camere_reali_enabled', false);
+    $allowedStrutture = collect(explode(',', (string) config('app.camere_reali_strutture', '')))
         ->map(fn($v) => trim($v))
         ->filter();
     $currentStrutturaId = $strutturaInfo->id ?? null;

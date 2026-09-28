@@ -37,3 +37,18 @@ backups/
 
 # Legacy local SQL dumps
 /schedinedinotifica_backup.sql
+
+# Environment variants, credentials and runtime data
+.env.*
+!.env.example
+*.sql
+*.sql.gz
+*.pem
+*.key
+/public/error_log
+/public/images/[0-9]*
+/reference/vari/
+
+# Generated browser test reports
+/test-results/
+/playwright-report/

@@ -102,6 +102,3 @@
     <!-- end auth-page-wrapper -->
 @endsection
 @include('auth.partials.shared-style')
-@section('script')
-    <script src="{{ URL::asset('build/js/pages/eva-icon.init.js') }}"></script>
-@endsection

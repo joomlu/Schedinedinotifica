@@ -7,11 +7,10 @@ set -euo pipefail
 
 # Configuración
 PROJECT_NAME="Schedinedinotifica"
-PROJECT_DIR="/Users/jorgeluccitelli/Herd/Schedinedinotifica"
-BACKUP_DIR="/Users/jorgeluccitelli/Backups/Schedinedinotifica"
+PROJECT_DIR="${PROJECT_DIR:-$(cd -- "$(dirname -- "$0")" && pwd)}"
+BACKUP_DIR="${BACKUP_DIR:-$HOME/Backups/Schedinedinotifica}"
 DB_NAME="schedinedinotifica"
 DB_USER="tanggo"
-DB_PASS="tanggo"
 DB_HOST="127.0.0.1"
 DB_PORT="3306"
 DATE_TAG=$(date +"%Y-%m-%d_%H-%M")
@@ -42,11 +41,8 @@ echo "========================================================="
 
 # 1) Dump de la base de datos
 info "Creando dump MySQL..."
-if [ -n "$DB_PASS" ]; then
-  mysqldump -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" --routines --triggers --events "$DB_NAME" > "$SQL_FILE"
-else
-  mysqldump -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" "$DB_NAME" > "$SQL_FILE"
-fi
+# Prompt for the password; never store it in Git or expose it in process arguments.
+mysqldump -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p --single-transaction --routines --triggers --events "$DB_NAME" > "$SQL_FILE"
 ok "Dump creado: $SQL_FILE"
 
 # 2) Generar README con instrucciones completas

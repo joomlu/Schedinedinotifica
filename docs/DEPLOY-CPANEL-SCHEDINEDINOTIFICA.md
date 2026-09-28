@@ -198,7 +198,7 @@ DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=schedinedinotifica
 DB_USERNAME=tanggo
-DB_PASSWORD=tanggo
+DB_PASSWORD=<PASSWORD_PRIVATA>
 ```
 
 Importante:
