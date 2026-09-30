@@ -15,7 +15,7 @@ El destino está fijado a `/home/tanggosoftware/repos/schedinedinotifica`, rama 
 
 - Revisar/publicar el cambio mediante el flujo Git autorizado; registrar el SHA completo aprobado de main.
 - Tener un backup externo comprobado de MariaDB, datos persistentes y secretos. `--backup-ref` es una declaración del operador: el script no crea ni verifica backups.
-- Disponer de Python 3.9+ y completar la prueba aislada de Rocky 10 descrita en `docs/AUDIT_DEPLOY_SPANEL.md`. No ejecutarla en producción.
+- Disponer de Python 3.9+ y completar la prueba aislada de Rocky 10 descrita en `docs/ROCKY_PROCESS_ISOLATION.md`. El arnés puede ejecutarse en el mismo host únicamente desde el clon de pruebas y con Bubblewrap obligatorio; nunca desde la instalación productiva. **Aceptación pendiente:** Bubblewrap no está instalado en el VPS Rocky Linux 10.2 y se decidió no instalarlo para esta validación; no omitir ni debilitar este requisito.
 - Confirmar PHP-FPM como el usuario indicado, vhost/TLS y OPcache con revalidación de timestamps, o coordinar su recarga. Drenar peticiones/imports y procesos externos: el script no controla los ya iniciados.
 - La configuración web y CLI debe coincidir. La comprobación 503 por HTTPS directo al origen debe pasar antes de modificar código/dependencias.
 

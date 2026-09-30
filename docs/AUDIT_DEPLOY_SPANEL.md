@@ -1,6 +1,6 @@
 # Auditoría adversarial del deployment — 2026-09-30
 
-Alcance: `deploy.sh`, wrapper antiguo, supervisor Python, ejecutor Artisan, guard 503 y pruebas. Revisión del flujo completo de entrada/salida, errores, señales, operaciones Git y destinos de escritura. No se ha ejecutado deployment, commit, push, merge ni ninguna acción sobre SPanel. No se modificó/exportó la DB ni se cambió APP_KEY.
+Alcance: `deploy.sh`, wrapper antiguo, supervisor Python, ejecutor Artisan, guard 503 y pruebas. Revisión del flujo completo de entrada/salida, errores, señales, operaciones Git y destinos de escritura. No se ha ejecutado deployment, merge ni ninguna acción sobre SPanel. No se modificó/exportó la DB ni se cambió APP_KEY.
 
 El entry point sigue siendo Bash con `set -euo pipefail`. Las comprobaciones complejas se ejecutan en Python 3.9+ sin pipes de shell ni sustituciones de procesos; Artisan pasa por un ejecutor PHP que valida configuración antes de los providers y antes/después del comando. No se cambió lógica funcional Laravel ni los locks de dependencias.
 
@@ -46,25 +46,13 @@ La secuencia se detiene en el primer fallo; no reabre la aplicación. Los fallos
 
 ## Señales y prueba segura pendiente para Rocky Linux 10
 
+**Aceptación aislada de Rocky Linux 10 pendiente:** el propietario confirmó que Bubblewrap no está instalado en el VPS Rocky Linux 10.2 y se decidió no instalar paquetes del sistema en ese VPS para esta validación. No se ejecutarán estas pruebas allí sin ese requisito ni se reducirá el aislamiento. La aceptación requiere un entorno adecuado con Bubblewrap disponible y seis pruebas ejecutadas correctamente; las pruebas locales no la sustituyen.
+
 Localmente se han enviado SIGINT, SIGTERM y SIGHUP al supervisor con un hijo real en ejecución: salida 130, 143 y 129 respectivamente, hijo terminado, lock readquirible, `.env` intacto y guard presente. La comprobación HTTPS de recuperación está simulada en estas pruebas de señales; la respuesta PHP 503 se comprueba separadamente con HTTP real en loopback.
 
-`tests/Deployment/check_rocky10.py` es el arnés de aceptación para **una VM/contenedor desechable Rocky 10, sin producción**. Requiere Python 3.9+ y usuario sin privilegios; no requiere PHP, Composer, Node, Git remoto ni DB. Rechaza otros sistemas, root y cualquier máquina donde exista `/home/tanggosoftware/repos/schedinedinotifica`.
+Actualización del arnés para un clon aislado en el mismo host: ver `docs/ROCKY_PROCESS_ISOLATION.md`. El rechazo anterior basado en la existencia de producción se sustituye por aislamiento obligatorio de filesystem, PID y red mediante Bubblewrap. El launcher no consulta la ruta productiva. Solo permite el clon físico `/home/tanggosoftware/deploy-rocky-test`, crea allí todos los temporales y ejecuta seis tests de ProcessTests, sin EnvironmentTests ni discovery general.
 
-Copia solo cuatro archivos de código/fixtures a un temporal privado; no copia `.env`, vendor ni datos. Ejecuta 13 tests de procesos e integridad y exige cero pruebas omitidas. Nunca llama al entry point de deployment ni al preflight de producción.
-
-```bash
-# ÚNICAMENTE en la VM/contenedor de pruebas aislado, con la copia revisada del código.
-# No ejecutar en SPanel ni en el servidor de producción.
-python3 -B tests/Deployment/check_rocky10.py
-```
-
-Escenarios Linux adicionales:
-
-1. Un daemon con setsid sobrevive al comando padre: el subreaper debe adoptarlo, terminarlo y recogerlo.
-2. Doble fork + setsid + SIGTERM ignorado: tras SIGINT/SIGTERM/SIGHUP al supervisor, no debe quedar proceso vivo ni zombie; el lock debe poder adquirirse de nuevo.
-3. SIGKILL al supervisor: un hijo deliberadamente superviviente no debe retener el lock. El propio test recoge ese hijo al terminar. Este caso **no** demuestra que deployment pueda limpiar tras SIGKILL: no puede ejecutar su finalizador.
-
-Guardar la salida completa y versión del sistema; solo exit 0 y cero skips constituyen aceptación de esos escenarios. Se comprobó la sintaxis de los drivers anidados y que el arnés rechaza macOS. **No hay resultado real de Rocky 10 disponible en esta auditoría.**
+`--help` ahora muestra ayuda y termina sin comprobaciones del host ni ejecución. Las pruebas requieren `--run-process-tests`. Si faltan Bubblewrap, sus opciones o los namespaces, se aborta sin fallback fuera del sandbox. Esta modificación todavía no se ha validado ejecutando Bubblewrap en Rocky; los resultados de la suite anterior que figuran abajo son históricos y no certifican este nuevo aislamiento.
 
 ## Ejecución completa local
 
