@@ -3,11 +3,90 @@
 Fecha de auditoría: 2026-09-29. Flujo: **LOCAL → GitHub → nuevo SPanel**.
 El servidor anterior NO es fuente de código. Rama de preparación: `production-deploy`. El merge a main requiere aprobación expresa.
 
-## Resultado y límites
+## Actualizaciones conservadoras con deploy.sh (revisión 2026-09-30)
+
+Producción ya funciona con PHP 8.3, Laravel 11, MariaDB, Node 20 y npm 10. No repetir el traslado inicial ni importar la base. Las secciones de instalación siguientes son históricas; las actualizaciones usan exclusivamente este procedimiento, **todavía no ejecutado en SPanel**.
+
+`deploy.sh` mantiene `set -euo pipefail` y delega en un supervisor Python 3.9+ (biblioteca estándar) y un ejecutor PHP revisado. Se distribuyen **los cuatro archivos juntos**: `deploy.sh`, `scripts/deployment/deploy.py`, `scripts/deployment/artisan.php` y `scripts/deployment/maintenance.php`. El wrapper `scripts/deploy-production.sh` conserva el punto de entrada antiguo, sin migración automática.
+
+El destino está fijado a `/home/tanggosoftware/repos/schedinedinotifica`, rama `main`, Document Root `public`, usuario Unix/PHP-FPM `tanggosoftware`; requiere sesiones/cache en archivos, filesystem local, mantenimiento file y queue sync. Con workers, Redis o rutas distintas, se detiene: adaptar y revisar antes de desplegar. No cambia servicios, dueño, ACL ni SELinux.
+
+### Antes de aprobar el primer despliegue
+
+- Revisar/publicar el cambio mediante el flujo Git autorizado; registrar el SHA completo aprobado de main.
+- Tener un backup externo comprobado de MariaDB, datos persistentes y secretos. `--backup-ref` es una declaración del operador: el script no crea ni verifica backups.
+- Disponer de Python 3.9+ y completar la prueba aislada de Rocky 10 descrita en `docs/AUDIT_DEPLOY_SPANEL.md`. No ejecutarla en producción.
+- Confirmar PHP-FPM como el usuario indicado, vhost/TLS y OPcache con revalidación de timestamps, o coordinar su recarga. Drenar peticiones/imports y procesos externos: el script no controla los ya iniciados.
+- La configuración web y CLI debe coincidir. La comprobación 503 por HTTPS directo al origen debe pasar antes de modificar código/dependencias.
+
+### Instalar el bundle revisado y ejecutar
+
+Los comandos siguientes son **para uso futuro tras aprobación**, no se han ejecutado durante la auditoría. Instalar fuera del checkout evita cambiar un script mientras está ejecutándose. Reemplazar los valores de ejemplo:
+
+```bash
+set -euo pipefail
+umask 077
+cd /home/tanggosoftware/repos/schedinedinotifica
+REVIEWED_SHA=SHA_COMPLETO_DE_40_CARACTERES
+DEPLOY_BUNDLE="/home/tanggosoftware/bin/schedinedinotifica-deploy-$REVIEWED_SHA"
+git fetch --no-tags origin refs/heads/main
+FETCHED_SHA=$(git rev-parse FETCH_HEAD) || exit 1
+[[ "$FETCHED_SHA" == "$REVIEWED_SHA" ]] || exit 1
+mkdir -p /home/tanggosoftware/bin
+mkdir -m 700 "$DEPLOY_BUNDLE"
+mkdir -p "$DEPLOY_BUNDLE/scripts/deployment"
+for DEPLOY_FILE in deploy.sh scripts/deployment/deploy.py scripts/deployment/artisan.php scripts/deployment/maintenance.php; do
+    git show "$REVIEWED_SHA:$DEPLOY_FILE" > "$DEPLOY_BUNDLE/$DEPLOY_FILE"
+done
+chmod 700 "$DEPLOY_BUNDLE/deploy.sh"
+
+# PHP_BIN debe ser PHP CLI 8.3; COMPOSER_BIN, un PHP/phar y no wrapper shell.
+PHP_BIN=/RUTA/REAL/php83 COMPOSER_BIN=/RUTA/REAL/composer \
+    bash "$DEPLOY_BUNDLE/deploy.sh" --check --sha "$REVIEWED_SHA"
+
+# Solo después de revisar preflight y backup; no autoriza migraciones.
+PHP_BIN=/RUTA/REAL/php83 COMPOSER_BIN=/RUTA/REAL/composer \
+    bash "$DEPLOY_BUNDLE/deploy.sh" --execute --sha "$REVIEWED_SHA" \
+    --backup-ref SNAPSHOT_VERIFICADO
+```
+
+Si hay migraciones pendientes, preflight las enumera y devuelve error. Revisar cada `up()` y probar sobre una copia MariaDB. Únicamente tras aprobarlas añadir `--migrate`. Ejecuta solo la lista pendiente fijada, mediante `migrate --force --path=...`; nunca `fresh`, `refresh`, `rollback` o migraciones implícitas. `--check --migrate` sigue siendo solo preflight. No se considera `--pretend` una garantía: las migraciones contienen PHP ejecutable.
+
+Se usa HTTPS con certificado verificado y `curl --resolve` al origen `127.0.0.1`. Si el vhost escucha en otra IP del servidor, indicar `DEPLOY_ORIGIN_IP=IP_ORIGEN`; nunca una CDN. `--help` no toca Git ni la aplicación.
+
+### Secuencia y protecciones
+
+1. Calcula hashes de `.env` y del valor literal de APP_KEY **antes de ejecutar código del proyecto**. Exige exactamente una APP_KEY no vacía y rechaza symlink/hardlink. Nunca imprime, restaura ni genera claves. Comprueba los hashes antes/después de cada proceso del proyecto y al finalizar, incluidos errores y señales.
+2. Adquiere `flock` exclusivo en `.git/spanel-deploy.lock`, sin herencia a hijos. Exige Linux, usuario, rutas físicas, versiones, extensiones PHP y espacio libre mínimo de 2 GiB. Examina runtime y symlinks/hardlinks. Rechaza árbol/index sucio, archivos no ignorados y flags assume-unchanged/skip-worktree. No oculta cambios con stash/reset/clean.
+3. Ejecuta `git fetch`, fija `FETCH_HEAD` al SHA aprobado y exige fast-forward. Usa diff NUL con `--no-renames`: cada movimiento se analiza como eliminación y adición. Rechaza cambios en `.env`, todo `storage`, `public/images`, `public/storage`, `public/build`, `public/hot`, `bootstrap/cache`, dependencias generadas y `public/index.php`. También rechaza migraciones antiguas cambiadas/borradas, symlinks y submódulos en el candidato. Los uploads ya versionados modificados bloquean aunque estén en `.gitignore`.
+4. Extrae el candidato a un temporal privado, comprueba bundle idéntico, archivos necesarios, Composer/plataforma y contrato del build. Los hashes revisados de package.json, Vite, copiado de paquetes y verificación GEO fijan los destinos de escritura; cambiarlos requiere revisar/actualizar el supervisor. Rechaza rutas de instalación Composer personalizadas. PHP valida rutas de caché, vistas, sesiones, logs y filesystem, configuración activa y sin cachear, antes de providers y de cada comando. Verifica identidad de APP_KEY/configuración DB sin imprimirla.
+5. Comprueba login actual y consulta MariaDB/historial de migraciones en una transacción READ ONLY. No exporta ni modifica la DB. Este preflight arranca código confiable existente y la petición GET puede generar sesión/logs. Actualiza metadatos Git y puede escribir cache Composer; no simula todo el despliegue.
+6. Para ejecutar, revalida HEAD/árbol y coloca atómicamente un **guard PHP 503 independiente de vendor**, leído por el `public/index.php` revisado antes del autoload; después escribe el marcador `down`. No depende de `artisan down`. Verifica archivos y respuesta 503 con marcador único por HTTPS antes del merge fast-forward.
+7. Limpia config de forma controlada y ejecuta Composer `--no-plugins install --no-dev --no-scripts --optimize-autoloader --no-interaction --prefer-dist`; comprueba plataforma. Elimina únicamente los manifests `bootstrap/cache/packages.php` y `services.php` obsoletos y ejecuta `package:discover` con el guard de rutas. No ejecuta hooks Composer que puedan generar APP_KEY o publicar archivos. El ejecutor Artisan aplica umask 0077: la nueva cache de configuración, que contiene secretos, queda en modo 0600 para el mismo usuario PHP-FPM.
+8. Ejecuta `npm ci --include=dev --engine-strict --ignore-scripts --no-audit --no-fund`, y `npm --ignore-scripts run build` (con npm_config_ignore_scripts=true). El build explícito conserva clean/Vite/verificación GEO; se suprimen hooks automáticos. Verifica manifest y archivos; entonces elimina exclusivamente `node_modules`. No ejecuta npm audit fix ni cambia locks.
+9. Si falta `public/storage`, ejecuta `storage:link`; después exige symlink existente con destino físico exacto `storage/app/public`. Nunca sustituye un directorio real/enlace ajeno. Añade permisos del propietario solo en `storage/framework`, `storage/logs`, `bootstrap/cache`; no recorre ni cambia permisos de `storage/app` o `public/images`. No usa chmod 777.
+10. Revalida la lista de migraciones y ejecuta únicamente las explícitamente aprobadas. Ejecuta **uno por uno**, verificando códigos y resultados: `config:clear`, `route:clear`, `view:clear`, `event:clear`, `config:cache`, `route:cache`, `view:cache`, `event:cache`. No usa `optimize`, `optimize:clear` ni `cache:clear` como verificación o limpieza global; no vacía caché de negocio, sesiones o locks.
+11. Comprueba pendientes, rutas, scheduler, Git, `.env`/APP_KEY y 503. Con una cookie privada temporal de bypass comprueba login, página pública y bytes del CSS por HTTPS. Revalida SHA. Solo entonces retira `down` y, al final, el guard independiente; repite login sin bypass, revisa Git/secretos y registra fecha/SHA en `.git/spanel-deploy-history`. Elimina temporal/cookie y libera el lock.
+
+### Fallos y recuperación
+
+Antes de activar mantenimiento, un fallo ordinario aborta sin merge/instalación. Si detecta alteración de `.env`/APP_KEY con el lock adquirido, intenta cerrar el sitio incluso durante preflight. No restaura secretos automáticamente.
+
+Después de activar mantenimiento, cualquier fallo conserva o reinstala el guard 503; también si ocurre tras reabrir. **Solo informa mantenimiento verificado tras comprobar archivos y HTTPS 503 con el marcador correcto.** Si no puede verificarlo, imprime `CRITICAL MAINTENANCE_UNVERIFIED` y devuelve error. Alteración de secretos produce `CRITICAL ENV_INTEGRITY` (86). Fallos críticos de mantenimiento/procesos devuelven 85. No existe rollback automático.
+
+SIGINT/SIGTERM/SIGHUP interrumpen el comando, terminan su grupo de procesos y, en Linux, recogen descendientes mediante subreaper, incluidos procesos separados de la sesión. Se comprueban secretos/mantenimiento y se libera el lock. Si no puede recoger hijos, informa estado crítico no garantizado aunque observe 503. Los hijos no heredan el descriptor del lock. SIGKILL, caída de energía o un proceso bloqueado en el kernel no permiten garantizar limpieza: inspeccionar procesos antes de reintentar; no borrar el lock para eludir la exclusión.
+
+Tras un fallo, no ejecutar `artisan up/down` ni borrar manualmente el guard para reabrir por intuición. El preflight rechaza mantenimiento existente para obligar a una recuperación revisada. Restaurar/reparar código, vendor y build mientras el guard independiente sigue presente; revalidar estado de DB, caches, secretos y HTTPS antes de decidir la reapertura. MariaDB puede haber confirmado DDL parcial: revertir Git no restaura datos. Usar backup probado y reconciliar escrituras; nunca rollback de migraciones a ciegas.
+
+Esto sigue siendo un despliegue en el checkout existente, con ventana de mantenimiento. El código revisado y sus dependencias se ejecutan con los permisos del usuario: **no es un sandbox frente a PHP/JavaScript malicioso** ni frente a procesos externos que modifiquen archivos simultáneamente. Los hashes detectan cambios persistentes de `.env`, pero no pueden impedir ni demostrar ausencia de una alteración transitoria realizada y deshecha por código hostil. No se certifican aquí PHP-FPM, SELinux, OPcache, TLS de SPanel, SMTP, SOAP ni todas las pantallas.
+
+Validación: `bash -n deploy.sh scripts/deploy-production.sh` y `python3 -B -m unittest discover -s tests/Deployment -v`. La suite usa fixtures temporales y un servidor PHP de loopback; necesita permiso local para abrir ese puerto. No lee secretos reales ni conecta a una DB. Ver resultados, prueba Rocky y límites en `docs/AUDIT_DEPLOY_SPANEL.md`.
+
+## Resultado y límites (auditoría inicial)
 
 - Laravel bloqueado: **11.31.0**, PHP requerido `^8.2`; PHP 8.3 compatible con las restricciones del lock y con el lint local.
 - `composer validate --strict` y `composer check-platform-reqs --lock --no-dev`: correctos con PHP 8.3.32. Composer local 2.10.2; ejecutar las mismas comprobaciones con Composer 2.9 del servidor.
-- npm: Node 22.21.1/npm 11.12.0 usados para instalar el lock y generar assets en copia temporal. Mantener Node 22 en el entorno de build y no omitir devDependencies (Vite está allí).
+- npm: Node 22.21.1/npm 11.12.0 usados para instalar el lock y generar assets en copia temporal. Ese fue el entorno de auditoría local. Producción confirmada el 2026-09-30: Node 20 / npm 10; el nuevo script exige esas versiones y no omite devDependencies (Vite está allí).
 - No se actualizaron las versiones de composer.json/composer.lock ni package.json/package-lock.json: se conserva la versión funcional actual.
 - **No aprobar todavía la exposición pública sin resolver los riesgos de seguridad**: la auditoría online del lock encontró 42 avisos Composer en 11 paquetes de producción y 61 dependencias npm afectadas (2 críticas, 17 altas, 41 moderadas, 1 baja). Los críticos npm incluyen `form-data` y `swiper`. No todos tienen la misma exposición: hay dependencias de build y bibliotecas copiadas al navegador. Ver `docs/AUDIT_SPANEL_DEPENDENCIES.md`.
 - Laravel 11 terminó soporte de seguridad el 12-03-2026: https://laravel.com/docs/11.x/releases . La actualización del framework y dependencias debe probarse por separado; no ejecutar `composer update` ni `npm audit fix --force` en producción.
@@ -249,58 +328,17 @@ Mantener timeout menor que retry_after (90 actual). Rotar logs de worker/cron/PH
 - `.env`, `.git`, dumps y logs no son accesibles por HTTP. Comprobar también que uploads no ejecutan PHP.
 - Si `optimize` o cualquier validación falla, mantener mantenimiento y corregir antes de `up`.
 
-## 8. Actualizaciones después de git pull
+## 8. Actualizaciones de la producción existente
 
-Solo desplegar commits aprobados en main. No editar código en el servidor ni resolver divergencias con reset/merge improvisado.
+Usar exclusivamente el procedimiento `deploy.sh` descrito al principio de esta guía. El antiguo bloque de pull + migración automática queda sustituido por preflight, SHA aprobado y autorización explícita de migraciones.
 
-```bash
-cd /home/tanggosoftware/repos/schedinedinotifica
-git status --short
-# Detenerse si hay cambios de código; identificar uploads versionados y preservarlos.
-git rev-parse HEAD
-# Guardar el SHA anterior fuera del repo y un snapshot de DB + storage/app + public/images + .env.
-php artisan down
-# Con escrituras detenidas, completar backup antes de seguir.
-git pull --ff-only origin main
-composer install --no-dev --optimize-autoloader --no-interaction
-composer check-platform-reqs --no-dev
-php artisan config:clear
-npm ci
-npm run build
-php artisan migrate:status
-# SOLO si hay migraciones revisadas y probadas en copia:
-php artisan migrate --force
-php artisan optimize
-# php artisan queue:restart  # solo si se habilitaron workers
-# Verificar HTTP, login, datos y assets; recargar PHP-FPM si OPcache no valida timestamps.
-php artisan up
-```
+## 9. Rollback básico (recuperación manual revisada)
 
-Evitar `optimize:clear` indiscriminado si en el futuro se comparte caché. No ejecutar update de dependencias en producción. Un `git pull` correcto no sustituye el build ni la regeneración de cachés.
+Conservar por despliegue SHA anterior, backup consistente, archivos mutables y `.env`/APP_KEY en backup privado. Preservar también estado fallido y escrituras posteriores. No ejecutar directamente el antiguo rollback basado en `artisan down/up`: con vendor roto no protege la ventana crítica y puede reemplazar el guard independiente.
 
-## 9. Rollback básico
+1. Restringir tráfico en el vhost si el 503 no se ha verificado. Conservar el guard `storage/framework/maintenance.php`; no reabrir hasta validar recuperación. Detener y comprobar procesos descendientes/externos.
+2. Revisar `git status --short` y el SHA anterior. Recuperar código y dependencias de una versión conocida bajo mantenimiento, con un procedimiento específico aprobado. El deploy normal exige fast-forward y no hace rollback ni fuerza un checkout sucio.
+3. Si el esquema sigue compatible, conservar la DB actual. Si una migración dejó cambios parciales, restaurar el snapshot en una base nueva de recuperación y reconciliar datos/archivos. No ejecutar `migrate:rollback` automáticamente ni sobrescribir la base fallida.
+4. Reconstruir assets y caches individuales, comprobar secretos, `public/storage`, permisos y HTTPS. Solo retirar el mantenimiento después de aprobar esas comprobaciones. Cualquier cambio de credenciales/base requiere una operación manual separada; este script nunca modifica `.env` ni APP_KEY.
 
-Conservar por despliegue SHA, dump consistente, archivos mutables y .env/APP_KEY en backup privado. Antes de revertir guardar también el estado fallido y cualquier escritura posterior; no perder datos nuevos.
-
-```bash
-cd /home/tanggosoftware/repos/schedinedinotifica
-php artisan down
-git status --short
-# Solo con checkout limpio y SHA anterior registrado:
-git switch --detach SHA_ANTERIOR_APROBADO
-composer install --no-dev --optimize-autoloader --no-interaction
-php artisan config:clear
-npm ci
-npm run build
-```
-
-Si no hubo cambios de esquema incompatibles, conservar la DB actual. Si los hubo, **no usar migrate:rollback automáticamente**: restaurar el snapshot previo en una base NUEVA, reconciliar escrituras posteriores y archivos asociados, y apuntar .env a esa base conservando la APP_KEY correspondiente. No sobrescribir la base fallida hasta preservar evidencias/datos.
-
-```bash
-php artisan optimize
-# php artisan queue:restart  # si corresponde
-# Verificaciones funcionales y eventual recarga de PHP-FPM
-php artisan up
-```
-
-El checkout queda detached deliberadamente. Para el siguiente despliegue, volver a main después de revisar `git status` y el commit deseado. No usar `git reset --hard` ni borrar datos como atajo.
+No usar `git reset --hard`, `git clean` o borrado de datos para recuperar una instalación.
