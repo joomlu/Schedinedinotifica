@@ -1,6 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, BASE_URL } from '../Support/playwright.js';
 
-const BASE_URL = 'https://schedinedinotifica.test';
 const LOGIN = 'hotelK2@schedinedinotifica.test';
 const PASSWORD = 'Passw0rd!';
 
