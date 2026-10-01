@@ -132,9 +132,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('tassa_esenzioni', TassaEsenzioneController::class)->only(['store', 'update', 'destroy'])->names('tassa_esenzioni');
 
-    Route::get('/struttura', [StrutturaController::class, 'edit'])->name('struttura.edit');
-    Route::put('/struttura', [StrutturaController::class, 'update'])->name('struttura.update');
-    Route::get('/struttura/zone-suggestions', [StrutturaController::class, 'zoneSuggestions'])->name('struttura.zone_suggestions');
+    Route::get('/struttura', [StrutturaController::class, 'edit'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('struttura.edit');
+    Route::put('/struttura', [StrutturaController::class, 'update'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('struttura.update');
+    Route::get('/struttura/zone-suggestions', [StrutturaController::class, 'zoneSuggestions'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('struttura.zone_suggestions');
     Route::get('/strutture/seleziona', [StrutturaSelezioneController::class, 'index'])->name('strutture.seleziona.index');
     Route::post('/strutture/{id}/seleziona', [StrutturaSelezioneController::class, 'seleziona'])->name('strutture.seleziona');
 

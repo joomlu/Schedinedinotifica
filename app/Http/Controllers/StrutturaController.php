@@ -21,13 +21,9 @@ use Illuminate\Support\Str;
 
 class StrutturaController extends Controller
 {
-    public function edit()
+    public function edit(Request $request)
     {
-        $currentId = \App\Support\StrutturaCorrente::getId();
-        $strutturaQuery = \App\Models\Struttura::query();
-        $struttura = $currentId
-            ? $strutturaQuery->findOrFail($currentId)
-            : $strutturaQuery->firstOrFail();
+        $struttura = \App\Support\StrutturaAccess::authorized($request);
         $this->hydrateTipologiaCascadeIds($struttura);
         $tipologieGenerali = TipologiaGenerale::all();
         $tipologieStruttura = TipologiaStruttura::with('generale')->get();
@@ -48,11 +44,7 @@ class StrutturaController extends Controller
 
     public function update(\App\Http\Requests\StrutturaRequest $request)
     {
-        $currentId = \App\Support\StrutturaCorrente::getId();
-        $strutturaQuery = \App\Models\Struttura::query();
-        $struttura = $currentId
-            ? $strutturaQuery->findOrFail($currentId)
-            : $strutturaQuery->firstOrFail();
+        $struttura = \App\Support\StrutturaAccess::authorized($request);
         $data = $request->validated();
 
         // Allinea le colonne legacy string con le scelte FK
@@ -109,11 +101,7 @@ class StrutturaController extends Controller
 
     public function zoneSuggestions(Request $request)
     {
-        $currentId = \App\Support\StrutturaCorrente::getId();
-        $strutturaQuery = \App\Models\Struttura::query();
-        $struttura = $currentId
-            ? $strutturaQuery->findOrFail($currentId)
-            : $strutturaQuery->firstOrFail();
+        $struttura = \App\Support\StrutturaAccess::authorized($request);
 
         $geoComuneId = $request->filled('geo_comune_id')
             ? (int) $request->input('geo_comune_id')

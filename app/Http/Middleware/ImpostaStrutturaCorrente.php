@@ -13,6 +13,18 @@ class ImpostaStrutturaCorrente
 {
     public function handle(Request $request, Closure $next): Response
     {
+        StrutturaCorrente::resetMemory();
+        $request->attributes->set(\App\Support\StrutturaAccess::ORIGINAL_SELECTION,
+            $request->session()->get('struttura_corrente_id'));
+        try {
+            return $this->handleContext($request, $next);
+        } finally {
+            StrutturaCorrente::resetMemory();
+        }
+    }
+
+    private function handleContext(Request $request, Closure $next): Response
+    {
         $user = $request->user();
         if (!$user) {
             return $next($request);
@@ -33,8 +45,10 @@ class ImpostaStrutturaCorrente
         }
 
         if (method_exists($user, 'isProprietario') && $user->isProprietario()) {
-            if (!\Schema::hasTable('proprietari')) {
-                return $next($request); // evita errore se migrazioni non eseguite
+            if (!(int) $user->proprietario_id || !\Schema::hasTable('proprietari')) {
+                $request->session()->forget('struttura_corrente_id');
+                StrutturaCorrente::clear();
+                return $next($request);
             }
             $allowed = Struttura::where('proprietario_id', $user->proprietario_id)->pluck('id')->all();
             if (empty($allowed)) {

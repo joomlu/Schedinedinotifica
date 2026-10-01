@@ -15,6 +15,7 @@ class StrutturaRequest extends FormRequest
 {
     public function authorize(): bool
     {
+        \App\Support\StrutturaAccess::authorized($this);
         return true;
     }
 

@@ -65,6 +65,42 @@
 
             <div class="d-flex align-items-center">
                 <div class="ms-1 header-item">
+                    @if($topbarStrutturaState === 'none')
+                        <span class="btn btn-sm btn-ghost-secondary disabled" aria-disabled="true" title="Struttura">
+                            <i class="ri-building-line align-bottom me-1"></i>
+                            Struttura: Nessuna struttura autorizzata
+                        </span>
+                    @elseif($topbarStrutturaCanSwitch)
+                        <div class="dropdown topbar-head-dropdown">
+                            <button type="button" class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown" aria-expanded="false" title="Cambia struttura">
+                                <i class="ri-building-line align-bottom me-1"></i>
+                                Struttura: {{ $topbarStrutturaCurrentName ?? 'Seleziona' }}
+                                <i class="ri-arrow-down-s-line align-bottom ms-1"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                @foreach($topbarStrutturaAllowed as $topbarStruttura)
+                                    <form method="POST" action="{{ route('strutture.seleziona', $topbarStruttura->id) }}">
+                                        @csrf
+                                        <input type="hidden" name="selection_context" value="topbar_switch">
+                                        <button type="submit" class="dropdown-item d-flex align-items-center justify-content-between {{ (int) ($topbarStrutturaCurrentId ?? 0) === (int) $topbarStruttura->id ? 'active' : '' }}">
+                                            <span>{{ $topbarStruttura->nome_struttura }}</span>
+                                            @if((int) ($topbarStrutturaCurrentId ?? 0) === (int) $topbarStruttura->id)
+                                                <i class="ri-check-line ms-2"></i>
+                                            @endif
+                                        </button>
+                                    </form>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <span class="btn btn-sm btn-ghost-secondary disabled" aria-disabled="true" title="Struttura">
+                            <i class="ri-building-line align-bottom me-1"></i>
+                            Struttura: {{ $topbarStrutturaCurrentName ?? ($topbarStrutturaLegacyOutsideAllowed ? 'Struttura operativa non selezionabile' : 'Seleziona struttura') }}
+                        </span>
+                    @endif
+                </div>
+
+                <div class="ms-1 header-item">
                     <a href="{{ route('calendario.index') }}" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" title="Calendario">
                         <i class="ri-calendar-2-line fs-22"></i>
                     </a>

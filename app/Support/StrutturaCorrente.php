@@ -6,6 +6,11 @@ class StrutturaCorrente
 {
     protected static ?int $cachedId = null;
 
+    public static function resetMemory(): void
+    {
+        self::$cachedId = null;
+    }
+
     public static function getId(): ?int
     {
         if (self::$cachedId !== null) {

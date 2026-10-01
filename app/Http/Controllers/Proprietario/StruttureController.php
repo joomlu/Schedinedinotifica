@@ -12,7 +12,7 @@ class StruttureController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $strutture = Struttura::where('proprietario_id', $user->proprietario_id)
+        $strutture = \App\Support\StrutturaAccess::query($user)
             ->orderBy('nome_struttura')
             ->get();
 
