@@ -5,6 +5,12 @@ namespace Tests\Unit;
 use App\Exceptions\ComponentiImportException;
 use App\Services\ComponentiImportService;
 use App\Support\Componenti\DatiComponenteNormalizzati;
+use DateTimeImmutable;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Reader\XLSX\Options as XlsxReaderOptions;
+use OpenSpout\Reader\XLSX\Reader as XlsxReader;
+use OpenSpout\Writer\XLSX\Writer as XlsxWriter;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -408,6 +414,15 @@ class ComponentiImportServiceTest extends TestCase
 
         $this->assertSame('modello_componenti.csv', $service->nomeFileTemplate('csv'));
         $this->assertSame('modello_componenti.txt', $service->nomeFileTemplate('txt'));
+        $this->assertSame('modello_componenti.xlsx', $service->nomeFileTemplate('xlsx'));
+    }
+
+    public function test_formati_supportati_includono_xlsx(): void
+    {
+        $service = new ComponentiImportService();
+
+        $this->assertSame(['csv', 'txt', 'xlsx'], $service->formatiSupportati());
+        $this->assertSame('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $service->contentTypePerFormato('xlsx'));
     }
 
     public function test_template_csv_vuoto_usa_colonne_contratto_senza_righe_esempio(): void
@@ -485,6 +500,321 @@ class ComponentiImportServiceTest extends TestCase
         $this->assertSame(0, $preview['righe_valide']);
         $this->assertSame(0, $preview['righe_in_errore']);
         $this->assertSame([], $preview['rows']);
+    }
+
+    public function test_template_xlsx_vuoto_valido_con_un_solo_worksheet_e_header_contratto(): void
+    {
+        $service = new ComponentiImportService();
+        $content = $service->contenutoTemplateVuoto('xlsx');
+
+        $tmpFile = tempnam(sys_get_temp_dir(), 'test_componenti_tpl_xlsx_');
+        $this->assertNotFalse($tmpFile);
+        file_put_contents($tmpFile, $content);
+
+        $reader = new XlsxReader(new XlsxReaderOptions());
+
+        try {
+            $reader->open($tmpFile);
+
+            $sheetCount = 0;
+            $rows = [];
+            foreach ($reader->getSheetIterator() as $sheet) {
+                $sheetCount++;
+                $this->assertSame('Componenti', $sheet->getName());
+
+                foreach ($sheet->getRowIterator() as $row) {
+                    $rows[] = array_map(static fn ($cell) => $cell->getValue(), $row->getCells());
+                }
+            }
+
+            $this->assertSame(1, $sheetCount);
+            $this->assertCount(1, $rows);
+            $this->assertSame($service->headersTemplate(), $rows[0]);
+            $this->assertNotContains('Tipo alloggiato', $rows[0]);
+            $this->assertNotContains('Esente', $rows[0]);
+            $this->assertNotContains('id', array_map('strtolower', $rows[0]));
+            $this->assertStringNotContainsString('Mario', $content);
+            $this->assertStringNotContainsString('Rossi', $content);
+        } finally {
+            $reader->close();
+            @unlink($tmpFile);
+        }
+    }
+
+    public function test_round_trip_template_xlsx_con_parser_esistente(): void
+    {
+        $service = new ComponentiImportService();
+        $content = $service->contenutoTemplateVuoto('xlsx');
+
+        $preview = $service->previewDaContenuto($content, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame($service->headersTemplate(), $preview['headers']);
+        $this->assertSame(0, $preview['totale_righe']);
+        $this->assertSame(0, $preview['righe_valide']);
+        $this->assertSame(0, $preview['righe_in_errore']);
+        $this->assertSame([], $preview['rows']);
+    }
+
+    public function test_xlsx_compilato_valido_produce_preview_valida(): void
+    {
+        $service = new ComponentiImportService();
+        $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
+            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+        ]]);
+
+        $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame(1, $preview['totale_righe']);
+        $this->assertSame(1, $preview['righe_valide']);
+        $this->assertSame(0, $preview['righe_in_errore']);
+        $this->assertSame('VALIDO', $preview['rows'][0]['status']);
+        $this->assertSame('Mario', $preview['rows'][0]['name']);
+    }
+
+    public function test_xlsx_celle_finali_presenti_ma_vuote_non_causano_errore_strutturale(): void
+    {
+        $service = new ComponentiImportService();
+        $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
+            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '', '',
+        ]]);
+
+        $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame(1, $preview['totale_righe']);
+        $this->assertSame('Mario', $preview['rows'][0]['name']);
+        $this->assertSame('Rossi', $preview['rows'][0]['surname']);
+        $this->assertSame('Via Roma', $preview['rows'][0]['data']['address']);
+        $this->assertEmpty(array_filter($preview['rows'][0]['errors'], fn ($error) => $error['field'] === '_struct'));
+    }
+
+    public function test_xlsx_riga_strutturalmente_corta_non_viene_normalizzata_con_padding(): void
+    {
+        $service = new ComponentiImportService();
+        $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
+            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma',
+        ]]);
+
+        $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame(1, $preview['totale_righe']);
+        $this->assertSame('ERRORE', $preview['rows'][0]['status']);
+        $this->assertNotEmpty(array_filter($preview['rows'][0]['errors'], fn ($error) => $error['field'] === '_struct'));
+    }
+
+    public function test_xlsx_riga_con_colonna_extra_genera_errore_strutturale(): void
+    {
+        $service = new ComponentiImportService();
+        $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
+            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921', 'EXTRA',
+        ]]);
+
+        $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame(1, $preview['totale_righe']);
+        $this->assertSame('ERRORE', $preview['rows'][0]['status']);
+        $this->assertNotEmpty(array_filter($preview['rows'][0]['errors'], fn ($error) => $error['field'] === '_struct'));
+    }
+
+    public function test_xlsx_celle_vuote_interne_non_shiftano_le_colonne_successive(): void
+    {
+        $service = new ComponentiImportService();
+        $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
+            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', '', 'Rimini', 'Emilia-Romagna', '47921',
+            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+        ]]);
+
+        $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame(1, $preview['totale_righe']);
+        $this->assertSame('Rimini', $preview['rows'][0]['data']['comune_nac']);
+        $this->assertSame('Via Roma', $preview['rows'][0]['data']['address']);
+        $this->assertEmpty(array_filter($preview['rows'][0]['errors'], fn ($error) => $error['field'] === '_struct'));
+    }
+
+    public function test_xlsx_righe_successive_restano_allineate_anche_con_riga_precedente_malformata(): void
+    {
+        $service = new ComponentiImportService();
+        $xlsx = $this->buildXlsxFile($service->headersTemplate(), [
+            [
+                'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma',
+            ],
+            [
+                'Giulia', 'Neri', 'F', 'Italiana', 'Italia', '03/10/1990', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Verdi', '11', '47921',
+            ],
+        ]);
+
+        $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame(2, $preview['totale_righe']);
+        $this->assertSame('ERRORE', $preview['rows'][0]['status']);
+        $this->assertNotEmpty(array_filter($preview['rows'][0]['errors'], fn ($error) => $error['field'] === '_struct'));
+        $this->assertSame('VALIDO', $preview['rows'][1]['status']);
+        $this->assertSame('Giulia', $preview['rows'][1]['name']);
+        $this->assertSame('Neri', $preview['rows'][1]['surname']);
+    }
+
+    public function test_xlsx_riga_invalida_diventa_errore_riga(): void
+    {
+        $service = new ComponentiImportService();
+        $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
+            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '31/02/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+        ]]);
+
+        $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame(1, $preview['totale_righe']);
+        $this->assertSame('ERRORE', $preview['rows'][0]['status']);
+    }
+
+    public function test_xlsx_colonna_extra_genera_errore(): void
+    {
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('sconosciuta');
+
+        $service = new ComponentiImportService();
+        $headers = $service->headersTemplate();
+        $headers[] = 'Colonna fantasma';
+
+        $xlsx = $this->buildXlsxFile($headers, []);
+        $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_xlsx_colonna_mancante_genera_errore(): void
+    {
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('mancante');
+
+        $service = new ComponentiImportService();
+        $headers = $service->headersTemplate();
+        array_pop($headers);
+
+        $xlsx = $this->buildXlsxFile($headers, []);
+        $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_xlsx_header_duplicato_genera_errore(): void
+    {
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('duplicato');
+
+        $service = new ComponentiImportService();
+        $headers = $service->headersTemplate();
+        $headers[1] = 'Nome';
+
+        $xlsx = $this->buildXlsxFile($headers, []);
+        $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_xlsx_con_piu_worksheet_viene_rifiutato(): void
+    {
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('un solo foglio');
+
+        $service = new ComponentiImportService();
+        $xlsx = $this->buildXlsxFile($service->headersTemplate(), [], true);
+
+        $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_xlsx_con_formula_viene_rifiutato(): void
+    {
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('formule non supportate');
+
+        $service = new ComponentiImportService();
+        $formulaRow = Row::fromValues([
+            '=CONCAT("Ma","rio")', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+        ]);
+
+        $xlsx = $this->buildXlsxFile($service->headersTemplate(), [$formulaRow]);
+        $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_xlsx_corrotto_viene_rifiutato(): void
+    {
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('non valido o corrotto');
+
+        $service = new ComponentiImportService();
+        $service->previewDaContenuto("\x50\x4B\x03\x04BROKEN", 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_xlsx_falso_viene_rifiutato(): void
+    {
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('non valido o corrotto');
+
+        $service = new ComponentiImportService();
+        $service->previewDaContenuto('questa-non-e-una-cartella-zip-xlsx', 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_xlsx_oltre_limite_righe_viene_rifiutato(): void
+    {
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('Numero massimo righe superato');
+
+        $service = new ComponentiImportService();
+
+        $rows = [];
+        for ($i = 0; $i < ComponentiImportService::MAX_RIGHE + 1; $i++) {
+            $rows[] = [
+                'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            ];
+        }
+
+        $xlsx = $this->buildXlsxFile($service->headersTemplate(), $rows);
+        $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_xlsx_celle_vuote_vengono_gestite_come_pipeline_corrente(): void
+    {
+        $service = new ComponentiImportService();
+        $xlsx = $this->buildXlsxFile($service->headersTemplate(), [
+            [
+                'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            ],
+            array_fill(0, 18, ''),
+            [
+                'Giulia', 'Neri', 'F', 'Italiana', 'Italia', '03/10/1990', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Verdi', '11', '47921',
+            ],
+        ]);
+
+        $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame(2, $preview['totale_righe']);
+        $this->assertSame('Mario', $preview['rows'][0]['name']);
+        $this->assertSame('Giulia', $preview['rows'][1]['name']);
+        $this->assertSame('VALIDO', $preview['rows'][0]['status']);
+        $this->assertSame('VALIDO', $preview['rows'][1]['status']);
+    }
+
+    public function test_xlsx_data_excel_nativa_viene_convertita_senza_cambiare_contratto(): void
+    {
+        $service = new ComponentiImportService();
+        $dateStyle = (new Style())->setFormat('dd/mm/yyyy');
+        $nativeDateRow = Row::fromValuesWithStyles([
+            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', 29496, 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+        ], null, [5 => $dateStyle]);
+
+        $xlsx = $this->buildXlsxFile($service->headersTemplate(), [$nativeDateRow]);
+
+        $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame('VALIDO', $preview['rows'][0]['status']);
+        $this->assertSame('02/10/1980', $preview['rows'][0]['date_nac']);
+        $this->assertSame('1980-10-02', $preview['rows'][0]['data']['date_nac']);
     }
 
     public function test_template_vuoto_non_modifica_default_import(): void
@@ -770,5 +1100,46 @@ class ComponentiImportServiceTest extends TestCase
         fclose($stream);
 
         return (string) $content;
+    }
+
+    /**
+     * @param array<int, string> $headers
+     * @param array<int, array<int, string|DateTimeImmutable>|Row> $rows
+     */
+    private function buildXlsxFile(array $headers, array $rows, bool $addSecondWorksheet = false): string
+    {
+        $tmpFile = tempnam(sys_get_temp_dir(), 'test_componenti_xlsx_');
+        $this->assertNotFalse($tmpFile);
+
+        $writer = new XlsxWriter();
+
+        try {
+            $writer->openToFile($tmpFile);
+            $writer->getCurrentSheet()->setName('Componenti');
+            $writer->addRow(Row::fromValues($headers));
+
+            foreach ($rows as $row) {
+                if ($row instanceof Row) {
+                    $writer->addRow($row);
+                    continue;
+                }
+
+                $writer->addRow(Row::fromValues($row));
+            }
+
+            if ($addSecondWorksheet) {
+                $writer->addNewSheetAndMakeItCurrent()->setName('Extra');
+                $writer->addRow(Row::fromValues(['foo']));
+            }
+
+            $writer->close();
+
+            $content = file_get_contents($tmpFile);
+            $this->assertNotFalse($content);
+
+            return (string) $content;
+        } finally {
+            @unlink($tmpFile);
+        }
     }
 }

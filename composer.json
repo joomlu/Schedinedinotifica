@@ -12,6 +12,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.2",
+        "openspout/openspout": "^4.27",
         "symfony/intl": "^7.4"
     },
     "require-dev": {

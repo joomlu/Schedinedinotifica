@@ -17,7 +17,7 @@
             <div class="card-header bg-light-subtle border-0 d-flex align-items-center justify-content-between flex-wrap gap-3">
                 <div>
                     <h4 class="card-title mb-1">Importazione componenti</h4>
-                    <p class="text-muted mb-0">Carica un CSV o un TXT delimitato per ottenere solo la preview: nessun componente viene salvato in questa fase.</p>
+                    <p class="text-muted mb-0">Carica un CSV, un TXT delimitato o un XLSX per ottenere solo la preview: nessun componente viene salvato in questa fase.</p>
                 </div>
                 <a href="{{ route('schedina.edit', ['id' => $schedina->id, 'active_tab' => 'schedina-step-comp']) }}" class="btn btn-light">Torna ai componenti</a>
             </div>
@@ -33,8 +33,8 @@
                     <div class="col-lg-4">
                         <div class="border rounded-3 p-3 bg-light-subtle h-100">
                             <div class="text-muted small">Formato supportato</div>
-                            <div class="fw-semibold">CSV e TXT</div>
-                            <div class="text-muted small">CSV con ;, TXT con tabulazione.</div>
+                            <div class="fw-semibold">CSV, TXT e XLSX</div>
+                            <div class="text-muted small">CSV con ;, TXT con tabulazione, XLSX a foglio singolo.</div>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -62,7 +62,7 @@
                                 @csrf
                                 <div class="col-12">
                                     <label class="form-label">File componenti</label>
-                                    <input type="file" name="file_import" class="form-control @error('file_import') is-invalid @enderror" accept=".csv,.txt" required>
+                                    <input type="file" name="file_import" class="form-control @error('file_import') is-invalid @enderror" accept=".csv,.txt,.xlsx" required>
                                     @error('file_import')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -81,6 +81,7 @@
                                         <div class="d-flex gap-2 flex-wrap mb-2">
                                             <a class="btn btn-light" href="{{ route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'csv']) }}">Scarica CSV</a>
                                             <a class="btn btn-light" href="{{ route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'txt']) }}">Scarica TXT</a>
+                                            <a class="btn btn-light" href="{{ route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'xlsx']) }}">Scarica XLSX</a>
                                         </div>
                                         <div class="small text-muted">
                                             Tipo alloggiato viene impostato automaticamente come <strong>MEMBRO GRUPPO</strong> ed Esente come <strong>NO</strong>.

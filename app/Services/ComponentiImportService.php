@@ -5,12 +5,22 @@ namespace App\Services;
 use App\Exceptions\ComponentiImportException;
 use App\Support\Componenti\ContrattoImportazioneComponentiV1;
 use App\Support\Componenti\DatiComponenteNormalizzati;
+use DateInterval;
 use DateTimeImmutable;
+use DateTimeInterface;
+use OpenSpout\Common\Entity\Cell;
+use OpenSpout\Common\Entity\Cell\FormulaCell;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Reader\XLSX\Options as XlsxReaderOptions;
+use OpenSpout\Reader\XLSX\Reader as XlsxReader;
+use OpenSpout\Writer\XLSX\Writer as XlsxWriter;
+use Throwable;
 
 class ComponentiImportService
 {
     public const FORMATO_CSV = 'csv';
     public const FORMATO_TXT = 'txt';
+    public const FORMATO_XLSX = 'xlsx';
 
     public const DELIMITATORE_CSV = ';';
     public const DELIMITATORE_TXT = "\t";
@@ -18,6 +28,7 @@ class ComponentiImportService
     public const MAX_BYTES = 5242880;
     public const MAX_RIGHE = 1000;
     public const BATCH_TTL_MINUTES = 30;
+    private const WORKSHEET_MODELLO_COMPONENTI = 'Componenti';
 
     public function headersTemplate(): array
     {
@@ -36,7 +47,7 @@ class ComponentiImportService
 
     public function formatiSupportati(): array
     {
-        return [self::FORMATO_CSV, self::FORMATO_TXT];
+        return [self::FORMATO_CSV, self::FORMATO_TXT, self::FORMATO_XLSX];
     }
 
     public function delimitatorePerFormato(string $formato): string
@@ -44,6 +55,7 @@ class ComponentiImportService
         return match ($this->normalizzaFormato($formato)) {
             self::FORMATO_CSV => self::DELIMITATORE_CSV,
             self::FORMATO_TXT => self::DELIMITATORE_TXT,
+            self::FORMATO_XLSX => '',
         };
     }
 
@@ -52,6 +64,7 @@ class ComponentiImportService
         return match ($this->normalizzaFormato($formato)) {
             self::FORMATO_CSV => 'modello_componenti.csv',
             self::FORMATO_TXT => 'modello_componenti.txt',
+            self::FORMATO_XLSX => 'modello_componenti.xlsx',
         };
     }
 
@@ -60,12 +73,18 @@ class ComponentiImportService
         return match ($this->normalizzaFormato($formato)) {
             self::FORMATO_CSV => 'text/csv; charset=UTF-8',
             self::FORMATO_TXT => 'text/plain; charset=UTF-8',
+            self::FORMATO_XLSX => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         };
     }
 
     public function contenutoTemplateVuoto(string $formato): string
     {
         $formato = $this->normalizzaFormato($formato);
+
+        if ($formato === self::FORMATO_XLSX) {
+            return $this->contenutoTemplateVuotoXlsx();
+        }
+
         $delimiter = $this->delimitatorePerFormato($formato);
 
         $stream = fopen('php://temp', 'r+');
@@ -85,14 +104,187 @@ class ComponentiImportService
         return (string) $content;
     }
 
+    private function contenutoTemplateVuotoXlsx(): string
+    {
+        $tmpFile = tempnam(sys_get_temp_dir(), 'componenti_tpl_xlsx_');
+        if ($tmpFile === false) {
+            throw new ComponentiImportException('Impossibile generare il template di importazione.');
+        }
+
+        $writer = new XlsxWriter();
+
+        try {
+            $writer->openToFile($tmpFile);
+            $writer->getCurrentSheet()->setName(self::WORKSHEET_MODELLO_COMPONENTI);
+            $writer->addRow(Row::fromValues($this->headersTemplate()));
+            $writer->close();
+
+            $content = file_get_contents($tmpFile);
+            if ($content === false) {
+                throw new ComponentiImportException('Impossibile generare il template di importazione.');
+            }
+
+            return $content;
+        } catch (Throwable $exception) {
+            if ($exception instanceof ComponentiImportException) {
+                throw $exception;
+            }
+
+            throw new ComponentiImportException('Impossibile generare il template di importazione.');
+        } finally {
+            @unlink($tmpFile);
+        }
+    }
+
     /**
      * @return array{formato:string,delimitatore:string,headers:array<int, string>,rows:array<int, array<string, mixed>>,totale_righe:int,righe_valide:int,righe_in_errore:int,metadata:array<string, mixed>}
      */
     public function previewDaContenuto(string $contenuto, string $formato, ?callable $tipoAlloggiatoResolver = null): array
     {
-        [$intestazioni, $righe] = $this->parsaFileDelimitato($contenuto, $this->delimitatorePerFormato($this->normalizzaFormato($formato)));
+        $formato = $this->normalizzaFormato($formato);
+
+        if ($formato === self::FORMATO_XLSX) {
+            [$intestazioni, $righe] = $this->parsaFileXlsxDaContenuto($contenuto);
+        } else {
+            [$intestazioni, $righe] = $this->parsaFileDelimitato($contenuto, $this->delimitatorePerFormato($formato));
+        }
 
         return $this->analizzaImportazione($intestazioni, $righe, $formato, $tipoAlloggiatoResolver);
+    }
+
+    /**
+     * @return array{0: array<int, string>, 1: array<int, array<int, string|null>>}
+     */
+    private function parsaFileXlsxDaContenuto(string $contenuto): array
+    {
+        $tmpFile = tempnam(sys_get_temp_dir(), 'componenti_import_xlsx_');
+        if ($tmpFile === false) {
+            throw new ComponentiImportException('Impossibile leggere il file XLSX.');
+        }
+
+        try {
+            if (file_put_contents($tmpFile, $contenuto) === false) {
+                throw new ComponentiImportException('Impossibile leggere il file XLSX.');
+            }
+
+            return $this->parsaFileXlsxDaPercorso($tmpFile);
+        } finally {
+            @unlink($tmpFile);
+        }
+    }
+
+    /**
+     * @return array{0: array<int, string>, 1: array<int, array<int, string|null>>}
+     */
+    private function parsaFileXlsxDaPercorso(string $filePath): array
+    {
+        $options = new XlsxReaderOptions();
+        $options->SHOULD_PRESERVE_EMPTY_ROWS = true;
+        $options->SHOULD_FORMAT_DATES = false;
+
+        $reader = new XlsxReader($options);
+
+        try {
+            $reader->open($filePath);
+
+            $sheetCount = 0;
+            $headers = null;
+            $rows = [];
+
+            foreach ($reader->getSheetIterator() as $sheet) {
+                $sheetCount++;
+                if ($sheetCount > 1) {
+                    throw new ComponentiImportException('Il file XLSX deve contenere un solo foglio di lavoro.');
+                }
+
+                $excelRowNumber = 0;
+                foreach ($sheet->getRowIterator() as $row) {
+                    $excelRowNumber++;
+                    $values = $this->valoriRigaXlsx($row->getCells(), $excelRowNumber);
+
+                    if ($headers === null) {
+                        $headers = $values;
+                        continue;
+                    }
+
+                    $rows[] = $values;
+                }
+            }
+
+            if ($sheetCount === 0) {
+                throw new ComponentiImportException('Il file XLSX non contiene fogli di lavoro validi.');
+            }
+
+            if (!is_array($headers) || $headers === []) {
+                throw new ComponentiImportException('Header mancante o file vuoto.');
+            }
+
+            return [$headers, $rows];
+        } catch (ComponentiImportException $exception) {
+            throw $exception;
+        } catch (Throwable $exception) {
+            throw new ComponentiImportException('File XLSX non valido o corrotto.');
+        } finally {
+            try {
+                $reader->close();
+            } catch (Throwable) {
+            }
+        }
+    }
+
+    /**
+     * @param array<int, Cell> $cells
+     * @return array<int, string|null>
+     */
+    private function valoriRigaXlsx(array $cells, int $excelRowNumber): array
+    {
+        $values = [];
+
+        foreach ($cells as $index => $cell) {
+            if ($cell instanceof FormulaCell) {
+                $colonna = $index + 1;
+                throw new ComponentiImportException('Il file XLSX contiene formule non supportate (riga ' . $excelRowNumber . ', colonna ' . $colonna . ').');
+            }
+
+            $values[] = $this->normalizzaValoreCellaXlsx($cell->getValue());
+        }
+
+        return $values;
+    }
+
+    private function normalizzaValoreCellaXlsx(bool|DateInterval|DateTimeInterface|float|int|string|null $value): string
+    {
+        if ($value === null) {
+            return '';
+        }
+
+        if ($value instanceof DateTimeInterface) {
+            return $value->format('d/m/Y');
+        }
+
+        if ($value instanceof DateInterval) {
+            return $value->format('%r%a');
+        }
+
+        if (is_bool($value)) {
+            return $value ? '1' : '0';
+        }
+
+        if (is_int($value)) {
+            return (string) $value;
+        }
+
+        if (is_float($value)) {
+            if (is_nan($value) || is_infinite($value)) {
+                return '';
+            }
+
+            $formatted = rtrim(rtrim(sprintf('%.15F', $value), '0'), '.');
+
+            return $formatted === '-0' ? '0' : $formatted;
+        }
+
+        return (string) $value;
     }
 
     /**

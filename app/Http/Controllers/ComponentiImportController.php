@@ -69,18 +69,25 @@ class ComponentiImportController extends Controller
         $schedina = $this->loadOwnedSchedina($schedina);
 
         $validated = $request->validate([
-            'file_import' => ['required', 'file', 'mimes:csv,txt', 'max:' . (int) (ComponentiImportService::MAX_BYTES / 1024)],
+            'file_import' => ['required', 'file', 'mimes:csv,txt,xlsx', 'max:' . (int) (ComponentiImportService::MAX_BYTES / 1024)],
         ], [
-            'file_import.required' => 'Seleziona un file CSV o TXT da importare.',
-            'file_import.mimes' => 'Il file deve essere un CSV o un TXT delimitato.',
+            'file_import.required' => 'Seleziona un file CSV, TXT o XLSX da importare.',
+            'file_import.mimes' => 'Il file deve essere un CSV, un TXT delimitato o un XLSX.',
             'file_import.max' => 'Il file importato è troppo grande.',
         ]);
 
         $file = $validated['file_import'];
         $format = strtolower((string) $file->getClientOriginalExtension());
+
+        if ($format === 'xls') {
+            return back()->withInput()->withErrors([
+                'file_import' => 'Formato .xls non supportato. Usa XLSX, CSV o TXT.',
+            ]);
+        }
+
         if (!in_array($format, $this->service->formatiSupportati(), true)) {
             return back()->withInput()->withErrors([
-                'file_import' => 'Estensione file non supportata. Usa CSV o TXT.',
+                'file_import' => 'Estensione file non supportata. Usa CSV, TXT o XLSX.',
             ]);
         }
 
