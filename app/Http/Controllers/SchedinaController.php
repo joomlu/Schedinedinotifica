@@ -20,6 +20,7 @@ use App\Models\Titolo;
 use App\Models\RilasciatoDa;
 use App\Services\TassaDiSoggiornoService;
 use App\Services\CestinoService;
+use App\Support\Componenti\DatiComponenteNormalizzati;
 use App\Support\StrutturaCorrente;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -998,36 +999,7 @@ class SchedinaController extends Controller
             return;
         }
 
-        $requiredFields = [
-            'name' => 'Nome',
-            'surname' => 'Cognome',
-            'sex' => 'Sesso',
-            'relationship' => 'Tipo alloggiato',
-            'exent' => 'Esente',
-            'city_nac' => 'Cittadinanza',
-            'country_nac' => 'Nazione nascita',
-            'regione_nac' => 'Regione nascita',
-            'province_nac' => 'Provincia nascita',
-            'comune_nac' => 'Città nascita',
-            'city' => 'Città residenza',
-            'date_nac' => 'Data di nascita',
-            'country' => 'Nazione',
-            'regione' => 'Regione',
-            'province' => 'Provincia',
-            'typeaway' => 'Tipo via',
-            'address' => 'Strada',
-            'number' => 'Num',
-            'cap' => 'CAP',
-        ];
-
-        $errors = [];
-        foreach ($rows as $index => $row) {
-            foreach ($requiredFields as $key => $label) {
-                if (($row[$key] ?? null) === null || $row[$key] === '') {
-                    $errors["componenti.$index.$key"] = "Componente #".($index + 1).": campo obbligatorio ($label).";
-                }
-            }
-        }
+        $errors = DatiComponenteNormalizzati::validaRighe($rows);
 
         if (!empty($errors)) {
             throw ValidationException::withMessages($errors);
@@ -1136,21 +1108,7 @@ class SchedinaController extends Controller
 
     private function normalizedComponentiRows(Request $request): array
     {
-        return collect($request->input('componenti', []))
-            ->map(function ($row) {
-                $normalized = [];
-                foreach ((array) $row as $key => $value) {
-                    $normalized[$key] = is_string($value) ? trim($value) : $value;
-                }
-                return $normalized;
-            })
-            ->filter(function ($row) {
-                return trim((string) ($row['name'] ?? '')) !== ''
-                    || trim((string) ($row['surname'] ?? '')) !== ''
-                    || trim((string) ($row['sex'] ?? '')) !== '';
-            })
-            ->values()
-            ->all();
+        return DatiComponenteNormalizzati::normalizzaRighe((array) $request->input('componenti', []));
     }
 
     protected function syncComponenti(Schedina $schedina, Request $request): void
@@ -1191,7 +1149,7 @@ class SchedinaController extends Controller
                 'regione_nac' => $row['regione_nac'] ?? null,
                 'comune_nac' => $row['comune_nac'] ?? null,
                 'cap_nac' => $row['cap_nac'] ?? null,
-                'date_nac' => $this->normalizeDateForDb($row['date_nac'] ?? null),
+                'date_nac' => DatiComponenteNormalizzati::normalizzaData($row['date_nac'] ?? null),
                 'country' => $row['country'] ?? null,
                 'regione' => $row['regione'] ?? null,
                 'province' => $row['province'] ?? null,
