@@ -1126,9 +1126,25 @@
                                 </div>
                             </div>
                             <div class="mt-3 text-end">
-                                <button type="button" class="btn btn-outline-primary btn-sm" id="add-componente-row">
-                                    <i class="ri-add-line align-bottom me-1"></i>Aggiungi componente
-                                </button>
+                                <div class="d-inline-flex gap-2 flex-wrap justify-content-end">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" id="add-componente-row">
+                                        <i class="ri-add-line align-bottom me-1"></i>Nuovo componente
+                                    </button>
+                                    @if(!empty($schedina->id))
+                                        <a href="{{ route('schedina.componenti.import.index', ['schedina' => $schedina->id]) }}" class="btn btn-outline-secondary btn-sm">
+                                            <i class="ri-upload-2-line align-bottom me-1"></i>Importa componenti
+                                        </a>
+                                        <div class="btn-group btn-group-sm">
+                                            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ri-download-2-line align-bottom me-1"></i>Scarica modello
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="{{ route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'csv']) }}">Modello CSV</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'txt']) }}">Modello TXT</a></li>
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>

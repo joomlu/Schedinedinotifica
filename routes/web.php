@@ -19,6 +19,7 @@ use App\Http\Controllers\RilasciatoDaController;
 use App\Http\Controllers\ArrivalsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ArchivosController;
+use App\Http\Controllers\ComponentiImportController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerExportController;
 use App\Http\Controllers\CustomerImportController;
@@ -361,6 +362,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/schedine/bozze', [SchedinaController::class, 'bozze'])->name('schedina.bozze');
     Route::get('/schedine/nuova', [SchedinaController::class, 'new'])->name('newschedina');
     Route::post('/schedine', [SchedinaController::class, 'store'])->name('schedina.store');
+    Route::get('/schedine/{schedina}/componenti/import', [ComponentiImportController::class, 'index'])->name('schedina.componenti.import.index');
+    Route::post('/schedine/{schedina}/componenti/import', [ComponentiImportController::class, 'preview'])->name('schedina.componenti.import.preview');
+    Route::get('/schedine/{schedina}/componenti/import/modello/{format}', [ComponentiImportController::class, 'template'])
+        ->whereIn('format', ['csv', 'txt'])
+        ->name('schedina.componenti.import.template');
     Route::get('/schedine/{id}/copia', [SchedinaController::class, 'copy'])->name('schedina.copy');
     Route::get('/schedine/{id}/modifica', [SchedinaController::class, 'edit'])->name('schedina.edit');
     Route::put('/schedine/{id}', [SchedinaController::class, 'update'])->name('schedina.update');
