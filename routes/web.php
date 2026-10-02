@@ -364,6 +364,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/schedine', [SchedinaController::class, 'store'])->name('schedina.store');
     Route::get('/schedine/{schedina}/componenti/import', [ComponentiImportController::class, 'index'])->name('schedina.componenti.import.index');
     Route::post('/schedine/{schedina}/componenti/import', [ComponentiImportController::class, 'preview'])->name('schedina.componenti.import.preview');
+    Route::post('/schedine/{schedina}/componenti/import/conferma', [ComponentiImportController::class, 'confirm'])->name('schedina.componenti.import.confirm');
     Route::get('/schedine/{schedina}/componenti/import/modello/{format}', [ComponentiImportController::class, 'template'])
         ->whereIn('format', ['csv', 'txt'])
         ->name('schedina.componenti.import.template');

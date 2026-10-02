@@ -17,6 +17,7 @@ class ComponentiImportService
 
     public const MAX_BYTES = 5242880;
     public const MAX_RIGHE = 1000;
+    public const BATCH_TTL_MINUTES = 30;
 
     public function headersTemplate(): array
     {
@@ -91,10 +92,21 @@ class ComponentiImportService
      */
     public function previewDaContenuto(string $contenuto, string $formato, ?callable $tipoAlloggiatoResolver = null): array
     {
+        [$intestazioni, $righe] = $this->parsaFileDelimitato($contenuto, $this->delimitatorePerFormato($this->normalizzaFormato($formato)));
+
+        return $this->analizzaImportazione($intestazioni, $righe, $formato, $tipoAlloggiatoResolver);
+    }
+
+    /**
+     * @param array<int, string> $intestazioni
+     * @param array<int, array<int, string|null>> $righe
+     * @return array{formato:string,delimitatore:string,headers:array<int, string>,raw_headers:array<int, string>,raw_rows:array<int, array<int, string|null>>,rows:array<int, array<string, mixed>>,totale_righe:int,righe_valide:int,righe_in_errore:int,metadata:array<string, mixed>}
+     */
+    public function analizzaImportazione(array $intestazioni, array $righe, string $formato, ?callable $tipoAlloggiatoResolver = null): array
+    {
         $formato = $this->normalizzaFormato($formato);
         $delimitatore = $this->delimitatorePerFormato($formato);
 
-        [$intestazioni, $righe] = $this->parsaFileDelimitato($contenuto, $delimitatore);
         $mappaCampi = $this->validaEMappeIntestazioni($intestazioni);
         $righePreview = [];
 
@@ -186,6 +198,8 @@ class ComponentiImportService
             'formato' => $formato,
             'delimitatore' => $delimitatore,
             'headers' => $this->headersTemplate(),
+            'raw_headers' => array_values($intestazioni),
+            'raw_rows' => array_values($righe),
             'rows' => $righePreview,
             'totale_righe' => count($righePreview),
             'righe_valide' => count(array_filter($righePreview, fn (array $row) => $row['status'] === 'VALIDO')),
@@ -195,6 +209,36 @@ class ComponentiImportService
                 'default_relationship_descrizione' => $defaultInfo['relationship_descrizione'] ?? null,
                 'default_exent' => $defaultInfo['exent'] ?? null,
             ],
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $batch
+     * @return array{valid_rows: array<int, array<string, mixed>>, invalid_rows: array<int, array<string, mixed>>, payloads: array<int, array<string, mixed>>, valid_count:int, invalid_count:int}
+     */
+    public function preparaConfermaBatch(array $batch, int $schedinaId, int $strutturaId, int $userId, ?callable $tipoAlloggiatoResolver = null): array
+    {
+        $this->assertBatchCanBeConfirmed($batch, $schedinaId, $strutturaId, $userId);
+
+        $analisi = $this->analizzaImportazione(
+            (array) ($batch['raw_headers'] ?? []),
+            (array) ($batch['raw_rows'] ?? []),
+            (string) ($batch['formato'] ?? self::FORMATO_CSV),
+            $tipoAlloggiatoResolver
+        );
+
+        $validRows = array_values(array_filter($analisi['rows'], fn (array $row) => $row['status'] === 'VALIDO'));
+        $invalidRows = array_values(array_filter($analisi['rows'], fn (array $row) => $row['status'] !== 'VALIDO'));
+        $payloads = array_map(function (array $row) use ($schedinaId, $strutturaId) {
+            return $this->buildPersistableComponentPayload($row['data'] ?? [], $schedinaId, $strutturaId);
+        }, $validRows);
+
+        return [
+            'valid_rows' => $validRows,
+            'invalid_rows' => $invalidRows,
+            'payloads' => $payloads,
+            'valid_count' => count($validRows),
+            'invalid_count' => count($invalidRows),
         ];
     }
 
@@ -390,5 +434,77 @@ class ComponentiImportService
     {
         $pezzi = explode('.', $chiave);
         return $pezzi[2] ?? null;
+    }
+
+    /**
+     * @param array<string, mixed> $batch
+     */
+    private function assertBatchCanBeConfirmed(array $batch, int $schedinaId, int $strutturaId, int $userId): void
+    {
+        $token = trim((string) ($batch['token'] ?? ''));
+        if ($token === '') {
+            throw new ComponentiImportException('Batch non valido.');
+        }
+
+        if (!is_array($batch['raw_headers'] ?? null) || !is_array($batch['raw_rows'] ?? null)) {
+            throw new ComponentiImportException('Payload batch non valido.');
+        }
+
+        if (($batch['status'] ?? 'pending') !== 'pending') {
+            throw new ComponentiImportException('Batch non in stato pending.');
+        }
+
+        if (($batch['schedina_id'] ?? null) !== $schedinaId) {
+            throw new ComponentiImportException('Batch schedina non valido.');
+        }
+
+        if (($batch['struttura_id'] ?? null) !== $strutturaId) {
+            throw new ComponentiImportException('Batch struttura non valido.');
+        }
+
+        if (($batch['user_id'] ?? null) !== $userId) {
+            throw new ComponentiImportException('Batch utente non valido.');
+        }
+
+        $expiresAt = (int) ($batch['expires_at'] ?? 0);
+        if ($expiresAt > 0 && $expiresAt < time()) {
+            throw new ComponentiImportException('Batch scaduto.');
+        }
+
+        if (($batch['confirmed_at'] ?? null) !== null) {
+            throw new ComponentiImportException('Batch già confermato.');
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     */
+    private function buildPersistableComponentPayload(array $row, int $schedinaId, int $strutturaId): array
+    {
+        return [
+            'struttura_id' => $strutturaId,
+            'schedina_id' => $schedinaId,
+            'customer_id' => null,
+            'name' => $row['name'] ?? null,
+            'surname' => $row['surname'] ?? null,
+            'sex' => $row['sex'] ?? null,
+            'relationship' => $row['relationship'] ?? null,
+            'exent' => $row['exent'] ?? null,
+            'province_nac' => $row['province_nac'] ?? null,
+            'city_nac' => $row['city_nac'] ?? null,
+            'date_nac' => DatiComponenteNormalizzati::normalizzaData($row['date_nac'] ?? null),
+            'cap_nac' => $row['cap_nac'] ?? null,
+            'country_nac' => $row['country_nac'] ?? null,
+            'regione_nac' => $row['regione_nac'] ?? null,
+            'comune_nac' => $row['comune_nac'] ?? null,
+            'country' => $row['country'] ?? null,
+            'regione' => $row['regione'] ?? null,
+            'typeaway' => $row['typeaway'] ?? null,
+            'address' => $row['address'] ?? null,
+            'number' => $row['number'] ?? null,
+            'cap' => $row['cap'] ?? null,
+            'province' => $row['province'] ?? null,
+            'city' => $row['city'] ?? null,
+        ];
     }
 }

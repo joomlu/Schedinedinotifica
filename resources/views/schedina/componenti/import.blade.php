@@ -50,6 +50,10 @@
                     <div class="alert alert-danger">{{ $errors->first('file_import') }}</div>
                 @endif
 
+                @if ($errors->has('import_batch_token'))
+                    <div class="alert alert-danger">{{ $errors->first('import_batch_token') }}</div>
+                @endif
+
                 <div class="row g-4">
                     <div class="col-xl-5">
                         <div class="border rounded-3 p-3 h-100">
@@ -105,6 +109,25 @@
                             <div class="col-md-3"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Valide</div><div class="fw-semibold fs-4 text-success">{{ $preview['righe_valide'] }}</div></div></div>
                             <div class="col-md-3"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Con errori</div><div class="fw-semibold fs-4 text-danger">{{ $preview['righe_in_errore'] }}</div></div></div>
                             <div class="col-md-3"><div class="border rounded-3 p-3 h-100"><div class="text-muted small">Default tipo alloggiato</div><div class="fw-semibold fs-4">{{ $preview['metadata']['default_relationship_descrizione'] ?? '-' }}</div></div></div>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+                            <div class="text-muted">
+                                Verranno importati <strong>{{ $preview['righe_valide'] }}</strong> componenti.
+                                @if(!empty($preview['righe_in_errore']))
+                                    <span class="ms-2">Righe con errori: <strong>{{ $preview['righe_in_errore'] }}</strong>.</span>
+                                @endif
+                            </div>
+                            @if(($preview['righe_valide'] ?? 0) > 0 && !empty($preview['batch_token']))
+                                <form method="POST" action="{{ route('schedina.componenti.import.confirm', ['schedina' => $schedina->id]) }}">
+                                    @csrf
+                                    <input type="hidden" name="import_batch_token" value="{{ $preview['batch_token'] }}">
+                                    <button type="submit" class="btn btn-success btn-label right">
+                                        <i class="ri-check-double-line label-icon align-middle fs-16 ms-2"></i>
+                                        Conferma importazione
+                                    </button>
+                                </form>
+                            @endif
                         </div>
 
                         <div class="table-responsive">

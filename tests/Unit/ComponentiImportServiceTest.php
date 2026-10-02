@@ -502,6 +502,119 @@ class ComponentiImportServiceTest extends TestCase
         $this->assertNotContains('istat_exported_at', array_map('strtolower', $headers));
     }
 
+    public function test_prepara_conferma_batch_pending_puo_procedere(): void
+    {
+        $service = new ComponentiImportService();
+        $batch = $this->buildValidBatch($service);
+
+        $result = $service->preparaConfermaBatch($batch, 77, 10, 501, fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame(1, $result['valid_count']);
+        $this->assertSame(0, $result['invalid_count']);
+        $this->assertCount(1, $result['payloads']);
+        $this->assertSame(77, $result['payloads'][0]['schedina_id']);
+        $this->assertSame(10, $result['payloads'][0]['struttura_id']);
+        $this->assertSame('NO', $result['payloads'][0]['exent']);
+    }
+
+    public function test_prepara_conferma_batch_confirmed_viene_rifiutato(): void
+    {
+        $service = new ComponentiImportService();
+        $batch = $this->buildValidBatch($service);
+        $batch['status'] = 'confirmed';
+        $batch['confirmed_at'] = time();
+
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('pending');
+
+        $service->preparaConfermaBatch($batch, 77, 10, 501, fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_prepara_conferma_batch_scaduto_viene_rifiutato(): void
+    {
+        $service = new ComponentiImportService();
+        $batch = $this->buildValidBatch($service);
+        $batch['expires_at'] = time() - 10;
+
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('scaduto');
+
+        $service->preparaConfermaBatch($batch, 77, 10, 501, fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_prepara_conferma_batch_user_diverso_viene_rifiutato(): void
+    {
+        $service = new ComponentiImportService();
+        $batch = $this->buildValidBatch($service);
+
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('utente');
+
+        $service->preparaConfermaBatch($batch, 77, 10, 999, fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_prepara_conferma_batch_struttura_diversa_viene_rifiutato(): void
+    {
+        $service = new ComponentiImportService();
+        $batch = $this->buildValidBatch($service);
+
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('struttura');
+
+        $service->preparaConfermaBatch($batch, 77, 999, 501, fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_prepara_conferma_batch_schedina_diversa_viene_rifiutato(): void
+    {
+        $service = new ComponentiImportService();
+        $batch = $this->buildValidBatch($service);
+
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('schedina');
+
+        $service->preparaConfermaBatch($batch, 999, 10, 501, fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_prepara_conferma_batch_senza_token_viene_rifiutato(): void
+    {
+        $service = new ComponentiImportService();
+        $batch = $this->buildValidBatch($service);
+        $batch['token'] = '';
+
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('Batch non valido');
+
+        $service->preparaConfermaBatch($batch, 77, 10, 501, fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_prepara_conferma_batch_con_payload_mancante_viene_rifiutato(): void
+    {
+        $service = new ComponentiImportService();
+        $batch = $this->buildValidBatch($service);
+        unset($batch['raw_rows']);
+
+        $this->expectException(ComponentiImportException::class);
+        $this->expectExceptionMessage('Payload batch non valido');
+
+        $service->preparaConfermaBatch($batch, 77, 10, 501, fn () => $this->tipoAlloggiatoFixture());
+    }
+
+    public function test_prepara_conferma_batch_con_codice_20_mancante_fallisce(): void
+    {
+        $service = new ComponentiImportService();
+        $batch = $this->buildValidBatch($service);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('codice 20');
+
+        $service->preparaConfermaBatch($batch, 77, 10, 501, fn () => [
+            ['codice' => '16', 'descrizione' => 'OSPITE SINGOLO'],
+            ['codice' => '17', 'descrizione' => 'CAPO FAMIGLIA'],
+            ['codice' => '18', 'descrizione' => 'CAPO GRUPPO'],
+            ['codice' => '19', 'descrizione' => 'FAMILIARE'],
+        ]);
+    }
+
     private function tipoAlloggiatoFixture(): array
     {
         return [
@@ -510,6 +623,30 @@ class ComponentiImportServiceTest extends TestCase
             ['codice' => '18', 'descrizione' => 'CAPO GRUPPO'],
             ['codice' => '19', 'descrizione' => 'FAMILIARE'],
             ['codice' => '20', 'descrizione' => 'MEMBRO GRUPPO'],
+        ];
+    }
+
+    private function buildValidBatch(ComponentiImportService $service): array
+    {
+        $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
+            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+        ]]);
+
+        $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
+
+        return [
+            'token' => 'batch-test-001',
+            'user_id' => 501,
+            'struttura_id' => 10,
+            'schedina_id' => 77,
+            'formato' => 'csv',
+            'raw_headers' => $preview['raw_headers'],
+            'raw_rows' => $preview['raw_rows'],
+            'created_at' => time(),
+            'expires_at' => time() + 3600,
+            'confirmed_at' => null,
+            'status' => 'pending',
         ];
     }
 
