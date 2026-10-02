@@ -50,8 +50,8 @@ class ComponentiImportService
     public function nomeFileTemplate(string $formato): string
     {
         return match ($this->normalizzaFormato($formato)) {
-            self::FORMATO_CSV => 'modello_import_componenti.csv',
-            self::FORMATO_TXT => 'modello_import_componenti.txt',
+            self::FORMATO_CSV => 'modello_componenti.csv',
+            self::FORMATO_TXT => 'modello_componenti.txt',
         };
     }
 
@@ -63,28 +63,26 @@ class ComponentiImportService
         };
     }
 
-    public function templateExampleRow(): array
+    public function contenutoTemplateVuoto(string $formato): string
     {
-        return [
-            'Mario',
-            'Rossi',
-            'M',
-            'Italiana',
-            'Italia',
-            '02/10/1980',
-            'Emilia-Romagna',
-            'Rimini',
-            'Rimini',
-            '47921',
-            'Italia',
-            'Emilia-Romagna',
-            'RN',
-            'Rimini',
-            'Via',
-            'Via Roma',
-            '10',
-            '47921',
-        ];
+        $formato = $this->normalizzaFormato($formato);
+        $delimiter = $this->delimitatorePerFormato($formato);
+
+        $stream = fopen('php://temp', 'r+');
+        if ($stream === false) {
+            throw new ComponentiImportException('Impossibile generare il template di importazione.');
+        }
+
+        if ($formato === self::FORMATO_CSV) {
+            fwrite($stream, "\xEF\xBB\xBF");
+        }
+
+        fputcsv($stream, $this->headersTemplate(), $delimiter);
+        rewind($stream);
+        $content = stream_get_contents($stream);
+        fclose($stream);
+
+        return (string) $content;
     }
 
     /**

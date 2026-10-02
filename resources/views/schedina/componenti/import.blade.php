@@ -73,14 +73,19 @@
                                         <i class="ri-search-line label-icon align-middle fs-16 ms-2"></i>
                                         Genera preview
                                     </button>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Scarica modello
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item" href="{{ route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'csv']) }}">Modello CSV</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'txt']) }}">Modello TXT</a></li>
-                                        </ul>
+                                </div>
+                                <div class="col-12">
+                                    <div class="border rounded-3 p-3 bg-light-subtle">
+                                        <div class="fw-semibold mb-2">Scarica modello</div>
+                                        <p class="text-muted mb-2">Scarica il modello, compilalo con i componenti e caricalo nuovamente in questa pagina.</p>
+                                        <div class="d-flex gap-2 flex-wrap mb-2">
+                                            <a class="btn btn-light" href="{{ route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'csv']) }}">Scarica CSV</a>
+                                            <a class="btn btn-light" href="{{ route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'txt']) }}">Scarica TXT</a>
+                                        </div>
+                                        <div class="small text-muted">
+                                            Tipo alloggiato viene impostato automaticamente come <strong>MEMBRO GRUPPO</strong> ed Esente come <strong>NO</strong>.
+                                            Potrai modificare questi valori successivamente nella scheda del componente.
+                                        </div>
                                     </div>
                                 </div>
                             </form>

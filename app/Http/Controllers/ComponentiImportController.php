@@ -53,16 +53,10 @@ class ComponentiImportController extends Controller
             abort(404);
         }
 
-        $headers = $this->service->headersTemplate();
-        $example = $this->service->templateExampleRow();
-        $delimiter = $this->service->delimitatorePerFormato($format);
+        $content = $this->service->contenutoTemplateVuoto($format);
 
-        $callback = function () use ($headers, $example, $delimiter) {
-            $handle = fopen('php://output', 'w');
-            echo "\xEF\xBB\xBF";
-            fputcsv($handle, $headers, $delimiter);
-            fputcsv($handle, $example, $delimiter);
-            fclose($handle);
+        $callback = static function () use ($content) {
+            echo $content;
         };
 
         return response()->streamDownload($callback, $this->service->nomeFileTemplate($format), [

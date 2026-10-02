@@ -402,6 +402,109 @@ class ComponentiImportServiceTest extends TestCase
         $this->assertSame('NO', $preview['rows'][0]['exent']);
     }
 
+    public function test_nome_file_template_ufficiale_csv_e_txt(): void
+    {
+        $service = new ComponentiImportService();
+
+        $this->assertSame('modello_componenti.csv', $service->nomeFileTemplate('csv'));
+        $this->assertSame('modello_componenti.txt', $service->nomeFileTemplate('txt'));
+    }
+
+    public function test_template_csv_vuoto_usa_colonne_contratto_senza_righe_esempio(): void
+    {
+        $service = new ComponentiImportService();
+        $content = $service->contenutoTemplateVuoto('csv');
+
+        $stream = fopen('php://temp', 'r+');
+        fwrite($stream, $content);
+        rewind($stream);
+
+        $header = fgetcsv($stream, 0, ';');
+        $second = fgetcsv($stream, 0, ';');
+        fclose($stream);
+
+        if (is_array($header) && isset($header[0]) && is_string($header[0])) {
+            if (str_starts_with($header[0], "\xEF\xBB\xBF")) {
+                $header[0] = substr($header[0], 3);
+            }
+        }
+
+        $this->assertSame($service->headersTemplate(), $header);
+        $this->assertFalse($second);
+        $this->assertNotContains('Tipo alloggiato', $header);
+        $this->assertNotContains('Esente', $header);
+        $this->assertNotContains('questura', array_map('strtolower', $header));
+        $this->assertNotContains('id', array_map('strtolower', $header));
+        $this->assertStringStartsWith("\xEF\xBB\xBF", $content);
+    }
+
+    public function test_template_txt_vuoto_usa_colonne_contratto_senza_righe_esempio(): void
+    {
+        $service = new ComponentiImportService();
+        $content = $service->contenutoTemplateVuoto('txt');
+
+        $stream = fopen('php://temp', 'r+');
+        fwrite($stream, $content);
+        rewind($stream);
+
+        $header = fgetcsv($stream, 0, "\t");
+        $second = fgetcsv($stream, 0, "\t");
+        fclose($stream);
+
+        $this->assertSame($service->headersTemplate(), $header);
+        $this->assertFalse($second);
+        $this->assertNotContains('Tipo alloggiato', $header);
+        $this->assertNotContains('Esente', $header);
+        $this->assertNotContains('questura', array_map('strtolower', $header));
+        $this->assertNotContains('id', array_map('strtolower', $header));
+    }
+
+    public function test_round_trip_template_csv_con_parser_esistente(): void
+    {
+        $service = new ComponentiImportService();
+        $content = $service->contenutoTemplateVuoto('csv');
+
+        $preview = $service->previewDaContenuto($content, 'csv', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame($service->headersTemplate(), $preview['headers']);
+        $this->assertSame(0, $preview['totale_righe']);
+        $this->assertSame(0, $preview['righe_valide']);
+        $this->assertSame(0, $preview['righe_in_errore']);
+        $this->assertSame([], $preview['rows']);
+    }
+
+    public function test_round_trip_template_txt_con_parser_esistente(): void
+    {
+        $service = new ComponentiImportService();
+        $content = $service->contenutoTemplateVuoto('txt');
+
+        $preview = $service->previewDaContenuto($content, 'txt', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame($service->headersTemplate(), $preview['headers']);
+        $this->assertSame(0, $preview['totale_righe']);
+        $this->assertSame(0, $preview['righe_valide']);
+        $this->assertSame(0, $preview['righe_in_errore']);
+        $this->assertSame([], $preview['rows']);
+    }
+
+    public function test_template_vuoto_non_modifica_default_import(): void
+    {
+        $service = new ComponentiImportService();
+        $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
+            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
+            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+        ]]);
+
+        $before = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
+        $service->contenutoTemplateVuoto('csv');
+        $service->contenutoTemplateVuoto('txt');
+        $after = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame($before['rows'][0]['relationship'], $after['rows'][0]['relationship']);
+        $this->assertSame('MEMBRO GRUPPO', $after['rows'][0]['relationship']);
+        $this->assertSame('NO', $after['rows'][0]['exent']);
+    }
+
     public function test_mancanza_codice_20_fa_fallire_il_default(): void
     {
         $this->expectException(RuntimeException::class);
