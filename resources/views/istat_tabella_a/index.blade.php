@@ -99,7 +99,7 @@
                     </div>
                     <div class="col-xl-2 col-md-4">
                         <div class="text-muted">URL Web Service</div>
-                        <div class="{{ filled($struttura->istat_ws_url) || !empty($credStatus['simulation']) ? 'text-success' : 'text-warning' }}">{{ $struttura->istat_ws_url ?: 'Default Ross1000' }}</div>
+                        <div class="{{ filled($struttura->istat_ws_url) || !empty($credStatus['simulation']) ? 'text-success' : 'text-warning' }}">{{ filled($struttura->istat_ws_url) ? 'Endpoint personalizzato configurato' : 'Default Ross1000' }}</div>
                     </div>
                     <div class="col-xl-2 col-md-4">
                         <div class="text-muted">Modalità</div>
@@ -228,9 +228,9 @@
                                 </td>
                                 <td class="align-middle text-nowrap small">
                                     @if(($schedina->istat_send_count ?? 0) > 0)
-                                        <span class="badge bg-success-subtle text-success">Inviato {{ $schedina->istat_send_count }}x</span>
+                                        <span class="badge bg-light text-body">Invii registrati {{ $schedina->istat_send_count }}x (accettazione non verificata)</span>
                                     @else
-                                        <span class="badge bg-light text-body">Mai inviato</span>
+                                        <span class="badge bg-light text-body">Nessun invio confermato nel contatore</span>
                                     @endif
                                 </td>
                                 <td class="align-middle small">
@@ -403,20 +403,11 @@
                                                 <td class="text-nowrap">{{ $tx->mode === 'verify' ? 'Verifica invio diretto' : 'Invio diretto' }}</td>
                                                 <td>{{ optional($tx->dal)->format('d/m/Y') }} - {{ optional($tx->al)->format('d/m/Y') }}</td>
                                                 <td>
-                                                    @if(($tx->result['simulated'] ?? false) === true)
-                                                        <span class="badge bg-info-subtle text-info">SIMULAZIONE</span>
-                                                    @endif
-                                                    @if($tx->status === 'success')
-                                                        <span class="badge bg-success-subtle text-success">OK</span>
-                                                    @elseif($tx->status === 'error')
-                                                        <span class="badge bg-danger-subtle text-danger">Errore</span>
-                                                    @else
-                                                        <span class="badge bg-light text-body">In attesa</span>
-                                                    @endif
+                                                    <span class="badge bg-light text-body">{{ $tx->esitoSicuro()['state'] }}</span>
                                                 </td>
-                                                <td class="small">{{ $tx->response_message ?: '-' }}</td>
+                                                <td class="small">{{ $tx->esitoSicuro()['message'] }}</td>
                                                 <td class="text-end">
-                                                    <a href="{{ route('istat.tabella_a.ws.receipt', ['id' => $tx->id]) }}" class="btn btn-soft-secondary">Esito</a>
+                                                    <a href="{{ route('istat.tabella_a.ws.receipt', ['id' => $tx->id]) }}" class="btn btn-soft-secondary">Riepilogo locale (non ufficiale)</a>
                                                 </td>
                                             </tr>
                                         @endforeach

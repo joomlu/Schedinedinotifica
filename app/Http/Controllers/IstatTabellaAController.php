@@ -8,6 +8,7 @@ use App\Models\Schedina;
 use App\Models\Struttura;
 use App\Services\IstatTabellaAService;
 use App\Services\IstatWebService;
+use App\Services\EsitoTrasmissioneIstat;
 use App\Support\StrutturaCorrente;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -122,43 +123,12 @@ class IstatTabellaAController extends Controller
         abort_unless($struttura, 403);
 
         $transmission = IstatTransmission::query()->where('struttura_id', $struttura->id)->findOrFail($id);
-        if ($transmission->receipt_path && Storage::disk('local')->exists($transmission->receipt_path)) {
-            return Storage::disk('local')->download($transmission->receipt_path, $transmission->receipt_filename ?: 'ricevuta_istat.pdf', ['Content-Type' => 'application/pdf']);
-        }
-
-        $result = null;
-        try {
-            $result = $this->webService->receipt($struttura, Carbon::parse($transmission->executed_at ?: $transmission->created_at));
-        } catch (Throwable $e) {
-            // Ross1000 non espone ancora qui una ricevuta remota integrata: costruiamo
-            // una ricevuta operativa locale basata sull'esito registrato, così il circuito
-            // resta chiuso per l'operatore anche in modalità reale.
-            $result = [
-                'ok' => $transmission->status === 'success',
-                'message' => 'Ricevuta operativa locale generata dal sistema.',
-                'detail' => $transmission->response_detail ?: $e->getMessage(),
-                'receipt_binary' => $this->buildOperatorReceiptPdf($struttura, $transmission),
-                'generated_locally' => true,
-            ];
-        }
-
-        if (empty($result['receipt_binary'])) {
-            $result['receipt_binary'] = $this->buildOperatorReceiptPdf($struttura, $transmission);
-            $result['generated_locally'] = true;
-            $result['message'] = $result['message'] ?? 'Ricevuta operativa locale generata dal sistema.';
-        }
-
-        $filename = 'ricevuta_istat_' . Carbon::parse($transmission->executed_at ?: $transmission->created_at)->format('Ymd_His') . '.pdf';
-        $path = 'istat/ricevute/struttura_' . $struttura->id . '/' . $filename;
-        Storage::disk('local')->put($path, $result['receipt_binary']);
-        $transmission->update([
-            'receipt_filename' => $filename,
-            'receipt_path' => $path,
-            'response_message' => $result['message'] ?? $transmission->response_message,
-            'result' => array_merge($transmission->result ?? [], collect($result)->except('receipt_binary')->all()),
+        // Historical PDFs/details may contain remote secrets. Keep them untouched,
+        // but generate a safe local summary without reading or merging that material.
+        return response($this->buildOperatorReceiptPdf($struttura, $transmission), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="riepilogo_locale_istat_' . (int) $transmission->id . '.pdf"',
         ]);
-
-        return Storage::disk('local')->download($path, $filename, ['Content-Type' => 'application/pdf']);
     }
 
     public function printSummary(Request $request)
@@ -230,37 +200,26 @@ class IstatTabellaAController extends Controller
             $result = $mode === 'verify'
                 ? $this->webService->verify($struttura, $xml, $dal, $al)
                 : $this->webService->send($struttura, $xml, $dal, $al);
-        } catch (Throwable $e) {
-            $transmission->update([
-                'status' => 'error',
-                'response_message' => $e->getMessage(),
-                'response_detail' => $e->getTraceAsString(),
-                'executed_at' => now(),
-            ]);
-            return redirect()->route('istat.tabella_a.index', ['dal' => $dal->toDateString(), 'al' => $al->toDateString()])->withErrors(['istat_ws' => strtoupper($mode) . ' ISTAT non riuscito: ' . $e->getMessage()]);
+        } catch (Throwable) {
+            $result = EsitoTrasmissioneIstat::crea('technical_error', $mode);
         }
+        // A second closed-schema projection protects the persistence boundary.
+        $result = EsitoTrasmissioneIstat::sanifica($result);
 
         $transmission->update([
-            'status' => ($result['ok'] ?? false) ? 'success' : 'error',
-            'response_code' => $result['response_code'] ?? null,
+            'status' => $result['state'],
+            'response_code' => $result['transport']['http_status'],
             'response_message' => $result['message'] ?? null,
-            'response_detail' => $result['detail'] ?? null,
+            'response_detail' => null,
             'result' => $result,
             'executed_at' => now(),
         ]);
 
-        if (($result['ok'] ?? false) && $mode === 'send') {
-            Schedina::query()
-                ->whereIn('id', $analysis['schedine']->pluck('id')->all())
-                ->update([
-                    'istat_sent_at' => now(),
-                    'istat_send_count' => DB::raw('COALESCE(istat_send_count, 0) + 1'),
-                    'last_istat_transmission_id' => $transmission->id,
-                ]);
-        }
+        // Attempts remain in the transmission history. Without an official acceptance
+        // parser, neither simulation nor HTTP delivery updates confirmed-send counters.
 
         return redirect()->route('istat.tabella_a.index', ['dal' => $dal->toDateString(), 'al' => $al->toDateString()])
-            ->with(($result['ok'] ?? false) ? 'success' : 'error', $result['message'] ?? 'Operazione completata.');
+            ->with(in_array($result['state'], ['technical_error', 'rejected'], true) ? 'error' : 'warning', $result['message']);
     }
 
     private function storeExport(int $strutturaId, ?int $userId, Carbon $dal, Carbon $al, string $filename, string $xml, $schedine): IstatExport
@@ -293,28 +252,16 @@ class IstatTabellaAController extends Controller
     private function buildOperatorReceiptPdf(Struttura $struttura, IstatTransmission $transmission): string
     {
         $lines = [
-            'Tabella A Emilia-Romagna - Esito operativo invio',
-            'Struttura: ' . ($struttura->nome_struttura ?: 'Struttura'),
-            'Codice Ross1000: ' . ($struttura->istat_codice_struttura ?: '-'),
+            'Riepilogo locale ISTAT - NON e una ricevuta ufficiale',
+            'Identificativo trasmissione locale: ' . (int) $transmission->id,
             'Tipo operazione: ' . ($transmission->mode === 'verify' ? 'Verifica invio diretto' : 'Invio diretto'),
             'Periodo: ' . optional($transmission->dal)->format('d/m/Y') . ' - ' . optional($transmission->al)->format('d/m/Y'),
             'Eseguito il: ' . optional($transmission->executed_at ?: $transmission->created_at)->format('d/m/Y H:i'),
             'Schedine incluse: ' . (string) ($transmission->schedine_count ?? 0),
             'Movimenti XML: ' . (string) ($transmission->movimenti_count ?? 0),
-            'Esito: ' . ($transmission->status === 'success' ? 'OK' : ($transmission->status === 'error' ? 'ERRORE' : 'IN ATTESA')),
-            'Codice risposta: ' . ($transmission->response_code ?: '-'),
-            'Messaggio: ' . ($transmission->response_message ?: '-'),
+            'Esito: ' . $transmission->esitoSicuro()['state'],
+            $transmission->esitoSicuro()['message'],
         ];
-
-        $detail = trim((string) ($transmission->response_detail ?: ''));
-        if ($detail !== '') {
-            $detail = preg_replace('/\s+/', ' ', $detail) ?: $detail;
-            foreach (str_split($detail, 90) as $chunk) {
-                $lines[] = $chunk;
-            }
-        } else {
-            $lines[] = 'Dettaglio: non disponibile.';
-        }
 
         $text = implode("\n", $lines);
         $stream = "BT\n/F1 11 Tf\n40 790 Td\n14 TL\n";
