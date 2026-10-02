@@ -192,4 +192,14 @@ class DatiComponenteNormalizzatiTest extends TestCase
 
         $this->assertSame('400', $rows[0]['exent']);
     }
+
+    public function test_id_tecnico_attraversa_il_contratto_senza_essere_rimosso(): void
+    {
+        $rows = DatiComponenteNormalizzati::normalizzaRighe([
+            ['id' => '17', 'name' => ' Mario ', 'surname' => ' Rossi ', 'sex' => ' M '],
+        ]);
+
+        $this->assertSame('17', $rows[0]['id']);
+        $this->assertSame('Mario', $rows[0]['name']);
+    }
 }

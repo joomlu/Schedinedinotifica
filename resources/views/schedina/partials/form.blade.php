@@ -861,6 +861,7 @@
                         </div>
                         <div class="card-body">
                             <div id="componenti-section">
+                                <input type="hidden" id="componenti-intenzione" name="componenti_intenzione" value="{{ old('componenti_intenzione', '') }}">
                                 <div class="alert alert-info py-2 mb-3">
                                     Campi obbligatori componente: Nome, Cognome, Sesso, Tipo alloggiato, Esente, Cittadinanza, Provincia nascita, Data di nascita, Nazione, Regione, Provincia, Città, Tipo via, Strada, Num, CAP.
                                 </div>
@@ -901,6 +902,7 @@
                                         $cityGeoLabel = $citySummary !== '' && !is_numeric($citySummary) ? $citySummary : '';
                                     @endphp
                                     <div class="card border shadow-sm mb-3 componente-row {{ $showOnlyAddComponente && !$isFilledRow ? 'd-none componente-empty-row' : '' }}" data-index="{{ $index }}" data-city-label="{{ $cityGeoLabel }}">
+                                        <input type="hidden" name="componenti[{{ $index }}][id]" value="{{ $rowVal('id') }}">
                                         <div class="card-header d-flex align-items-center justify-content-between bg-light-subtle">
                                             <div class="d-flex flex-column">
                                                 <h6 class="mb-0 d-none"></h6>

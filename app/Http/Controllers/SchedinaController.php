@@ -21,6 +21,7 @@ use App\Models\RilasciatoDa;
 use App\Services\TassaDiSoggiornoService;
 use App\Services\CestinoService;
 use App\Support\Componenti\DatiComponenteNormalizzati;
+use App\Support\Componenti\PianoSyncComponenti;
 use App\Support\StrutturaCorrente;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -994,6 +995,12 @@ class SchedinaController extends Controller
 
     protected function validateComponentiRows(Request $request): void
     {
+        $request->validate([
+            'componenti' => ['nullable', 'array'],
+            'componenti.*.id' => ['nullable', 'integer'],
+            'componenti_intenzione' => ['nullable', 'in:elimina_tutti'],
+        ]);
+
         $rows = $this->normalizedComponentiRows($request);
         if (empty($rows)) {
             return;
@@ -1114,60 +1121,113 @@ class SchedinaController extends Controller
     protected function syncComponenti(Schedina $schedina, Request $request): void
     {
         $rows = $this->normalizedComponentiRows($request);
-        $rawRows = collect($request->input('componenti', []));
-        $existingCount = Componenti::query()
-            ->where('schedina_id', $schedina->id)
-            ->count();
+        $rawRows = (array) $request->input('componenti', []);
+        $eliminazioneTotaleIntenzionale = $this->componenteDeleteAllIntenzionale($request);
 
-        // Protegge da submit anomali del tab componenti:
-        // se esistono già componenti salvati e il browser rimanda solo
-        // una riga vuota/placeholder, non si cancella l elenco esistente.
-        if ($existingCount > 0 && $rawRows->isNotEmpty() && empty($rows)) {
+        $callback = function () use ($schedina, $rows, $rawRows, $eliminazioneTotaleIntenzionale) {
+            $esistenti = Componenti::query()
+                ->where('schedina_id', $schedina->id)
+                ->get()
+                ->keyBy('id');
+
+            if (PianoSyncComponenti::devePreservareEsistentiSuPlaceholder(
+                $esistenti->count(),
+                $rawRows,
+                $rows,
+                $eliminazioneTotaleIntenzionale
+            )) {
+                return;
+            }
+
+            if (empty($rows)) {
+                Componenti::query()
+                    ->where('schedina_id', $schedina->id)
+                    ->delete();
+                return;
+            }
+
+            $piano = PianoSyncComponenti::costruisci($rows, $esistenti->keys()->all());
+            if (!empty($piano->errori)) {
+                throw ValidationException::withMessages($piano->errori);
+            }
+
+            foreach ($rows as $row) {
+                $payload = $this->buildComponentePayload($schedina, $row);
+                $id = $row['id'] ?? null;
+
+                if ($id === null || $id === '') {
+                    Componenti::query()->create($payload);
+                    continue;
+                }
+
+                $componente = $esistenti->get((int) $id);
+                if (!$componente) {
+                    throw ValidationException::withMessages([
+                        'componenti' => 'Impossibile aggiornare un componente esterno alla schedina corrente.',
+                    ]);
+                }
+
+                $componente->fill($payload);
+                $componente->save();
+            }
+
+            if (!empty($piano->idDaEliminare)) {
+                Componenti::query()
+                    ->where('schedina_id', $schedina->id)
+                    ->whereIn('id', $piano->idDaEliminare)
+                    ->delete();
+            }
+        };
+
+        if (DB::transactionLevel() > 0) {
+            $callback();
             return;
         }
 
-        if (empty($rows)) {
-            Componenti::query()
-                ->where('schedina_id', $schedina->id)
-                ->delete();
-            return;
+        DB::transaction($callback);
+    }
+
+    protected function componenteDeleteAllIntenzionale(Request $request): bool
+    {
+        if ($request->input('componenti_intenzione') !== 'elimina_tutti') {
+            return false;
         }
 
-        $payload = collect($rows)->map(function ($row) use ($schedina) {
-            return $this->resolveComponenteGeoLabels([
-                'struttura_id' => $schedina->struttura_id,
-                'schedina_id' => $schedina->id,
-                'customer_id' => $schedina->customer_id,
-                'name' => $row['name'] ?? null,
-                'surname' => $row['surname'] ?? null,
-                'sex' => $row['sex'] ?? null,
-                'relationship' => $row['relationship'] ?? null,
-                'exent' => $row['exent'] ?? null,
-                'city_nac' => $row['city_nac'] ?? null,
-                'province_nac' => $row['province_nac'] ?? null,
-                'country_nac' => $row['country_nac'] ?? null,
-                'regione_nac' => $row['regione_nac'] ?? null,
-                'comune_nac' => $row['comune_nac'] ?? null,
-                'cap_nac' => $row['cap_nac'] ?? null,
-                'date_nac' => DatiComponenteNormalizzati::normalizzaData($row['date_nac'] ?? null),
-                'country' => $row['country'] ?? null,
-                'regione' => $row['regione'] ?? null,
-                'province' => $row['province'] ?? null,
-                'city' => $row['city'] ?? null,
-                'typeaway' => $row['typeaway'] ?? null,
-                'address' => $row['address'] ?? null,
-                'number' => $row['number'] ?? null,
-                'cap' => $row['cap'] ?? null,
-            ]);
-        })->all();
+        $routeName = (string) optional($request->route())->getName();
+        if (str_starts_with($routeName, 'web_checkin.public.')) {
+            return false;
+        }
 
-        DB::transaction(function () use ($schedina, $payload) {
-            Componenti::query()
-                ->where('schedina_id', $schedina->id)
-                ->delete();
+        return true;
+    }
 
-            Componenti::query()->insert($payload);
-        });
+    protected function buildComponentePayload(Schedina $schedina, array $row): array
+    {
+        return $this->resolveComponenteGeoLabels([
+            'struttura_id' => $schedina->struttura_id,
+            'schedina_id' => $schedina->id,
+            'customer_id' => $schedina->customer_id,
+            'name' => $row['name'] ?? null,
+            'surname' => $row['surname'] ?? null,
+            'sex' => $row['sex'] ?? null,
+            'relationship' => $row['relationship'] ?? null,
+            'exent' => $row['exent'] ?? null,
+            'city_nac' => $row['city_nac'] ?? null,
+            'province_nac' => $row['province_nac'] ?? null,
+            'country_nac' => $row['country_nac'] ?? null,
+            'regione_nac' => $row['regione_nac'] ?? null,
+            'comune_nac' => $row['comune_nac'] ?? null,
+            'cap_nac' => $row['cap_nac'] ?? null,
+            'date_nac' => DatiComponenteNormalizzati::normalizzaData($row['date_nac'] ?? null),
+            'country' => $row['country'] ?? null,
+            'regione' => $row['regione'] ?? null,
+            'province' => $row['province'] ?? null,
+            'city' => $row['city'] ?? null,
+            'typeaway' => $row['typeaway'] ?? null,
+            'address' => $row['address'] ?? null,
+            'number' => $row['number'] ?? null,
+            'cap' => $row['cap'] ?? null,
+        ]);
     }
 
     private function resolveGeoLabelsFromInput(array $data): array

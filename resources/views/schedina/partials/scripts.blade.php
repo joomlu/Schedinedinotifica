@@ -520,6 +520,7 @@
         const camereToggle = document.getElementById('camere-toggle');
         const componentiSection = document.getElementById('componenti-section');
         const componentiContainer = document.getElementById('componenti-container');
+        const componentiIntentInput = document.getElementById('componenti-intenzione');
         const addComponenteBtn = document.getElementById('add-componente-row');
         const saveModeInput = document.getElementById('save-mode');
         const saveModeIntentInput = document.getElementById('save-mode-intent');
@@ -692,6 +693,10 @@
         const clearComponenteRow = (row) => {
             row.dataset.cityLabel = '';
             row.querySelectorAll('input, select, textarea').forEach((field) => {
+                if (field.type === 'hidden') {
+                    field.value = '';
+                    return;
+                }
                 if (field.tagName === 'SELECT') {
                     field.selectedIndex = 0;
                     field.value = '';
@@ -817,6 +822,25 @@
             });
         };
 
+        const rowHasPersistedId = (row) => {
+            const idField = row.querySelector('[name$="[id]"]');
+            return String(idField?.value || '').trim() !== '';
+        };
+
+        const clearDeleteAllIntent = () => {
+            if (componentiIntentInput) {
+                componentiIntentInput.value = '';
+            }
+        };
+
+        const updateDeleteAllIntentFromExplicitRemove = () => {
+            if (!componentiIntentInput || !componentiContainer) return;
+
+            const rows = Array.from(componentiContainer.querySelectorAll('.componente-row'));
+            const hasMeaningfulRows = rows.some((row) => rowHasData(row) || rowHasPersistedId(row));
+            componentiIntentInput.value = hasMeaningfulRows ? '' : 'elimina_tutti';
+        };
+
         const hasOpenComponenteDetails = () => {
             if (!componentiContainer) return false;
             return Array.from(componentiContainer.querySelectorAll('.componente-row'))
@@ -918,23 +942,27 @@
 
                 if (rows.length <= 1) {
                     clearComponenteRow(row);
+                    updateDeleteAllIntentFromExplicitRemove();
                     refreshAddComponenteVisibility();
                     return;
                 }
 
                 row.remove();
                 reindexComponentiRows();
+                updateDeleteAllIntentFromExplicitRemove();
                 refreshAddComponenteVisibility();
             });
 
             componentiContainer.addEventListener('input', (event) => {
                 const row = event.target.closest('.componente-row');
                 if (!row) return;
+                clearDeleteAllIntent();
                 updateComponenteSummary(row);
             });
             componentiContainer.addEventListener('change', (event) => {
                 const row = event.target.closest('.componente-row');
                 if (!row) return;
+                clearDeleteAllIntent();
                 updateComponenteSummary(row);
             });
         }
@@ -958,6 +986,7 @@
                     if (addComponenteBtn) addComponenteBtn.classList.add('d-none');
 
                     if (rows.length === 1 && !rowHasData(rows[0])) {
+                        clearDeleteAllIntent();
                         rows[0].classList.remove('d-none');
                         closeAllComponenteDetails(rows[0]);
                         clearComponenteRow(rows[0]);
@@ -973,6 +1002,7 @@
                     }
 
                     const clone = rows[rows.length - 1].cloneNode(true);
+                    clearDeleteAllIntent();
                     cleanupEnhancedSelect(clone);
                     clearComponenteRow(clone);
                     resetGeoSelectPlaceholders(clone);
@@ -1020,6 +1050,7 @@
 
         syncCittadinanzaFromCountry();
         togglePublishedCity();
+        clearDeleteAllIntent();
         reindexComponentiRows();
         Array.from((componentiContainer || document).querySelectorAll('.componente-row')).forEach(bindComponenteCittadinanza);
         Array.from((componentiContainer || document).querySelectorAll('.componente-row')).forEach(bindComponenteCapBehavior);
