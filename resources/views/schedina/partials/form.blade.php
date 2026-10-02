@@ -200,11 +200,14 @@
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         <label class="form-label">Tipo alloggiato <span class="text-danger">*</span></label>
-                                        @php $relationshipValue = old('relationship', $schedina->relationship ?? 'OSPITE SINGOLO'); @endphp
+                                        @php
+                                            $relationshipCapoOptions = collect($tipoAlloggiatoCapoOptions ?? []);
+                                            $relationshipValue = old('relationship', $schedina->relationship ?? ($relationshipCapoOptions->first()['descrizione'] ?? 'OSPITE SINGOLO'));
+                                        @endphp
                                         <x-ui.select name="relationship">
-                                            <option value="CAPO FAMIGLIA" {{ $relationshipValue === 'CAPO FAMIGLIA' ? 'selected' : '' }}>CAPO FAMIGLIA</option>
-                                            <option value="CAPO GRUPPO" {{ $relationshipValue === 'CAPO GRUPPO' ? 'selected' : '' }}>CAPO GRUPPO</option>
-                                            <option value="OSPITE SINGOLO" {{ $relationshipValue === 'OSPITE SINGOLO' ? 'selected' : '' }}>OSPITE SINGOLO</option>
+                                            @foreach($relationshipCapoOptions as $option)
+                                                <option value="{{ $option['descrizione'] }}" {{ \App\Support\Componenti\TipoAlloggiatoCatalogo::valoreCompatibileConOpzione($relationshipValue, $option) ? 'selected' : '' }}>{{ $option['descrizione'] }}</option>
+                                            @endforeach
                                         </x-ui.select>
                                     </div>
                                 </div>
@@ -934,11 +937,9 @@
                                                             <label class="form-label">Tipo alloggiato <span class="text-danger">*</span></label>
                                                             <x-ui.select name="componenti[{{ $index }}][relationship]">
                                                                 <option value="">Seleziona</option>
-                                                                <option value="CAPO FAMIGLIA" {{ $rowVal('relationship') === 'CAPO FAMIGLIA' ? 'selected' : '' }}>CAPO FAMIGLIA</option>
-                                                                <option value="CAPO GRUPPO" {{ $rowVal('relationship') === 'CAPO GRUPPO' ? 'selected' : '' }}>CAPO GRUPPO</option>
-                                                                <option value="OSPITE SINGOLO" {{ $rowVal('relationship') === 'OSPITE SINGOLO' ? 'selected' : '' }}>OSPITE SINGOLO</option>
-                                                                <option value="FAMILIARE" {{ $rowVal('relationship') === 'FAMILIARE' ? 'selected' : '' }}>FAMILIARE</option>
-                                                                <option value="MEMBRO GRUPPO" {{ $rowVal('relationship') === 'MEMBRO GRUPPO' ? 'selected' : '' }}>MEMBRO GRUPPO</option>
+                                                                @foreach(($tipoAlloggiatoComponenteOptions ?? []) as $option)
+                                                                    <option value="{{ $option['descrizione'] }}" {{ \App\Support\Componenti\TipoAlloggiatoCatalogo::valoreCompatibileConOpzione($rowVal('relationship'), $option) ? 'selected' : '' }}>{{ $option['descrizione'] }}</option>
+                                                                @endforeach
                                                             </x-ui.select>
                                                         </div>
                                                     </div>

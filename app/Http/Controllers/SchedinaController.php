@@ -22,6 +22,7 @@ use App\Services\TassaDiSoggiornoService;
 use App\Services\CestinoService;
 use App\Support\Componenti\DatiComponenteNormalizzati;
 use App\Support\Componenti\PianoSyncComponenti;
+use App\Support\Componenti\TipoAlloggiatoCatalogo;
 use App\Support\StrutturaCorrente;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -487,6 +488,8 @@ class SchedinaController extends Controller
             'ciudades' => GeoComune::query()->orderBy('nome')->get(['id', 'nome']),
             'cittadinanze' => $cittadinanze,
             'rilasciatoDa' => $rilasciatoDa,
+            'tipoAlloggiatoCapoOptions' => TipoAlloggiatoCatalogo::opzioniCapoSchedina(),
+            'tipoAlloggiatoComponenteOptions' => TipoAlloggiatoCatalogo::opzioniComponente(),
         ];
     }
 
