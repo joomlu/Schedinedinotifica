@@ -811,6 +811,30 @@
             rows.forEach((row, idx) => normalizeComponenteRow(row, idx));
         };
 
+        const normalizeCountryValue = (value) => String(value || '')
+            .trim()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toUpperCase();
+
+        const updateBirthCountryRequirement = (row) => {
+            if (!row) return;
+
+            const note = row.querySelector('[data-role="birth-country-note"]');
+            const birthCountryField = row.querySelector('[name$="[country_nac]"]');
+            if (!note || !birthCountryField) return;
+
+            const rawValue = birthCountryField.tagName === 'SELECT'
+                ? (birthCountryField.options?.[birthCountryField.selectedIndex]?.text || birthCountryField.value || '')
+                : (birthCountryField.value || '');
+
+            const isItalia = ['ITALIA', 'IT'].includes(normalizeCountryValue(rawValue));
+
+            note.textContent = isItalia
+                ? 'Nato in Italia: Provincia e Citta nascita sono obbligatorie. Regione nascita e CAP nascita restano facoltativi.'
+                : 'Nato all estero: Provincia e Citta nascita sono facoltative. Regione nascita, CAP nascita e residenza restano facoltativi.';
+        };
+
         const rowHasData = (row) => {
             // Considera "compilato" solo se hay datos principales.
             // No usar GEO defaults (es. ITALIA) para decidir si crear una nueva fila.
@@ -957,12 +981,14 @@
                 const row = event.target.closest('.componente-row');
                 if (!row) return;
                 clearDeleteAllIntent();
+                updateBirthCountryRequirement(row);
                 updateComponenteSummary(row);
             });
             componentiContainer.addEventListener('change', (event) => {
                 const row = event.target.closest('.componente-row');
                 if (!row) return;
                 clearDeleteAllIntent();
+                updateBirthCountryRequirement(row);
                 updateComponenteSummary(row);
             });
         }
@@ -996,6 +1022,7 @@
                         if (details) details.classList.remove('d-none');
                         refreshRowWidgets(rows[0]);
                         reindexComponentiRows();
+                        updateBirthCountryRequirement(rows[0]);
                         updateComponenteSummary(rows[0]);
                         refreshAddComponenteVisibility();
                         return;
@@ -1013,6 +1040,7 @@
 
                     componentiContainer.appendChild(clone);
                     reindexComponentiRows();
+                    updateBirthCountryRequirement(clone);
                     updateComponenteSummary(clone);
                     refreshAddComponenteVisibility();
 
@@ -1052,6 +1080,7 @@
         togglePublishedCity();
         clearDeleteAllIntent();
         reindexComponentiRows();
+        Array.from((componentiContainer || document).querySelectorAll('.componente-row')).forEach(updateBirthCountryRequirement);
         Array.from((componentiContainer || document).querySelectorAll('.componente-row')).forEach(bindComponenteCittadinanza);
         Array.from((componentiContainer || document).querySelectorAll('.componente-row')).forEach(bindComponenteCapBehavior);
         Array.from((componentiContainer || document).querySelectorAll('.componente-row')).forEach(updateComponenteSummary);

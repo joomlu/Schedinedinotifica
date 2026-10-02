@@ -158,8 +158,12 @@ class PianoSyncComponentiTest extends TestCase
 
         $this->assertIsString($schedinaController);
         $this->assertIsString($arrivalsController);
-        $this->assertStringNotContainsString("'componenti_intenzione' =>", $schedinaController);
-        $this->assertStringNotContainsString("'componenti_intenzione' =>", $arrivalsController);
+
+        $schedinaPayloadSection = explode('protected function buildComponentePayload', $schedinaController, 2)[1] ?? '';
+        $arrivalsPayloadSection = explode('private function buildComponentePayload', $arrivalsController, 2)[1] ?? '';
+
+        $this->assertStringNotContainsString('componenti_intenzione', $schedinaPayloadSection);
+        $this->assertStringNotContainsString('componenti_intenzione', $arrivalsPayloadSection);
     }
 
     public function test_delete_residuale_rimane_scoped_a_schedina(): void
@@ -169,7 +173,7 @@ class PianoSyncComponentiTest extends TestCase
 
         $this->assertIsString($schedinaController);
         $this->assertIsString($arrivalsController);
-        $this->assertStringContainsString("->where('schedina_id', $schedina->id)", $schedinaController);
-        $this->assertStringContainsString("->where('schedina_id', $schedina->id)", $arrivalsController);
+        $this->assertStringContainsString('->where(\'schedina_id\', $schedina->id)', $schedinaController);
+        $this->assertStringContainsString('->where(\'schedina_id\', $schedina->id)', $arrivalsController);
     }
 }

@@ -863,7 +863,7 @@
                             <div id="componenti-section">
                                 <input type="hidden" id="componenti-intenzione" name="componenti_intenzione" value="{{ old('componenti_intenzione', '') }}">
                                 <div class="alert alert-info py-2 mb-3">
-                                    Campi obbligatori componente: Nome, Cognome, Sesso, Tipo alloggiato, Esente, Cittadinanza, Provincia nascita, Data di nascita, Nazione, Regione, Provincia, Città, Tipo via, Strada, Num, CAP.
+                                    Campi obbligatori componente: Nome, Cognome, Sesso, Tipo alloggiato, Esente, Cittadinanza, Data di nascita, Nazione nascita. Provincia e Città nascita sono obbligatorie solo se la nazione di nascita è Italia. Regione nascita, CAP nascita e tutta la residenza sono facoltativi.
                                 </div>
 
                                 <div id="componenti-container">
@@ -931,7 +931,7 @@
                                                 <div class="card-body pt-2">
                                                     <div class="row g-3">
                                                         <div class="col-lg-3">
-                                                            <label class="form-label">Tipo alloggiato</label>
+                                                            <label class="form-label">Tipo alloggiato <span class="text-danger">*</span></label>
                                                             <x-ui.select name="componenti[{{ $index }}][relationship]">
                                                                 <option value="">Seleziona</option>
                                                                 <option value="CAPO FAMIGLIA" {{ $rowVal('relationship') === 'CAPO FAMIGLIA' ? 'selected' : '' }}>CAPO FAMIGLIA</option>
@@ -945,15 +945,15 @@
 
                                                     <div class="row g-3 mt-1">
                                                         <div class="col-lg-3">
-                                                            <label class="form-label">Nome</label>
+                                                            <label class="form-label">Nome <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="componenti[{{ $index }}][name]" value="{{ $rowVal('name') }}">
                                                         </div>
                                                         <div class="col-lg-3">
-                                                            <label class="form-label">Cognome</label>
+                                                            <label class="form-label">Cognome <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="componenti[{{ $index }}][surname]" value="{{ $rowVal('surname') }}">
                                                         </div>
                                                         <div class="col-lg-2">
-                                                            <label class="form-label">Sesso</label>
+                                                            <label class="form-label">Sesso <span class="text-danger">*</span></label>
                                                             <x-ui.select name="componenti[{{ $index }}][sex]">
                                                                 <option value="">Seleziona</option>
                                                                 <option value="M" {{ $rowVal('sex') === 'M' ? 'selected' : '' }}>M</option>
@@ -961,7 +961,7 @@
                                                             </x-ui.select>
                                                         </div>
                                                         <div class="col-lg-3">
-                                                            <label class="form-label">Esente</label>
+                                                            <label class="form-label">Esente <span class="text-danger">*</span></label>
                                                             <x-ui.select name="componenti[{{ $index }}][exent]">
                                                                 <option value="NO" {{ strtoupper((string) $rowVal('exent', 'NO')) === 'NO' ? 'selected' : '' }}>NO</option>
                                                                 @foreach(($esenzioni ?? collect()) as $esenzione)
@@ -989,6 +989,9 @@
                                                     <h6 class="mb-0">Anagrafica</h6>
                                                 </div>
                                                 <div class="card-body pt-2">
+                                                    <div class="small text-muted mb-3 componente-birth-note" data-role="birth-country-note">
+                                                        Nazione nascita, cittadinanza e data di nascita sono sempre obbligatorie. Provincia e Città nascita sono obbligatorie solo per nati in Italia.
+                                                    </div>
                                                     <x-geo.italia
                                                         prefix="componente_anag_{{ $index }}"
                                                         title="Geo anagrafica componente"
@@ -1026,7 +1029,7 @@
                                                         <div class="card-body pt-2">
                                                             <div class="row g-3">
                                                                 <div class="col-lg-4">
-                                                                    <label class="form-label">Cittadinanza</label>
+                                                                    <label class="form-label">Cittadinanza <span class="text-danger">*</span></label>
                                                                     <x-ui.select name="componenti[{{ $index }}][city_nac]" data-allow-manual="1">
                                                                         <option value="">Seleziona cittadinanza</option>
                                                                         @foreach(($cittadinanze ?? collect()) as $cittadinanza)
@@ -1038,7 +1041,7 @@
                                                                     </x-ui.select>
                                                                 </div>
                                                                 <div class="col-lg-4">
-                                                                    <label class="form-label">Data di nascita</label>
+                                                                    <label class="form-label">Data di nascita <span class="text-danger">*</span></label>
                                                                     <x-calendario
                                                                         name="componenti[{{ $index }}][date_nac]"
                                                                         variant="birth"
@@ -1055,7 +1058,7 @@
                                             <div class="card border-0 bg-light-subtle mb-0">
                                                 <div class="card-header border-0 d-flex align-items-center py-2">
                                                     <i class="ri-map-pin-2-line me-2 text-primary"></i>
-                                                    <h6 class="mb-0">Residenza</h6>
+                                                    <h6 class="mb-0">Residenza <span class="text-muted fw-normal">(facoltativa)</span></h6>
                                                 </div>
                                                 <div class="card-body pt-2">
                                                     <x-geo.italia
@@ -1090,7 +1093,7 @@
 
                                                     <div class="card border-0 bg-body mt-3 mb-0 shadow-sm">
                                                         <div class="card-header border-0 bg-light-subtle py-2">
-                                                            <h6 class="mb-0">Indirizzo residenza</h6>
+                                                            <h6 class="mb-0">Indirizzo residenza <span class="text-muted fw-normal">(facoltativo)</span></h6>
                                                         </div>
                                                         <div class="card-body pt-2">
                                                             <div class="row g-3">
