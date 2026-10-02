@@ -204,9 +204,9 @@
                                 </td>
                                 <td class="align-middle text-nowrap small">
                                     @if(($schedina->questura_send_count ?? 0) > 0)
-                                        <span class="badge bg-success-subtle text-success">Inviato {{ $schedina->questura_send_count }}x</span>
+                                        <span class="badge bg-light text-body">Invii registrati {{ $schedina->questura_send_count }}x (non verificati)</span>
                                     @else
-                                        <span class="badge bg-light text-body">Mai inviato</span>
+                                        <span class="badge bg-light text-body">Nessun invio confermato nel contatore</span>
                                     @endif
                                 </td>
                                 <td class="align-middle text-nowrap small">
@@ -331,28 +331,19 @@
                                             <div>
                                                 <div class="d-flex align-items-center gap-2 flex-wrap">
                                                     <span class="fw-semibold">{{ $tx->mode === 'verify' ? 'Verifica invio diretto' : 'Invio diretto' }}</span>
-                                                    @if(data_get($tx->result, 'simulated'))
-                                                        <span class="badge bg-info-subtle text-info">SIMULAZIONE</span>
-                                                    @endif
-                                                    @if($tx->status === 'success')
-                                                        <span class="badge bg-success-subtle text-success">OK</span>
-                                                    @elseif($tx->status === 'error')
-                                                        <span class="badge bg-danger-subtle text-danger">Errore</span>
-                                                    @else
-                                                        <span class="badge bg-light text-body">{{ $tx->status }}</span>
-                                                    @endif
+                                                    <span class="badge bg-light text-body">{{ $tx->esitoSicuro()['state'] }}</span>
                                                 </div>
                                                 <div class="small text-muted">{{ $tx->dal?->format('d/m/Y') }}@if($tx->al && !$tx->dal?->isSameDay($tx->al)) - {{ $tx->al?->format('d/m/Y') }}@endif</div>
                                                 <div class="small text-muted">{{ $tx->schedine_count }} schedine · {{ $tx->righe_count }} righe</div>
-                                                <div class="small text-muted">{{ $tx->response_message ?: '-' }}</div>
-                                                @if(data_get($tx->result, 'simulated'))
+                                                <div class="small text-muted">{{ $tx->esitoSicuro()['message'] }}</div>
+                                                @if($tx->esitoSicuro()['simulated'])
                                                     <div class="small text-info">Prova interna: nessun dato è stato inviato al portale reale.</div>
                                                 @endif
                                                 <div class="small text-muted">{{ $tx->executed_at?->format('d/m/Y H:i') }}</div>
                                             </div>
                                             <div class="d-flex flex-column gap-1">
                                                 @if($tx->mode === 'send')
-                                                    <a href="{{ route('questura.ws.receipt', ['id' => $tx->id]) }}" class="btn btn-soft-secondary" title="Scarica ricevuta">
+                                                    <a href="{{ route('questura.ws.receipt', ['id' => $tx->id]) }}" class="btn btn-soft-secondary" title="Download ricevuta sospeso">
                                                         <i class="ri-file-pdf-line fs-16 align-middle"></i>
                                                     </a>
                                                 @endif

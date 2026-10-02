@@ -38,6 +38,30 @@ class QuesturaWebService
 
     public function verify(Struttura $struttura, string $txt): array
     {
+        try {
+            $internal = $this->verifyInternal($struttura, $txt);
+            $state = ($internal['simulated'] ?? false) === true ? 'simulation'
+                : (($internal['ok'] ?? false) === true ? 'unknown' : 'rejected');
+            return EsitoTrasmissioneQuestura::crea($state, 'test');
+        } catch (Throwable) {
+            return EsitoTrasmissioneQuestura::crea('technical_error', 'test');
+        }
+    }
+
+    public function send(Struttura $struttura, string $txt): array
+    {
+        try {
+            $internal = $this->sendInternal($struttura, $txt);
+            $state = ($internal['simulated'] ?? false) === true ? 'simulation'
+                : (($internal['ok'] ?? false) === true ? 'sent' : 'rejected');
+            return EsitoTrasmissioneQuestura::crea($state, 'send');
+        } catch (Throwable) {
+            return EsitoTrasmissioneQuestura::crea('technical_error', 'send');
+        }
+    }
+
+    private function verifyInternal(Struttura $struttura, string $txt): array
+    {
         if ($this->isSimulation($struttura)) {
             return [
                 'ok' => true,
@@ -66,7 +90,7 @@ class QuesturaWebService
         return $this->normalizeWsResponse('test', $response, ['token' => $token]);
     }
 
-    public function send(Struttura $struttura, string $txt): array
+    private function sendInternal(Struttura $struttura, string $txt): array
     {
         if ($this->isSimulation($struttura)) {
             return [
@@ -98,123 +122,14 @@ class QuesturaWebService
 
     public function receipt(Struttura $struttura, Carbon $date): array
     {
-        if ($this->isSimulation($struttura)) {
-            $pdf = $this->fakeReceiptPdf($struttura, $date);
-            return [
-                'ok' => true,
-                'mode' => 'receipt',
-                'response_code' => 'SIM-RICEVUTA-OK',
-                'message' => 'Simulazione Questura: ricevuta demo generata.',
-                'detail' => 'PDF demo disponibile per test del circuito.',
-                'raw' => ['simulation' => true, 'date' => $date->toDateString()],
-                'context' => ['simulation' => true],
-                'simulated' => true,
-                'receipt_binary' => $pdf,
-                'receipt_size' => strlen($pdf),
-            ];
-        }
-
-        $client = $this->makeClient();
-        $token = $this->generateToken($client, $struttura);
-        $auth = $this->authenticationTest($client, $token);
-        if (!$auth['ok']) {
-            return $auth + ['stage' => 'authentication'];
-        }
-
-        $response = $this->call($client, 'Ricevuta', [
-            'Utente' => (string) $struttura->questura_username,
-            'token' => $token,
-            'Data' => $date->format('Y-m-d\T00:00:00'),
-        ]);
-
-        $normalized = $this->normalizeWsResponse('receipt', $response, ['token' => $token, 'date' => $date->toDateString()]);
-        $pdf = $this->extractReceiptBinary($response);
-        if ($pdf !== null) {
-            $normalized['receipt_binary'] = $pdf;
-            $normalized['receipt_size'] = strlen($pdf);
-        }
-
-        return $normalized;
+        // Quarantine unvalidated remote/historical artifacts; never return raw bodies.
+        return EsitoTrasmissioneQuestura::crea('unavailable', 'receipt');
     }
 
     public function downloadReferenceTables(Struttura $struttura): array
     {
-        if ($this->isSimulation($struttura)) {
-            $tables = $this->fakeReferenceTables();
-            $sync = $this->syncReferenceTables($tables);
-
-            return [
-                'ok' => true,
-                'mode' => 'tables',
-                'response_code' => 'SIM-TABELLE-OK',
-                'message' => 'Simulazione Questura: tabelle ufficiali demo generate.',
-                'detail' => 'Snapshot CSV disponibile per controllo e confronto con i codici del sistema.',
-                'tables' => $tables,
-                'sync' => $sync,
-                'simulated' => true,
-            ];
-        }
-
-        $client = $this->makeClient();
-        $token = $this->generateToken($client, $struttura);
-        $auth = $this->authenticationTest($client, $token);
-        if (!$auth['ok']) {
-            return $auth + ['stage' => 'authentication'];
-        }
-
-        $tableMap = [
-            'luoghi' => 'Luoghi',
-            'tipi_documento' => 'Tipi_Documento',
-            'tipi_alloggiato' => 'Tipi_Alloggiato',
-            'tipo_errore' => 'TipoErrore',
-        ];
-
-        $tables = [];
-        foreach ($tableMap as $slug => $tipo) {
-            $response = $this->call($client, 'Tabella', [
-                'Utente' => (string) $struttura->questura_username,
-                'token' => $token,
-                'tipo' => $tipo,
-            ]);
-
-            $normalized = $this->normalizeWsResponse('tables', $response, ['token' => $token, 'tipo' => $tipo]);
-            if (!($normalized['ok'] ?? false)) {
-                return $normalized + ['stage' => 'tables', 'table' => $tipo];
-            }
-
-            $csv = $this->extractTableCsv($response);
-            if ($csv === null || trim($csv) === '') {
-                return [
-                    'ok' => false,
-                    'mode' => 'tables',
-                    'response_code' => $normalized['response_code'] ?? 'CSV-VUOTO',
-                    'message' => 'Download tabelle Questura non riuscito.',
-                    'detail' => 'La tabella ' . $tipo . ' non ha restituito un CSV valido.',
-                    'raw' => $normalized['raw'] ?? null,
-                    'context' => ['token' => $token, 'tipo' => $tipo],
-                ];
-            }
-
-            $tables[] = [
-                'slug' => $slug,
-                'type' => $tipo,
-                'filename' => 'questura_' . $slug . '.csv',
-                'csv' => $csv,
-            ];
-        }
-
-        $sync = $this->syncReferenceTables($tables);
-
-        return [
-            'ok' => true,
-            'mode' => 'tables',
-            'response_code' => 'TABELLE-OK',
-            'message' => 'Tabelle ufficiali Questura scaricate correttamente.',
-            'detail' => 'Snapshot CSV disponibile per confronto con le codifiche del sistema.',
-            'tables' => $tables,
-            'sync' => $sync,
-            'simulated' => false,
-        ];
+        // No CSV persistence or catalog mutation until a validated artifact contract exists.
+        return EsitoTrasmissioneQuestura::crea('unavailable', 'tables');
     }
 
     private function isSimulation(Struttura $struttura): bool
@@ -222,14 +137,14 @@ class QuesturaWebService
         return (bool) ($struttura->questura_ws_simulazione ?? false);
     }
 
-    private function makeClient(): SoapClient
+    protected function makeClient(): SoapClient
     {
         if (!class_exists(SoapClient::class)) {
             throw new \RuntimeException('Estensione SOAP non disponibile sul server PHP.');
         }
 
         return new SoapClient(self::WSDL, [
-            'trace' => true,
+            'trace' => false,
             'exceptions' => true,
             'cache_wsdl' => WSDL_CACHE_NONE,
             'connection_timeout' => 30,
@@ -294,15 +209,9 @@ class QuesturaWebService
             $ok = $ok && !preg_match('/^0$/', (string) $responseCode);
         }
 
-        return [
-            'ok' => $ok,
-            'mode' => $mode,
-            'response_code' => $responseCode,
-            'message' => $message ?: ($ok ? 'Operazione completata.' : 'Operazione non completata.'),
-            'detail' => $detail,
-            'raw' => $raw,
-            'context' => $context,
-        ];
+        // Legacy heuristic is transport control only, never official acceptance.
+        // Provider fields and authentication context never leave this interpreter.
+        return ['ok' => $ok];
     }
 
     private function extractTableCsv(mixed $response): ?string

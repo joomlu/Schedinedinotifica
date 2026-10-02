@@ -10,6 +10,9 @@ class ArchivosController extends Controller
 {
     public function generarArchivoHospedados()
     {
+        // P0 containment: legacy global export is deliberately unavailable.
+        abort(410, 'Esportazione legacy disabilitata per isolamento delle strutture.');
+
         // Obtén los datos de la base de datos, por ejemplo, de la tabla 'hospedados'
         $hospedados = DB::table('schedina')->get(); // Reemplaza con tu consulta
 

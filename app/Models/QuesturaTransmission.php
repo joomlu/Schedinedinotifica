@@ -8,6 +8,13 @@ class QuesturaTransmission extends Model
 {
     protected $table = 'questura_transmissions';
 
+    protected $hidden = ['result', 'payload', 'response_code', 'response_message', 'response_detail', 'receipt_path', 'receipt_filename'];
+
+    public function esitoSicuro(): array
+    {
+        return \App\Services\EsitoTrasmissioneQuestura::storico($this->status, $this->result);
+    }
+
     protected $fillable = [
         'struttura_id',
         'user_id',
