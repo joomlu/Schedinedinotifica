@@ -263,7 +263,12 @@ class PresenzeReportService
                 continue;
             }
 
-            $age = $birth->diffInYears($reference);
+            $age = \App\Support\Anagrafica\EtaOperativa::etaOperativa($date, $reference);
+            if ($age === null) {
+                $adulti++;
+                continue;
+            }
+
             if ($age >= 18) {
                 $adulti++;
             } else {

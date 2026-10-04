@@ -7,6 +7,7 @@ use App\Models\TassaDiSoggiorno;
 use App\Models\TassaEsenzione;
 use App\Models\Schedina;
 use App\Models\Struttura;
+use App\Support\Anagrafica\EtaOperativa;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
@@ -241,11 +242,7 @@ class TassaDiSoggiornoService
 
     private function etaFromString(?string $value): ?int
     {
-        $date = $this->parseDate($value);
-        if (!$date) {
-            return null;
-        }
-        return $date->age;
+        return EtaOperativa::etaOperativa($value);
     }
 
     private function makeVirtualEsenzione(string $codice, string $descrizione): TassaEsenzione
