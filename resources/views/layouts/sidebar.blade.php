@@ -93,9 +93,7 @@
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item"><a href="{{ route('admin.proprietari.index') }}" class="nav-link {{ $isRoute('admin.proprietari.*') ? 'active' : '' }}">Proprietari</a></li>
                                 <li class="nav-item"><a href="{{ route('admin.strutture.index') }}" class="nav-link {{ $isRoute('admin.strutture.*') ? 'active' : '' }}">Strutture</a></li>
-                                <li class="nav-item"><a href="{{ route('admin.proforme.index') }}" class="nav-link {{ $isRoute('admin.proforme.*') ? 'active' : '' }}">Proforme</a></li>
                                 <li class="nav-item"><a href="{{ route('admin.pagamenti.index') }}" class="nav-link {{ $isRoute('admin.pagamenti.*') ? 'active' : '' }}">Pagamenti / Licenze</a></li>
-                                <li class="nav-item"><a href="{{ route('admin.crm.index') }}" class="nav-link {{ $isRoute('admin.crm.*') ? 'active' : '' }}">CRM contatti</a></li>
                             </ul>
                         </div>
                     </li>

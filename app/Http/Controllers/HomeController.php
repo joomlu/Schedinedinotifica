@@ -40,6 +40,8 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        // Le view amministrative devono passare dai controller e middleware dedicati.
+        abort_if($request->is('admin/*', 'superadmin/*', 'shared/*'), 403);
         if (view()->exists($request->path())) {
             return view($request->path());
         }
@@ -61,7 +63,9 @@ class HomeController extends Controller
         }
         $strutturaId = StrutturaCorrente::getId() ?? $user?->struttura_id;
         $strutturaDashboard = $strutturaId
-            ? Struttura::query()->with(['proprietario.admin'])->find($strutturaId)
+            ? Struttura::query()->with(['proprietario.admin'])
+                ->when($user?->isAdmin(), fn ($query) => $query->whereHas('proprietario', fn ($owner) => $owner->where('admin_id', $user->id)))
+                ->find($strutturaId)
             : null;
 
         $dashboardData = null;

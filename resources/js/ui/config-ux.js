@@ -427,6 +427,22 @@ function showServerAlerts(scope) {
     }
 }
 
+function resetSubmitLock(form) {
+    if (!form) return;
+
+    delete form.dataset.submitting;
+    const timerId = form.dataset.submitLockTimer;
+    if (timerId) {
+        clearTimeout(Number(timerId));
+        delete form.dataset.submitLockTimer;
+    }
+
+    form.querySelectorAll('button[type="submit"], input[type="submit"]').forEach((btn) => {
+        btn.removeAttribute('disabled');
+        btn.removeAttribute('aria-disabled');
+    });
+}
+
 function bindFormBehavior(form) {
     if (!initOnce(form, 'config-ux')) return;
     form.setAttribute('novalidate', 'novalidate');
@@ -501,6 +517,17 @@ function bindFormBehavior(form) {
             btn.setAttribute('disabled', 'disabled');
             btn.setAttribute('aria-disabled', 'true');
         });
+
+        const existingTimer = form.dataset.submitLockTimer;
+        if (existingTimer) {
+            clearTimeout(Number(existingTimer));
+        }
+
+        const timerId = window.setTimeout(() => {
+            resetSubmitLock(form);
+        }, 1500);
+
+        form.dataset.submitLockTimer = String(timerId);
     });
 }
 
@@ -520,12 +547,8 @@ function bindModalBehavior(modal) {
     modal.addEventListener('hidden.bs.modal', () => {
         modal.querySelectorAll('form').forEach((form) => {
             form.classList.remove('was-validated');
-            delete form.dataset.submitting;
+            resetSubmitLock(form);
             delete form.dataset.confirmedAction;
-            form.querySelectorAll('button[type="submit"], input[type="submit"]').forEach((btn) => {
-                btn.removeAttribute('disabled');
-                btn.removeAttribute('aria-disabled');
-            });
         });
     });
 }
