@@ -417,6 +417,19 @@ class DatiComponenteNormalizzatiTest extends TestCase
         $this->assertSame('2026-10-02', DatiComponenteNormalizzati::normalizzaData('02/10/2026'));
     }
 
+    public function test_data_nascita_con_anno_due_cifre_usa_secolo_coerente(): void
+    {
+        $this->assertSame('1986-09-12', DatiComponenteNormalizzati::normalizzaData('12/09/86'));
+
+        $now = new \DateTimeImmutable('now');
+        $currentYear = (int) $now->format('Y');
+        $futureShort = sprintf('%02d', ($currentYear + 1) % 100);
+        $pastShort = sprintf('%02d', ($currentYear - 1) % 100);
+
+        $this->assertSame(sprintf('%04d-01-02', 1900 + (int) $futureShort), DatiComponenteNormalizzati::normalizzaData(sprintf('02/01/%s', $futureShort)));
+        $this->assertSame(sprintf('%04d-01-02', 2000 + (int) $pastShort), DatiComponenteNormalizzati::normalizzaData(sprintf('02/01/%s', $pastShort)));
+    }
+
     public function test_data_nascita_non_valida_restituisce_null(): void
     {
         $this->assertNull(DatiComponenteNormalizzati::normalizzaData('not-a-date'));

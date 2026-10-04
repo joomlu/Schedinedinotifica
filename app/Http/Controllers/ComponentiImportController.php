@@ -29,6 +29,28 @@ class ComponentiImportController extends Controller
     {
     }
 
+    public function prepare(Request $request, int $schedina)
+    {
+        $this->loadOwnedSchedina($schedina);
+
+        // La schedina esistente non deve sovrascrivere la bozza di una nuova schedina.
+        session()->put('active_tab', 'schedina-step-comp');
+
+        return redirect()
+            ->route('schedina.componenti.import.index', ['schedina' => $schedina])
+            ->with('active_tab', 'schedina-step-comp');
+    }
+
+    public function newPrepare(Request $request)
+    {
+        $this->currentStruttura();
+
+        session()->put($this->newDraftStateKey(), $request->except(['_token', '_method', 'id', 'schedina_id', 'schedina']));
+        session()->put('active_tab', 'schedina-step-comp');
+
+        return redirect()->route('schedina.componenti.import.new.index')->with('active_tab', 'schedina-step-comp');
+    }
+
     public function index(int $schedina)
     {
         $schedina = $this->loadOwnedSchedina($schedina);
@@ -36,6 +58,21 @@ class ComponentiImportController extends Controller
         return view('schedina.componenti.import', [
             'schedina' => $schedina,
             'struttura' => $this->currentStruttura(),
+            'preview' => null,
+            'templateHeaders' => $this->service->headersTemplate(),
+            'formatiSupportati' => $this->service->formatiSupportati(),
+            'maxBytes' => ComponentiImportService::MAX_BYTES,
+            'maxRows' => ComponentiImportService::MAX_RIGHE,
+        ]);
+    }
+
+    public function newIndex()
+    {
+        $struttura = $this->currentStruttura();
+
+        return view('schedina.componenti.import', [
+            'schedina' => null,
+            'struttura' => $struttura,
             'preview' => null,
             'templateHeaders' => $this->service->headersTemplate(),
             'formatiSupportati' => $this->service->formatiSupportati(),
@@ -61,6 +98,92 @@ class ComponentiImportController extends Controller
 
         return response()->streamDownload($callback, $this->service->nomeFileTemplate($format), [
             'Content-Type' => $this->service->contentTypePerFormato($format),
+        ]);
+    }
+
+    public function newTemplate(string $format)
+    {
+        $this->currentStruttura();
+        $format = strtolower(trim($format));
+
+        if (!in_array($format, $this->service->formatiSupportati(), true)) {
+            abort(404);
+        }
+
+        $content = $this->service->contenutoTemplateVuoto($format);
+
+        $callback = static function () use ($content) {
+            echo $content;
+        };
+
+        return response()->streamDownload($callback, $this->service->nomeFileTemplate($format), [
+            'Content-Type' => $this->service->contentTypePerFormato($format),
+        ]);
+    }
+
+    public function newPreview(Request $request)
+    {
+        $struttura = $this->currentStruttura();
+
+        $validated = $request->validate([
+            'file_import' => ['required', 'file', 'mimes:csv,txt,xlsx', 'max:' . (int) (ComponentiImportService::MAX_BYTES / 1024)],
+        ], [
+            'file_import.required' => 'Seleziona un file CSV, TXT o XLSX da importare.',
+            'file_import.mimes' => 'Il file deve essere un CSV, un TXT delimitato o un XLSX.',
+            'file_import.max' => 'Il file importato è troppo grande.',
+        ]);
+
+        $file = $validated['file_import'];
+        $format = strtolower((string) $file->getClientOriginalExtension());
+
+        if ($format === 'xls') {
+            return back()->withInput()->withErrors([
+                'file_import' => 'Formato .xls non supportato. Usa XLSX, CSV o TXT.',
+            ]);
+        }
+
+        if (!in_array($format, $this->service->formatiSupportati(), true)) {
+            return back()->withInput()->withErrors([
+                'file_import' => 'Estensione file non supportata. Usa CSV, TXT o XLSX.',
+            ]);
+        }
+
+        try {
+            $preview = $this->service->previewDaContenuto((string) file_get_contents($file->getRealPath()), $format);
+        } catch (ComponentiImportException $exception) {
+            return back()->withInput()->withErrors([
+                'file_import' => $exception->issues !== [] ? implode(' ', $exception->issues) : $exception->getMessage(),
+            ]);
+        }
+
+        $batchToken = (string) Str::uuid();
+        $batch = [
+            'token' => $batchToken,
+            'user_id' => (int) auth()->id(),
+            'struttura_id' => (int) $struttura->id,
+            'schedina_id' => null,
+            'context' => 'new_schedina',
+            'formato' => $preview['formato'],
+            'raw_headers' => $preview['raw_headers'] ?? [],
+            'raw_rows' => $preview['raw_rows'] ?? [],
+            'created_at' => now()->timestamp,
+            'expires_at' => now()->addMinutes(ComponentiImportService::BATCH_TTL_MINUTES)->timestamp,
+            'confirmed_at' => null,
+            'status' => 'pending',
+        ];
+
+        $this->storeImportBatch($batch);
+        $preview['batch_token'] = $batchToken;
+        $preview['confirmable_rows'] = (int) ($preview['righe_valide'] ?? 0);
+
+        return view('schedina.componenti.import', [
+            'schedina' => null,
+            'struttura' => $struttura,
+            'preview' => $preview,
+            'templateHeaders' => $this->service->headersTemplate(),
+            'formatiSupportati' => $this->service->formatiSupportati(),
+            'maxBytes' => ComponentiImportService::MAX_BYTES,
+            'maxRows' => ComponentiImportService::MAX_RIGHE,
         ]);
     }
 
@@ -220,6 +343,72 @@ class ComponentiImportController extends Controller
         }
     }
 
+    public function newConfirm(Request $request)
+    {
+        $validated = $request->validate([
+            'import_batch_token' => ['required', 'string'],
+        ]);
+
+        $token = trim((string) $validated['import_batch_token']);
+
+        $struttura = $this->currentStruttura();
+
+        try {
+            return $this->singleNodeLockForToken($token)->execute(function () use ($token, $struttura) {
+                if ($this->isBatchConsumed($token)) {
+                    return redirect()->route('schedina.componenti.import.new.index')->with('warning', 'Batch già confermato. Nessuna nuova importazione eseguita.');
+                }
+
+                $batch = $this->loadImportBatch($token);
+                if ($batch === null || (($batch['context'] ?? null) !== 'new_schedina')) {
+                    return redirect()->route('schedina.componenti.import.new.index')->withErrors(['import_batch_token' => self::MSG_BATCH_NOT_VALID]);
+                }
+
+                if (($batch['status'] ?? 'pending') === 'confirmed') {
+                    return redirect()->route('schedina.componenti.import.new.index')->with('warning', 'Batch già confermato. Nessuna nuova importazione eseguita.');
+                }
+
+                $conferma = $this->service->preparaConfermaBatch($batch, 0, (int) $struttura->id, (int) auth()->id());
+                if (($conferma['valid_count'] ?? 0) < 1) {
+                    return redirect()->route('schedina.componenti.import.new.index')->withErrors(['import_batch_token' => 'Non ci sono righe valide da importare.']);
+                }
+
+                $currentDraft = $this->loadNewDraftComponenti();
+                $merged = array_values(array_merge($currentDraft, $conferma['payloads']));
+                $this->storeNewDraftComponenti($merged);
+
+                $this->markBatchConsumed($token);
+
+                $batch['status'] = 'confirmed';
+                $batch['confirmed_at'] = now()->timestamp;
+                $batch['imported_count'] = (int) ($conferma['valid_count'] ?? 0);
+                if (!$this->tryStoreImportBatch($batch)) {
+                    return redirect()->route('newschedina', ['active_tab' => 'schedina-step-comp'])
+                        ->withInput(['componenti' => $merged, 'active_tab' => 'schedina-step-comp'])
+                        ->with('warning', 'Importazione completata, ma stato batch non aggiornato. Evita di ripetere l operazione.');
+                }
+
+                return redirect()->route('newschedina', ['active_tab' => 'schedina-step-comp'])
+                    ->withInput(['componenti' => $merged, 'active_tab' => 'schedina-step-comp'])
+                    ->with('success', (int) $conferma['valid_count'] . ' componenti importati. Controlla i dati prima di salvare la schedina.');
+            });
+        } catch (ComponentiImportException $exception) {
+            return redirect()->route('schedina.componenti.import.new.index')->withErrors(['import_batch_token' => self::MSG_BATCH_NOT_VALID]);
+        } catch (RuntimeException $exception) {
+            if ($exception->getMessage() === SingleNodeBatchLock::LOCK_NOT_ACQUIRED) {
+                return redirect()->route('schedina.componenti.import.new.index')->withErrors(['import_batch_token' => self::MSG_LOCK_BUSY]);
+            }
+
+            report($exception);
+
+            return redirect()->route('schedina.componenti.import.new.index')->withErrors(['import_batch_token' => self::MSG_CATALOG_NOT_READY]);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return redirect()->route('schedina.componenti.import.new.index')->withErrors(['import_batch_token' => self::MSG_UNEXPECTED]);
+        }
+    }
+
     private function currentStruttura(): Struttura
     {
         $strutturaId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
@@ -240,6 +429,44 @@ class ComponentiImportController extends Controller
     private function batchSessionKey(string $token): string
     {
         return 'componenti_import_batches.' . $token;
+    }
+
+    private function newDraftStateKey(): string
+    {
+        $userId = (int) (auth()->id() ?? 0);
+        $strutturaId = (int) (StrutturaCorrente::getId() ?? auth()->user()?->struttura_id ?? 0);
+
+        return 'componenti_import_new_schedina.' . $userId . '.' . $strutturaId;
+    }
+
+    private function loadNewDraftComponenti(): array
+    {
+        $draft = session()->get($this->newDraftStateKey(), []);
+
+        if (!is_array($draft)) {
+            return [];
+        }
+
+        $componenti = $draft['componenti'] ?? $draft;
+        if (!is_array($componenti)) {
+            return [];
+        }
+
+        return array_values(array_filter(array_map(function ($row) {
+            if (!is_array($row)) {
+                return null;
+            }
+
+            return $row;
+        }, $componenti), fn ($row) => is_array($row)));
+    }
+
+    private function storeNewDraftComponenti(array $componenti): void
+    {
+        $draft = session()->get($this->newDraftStateKey(), []);
+        $draft = is_array($draft) ? $draft : [];
+        $draft['componenti'] = array_values($componenti);
+        session()->put($this->newDraftStateKey(), $draft);
     }
 
     private function batchLockKey(string $token): string

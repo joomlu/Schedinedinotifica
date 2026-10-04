@@ -142,14 +142,22 @@ class ComponentiImportService
     public function previewDaContenuto(string $contenuto, string $formato, ?callable $tipoAlloggiatoResolver = null): array
     {
         $formato = $this->normalizzaFormato($formato);
+        $delimitatoreRilevato = null;
 
         if ($formato === self::FORMATO_XLSX) {
             [$intestazioni, $righe] = $this->parsaFileXlsxDaContenuto($contenuto);
         } else {
-            [$intestazioni, $righe] = $this->parsaFileDelimitato($contenuto, $this->delimitatorePerFormato($formato));
+            $delimitatoreRilevato = $this->rilevaDelimitatore($contenuto);
+            [$intestazioni, $righe] = $this->parsaFileDelimitato($contenuto, $delimitatoreRilevato);
         }
 
-        return $this->analizzaImportazione($intestazioni, $righe, $formato, $tipoAlloggiatoResolver);
+        return $this->analizzaImportazione(
+            $intestazioni,
+            $righe,
+            $formato,
+            $tipoAlloggiatoResolver,
+            $delimitatoreRilevato
+        );
     }
 
     /**
@@ -292,10 +300,10 @@ class ComponentiImportService
      * @param array<int, array<int, string|null>> $righe
      * @return array{formato:string,delimitatore:string,headers:array<int, string>,raw_headers:array<int, string>,raw_rows:array<int, array<int, string|null>>,rows:array<int, array<string, mixed>>,totale_righe:int,righe_valide:int,righe_in_errore:int,metadata:array<string, mixed>}
      */
-    public function analizzaImportazione(array $intestazioni, array $righe, string $formato, ?callable $tipoAlloggiatoResolver = null): array
+    public function analizzaImportazione(array $intestazioni, array $righe, string $formato, ?callable $tipoAlloggiatoResolver = null, ?string $delimitatore = null): array
     {
         $formato = $this->normalizzaFormato($formato);
-        $delimitatore = $this->delimitatorePerFormato($formato);
+        $delimitatore = $delimitatore ?? $this->delimitatorePerFormato($formato);
 
         $mappaCampi = $this->validaEMappeIntestazioni($intestazioni);
         $righePreview = [];
@@ -358,6 +366,7 @@ class ComponentiImportService
 
             $normalizzato = DatiComponenteNormalizzati::daArray($assoc);
             $validationErrors = $normalizzato->erroriValidazione($numeroRiga - 1, true);
+            $review = DatiComponenteNormalizzati::classificaRiga($assoc);
 
             foreach ($validationErrors as $key => $message) {
                 $campo = $this->campoDaChiaveErrore((string) $key);
@@ -368,20 +377,58 @@ class ComponentiImportService
                 ];
             }
 
+            $status = $review['status'];
+            if ($status === DatiComponenteNormalizzati::STATO_COMPLETO && !empty($validationErrors)) {
+                $status = DatiComponenteNormalizzati::STATO_DA_COMPLETARE;
+            }
+            if ($status === DatiComponenteNormalizzati::STATO_COMPLETO && empty($errori)) {
+                $review['messaggio'] = 'Componente completo.';
+            }
+            if ($status !== DatiComponenteNormalizzati::STATO_COMPLETO && empty($errori) && !empty($review['messaggio'])) {
+                $errori[] = [
+                    'field' => $review['campo'] ?? '_review',
+                    'label' => $review['campo'] ? $this->etichettaDaCampo($review['campo']) : 'Controllo',
+                    'message' => $review['messaggio'],
+                ];
+            }
+
+            $normalizzata = $normalizzato->toArray();
+            $rowPayload = array_merge($normalizzata, $review['metadata'] ?? [], [
+                '_review_status' => $status,
+                '_review_message' => $review['messaggio'],
+                '_review_field' => $review['campo'],
+                '_review_proposed_value' => $review['proposta']['city_nac'] ?? null,
+                '_review_requires_confirmation' => $status === DatiComponenteNormalizzati::STATO_DA_VERIFICARE,
+            ]);
+
             $righePreview[] = [
                 'row_number' => $numeroRiga,
-                'status' => empty($errori) ? 'VALIDO' : 'ERRORE',
-                'name' => (string) ($normalizzato->toArray()['name'] ?? ''),
-                'surname' => (string) ($normalizzato->toArray()['surname'] ?? ''),
-                'sex' => (string) ($normalizzato->toArray()['sex'] ?? ''),
-                'date_nac' => $this->formatoDataPreview($normalizzato->toArray()['date_nac'] ?? null, (string) ($assoc['date_nac'] ?? '')),
-                'country_nac' => (string) ($normalizzato->toArray()['country_nac'] ?? ''),
-                'relationship' => (string) ($normalizzato->toArray()['relationship'] ?? ''),
+                'status' => $status,
+                'name' => (string) ($normalizzata['name'] ?? ''),
+                'surname' => (string) ($normalizzata['surname'] ?? ''),
+                'sex' => (string) ($normalizzata['sex'] ?? ''),
+                'date_nac' => $this->formatoDataPreview($normalizzata['date_nac'] ?? null, (string) ($assoc['date_nac'] ?? '')),
+                'country_nac' => (string) ($normalizzata['country_nac'] ?? ''),
+                'relationship' => (string) ($normalizzata['relationship'] ?? ''),
                 'relationship_label' => (string) ($defaultInfo['relationship_descrizione'] ?? ''),
-                'exent' => (string) ($normalizzato->toArray()['exent'] ?? ''),
+                'exent' => (string) ($normalizzata['exent'] ?? ''),
                 'errors' => $errori,
-                'data' => $normalizzato->toArray(),
+                'review_message' => $review['messaggio'],
+                'review_field' => $review['campo'],
+                'review_status' => $status,
+                'review_proposed_value' => $review['proposta']['city_nac'] ?? null,
+                'data' => $rowPayload,
             ];
+        }
+
+        $statusCounts = [
+            DatiComponenteNormalizzati::STATO_COMPLETO => 0,
+            DatiComponenteNormalizzati::STATO_DA_VERIFICARE => 0,
+            DatiComponenteNormalizzati::STATO_DA_COMPLETARE => 0,
+            DatiComponenteNormalizzati::STATO_NON_IMPORTABILE => 0,
+        ];
+        foreach ($righePreview as $row) {
+            $statusCounts[$row['status']] = ($statusCounts[$row['status']] ?? 0) + 1;
         }
 
         return [
@@ -392,8 +439,9 @@ class ComponentiImportService
             'raw_rows' => array_values($righe),
             'rows' => $righePreview,
             'totale_righe' => count($righePreview),
-            'righe_valide' => count(array_filter($righePreview, fn (array $row) => $row['status'] === 'VALIDO')),
-            'righe_in_errore' => count(array_filter($righePreview, fn (array $row) => $row['status'] === 'ERRORE')),
+            'righe_valide' => $statusCounts[DatiComponenteNormalizzati::STATO_COMPLETO] + $statusCounts[DatiComponenteNormalizzati::STATO_DA_VERIFICARE],
+            'righe_in_errore' => $statusCounts[DatiComponenteNormalizzati::STATO_DA_COMPLETARE] + $statusCounts[DatiComponenteNormalizzati::STATO_NON_IMPORTABILE],
+            'stati' => $statusCounts,
             'metadata' => [
                 'default_relationship_codice' => $defaultInfo['relationship_codice'] ?? null,
                 'default_relationship_descrizione' => $defaultInfo['relationship_descrizione'] ?? null,
@@ -417,10 +465,23 @@ class ComponentiImportService
             $tipoAlloggiatoResolver
         );
 
-        $validRows = array_values(array_filter($analisi['rows'], fn (array $row) => $row['status'] === 'VALIDO'));
-        $invalidRows = array_values(array_filter($analisi['rows'], fn (array $row) => $row['status'] !== 'VALIDO'));
+        $validRows = array_values(array_filter(
+            $analisi['rows'],
+            fn (array $row) => !in_array($row['status'] ?? '', [DatiComponenteNormalizzati::STATO_NON_IMPORTABILE], true)
+        ));
+        $invalidRows = array_values(array_filter(
+            $analisi['rows'],
+            fn (array $row) => in_array($row['status'] ?? '', [DatiComponenteNormalizzati::STATO_NON_IMPORTABILE], true)
+        ));
         $payloads = array_map(function (array $row) use ($schedinaId, $strutturaId) {
-            return $this->buildPersistableComponentPayload($row['data'] ?? [], $schedinaId, $strutturaId);
+            $payload = $this->buildPersistableComponentPayload($row['data'] ?? [], $schedinaId, $strutturaId);
+            $payload['_review_status'] = $row['status'] ?? DatiComponenteNormalizzati::STATO_COMPLETO;
+            $payload['_review_message'] = $row['review_message'] ?? null;
+            $payload['_review_field'] = $row['review_field'] ?? null;
+            $payload['_review_proposed_value'] = $row['review_proposed_value'] ?? null;
+            $payload['_review_requires_confirmation'] = $payload['_review_status'] === DatiComponenteNormalizzati::STATO_DA_VERIFICARE;
+            $payload['_review_confirmed'] = $payload['_review_status'] === DatiComponenteNormalizzati::STATO_COMPLETO;
+            return $payload;
         }, $validRows);
 
         return [
@@ -445,8 +506,9 @@ class ComponentiImportService
     /**
      * @return array{0: array<int, string>, 1: array<int, array<int, string|null>>}
      */
-    private function parsaFileDelimitato(string $contenuto, string $delimitatore): array
+    private function parsaFileDelimitato(string $contenuto, ?string $delimitatore = null): array
     {
+        $delimitatore = $delimitatore ?? $this->rilevaDelimitatore($contenuto);
         $contenuto = $this->rimuoviBom($contenuto);
         $stream = fopen('php://temp', 'r+');
         if ($stream === false) {
@@ -472,6 +534,75 @@ class ComponentiImportService
         return [$intestazioni, $righe];
     }
 
+    private function rilevaDelimitatore(string $contenuto): string
+    {
+        $candidati = [';', ',', "\t"];
+        $righe = preg_split('/\r\n|\n|\r/', $this->rimuoviBom($contenuto));
+        $header = null;
+
+        foreach ($righe as $riga) {
+            if (trim((string) $riga) === '') {
+                continue;
+            }
+            $header = $riga;
+            break;
+        }
+
+        if ($header === null || trim((string) $header) === '') {
+            return self::DELIMITATORE_CSV;
+        }
+
+        $attese = [];
+        foreach (ContrattoImportazioneComponentiV1::aliasIntestazioni() as $campo => $etichette) {
+            foreach ($etichette as $etichetta) {
+                $attese[$this->normalizzaIntestazione((string) $etichetta)] = $campo;
+            }
+        }
+
+        $migliore = [
+            'delimiter' => self::DELIMITATORE_CSV,
+            'match_count' => 0,
+            'column_count' => 0,
+        ];
+
+        foreach ($candidati as $delimiter) {
+            $valori = str_getcsv($header, $delimiter);
+            if ($valori === false || $valori === []) {
+                continue;
+            }
+
+            $matchCount = 0;
+            foreach ($valori as $valore) {
+                $normale = $this->normalizzaIntestazione((string) $valore);
+                if ($normale !== '' && isset($attese[$normale])) {
+                    $matchCount++;
+                }
+            }
+
+            $score = $matchCount * 100 + count($valori);
+            $isBetter = $matchCount > $migliore['match_count']
+                || ($matchCount === $migliore['match_count'] && count($valori) > $migliore['column_count']);
+
+            if ($isBetter) {
+                $migliore = [
+                    'delimiter' => $delimiter,
+                    'match_count' => $matchCount,
+                    'column_count' => count($valori),
+                    'score' => $score,
+                ];
+            }
+        }
+
+        if ($migliore['match_count'] === 0) {
+            throw new ComponentiImportException(
+                'Impossibile rilevare il delimitatore del file: header non riconosciuto.',
+                ['Supportati: ;, ,, TAB.']
+            );
+        }
+
+        return (string) $migliore['delimiter'];
+    }
+
     /**
      * @param array<int, string|null> $intestazioni
      * @return array<int, string>
@@ -479,8 +610,17 @@ class ComponentiImportService
     private function validaEMappeIntestazioni(array $intestazioni): array
     {
         $attese = [];
-        foreach ($this->colonneTemplate() as $campo => $etichetta) {
-            $attese[$this->normalizzaIntestazione($etichetta)] = $campo;
+        $campiRichiesti = [];
+
+        foreach (ContrattoImportazioneComponentiV1::aliasIntestazioni() as $campo => $etichette) {
+            $campiRichiesti[$campo] = array_values(array_unique(array_map(
+                fn (string $etichetta): string => $this->normalizzaIntestazione($etichetta),
+                $etichette
+            )));
+
+            foreach ($etichette as $etichetta) {
+                $attese[$this->normalizzaIntestazione((string) $etichetta)] = $campo;
+            }
         }
 
         $mappa = [];
@@ -509,8 +649,16 @@ class ComponentiImportService
             $trovate[$normalizzata] = true;
         }
 
-        foreach ($attese as $normalizzata => $campo) {
-            if (!isset($trovate[$normalizzata])) {
+        foreach ($campiRichiesti as $campo => $normalizzate) {
+            $trovato = false;
+            foreach ($normalizzate as $token) {
+                if (isset($trovate[$token])) {
+                    $trovato = true;
+                    break;
+                }
+            }
+
+            if (!$trovato) {
                 $errori[] = 'Colonna obbligatoria mancante: ' . $this->etichettaDaCampo($campo) . '.';
             }
         }
@@ -644,7 +792,14 @@ class ComponentiImportService
             throw new ComponentiImportException('Batch non in stato pending.');
         }
 
-        if (($batch['schedina_id'] ?? null) !== $schedinaId) {
+        $batchSchedinaId = $batch['schedina_id'] ?? null;
+        $isNewSchedinaContext = $schedinaId === null || $schedinaId === 0;
+
+        if ($isNewSchedinaContext) {
+            if ($batchSchedinaId !== null && $batchSchedinaId !== 0 && $batchSchedinaId !== '') {
+                throw new ComponentiImportException('Batch schedina non valido.');
+            }
+        } elseif ((int) $batchSchedinaId !== (int) $schedinaId) {
             throw new ComponentiImportException('Batch schedina non valido.');
         }
 
@@ -673,7 +828,7 @@ class ComponentiImportService
     {
         return [
             'struttura_id' => $strutturaId,
-            'schedina_id' => $schedinaId,
+            'schedina_id' => $schedinaId > 0 ? $schedinaId : null,
             'customer_id' => null,
             'name' => $row['name'] ?? null,
             'surname' => $row['surname'] ?? null,

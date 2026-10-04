@@ -9,6 +9,47 @@ use RuntimeException;
 
 class ContrattoImportazioneComponentiV1Test extends TestCase
 {
+    public function test_contratto_importazione_usa_15_colonne_canoniche_in_ordine_esatto(): void
+    {
+        $colonne = ContrattoImportazioneComponentiV1::colonneTemplate();
+
+        $this->assertCount(15, $colonne);
+        $this->assertSame([
+            'name',
+            'surname',
+            'sex',
+            'country_nac',
+            'date_nac',
+            'province_nac',
+            'comune_nac',
+            'city_nac',
+            'country',
+            'province',
+            'city',
+            'typeaway',
+            'address',
+            'number',
+            'cap',
+        ], array_keys($colonne));
+        $this->assertSame([
+            'Nome',
+            'Cognome',
+            'Sesso',
+            'Nazione nascita',
+            'Data di nascita',
+            'Provincia nascita',
+            'Comune nascita',
+            'Cittadinanza',
+            'Nazione residenza',
+            'Provincia residenza',
+            'Comune residenza',
+            'Tipo via',
+            'Indirizzo',
+            'Numero civico',
+            'CAP',
+        ], array_values($colonne));
+    }
+
     public function test_contratto_importazione_non_contiene_colonna_tipo_alloggiato(): void
     {
         $colonne = ContrattoImportazioneComponentiV1::colonneTemplate();

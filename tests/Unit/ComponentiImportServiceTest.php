@@ -61,6 +61,26 @@ class ComponentiImportServiceTest extends TestCase
         parent::tearDown();
     }
 
+    public function test_route_nuova_schedina_usa_get_post_canonici_per_import(): void
+    {
+        $routes = file_get_contents(__DIR__ . '/../../routes/web.php');
+
+        $this->assertStringContainsString("Route::post('/schedine/nuova/componenti/import/prepara'", $routes);
+        $this->assertStringContainsString("Route::get('/schedine/nuova/componenti/import'", $routes);
+        $this->assertStringContainsString("Route::post('/schedine/nuova/componenti/import'", $routes);
+        $this->assertStringContainsString("Route::post('/schedine/nuova/componenti/import/conferma'", $routes);
+        $this->assertStringContainsString("Route::get('/schedine/nuova/componenti/import/modello/{format}'", $routes);
+    }
+
+    public function test_form_nuova_schedina_non_usa_id_schedina_persistente_per_import(): void
+    {
+        $form = file_get_contents(__DIR__ . '/../../resources/views/schedina/partials/form.blade.php');
+
+        $this->assertStringContainsString("\$hasPersistedSchedina = (\$schedinaContext ?? null) !== 'new' && !empty(\$schedina) && \$schedina instanceof \\App\\Models\\Schedina && \$schedina->exists && !empty(\$schedina->getKey());", $form);
+        $this->assertStringContainsString("route('schedina.componenti.import.new.prepare')", $form);
+        $this->assertStringContainsString("route('schedina.componenti.import.new.template', ['format' => 'csv'])", $form);
+    }
+
     public function test_headers_template_corrette_e_senza_colonne_tech(): void
     {
         $service = new ComponentiImportService();
@@ -71,21 +91,18 @@ class ComponentiImportServiceTest extends TestCase
             'Nome',
             'Cognome',
             'Sesso',
-            'Cittadinanza',
             'Nazione nascita',
             'Data di nascita',
             'Provincia nascita',
-            'Citta nascita',
-            'Regione nascita',
-            'CAP nascita',
+            'Comune nascita',
+            'Cittadinanza',
             'Nazione residenza',
-            'Regione residenza',
             'Provincia residenza',
-            'Citta residenza',
+            'Comune residenza',
             'Tipo via',
-            'Strada',
-            'Num',
-            'CAP residenza',
+            'Indirizzo',
+            'Numero civico',
+            'CAP',
         ], array_values($headers));
 
         $this->assertArrayNotHasKey('relationship', $headers);
@@ -97,6 +114,28 @@ class ComponentiImportServiceTest extends TestCase
         $this->assertNotContains('codice Questura', array_map('strtolower', $headers));
     }
 
+    public function test_legacy_alias_headers_vengono_riconosciuti(): void
+    {
+        $service = new ComponentiImportService();
+        $legacy = [
+            'Nome', 'Cognome', 'Sesso', 'Comune nascita', 'Nazione nascita', 'Data di nascita',
+            'Provincia nascita', 'Cittadinanza', 'Nazione residenza', 'Provincia residenza',
+            'Comune residenza', 'Tipo via', 'Indirizzo', 'Numero civico', 'CAP',
+        ];
+
+        $csv = $this->buildDelimitedFile($legacy, [[
+            'Mario', 'Rossi', 'M', 'Rimini', 'Italia', '02/10/1980', 'RN', 'Italiana',
+            'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+        ]]);
+
+        $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertCount(1, $preview['rows']);
+        $this->assertSame('Mario', $preview['rows'][0]['name']);
+        $this->assertSame('Rossi', $preview['rows'][0]['surname']);
+        $this->assertSame('COMPLETO', $preview['rows'][0]['status']);
+    }
+
     public function test_mapping_header_to_field_e_definitivo(): void
     {
         $service = new ComponentiImportService();
@@ -106,7 +145,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->assertSame('surname', $mapping['Cognome']);
         $this->assertSame('country_nac', $mapping['Nazione nascita']);
         $this->assertSame('date_nac', $mapping['Data di nascita']);
-        $this->assertSame('city', $mapping['Citta residenza']);
+        $this->assertSame('city', $mapping['Comune residenza']);
     }
 
     public function test_ordine_colonne_differente_viene_gestito(): void
@@ -114,13 +153,11 @@ class ComponentiImportServiceTest extends TestCase
         $service = new ComponentiImportService();
         $shuffled = [
             'Cognome', 'Nome', 'Sesso', 'Cittadinanza', 'Nazione nascita', 'Data di nascita', 'Provincia nascita',
-            'Citta nascita', 'Regione nascita', 'CAP nascita', 'Nazione residenza', 'Regione residenza',
-            'Provincia residenza', 'Citta residenza', 'Tipo via', 'Strada', 'Num', 'CAP residenza',
+            'Comune nascita', 'Nazione residenza', 'Provincia residenza', 'Comune residenza', 'Tipo via', 'Indirizzo', 'Numero civico', 'CAP',
         ];
 
         $csv = $this->buildDelimitedFile($shuffled, [[
-            'Rossi', 'Mario', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Rossi', 'Mario', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
@@ -134,14 +171,13 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921', 'EXTRA',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921', 'EXTRA',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
 
         $this->assertSame('ERRORE', $preview['rows'][0]['status']);
-        $this->assertStringContainsString('attese 18, ricevute 19', $preview['rows'][0]['errors'][0]['message']);
+        $this->assertStringContainsString('attese 15, ricevute 16', $preview['rows'][0]['errors'][0]['message']);
         $this->assertSame('', $preview['rows'][0]['name']);
         $this->assertSame([], $preview['rows'][0]['data']);
     }
@@ -150,14 +186,13 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
 
         $this->assertSame('ERRORE', $preview['rows'][0]['status']);
-        $this->assertStringContainsString('attese 18, ricevute 17', $preview['rows'][0]['errors'][0]['message']);
+        $this->assertStringContainsString('attese 15, ricevute 14', $preview['rows'][0]['errors'][0]['message']);
         $this->assertSame('', $preview['rows'][0]['surname']);
     }
 
@@ -165,28 +200,26 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $txt = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921', 'EXTRA',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921', 'EXTRA',
         ]], "\t");
 
         $preview = $service->previewDaContenuto($txt, 'txt', fn () => $this->tipoAlloggiatoFixture());
 
         $this->assertSame('ERRORE', $preview['rows'][0]['status']);
-        $this->assertStringContainsString('attese 18, ricevute 19', $preview['rows'][0]['errors'][0]['message']);
+        $this->assertStringContainsString('attese 15, ricevute 16', $preview['rows'][0]['errors'][0]['message']);
     }
 
     public function test_txt_con_colonna_mancante_diventa_errore_di_riga(): void
     {
         $service = new ComponentiImportService();
         $txt = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10',
         ]], "\t");
 
         $preview = $service->previewDaContenuto($txt, 'txt', fn () => $this->tipoAlloggiatoFixture());
 
         $this->assertSame('ERRORE', $preview['rows'][0]['status']);
-        $this->assertStringContainsString('attese 18, ricevute 17', $preview['rows'][0]['errors'][0]['message']);
+        $this->assertStringContainsString('attese 15, ricevute 14', $preview['rows'][0]['errors'][0]['message']);
     }
 
     public function test_riga_malformata_tra_righe_valide_non_contamina_le_successive(): void
@@ -194,8 +227,7 @@ class ComponentiImportServiceTest extends TestCase
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [
             [
-                'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+                'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
             ],
             [
                 'Giulia', 'Neri', 'F', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
@@ -225,8 +257,7 @@ class ComponentiImportServiceTest extends TestCase
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile([
             'Nome', 'Cognome', 'Sesso', 'Cittadinanza', 'Nazione nascita', 'Data di nascita', 'Provincia nascita',
-            'Citta nascita', 'Regione nascita', 'CAP nascita', 'Nazione residenza', 'Regione residenza',
-            'Provincia residenza', 'Citta residenza', 'Tipo via', 'Strada', 'Num',
+            'Comune nascita', 'Nazione residenza', 'Provincia residenza', 'Comune residenza', 'Tipo via', 'Indirizzo',
         ], []);
 
         $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
@@ -264,10 +295,9 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [
-            array_fill(0, 18, ''),
+            array_fill(0, 15, ''),
             [
-                'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+                'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
             ],
         ]);
 
@@ -280,8 +310,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            '  José  ', '  Núñez ', ' M ', ' Italiana ', ' Italia ', ' 02/10/1980 ', ' RN ', ' Rimini ', ' Emilia-Romagna ', ' 47921 ',
-            ' Italia ', ' Emilia-Romagna ', ' RN ', ' Rimini ', ' Via ', ' Via Roma ', ' 10 ', ' 47921 ',
+            '  José  ', '  Núñez ', ' M ', ' Italia ', ' 02/10/1980 ', ' RN ', ' Rimini ', ' Italiana ', ' Italia ', ' RN ', ' Rimini ', ' Via ', ' Via Roma ', ' 10 ', ' 47921 ',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
@@ -295,8 +324,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma; centro', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma; centro', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
@@ -308,8 +336,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
@@ -323,8 +350,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '12-31-1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '12-31-1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
@@ -337,8 +363,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '31/02/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '31/02/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
@@ -352,8 +377,7 @@ class ComponentiImportServiceTest extends TestCase
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [
             [
-                'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+                'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
             ],
             [
                 'John', 'Doe', 'M', 'Statunitense', 'Stati Uniti', '02/10/1980', '', '', '', '', '', '', '', '', '', '', '', '',
@@ -370,8 +394,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', '', '', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', '', '', 'Italiana', 'Italia', '', '', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
@@ -397,8 +420,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
@@ -559,8 +581,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
@@ -576,8 +597,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '', '',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '', '',
         ]]);
 
         $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
@@ -593,8 +613,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma',
         ]]);
 
         $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
@@ -608,8 +627,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921', 'EXTRA',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921', 'EXTRA',
         ]]);
 
         $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
@@ -623,8 +641,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', '', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', '', 'Rimini', 'Italiana', 'Italia', '', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
@@ -640,12 +657,10 @@ class ComponentiImportServiceTest extends TestCase
         $service = new ComponentiImportService();
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [
             [
-                'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma',
+                'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma',
             ],
             [
-                'Giulia', 'Neri', 'F', 'Italiana', 'Italia', '03/10/1990', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Verdi', '11', '47921',
+                'Giulia', 'Neri', 'F', 'Italia', '03/10/1990', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Verdi', '11', '47921',
             ],
         ]);
 
@@ -663,8 +678,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '31/02/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '31/02/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
@@ -730,8 +744,7 @@ class ComponentiImportServiceTest extends TestCase
 
         $service = new ComponentiImportService();
         $formulaRow = Row::fromValues([
-            '=CONCAT("Ma","rio")', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            '=CONCAT("Ma","rio")', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]);
 
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [$formulaRow]);
@@ -766,8 +779,7 @@ class ComponentiImportServiceTest extends TestCase
         $rows = [];
         for ($i = 0; $i < ComponentiImportService::MAX_RIGHE + 1; $i++) {
             $rows[] = [
-                'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+                'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
             ];
         }
 
@@ -780,13 +792,11 @@ class ComponentiImportServiceTest extends TestCase
         $service = new ComponentiImportService();
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [
             [
-                'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+                'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
             ],
-            array_fill(0, 18, ''),
+            array_fill(0, 15, ''),
             [
-                'Giulia', 'Neri', 'F', 'Italiana', 'Italia', '03/10/1990', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Verdi', '11', '47921',
+                'Giulia', 'Neri', 'F', 'Italia', '03/10/1990', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Verdi', '11', '47921',
             ],
         ]);
 
@@ -804,9 +814,8 @@ class ComponentiImportServiceTest extends TestCase
         $service = new ComponentiImportService();
         $dateStyle = (new Style())->setFormat('dd/mm/yyyy');
         $nativeDateRow = Row::fromValuesWithStyles([
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', 29496, 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
-        ], null, [5 => $dateStyle]);
+            'Mario', 'Rossi', 'M', 'Italia', 29496, 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+        ], null, [4 => $dateStyle]);
 
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [$nativeDateRow]);
 
@@ -821,8 +830,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $before = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
@@ -842,8 +850,7 @@ class ComponentiImportServiceTest extends TestCase
 
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $service->previewDaContenuto($csv, 'csv', fn () => [
@@ -859,12 +866,10 @@ class ComponentiImportServiceTest extends TestCase
         $service = new ComponentiImportService();
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [
             [
-                'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+                'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
             ],
             [
-                'Giulia', 'Neri', 'F', 'Italiana', 'Italia', '31/02/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+                'Giulia', 'Neri', 'F', 'Italia', '31/02/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
             ],
         ]);
 
@@ -884,8 +889,7 @@ class ComponentiImportServiceTest extends TestCase
         $rows = [];
         for ($i = 0; $i < ComponentiImportService::MAX_RIGHE + 1; $i++) {
             $rows[] = [
-                'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-                'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+                'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
             ];
         }
 
@@ -909,8 +913,7 @@ class ComponentiImportServiceTest extends TestCase
     {
         $service = new ComponentiImportService();
         $rows = [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]];
 
         $csv = $this->buildDelimitedFile($service->headersTemplate(), $rows, ';');
@@ -920,6 +923,23 @@ class ComponentiImportServiceTest extends TestCase
         $txtPreview = $service->previewDaContenuto($txt, 'txt', fn () => $this->tipoAlloggiatoFixture());
 
         $this->assertSame($csvPreview['rows'][0]['data'], $txtPreview['rows'][0]['data']);
+    }
+
+    public function test_csv_con_tab_e_estensione_csv_viene_rilevato_automaticamente(): void
+    {
+        $service = new ComponentiImportService();
+        $headers = $service->headersTemplate();
+        $rows = [[
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+        ]];
+
+        $content = $this->buildDelimitedFile($headers, $rows, "\t");
+        $preview = $service->previewDaContenuto($content, 'csv', fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame(15, count($preview['headers']));
+        $this->assertSame('Mario', $preview['rows'][0]['name']);
+        $this->assertSame('Rossi', $preview['rows'][0]['surname']);
+        $this->assertSame('VALIDO', $preview['rows'][0]['status']);
     }
 
     public function test_nessun_id_interno_e_nessuna_colonna_tecnica_nel_modello(): void
@@ -1048,6 +1068,37 @@ class ComponentiImportServiceTest extends TestCase
         ]);
     }
 
+    public function test_prepara_conferma_batch_supporta_context_nuova_schedina_senza_id(): void
+    {
+        $service = new ComponentiImportService();
+        $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+        ]]);
+
+        $batch = [
+            'token' => 'batch-new-schedina-001',
+            'user_id' => 501,
+            'struttura_id' => 10,
+            'schedina_id' => null,
+            'formato' => 'csv',
+            'raw_headers' => $service->headersTemplate(),
+            'raw_rows' => [[
+                'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            ]],
+            'created_at' => time(),
+            'expires_at' => time() + 3600,
+            'confirmed_at' => null,
+            'status' => 'pending',
+        ];
+
+        $conferma = $service->preparaConfermaBatch($batch, 0, 10, 501, fn () => $this->tipoAlloggiatoFixture());
+
+        $this->assertSame(1, $conferma['valid_count']);
+        $this->assertSame('MEMBRO GRUPPO', $conferma['valid_rows'][0]['relationship']);
+        $this->assertSame('NO', $conferma['payloads'][0]['exent']);
+        $this->assertNull($conferma['payloads'][0]['schedina_id']);
+    }
+
     private function tipoAlloggiatoFixture(): array
     {
         return [
@@ -1062,8 +1113,7 @@ class ComponentiImportServiceTest extends TestCase
     private function buildValidBatch(ComponentiImportService $service): array
     {
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Emilia-Romagna', '47921',
-            'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
+            'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
