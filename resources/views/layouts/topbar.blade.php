@@ -3,14 +3,14 @@
 
     $utenteTopbar = auth()->user();
     $nomeTopbar = $utenteTopbar?->display_name ?? $utenteTopbar?->name ?? 'Utente';
-    $ruoloTopbar = match ($utenteTopbar->ruolo ?? null) {
+    $ruoloTopbar = $utenteTopbar ? match ($utenteTopbar->ruolo ?? null) {
         'super_admin' => 'Super Admin',
         'admin' => 'Admin',
         'proprietario' => 'Proprietario',
-        default => (($utenteTopbar?->struttura_id ?? null) ? 'Struttura' : (($utenteTopbar->ruolo_operativo ?? '') === 'proprietario' ? 'Proprietario' : 'Reception')),
-    };
-    $avatarTopbar = !empty($utenteTopbar?->avatar) ? asset('images/' . $utenteTopbar->avatar) : null;
-    $gestioneTabTopbar = method_exists($utenteTopbar, 'canManageGestioneOperativa') && $utenteTopbar->canManageGestioneOperativa($utenteTopbar->struttura_id ?? null)
+        default => (($utenteTopbar->struttura_id ?? null) ? 'Struttura' : (($utenteTopbar->ruolo_operativo ?? '') === 'proprietario' ? 'Proprietario' : 'Reception')),
+    } : 'Guest';
+    $avatarTopbar = $utenteTopbar && !empty($utenteTopbar->avatar) ? asset('images/' . $utenteTopbar->avatar) : null;
+    $gestioneTabTopbar = $utenteTopbar && method_exists($utenteTopbar, 'canManageGestioneOperativa') && $utenteTopbar->canManageGestioneOperativa($utenteTopbar->struttura_id ?? null)
         ? 'utenti'
         : 'profilo';
 
@@ -31,6 +31,7 @@
             ->count();
     }
 @endphp
+@auth
 <header id="page-topbar">
     <div class="layout-width">
         <div class="navbar-header">
@@ -229,6 +230,39 @@
         </div>
     </div>
 </header>
+@endauth
+@guest
+<header id="page-topbar">
+    <div class="layout-width">
+        <div class="navbar-header">
+            <div class="d-flex align-items-center">
+                <div class="navbar-brand-box horizontal-logo">
+                    <a href="{{ route('root') }}" class="logo logo-dark">
+                        <span class="logo-sm">
+                            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="40" height="40" style="object-fit: contain;">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="70" height="70" style="object-fit: contain;">
+                        </span>
+                    </a>
+                    <a href="{{ route('root') }}" class="logo logo-light">
+                        <span class="logo-sm">
+                            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="40" height="40" style="object-fit: contain;">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="70" height="70" style="object-fit: contain;">
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="d-flex align-items-center">
+                <a href="{{ route('login') }}" class="btn btn-sm btn-primary">Accedi</a>
+            </div>
+        </div>
+    </div>
+</header>
+@endguest
+@auth
 @foreach($notificheTopbar as $notifica)
     @php
         $badgeClass = match ($notifica->stato) {
@@ -339,3 +373,4 @@
         });
     });
 </script>
+@endauth
