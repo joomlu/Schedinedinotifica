@@ -8,8 +8,9 @@ use App\Models\Schedina;
 use App\Models\Struttura;
 use App\Models\StrutturaComanda;
 use App\Models\SupportTicket;
-use App\Support\StrutturaCorrente;
 use App\Models\User;
+use App\Support\Anagrafica\EtaOperativa;
+use App\Support\StrutturaCorrente;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -304,7 +305,11 @@ class NotificheService
             return collect();
         }
 
-        $age = $birthday->diffInYears($today);
+        $age = EtaOperativa::etaOperativa((string) $birthDate, $today);
+        if ($age === null) {
+            return collect();
+        }
+
         $origine = $this->origineScheda($schedina);
         $arrivo = $this->formatDateLabel($schedina->arrive);
         $partenza = $this->formatDateLabel($schedina->departure);

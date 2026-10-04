@@ -9,6 +9,7 @@ use App\Models\LicenzaAssegnazione;
 use App\Models\Schedina;
 use App\Models\Struttura;
 use App\Models\User;
+use App\Support\Anagrafica\EtaOperativa;
 use App\Support\StrutturaCorrente;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -537,7 +538,7 @@ class CalendarioController extends Controller
                     $events[] = $this->automaticEventArray([
                         'tipo' => 'compleanno',
                         'titolo' => 'Compleanno: ' . trim(($cliente->name ?? '') . ' ' . ($cliente->surname ?? '')),
-                        'descrizione' => 'Il cliente compie ' . $birth->copy()->diffInYears($eventDate) . ' anni.',
+                        'descrizione' => 'Il cliente compie ' . EtaOperativa::etaOperativa($cliente->nac_reg, $eventDate) . ' anni.',
                         'data_evento' => $eventDate->toDateString(),
                         'ora_evento' => null,
                         'priorita' => 'normale',
@@ -569,7 +570,7 @@ class CalendarioController extends Controller
                     $events[] = $this->automaticEventArray([
                         'tipo' => 'compleanno',
                         'titolo' => 'Compleanno componente: ' . trim(($componente->name ?? '') . ' ' . ($componente->surname ?? '')),
-                        'descrizione' => 'Il componente compie ' . $birth->copy()->diffInYears($eventDate) . ' anni.',
+                        'descrizione' => 'Il componente compie ' . EtaOperativa::etaOperativa($componente->date_nac, $eventDate) . ' anni.',
                         'data_evento' => $eventDate->toDateString(),
                         'ora_evento' => null,
                         'priorita' => 'normale',
