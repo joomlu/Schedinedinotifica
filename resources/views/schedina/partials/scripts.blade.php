@@ -524,6 +524,8 @@
         const addComponenteBtn = document.getElementById('add-componente-row');
         const saveModeInput = document.getElementById('save-mode');
         const saveModeIntentInput = document.getElementById('save-mode-intent');
+        const componentIndexInput = document.getElementById('component-index');
+        const componentIdInput = document.getElementById('component-id');
         const activeTabInput = document.getElementById('active-tab');
         const saveComponentiBtn = document.getElementById('save-componenti-btn');
 
@@ -667,17 +669,45 @@
             const dateNac = row.querySelector('[name$="[date_nac]"]')?.value?.trim() || '';
 
             const computeAge = (rawDate) => {
-                if (!rawDate) return '';
-                const parsed = new Date(rawDate);
-                if (Number.isNaN(parsed.getTime())) return '';
+                if (typeof rawDate !== 'string') {
+                    rawDate = String(rawDate ?? '');
+                }
+
+                const value = rawDate.trim();
+                if (!value) return null;
+
+                const match = /^\d{4}-\d{2}-\d{2}$/.exec(value);
+                if (!match) return null;
+
+                const [year, month, day] = value.split('-').map(Number);
+                if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) {
+                    return null;
+                }
+
+                const birth = new Date(year, month - 1, day);
+                if (Number.isNaN(birth.getTime())) {
+                    return null;
+                }
+
                 const today = new Date();
-                let age = today.getFullYear() - parsed.getFullYear();
-                const m = today.getMonth() - parsed.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < parsed.getDate())) {
+                const todayLocal = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                if (birth > todayLocal) {
+                    return null;
+                }
+
+                let age = today.getFullYear() - birth.getFullYear();
+                const monthDiff = today.getMonth() - birth.getMonth();
+                const dayDiff = today.getDate() - birth.getDate();
+
+                if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
                     age -= 1;
                 }
-                if (age < 0) return '';
-                return `${Math.max(1, age)}`;
+
+                if (age < 0) {
+                    return null;
+                }
+
+                return Math.max(1, age);
             };
             const age = computeAge(dateNac);
 
@@ -905,9 +935,21 @@
             saveComponentiBtn.addEventListener('click', () => {
                 if (saveModeInput) saveModeInput.value = 'componenti';
                 if (saveModeIntentInput) saveModeIntentInput.value = 'componenti';
+                if (componentIndexInput) componentIndexInput.value = '';
+                if (componentIdInput) componentIdInput.value = '';
                 if (activeTabInput) activeTabInput.value = 'schedina-step-comp';
             });
         }
+
+        document.querySelectorAll('.save-componente-row').forEach((button) => {
+            button.addEventListener('click', () => {
+                if (saveModeInput) saveModeInput.value = 'component';
+                if (saveModeIntentInput) saveModeIntentInput.value = 'component';
+                if (componentIndexInput) componentIndexInput.value = button.dataset.componentIndex ?? '';
+                if (componentIdInput) componentIdInput.value = button.dataset.componentId ?? '';
+                if (activeTabInput) activeTabInput.value = 'schedina-step-comp';
+            });
+        });
 
         const schedinaForm = document.querySelector('form.form-steps');
         if (schedinaForm) {
@@ -921,15 +963,32 @@
 
             schedinaForm.addEventListener('submit', (event) => {
                 const submitter = event.submitter;
-                if (submitter?.id === 'save-componenti-btn') {
+                // Il gestore UI disabilita i pulsanti prima della serializzazione:
+                // aggiorniamo anche l'hidden, senza dipendere dal valore del submitter.
+                const methodInput = schedinaForm.querySelector('input[name="_method"]');
+                if (methodInput) {
+                    methodInput.value = submitter?.id === 'import-componenti-btn' ? 'POST' : 'PUT';
+                }
+
+                const isSingleComponentSubmit = !!(submitter && submitter.matches('.save-componente-row'));
+                if (isSingleComponentSubmit) {
+                    if (saveModeInput) saveModeInput.value = 'component';
+                    if (saveModeIntentInput) saveModeIntentInput.value = 'component';
+                    if (componentIndexInput) componentIndexInput.value = submitter.dataset.componentIndex ?? '';
+                    if (componentIdInput) componentIdInput.value = submitter.dataset.componentId ?? '';
+                } else if (submitter?.id === 'save-componenti-btn') {
                     if (saveModeInput) saveModeInput.value = 'componenti';
                     if (saveModeIntentInput) saveModeIntentInput.value = 'componenti';
+                    if (componentIndexInput) componentIndexInput.value = '';
+                    if (componentIdInput) componentIdInput.value = '';
                 } else {
                     const mode = submitter?.getAttribute('name') === 'save_mode'
                         ? (submitter?.getAttribute('value') || 'full')
                         : 'full';
                     if (saveModeInput) saveModeInput.value = mode;
                     if (saveModeIntentInput) saveModeIntentInput.value = mode;
+                    if (componentIndexInput) componentIndexInput.value = '';
+                    if (componentIdInput) componentIdInput.value = '';
                 }
 
                 if (activeTabInput) {

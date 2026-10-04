@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Componenti;
+use App\Models\CustomerImportRow;
 use App\Models\Customers;
 use App\Models\GeoComune;
 use App\Models\GeoNazione;
@@ -20,6 +21,7 @@ use App\Models\Titolo;
 use App\Models\RilasciatoDa;
 use App\Services\TassaDiSoggiornoService;
 use App\Services\CestinoService;
+use App\Services\CustomerImportService;
 use App\Support\Componenti\DatiComponenteNormalizzati;
 use App\Support\Componenti\PianoSyncComponenti;
 use App\Support\Componenti\TipoAlloggiatoCatalogo;
@@ -183,8 +185,31 @@ class SchedinaController extends Controller
         $schedina = new Schedina();
         $componenti = collect();
 
+        $draftState = $request->session()->get($this->newSchedinaDraftComponentiKey(), []);
+        if (!empty($draftState)) {
+            $oldInput = $request->session()->getOldInput();
+            $mergedInput = empty($oldInput) ? $draftState : array_replace_recursive($draftState, $oldInput);
+            $mergedInput = array_diff_key($mergedInput, array_flip(['id', 'schedina_id', 'schedina']));
+            $request->session()->flashInput($mergedInput);
+            $componenti = collect($mergedInput['componenti'] ?? []);
+        }
+
         $customerId = (int) $request->query('customer_id', 0);
+        $customerImportRowId = (int) $request->old('customer_import_row_id', $request->query('customer_import_row_id', 0));
+        $customerImportRow = null;
         $prefilledCustomer = $customerId > 0 ? Customers::query()->find($customerId) : null;
+
+        if ($customerImportRowId > 0) {
+            $customerImportRow = CustomerImportRow::query()
+                ->whereHas('batch', fn ($query) => $query->where('struttura_id', $currentId))
+                ->whereNull('imported_customer_id')
+                ->findOrFail($customerImportRowId);
+
+            if ($customerImportRow) {
+                $prefilledCustomer = $this->importedRowToPrefilledCustomer($customerImportRow);
+            }
+        }
+
         [$schedina, $componenti] = $this->previewFromOldInput($request, $schedina, $componenti, $prefilledCustomer);
 
         [$tassaConfig, $esenzioni] = $this->loadTassaContext($strutturaInfo);
@@ -201,6 +226,8 @@ class SchedinaController extends Controller
                 'tassaDettaglio' => $tassaDettaglio,
                 'componenti' => $componenti,
                 'prefilledCustomer' => $prefilledCustomer,
+                'customerImportRowId' => $customerImportRow?->id,
+                'importedTipoAlloggiato' => $customerImportRow?->normalized_payload['tipo_alloggiato'] ?? null,
                 'nextSchedaCode' => $this->nextSchedaCode($currentId),
             ]
         ));
@@ -214,10 +241,21 @@ class SchedinaController extends Controller
         }
 
         $saveMode = $this->resolveSaveMode($request);
+        if ($saveMode === 'component') {
+            return $this->handleSingleComponentSave($request, null, false);
+        }
+
         if ($saveMode === 'componenti') {
-            return back()
-                ->withInput()
-                ->with('warning', 'Per salvare i componenti, salva prima la schedina principale.');
+            $this->validateComponentiRows($request);
+            $this->validatePeopleConsistencyForComponentSave($request);
+
+            $draft = $this->persistNewSchedinaDraftState($request);
+
+            return redirect()
+                ->route('newschedina', ['active_tab' => 'schedina-step-comp'])
+                ->withInput($draft)
+                ->with('success', 'Componenti salvati temporaneamente. Completa la schedina e poi salva definitivamente.')
+                ->with('active_tab', 'schedina-step-comp');
         }
 
         if ($saveMode === 'full') {
@@ -228,19 +266,56 @@ class SchedinaController extends Controller
             $this->validateArriviModeRequest($request);
         }
 
-        $customer = $this->resolveCustomerFromRequest($request);
-        $defaults = $customer ? $this->customerToSchedinaDefaults($customer) : [];
+        $persist = function (?CustomerImportRow $importRow = null) use ($request, $currentId, $saveMode): Schedina {
+            $customer = $this->resolveCustomerFromRequest($request);
+            $defaults = $customer ? $this->customerToSchedinaDefaults($customer) : ($importRow ? $this->customerToSchedinaDefaults($this->importedRowToPrefilledCustomer($importRow)) : []);
 
-        $payload = $this->buildSchedinaPayload($request, $defaults);
-        $payload['struttura_id'] = $currentId;
-        $payload['customer_id'] = $customer?->id ?: $request->input('customer_id');
-        $this->applySaveModeState($payload, $currentId, $saveMode, null);
+            $payload = $this->buildSchedinaPayload($request, $defaults);
+            $payload['struttura_id'] = $currentId;
+            $payload['customer_id'] = $customer?->id ?: $request->input('customer_id');
+            $this->applySaveModeState($payload, $currentId, $saveMode, null);
 
-        $schedina = Schedina::query()->create($payload);
-        $this->syncCamere($schedina, $request);
-        $this->syncComponenti($schedina, $request);
-        $this->syncCircuitNumbering($currentId, null, (string) ($payload['circuito'] ?? 'schedina'));
+            $schedina = Schedina::query()->create($payload);
+            $this->syncCamere($schedina, $request);
+            $this->syncComponenti($schedina, $request);
+            $this->syncCircuitNumbering($currentId, null, (string) ($payload['circuito'] ?? 'schedina'));
+            return $schedina;
+        };
 
+        if ($request->filled('customer_import_row_id')) {
+            $request->validate([
+                'customer_import_row_id' => ['required', 'integer', 'min:1'],
+                'customer_type_housed' => ['nullable', Rule::in(['Ospite', 'Componente', 'Richiesta'])],
+            ]);
+            if ($saveMode !== 'full') {
+                throw ValidationException::withMessages([
+                    'customer_import_row_id' => 'Completa la schedina e usa Salva per confermare il cliente importato.',
+                ]);
+            }
+            $schedina = DB::transaction(function () use ($request, $currentId, $persist) {
+                $row = CustomerImportRow::query()
+                    ->whereHas('batch', fn ($query) => $query->where('struttura_id', $currentId))
+                    ->lockForUpdate()->findOrFail($request->input('customer_import_row_id'));
+                if ($row->imported_customer_id) {
+                    // Un secondo invio non deve creare né una schedina né un Customer.
+                    return null;
+                }
+                if ($request->filled('customer_id')) {
+                    Customers::query()->where('struttura_id', $currentId)->findOrFail($request->input('customer_id'));
+                }
+                $saved = $persist($row);
+                app(CustomerImportService::class)->completeFromSchedina($row, $saved);
+                return $saved;
+            });
+            if (!$schedina) {
+                return redirect()->route('customer.imported.index')
+                    ->with('success', 'Cliente importato già confermato: nessun duplicato creato.');
+            }
+        } else {
+            $schedina = $persist();
+        }
+
+        $this->clearNewSchedinaDraftComponenti();
         return $this->redirectAfterSave($schedina, $request, $saveMode, false);
     }
 
@@ -304,6 +379,10 @@ class SchedinaController extends Controller
         $schedina = Schedina::query()->findOrFail($id);
         $previousCircuit = $this->normalizeSchedaCircuit($schedina);
         $saveMode = $this->resolveSaveMode($request);
+
+        if ($saveMode === 'component') {
+            return $this->handleSingleComponentSave($request, $schedina, true);
+        }
 
         if ($saveMode === 'componenti') {
             $this->validateComponentiRows($request);
@@ -641,6 +720,58 @@ class SchedinaController extends Controller
         return $this->localizeChainCustomerForCurrentStruttura($customer, (int) $currentStrutturaId);
     }
 
+    private function importedRowToPrefilledCustomer(CustomerImportRow $row): Customers
+    {
+        $payload = $row->normalized_payload ?? [];
+
+        // Una riga staging non è un Customer: non trasferire il suo ID nel customer_id.
+        return new Customers([
+            'numero_cliente' => $payload['numero_cliente'] ?? null,
+            'type_housed' => $payload['tipo_cliente'] ?? 'Componente',
+            'type' => null,
+            'group' => $payload['gruppo'] ?? $payload['nome_gruppo'] ?? null,
+            'subgroup' => $payload['subgroup'] ?? null,
+            'subgroup1' => $payload['subgroup1'] ?? null,
+            'email' => $payload['email'] ?? null,
+            'phone' => $payload['telefono'] ?? null,
+            'cellphone' => $payload['cellulare'] ?? null,
+            'fax' => $payload['fax'] ?? null,
+            'observation' => $payload['note'] ?? null,
+            'observation_reg' => null,
+            'privacy_consent' => false,
+            'privacy_consent_at' => null,
+            'marketing_consent' => false,
+            'marketing_consent_at' => null,
+            'communication_consent' => false,
+            'communication_consent_at' => null,
+            'name' => $payload['nome'] ?? null,
+            'surname' => $payload['cognome'] ?? null,
+            'sex' => $payload['sesso'] ?? null,
+            'country_reg' => $payload['nazione_nascita'] ?? $payload['nazione_residenza'] ?? null,
+            'city_reg' => $payload['comune_nascita'] ?? null,
+            'region_reg' => null,
+            'prov_reg' => $payload['provincia_nascita'] ?? null,
+            'cap_reg' => null,
+            'ciudadania_reg' => $payload['cittadinanza'] ?? null,
+            'nac_reg' => $payload['data_nascita'] ?? null,
+            'country' => $payload['nazione_residenza'] ?? null,
+            'city' => $payload['comune_residenza'] ?? null,
+            'region' => null,
+            'province' => $payload['provincia_residenza'] ?? null,
+            'cap' => $payload['cap_residenza'] ?? null,
+            'typeaway' => $payload['tipo_via_strada'] ?? null,
+            'address' => $payload['indirizzo_residenza'] ?? null,
+            'number' => $payload['numero_civico_residenza'] ?? null,
+            'num_doc_reg' => $payload['numero_documento'] ?? null,
+            'type_doc_reg' => $payload['tipo_documento'] ?? null,
+            'date_pub_reg' => $payload['data_rilascio'] ?? null,
+            'expire_reg' => $payload['data_scadenza'] ?? null,
+            'rilasciato_reg' => $payload['rilasciato_da'] ?? null,
+            'country_doc_reg' => null,
+            'city_doc_reg' => null,
+        ]);
+    }
+
     private function customerToSchedinaDefaults(Customers $customer): array
     {
         return [
@@ -942,6 +1073,131 @@ class SchedinaController extends Controller
             ->with('success', $isUpdate ? 'Schedina aggiornata con successo.' : 'Schedina creata con successo.');
     }
 
+    private function newSchedinaDraftComponentiKey(): string
+    {
+        $userId = (int) (auth()->id() ?? 0);
+        $strutturaId = (int) (StrutturaCorrente::getId() ?? auth()->user()?->struttura_id ?? 0);
+
+        return 'componenti_import_new_schedina.' . $userId . '.' . $strutturaId;
+    }
+
+    private function handleSingleComponentSave(Request $request, ?Schedina $schedina, bool $isPersisted): \Illuminate\Http\RedirectResponse
+    {
+        [$index, $row, $componentId] = $this->resolveSingleComponentSelection($request);
+
+        if (!is_array($row) || $index === null) {
+            throw ValidationException::withMessages([
+                'componenti' => 'Seleziona un componente valido da salvare.',
+            ]);
+        }
+
+        $normalized = DatiComponenteNormalizzati::normalizzaRighe([$row]);
+        if (empty($normalized)) {
+            throw ValidationException::withMessages([
+                'componenti' => 'Il componente selezionato non contiene dati validi.',
+            ]);
+        }
+
+        $singleRow = $normalized[0];
+        $singleErrors = DatiComponenteNormalizzati::validaRighe([$singleRow]);
+        if (!empty($singleErrors)) {
+            throw ValidationException::withMessages($singleErrors);
+        }
+
+        $review = DatiComponenteNormalizzati::classificaRiga($singleRow);
+        $singleRow = array_merge($singleRow, $review['metadata']);
+
+        if ($isPersisted) {
+            if ($componentId === null || $componentId === '') {
+                throw ValidationException::withMessages([
+                    'componenti' => 'Nessun componente valido identificato per il salvataggio.',
+                ]);
+            }
+
+            $componente = Componenti::query()
+                ->where('schedina_id', $schedina->id)
+                ->find((int) $componentId);
+
+            if (!$componente) {
+                throw ValidationException::withMessages([
+                    'componenti' => 'Il componente non appartiene alla schedina corrente.',
+                ]);
+            }
+
+            $payload = $this->buildComponentePayload($schedina, $singleRow);
+            $componente->fill($payload)->save();
+
+            return redirect()
+                ->route('schedina.edit', ['id' => $schedina->id, 'active_tab' => 'schedina-step-comp'])
+                ->withInput($request->except(['componenti']))
+                ->with('success', 'Componente salvato correttamente.')
+                ->with('active_tab', 'schedina-step-comp');
+        }
+
+        $draft = session()->get($this->newSchedinaDraftComponentiKey(), []);
+        $draft = is_array($draft) ? $draft : [];
+        $draftComponenti = is_array($draft['componenti'] ?? null) ? $draft['componenti'] : [];
+        $draftComponenti[$index] = $singleRow;
+        $draft['componenti'] = array_values($draftComponenti);
+        session()->put($this->newSchedinaDraftComponentiKey(), $draft);
+        session()->flashInput($draft);
+
+        return redirect()
+            ->route('newschedina', ['active_tab' => 'schedina-step-comp'])
+            ->withInput($draft)
+            ->with('success', 'Componente salvato correttamente.')
+            ->with('active_tab', 'schedina-step-comp');
+    }
+
+    private function resolveSingleComponentSelection(Request $request): array
+    {
+        $rows = (array) $request->input('componenti', []);
+        $componentIndex = $request->input('component_index');
+        $componentId = $request->input('component_id');
+
+        if ($componentId !== null && $componentId !== '') {
+            foreach ($rows as $index => $row) {
+                if (!is_array($row)) {
+                    continue;
+                }
+
+                if ((string) ($row['id'] ?? '') === (string) $componentId || (string) ($row['id'] ?? '') === (string) ((int) $componentId)) {
+                    return [(int) $index, $row, (int) $componentId];
+                }
+            }
+        }
+
+        if ($componentIndex !== null && $componentIndex !== '') {
+            $index = (int) $componentIndex;
+            $row = $rows[$index] ?? null;
+            if (is_array($row)) {
+                return [$index, $row, $row['id'] ?? null];
+            }
+        }
+
+        return [null, null, null];
+    }
+
+    private function persistNewSchedinaDraftState(Request $request): array
+    {
+        $draft = session()->get($this->newSchedinaDraftComponentiKey(), []);
+        $draft = is_array($draft) ? $draft : [];
+
+        $submitted = $request->except(['_token', '_method', 'save_mode', 'save_mode_intent', 'active_tab', 'component_index', 'component_id']);
+        $merged = array_replace_recursive($draft, $submitted);
+        $merged['componenti'] = $this->normalizedComponentiRows($request);
+
+        session()->put($this->newSchedinaDraftComponentiKey(), $merged);
+        session()->flashInput($merged);
+
+        return $merged;
+    }
+
+    private function clearNewSchedinaDraftComponenti(): void
+    {
+        session()->forget($this->newSchedinaDraftComponentiKey());
+    }
+
     private function applyOperationalArriviDates(array &$payload): void
     {
         $today = now()->startOfDay();
@@ -1010,6 +1266,13 @@ class SchedinaController extends Controller
         }
 
         $errors = DatiComponenteNormalizzati::validaRighe($rows);
+
+        $reviewBlocks = $this->componentiWithBlockingReview($request);
+        if (!empty($reviewBlocks)) {
+            throw ValidationException::withMessages([
+                'componenti' => 'Impossibile salvare la schedina. Ci sono ' . count($reviewBlocks) . ' componenti da verificare o da completare.',
+            ]);
+        }
 
         if (!empty($errors)) {
             throw ValidationException::withMessages($errors);
@@ -1206,31 +1469,57 @@ class SchedinaController extends Controller
 
     protected function buildComponentePayload(Schedina $schedina, array $row): array
     {
+        $filtered = [];
+        foreach (['struttura_id', 'schedina_id', 'customer_id', 'name', 'surname', 'sex', 'relationship', 'exent', 'city_nac', 'province_nac', 'country_nac', 'regione_nac', 'comune_nac', 'cap_nac', 'date_nac', 'country', 'regione', 'province', 'city', 'typeaway', 'address', 'number', 'cap'] as $field) {
+            if (array_key_exists($field, $row)) {
+                $filtered[$field] = $row[$field];
+            }
+        }
+
         return $this->resolveComponenteGeoLabels([
             'struttura_id' => $schedina->struttura_id,
             'schedina_id' => $schedina->id,
             'customer_id' => $schedina->customer_id,
-            'name' => $row['name'] ?? null,
-            'surname' => $row['surname'] ?? null,
-            'sex' => $row['sex'] ?? null,
-            'relationship' => $row['relationship'] ?? null,
-            'exent' => $row['exent'] ?? null,
-            'city_nac' => $row['city_nac'] ?? null,
-            'province_nac' => $row['province_nac'] ?? null,
-            'country_nac' => $row['country_nac'] ?? null,
-            'regione_nac' => $row['regione_nac'] ?? null,
-            'comune_nac' => $row['comune_nac'] ?? null,
-            'cap_nac' => $row['cap_nac'] ?? null,
-            'date_nac' => DatiComponenteNormalizzati::normalizzaData($row['date_nac'] ?? null),
-            'country' => $row['country'] ?? null,
-            'regione' => $row['regione'] ?? null,
-            'province' => $row['province'] ?? null,
-            'city' => $row['city'] ?? null,
-            'typeaway' => $row['typeaway'] ?? null,
-            'address' => $row['address'] ?? null,
-            'number' => $row['number'] ?? null,
-            'cap' => $row['cap'] ?? null,
+            'name' => $filtered['name'] ?? null,
+            'surname' => $filtered['surname'] ?? null,
+            'sex' => $filtered['sex'] ?? null,
+            'relationship' => $filtered['relationship'] ?? null,
+            'exent' => $filtered['exent'] ?? null,
+            'city_nac' => $filtered['city_nac'] ?? null,
+            'province_nac' => $filtered['province_nac'] ?? null,
+            'country_nac' => $filtered['country_nac'] ?? null,
+            'regione_nac' => $filtered['regione_nac'] ?? null,
+            'comune_nac' => $filtered['comune_nac'] ?? null,
+            'cap_nac' => $filtered['cap_nac'] ?? null,
+            'date_nac' => DatiComponenteNormalizzati::normalizzaData($filtered['date_nac'] ?? null),
+            'country' => $filtered['country'] ?? null,
+            'regione' => $filtered['regione'] ?? null,
+            'province' => $filtered['province'] ?? null,
+            'city' => $filtered['city'] ?? null,
+            'typeaway' => $filtered['typeaway'] ?? null,
+            'address' => $filtered['address'] ?? null,
+            'number' => $filtered['number'] ?? null,
+            'cap' => $filtered['cap'] ?? null,
         ]);
+    }
+
+    private function componentiWithBlockingReview(Request $request): array
+    {
+        $rows = (array) $request->input('componenti', []);
+        $problematic = [];
+
+        foreach ($rows as $index => $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+
+            $status = strtoupper((string) ($row['_review_status'] ?? $row['review_status'] ?? $row['status'] ?? ''));
+            if (in_array($status, [DatiComponenteNormalizzati::STATO_DA_VERIFICARE, DatiComponenteNormalizzati::STATO_DA_COMPLETARE], true)) {
+                $problematic[] = trim((string) (($row['surname'] ?? '') . ' ' . ($row['name'] ?? '')));
+            }
+        }
+
+        return array_values(array_filter($problematic, fn ($value) => $value !== ''));
     }
 
     private function resolveGeoLabelsFromInput(array $data): array

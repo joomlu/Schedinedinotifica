@@ -75,11 +75,7 @@ class PagamentiController extends Controller
 
         $articoli = LicenzaArticolo::with('parent')->where('attivo', true)->orderBy('ordine')->orderBy('nome')->get();
         $assegnazioni = LicenzaAssegnazione::with(['articolo.parent', 'proprietario.admin', 'struttura'])
-            ->where(function ($query) use ($adminId) {
-                $query->where('admin_id', $adminId)
-                    ->orWhereHas('proprietario', fn ($ownerQuery) => $ownerQuery->where('admin_id', $adminId))
-                    ->orWhereHas('struttura.proprietario', fn ($ownerQuery) => $ownerQuery->where('admin_id', $adminId));
-            })
+            ->perStruttureAdmin($adminId)
             ->when($filters['q'] !== '', function ($query) use ($filters) {
                 $term = $filters['q'];
                 $query->where(function ($subquery) use ($term) {
@@ -179,54 +175,7 @@ class PagamentiController extends Controller
                 ];
             });
 
-        $proforme = ProprietarioFatturazione::with(['proprietario.admin', 'righe.struttura'])
-            ->whereHas('proprietario', fn ($query) => $query->where('admin_id', $filters['admin_id']))
-            ->when($filters['proprietario_id'], fn ($query, $proprietarioId) => $query->where('proprietario_id', $proprietarioId))
-            ->get()
-            ->filter(function (ProprietarioFatturazione $fatturazione) use ($filters) {
-                if (!$filters['struttura_id']) {
-                    return true;
-                }
-
-                if (!$fatturazione->righe->contains(fn ($riga) => (int) $riga->struttura_id === (int) $filters['struttura_id'])) {
-                    return false;
-                }
-
-                return true;
-            })
-            ->filter(function (ProprietarioFatturazione $fatturazione) use ($filters) {
-                if (!$this->matchesProformaStatoFilter($fatturazione, (string) ($filters['stato_pagamento'] ?? ''))) {
-                    return false;
-                }
-                if (($filters['attiva'] ?? '') !== '' && !$this->matchesProformaAttivaFilter($fatturazione, ($filters['attiva'] ?? '') === '1')) {
-                    return false;
-                }
-                if (!$this->matchesProformaScadenzaFilter($fatturazione, (string) ($filters['scadenza'] ?? ''))) {
-                    return false;
-                }
-
-                return true;
-            })
-            ->map(function (ProprietarioFatturazione $fatturazione) {
-                $strutture = $fatturazione->righe->pluck('struttura.nome_struttura')->filter()->unique()->values();
-
-                return [
-                    'tipo' => 'Proforma proprietario',
-                    'data' => $fatturazione->data_documento,
-                    'admin' => $fatturazione->proprietario?->admin?->name,
-                    'proprietario' => $fatturazione->proprietario?->nome,
-                    'struttura' => $strutture->isNotEmpty() ? $strutture->join(', ') : 'Servizi generali',
-                    'descrizione' => 'Documento proprietario',
-                    'documento' => $fatturazione->numero,
-                    'stato' => $fatturazione->stato,
-                    'scadenza' => null,
-                    'totale' => (float) $fatturazione->totale,
-                    'tracking' => null,
-                    'licenza_id' => null,
-                    'proforma_id' => $fatturazione->id,
-                    'proprietario_id' => $fatturazione->proprietario_id,
-                ];
-            });
+        $proforme = collect(); // Proforme riservate al Superadmin.
 
         $righe = $licenze->concat($proforme)->filter(function (array $row) use ($filters) {
             $term = trim((string) ($filters['q'] ?? ''));
@@ -453,11 +402,7 @@ class PagamentiController extends Controller
         $adminId = (int) $request->user()->id;
 
         return LicenzaAssegnazione::with(['articolo.parent', 'proprietario.admin', 'struttura'])
-            ->where(function ($query) use ($adminId) {
-                $query->where('admin_id', $adminId)
-                    ->orWhereHas('proprietario', fn ($ownerQuery) => $ownerQuery->where('admin_id', $adminId))
-                    ->orWhereHas('struttura.proprietario', fn ($ownerQuery) => $ownerQuery->where('admin_id', $adminId));
-            })
+            ->perStruttureAdmin($adminId)
             ->findOrFail($id);
     }
 

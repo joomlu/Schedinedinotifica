@@ -34,6 +34,11 @@ class LicenzaAssegnazione extends Model
         'data_scadenza' => 'date',
     ];
 
+    public function scopePerStruttureAdmin($query, int $adminId)
+    {
+        return $query->whereHas('struttura.proprietario', fn ($owner) => $owner->where('admin_id', $adminId));
+    }
+
     public function articolo()
     {
         return $this->belongsTo(LicenzaArticolo::class, 'articolo_id');

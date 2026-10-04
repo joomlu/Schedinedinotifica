@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -228,44 +227,44 @@ Route::middleware(['auth'])->group(function () {
     // Admin area
     Route::prefix('admin')->middleware(['ruolo:admin'])->group(function () {
         Route::get('/proprietari', [AdminProprietariController::class, 'index'])->name('admin.proprietari.index');
-        Route::get('/proforme', [AdminProprietariController::class, 'indexProforme'])->name('admin.proforme.index');
+        Route::get('/proforme', [AdminProprietariController::class, 'indexProforme'])->middleware('ruolo:super_admin')->name('admin.proforme.index');
         Route::get('/proprietari/create', [AdminProprietariController::class, 'create'])->name('admin.proprietari.create');
         Route::post('/proprietari', [AdminProprietariController::class, 'store'])->name('admin.proprietari.store');
         Route::get('/proprietari/{id}/edit', [AdminProprietariController::class, 'edit'])->name('admin.proprietari.edit');
         Route::put('/proprietari/{id}', [AdminProprietariController::class, 'update'])->name('admin.proprietari.update');
         Route::post('/proprietari/{id}/disable', [AdminProprietariController::class, 'disable'])->name('admin.proprietari.disable');
         Route::delete('/proprietari/{id}', [AdminProprietariController::class, 'destroy'])->name('admin.proprietari.destroy');
-        Route::get('/proprietari/{id}/proforme/create', [AdminProprietariController::class, 'createProforma'])->name('admin.proprietari.proforme.create');
-        Route::post('/proprietari/{id}/proforme', [AdminProprietariController::class, 'storeProforma'])->name('admin.proprietari.proforme.store');
-        Route::get('/proprietari/{id}/proforme/{fatturazione}', [AdminProprietariController::class, 'showProforma'])->name('admin.proprietari.proforme.show');
-        Route::get('/proprietari/{id}/proforme/{fatturazione}/edit', [AdminProprietariController::class, 'editProforma'])->name('admin.proprietari.proforme.edit');
-        Route::put('/proprietari/{id}/proforme/{fatturazione}', [AdminProprietariController::class, 'updateProforma'])->name('admin.proprietari.proforme.update');
-        Route::post('/proprietari/{id}/proforme/{fatturazione}/close', [AdminProprietariController::class, 'closeProforma'])->name('admin.proprietari.proforme.close');
-        Route::post('/proprietari/{id}/proforme/{fatturazione}/mark-fatturata', [AdminProprietariController::class, 'markFatturata'])->name('admin.proprietari.proforme.mark_fatturata');
-        Route::get('/proprietari/{id}/proforme/{fatturazione}/print', [AdminProprietariController::class, 'printProforma'])->name('admin.proprietari.proforme.print');
+        Route::get('/proprietari/{id}/proforme/create', [AdminProprietariController::class, 'createProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.create');
+        Route::post('/proprietari/{id}/proforme', [AdminProprietariController::class, 'storeProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.store');
+        Route::get('/proprietari/{id}/proforme/{fatturazione}', [AdminProprietariController::class, 'showProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.show');
+        Route::get('/proprietari/{id}/proforme/{fatturazione}/edit', [AdminProprietariController::class, 'editProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.edit');
+        Route::put('/proprietari/{id}/proforme/{fatturazione}', [AdminProprietariController::class, 'updateProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.update');
+        Route::post('/proprietari/{id}/proforme/{fatturazione}/close', [AdminProprietariController::class, 'closeProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.close');
+        Route::post('/proprietari/{id}/proforme/{fatturazione}/mark-fatturata', [AdminProprietariController::class, 'markFatturata'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.mark_fatturata');
+        Route::get('/proprietari/{id}/proforme/{fatturazione}/print', [AdminProprietariController::class, 'printProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.print');
 
         Route::get('/strutture', [AdminStruttureController::class, 'index'])->name('admin.strutture.index');
         Route::get('/strutture/create', [AdminStruttureController::class, 'create'])->name('admin.strutture.create');
         Route::post('/strutture', [AdminStruttureController::class, 'store'])->name('admin.strutture.store');
         Route::get('/strutture/{id}/edit', [AdminStruttureController::class, 'edit'])->name('admin.strutture.edit');
         Route::put('/strutture/{id}', [AdminStruttureController::class, 'update'])->name('admin.strutture.update');
-        Route::put('/strutture/{id}/servizio', [AdminStruttureController::class, 'updateServizio'])->name('admin.strutture.servizio');
+        Route::put('/strutture/{id}/servizio', [AdminStruttureController::class, 'updateServizio'])->middleware('ruolo:super_admin')->name('admin.strutture.servizio');
         Route::delete('/strutture/{id}', [AdminStruttureController::class, 'destroy'])->name('admin.strutture.destroy');
 
         Route::get('/pagamenti', [AdminPagamentiController::class, 'index'])->name('admin.pagamenti.index');
-        Route::post('/pagamenti/licenze', [AdminPagamentiController::class, 'storeAssegnazione'])->name('admin.pagamenti.licenze.store');
-        Route::put('/pagamenti/licenze/{id}', [AdminPagamentiController::class, 'updateAssegnazione'])->name('admin.pagamenti.licenze.update');
-        Route::delete('/pagamenti/licenze/{id}', [AdminPagamentiController::class, 'destroyAssegnazione'])->name('admin.pagamenti.licenze.destroy');
+        Route::post('/pagamenti/licenze', [AdminPagamentiController::class, 'storeAssegnazione'])->middleware('ruolo:super_admin')->name('admin.pagamenti.licenze.store');
+        Route::put('/pagamenti/licenze/{id}', [AdminPagamentiController::class, 'updateAssegnazione'])->middleware('ruolo:super_admin')->name('admin.pagamenti.licenze.update');
+        Route::delete('/pagamenti/licenze/{id}', [AdminPagamentiController::class, 'destroyAssegnazione'])->middleware('ruolo:super_admin')->name('admin.pagamenti.licenze.destroy');
         Route::get('/pagamenti/licenze/{id}/print', [AdminPagamentiController::class, 'printAssegnazione'])->name('admin.pagamenti.licenze.print');
-        Route::get('/crm', [CrmController::class, 'index'])->name('admin.crm.index');
-        Route::post('/crm', [CrmController::class, 'storeLead'])->name('admin.crm.store');
-        Route::post('/crm/example', [CrmController::class, 'createExampleLead'])->name('admin.crm.example');
-        Route::post('/crm/agenda', [CrmController::class, 'storeIndexAgenda'])->name('admin.crm.agenda.store');
-        Route::get('/crm/{id}', [CrmController::class, 'show'])->name('admin.crm.show');
-        Route::put('/crm/{id}', [CrmController::class, 'update'])->name('admin.crm.update');
-        Route::post('/crm/{id}/attivita', [CrmController::class, 'storeActivity'])->name('admin.crm.attivita.store');
-        Route::put('/crm/{id}/attivita/{activityId}/stato', [CrmController::class, 'updateActivityStatus'])->name('admin.crm.attivita.stato');
-        Route::post('/crm/{id}/agenda-esempio', [CrmController::class, 'addExampleAgenda'])->name('admin.crm.agenda.example');
+        Route::get('/crm', [CrmController::class, 'index'])->middleware('ruolo:super_admin')->name('admin.crm.index');
+        Route::post('/crm', [CrmController::class, 'storeLead'])->middleware('ruolo:super_admin')->name('admin.crm.store');
+        Route::post('/crm/example', [CrmController::class, 'createExampleLead'])->middleware('ruolo:super_admin')->name('admin.crm.example');
+        Route::post('/crm/agenda', [CrmController::class, 'storeIndexAgenda'])->middleware('ruolo:super_admin')->name('admin.crm.agenda.store');
+        Route::get('/crm/{id}', [CrmController::class, 'show'])->middleware('ruolo:super_admin')->name('admin.crm.show');
+        Route::put('/crm/{id}', [CrmController::class, 'update'])->middleware('ruolo:super_admin')->name('admin.crm.update');
+        Route::post('/crm/{id}/attivita', [CrmController::class, 'storeActivity'])->middleware('ruolo:super_admin')->name('admin.crm.attivita.store');
+        Route::put('/crm/{id}/attivita/{activityId}/stato', [CrmController::class, 'updateActivityStatus'])->middleware('ruolo:super_admin')->name('admin.crm.attivita.stato');
+        Route::post('/crm/{id}/agenda-esempio', [CrmController::class, 'addExampleAgenda'])->middleware('ruolo:super_admin')->name('admin.crm.agenda.example');
     });
 
     // Proprietario area
@@ -292,8 +291,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/clienti/import/{batch}/righe/{row}/modifica', [CustomerImportController::class, 'editRow'])->name('customer.import.row.edit');
     Route::put('/clienti/import/{batch}/righe/{row}', [CustomerImportController::class, 'updateRow'])->name('customer.import.row.update');
     Route::post('/clienti/import/{batch}/conferma', [CustomerImportController::class, 'commit'])->name('customer.import.commit');
+    Route::get('/clienti/importati', [CustomerImportController::class, 'importedIndex'])->name('customer.imported.index');
+    Route::post('/clienti/importati/{row}/conferma', [CustomerImportController::class, 'confirmImported'])->name('customer.imported.confirm');
+    Route::post('/clienti/importati/{row}/schedina', [CustomerImportController::class, 'useInSchedina'])->name('customer.imported.use_schedina');
+    Route::delete('/clienti/importati/{row}', [CustomerImportController::class, 'deleteImported'])->name('customer.imported.destroy');
+    Route::post('/clienti/importati/elimina-selezionati', [CustomerImportController::class, 'destroySelectedImported'])->name('customer.imported.bulk_destroy');
     Route::get('/clienti/liste-export', [CustomerExportController::class, 'index'])->name('customer.export.index');
     Route::get('/clienti/liste-export/csv', [CustomerExportController::class, 'exportCsv'])->name('customer.export.csv');
+    Route::delete('/clienti/liste-export/{id}', [CustomerExportController::class, 'destroy'])->whereNumber('id')->name('customer.export.destroy');
     Route::get('/clienti/nuovo', [CustomerController::class, 'new'])->name('newcustomer');
     Route::post('/clienti', [CustomerController::class, 'store'])->name('customer.store');
     Route::get('/clienti/{id}/modifica', [CustomerController::class, 'edit'])->name('customer.edit');
@@ -361,6 +366,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/schedine', [SchedinaController::class, 'index'])->name('schedina');
     Route::get('/schedine/bozze', [SchedinaController::class, 'bozze'])->name('schedina.bozze');
     Route::get('/schedine/nuova', [SchedinaController::class, 'new'])->name('newschedina');
+
+    // Flusso HTTP canonico Nuova schedina:
+    // GET pagina import -> POST preview -> POST conferma -> GET download template -> GET ritorno alla schedina.
+    Route::post('/schedine/nuova/componenti/import/prepara', [ComponentiImportController::class, 'newPrepare'])->name('schedina.componenti.import.new.prepare');
+    Route::get('/schedine/nuova/componenti/import', [ComponentiImportController::class, 'newIndex'])->name('schedina.componenti.import.new.index');
+    Route::post('/schedine/nuova/componenti/import', [ComponentiImportController::class, 'newPreview'])->name('schedina.componenti.import.new.preview');
+    Route::post('/schedine/nuova/componenti/import/conferma', [ComponentiImportController::class, 'newConfirm'])->name('schedina.componenti.import.new.confirm');
+    Route::get('/schedine/nuova/componenti/import/modello/{format}', [ComponentiImportController::class, 'newTemplate'])
+        ->whereIn('format', ['csv', 'txt', 'xlsx'])
+        ->name('schedina.componenti.import.new.template');
+
+    Route::post('/schedine/{schedina}/componenti/import/prepara', [ComponentiImportController::class, 'prepare'])->name('schedina.componenti.import.prepare');
     Route::post('/schedine', [SchedinaController::class, 'store'])->name('schedina.store');
     Route::get('/schedine/{schedina}/componenti/import', [ComponentiImportController::class, 'index'])->name('schedina.componenti.import.index');
     Route::post('/schedine/{schedina}/componenti/import', [ComponentiImportController::class, 'preview'])->name('schedina.componenti.import.preview');

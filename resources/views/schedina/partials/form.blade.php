@@ -1,7 +1,8 @@
 @php
     $prefilledCustomer = $prefilledCustomer ?? null;
     $usePutMethod = $usePutMethod ?? null;
-    $isEdit = $usePutMethod !== null ? (bool) $usePutMethod : (!empty($schedina) && $schedina->id);
+    $hasPersistedSchedina = ($schedinaContext ?? null) !== 'new' && !empty($schedina) && $schedina instanceof \App\Models\Schedina && $schedina->exists && !empty($schedina->getKey());
+    $isEdit = $usePutMethod !== null ? (bool) $usePutMethod : $hasPersistedSchedina;
     $formAction = $formAction ?? ($isEdit ? route('schedina.update', ['id' => $schedina->id]) : route('schedina.store'));
     $formTitle = $formTitle ?? ($isEdit ? 'Modifica schedina' : 'Nuova schedina');
     $nextSchedaCode = $nextSchedaCode ?? null;
@@ -132,13 +133,18 @@
         <h4 class="card-title mb-0">{{ $formTitle }}</h4>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ $formAction }}" class="form-steps" autocomplete="off">
+        <form method="POST" action="{{ $formAction }}" class="form-steps" autocomplete="off" id="schedina-form">
             @csrf
             @if($isEdit)
                 @method('PUT')
             @endif
+            @if(!$isEdit && !empty($customerImportRowId))
+                <input type="hidden" name="customer_import_row_id" value="{{ $customerImportRowId }}">
+            @endif
             <input type="hidden" name="save_mode" id="save-mode" value="{{ old('save_mode', 'full') }}">
             <input type="hidden" name="save_mode_intent" id="save-mode-intent" value="{{ old('save_mode_intent', '') }}">
+            <input type="hidden" name="component_index" id="component-index" value="{{ old('component_index', '') }}">
+            <input type="hidden" name="component_id" id="component-id" value="{{ old('component_id', '') }}">
             <input type="hidden" name="active_tab" id="active-tab" value="{{ old('active_tab', request()->query('active_tab', session('active_tab', 'schedina-step-base'))) }}">
 
             <div class="step-arrow-nav mb-4">
@@ -202,9 +208,12 @@
                                         <label class="form-label">Tipo alloggiato <span class="text-danger">*</span></label>
                                         @php
                                             $relationshipCapoOptions = collect($tipoAlloggiatoCapoOptions ?? []);
-                                            $relationshipValue = old('relationship', $schedina->relationship ?? ($relationshipCapoOptions->first()['descrizione'] ?? 'OSPITE SINGOLO'));
+                                            $relationshipValue = old('relationship', $schedina->relationship ?? (($importedTipoAlloggiato ?? null) ?: ($relationshipCapoOptions->first()['descrizione'] ?? 'OSPITE SINGOLO')));
                                         @endphp
                                         <x-ui.select name="relationship">
+                                            @if(!empty($customerImportRowId) && $relationshipValue && !$relationshipCapoOptions->contains(fn ($option) => \App\Support\Componenti\TipoAlloggiatoCatalogo::valoreCompatibileConOpzione($relationshipValue, $option)))
+                                                <option value="{{ $relationshipValue }}" selected>{{ $relationshipValue }}</option>
+                                            @endif
                                             @foreach($relationshipCapoOptions as $option)
                                                 <option value="{{ $option['descrizione'] }}" {{ \App\Support\Componenti\TipoAlloggiatoCatalogo::valoreCompatibileConOpzione($relationshipValue, $option) ? 'selected' : '' }}>{{ $option['descrizione'] }}</option>
                                             @endforeach
@@ -874,16 +883,20 @@
                                     @php
                                         $row = is_array($row) ? $row : (array) $row;
                                         $rowVal = fn($k, $d = '') => $row[$k] ?? $d;
+                                        $reviewStatus = strtoupper((string) ($rowVal('_review_status', $rowVal('status', 'COMPLETO'))));
+                                        $reviewMessage = (string) ($rowVal('_review_message', $rowVal('review_message', '')));
+                                        $reviewClass = match ($reviewStatus) {
+                                            'COMPLETO' => 'bg-success-subtle text-success',
+                                            'DA_VERIFICARE' => 'bg-warning-subtle text-warning',
+                                            'DA_COMPLETARE' => 'bg-danger-subtle text-danger',
+                                            default => 'bg-secondary-subtle text-secondary',
+                                        };
                                         $isFilledRow = collect(['name', 'surname', 'sex', 'relationship', 'country', 'city', 'date_nac'])
                                             ->contains(fn($k) => !empty($rowVal($k)));
                                         $summaryName = trim(($rowVal('surname') ? $rowVal('surname').' ' : '').$rowVal('name'));
                                         $eta = null;
                                         if (!empty($rowVal('date_nac'))) {
-                                            try {
-                                                $eta = max(1, \Carbon\Carbon::parse($rowVal('date_nac'))->age);
-                                            } catch (\Throwable $e) {
-                                                $eta = null;
-                                            }
+                                            $eta = \App\Support\Anagrafica\EtaOperativa::etaOperativa($rowVal('date_nac'));
                                         }
                                         $citySummary = $rowVal('city');
                                         if ($citySummary !== '' && is_numeric($citySummary) && $comuniLabelMap->has((int) $citySummary)) {
@@ -915,14 +928,20 @@
                                                     @if(!is_null($eta)) · Età: {{ $eta }} @endif
                                                     @if($rowVal('exent')) · Esente: {{ $rowVal('exent') }} @endif
                                                 </div>
+                                                @if($reviewStatus !== 'COMPLETO' && $reviewMessage !== '')
+                                                    <div class="small text-muted mt-1">
+                                                        <span class="badge {{ $reviewClass }} me-2">{{ $reviewStatus }}</span>
+                                                        {{ $reviewMessage }}
+                                                    </div>
+                                                @endif
                                             </div>
                                             <div class="d-flex gap-2">
                                                 <button type="button" class="btn btn-soft-info btn-sm toggle-componente-details">
                                                     <i class="ri-eye-line align-bottom me-1"></i>Dettagli
                                                 </button>
-                                            <button type="button" class="btn btn-soft-danger btn-sm remove-componente">
-                                                <i class="ri-delete-bin-line align-bottom me-1"></i>Rimuovi
-                                            </button>
+                                                <button type="button" class="btn btn-soft-danger btn-sm remove-componente">
+                                                    <i class="ri-delete-bin-line align-bottom me-1"></i>Rimuovi
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="card-body componente-details {{ $isFilledRow ? 'd-none' : '' }}">
@@ -1120,6 +1139,18 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="d-flex justify-content-end mt-3">
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-success btn-sm save-componente-row"
+                                                    data-component-index="{{ $index }}"
+                                                    data-component-id="{{ $rowVal('id') }}"
+                                                    data-save-component="1"
+                                                    formnovalidate
+                                                >
+                                                    <i class="ri-save-line align-bottom me-1"></i>Salva componente
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach
@@ -1130,20 +1161,26 @@
                                     <button type="button" class="btn btn-outline-primary btn-sm" id="add-componente-row">
                                         <i class="ri-add-line align-bottom me-1"></i>Nuovo componente
                                     </button>
-                                    @if(!empty($schedina->id))
-                                        <a href="{{ route('schedina.componenti.import.index', ['schedina' => $schedina->id]) }}" class="btn btn-outline-secondary btn-sm">
-                                            <i class="ri-upload-2-line align-bottom me-1"></i>Importa componenti
-                                        </a>
-                                        <div class="btn-group btn-group-sm">
-                                            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-download-2-line align-bottom me-1"></i>Scarica modello
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a class="dropdown-item" href="{{ route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'csv']) }}">Modello CSV</a></li>
-                                                <li><a class="dropdown-item" href="{{ route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'txt']) }}">Modello TXT</a></li>
-                                            </ul>
-                                        </div>
-                                    @endif
+                                    <button type="submit"
+                                        id="import-componenti-btn"
+                                        class="btn btn-outline-secondary btn-sm"
+                                        name="_method" value="POST"
+                                        formnovalidate data-confirm-ignore
+                                        formaction="{{ $hasPersistedSchedina ? route('schedina.componenti.import.prepare', ['schedina' => $schedina->id]) : route('schedina.componenti.import.new.prepare') }}"
+                                        formmethod="POST"
+                                        form="schedina-form">
+                                        <i class="ri-upload-2-line align-bottom me-1"></i>Importa componenti
+                                    </button>
+                                    <div class="btn-group btn-group-sm">
+                                        <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="ri-download-2-line align-bottom me-1"></i>Scarica modello
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" href="{{ $hasPersistedSchedina ? route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'csv']) : route('schedina.componenti.import.new.template', ['format' => 'csv']) }}" download>Modello CSV</a></li>
+                                            <li><a class="dropdown-item" href="{{ $hasPersistedSchedina ? route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'txt']) : route('schedina.componenti.import.new.template', ['format' => 'txt']) }}" download>Modello TXT</a></li>
+                                            <li><a class="dropdown-item" href="{{ $hasPersistedSchedina ? route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'xlsx']) : route('schedina.componenti.import.new.template', ['format' => 'xlsx']) }}" download>Modello XLSX</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1156,7 +1193,7 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title mb-0">Tassa di soggiorno</h5>
-                                @if(!empty($schedina->id))
+                                @if($hasPersistedSchedina)
                                     <a href="{{ route('schedina.tassa.print', ['id' => $schedina->id]) }}" class="btn btn-outline-secondary btn-sm" target="_blank">Stampa ricevuta costo tassa</a>
                                 @endif
                             </div>

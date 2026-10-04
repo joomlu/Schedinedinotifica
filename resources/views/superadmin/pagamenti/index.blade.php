@@ -81,7 +81,7 @@
                     <div class="card-body">
                         <div class="text-muted small text-uppercase mb-1">Documenti conto</div>
                         <div class="fw-semibold fs-4">{{ ($statoConto['righe'] ?? collect())->count() }}</div>
-                        <div class="small text-muted">Licenze e proforme collegate.</div>
+                        <div class="small text-muted">{{ $isAdminArea ? 'Licenze delle strutture amministrate · sola lettura.' : 'Licenze e proforme collegate.' }}</div>
                     </div>
                 </div>
             </div>
@@ -240,7 +240,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                                    <div class="text-muted small text-uppercase mb-1">Proforme</div>
+                                    <div class="text-muted small text-uppercase mb-1">{{ $isAdminArea ? 'Consultazione' : 'Proforme' }}</div>
                                     <div class="fw-semibold fs-4">{{ number_format((float) ($statoConto['proforme'] ?? 0), 2, ',', '.') }} €</div>
                                 </div>
                             </div>

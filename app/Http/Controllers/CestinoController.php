@@ -35,7 +35,7 @@ class CestinoController extends Controller
         $tipo = trim((string) $request->query('tipo', ''));
         $strutturaId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
 
-        $items = CestinoItem::query()
+        $items = $this->scopedItems()
             ->when($strutturaId, fn ($query) => $query->where(function ($inner) use ($strutturaId) {
                 $inner->whereNull('struttura_id')->orWhere('struttura_id', $strutturaId);
             }))
@@ -51,6 +51,7 @@ class CestinoController extends Controller
             ->orderByDesc('deleted_at')
             ->get()
             ->map(function (CestinoItem $item) {
+                $item->admin_read_only = auth()->user()?->isAdmin() && $item->entity_class === \App\Models\LicenzaAssegnazione::class;
                 $item->sezione = $this->sectionForEntityType($item->entity_type);
                 return $item;
             });
@@ -92,11 +93,13 @@ class CestinoController extends Controller
     {
         $strutturaId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
 
-        $item = CestinoItem::query()
+        $item = $this->scopedItems()
             ->when($strutturaId, fn ($query) => $query->where(function ($inner) use ($strutturaId) {
                 $inner->whereNull('struttura_id')->orWhere('struttura_id', $strutturaId);
             }))
             ->findOrFail($id);
+
+        abort_if(auth()->user()?->isAdmin() && $item->entity_class === \App\Models\LicenzaAssegnazione::class, 403);
 
         app(CestinoService::class)->purgeItem($item);
 
@@ -107,15 +110,32 @@ class CestinoController extends Controller
     {
         $strutturaId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
 
-        $item = CestinoItem::query()
+        $item = $this->scopedItems()
             ->when($strutturaId, fn ($query) => $query->where(function ($inner) use ($strutturaId) {
                 $inner->whereNull('struttura_id')->orWhere('struttura_id', $strutturaId);
             }))
             ->findOrFail($id);
 
+        abort_if(auth()->user()?->isAdmin() && $item->entity_class === \App\Models\LicenzaAssegnazione::class, 403);
+
         app(CestinoService::class)->restoreItem($item);
 
         return redirect()->back()->with('success', 'Elemento ripristinato dal cestino.');
+    }
+
+    private function scopedItems()
+    {
+        return CestinoItem::query()->when(auth()->user()?->isAdmin(), function ($query) {
+            $query->whereIn('struttura_id', \App\Models\Struttura::query()
+                ->whereHas('proprietario', fn ($owner) => $owner->where('admin_id', auth()->id()))
+                ->select('id'))
+                ->whereNotIn('entity_class', [
+                    \App\Models\User::class, \App\Models\Proprietario::class,
+                    \App\Models\Struttura::class, \App\Models\LicenzaArticolo::class,
+                    \App\Models\CrmLead::class, \App\Models\ProprietarioFatturazione::class,
+                    \App\Models\AdminFatturazione::class,
+                ]);
+        });
     }
 
     private function sectionForEntityType(?string $entityType): string

@@ -50,176 +50,177 @@
                 <div class="d-flex gap-2 flex-wrap justify-content-end">
                     <button
                         type="button"
-                        class="btn btn-light btn-label right"
+                        class="btn btn-light btn-sm"
                         data-bs-toggle="collapse"
                         data-bs-target="#customerExportFilters"
-                        aria-expanded="{{ $hasActiveFilters ? 'false' : 'true' }}"
+                        aria-expanded="{{ $hasActiveFilters ? 'true' : 'false' }}"
                         aria-controls="customerExportFilters"
                     >
-                        <i class="ri-equalizer-line label-icon align-middle fs-16 ms-2"></i>
-                        Filtri speciali
+                        <i class="ri-equalizer-line align-middle fs-16 me-1"></i>
+                        Filtri
                     </button>
-                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'general'])) }}" class="btn btn-primary btn-label right">
-                        <i class="ri-file-excel-2-line label-icon align-middle fs-16 ms-2"></i>
-                        Esporta CSV completo
+                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'general'])) }}" class="btn btn-primary btn-sm">
+                        <i class="ri-file-excel-2-line align-middle fs-16 me-1"></i>
+                        CSV completo
                     </a>
-                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'email'])) }}" class="btn btn-success btn-label right">
-                        <i class="ri-mail-send-line label-icon align-middle fs-16 ms-2"></i>
-                        Esporta email
+                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'email'])) }}" class="btn btn-success btn-sm">
+                        <i class="ri-mail-send-line align-middle fs-16 me-1"></i>
+                        Email
                     </a>
-                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'whatsapp'])) }}" class="btn btn-info btn-label right">
-                        <i class="ri-whatsapp-line label-icon align-middle fs-16 ms-2"></i>
-                        Esporta WhatsApp
+                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'whatsapp'])) }}" class="btn btn-info btn-sm text-white">
+                        <i class="ri-whatsapp-line align-middle fs-16 me-1"></i>
+                        WhatsApp
                     </a>
-                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'postal'])) }}" class="btn btn-dark btn-label right">
-                        <i class="ri-map-pin-line label-icon align-middle fs-16 ms-2"></i>
-                        Esporta postale
+                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'postal'])) }}" class="btn btn-dark btn-sm">
+                        <i class="ri-map-pin-line align-middle fs-16 me-1"></i>
+                        Postale
                     </a>
                 </div>
             </div>
-            <div id="customerExportFilters" class="collapse {{ $hasActiveFilters ? '' : 'show' }}">
-            <div class="card-body border-top">
-                <form method="GET" action="{{ route('customer.export.index') }}" class="row g-3">
-                    <div class="col-12">
-                        <div class="border rounded-3 p-3 bg-light-subtle">
-                            <div class="fw-semibold mb-3">Filtri principali</div>
-                            <div class="row g-3">
-                                <div class="col-lg-3">
-                                    <label class="form-label">Ricerca</label>
-                                    <input type="text" name="q" class="form-control" value="{{ request('q') }}" placeholder="Nome, cognome, email, telefono...">
-                                </div>
-                                <div class="col-lg-3">
-                                    <label class="form-label">Tipo cliente</label>
-                                    <x-ui.select name="tipo_cliente" data-min-search="0">
-                                        <option value="">Tutti</option>
-                                        @foreach($tipiClienti as $tipo)
-                                            <option value="{{ $tipo->descrizione }}" @selected(request('tipo_cliente') === $tipo->descrizione)>{{ $tipo->descrizione }}</option>
-                                        @endforeach
-                                    </x-ui.select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label class="form-label">Nazione</label>
-                                    <x-ui.select name="country">
-                                        <option value="">Tutte</option>
-                                        @foreach($nazioni as $nazione)
-                                            <option value="{{ $nazione->nome }}" @selected(request('country') === $nazione->nome)>{{ $nazione->nome }}</option>
-                                        @endforeach
-                                    </x-ui.select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label class="form-label">Città</label>
-                                    <x-ui.select name="city">
-                                        <option value="">Tutte</option>
-                                        @foreach($citta as $row)
-                                            <option value="{{ $row->nome }}" @selected(request('city') === $row->nome)>{{ $row->nome }}</option>
-                                        @endforeach
-                                    </x-ui.select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="border rounded-3 p-3">
-                            <div class="fw-semibold mb-3">Segmentazione clienti</div>
-                            <div class="row g-3">
-                                <div class="col-lg-3">
-                                    <label class="form-label">Gruppo I</label>
-                                    <x-ui.select name="group">
-                                        <option value="">Tutti</option>
-                                        @foreach($gruppiLivello1 as $row)
-                                            <option value="{{ $row->nome }}" @selected(request('group') === $row->nome)>{{ $row->nome }}</option>
-                                        @endforeach
-                                    </x-ui.select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label class="form-label">Gruppo II</label>
-                                    <x-ui.select name="subgroup">
-                                        <option value="">Tutti</option>
-                                        @foreach($gruppiLivello2 as $row)
-                                            <option value="{{ $row->nome }}" @selected(request('subgroup') === $row->nome)>{{ $row->nome }}</option>
-                                        @endforeach
-                                    </x-ui.select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label class="form-label">Gruppo III</label>
-                                    <x-ui.select name="subgroup1">
-                                        <option value="">Tutti</option>
-                                        @foreach($gruppiLivello3 as $row)
-                                            <option value="{{ $row->nome }}" @selected(request('subgroup1') === $row->nome)>{{ $row->nome }}</option>
-                                        @endforeach
-                                    </x-ui.select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label class="form-label">Stato scheda</label>
-                                    <x-ui.select name="stato" data-min-search="0">
-                                        <option value="">Tutti</option>
-                                        <option value="completo" @selected(request('stato') === 'completo')>Completati</option>
-                                        <option value="bozza" @selected(request('stato') === 'bozza')>Bozze / incompleti</option>
-                                    </x-ui.select>
+
+            <div id="customerExportFilters" class="collapse {{ $hasActiveFilters ? 'show' : '' }}">
+                <div class="card-body border-top">
+                    <form method="GET" action="{{ route('customer.export.index') }}" class="row g-3">
+                        <div class="col-12">
+                            <div class="border rounded-3 p-3 bg-light-subtle">
+                                <div class="fw-semibold mb-3">Filtri principali</div>
+                                <div class="row g-3">
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Ricerca</label>
+                                        <input type="text" name="q" class="form-control" value="{{ request('q') }}" placeholder="Nome, cognome, email, telefono...">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Tipo cliente</label>
+                                        <x-ui.select name="tipo_cliente" data-min-search="0">
+                                            <option value="">Tutti</option>
+                                            @foreach($tipiClienti as $tipo)
+                                                <option value="{{ $tipo->descrizione }}" @selected(request('tipo_cliente') === $tipo->descrizione)>{{ $tipo->descrizione }}</option>
+                                            @endforeach
+                                        </x-ui.select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Nazione</label>
+                                        <x-ui.select name="country">
+                                            <option value="">Tutte</option>
+                                            @foreach($nazioni as $nazione)
+                                                <option value="{{ $nazione->nome }}" @selected(request('country') === $nazione->nome)>{{ $nazione->nome }}</option>
+                                            @endforeach
+                                        </x-ui.select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Città</label>
+                                        <x-ui.select name="city">
+                                            <option value="">Tutte</option>
+                                            @foreach($citta as $row)
+                                                <option value="{{ $row->nome }}" @selected(request('city') === $row->nome)>{{ $row->nome }}</option>
+                                            @endforeach
+                                        </x-ui.select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="border rounded-3 p-3">
-                            <div class="fw-semibold mb-3">Consensi e canali</div>
-                            <div class="row g-3">
-                                <div class="col-lg-3">
-                                    <label class="form-label">Privacy</label>
-                                    <x-ui.select name="privacy_consent" data-min-search="0">
-                                        <option value="">Tutti</option>
-                                        <option value="1" @selected(request('privacy_consent') === '1')>Consenso privacy: sì</option>
-                                        <option value="0" @selected(request('privacy_consent') === '0')>Consenso privacy: no</option>
-                                    </x-ui.select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label class="form-label">Marketing</label>
-                                    <x-ui.select name="marketing_consent" data-min-search="0">
-                                        <option value="">Tutti</option>
-                                        <option value="1" @selected(request('marketing_consent') === '1')>Marketing: sì</option>
-                                        <option value="0" @selected(request('marketing_consent') === '0')>Marketing: no</option>
-                                    </x-ui.select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label class="form-label">Comunicazioni</label>
-                                    <x-ui.select name="communication_consent" data-min-search="0">
-                                        <option value="">Tutti</option>
-                                        <option value="1" @selected(request('communication_consent') === '1')>Comunicazioni: sì</option>
-                                        <option value="0" @selected(request('communication_consent') === '0')>Comunicazioni: no</option>
-                                    </x-ui.select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label class="form-label">Canale pronto</label>
-                                    <x-ui.select name="channel" data-min-search="0">
-                                        <option value="">Tutti</option>
-                                        <option value="email" @selected(request('channel') === 'email')>Email marketing</option>
-                                        <option value="whatsapp" @selected(request('channel') === 'whatsapp')>WhatsApp</option>
-                                        <option value="postal" @selected(request('channel') === 'postal')>Postale</option>
-                                    </x-ui.select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label class="form-label">Storico soggiorni</label>
-                                    <x-ui.select name="has_soggiorni" data-min-search="0">
-                                        <option value="">Tutti</option>
-                                        <option value="yes" @selected(request('has_soggiorni') === 'yes')>Con soggiorni</option>
-                                        <option value="no" @selected(request('has_soggiorni') === 'no')>Senza soggiorni</option>
-                                    </x-ui.select>
+                        <div class="col-12">
+                            <div class="border rounded-3 p-3">
+                                <div class="fw-semibold mb-3">Segmentazione clienti</div>
+                                <div class="row g-3">
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Gruppo I</label>
+                                        <x-ui.select name="group">
+                                            <option value="">Tutti</option>
+                                            @foreach($gruppiLivello1 as $row)
+                                                <option value="{{ $row->nome }}" @selected(request('group') === $row->nome)>{{ $row->nome }}</option>
+                                            @endforeach
+                                        </x-ui.select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Gruppo II</label>
+                                        <x-ui.select name="subgroup">
+                                            <option value="">Tutti</option>
+                                            @foreach($gruppiLivello2 as $row)
+                                                <option value="{{ $row->nome }}" @selected(request('subgroup') === $row->nome)>{{ $row->nome }}</option>
+                                            @endforeach
+                                        </x-ui.select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Gruppo III</label>
+                                        <x-ui.select name="subgroup1">
+                                            <option value="">Tutti</option>
+                                            @foreach($gruppiLivello3 as $row)
+                                                <option value="{{ $row->nome }}" @selected(request('subgroup1') === $row->nome)>{{ $row->nome }}</option>
+                                            @endforeach
+                                        </x-ui.select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Stato scheda</label>
+                                        <x-ui.select name="stato" data-min-search="0">
+                                            <option value="">Tutti</option>
+                                            <option value="completo" @selected(request('stato') === 'completo')>Completati</option>
+                                            <option value="bozza" @selected(request('stato') === 'bozza')>Bozze / incompleti</option>
+                                        </x-ui.select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 d-flex justify-content-end gap-2 pt-2">
-                        <a href="{{ route('customer.export.index') }}" class="btn btn-light btn-label">
-                            <i class="ri-close-line label-icon align-middle fs-16 me-2"></i>
-                            Pulisci
-                        </a>
-                        <button type="submit" class="btn btn-primary btn-label right">
-                            <i class="ri-filter-3-line label-icon align-middle fs-16 ms-2"></i>
-                            Applica filtri
-                        </button>
-                    </div>
-                </form>
-            </div>
+                        <div class="col-12">
+                            <div class="border rounded-3 p-3">
+                                <div class="fw-semibold mb-3">Consensi e canali</div>
+                                <div class="row g-3">
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Privacy</label>
+                                        <x-ui.select name="privacy_consent" data-min-search="0">
+                                            <option value="">Tutti</option>
+                                            <option value="1" @selected(request('privacy_consent') === '1')>Consenso privacy: sì</option>
+                                            <option value="0" @selected(request('privacy_consent') === '0')>Consenso privacy: no</option>
+                                        </x-ui.select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Marketing</label>
+                                        <x-ui.select name="marketing_consent" data-min-search="0">
+                                            <option value="">Tutti</option>
+                                            <option value="1" @selected(request('marketing_consent') === '1')>Marketing: sì</option>
+                                            <option value="0" @selected(request('marketing_consent') === '0')>Marketing: no</option>
+                                        </x-ui.select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Comunicazioni</label>
+                                        <x-ui.select name="communication_consent" data-min-search="0">
+                                            <option value="">Tutti</option>
+                                            <option value="1" @selected(request('communication_consent') === '1')>Comunicazioni: sì</option>
+                                            <option value="0" @selected(request('communication_consent') === '0')>Comunicazioni: no</option>
+                                        </x-ui.select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Canale pronto</label>
+                                        <x-ui.select name="channel" data-min-search="0">
+                                            <option value="">Tutti</option>
+                                            <option value="email" @selected(request('channel') === 'email')>Email marketing</option>
+                                            <option value="whatsapp" @selected(request('channel') === 'whatsapp')>WhatsApp</option>
+                                            <option value="postal" @selected(request('channel') === 'postal')>Postale</option>
+                                        </x-ui.select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label class="form-label">Storico soggiorni</label>
+                                        <x-ui.select name="has_soggiorni" data-min-search="0">
+                                            <option value="">Tutti</option>
+                                            <option value="yes" @selected(request('has_soggiorni') === 'yes')>Con soggiorni</option>
+                                            <option value="no" @selected(request('has_soggiorni') === 'no')>Senza soggiorni</option>
+                                        </x-ui.select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-end gap-2 pt-2">
+                            <a href="{{ route('customer.export.index') }}" class="btn btn-light btn-label">
+                                <i class="ri-close-line label-icon align-middle fs-16 me-2"></i>
+                                Pulisci
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-label right">
+                                <i class="ri-filter-3-line label-icon align-middle fs-16 ms-2"></i>
+                                Applica filtri
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -264,7 +265,7 @@
                     <table class="table table-hover align-middle mb-0">
                         <thead>
                             <tr>
-                                <th style="width: 120px;">Azioni</th>
+                                <th style="width: 160px;">Azioni</th>
                                 <th>Codice</th>
                                 <th>Cliente</th>
                                 <th>Tipo</th>
@@ -289,6 +290,15 @@
                                             <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-soft-info btn-sm" title="Apri cliente">
                                                 <i class="ri-eye-line fs-16 align-middle"></i>
                                             </a>
+                                            <form method="POST" action="{{ route('customer.export.destroy', array_merge(request()->except(['page', 'id']), ['id' => $customer->id])) }}" class="m-0"
+                                                data-confirm-text="{{ 'Sei sicuro di voler eliminare ' . (trim($customer->name . ' ' . $customer->surname) ?: 'questo cliente') . '?' }}"
+                                                onsubmit="return window.confirm(this.dataset.confirmText);">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-soft-danger btn-sm" title="Elimina cliente" aria-label="Elimina cliente">
+                                                    <i class="ri-delete-bin-line fs-16 align-middle" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                     <td><span class="badge bg-dark-subtle text-dark">{{ $customer->numero_cliente ?: '—' }}</span></td>

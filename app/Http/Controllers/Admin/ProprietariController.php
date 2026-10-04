@@ -130,6 +130,10 @@ class ProprietariController extends Controller
     {
         $proprietario = Proprietario::where('admin_id', $request->user()->id)->findOrFail($id);
 
+        abort_if(LicenzaAssegnazione::where('proprietario_id', $proprietario->id)->exists()
+            || $proprietario->fatturazioni()->exists(), 403,
+            'Il proprietario ha riferimenti amministrativi riservati al Superadmin.');
+
         DB::transaction(function () use ($proprietario) {
             app(CestinoService::class)->archiveModel($proprietario, [
                 'entity_type' => 'Proprietario',
@@ -318,13 +322,12 @@ class ProprietariController extends Controller
             ? LicenzaAssegnazione::query()
                 ->with(['articolo', 'struttura'])
                 ->where('proprietario_id', $proprietario->id)
+                ->perStruttureAdmin((int) $admin->id)
                 ->orderByDesc('data_scadenza')
                 ->orderByDesc('id')
                 ->get()
             : collect();
-        $fatture = $proprietario->exists
-            ? $proprietario->fatturazioni()->with('righe.servizio', 'righe.struttura')->orderByDesc('data_documento')->orderByDesc('id')->get()
-            : collect();
+        $fatture = collect(); // Proforme riservate al Superadmin.
         $prossimaScadenza = $licenze
             ->filter(fn ($licenza) => $licenza->data_scadenza)
             ->sortBy('data_scadenza')
@@ -646,6 +649,7 @@ class ProprietariController extends Controller
             $licenze = LicenzaAssegnazione::query()
                 ->with(['articolo', 'struttura'])
                 ->where('proprietario_id', $proprietario->id)
+                ->perStruttureAdmin((int) $admin->id)
                 ->orderByDesc('data_scadenza')
                 ->orderByDesc('id')
                 ->get();

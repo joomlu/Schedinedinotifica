@@ -67,7 +67,6 @@ class StruttureController extends Controller
 
         $data = $this->storeStructureLogoUpload($request, $data);
         $struttura = Struttura::create($this->extractStrutturaPayload($data));
-        $this->syncPrimaryLicenzaFromStruttura($struttura, (int) $request->user()->id, $data['articolo_id'] ?? null);
         $this->syncPrimaryAccessUser($struttura, $data);
 
         return redirect()->route('admin.strutture.index')->with('status', 'Struttura creata');
@@ -98,7 +97,6 @@ class StruttureController extends Controller
         $data = $this->storeStructureLogoUpload($request, $data, $struttura);
         $struttura->update($this->extractStrutturaPayload($data, $struttura));
         $struttura = $struttura->fresh();
-        $this->syncPrimaryLicenzaFromStruttura($struttura, (int) $request->user()->id, $data['articolo_id'] ?? null);
         $this->syncPrimaryAccessUser($struttura, $data);
 
         return redirect()->route('admin.strutture.index')->with('status', 'Struttura aggiornata');
@@ -133,6 +131,11 @@ class StruttureController extends Controller
     {
         $struttura = $this->baseQuery($request)->findOrFail($id);
 
+        abort_if(LicenzaAssegnazione::where('struttura_id', $struttura->id)->exists()
+            || CrmLead::where('struttura_id', $struttura->id)->exists()
+            || $this->loadProformeStorico($struttura)->isNotEmpty(), 403,
+            'La struttura ha riferimenti amministrativi riservati al Superadmin.');
+
         \DB::transaction(function () use ($struttura) {
             app(CestinoService::class)->archiveModel($struttura, [
                 'entity_type' => 'Struttura',
@@ -161,7 +164,7 @@ class StruttureController extends Controller
             'mode' => $mode,
             'accessoPrincipale' => $this->resolvePrimaryAccessUser($struttura),
             'licenzeStorico' => $this->loadLicenzeStorico($struttura),
-            'proformeStorico' => $this->loadProformeStorico($struttura),
+            'proformeStorico' => collect(),
             'articoliCatalogo' => LicenzaArticolo::query()->where('attivo', true)->whereNull('parent_id')->orderBy('ordine')->orderBy('nome')->get(),
             'zoneOptions' => $this->buildZoneOptions($struttura, $geoComuneId, 'zona'),
             'localitaOptions' => $this->buildZoneOptions($struttura, $geoComuneId, 'localita'),
@@ -170,6 +173,8 @@ class StruttureController extends Controller
 
     private function validateFormData(Request $request, ?User $accessoPrincipale = null): array
     {
+        abort_if($request->hasAny(['articolo_id', 'piano', 'scadenza_servizio', 'stato_pagamento', 'attiva']), 403,
+            'Licenze e pagamenti sono in sola lettura per Admin.');
         return $request->validate(
             [
                 'nome_struttura' => ['required', 'string', 'max:255'],
@@ -260,16 +265,20 @@ class StruttureController extends Controller
             'logo' => $data['logo'] ?? ($struttura->logo ?? null),
             'logo_citta' => $data['logo_citta'] ?? ($struttura->logo_citta ?? null),
             'proprietario_id' => $data['proprietario_id'] ?? ($struttura->proprietario_id ?? null),
-            'attiva' => (bool) ($data['attiva'] ?? ($struttura->attiva ?? true)),
+            'attiva' => (bool) ($data['attiva'] ?? ($struttura->attiva ?? false)),
             'avviso' => $data['avviso'] ?? ($struttura->avviso ?? 'attivo'),
             'messaggio_offline' => $data['messaggio_offline'] ?? ($struttura->messaggio_offline ?? null),
             'messaggio_avviso' => $data['messaggio_avviso'] ?? ($struttura->messaggio_avviso ?? null),
             'scadenza_servizio' => $data['scadenza_servizio'] ?? ($struttura->scadenza_servizio ?? null),
             'piano' => $data['piano'] ?? ($struttura->piano ?? null),
-            'stato_pagamento' => $data['stato_pagamento'] ?? ($struttura->stato_pagamento ?? 'pagato'),
+            'stato_pagamento' => $data['stato_pagamento'] ?? ($struttura->stato_pagamento ?? 'da_pagare'),
             'telefono' => $data['telefono'] ?? ($struttura->telefono ?? $proprietario?->telefono ?? ''),
             'email' => $data['email'] ?? ($struttura->email ?? $proprietario?->email ?? ($data['accesso_email'] ?? '')),
         ]);
+
+        if ($struttura?->exists) {
+            unset($payload['attiva'], $payload['piano'], $payload['scadenza_servizio'], $payload['stato_pagamento']);
+        }
 
         return $this->enrichGeoDefaults($payload);
     }

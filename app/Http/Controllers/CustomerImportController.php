@@ -17,7 +17,9 @@ use App\Models\TipoVia;
 use App\Models\Titolo;
 use App\Services\CustomerImportService;
 use App\Support\StrutturaCorrente;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -40,6 +42,128 @@ class CustomerImportController extends Controller
             'struttura' => $struttura,
             'batches' => $batches,
         ]);
+    }
+
+    public function importedIndex(Request $request)
+    {
+        $struttura = $this->currentStruttura();
+        $q = trim((string) $request->input('q', ''));
+        $status = trim((string) $request->input('status', ''));
+        $tipoCliente = trim((string) $request->input('tipo_cliente', ''));
+        $tipoAlloggiato = trim((string) $request->input('tipo_alloggiato', ''));
+        $dataNascita = trim((string) $request->input('data_nascita', ''));
+        $batchId = (int) $request->input('batch_id', 0);
+        $importedFrom = trim((string) $request->input('imported_from', ''));
+        $importedTo = trim((string) $request->input('imported_to', ''));
+        $comune = trim((string) $request->input('comune', ''));
+        $provincia = trim((string) $request->input('provincia', ''));
+        $nazione = trim((string) $request->input('nazione', ''));
+        $gruppo = trim((string) $request->input('gruppo', ''));
+        $soloDuplicati = $request->boolean('solo_duplicati');
+
+        $batchOptions = CustomerImportBatch::query()
+            ->where('struttura_id', $struttura->id)
+            ->orderByDesc('created_at')
+            ->get(['id', 'original_name', 'created_at']);
+
+        $rows = $this->buildImportedRowsQuery($request, $struttura)
+            ->with('batch')
+            ->orderByDesc('id')
+            ->paginate(20)
+            ->withQueryString();
+
+        return view('customers.imported.index', [
+            'rows' => $rows,
+            'struttura' => $struttura,
+            'statusLabels' => $this->statusLabels(),
+            'statusClasses' => $this->statusClasses(),
+            'selectedStatus' => $status,
+            'selectedTipoCliente' => $tipoCliente,
+            'selectedTipoAlloggiato' => $tipoAlloggiato,
+            'selectedDataNascita' => $dataNascita,
+            'selectedBatchId' => $batchId,
+            'selectedImportedFrom' => $importedFrom,
+            'selectedImportedTo' => $importedTo,
+            'selectedComune' => $comune,
+            'selectedProvincia' => $provincia,
+            'selectedNazione' => $nazione,
+            'selectedGruppo' => $gruppo,
+            'soloDuplicati' => $soloDuplicati,
+            'batchOptions' => $batchOptions,
+            'tipoAlloggiatoOptions' => ['OSPITE SINGOLO', 'CAPOFAMIGLIA', 'CAPOGRUPPO', 'MEMBRO GRUPPO'],
+            'q' => $q,
+        ]);
+    }
+
+    public function destroySelectedImported(Request $request)
+    {
+        $struttura = $this->currentStruttura();
+        $mode = (string) $request->input('mode', 'selected');
+
+        if ($mode === 'selected') {
+            $ids = array_values(array_unique(array_filter(array_map('intval', (array) $request->input('ids', [])), fn ($id) => $id > 0)));
+            if ($ids === []) {
+                return redirect()->route('customer.imported.index')->with('warning', 'Nessun cliente importato selezionato.');
+            }
+        }
+
+        if ($mode === 'batch' && (int) $request->input('batch_id', 0) <= 0) {
+            return redirect()->route('customer.imported.index')->with('warning', 'Nessun batch valido selezionato.');
+        }
+
+        $query = match ($mode) {
+            'filtered' => $this->buildImportedRowsQuery($request, $struttura),
+            'batch' => CustomerImportRow::query()->whereHas('batch', fn ($query) => $query->where('struttura_id', $struttura->id))->where('batch_id', (int) $request->input('batch_id', 0))->whereNull('imported_customer_id'),
+            'all_pending' => CustomerImportRow::query()->whereHas('batch', fn ($query) => $query->where('struttura_id', $struttura->id))->whereNull('imported_customer_id'),
+            'selected' => CustomerImportRow::query()->whereHas('batch', fn ($query) => $query->where('struttura_id', $struttura->id))->whereIn('id', $ids ?? [])->whereNull('imported_customer_id'),
+            default => throw new \InvalidArgumentException('Modalità di eliminazione non valida.'),
+        };
+
+        $count = $this->deletePendingImportedRows($query);
+
+        return redirect()->route('customer.imported.index')
+            ->with('success', $count > 0 ? 'Eliminati ' . $count . ' clienti importati pendenti.' : 'Nessun cliente importato pendente da eliminare.');
+    }
+
+    public function useInSchedina(CustomerImportRow $row)
+    {
+        $row = $this->loadOwnedRow($row->id);
+
+        return redirect()->route('newschedina', ['customer_import_row_id' => $row->id])
+            ->with('success', 'Cliente importato caricato come precompilazione della nuova schedina.');
+    }
+
+    public function confirmImported(CustomerImportRow $row)
+    {
+        $row = $this->loadOwnedRow($row->id);
+        $customer = $this->service->confirmImportedRow($row);
+
+        return redirect()
+            ->route('customer.imported.index')
+            ->with('success', 'Cliente importato confermato: ' . trim(($customer->surname ?? '') . ' ' . ($customer->name ?? '')) . '.');
+    }
+
+    public function deleteImported(CustomerImportRow $row)
+    {
+        $row = $this->loadOwnedRow($row->id);
+
+        if (!is_null($row->imported_customer_id)) {
+            abort(403, 'Questa riga non è più in staging; non può essere eliminata come cliente importato.');
+        }
+
+        $label = trim((string) ($row->normalized_payload['nome'] ?? '') . ' ' . (string) ($row->normalized_payload['cognome'] ?? '')) ?: 'Riga importazione';
+
+        $batch = $row->batch;
+        DB::transaction(function () use ($row, $batch) {
+            $row->delete();
+            if ($batch) {
+                $this->service->refreshBatchCounters($batch);
+            }
+        });
+
+        return redirect()
+            ->route('customer.imported.index')
+            ->with('success', 'Cliente importato scartato: ' . $label . '.');
     }
 
     public function template()
@@ -121,6 +245,8 @@ class CustomerImportController extends Controller
             'email' => ['nullable', 'string', 'max:191'],
             'telefono' => ['nullable', 'string', 'max:191'],
             'phone' => ['nullable', 'string', 'max:191'],
+            'fax' => ['nullable', 'string', 'max:191'],
+            'typeaway' => ['nullable', 'string', 'max:191'],
             'cellphone' => ['nullable', 'string', 'max:191'],
             'cap' => ['nullable', 'string', 'max:20'],
             'city' => ['nullable', 'string', 'max:191'],
@@ -202,17 +328,200 @@ class CustomerImportController extends Controller
         return [$batch, $row];
     }
 
+    private function loadOwnedRow(int $rowId): CustomerImportRow
+    {
+        return CustomerImportRow::query()
+            ->whereHas('batch', fn ($query) => $query->where('struttura_id', $this->currentStruttura()->id))
+            ->findOrFail($rowId);
+    }
+
+    private function buildImportedRowsQuery(Request $request, Struttura $struttura)
+    {
+        $q = trim((string) $request->input('q', ''));
+        $status = trim((string) $request->input('status', ''));
+        $tipoCliente = trim((string) $request->input('tipo_cliente', ''));
+        $tipoAlloggiato = trim((string) $request->input('tipo_alloggiato', ''));
+        $dataNascita = trim((string) $request->input('data_nascita', ''));
+        $batchId = (int) $request->input('batch_id', 0);
+        $importedFrom = trim((string) $request->input('imported_from', ''));
+        $importedTo = trim((string) $request->input('imported_to', ''));
+        $comune = trim((string) $request->input('comune', ''));
+        $provincia = trim((string) $request->input('provincia', ''));
+        $nazione = trim((string) $request->input('nazione', ''));
+        $gruppo = trim((string) $request->input('gruppo', ''));
+        $soloDuplicati = $request->boolean('solo_duplicati');
+
+        $normalizedDataNascita = $this->normalizeFilterDate($dataNascita);
+        $normalizedImportedFrom = $this->normalizeFilterDate($importedFrom);
+        $normalizedImportedTo = $this->normalizeFilterDate($importedTo);
+
+        return CustomerImportRow::query()
+            ->whereHas('batch', fn ($query) => $query->where('struttura_id', $struttura->id))
+            ->whereNull('imported_customer_id')
+            ->when($q !== '', function ($query) use ($q) {
+                $like = '%' . $q . '%';
+                $query->where(function ($inner) use ($like) {
+                    $inner->where('normalized_payload->nome', 'like', $like)
+                        ->orWhere('normalized_payload->cognome', 'like', $like)
+                        ->orWhere('normalized_payload->numero_cliente', 'like', $like)
+                        ->orWhereRaw("CONCAT_WS(' ', JSON_UNQUOTE(JSON_EXTRACT(normalized_payload, '$.nome')), JSON_UNQUOTE(JSON_EXTRACT(normalized_payload, '$.cognome'))) LIKE ?", [$like])
+                        ->orWhereRaw("CONCAT_WS(' ', JSON_UNQUOTE(JSON_EXTRACT(normalized_payload, '$.cognome')), JSON_UNQUOTE(JSON_EXTRACT(normalized_payload, '$.nome'))) LIKE ?", [$like])
+                        ->orWhere('normalized_payload->email', 'like', $like)
+                        ->orWhere('normalized_payload->telefono', 'like', $like)
+                        ->orWhere('normalized_payload->cellulare', 'like', $like)
+                        ->orWhere('normalized_payload->numero_documento', 'like', $like)
+                        ->orWhere('normalized_payload->indirizzo_residenza', 'like', $like)
+                        ->orWhere('normalized_payload->comune_residenza', 'like', $like)
+                        ->orWhere('normalized_payload->provincia_residenza', 'like', $like)
+                        ->orWhere('normalized_payload->data_nascita', 'like', $like);
+                });
+            })
+            ->when($status !== '', function ($query) use ($status) {
+                $map = [
+                    'COMPLETO' => CustomerImportService::STATUS_VALID,
+                    'DA_COMPLETARE' => CustomerImportService::STATUS_NEEDS_REVIEW,
+                    'POSSIBILE_DUPLICATO' => [CustomerImportService::STATUS_DUPLICATE_FILE, CustomerImportService::STATUS_DUPLICATE_HOTEL, CustomerImportService::STATUS_DUPLICATE_CHAIN],
+                    'NON_IMPORTABILE' => CustomerImportService::STATUS_NON_IMPORTABLE,
+                ];
+
+                $mapped = $map[$status] ?? null;
+                if (is_array($mapped)) {
+                    $query->whereIn('status', $mapped);
+                } elseif ($mapped !== null) {
+                    $query->where('status', $mapped);
+                }
+            })
+            ->when($tipoCliente !== '', fn ($query) => $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(normalized_payload, '$.tipo_cliente'))) = LOWER(?)", [$tipoCliente]))
+            ->when($tipoAlloggiato !== '', function ($query) use ($tipoAlloggiato) {
+                $variants = $this->tipoAlloggiatoVariants($tipoAlloggiato);
+                $query->where(function ($inner) use ($variants) {
+                    $first = true;
+                    foreach ($variants as $variant) {
+                        if ($first) {
+                            $inner->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(normalized_payload, '$.tipo_alloggiato'))) = LOWER(?)", [$variant]);
+                            $first = false;
+                            continue;
+                        }
+
+                        $inner->orWhereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(normalized_payload, '$.tipo_alloggiato'))) = LOWER(?)", [$variant]);
+                    }
+                });
+            })
+            ->when($normalizedDataNascita !== null, fn ($query) => $query->whereRaw("DATE(JSON_UNQUOTE(JSON_EXTRACT(normalized_payload, '$.data_nascita'))) = ?", [$normalizedDataNascita]))
+            ->when($batchId > 0, fn ($query) => $query->where('batch_id', $batchId))
+            ->when($normalizedImportedFrom !== null, fn ($query) => $query->whereDate('created_at', '>=', $normalizedImportedFrom))
+            ->when($normalizedImportedTo !== null, fn ($query) => $query->whereDate('created_at', '<=', $normalizedImportedTo))
+            ->when($comune !== '', fn ($query) => $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(normalized_payload, '$.comune_residenza'))) = LOWER(?)", [$comune]))
+            ->when($provincia !== '', fn ($query) => $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(normalized_payload, '$.provincia_residenza'))) = LOWER(?)", [$provincia]))
+            ->when($nazione !== '', fn ($query) => $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(normalized_payload, '$.nazione_residenza'))) = LOWER(?)", [$nazione]))
+            ->when($gruppo !== '', fn ($query) => $query->where(function ($inner) use ($gruppo) {
+                $inner->where('normalized_payload->gruppo', $gruppo)
+                    ->orWhere('normalized_payload->nome_gruppo', $gruppo)
+                    ->orWhere('normalized_payload->subgroup', $gruppo)
+                    ->orWhere('normalized_payload->subgroup1', $gruppo);
+            }))
+            ->when($soloDuplicati, fn ($query) => $query->where(function ($duplicates) {
+                $duplicates->whereNotNull('duplicate_customer_id')->orWhereNotNull('duplicate_scope');
+            }));
+    }
+
+    private function deletePendingImportedRows($query): int
+    {
+        return DB::transaction(function () use ($query): int {
+            $batchIds = (clone $query)
+                ->select('batch_id')
+                ->distinct()
+                ->pluck('batch_id')
+                ->all();
+
+            $count = $query->delete();
+
+            foreach ($batchIds as $batchId) {
+                $batch = CustomerImportBatch::query()->find($batchId);
+                if ($batch) {
+                    $this->service->refreshBatchCounters($batch);
+                }
+            }
+
+            return $count;
+        });
+    }
+
     private function statusLabels(): array
     {
         return [
             CustomerImportService::STATUS_DRAFT => 'Bozza',
             CustomerImportService::STATUS_VALID => 'Valida',
             CustomerImportService::STATUS_NEEDS_REVIEW => 'Da completare',
+            CustomerImportService::STATUS_NON_IMPORTABLE => 'Non importabile',
             CustomerImportService::STATUS_DUPLICATE_FILE => 'Duplicato file',
             CustomerImportService::STATUS_DUPLICATE_HOTEL => 'Duplicato hotel',
             CustomerImportService::STATUS_DUPLICATE_CHAIN => 'Duplicato catena',
             CustomerImportService::STATUS_IMPORTED => 'Importata',
         ];
+    }
+
+    private function normalizeFilterDate(?string $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        $value = trim((string) $value);
+        if ($value === '') {
+            return null;
+        }
+
+        foreach (['Y-m-d', 'd/m/Y', 'd-m-Y', 'Y/m/d'] as $format) {
+            try {
+                $date = Carbon::createFromFormat($format, $value);
+                if ($date && $date->format($format) === $value) {
+                    return $date->format('Y-m-d');
+                }
+            } catch (\Throwable $e) {
+                // Ignora formati incompatibili e prova il successivo.
+            }
+        }
+
+        try {
+            return Carbon::parse($value)->format('Y-m-d');
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    private function tipoAlloggiatoVariants(string $value): array
+    {
+        $base = trim($value);
+        if ($base === '') {
+            return [];
+        }
+
+        $variants = array_unique([
+            $base,
+            strtoupper($base),
+            strtolower($base),
+            strtolower(str_replace(['_', '-'], ' ', $base)),
+            ucwords(strtolower(str_replace(['_', '-'], ' ', $base))),
+        ]);
+
+        $extra = [
+            'OSPITE SINGOLO',
+            'Capogruppo',
+            'CAPOGRUPPO',
+            'Capofamiglia',
+            'CAPOFAMIGLIA',
+            'MEMBRO GRUPPO',
+        ];
+
+        foreach ($extra as $item) {
+            $variants[] = $item;
+            $variants[] = strtoupper($item);
+            $variants[] = strtolower($item);
+            $variants[] = ucwords(strtolower($item));
+        }
+
+        return array_values(array_filter(array_map('trim', $variants), fn ($item) => $item !== ''));
     }
 
     private function statusClasses(): array
@@ -221,6 +530,7 @@ class CustomerImportController extends Controller
             CustomerImportService::STATUS_DRAFT => 'bg-secondary-subtle text-secondary',
             CustomerImportService::STATUS_VALID => 'bg-success-subtle text-success',
             CustomerImportService::STATUS_NEEDS_REVIEW => 'bg-warning-subtle text-warning',
+            CustomerImportService::STATUS_NON_IMPORTABLE => 'bg-danger-subtle text-danger',
             CustomerImportService::STATUS_DUPLICATE_FILE => 'bg-danger-subtle text-danger',
             CustomerImportService::STATUS_DUPLICATE_HOTEL => 'bg-danger-subtle text-danger',
             CustomerImportService::STATUS_DUPLICATE_CHAIN => 'bg-info-subtle text-info',
@@ -262,6 +572,8 @@ class CustomerImportController extends Controller
             'email' => $payload['email'] ?? null,
             'phone' => $payload['telefono'] ?? null,
             'cellphone' => $payload['cellulare'] ?? null,
+            'fax' => $payload['fax'] ?? null,
+            'typeaway' => $payload['tipo_via_strada'] ?? null,
             'cap' => $payload['cap_residenza'] ?? null,
             'city' => $payload['comune_residenza'] ?? null,
             'province' => $payload['provincia_residenza'] ?? null,
@@ -278,7 +590,7 @@ class CustomerImportController extends Controller
             'date_pub_reg' => $payload['data_rilascio'] ?? null,
             'expire_reg' => $payload['data_scadenza'] ?? null,
             'rilasciato_reg' => $payload['rilasciato_da'] ?? null,
-            'group' => $payload['gruppo'] ?? null,
+            'group' => $payload['gruppo'] ?? $payload['nome_gruppo'] ?? null,
             'subgroup' => $payload['subgroup'] ?? null,
             'subgroup1' => $payload['subgroup1'] ?? null,
             'observation' => $payload['note'] ?? null,
@@ -287,7 +599,7 @@ class CustomerImportController extends Controller
 
     private function mapCustomerFormToImportPayload(array $validated): array
     {
-        return [
+        $payload = [
             'nome' => $validated['name'] ?? '',
             'cognome' => $validated['surname'] ?? '',
             'tipo_cliente' => $validated['type_cliente'] ?? 'Componente',
@@ -311,11 +623,16 @@ class CustomerImportController extends Controller
             'data_rilascio' => $validated['date_pub_reg'] ?? '',
             'data_scadenza' => $validated['expire_reg'] ?? '',
             'rilasciato_da' => $validated['rilasciato_reg'] ?? '',
-            'nome_gruppo' => '',
             'gruppo' => $validated['group'] ?? ($validated['gruppo'] ?? ''),
             'subgroup' => $validated['subgroup'] ?? '',
             'subgroup1' => $validated['subgroup1'] ?? '',
             'note' => $validated['observation'] ?? '',
         ];
+        foreach (['fax' => 'fax', 'typeaway' => 'tipo_via_strada'] as $field => $key) {
+            if (array_key_exists($field, $validated)) {
+                $payload[$key] = $validated[$field];
+            }
+        }
+        return $payload;
     }
 }

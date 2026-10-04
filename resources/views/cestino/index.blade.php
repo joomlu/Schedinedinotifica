@@ -74,12 +74,15 @@
                                 >
                                     <i class="ri-eye-line fs-16 align-middle"></i>
                                 </button>
+                                @unless($item->admin_read_only ?? false)
                                 <form action="{{ route('cestino.restore', ['id' => $item->id]) }}" method="POST" class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-soft-success" title="Ripristina">
                                         <i class="ri-arrow-go-back-line fs-16 align-middle"></i>
                                     </button>
                                 </form>
+                                @endunless
+                                @unless($item->admin_read_only ?? false)
                                 <form
                                     action="{{ route('cestino.destroy', ['id' => $item->id]) }}"
                                     method="POST"
@@ -101,6 +104,7 @@
                                         <i class="ri-delete-bin-line fs-16 align-middle"></i>
                                     </button>
                                 </form>
+                                @endunless
                             </div>
                         </td>
                     </tr>
@@ -159,10 +163,12 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Chiudi</button>
-                                    <form action="{{ route('cestino.restore', ['id' => $item->id]) }}" method="POST" class="d-inline">
+                                    @unless($item->admin_read_only ?? false)
+                                <form action="{{ route('cestino.restore', ['id' => $item->id]) }}" method="POST" class="d-inline">
                                         @csrf
                                         <button type="submit" class="btn btn-primary">Ripristina</button>
                                     </form>
+                                @endunless
                                 </div>
                             </div>
                         </div>

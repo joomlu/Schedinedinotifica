@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customers;
+use App\Services\CestinoService;
+use App\Support\StrutturaCorrente;
+use Illuminate\Support\Facades\DB;
 use App\Models\GeoComune;
 use App\Models\GeoNazione;
 use App\Models\Gruppo;
@@ -44,6 +47,47 @@ class CustomerExportController extends Controller
             'totaleConCellulare' => $summary['totaleConCellulare'],
             'totaleMarketing' => $summary['totaleMarketing'],
         ]);
+    }
+
+    public function destroy(Request $request, int $id)
+    {
+        $strutturaId = StrutturaCorrente::getId();
+        abort_unless($strutturaId, 403, 'Seleziona una struttura prima di eliminare un cliente.');
+
+        $deleted = DB::transaction(function () use ($id, $strutturaId): bool {
+            $customer = Customers::query()->where('struttura_id', $strutturaId)
+                ->lockForUpdate()->findOrFail($id);
+
+            // Letture senza scope: anche un riferimento storico incoerente va preservato.
+            $hasReferences = DB::table('schedina')->where('customer_id', $id)->exists()
+                || DB::table('componenti')->where('customer_id', $id)->exists()
+                || DB::table('customer_import_rows')->where(function ($query) use ($id) {
+                    $query->where('imported_customer_id', $id)->orWhere('duplicate_customer_id', $id);
+                })->exists()
+                || DB::table('cestino_items')->where(function ($query) use ($id) {
+                    $query->where('payload->customer_id', $id)
+                        ->orWhere('payload->schedina->customer_id', $id);
+                })->exists();
+
+            if ($hasReferences) {
+                return false;
+            }
+
+            app(CestinoService::class)->archiveModel($customer, ['source' => 'Clienti']);
+            $customer->delete();
+            return true;
+        });
+
+        $filters = $request->only([
+            'q', 'tipo_cliente', 'group', 'subgroup', 'subgroup1', 'country', 'city',
+            'stato', 'privacy_consent', 'marketing_consent', 'communication_consent',
+            'channel', 'has_soggiorni',
+        ]);
+
+        return redirect()->route('customer.export.index', $filters)
+            ->with($deleted ? 'success' : 'warning', $deleted
+                ? 'Cliente spostato nel cestino.'
+                : 'Cliente non eliminato: esistono dati storici o collegamenti applicativi da preservare.');
     }
 
     public function exportCsv(Request $request)

@@ -353,39 +353,10 @@
                                     @endforeach
                                 </x-ui.select>
                             </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Servizio</label>
-                                <x-ui.select name="articolo_id">
-                                    <option value="">-- Seleziona servizio --</option>
-                                    @foreach($articoliCatalogo as $articoloCatalogo)
-                                        <option value="{{ $articoloCatalogo->id }}" @selected($servizioCorrenteId === (int) $articoloCatalogo->id)>
-                                            {{ $articoloCatalogo->nome }}
-                                        </option>
-                                    @endforeach
-                                </x-ui.select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Piano</label>
-                                <input type="text" name="piano" class="form-control" value="{{ old('piano', $struttura->piano) }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Scadenza servizio</label>
-                                <x-calendario name="scadenza_servizio" variant="single" :value="old('scadenza_servizio', $struttura->scadenza_servizio)" />
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Stato pagamento</label>
-                                <x-ui.select name="stato_pagamento">
-                                    <option value="pagato" {{ in_array($statoPagamento, ['pagato', 'ok'], true) ? 'selected' : '' }}>Pagato</option>
-                                    <option value="da_pagare" {{ $statoPagamento === 'da_pagare' ? 'selected' : '' }}>Da pagare</option>
-                                    <option value="sospeso" {{ $statoPagamento === 'sospeso' ? 'selected' : '' }}>Sospeso</option>
-                                </x-ui.select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Stato</label>
-                                <x-ui.select name="attiva">
-                                    <option value="1" {{ $statoOnline === '1' ? 'selected' : '' }}>Online</option>
-                                    <option value="0" {{ $statoOnline === '0' ? 'selected' : '' }}>Offline</option>
-                                </x-ui.select>
+                            <div class="col-md-6">
+                                <div class="text-muted small">Licenze e pagamenti · sola lettura</div>
+                                <div>{{ $struttura->piano ?: 'Nessun piano assegnato' }} · {{ $statoPagamentoLabel }}</div>
+                                <div>Scadenza: {{ optional($struttura->scadenza_servizio)->format('d/m/Y') ?: '—' }}</div>
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Avviso</label>
@@ -465,13 +436,9 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-end mb-3">
                             <a href="{{ route('admin.pagamenti.index', ['tab' => 'licenze', 'conto_struttura_id' => $struttura->id]) }}" class="btn btn-outline-secondary btn-sm">
-                                Apri gestione licenze
+                                Consulta licenze
                             </a>
-                            @if($struttura->proprietario_id)
-                                <a href="{{ route('admin.proprietari.proforme.create', ['id' => $struttura->proprietario_id, 'struttura_id' => $struttura->id]) }}" class="btn btn-primary btn-sm">
-                                    Nuova proforma
-                                </a>
-                            @endif
+
                         </div>
                         @if($licenzeStorico->isEmpty())
                             <div class="text-muted">Nessuna licenza storica disponibile per questa struttura.</div>
@@ -535,6 +502,7 @@
                             </div>
                         @endif
 
+                        @if(auth()->user()?->isSuperAdmin())
                         <hr class="my-4">
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -588,6 +556,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                        @endif
                         @endif
                     </div>
                 </div>

@@ -22,6 +22,8 @@
     <div class="row">
         <div class="col-xl-12 col-lg-11 mx-auto">
             @include('schedina.partials.form', [
+                'schedinaContext' => 'new',
+                'usePutMethod' => false,
                 'schedina' => $schedina,
                 'titoli' => $titoli,
                 'tipiVia' => $tipiVia,

@@ -462,7 +462,7 @@
                                         <h5 class="card-title mb-1">Storico fatturazione</h5>
                                         <p class="text-muted mb-0">Documenti emessi, intestazione fiscale e quadro economico del proprietario.</p>
                                     </div>
-                                    @if($proprietario->exists)
+                                    @if($proprietario->exists && auth()->user()?->isSuperAdmin())
                                         <a href="{{ request()->routeIs('superadmin.*') ? route('superadmin.proprietari.proforme.create', ['id' => $proprietario->id]) : route('admin.proprietari.proforme.create', ['id' => $proprietario->id]) }}" class="btn btn-sm btn-primary">
                                             Nuova proforma
                                         </a>
