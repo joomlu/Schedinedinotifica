@@ -46,7 +46,7 @@ Il Maestro è già esistente e viene consolidato, non ricreato da zero. **Versio
 |---|---|---|
 | Multistruttura e ruoli | PARZIALE | Matrice completa backend/tenant non completata |
 | Clienti / Customer Import | PARZIALE | Feature filtri/eliminazione bloccate da fixture |
-| Componenti Import | PENDENTE | Due bug di integrità documentati; nuova riproduzione richiesta prima dei fix |
+| Componenti Import | PARZIALE | P1.1/P1.2 riprodotti e corretti con prove isolate sul servizio (appendice G); restano gap diagnostici, UI e persistenza end-to-end |
 | Schedine e arrivi | PARZIALE | Percorsi completi e fixture store da verificare |
 | GEO core | PARZIALE | Qualità/completezza dati reali non attestata |
 | Comuni e logo | PARZIALE | CRUD su fixture documentato; acceptance browser isolamento incompleta |
@@ -69,8 +69,8 @@ Solo nuove evidenze datate possono cambiare questi stati. VERIFICATO si applica 
 
 | ID | Area | Evidenza/azione e criterio |
 |---|---|---|
-| P1.1 | Date Componenti | Bug documentato in appendice F: errore parser non blocca lo stato; payload data normalizzato impropriamente. Riprodurre nel runtime isolato prima del fix; nessuna data invalida deve diventare dato confermabile |
-| P1.2 | Struttura Componenti | Riga ERRORE strutturale inclusa nella conferma e contatori incoerenti. Riprodurre batch misti; escludere payload vuoti/incoerenti con prove dedicate |
+| P1.1 | Date Componenti | VERIFICATO sul servizio, 2026-10-05: riproduzione prima del fix e regressione isolata; date impossibili NON_IMPORTABILE, nessun payload. Appendice G; persistenza end-to-end non verificata |
+| P1.2 | Struttura Componenti | VERIFICATO sul servizio, 2026-10-05: ERRORE escluso mediante allowlist degli stati esistenti, conteggio corretto e batch misto provato. Appendice G; persistenza end-to-end non verificata |
 | P1.3 | Cestino | Verificare read/restore/purge, entità globali, tenant e minimizzazione snapshot; rischio statico, non exploit certificato |
 | P1.4 | Web Check-in | Token, scadenza, anonimato, parent schedina/struttura_id, link corti, riuso e invalidazione; matrice sintetica cross-tenant |
 | P1.5 | Utenti/password/impersonazione | Creazione/modifica/reset e gestione versus membership; avvio/uscita impersonazione e collisioni route |
@@ -1108,3 +1108,72 @@ Ordine consigliato, da autorizzare in una fase di correzione separata:
 **Sicuro proseguire la documentazione della baseline: SÌ**, mantenendo espliciti debiti e limiti. **Chiudere Maestro v1.0 come validazione funzionale completata/readiness: NO**: raccomandata correzione dei due difetti P1 e chiusura dei gap di copertura prima della chiusura validata. La diagnosi supera la precedente lettura generica dei guasti come semplice disallineamento dei test; non certifica produzione.
 
 **CODICE MODIFICATO = NO; TEST MODIFICATI = NO; SCHEMA MODIFICATO = NO; DATI REALI MODIFICATI = NO; PRODUZIONE MODIFICATA = NO; COMMIT = NO; PUSH = NO; DEPLOY = NO; SPANEL = NO; TRASMISSIONI ESTERNE = NO.** Unica modifica permanente: questa appendice del Maestro.
+
+
+## Appendice G — Correzione minima P1 Componenti, 2026-10-05
+
+Stato permanente: **BASELINE IN AUDIT**. Base Git: `0205b1fa2d5ae2713b2f7d0248b99eb175a9fe95`, branch main, origin/main uguale, ahead/behind 0/0 e worktree inizialmente pulito. Modifiche locali non committate. Questa evidenza successiva aggiorna soltanto P1.1/P1.2; i risultati e la classificazione storici dell’appendice F restano tali.
+
+### Percorso e riproduzione prima della correzione
+
+`ComponentiImportService::analizzaImportazione`: parsing CSV/TXT/XLSX → mapping del contratto V1 → validazione stretta `normalizzaDataGiornoMeseAnno` → normalizzazione/classificazione → preview. L’errore del parser data veniva aggiunto agli errori ma ignorato dal gating dello stato. `preparaConfermaBatch` rianalizza gli input raw e prima escludeva soltanto NON_IMPORTABILE. `buildPersistableComponentPayload` richiamava un normalizzatore permissivo delle date. Il controller usa i payload restituiti nel percorso di creazione transazionale dei componenti; nessuna scrittura applicativa è stata eseguita da queste nuove prove.
+
+Nuova suite indipendente: `tests/Unit/ComponentiImportP1Test.php`, fixture canoniche a 15 colonne, nomi sintetici e resolver GEO in memoria (Francia); nessun dato reale o vecchio harness usato. Comando prima del fix:
+
+```sh
+python3 -B tests/Isolation/run.py --phpunit tests/Unit/ComponentiImportP1Test.php
+```
+
+Risultato: **5 test / 11 asserzioni / 3 failure**, senza errori di harness. Riproduzione P1-A: input `31/02/2026`, preview COMPLETO, valid_count=1, payload `2026-03-03`. Riproduzione P1-B: 16 celle contro 15 intestazioni, preview ERRORE, valid_count=1, payload anagrafico vuoto. Batch misto: tre payload invece del solo payload valido. Le prove del workflow review/completamento e del rifiuto di contesti estranei passavano già prima del fix. Entrambi i difetti riprodotti prima di modificare il servizio.
+
+### Correzione circoscritta e prova successiva
+
+Unico file applicativo modificato: `app/Services/ComponentiImportService.php`.
+
+- Errore del parser stretto → NON_IMPORTABILE, campo date_nac, conferma falsa e valore originale conservato; nessuna conversione silenziosa.
+- Conferma mediante allowlist COMPLETO, DA_VERIFICARE, DA_COMPLETARE. Preservato il workflow legittimo di completamento; ERRORE e NON_IMPORTABILE esclusi.
+- ERRORE incluso nei conteggi degli errori di preview.
+- Payload usa la data ISO già validata dalla rianalisi, senza richiamare il normalizzatore permissivo. Nessuna modifica generale alla gestione date.
+
+```sh
+python3 -B tests/Isolation/run.py --phpunit tests/Unit/ComponentiImportP1Test.php tests/Unit/ContrattoImportazioneComponentiV1Test.php tests/Unit/SingleNodeBatchLockTest.php
+```
+
+Risultato: **17 test / 67 asserzioni / PASS**. Verificati: `31/02/2026`, `29/02/2025`, formato non ammesso `12-31-1980` esclusi; `29/02/2024` → `2024-02-29` esatto; riga strutturale esclusa; batch misto un solo payload; stati review/completamento preservati; rifiuto di user_id, struttura_id e schedina_id estranei. Regressioni contratto V1 e lock superate.
+
+### Attestazione, risorse e limiti
+
+Guardrail prima delle modifiche: `python3 -B tests/Isolation/test_guards.py`, **5 PASS**. Runtime prima del fix: `/private/tmp/schedine-test-vs9_avlq`, DB `test_geo_7fdac164b37b9760f156b13cdf0a5ef4`, MySQL PID 31473/porta 52497, HTTP PID 31478/porta 52498. Runtime dopo il fix: `/private/tmp/schedine-test-isdoda34`, DB `test_geo_9612c5538c294cb9be10168606dd0a23`, MySQL PID 31651/porta 52552, HTTP PID 31656/porta 52553. Entrambi: attestazione identità processi/DB/HTTP, riconnessione e **23 rifiuti di override PASS**, build e controllo GEO immutabile PASS. Risorse fermate e directory temporanee rimosse dal launcher.
+
+Prove sul servizio reale e sul payload, senza persistenza end-to-end o browser: non dimostrano l’intero controller/UI né la matrice completa tenant. Playwright e suite completa non eseguiti; debiti storici restano aperti. I due test diagnostici precedenti sono invariati rispetto a HEAD. GEO core, infrastruttura, schema/configurazione e dati reali invariati; nessun accesso produzione, trasmissione, commit, push o deploy. Le migrazioni originali sono eseguite soltanto dal launcher nei nuovi database temporanei previsti dal protocollo isolato.
+
+### Allineamento preview/conferma — nuove evidenze 2026-10-05
+
+Stato mantenuto **BASELINE IN AUDIT**; branch `main`, HEAD `0205b1fa2d5ae2713b2f7d0248b99eb175a9fe95`. Autorizzazione esplicita limitata alle migrazioni originali eseguite dal runtime isolato: nessuna migrazione su database reali, modifica delle migrazioni/configurazioni permanenti o operazione Git di pubblicazione.
+
+Preflight in sola lettura su `run.py`, `console.php`, `TestingEnvironment.php` e protocollo isolamento: copia senza `.env*`/cache, ambiente non ereditato, nuova istanza MySQL `--no-defaults` con datadir temporaneo, utente limitato al database effimero; attestazione effettiva di datadir/UUID/porta/database e configurazione DB protetta prima delle migrazioni. Il primo tentativo nel sandbox è stato bloccato al bind loopback (`PermissionError`), prima di creare risorse o migrare; il successivo avvio con permessi estesi ha eseguito esclusivamente il runtime autorizzato.
+
+Riproduzione prima del nuovo fix, conservando i due fix P1 già presenti:
+
+```sh
+python3 -B tests/Isolation/test_guards.py
+python3 -B tests/Isolation/run.py --phpunit tests/Unit/ComponentiImportP1Test.php
+```
+
+Guardrail: **5 test PASS**. PHPUnit: **6 test / 37 asserzioni / 1 failure**, nessun errore di harness. Una sola riga DA_COMPLETARE produceva `confirmable_rows=0`, `valid_count=1`, un payload. I cinque test P1 preesistenti passavano. Runtime `/private/tmp/schedine-test-on89fdos`, database `test_geo_dca09e12ef290db1fbb743ef1e4fdc9f`, MySQL PID 36050/porta 53021, HTTP PID 36056/porta 53022.
+
+Modifica applicativa aggiuntiva minima: includere DA_COMPLETARE nel conteggio `righe_valide` del servizio. Entrambi i percorsi preview del controller assegnano tale valore a `confirmable_rows`; il Blade usa lo stesso valore per il numero annunciato e l'abilitazione del pulsante. Nessuna modifica a controller/Blade. `righe_in_errore` mantiene il significato preesistente di righe che richiedono intervento, inclusa DA_COMPLETARE: non è il complemento delle righe confermabili. Allowlist di conferma e protezione date P1 preservate.
+
+Regressione aggiunta alla suite P1: confronto esplicito conteggio preview/conferma/payload per sola DA_COMPLETARE e batch misto COMPLETO, DA_VERIFICARE, DA_COMPLETARE, NON_IMPORTABILE, ERRORE.
+
+```sh
+php -l app/Services/ComponentiImportService.php
+php -l tests/Unit/ComponentiImportP1Test.php
+python3 -B tests/Isolation/run.py --phpunit tests/Unit/ComponentiImportP1Test.php tests/Unit/ContrattoImportazioneComponentiV1Test.php tests/Unit/SingleNodeBatchLockTest.php
+```
+
+Sintassi: **PASS**. PHPUnit dopo il fix: **18 test / 71 asserzioni / PASS**. Sola DA_COMPLETARE: **1 = 1 = 1**; batch misto: **3 = 3 = 3**, ossia `preview confirmable_rows == valid_count == payload count`. Confermati i tre stati ammissibili; ERRORE e NON_IMPORTABILE esclusi, date impossibili/formato errato senza payload, data bisestile valida conservata in ISO. Rifiuti di user_id/struttura_id/schedina_id estranei, contratto V1 e lock superati. Runtime `/private/tmp/schedine-test-pzcw6579`, database `test_geo_de816a47377b308620a652293e619c6c`, MySQL PID 36280/porta 53070, HTTP PID 36285/porta 53071.
+
+Entrambi i runtime: **PASS** identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni; build e controllo GEO immutabile **PASS**; processi fermati e directory rimosse dal launcher. Prove sovrapposte non sommate ai risultati precedenti. Controller/Blade verificati in sola lettura; nessuna prova browser o persistenza end-to-end, nessuna certificazione della matrice tenant completa. Suite completa e debiti storici dell'appendice F restano fuori da queste nuove evidenze.
+
+Git: staging vuoto; soltanto servizio, Maestro e nuovo test P1 modificati/non versionati. `git diff --check` e controllo cached superati; test diagnostici precedenti, runtime/guardrail e migration files invariati rispetto a HEAD. Nessun fetch, commit, push, deploy, accesso produzione o trasmissione esterna. Modificati codice/test/documentazione; configurazione e schema/dati persistenti non modificati; migrazioni e risorse solo temporanee autorizzate. Esito nello scope del servizio: **VERIFICATO — PRONTO PER REVISIONE PRE-COMMIT**; prossimo passo: revisione del diff senza commit automatico.

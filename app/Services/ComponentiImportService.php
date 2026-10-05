@@ -351,9 +351,11 @@ class ComponentiImportService
             $assoc = ContrattoImportazioneComponentiV1::applicaDefaultImport($assoc, $tipoAlloggiatoResolver);
 
             $errori = [];
+            $dataInvalida = false;
             if (($assoc['date_nac'] ?? '') !== '') {
                 $dataNormalizzata = $this->normalizzaDataGiornoMeseAnno((string) $assoc['date_nac']);
                 if ($dataNormalizzata === null) {
+                    $dataInvalida = true;
                     $errori[] = [
                         'field' => 'date_nac',
                         'label' => 'Data di nascita',
@@ -380,6 +382,13 @@ class ComponentiImportService
             $status = $review['status'];
             if ($status === DatiComponenteNormalizzati::STATO_COMPLETO && !empty($validationErrors)) {
                 $status = DatiComponenteNormalizzati::STATO_DA_COMPLETARE;
+            }
+            if ($dataInvalida) {
+                $status = DatiComponenteNormalizzati::STATO_NON_IMPORTABILE;
+                $review['messaggio'] = 'Data di nascita non valida: usa una data esistente in formato GG/MM/AAAA.';
+                $review['campo'] = 'date_nac';
+                $review['proposta'] = null;
+                $review['metadata']['_review_confirmed'] = false;
             }
             if ($status === DatiComponenteNormalizzati::STATO_COMPLETO && empty($errori)) {
                 $review['messaggio'] = 'Componente completo.';
@@ -426,6 +435,7 @@ class ComponentiImportService
             DatiComponenteNormalizzati::STATO_DA_VERIFICARE => 0,
             DatiComponenteNormalizzati::STATO_DA_COMPLETARE => 0,
             DatiComponenteNormalizzati::STATO_NON_IMPORTABILE => 0,
+            'ERRORE' => 0,
         ];
         foreach ($righePreview as $row) {
             $statusCounts[$row['status']] = ($statusCounts[$row['status']] ?? 0) + 1;
@@ -439,8 +449,9 @@ class ComponentiImportService
             'raw_rows' => array_values($righe),
             'rows' => $righePreview,
             'totale_righe' => count($righePreview),
-            'righe_valide' => $statusCounts[DatiComponenteNormalizzati::STATO_COMPLETO] + $statusCounts[DatiComponenteNormalizzati::STATO_DA_VERIFICARE],
-            'righe_in_errore' => $statusCounts[DatiComponenteNormalizzati::STATO_DA_COMPLETARE] + $statusCounts[DatiComponenteNormalizzati::STATO_NON_IMPORTABILE],
+            // Conteggio confermabile usato anche dal controller e dal pulsante della preview.
+            'righe_valide' => $statusCounts[DatiComponenteNormalizzati::STATO_COMPLETO] + $statusCounts[DatiComponenteNormalizzati::STATO_DA_VERIFICARE] + $statusCounts[DatiComponenteNormalizzati::STATO_DA_COMPLETARE],
+            'righe_in_errore' => $statusCounts[DatiComponenteNormalizzati::STATO_DA_COMPLETARE] + $statusCounts[DatiComponenteNormalizzati::STATO_NON_IMPORTABILE] + $statusCounts['ERRORE'],
             'stati' => $statusCounts,
             'metadata' => [
                 'default_relationship_codice' => $defaultInfo['relationship_codice'] ?? null,
@@ -465,13 +476,19 @@ class ComponentiImportService
             $tipoAlloggiatoResolver
         );
 
+        // Il workflow ammette anche anagrafiche da completare, ma non errori strutturali.
+        $statiImportabili = [
+            DatiComponenteNormalizzati::STATO_COMPLETO,
+            DatiComponenteNormalizzati::STATO_DA_VERIFICARE,
+            DatiComponenteNormalizzati::STATO_DA_COMPLETARE,
+        ];
         $validRows = array_values(array_filter(
             $analisi['rows'],
-            fn (array $row) => !in_array($row['status'] ?? '', [DatiComponenteNormalizzati::STATO_NON_IMPORTABILE], true)
+            fn (array $row) => in_array($row['status'] ?? '', $statiImportabili, true)
         ));
         $invalidRows = array_values(array_filter(
             $analisi['rows'],
-            fn (array $row) => in_array($row['status'] ?? '', [DatiComponenteNormalizzati::STATO_NON_IMPORTABILE], true)
+            fn (array $row) => !in_array($row['status'] ?? '', $statiImportabili, true)
         ));
         $payloads = array_map(function (array $row) use ($schedinaId, $strutturaId) {
             $payload = $this->buildPersistableComponentPayload($row['data'] ?? [], $schedinaId, $strutturaId);
@@ -837,7 +854,8 @@ class ComponentiImportService
             'exent' => $row['exent'] ?? null,
             'province_nac' => $row['province_nac'] ?? null,
             'city_nac' => $row['city_nac'] ?? null,
-            'date_nac' => DatiComponenteNormalizzati::normalizzaData($row['date_nac'] ?? null),
+            // La rianalisi del batch ha già validato e convertito la data in ISO.
+            'date_nac' => ($row['date_nac'] ?? '') !== '' ? $row['date_nac'] : null,
             'cap_nac' => $row['cap_nac'] ?? null,
             'country_nac' => $row['country_nac'] ?? null,
             'regione_nac' => $row['regione_nac'] ?? null,
