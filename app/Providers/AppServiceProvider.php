@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\User;
 use App\Support\StrutturaAccess;
 use App\Support\StrutturaCorrente;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
@@ -30,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrapFive();
         Schema::defaultStringLength(191);
 
         View::composer('layouts.topbar', function ($view): void {
