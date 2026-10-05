@@ -29,7 +29,7 @@
                         <x-table-topbar
                             title="Geo Comuni"
                             subtitle="Carica stemma/logo del Comune"
-                            searchPlaceholder="Cerca per nome o codice ISTAT"
+                            searchPlaceholder="Cerca per Comune o CAP"
                             searchId="geo-comuni-search"
                         />
                         <input type="hidden" name="q" value="{{ $q }}" id="geo-comuni-hidden-q">
@@ -98,18 +98,63 @@
     document.addEventListener('DOMContentLoaded', function () {
         const input = document.getElementById('geo-comuni-search');
         const hidden = document.getElementById('geo-comuni-hidden-q');
-        if (input && hidden) {
-            input.setAttribute('name', 'q');
-            input.value = hidden.value || '';
-            input.addEventListener('input', () => hidden.value = input.value);
-            const clearBtn = document.getElementById('geo-comuni-search-clear');
-            if (clearBtn) {
-                clearBtn.addEventListener('click', () => {
-                    input.value = '';
-                    hidden.value = '';
-                });
-            }
+        if (!input || !hidden) {
+            return;
         }
+
+        input.setAttribute('name', 'q');
+        input.value = hidden.value || '';
+
+        const clearBtn = document.getElementById('geo-comuni-search-clear');
+        const setClearButtonState = () => {
+            if (!clearBtn) {
+                return;
+            }
+            clearBtn.style.display = input.value.trim() ? '' : 'none';
+        };
+
+        const submitSearch = function () {
+            const url = new URL(window.location.href);
+            const q = (input.value || '').trim();
+
+            if (q !== '') {
+                url.searchParams.set('q', q);
+            } else {
+                url.searchParams.delete('q');
+            }
+
+            url.searchParams.delete('page');
+            window.location.assign(url.toString());
+        };
+
+        let debounceTimer = null;
+
+        input.addEventListener('input', function () {
+            hidden.value = input.value;
+            setClearButtonState();
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(submitSearch, 350);
+        });
+
+        input.addEventListener('keydown', function (event) {
+            if (event.key !== 'Enter') {
+                return;
+            }
+            event.preventDefault();
+            clearTimeout(debounceTimer);
+            submitSearch();
+        });
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function () {
+                input.value = '';
+                hidden.value = '';
+                setClearButtonState();
+                submitSearch();
+            });
+        }
+
+        setClearButtonState();
     });
 </script>
 @endsection

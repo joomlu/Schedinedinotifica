@@ -16,8 +16,12 @@ class GeoComuneLogoController extends Controller
         $comuni = GeoComune::query()
             ->with('provincia')
             ->when($q !== '', function ($query) use ($q) {
-                $query->where('nome', 'like', "%{$q}%")
-                    ->orWhere('codice_istat', 'like', "%{$q}%");
+                $query->where(function ($subQuery) use ($q) {
+                    $subQuery->where('nome', 'like', "%{$q}%")
+                        ->orWhereHas('caps', function ($capsQuery) use ($q) {
+                            $capsQuery->where('geo_cap.cap', 'like', "%{$q}%");
+                        });
+                });
             })
             ->orderBy('nome')
             ->paginate(10)

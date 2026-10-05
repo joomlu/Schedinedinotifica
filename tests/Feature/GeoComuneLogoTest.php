@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\GeoCap;
 use App\Models\GeoComune;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Storage;
@@ -44,10 +45,23 @@ class GeoComuneLogoTest extends TestCase
         for ($i = 2; $i <= 15; $i++) {
             GeoComune::create(['geo_provincia_id' => $comune->geo_provincia_id, 'nome' => 'Zeta Fixture '.$i, 'codice_istat' => '99'.str_pad((string) $i, 4, '0', STR_PAD_LEFT)]);
         }
-        $this->get('/geo/comuni/logo?q=990001')->assertOk()->assertSee($comune->nome)->assertDontSee('Zeta Fixture 2');
+        $this->get('/geo/comuni/logo?q=990001')->assertOk()->assertDontSee($comune->nome)->assertDontSee('Zeta Fixture 2');
         $this->get('/geo/comuni/logo?q=Comune+Fixture')->assertOk()->assertSee($comune->nome);
         $this->get('/geo/comuni/logo?q=inesistente')->assertOk()->assertSee('Nessun comune trovato');
         $this->get('/geo/comuni/logo?page=2')->assertOk()->assertDontSee($comune->nome);
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('roles')]
+    public function test_ricerca_automatica_per_comune_e_cap_senza_codice_istat(string $role): void
+    {
+        $this->actingAs(Fixture::user($role));
+        $comune = Fixture::comune('Bellaria-Igea Marina', '990001');
+        $cap = GeoCap::create(['cap' => '47814']);
+        $comune->caps()->attach($cap->id, ['principale' => true, 'priorita' => 1, 'localita' => null]);
+
+        $this->get('/geo/comuni/logo?q=bell')->assertOk()->assertSee('Bellaria-Igea Marina');
+        $this->get('/geo/comuni/logo?q=478')->assertOk()->assertSee('Bellaria-Igea Marina');
+        $this->get('/geo/comuni/logo?q=990001')->assertOk()->assertDontSee('Bellaria-Igea Marina');
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('roles')]
@@ -74,6 +88,25 @@ class GeoComuneLogoTest extends TestCase
         $this->assertNull($comune->fresh()->logo_citta);
         $this->assertSame($master, $comune->fresh()->only(array_keys($master)));
         $this->assertSame(1, GeoComune::count());
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('roles')]
+    public function test_paginazione_usa_template_bootstrap_invece_di_tailwind(string $role): void
+    {
+        $this->actingAs(Fixture::user($role));
+        $comune = Fixture::comune();
+        for ($i = 1; $i <= 12; $i++) {
+            GeoComune::create([
+                'geo_provincia_id' => $comune->geo_provincia_id,
+                'nome' => 'Comune Paginazione '.$i,
+                'codice_istat' => '999'.str_pad((string) $i, 4, '0', STR_PAD_LEFT),
+            ]);
+        }
+
+        $this->get('/geo/comuni/logo?page=2')
+            ->assertOk()
+            ->assertDontSee('w-5 h-5')
+            ->assertDontSee('viewBox="0 0 20 20"');
     }
 
     public function test_ruoli_non_autorizzati_non_vedono_menu_e_non_scrivono(): void

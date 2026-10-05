@@ -331,6 +331,8 @@ Loghi: GeoComuneLogoController, route riservate a Admin/Super Admin, storage pub
 
 Correzione verificata 2026-10-05: il paginator di default Laravel era Tailwind (`pagination::tailwind`), che genera un `<svg class="w-5 h-5" ...>` senza stili Tailwind in questo app, causando la freccia gigante sotto la lista. La fix condivisa è stata applicata in `app/Providers/AppServiceProvider.php` tramite `Paginator::useBootstrapFive()`, mantenendo il render senza SVG delle pagine di listato e validando la regressione con `tests/Feature/GeoComuneLogoTest.php` in runtime isolato (11 test, 112 asserzioni PASS).
 
+Ricerca Geo Comuni: il pattern riutilizzato è il debounce già presente nei componenti `x-table-topbar`/`x-crud-table` di questa applicazione. La pagina `GeoComuneLogoController` filtra automaticamente su `geo_comuni.nome` e su `geo_comuni_cap` → `geo_cap.cap`, senza usare `codice_istat`. Il campo `q` aggiorna la query con debounce di 350 ms, elimina `page` e reindirizza alla pagina 1; svuotando il campo ripristina il set completo. La validazione in runtime isolato include ricerca Comune, ricerca CAP, filtro negativo su codice ISTAT e mantenimento del flusso upload/rimozione logo.
+
 Questura: legge GEO e mapping propri di QuesturaTxtExportService. ISTAT: IstatCodifiche legge GEO e traduce su snapshot ufficiali dedicati `reference/istat/ross1000-er/`; non riscrive GEO né mapping Questura. Conformità di un'integrazione non certifica l'altra. Stato del dataset GEO reale e completezza di ogni codice non verificati qui.
 
 ## 7. Questura / Alloggiati Web
