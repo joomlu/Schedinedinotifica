@@ -271,13 +271,20 @@ class StrutturaAuthorizationTest extends TestCase
         $mine = $this->structureFor($owner);
         $legacy = $this->structureFor(null);
 
+        $allowedIds = [];
+        \Illuminate\Support\Facades\View::composer('layouts.topbar', function ($view) use (&$allowedIds): void {
+            $allowedIds = $view->getData()['topbarStrutturaAllowed']->pluck('id')->all();
+        });
+
         $response = $this->actingAs($admin)
             ->withSession(['struttura_corrente_id' => $legacy->id])
             ->get('/dashboard');
 
         $response->assertOk();
         $response->assertSee('Struttura: '.$legacy->nome_struttura);
-        $response->assertSee($mine->nome_struttura);
+        // Con una sola struttura autorizzata il menu non mostra opzioni:
+        // verificare la lista reale del composer, non una label assente per UX.
+        $this->assertSame([$mine->id], $allowedIds);
         $response->assertDontSee('/strutture/'.$legacy->id.'/seleziona');
     }
 

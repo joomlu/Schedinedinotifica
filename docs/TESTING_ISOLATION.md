@@ -1,69 +1,58 @@
-# Estado de aislamiento de testing — P0
+# Isolamento dei test locali
 
-## Estado actual: ejecución funcional bloqueada
+## Stato e avvio
 
-No existe todavía infraestructura desechable autorizada y acreditada. Por ello
-PHPUnit y Playwright fallan cerrados con `TEST_ISOLATION_REQUIRED`, antes de
-arrancar Laravel o crear un navegador. Este estado NO es un arnés funcional
-completo ni prueba que una futura conexión MariaDB esté aislada.
+PHPUnit e Playwright restano bloccati con `TEST_ISOLATION_REQUIRED` fuori dal runtime creato da `tests/Isolation/run.py`. Nessun flag, nome di database, URL o file marker sblocca i test.
 
-- `phpunit.xml` carga `tests/bootstrap.php` antes del autoload de Composer.
-- `CreatesApplication` repite la guarda antes del bootstrap, incluso si se omite
-  el bootstrap de PHPUnit.
-- `playwright.config.js` bloquea el arranque; cada spec existente importa una
-  fixture que también bloquea ejecuciones que omitan esa configuración.
-- No hay variables de autorización, archivos marcador o flags para saltarlo.
-- Se retiró la URL fija de Herd de los cuatro specs.
-- Sin proceso HTTP/navegador no se realizan peticiones ni siguen redirects.
-  Esto NO es una implementación probada de filtrado de redirects con un
-  navegador funcionando: esa validación sigue pendiente.
+Prerequisiti: PHP con PDO MySQL, Python 3, Node/npm, dipendenze già installate, binari `mysqld` e `mysql`. Per Playwright serve Chromium già installato. Su questa macchina viene usato MySQL 8.0.36, lo stesso motore supportato dalle migrazioni, in una **nuova istanza**, senza riutilizzare il servizio Herd. Non vengono installati servizi o modificati quelli esistenti.
 
-Solo las guardas pueden verificarse ahora:
-
-```bash
+```sh
+# Verifica il rifiuto fuori dal runtime, senza database o browser.
 python3 -B tests/Isolation/test_guards.py
+
+# Fixture e test specifici dei loghi.
+python3 -B tests/Isolation/run.py --phpunit tests/Feature/GeoComuneLogoTest.php
+
+# Loghi, rendering, regressioni di autorizzazione e browser.
+python3 -B tests/Isolation/run.py \
+  --phpunit tests/Feature/GeoComuneLogoTest.php \
+  tests/Feature/TopbarRenderingTest.php \
+  tests/Feature/StrutturaAuthorizationTest.php \
+  --fixtures tests/Isolation/seed-geo.php \
+  --playwright tests/Feature/geo-logo.playwright.spec.js
 ```
 
-Ese script usa subprocesos PHP/Node para comprobar rechazo. No arranca Laravel,
-PHPUnit, Playwright, HTTP, Docker o MariaDB; no abre ninguna base de datos.
-Los valores de conexión adversos son datos de entrada, nunca destinos usados.
+Senza suite selezionate l'avviatore verifica soltanto l'infrastruttura, il build e le migrazioni. Gli spec browser devono essere selezionati esplicitamente; le fixture sono uno script esplicito, senza seeder impliciti.
 
-## Requisitos antes de habilitar ejecución funcional
+L'avviatore stampa identità, PID e porte, interrompe al primo errore e pulisce le risorse in `finally`, anche dopo un'interruzione ordinaria. Nessun ripiego su database, server, socket o `.env` esistenti. Un errore delle migrazioni ferma l'esecuzione: non viene riparato lo schema automaticamente.
 
-Requieren autorización separada. No eliminar la guarda para probar:
+## Risorse e attestazione
 
-1. Instancia MariaDB desechable exclusiva, con credenciales efímeras, sin montar
-   datos reales ni reutilizar servidores/sockets existentes. El nombre `_test`
-   no acredita aislamiento. Preferir instancia aislada a adaptar migraciones
-   históricas MySQL a SQLite.
-2. Launcher que controle el ciclo de vida y registre identidad, endpoint y
-   recursos creados. Rechazar DATABASE_URL/DB_URL, sockets y overrides heredados.
-3. Validación de configuración ANTES de providers, conexiones y RefreshDatabase;
-   rechazo de conexiones secundarias, read/write y reconexiones fuera de esa
-   instancia. No cargar el `.env` ni las caches de desarrollo.
-4. Checkout/runtime desechable: storage, public/images, uploads, vistas, logs,
-   sesiones, caches y temporales separados; mail e integraciones sin envíos reales.
-5. Servidor HTTP propio, no reutilizado, identidad efímera comprobada antes de
-   navegación. Restringir navegación, peticiones y redirects al origen autorizado,
-   bloquear service workers y servicios externos. Probar estas reglas en vivo.
-6. Probar desvíos y fallos antes de habilitar las regresiones DB. No aceptar una
-   variable de entorno, un prefijo de nombre o un marcador como única garantía.
-7. Solo entonces preparar el esquema y fixtures de esa instancia y ejecutar tests.
-   Las migraciones existentes pueden tener incompatibilidades de instalación desde
-   cero: abortar sin repararlas silenciosamente ni recurrir a datos locales.
+Ogni esecuzione crea una directory privata `/private/tmp/schedine-test-*` con:
 
-Las regresiones nuevas son `StrutturaAuthorizationTest` y sus fixtures sintéticos.
-No se han ejecutado. Los tests antiguos con RefreshDatabase, seeders y usuario ID
-11 permanecen bloqueados; necesitan preparación de fixtures antes de habilitar
-la suite completa. No se afirma que esos tests sean ya autosuficientes.
+- copia del codice versionato e dei file di test pertinenti, senza `.env*`, dati di storage, cache di sviluppo, immagini pubbliche o upload reali;
+- copie separate di vendor e node_modules; asset compilati nella copia temporanea;
+- nuova directory MySQL inizializzata da zero con `--no-defaults`, endpoint loopback e credenziali casuali; il solo utente applicativo ha privilegi sul database effimero;
+- server PHP HTTP dedicato, storage, upload, viste, log, sessioni e temporanei propri;
+- supervisore con socket Unix privato e attestazione tramite challenge;
+- proxy HTTP limitato all'origine temporanea e un'origine locale vietata per le prove di deviazione.
 
-## Autorización de estructuras
+`TestingEnvironment` verifica **prima di Composer e Laravel** checkout, assenza degli ambienti e della cache, ambiente esatto del launcher, supervisore vivo e risposta al challenge. Controlla i comandi e la parentela dei processi MySQL/HTTP. Una connessione PDO all'endpoint attestato verifica realmente `@@datadir`, `@@server_uuid`, `@@port` e `DATABASE()`: non è una semplice convenzione sul nome.
 
-Las tres rutas de estructura actual exigen `RequireAuthorizedStruttura`.
-`StrutturaAccess` aplica pertenencia y distingue acceso operativo (incluye la
-excepción legacy del admin) de selector (no la incluye). Propietario sin ID o
-sin estructuras no obtiene ninguna estructura. Una selección ajena, inválida o
-conflictiva se rechaza; no se convierte en otra modificación silenciosa.
-El contexto estático se reinicia al entrar/salir del middleware.
-No se alteran el CRUD administrativo, el scope global de otros modelos, los datos
-existentes ni el esquema.
+`verify.php` verifica i rifiuti prima delle migrazioni: host/porta/database differenti, URL, socket, read/write, percorsi esterni, server Herd, token/identità contraffatti e connessioni secondarie. Verifica anche la riconnessione e l'identità HTTP.
+
+## Protezione dopo il bootstrap
+
+`configureApplication()` controlla il percorso dell'ambiente prima di Dotenv e imposta configurazioni locali prima dei provider. La factory DB protetta rifiuta connessioni secondarie, dinamiche non previste, URL, read/write e configurazioni alterate. Ogni nuova connessione attesta ancora il runtime e l'identità MySQL. Cache in memoria, mail nel trasporto `array`, filesystem temporanei, nessun Redis o disk remoto; il client HTTP Laravel blocca richieste non simulate.
+
+PHPUnit attraversa il vero kernel HTTP. Il supporto di test simula il contesto web solo durante ciascuna richiesta e aggiunge un token CSRF valido alle richieste sintetiche che non ne specificano uno. Il middleware CSRF resta attivo; token esplicitamente errati restano errati. Il server browser usa sessioni su file e CSRF completo; PHPUnit usa sessioni in memoria. I comandi restano in contesto console.
+
+Playwright attesta DB e identità HTTP prima di caricare il browser. Service worker bloccati; proxy obbligatorio con esclusione del bypass loopback; richieste e redirect verso altre origini rifiutati anche a livello di trasporto. Le prove includono redirect diretto e catena di redirect, HTTP/HTTPS e un'origine vietata locale che deve ricevere **zero richieste**.
+
+## Fixture e ambito delle suite
+
+Le migrazioni sono quelle originali, senza dump o dati reali. Le fixture Geo creano nomi e codici sintetici, utenti temporanei e un PNG sintetico valido. Le scritture sui loghi si svolgono soltanto nel database e storage temporanei. Il caso reale può essere studiato separatamente in sola lettura; non viene copiato nelle fixture.
+
+La factory utenti include `avatar`, obbligatorio nello schema. Le fixture di struttura hanno nomi distinti e rileggono i valori persistiti prima dei confronti. La regressione del menu con una sola struttura verifica la lista del composer, perché quella UX non espone un selettore con opzioni.
+
+Sono supportate e verificate le suite indicate sopra. Le vecchie suite che presumono dati preesistenti, seeder o utenti reali non sono automaticamente dichiarate compatibili: richiedono proprie fixture sintetiche. L'autorizzazione delle strutture mantiene le regole applicative esistenti, inclusa l'eccezione operativa legacy dell'Admin, senza ampliarla al selettore o al CRUD.
