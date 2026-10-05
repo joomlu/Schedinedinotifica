@@ -36,12 +36,15 @@ class GeoComuneLogoController extends Controller
 
         $file = $data['logo'];
         $slug = Str::slug($comune->nome) ?: 'comune';
-        $filename = $comune->id . '-' . $slug . '.' . $file->getClientOriginalExtension();
+        $filename = $comune->id . '-' . $slug . '.' . $file->extension();
         Storage::disk('public')->makeDirectory('geo_comuni/logo');
         $storedPath = $file->storeAs('geo_comuni/logo', $filename, 'public');
         $publicPath = 'storage/' . $storedPath;
 
-        $this->deleteOldLogo($comune->logo_citta ?? $comune->logo);
+        $oldLogo = $comune->logo_citta ?? $comune->logo;
+        if ($oldLogo !== $publicPath) {
+            $this->deleteOldLogo($oldLogo);
+        }
 
         $comune->update([
             'logo_citta' => $publicPath,
@@ -55,7 +58,7 @@ class GeoComuneLogoController extends Controller
         $comune = GeoComune::findOrFail($id);
 
         $this->deleteOldLogo($comune->logo_citta ?? $comune->logo);
-        $comune->update(['logo_citta' => null]);
+        $comune->update(['logo_citta' => null, 'logo' => null]);
 
         return redirect()->route('geo.comuni.logo', ['q' => $request->input('q')])->with('success', 'Logo rimosso.');
     }
@@ -66,9 +69,15 @@ class GeoComuneLogoController extends Controller
             return;
         }
 
-        $relative = str_replace('storage/', '', $path);
-        if ($relative) {
-            Storage::disk('public')->delete($relative);
+        if (!str_starts_with($path, 'storage/geo_comuni/logo/')) {
+            return;
         }
+
+        $relative = substr($path, strlen('storage/'));
+        if (str_contains($relative, '..') || str_contains($relative, '\\')) {
+            return;
+        }
+
+        Storage::disk('public')->delete($relative);
     }
 }

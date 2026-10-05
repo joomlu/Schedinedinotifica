@@ -8,14 +8,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Ruolo
 {
-    public function handle(Request $request, Closure $next, string $ruoli): Response
+    public function handle(Request $request, Closure $next, string ...$ruoli): Response
     {
         $user = $request->user();
         if (!$user) {
             abort(403);
         }
 
-        $allowed = collect(explode(',', $ruoli))
+        $allowed = collect($ruoli)
+            ->flatMap(fn ($v) => explode(',', $v))
             ->map(fn ($v) => trim($v))
             ->filter()
             ->all();

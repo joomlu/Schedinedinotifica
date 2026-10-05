@@ -63,12 +63,14 @@
                                         <td class="text-end">
                                             <form method="POST" action="{{ route('geo.comuni.logo.store', $comune->id) }}" enctype="multipart/form-data" class="d-inline-flex align-items-center gap-2">
                                                 @csrf
+                                                <input type="hidden" name="q" value="{{ $q }}">
                                                 <input type="file" name="logo" accept="image/png,image/jpeg,image/webp" class="form-control form-control-sm" required>
                                                 <button type="submit" class="btn btn-primary btn-sm">Carica</button>
                                             </form>
                                             @if($logoComune)
                                                 <form method="POST" action="{{ route('geo.comuni.logo.destroy', $comune->id) }}" class="d-inline" data-confirm-label="{{ 'il logo del comune di ' . $comune->nome }}">
                                                     @csrf
+                                                    <input type="hidden" name="q" value="{{ $q }}">
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-outline-danger btn-sm">Rimuovi</button>
                                                 </form>
