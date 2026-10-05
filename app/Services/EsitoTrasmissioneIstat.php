@@ -6,6 +6,7 @@ namespace App\Services;
 final class EsitoTrasmissioneIstat
 {
     private const MESSAGGI = [
+        'validated' => 'XML verificato localmente contro gli XSD regionali; nessuna trasmissione effettuata.',
         'simulation' => 'Simulazione locale: nessuna accettazione ufficiale Ross1000.',
         'sent' => 'Richiesta inviata; accettazione Ross1000 non verificata.',
         'rejected' => 'Rilevato un errore nella risposta; nessuna accettazione confermata.',

@@ -23,12 +23,12 @@ class IstatTransmissionSecurityTest extends TestCase
         ]);
         $service = new IstatWebService(new IstatTabellaAService());
         Http::fake(['*' => Http::response('<password>FIXTURE_PASSWORD</password>', 200)]);
-        $r = $service->send($struttura, '<xml/>', Carbon::now(), Carbon::now());
+        $r = $service->send($struttura, '<movimenti><codice>FIXTURE</codice><prodotto>Fixture</prodotto><movimento><data>20260401</data><struttura><apertura>SI</apertura><camereoccupate>0</camereoccupate><cameredisponibili>1</cameredisponibili><lettidisponibili>1</lettidisponibili></struttura></movimento></movimenti>', Carbon::now(), Carbon::now());
         $this->assertSame('sent', $r['state']);
         $this->assertFalse($r['accepted']);
         $this->assertStringNotContainsString('FIXTURE_PASSWORD', json_encode($r));
         Http::fake(fn () => throw new \RuntimeException('FIXTURE_PASSWORD request SOAP'));
-        $r = $service->send($struttura, '<xml/>', Carbon::now(), Carbon::now());
+        $r = $service->send($struttura, '<movimenti><codice>FIXTURE</codice><prodotto>Fixture</prodotto><movimento><data>20260401</data><struttura><apertura>SI</apertura><camereoccupate>0</camereoccupate><cameredisponibili>1</cameredisponibili><lettidisponibili>1</lettidisponibili></struttura></movimento></movimenti>', Carbon::now(), Carbon::now());
         $this->assertSame('technical_error', $r['state']);
         $this->assertStringNotContainsString('FIXTURE_PASSWORD', json_encode($r));
     }

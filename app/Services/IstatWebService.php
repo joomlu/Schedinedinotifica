@@ -9,7 +9,7 @@ use Throwable;
 
 class IstatWebService
 {
-    private const DEFAULT_URL = 'https://ross1000.regione.emilia-romagna.it/ross1000/ws/checkinV2';
+    private const DEFAULT_URL = 'https://datiturismo.regione.emilia-romagna.it/ws/checkinV2';
 
     public function __construct(
         private IstatTabellaAService $service,
@@ -39,7 +39,9 @@ class IstatWebService
             return EsitoTrasmissioneIstat::crea('simulation', 'verify');
         }
 
-        return $this->callRealService($struttura, $xml, 'verify', $dal, $al);
+        // Il WSDL espone soltanto operazioni che importano dati. Una verifica non invia.
+        (new IstatXmlValidator())->validate($xml);
+        return EsitoTrasmissioneIstat::crea('validated', 'verify');
     }
 
     public function send(Struttura $struttura, string $xml, Carbon $dal, Carbon $al): array
@@ -65,7 +67,7 @@ class IstatWebService
                 ->withHeaders([
                     'Content-Type' => 'text/xml; charset=UTF-8',
                     'Accept' => 'text/xml, application/xml, */*',
-                    'SOAPAction' => 'inviaMovimentazione',
+                    'SOAPAction' => '""',
                 ])
                 ->withoutRedirecting()
                 ->timeout(30)

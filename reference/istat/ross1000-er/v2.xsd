@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://checkin.ws.service.turismo5.gies.it/" targetNamespace="V2" version="1.0">
+
+  <xs:import namespace="http://checkin.ws.service.turismo5.gies.it/" schemaLocation="checkin.xsd"/>
+
+  <xs:complexType name="xmlImportDati">
+    <xs:sequence>
+      <xs:element name="codice" type="xs:string"/>
+      <xs:element name="prodotto" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" name="movimento" type="ns1:movimentoBean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

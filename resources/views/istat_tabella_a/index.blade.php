@@ -52,12 +52,12 @@
     <div class="card-header border-0 bg-light-subtle d-flex flex-wrap justify-content-between align-items-center gap-3">
         <div>
             <h4 class="card-title mb-1">Tabella A Emilia-Romagna</h4>
-            <div class="text-muted">XML ufficiale Ross1000 Emilia-Romagna, invio diretto elettronico ed esito operativo nello stesso pannello.</div>
+            <div class="text-muted">XML Ross1000 Emilia-Romagna, validazione locale e storico operativo.</div>
         </div>
         <div class="text-md-end">
             @if(!empty($credStatus['simulation']))
                 <span class="badge bg-info-subtle text-info">Modalità prova invio attiva</span>
-                <div class="small text-muted mt-1">Verifica, invio diretto ed esito usano risposte demo interne.</div>
+                <div class="small text-muted mt-1">La validazione resta locale; invio ed esito in modalità prova usano risposte demo interne.</div>
             @elseif($credStatus['configured'])
                 <span class="badge bg-success-subtle text-success">Invio diretto configurato</span>
             @else
@@ -170,7 +170,7 @@
                     <div class="fw-semibold mb-1">Ambito operativo del periodo selezionato</div>
                     <div class="small mb-0">
                         L'elenco qui sotto mostra una <strong>anteprima paginata</strong> delle schedine del periodo. Le azioni
-                        <strong>Scarica XML</strong>, <strong>Verifica invio diretto</strong> e <strong>Invia direttamente</strong>
+                        <strong>Scarica XML</strong>, <strong>Valida XML senza inviare</strong> e <strong>Invia direttamente</strong>
                         lavorano invece su <strong>tutte le {{ $analysis['totale_schedine'] }} schedine</strong> comprese tra
                         {{ $dal->format('d/m/Y') }} e {{ $al->format('d/m/Y') }}.
                     </div>
@@ -261,7 +261,7 @@
                     </div>
                     <div class="card-body pt-2">
                         <div class="small text-muted mb-2">
-                            <strong>Scarica XML Tabella A</strong> produce il file ufficiale `.xml` del periodo selezionato da conservare e usare per il caricamento mensile. <strong>Verifica invio diretto</strong> e <strong>Invia direttamente</strong> usano lo stesso XML sul collegamento elettronico Ross1000, sempre riferito all'intero periodo selezionato.
+                            <strong>Scarica XML Tabella A</strong> produce il file `.xml` validato del periodo selezionato da conservare e usare per il caricamento mensile. <strong>Valida XML senza inviare</strong> e <strong>Invia direttamente</strong> operano sull'intero periodo: la validazione resta locale e non contatta Ross1000; soltanto l'invio diretto trasmette il file.
                         </div>
                         <div class="small text-muted mb-3">
                             Le azioni restano sempre disponibili. Se manca qualche dato obbligatorio della struttura o delle schedine, il sistema te lo segnala al momento dell'esecuzione senza bloccare la schermata.
@@ -273,7 +273,7 @@
                                 @csrf
                                 <input type="hidden" name="dal" value="{{ $dal->toDateString() }}">
                                 <input type="hidden" name="al" value="{{ $al->toDateString() }}">
-                                <button type="submit" class="btn btn-info text-white">Verifica invio diretto</button>
+                                <button type="submit" class="btn btn-info text-white">Valida XML senza inviare</button>
                             </form>
                             <form method="POST" action="{{ route('istat.tabella_a.ws.send') }}" class="d-inline" data-confirm-kind="save">
                                 @csrf
@@ -400,7 +400,7 @@
                                         @foreach($trasmissioni as $tx)
                                             <tr>
                                                 <td>{{ optional($tx->executed_at ?: $tx->created_at)->format('d/m/Y H:i') }}</td>
-                                                <td class="text-nowrap">{{ $tx->mode === 'verify' ? 'Verifica invio diretto' : 'Invio diretto' }}</td>
+                                                <td class="text-nowrap">{{ $tx->mode === 'verify' ? ($tx->status === 'validated' ? 'Validazione locale' : 'Verifica registrata nello storico') : 'Invio diretto' }}</td>
                                                 <td>{{ optional($tx->dal)->format('d/m/Y') }} - {{ optional($tx->al)->format('d/m/Y') }}</td>
                                                 <td>
                                                     <span class="badge bg-light text-body">{{ $tx->esitoSicuro()['state'] }}</span>

@@ -104,6 +104,12 @@ class IstatTabellaAController extends Controller
         $export = IstatExport::query()->where('struttura_id', $struttura->id)->findOrFail($id);
         abort_unless(Storage::disk('local')->exists($export->path), 404);
 
+        try {
+            (new \App\Services\IstatXmlValidator())->validate(Storage::disk('local')->get($export->path));
+        } catch (ValidationException $e) {
+            return redirect()->route('istat.tabella_a.index')->withErrors($e->errors());
+        }
+
         return Storage::disk('local')->download($export->path, $export->filename, ['Content-Type' => 'application/xml; charset=UTF-8']);
     }
 
@@ -169,7 +175,7 @@ class IstatTabellaAController extends Controller
         }
         [$dal, $al] = $this->resolvePeriodo($request);
 
-        if (!$this->webService->credentialsStatus($struttura)['configured']) {
+        if ($mode === 'send' && !$this->webService->credentialsStatus($struttura)['configured']) {
             return redirect()->route('istat.tabella_a.index', ['dal' => $dal->toDateString(), 'al' => $al->toDateString()])
                 ->withErrors(['istat_ws' => 'Credenziali invio diretto ISTAT incomplete.']);
         }
@@ -224,7 +230,7 @@ class IstatTabellaAController extends Controller
 
     private function storeExport(int $strutturaId, ?int $userId, Carbon $dal, Carbon $al, string $filename, string $xml, $schedine): IstatExport
     {
-        $storedBasename = now()->format('Ymd_His') . '_' . $filename;
+        $storedBasename = now()->format('Ymd_His') . '_' . Str::uuid() . '_' . $filename;
         $path = 'istat/struttura_' . $strutturaId . '/' . $storedBasename;
         Storage::disk('local')->put($path, $xml);
 
@@ -240,7 +246,7 @@ class IstatTabellaAController extends Controller
             'schedina_ids' => $schedine->pluck('id')->values()->all(),
         ]);
 
-        Schedina::query()->whereIn('id', $schedine->pluck('id')->all())->update([
+        Schedina::query()->withoutGlobalScope('struttura')->where('struttura_id', $strutturaId)->whereIn('id', $schedine->pluck('id')->all())->update([
             'istat_exported_at' => now(),
             'istat_export_count' => DB::raw('COALESCE(istat_export_count, 0) + 1'),
             'last_istat_export_id' => $export->id,
@@ -254,7 +260,7 @@ class IstatTabellaAController extends Controller
         $lines = [
             'Riepilogo locale ISTAT - NON e una ricevuta ufficiale',
             'Identificativo trasmissione locale: ' . (int) $transmission->id,
-            'Tipo operazione: ' . ($transmission->mode === 'verify' ? 'Verifica invio diretto' : 'Invio diretto'),
+            'Tipo operazione: ' . ($transmission->mode === 'verify' ? ($transmission->status === 'validated' ? 'Validazione locale' : 'Verifica registrata nello storico') : 'Invio diretto'),
             'Periodo: ' . optional($transmission->dal)->format('d/m/Y') . ' - ' . optional($transmission->al)->format('d/m/Y'),
             'Eseguito il: ' . optional($transmission->executed_at ?: $transmission->created_at)->format('d/m/Y H:i'),
             'Schedine incluse: ' . (string) ($transmission->schedine_count ?? 0),
@@ -304,15 +310,38 @@ class IstatTabellaAController extends Controller
 
     private function resolvePeriodo(Request $request): array
     {
-        $reference = trim((string) $request->input('mese', $request->query('mese', '')));
-        if ($reference !== '') {
-            $day = Carbon::parse($reference)->startOfMonth();
-            return [$day->copy()->startOfMonth(), $day->copy()->endOfMonth()];
+        $reference = trim((string) $request->input('mese', ''));
+        try {
+            if ($reference !== '') {
+                if (!preg_match('/^\d{4}-\d{2}$/D', $reference)) {
+                    throw new \InvalidArgumentException();
+                }
+                $day = Carbon::createFromFormat('!Y-m-d', $reference.'-01');
+                if ($day->format('Y-m') !== $reference) {
+                    throw new \InvalidArgumentException();
+                }
+                return [$day->copy()->startOfMonth(), $day->copy()->endOfMonth()->startOfDay()];
+            }
+            $dates = [];
+            foreach (['dal' => now()->startOfMonth(), 'al' => now()->endOfMonth()] as $field => $default) {
+                $value = (string) $request->input($field, $default->toDateString());
+                if (!preg_match('/^\d{4}-\d{2}-\d{2}$/D', $value)) {
+                    throw new \InvalidArgumentException();
+                }
+                $date = Carbon::createFromFormat('!Y-m-d', $value);
+                if ($date->format('Y-m-d') !== $value) {
+                    throw new \InvalidArgumentException();
+                }
+                $dates[] = $date;
+            }
+            if ($dates[1]->lt($dates[0])) {
+                throw new \InvalidArgumentException();
+            }
+            // Il modulo è mensile: mostra esplicitamente i limiti effettivamente esportati.
+            return [$dates[0]->startOfMonth(), $dates[1]->endOfMonth()->startOfDay()];
+        } catch (\Throwable) {
+            throw ValidationException::withMessages(['istat_periodo' => 'Periodo non valido: usa date reali in formato AAAA-MM-GG e un intervallo ordinato.']);
         }
-
-        $dal = Carbon::parse($request->input('dal', $request->query('dal', now()->startOfMonth()->toDateString())))->startOfDay();
-        $al = Carbon::parse($request->input('al', $request->query('al', now()->endOfMonth()->toDateString())))->startOfDay();
-        return [$dal->copy()->startOfMonth(), $al->copy()->endOfMonth()];
     }
 
     private function isSupportedRegion(Struttura $struttura): bool

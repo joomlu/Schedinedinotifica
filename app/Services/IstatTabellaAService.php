@@ -2,479 +2,377 @@
 
 namespace App\Services;
 
-use App\Models\GeoNazione;
-use App\Models\GeoRegione;
 use App\Models\IstatMovimentoGiornaliero;
 use App\Models\Schedina;
 use App\Models\Struttura;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class IstatTabellaAService
 {
     public const TIPO_TURISMO = [
-        'LEISURE' => 'Leisure / Vacanza',
-        'BUSINESS' => 'Business / Lavoro',
-        'GROUP' => 'Gruppo organizzato',
-        'HEALTH' => 'Salute / Cura',
-        'OTHER' => 'Altro motivo',
+        'Culturale' => 'Culturale', 'Balneare' => 'Balneare', 'Congressuale/Affari' => 'Congressuale/Affari',
+        'Fieristico' => 'Fieristico', 'Sportivo/Fitness' => 'Sportivo/Fitness', 'Scolastico' => 'Scolastico',
+        'Religioso' => 'Religioso', 'Sociale' => 'Sociale', 'Parchi Tematici' => 'Parchi Tematici',
+        'Termale/Trattamenti salute' => 'Termale/Trattamenti salute', 'Enogastronomico' => 'Enogastronomico',
+        'Cicloturismo' => 'Cicloturismo', 'Escursionistico/Naturalistico' => 'Escursionistico/Naturalistico',
+        'Altro motivo' => 'Altro motivo', 'Non specificato' => 'Non specificato',
     ];
-
     public const MEZZO_TRASPORTO = [
-        'AUTO' => 'Auto',
-        'TRENO' => 'Treno',
-        'AEREO' => 'Aereo',
-        'BUS' => 'Bus',
-        'NAVE' => 'Nave',
-        'MOTO' => 'Moto',
-        'BICI' => 'Bicicletta',
-        'PIEDI' => 'A piedi',
-        'OTHER' => 'Altro mezzo',
+        'Auto' => 'Auto', 'Aereo' => 'Aereo', 'Aereo+Pullman' => 'Aereo+Pullman',
+        'Aereo+Navetta/Taxi/Auto' => 'Aereo+Navetta/Taxi/Auto', 'Aereo+Treno' => 'Aereo+Treno',
+        'Treno' => 'Treno', 'Pullman' => 'Pullman', 'Caravan/Autocaravan' => 'Caravan/Autocaravan',
+        'Barca/Nave/Traghetto' => 'Barca/Nave/Traghetto', 'Moto' => 'Moto', 'Bicicletta' => 'Bicicletta',
+        'A piedi' => 'A piedi', 'Altro mezzo' => 'Altro mezzo', 'Non Specificato' => 'Non Specificato',
     ];
-
     public const CANALE_PRENOTAZIONE = [
-        'DIRECT' => 'Diretta',
-        'OTA' => 'OTA / Portale online',
-        'AGENCY' => 'Agenzia viaggi',
-        'PHONE' => 'Telefono',
-        'EMAIL' => 'Email',
-        'WALKIN' => 'Walk-in',
-        'OTHER' => 'Altro canale',
+        'Diretta tradizionale' => 'Diretta tradizionale', 'Diretta web' => 'Diretta web',
+        'Indiretta tradizionale' => 'Indiretta tradizionale', 'Indiretta web' => 'Indiretta web',
+        'Altro canale' => 'Altro canale', 'Non specificato' => 'Non specificato',
     ];
-
     public const TITOLO_STUDIO = [
-        'NONE' => 'Nessuno / Non indicato',
-        'PRIMARY' => 'Scuola primaria',
-        'SECONDARY' => 'Scuola secondaria',
-        'DIPLOMA' => 'Diploma',
-        'LAUREA' => 'Laurea',
-        'MASTER' => 'Master / Dottorato',
+        'Licenza elementare' => 'Licenza elementare', 'Diploma' => 'Diploma', 'Laurea' => 'Laurea',
+        'Altro titolo' => 'Altro titolo', 'Non specificato' => 'Non specificato',
     ];
 
     public function schedinePerPeriodo(int $strutturaId, Carbon $dal, Carbon $al): Collection
     {
-        return Schedina::query()
-            ->withoutGlobalScope('struttura')
-            ->where('struttura_id', $strutturaId)
-            ->where('circuito', 'schedina')
-            ->where(function ($query) {
-                $query->whereNull('istat_non_turista')->orWhere('istat_non_turista', false);
-            })
-            ->whereNotNull('arrive')
-            ->whereNotNull('departure')
-            ->whereDate('arrive', '<=', $al->toDateString())
-            ->whereDate('departure', '>=', $dal->toDateString())
-            ->orderBy('arrive')
-            ->orderBy('id')
-            ->get();
+        return Schedina::query()->withoutGlobalScope('struttura')
+            ->with(['componenti' => fn ($q) => $q->withoutGlobalScope('struttura')])
+            ->where('struttura_id', $strutturaId)->where('is_arrive', false)
+            ->where(fn ($q) => $q->where('circuito', 'schedina')->orWhereNull('circuito'))
+            ->where(fn ($q) => $q->whereNull('istat_non_turista')->orWhere('istat_non_turista', false))
+            // Le date mancanti non devono sparire silenziosamente dalla validazione.
+            ->where(fn ($q) => $q->whereDate('arrive', '<=', $al->toDateString())->orWhereNull('arrive'))
+            ->where(fn ($q) => $q->whereDate('departure', '>=', $dal->toDateString())->orWhereNull('departure'))
+            ->orderBy('arrive')->orderBy('id')->get();
     }
 
     public function dailyRows(Struttura $struttura, Carbon $dal, Carbon $al): Collection
     {
-        $schedine = $this->schedinePerPeriodo($struttura->id, $dal, $al);
-        $overrides = IstatMovimentoGiornaliero::query()
-            ->where('struttura_id', $struttura->id)
-            ->whereBetween('giorno', [$dal->toDateString(), $al->toDateString()])
-            ->get()
-            ->keyBy(fn (IstatMovimentoGiornaliero $row) => $row->giorno->toDateString());
+        return $this->rows($struttura, $dal, $al, $this->schedinePerPeriodo($struttura->id, $dal, $al));
+    }
 
-        $period = CarbonPeriod::create($dal->copy(), $al->copy());
+    private function rows(Struttura $struttura, Carbon $dal, Carbon $al, Collection $schedine): Collection
+    {
+        $overrides = IstatMovimentoGiornaliero::query()->withoutGlobalScope('struttura')
+            ->where('struttura_id', $struttura->id)->whereBetween('giorno', [$dal->toDateString(), $al->toDateString()])
+            ->get()->keyBy(fn ($r) => $r->giorno->toDateString());
         $rows = collect();
-
-        foreach ($period as $date) {
-            $key = $date->toDateString();
-            $override = $overrides->get($key);
-            $openDefault = $this->isOpenForDay($struttura, $date);
-
-            $active = $schedine->filter(function (Schedina $schedina) use ($date) {
-                try {
-                    $arrive = Carbon::parse($schedina->arrive)->startOfDay();
-                    $departure = Carbon::parse($schedina->departure)->startOfDay();
-                } catch (\Throwable $e) {
-                    return false;
-                }
-
-                return $arrive->lte($date) && $departure->gt($date);
-            })->values();
-
-            $arrivi = $schedine->filter(fn (Schedina $schedina) => $this->sameDate($schedina->arrive, $date))->values();
-            $partenze = $schedine->filter(fn (Schedina $schedina) => $this->sameDate($schedina->departure, $date))->values();
-
-            $base = [
-                'giorno' => $key,
-                'aperta' => $openDefault,
-                'movimento_zero' => $openDefault && $arrivi->isEmpty() && $partenze->isEmpty() && $active->isEmpty(),
-                'camere_disponibili' => max((int) ($struttura->camere_disponibili ?? 0), 0),
-                'letti_disponibili' => max((int) ($struttura->letti_disponibili ?? 0), 0),
-                'camere_occupate' => (int) $active->sum(fn (Schedina $schedina) => (int) ($schedina->room ?? 0)),
-                'arrivi' => (int) $arrivi->sum(fn (Schedina $schedina) => (int) ($schedina->cant_people ?? 0)),
-                'partenze' => (int) $partenze->sum(fn (Schedina $schedina) => (int) ($schedina->cant_people ?? 0)),
-                'presenti' => (int) $active->sum(fn (Schedina $schedina) => (int) ($schedina->cant_people ?? 0)),
-                'presenti_italiani' => (int) $active->filter(fn (Schedina $schedina) => $this->isItalia($schedina->or_country))->sum(fn (Schedina $schedina) => (int) ($schedina->cant_people ?? 0)),
-                'presenti_stranieri' => (int) $active->reject(fn (Schedina $schedina) => $this->isItalia($schedina->or_country))->sum(fn (Schedina $schedina) => (int) ($schedina->cant_people ?? 0)),
-                'provenienze_nazioni' => $this->summarizeForeignCountries($active),
-                'provenienze_regioni' => $this->summarizeItalianRegions($active),
+        $codes = new IstatCodifiche();
+        foreach (CarbonPeriod::create($dal->copy()->startOfDay(), $al->copy()->startOfDay()) as $date) {
+            $active = $schedine->filter(fn ($s) => $this->date($s->arrive)?->lte($date) && $this->date($s->departure)?->gt($date));
+            $arrivi = $schedine->filter(fn ($s) => $this->sameDate($s->arrive, $date));
+            $partenze = $schedine->filter(fn ($s) => $this->sameDate($s->departure, $date));
+            $guests = $active->flatMap(fn ($s) => $this->guests($s));
+            $italiani = $guests->filter(fn ($g) => $codes->country($g['statoresidenza']) === '100000100')->count();
+            $open = $this->isOpenForDay($struttura, $date);
+            $rows->push([
+                'giorno' => $date->toDateString(), 'aperta' => $open,
+                'movimento_zero' => $open && $active->isEmpty() && $arrivi->isEmpty() && $partenze->isEmpty(),
+                'camere_disponibili' => $open ? (int) $struttura->camere_disponibili : 0,
+                'letti_disponibili' => $open ? (int) $struttura->letti_disponibili : 0,
+                'camere_occupate' => (int) $active->merge($arrivi->filter(fn ($s) => $this->sameDate($s->departure, $date)))->unique('id')->sum(fn ($s) => (int) $s->room),
+                'arrivi' => $arrivi->sum(fn ($s) => 1 + $s->componenti->count()),
+                'partenze' => $partenze->sum(fn ($s) => 1 + $s->componenti->count()),
+                'presenti' => $guests->count(), 'presenti_italiani' => $italiani,
+                'presenti_stranieri' => $guests->count() - $italiani,
+                'provenienze_nazioni' => $guests->filter(fn ($g) => $codes->country($g['statoresidenza']) !== '100000100')
+                    ->groupBy(fn ($g) => $codes->country($g['statoresidenza']) ?? 'NON_RISOLTA')->map(fn ($g, $k) => ($codes->table('stati')[$k]['Descrizione'] ?? 'Provenienza non risolta').' '.$g->count())->implode(' · ') ?: '—',
+                'provenienze_regioni' => $guests->filter(fn ($g) => $codes->country($g['statoresidenza']) === '100000100')->groupBy(fn ($g) => ctype_digit((string) $g['regione_residenza']) ? (\App\Models\GeoRegione::find((int) $g['regione_residenza'])?->nome ?? 'Non indicata') : ($g['regione_residenza'] ?: 'Non indicata'))->map(fn ($g, $k) => $k.' '.$g->count())->implode(' · ') ?: '—',
                 'schedine_ids' => $active->pluck('id')->merge($arrivi->pluck('id'))->merge($partenze->pluck('id'))->unique()->values()->all(),
-                'manuale' => $override !== null,
-                'note' => $override?->note,
-            ];
-
-            if ($override) {
-                foreach (['aperta', 'movimento_zero', 'camere_disponibili', 'letti_disponibili', 'camere_occupate', 'arrivi', 'partenze', 'presenti'] as $field) {
-                    if (!is_null($override->{$field})) {
-                        $base[$field] = $override->{$field};
-                    }
-                }
-            }
-
-            $rows->push($base);
+                'manuale' => $overrides->has($date->toDateString()), 'note' => $overrides->get($date->toDateString())?->note,
+            ]);
         }
-
         return $rows;
     }
 
     public function analysePeriodo(Struttura $struttura, Carbon $dal, Carbon $al): array
     {
-        $rows = $this->dailyRows($struttura, $dal, $al);
-        $schedine = $this->schedinePerPeriodo($struttura->id, $dal, $al);
         $errors = [];
-
-        if (blank($struttura->istat_codice_struttura)) {
-            $errors[] = 'Codice struttura Ross1000 mancante in Struttura.';
+        if ($al->lt($dal)) {
+            throw ValidationException::withMessages(['istat_export' => 'Periodo invertito: la data finale precede quella iniziale.']);
         }
-
-        foreach ($schedine as $schedina) {
-            $prefix = $schedina->scheda ?: ('Schedina #' . $schedina->id);
-            if (blank($schedina->cant_people) || (int) $schedina->cant_people <= 0) {
-                $errors[] = $prefix . ': quantità persone non valida.';
-            }
-            if (blank($schedina->room) || (int) $schedina->room <= 0) {
-                $errors[] = $prefix . ': quantità camere non valida.';
-            }
-            if (blank($schedina->beds) || (int) $schedina->beds <= 0) {
-                $errors[] = $prefix . ': quantità letti non valida.';
-            }
-            if (blank($schedina->or_country)) {
-                $errors[] = $prefix . ': provenienza/residenza mancante.';
-            }
-            if ($this->originCode($schedina) === '') {
-                $errors[] = $prefix . ': provenienza ISTAT non risolvibile dai dati geo.';
+        if (blank($struttura->istat_codice_struttura) || !$this->validText((string) $struttura->istat_codice_struttura)) {
+            $errors[] = 'Codice struttura Ross1000 mancante o contenente caratteri XML non ammessi.';
+        }
+        foreach (['camere_disponibili', 'letti_disponibili'] as $field) {
+            if (!preg_match('/^(0|[1-9][0-9]*)$/D', (string) $struttura->{$field})) {
+                $errors[] = 'Struttura: '.$field.' deve essere un intero non negativo.';
             }
         }
-
-        return [
-            'rows' => $rows,
-            'schedine' => $schedine,
-            'errors' => array_values(array_unique($errors)),
-            'valida' => empty($errors),
-            'totale_schedine' => $schedine->count(),
-            'totale_arrivi' => (int) $rows->sum('arrivi'),
-            'totale_presenze' => (int) $rows->sum('presenti'),
-            'totale_partenze' => (int) $rows->sum('partenze'),
-        ];
+        if (($struttura->tipo_apertura ?? 'Annuale') !== 'Annuale' && (!$this->date($struttura->data_apertura) || !$this->date($struttura->data_chiusura))) {
+            $errors[] = 'Struttura stagionale: date di apertura/chiusura mancanti o non valide.';
+        }
+        $schedine = $this->schedinePerPeriodo($struttura->id, $dal, $al);
+        $codes = new IstatCodifiche();
+        $identifiers = [];
+        foreach ($schedine as $s) {
+            $prefix = ($s->scheda ?: 'Schedina #'.$s->id).': ';
+            $arrive = $this->date($s->arrive);
+            $departure = $this->date($s->departure);
+            if (!$arrive || !$departure || $departure->lt($arrive)) {
+                $errors[] = $prefix.'periodo soggiorno mancante, invertito o non valido.';
+            }
+            if (!$this->positiveInteger($s->cant_people) || (int) $s->cant_people !== 1 + $s->componenti->count()) {
+                $errors[] = $prefix.'cant_people='.var_export($s->cant_people, true).' non coincide con gli ospiti nominativi ('.(1 + $s->componenti->count()).').';
+            }
+            foreach (['room', 'beds'] as $field) {
+                if (!$this->positiveInteger($s->{$field})) {
+                    $errors[] = $prefix.$field.'='.var_export($s->{$field}, true).' deve essere un intero positivo.';
+                }
+            }
+            $headType = $codes->tipo($s->relationship);
+            if (($s->componenti->isNotEmpty() && !in_array($headType, ['17', '18'], true)) || ($s->componenti->isEmpty() && $headType !== '16')) {
+                $errors[] = $prefix.'tipoalloggiato non coerente con la composizione del soggiorno.';
+            }
+            foreach ($this->guests($s) as $index => $guest) {
+                $label = $prefix.($index ? 'componente #'.$guest['component_id'].' ' : 'ospite principale ');
+                if (strlen($guest['idswh']) > 20) {
+                    $errors[] = $label.'idswh supera 20 caratteri.';
+                }
+                if (isset($identifiers[$guest['idswh']])) {
+                    $errors[] = $label.'idswh duplicato.';
+                }
+                $identifiers[$guest['idswh']] = true;
+                if ($guest['struttura_id'] !== (int) $struttura->id) {
+                    $errors[] = $label.'struttura non coerente.';
+                }
+                if ($index && $codes->tipo($guest['tipoalloggiato']) !== ($headType === '17' ? '19' : '20')) {
+                    $errors[] = $label.'tipoalloggiato incompatibile con il capo.';
+                }
+                foreach (['cognome' => 50, 'nome' => 30, 'professione' => null] as $field => $limit) {
+                    $value = (string) $guest[$field];
+                    if (!$this->validText($value) || ($limit && mb_strlen($value) > $limit)) {
+                        $errors[] = $label.$field.' contiene caratteri non validi o supera la lunghezza ammessa.';
+                    }
+                }
+                if (!in_array($guest['sesso'], ['M', 'F'], true)) {
+                    $errors[] = $label.'sesso='.var_export($guest['sesso'], true).' non valido.';
+                }
+                $birth = $this->date($guest['datanascita']);
+                if (!$birth || ($arrive && $birth->gt($arrive))) {
+                    $errors[] = $label.'datanascita mancante, non valida o successiva all’arrivo.';
+                }
+                foreach (['cittadinanza', 'statoresidenza', 'statonascita'] as $field) {
+                    if ($field === 'statonascita' && blank($guest[$field])) {
+                        continue;
+                    }
+                    if (!$codes->country($guest[$field], $field === 'statonascita')) {
+                        $errors[] = $label.$field.'='.var_export($guest[$field], true).' non risolvibile nella tabella ufficiale Stati.';
+                    }
+                }
+                foreach (['luogoresidenza' => ['statoresidenza', 'provincia_residenza', false], 'comunenascita' => ['statonascita', 'provincia_nascita', true]] as $field => [$state, $prov, $isBirth]) {
+                    if ($codes->country($guest[$state]) === '100000100' && !$codes->comune($guest[$field], $guest[$prov], $isBirth)) {
+                        $errors[] = $label.$field.'='.var_export($guest[$field], true).' non univoco o non coerente con la provincia ufficiale.';
+                    } elseif (!$isBirth && $codes->country($guest[$state]) !== '100000100' && (!$this->validText((string) $guest[$field]) || mb_strlen((string) $guest[$field]) > 30)) {
+                        $errors[] = $label.$field.' estero non valido (massimo 30 caratteri).';
+                    }
+                }
+                foreach (['tipoturismo' => self::TIPO_TURISMO, 'mezzotrasporto' => self::MEZZO_TRASPORTO, 'canaleprenotazione' => self::CANALE_PRENOTAZIONE, 'titolostudio' => self::TITOLO_STUDIO] as $field => $options) {
+                    if ($this->option($guest[$field], $options, in_array($field, ['canaleprenotazione', 'titolostudio'], true)) === null) {
+                        $errors[] = $label.$field.'='.var_export($guest[$field], true).' non corrisponde a una descrizione ufficiale univoca.';
+                    }
+                }
+            }
+        }
+        $errors = array_merge($errors, (new IstatStoricoValidator())->errors($struttura->id, $dal, $al, $schedine));
+        $rows = $this->rows($struttura, $dal, $al, $schedine);
+        foreach ($rows->groupBy(fn ($row) => substr($row['giorno'], 0, 7)) as $month => $days) {
+            if ($days->sum('camere_occupate') > $days->sum('camere_disponibili') || $days->sum('presenti') > $days->sum('letti_disponibili')) {
+                $errors[] = $month.': occupazione superiore alla disponibilità complessiva; verificare ricettività e registrazioni.';
+            }
+        }
+        foreach ($rows as $row) {
+            if ($row['manuale']) {
+                $errors[] = $row['giorno'].': esiste un override storico; riconciliare il dato prima dell’export, senza alterare lo storico automaticamente.';
+            }
+            if (!$row['aperta'] && ($row['presenti'] || $row['arrivi'] || $row['partenze'])) {
+                $errors[] = $row['giorno'].': struttura chiusa ma sono presenti ospiti o movimenti.';
+            }
+        }
+        return ['rows' => $rows, 'schedine' => $schedine, 'errors' => array_values(array_unique($errors)),
+            'valida' => !$errors, 'totale_schedine' => $schedine->count(), 'totale_arrivi' => (int) $rows->sum('arrivi'),
+            'totale_presenze' => (int) $rows->sum('presenti'), 'totale_partenze' => (int) $rows->sum('partenze')];
     }
 
     public function buildXml(Struttura $struttura, Carbon $dal, Carbon $al): string
     {
         $analysis = $this->analysePeriodo($struttura, $dal, $al);
         if (!$analysis['valida']) {
-            throw ValidationException::withMessages([
-                'istat_export' => 'Sono presenti dati obbligatori mancanti per Tavola A. Correggi le schedine o la struttura prima di generare l\'XML.',
-            ]);
+            throw ValidationException::withMessages(['istat_export' => $analysis['errors']]);
         }
-
         $xml = new \DOMDocument('1.0', 'UTF-8');
         $xml->formatOutput = true;
-
-        $root = $xml->createElement('movimenti');
-        $root->appendChild($xml->createElement('codice', (string) $struttura->istat_codice_struttura));
-        $root->appendChild($xml->createElement('prodotto', 'Ross1000'));
-        $root->appendChild($xml->createElement('periodoDal', $dal->format('Y-m-d')));
-        $root->appendChild($xml->createElement('periodoAl', $al->format('Y-m-d')));
-        $root->appendChild($xml->createElement('strutturaDenominazione', (string) ($struttura->nome_struttura ?? 'Struttura')));
-        $root->appendChild($xml->createElement('comune', (string) ($struttura->citta ?? '')));
-
+        $root = $xml->appendChild($xml->createElement('movimenti'));
+        $this->element($xml, $root, 'codice', $struttura->istat_codice_struttura);
+        $this->element($xml, $root, 'prodotto', 'Schedinedinotifica');
+        $codes = new IstatCodifiche();
         foreach ($analysis['rows'] as $row) {
-            $movimento = $xml->createElement('movimento');
-            $movimento->appendChild($xml->createElement('data', Carbon::parse($row['giorno'])->format('Ymd')));
-
-            $strutturaNode = $xml->createElement('struttura');
-            $strutturaNode->appendChild($xml->createElement('aperta', $row['aperta'] ? 'true' : 'false'));
-            $strutturaNode->appendChild($xml->createElement('movimentozero', $row['movimento_zero'] ? 'true' : 'false'));
-            $strutturaNode->appendChild($xml->createElement('cameredisponibili', (string) $row['camere_disponibili']));
-            $strutturaNode->appendChild($xml->createElement('lettidisponibili', (string) $row['letti_disponibili']));
-            $strutturaNode->appendChild($xml->createElement('camereoccupate', (string) $row['camere_occupate']));
-            $strutturaNode->appendChild($xml->createElement('presenti', (string) $row['presenti']));
-            $movimento->appendChild($strutturaNode);
-
-            $arriviNode = $xml->createElement('arrivi');
-            foreach ($this->schedineArrivoData($analysis['schedine'], Carbon::parse($row['giorno'])) as $schedina) {
-                $arrivo = $xml->createElement('arrivo');
-                $arrivo->appendChild($xml->createElement('scheda', (string) ($schedina->scheda ?? $schedina->id)));
-                $arrivo->appendChild($xml->createElement('ospite', trim(($schedina->surname ?? '') . ' ' . ($schedina->name ?? ''))));
-                $arrivo->appendChild($xml->createElement('tipoturismo', (string) $schedina->istat_tipo_turismo));
-                $arrivo->appendChild($xml->createElement('mezzotrasporto', (string) $schedina->istat_mezzo_trasporto));
-                $arrivo->appendChild($xml->createElement('canaleprenotazione', (string) ($schedina->istat_canale_prenotazione ?? '')));
-                $arrivo->appendChild($xml->createElement('persone', (string) ((int) ($schedina->cant_people ?? 0))));
-                $arrivo->appendChild($xml->createElement('camere', (string) ((int) ($schedina->room ?? 0))));
-                $arrivo->appendChild($xml->createElement('letti', (string) ((int) ($schedina->beds ?? 0))));
-                $arrivo->appendChild($xml->createElement('provenienza', $this->originCode($schedina)));
-                $arriviNode->appendChild($arrivo);
+            $movement = $root->appendChild($xml->createElement('movimento'));
+            $date = Carbon::parse($row['giorno']);
+            $this->element($xml, $movement, 'data', $date->format('Ymd'));
+            $structure = $movement->appendChild($xml->createElement('struttura'));
+            foreach (['apertura' => $row['aperta'] ? 'SI' : 'NO', 'camereoccupate' => $row['camere_occupate'], 'cameredisponibili' => $row['camere_disponibili'], 'lettidisponibili' => $row['letti_disponibili']] as $field => $value) {
+                $this->element($xml, $structure, $field, $value);
             }
-            $movimento->appendChild($arriviNode);
-
-            $partenzeNode = $xml->createElement('partenze');
-            foreach ($this->schedinePartenzaData($analysis['schedine'], Carbon::parse($row['giorno'])) as $schedina) {
-                $partenza = $xml->createElement('partenza');
-                $partenza->appendChild($xml->createElement('scheda', (string) ($schedina->scheda ?? $schedina->id)));
-                $partenza->appendChild($xml->createElement('ospite', trim(($schedina->surname ?? '') . ' ' . ($schedina->name ?? ''))));
-                $partenza->appendChild($xml->createElement('persone', (string) ((int) ($schedina->cant_people ?? 0))));
-                $partenza->appendChild($xml->createElement('provenienza', $this->originCode($schedina)));
-                $partenzeNode->appendChild($partenza);
+            foreach (['arrivi' => 'arrive', 'partenze' => 'departure'] as $section => $column) {
+                $records = $analysis['schedine']->filter(fn ($s) => $this->sameDate($s->{$column}, $date));
+                if ($records->isEmpty()) {
+                    continue;
+                }
+                $container = $movement->appendChild($xml->createElement($section));
+                foreach ($records as $s) {
+                    foreach ($this->guests($s) as $g) {
+                        $node = $container->appendChild($xml->createElement($section === 'arrivi' ? 'arrivo' : 'partenza'));
+                        $this->element($xml, $node, 'idswh', $g['idswh']);
+                        $this->element($xml, $node, 'tipoalloggiato', $codes->tipo($g['tipoalloggiato']));
+                        if ($section === 'partenze') {
+                            $this->element($xml, $node, 'arrivo', $this->date($s->arrive)->format('Ymd'));
+                            continue;
+                        }
+                        $values = [
+                            'idcapo' => $g['idcapo'], 'cognome' => $g['cognome'], 'nome' => $g['nome'], 'sesso' => $g['sesso'],
+                            'cittadinanza' => $codes->country($g['cittadinanza']), 'statoresidenza' => $codes->country($g['statoresidenza']),
+                            'luogoresidenza' => $codes->country($g['statoresidenza']) === '100000100' ? $codes->comune($g['luogoresidenza'], $g['provincia_residenza']) : $g['luogoresidenza'],
+                            'datanascita' => $this->date($g['datanascita'])->format('Ymd'), 'statonascita' => $codes->country($g['statonascita'], true),
+                            'comunenascita' => $codes->country($g['statonascita']) === '100000100' ? $codes->comune($g['comunenascita'], $g['provincia_nascita'], true) : '',
+                            'tipoturismo' => $this->option($g['tipoturismo'], self::TIPO_TURISMO),
+                            'mezzotrasporto' => $this->option($g['mezzotrasporto'], self::MEZZO_TRASPORTO),
+                            'canaleprenotazione' => $this->option($g['canaleprenotazione'], self::CANALE_PRENOTAZIONE, true),
+                            'titolostudio' => $this->option($g['titolostudio'], self::TITOLO_STUDIO, true), 'professione' => $g['professione'],
+                        ];
+                        foreach ($values as $field => $value) {
+                            $this->element($xml, $node, $field, $value);
+                        }
+                    }
+                }
             }
-            $movimento->appendChild($partenzeNode);
-
-            $root->appendChild($movimento);
         }
+        $result = $xml->saveXML();
+        (new IstatXmlValidator())->validate($result);
+        return $result;
+    }
 
-        $xml->appendChild($root);
-        return $xml->saveXML() ?: '';
+    private function guests(Schedina $s): Collection
+    {
+        $shared = ['tipoturismo' => $s->istat_tipo_turismo, 'mezzotrasporto' => $s->istat_mezzo_trasporto,
+            'canaleprenotazione' => $s->istat_canale_prenotazione, 'titolostudio' => $s->istat_titolo_studio, 'professione' => (string) $s->istat_professione];
+        $head = ['idswh' => 'S'.$s->id, 'idcapo' => '', 'component_id' => null, 'struttura_id' => (int) $s->struttura_id,
+            'tipoalloggiato' => $s->relationship, 'nome' => (string) $s->name, 'cognome' => (string) $s->surname,
+            'sesso' => $this->sex($s->sex), 'cittadinanza' => $s->oa_city_nac, 'statoresidenza' => $s->or_country,
+            'luogoresidenza' => (string) $s->or_city, 'provincia_residenza' => $s->or_prov, 'regione_residenza' => $s->or_region, 'datanascita' => $s->oa_date_nac,
+            'statonascita' => $s->oa_country, 'comunenascita' => $s->oa_city, 'provincia_nascita' => $s->oa_prov];
+        $guests = collect([$head + $shared]);
+        foreach ($s->componenti as $c) {
+            $guests->push(['idswh' => 'C'.$c->id, 'idcapo' => 'S'.$s->id, 'component_id' => $c->id, 'struttura_id' => (int) $c->struttura_id,
+                'tipoalloggiato' => $c->relationship, 'nome' => (string) $c->name, 'cognome' => (string) $c->surname,
+                'sesso' => $this->sex($c->sex), 'cittadinanza' => $c->city_nac, 'statoresidenza' => $c->country,
+                'luogoresidenza' => (string) $c->city, 'provincia_residenza' => $c->province, 'regione_residenza' => $c->regione, 'datanascita' => $c->date_nac,
+                'statonascita' => $c->country_nac, 'comunenascita' => $c->comune_nac, 'provincia_nascita' => $c->province_nac] + array_replace($shared, ['titolostudio' => '', 'professione' => '']));
+        }
+        return $guests;
+    }
+
+    private function option(mixed $value, array $options, bool $optional = false): ?string
+    {
+        $value = trim((string) $value);
+        if ($optional && $value === '') {
+            return '';
+        }
+        $aliases = match ($options) {
+            self::TIPO_TURISMO => ['OTHER' => 'Altro motivo'],
+            self::MEZZO_TRASPORTO => ['AUTO' => 'Auto', 'TRENO' => 'Treno', 'AEREO' => 'Aereo', 'BUS' => 'Pullman', 'NAVE' => 'Barca/Nave/Traghetto', 'MOTO' => 'Moto', 'BICI' => 'Bicicletta', 'PIEDI' => 'A piedi', 'OTHER' => 'Altro mezzo'],
+            self::CANALE_PRENOTAZIONE => ['OTA' => 'Indiretta web', 'OTHER' => 'Altro canale'],
+            self::TITOLO_STUDIO => ['PRIMARY' => 'Licenza elementare', 'DIPLOMA' => 'Diploma', 'LAUREA' => 'Laurea'],
+        };
+        $value = $aliases[$value] ?? $value;
+        foreach ($options as $label) {
+            if (IstatCodifiche::normalize($value) === IstatCodifiche::normalize($label)) {
+                return $label;
+            }
+        }
+        return null;
+    }
+
+    private function date(mixed $value): ?Carbon
+    {
+        if ($value instanceof \DateTimeInterface) {
+            $value = $value->format('Y-m-d');
+        }
+        if (!is_string($value) || !preg_match('/^\d{4}-\d{2}-\d{2}$/D', $value)) {
+            return null;
+        }
+        try {
+            $date = Carbon::createFromFormat('!Y-m-d', $value);
+            return $date->format('Y-m-d') === $value ? $date : null;
+        } catch (\Throwable) {
+            return null;
+        }
+    }
+
+    private function sameDate(mixed $value, Carbon $date): bool
+    {
+        return $this->date($value)?->isSameDay($date) ?? false;
+    }
+
+    private function isOpenForDay(Struttura $s, Carbon $date): bool
+    {
+        if (($s->tipo_apertura ?? 'Annuale') === 'Annuale') {
+            return true;
+        }
+        $from = $this->date($s->data_apertura);
+        $to = $this->date($s->data_chiusura);
+        if (!$from || !$to) {
+            return false;
+        }
+        return $to->gte($from) && $date->betweenIncluded($from, $to);
+    }
+
+    private function positiveInteger(mixed $value): bool
+    {
+        return preg_match('/^[1-9][0-9]*$/D', (string) $value) === 1;
+    }
+
+    private function validText(string $value): bool
+    {
+        return mb_check_encoding($value, 'UTF-8') && !preg_match('/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]/u', $value);
+    }
+
+    private function sex(mixed $value): string
+    {
+        return match (strtoupper(trim((string) $value))) { 'M', '1' => 'M', 'F', '2' => 'F', default => '' };
+    }
+
+    private function element(\DOMDocument $doc, \DOMNode $parent, string $name, mixed $value): void
+    {
+        $node = $parent->appendChild($doc->createElement($name));
+        $node->appendChild($doc->createTextNode((string) $value));
     }
 
     public function buildSoapEnvelope(Struttura $struttura, string $xml, string $mode): string
     {
-        $escapedXml = htmlspecialchars($xml, ENT_XML1 | ENT_COMPAT, 'UTF-8');
-        $username = $this->xmlSafe((string) $struttura->istat_username);
-        $password = $this->xmlSafe((string) $struttura->istat_password);
-        $modeValue = $this->xmlSafe($mode);
-
-        return <<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.checkinV2.ross1000.regione.emilia-romagna.it/">
-  <soapenv:Header/>
-  <soapenv:Body>
-    <ws:inviaMovimentazione>
-      <username>{$username}</username>
-      <password>{$password}</password>
-      <xml>{$escapedXml}</xml>
-      <modalita>{$modeValue}</modalita>
-    </ws:inviaMovimentazione>
-  </soapenv:Body>
-</soapenv:Envelope>
-XML;
+        if ($mode !== 'send') {
+            throw ValidationException::withMessages(['istat_ws' => 'Il WSDL regionale non prevede una verifica remota senza trasmissione.']);
+        }
+        $validator = new IstatXmlValidator();
+        $validator->validate($xml);
+        $payload = $validator->document($xml);
+        $soap = new \DOMDocument('1.0', 'UTF-8');
+        $envelope = $soap->appendChild($soap->createElementNS('http://schemas.xmlsoap.org/soap/envelope/', 'soapenv:Envelope'));
+        $body = $envelope->appendChild($soap->createElementNS('http://schemas.xmlsoap.org/soap/envelope/', 'soapenv:Body'));
+        $operation = $body->appendChild($soap->createElementNS(IstatXmlValidator::WS_NAMESPACE, 'ws:inviaMovimentazione'));
+        $movement = $operation->appendChild($soap->createElement('movimentazione'));
+        foreach ($payload->documentElement->childNodes as $node) {
+            $movement->appendChild($soap->importNode($node, true));
+        }
+        return $soap->saveXML();
     }
 
     public function filename(Carbon $dal, Carbon $al): string
     {
-        return 'tabella_a_' . $dal->format('Ym') . '.xml';
-    }
-
-    public function saveDailyOverrides(Struttura $struttura, array $rows, ?int $userId = null): void
-    {
-        foreach ($rows as $day => $payload) {
-            $date = Carbon::parse($day)->toDateString();
-            IstatMovimentoGiornaliero::query()->updateOrCreate(
-                ['struttura_id' => $struttura->id, 'giorno' => $date],
-                [
-                    'aperta' => $this->nullableBool($payload['aperta'] ?? null),
-                    'movimento_zero' => $this->nullableBool($payload['movimento_zero'] ?? null),
-                    'camere_disponibili' => $this->nullableInt($payload['camere_disponibili'] ?? null),
-                    'letti_disponibili' => $this->nullableInt($payload['letti_disponibili'] ?? null),
-                    'camere_occupate' => $this->nullableInt($payload['camere_occupate'] ?? null),
-                    'arrivi' => $this->nullableInt($payload['arrivi'] ?? null),
-                    'partenze' => $this->nullableInt($payload['partenze'] ?? null),
-                    'presenti' => $this->nullableInt($payload['presenti'] ?? null),
-                    'note' => trim((string) ($payload['note'] ?? '')) ?: null,
-                    'override_payload' => $payload,
-                    'confermato_il' => now(),
-                    'confermato_da' => $userId,
-                ]
-            );
-        }
-    }
-
-    private function schedineArrivoData(Collection $schedine, Carbon $date): Collection
-    {
-        return $schedine->filter(fn (Schedina $schedina) => $this->sameDate($schedina->arrive, $date))->values();
-    }
-
-    private function schedinePartenzaData(Collection $schedine, Carbon $date): Collection
-    {
-        return $schedine->filter(fn (Schedina $schedina) => $this->sameDate($schedina->departure, $date))->values();
-    }
-
-    private function originCode(Schedina $schedina): string
-    {
-        $country = trim((string) ($schedina->or_country ?? ''));
-        if ($country !== '' && !$this->isItalia($country)) {
-            return (string) ($this->stateCodeFromCountry($country) ?? $country);
-        }
-
-        return (string) ($this->comuneCode($schedina->or_city) ?? $schedina->or_city ?? '');
-    }
-
-    private function isOpenForDay(Struttura $struttura, Carbon $date): bool
-    {
-        if (($struttura->tipo_apertura ?? 'Annuale') === 'Annuale') {
-            return true;
-        }
-
-        if (blank($struttura->data_apertura) || blank($struttura->data_chiusura)) {
-            return true;
-        }
-
-        try {
-            $apertura = Carbon::parse($struttura->data_apertura)->startOfDay();
-            $chiusura = Carbon::parse($struttura->data_chiusura)->startOfDay();
-        } catch (\Throwable $e) {
-            return true;
-        }
-
-        if ($chiusura->greaterThanOrEqualTo($apertura)) {
-            return $date->betweenIncluded($apertura, $chiusura);
-        }
-
-        $currentYearOpen = $apertura->copy()->year($date->year);
-        $currentYearClose = $chiusura->copy()->year($date->year + 1);
-        return $date->betweenIncluded($currentYearOpen, $currentYearClose);
-    }
-
-    private function sameDate(?string $value, Carbon $date): bool
-    {
-        try {
-            return Carbon::parse($value)->isSameDay($date);
-        } catch (\Throwable $e) {
-            return false;
-        }
-    }
-
-    private function nullableInt($value): ?int
-    {
-        return ($value === '' || $value === null) ? null : max((int) $value, 0);
-    }
-
-    private function nullableBool($value): ?bool
-    {
-        if ($value === '' || $value === null) {
-            return null;
-        }
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? null;
-    }
-
-    private function comuneCode($value): ?string
-    {
-        if ($value === null || $value === '') {
-            return null;
-        }
-        if (is_numeric($value)) {
-            $comune = \App\Models\GeoComune::query()->find((int) $value);
-            if ($comune) {
-                return (string) $comune->codice_istat;
-            }
-            $comune = \App\Models\GeoComune::query()->where('codice_istat', (string) $value)->first();
-            return $comune?->codice_istat;
-        }
-        $normalized = $this->normalizeLookup((string) $value);
-        $comune = \App\Models\GeoComune::query()->get(['codice_istat', 'nome'])->first(function ($row) use ($normalized) {
-            return $this->normalizeLookup($row->nome) === $normalized || $this->normalizeLookup((string) $row->codice_istat) === $normalized;
-        });
-        return $comune?->codice_istat;
-    }
-
-    private function stateCodeFromCountry($value): ?string
-    {
-        if ($value === null || $value === '') {
-            return null;
-        }
-        if (is_numeric($value)) {
-            $nation = GeoNazione::query()->find((int) $value);
-            return $nation ? (string) $nation->id : null;
-        }
-        $normalized = $this->normalizeLookup((string) $value);
-        $nation = GeoNazione::query()->get(['id', 'nome', 'cittadinanza'])->first(function (GeoNazione $row) use ($normalized) {
-            return $this->normalizeLookup($row->nome) === $normalized || $this->normalizeLookup((string) $row->cittadinanza) === $normalized;
-        });
-        return $nation ? (string) $nation->id : null;
-    }
-
-    private function countryLabel($value): ?string
-    {
-        if ($value === null || $value === '') {
-            return null;
-        }
-
-        static $nationById = [];
-
-        if (is_numeric($value)) {
-            $key = (string) $value;
-            if (!array_key_exists($key, $nationById)) {
-                $nationById[$key] = GeoNazione::query()->find((int) $value);
-            }
-            return $nationById[$key]?->nome ?: $key;
-        }
-
-        return trim((string) $value) ?: null;
-    }
-
-    private function regionLabel($value): ?string
-    {
-        if ($value === null || $value === '') {
-            return null;
-        }
-
-        static $regionById = [];
-
-        if (is_numeric($value)) {
-            $key = (string) $value;
-            if (!array_key_exists($key, $regionById)) {
-                $regionById[$key] = GeoRegione::query()->find((int) $value);
-            }
-            return $regionById[$key]?->nome ?: $key;
-        }
-
-        return trim((string) $value) ?: null;
-    }
-
-    private function summarizeForeignCountries(Collection $schedine): string
-    {
-        $items = $schedine
-            ->reject(fn (Schedina $schedina) => $this->isItalia($schedina->or_country))
-            ->groupBy(fn (Schedina $schedina) => $this->countryLabel($schedina->or_country) ?: 'Estero non indicato')
-            ->map(fn (Collection $group, string $label) => $label . ' ' . $group->sum(fn (Schedina $schedina) => (int) ($schedina->cant_people ?? 0)))
-            ->values()
-            ->take(4);
-
-        return $items->isEmpty() ? '—' : $items->implode(' · ');
-    }
-
-    private function summarizeItalianRegions(Collection $schedine): string
-    {
-        $items = $schedine
-            ->filter(fn (Schedina $schedina) => $this->isItalia($schedina->or_country))
-            ->groupBy(fn (Schedina $schedina) => $this->regionLabel($schedina->or_region) ?: 'Italia non indicata')
-            ->map(fn (Collection $group, string $label) => $label . ' ' . $group->sum(fn (Schedina $schedina) => (int) ($schedina->cant_people ?? 0)))
-            ->values()
-            ->take(4);
-
-        return $items->isEmpty() ? '—' : $items->implode(' · ');
-    }
-
-    private function isItalia($value): bool
-    {
-        $stateCode = $this->stateCodeFromCountry($value);
-        return (string) $stateCode === '106';
-    }
-
-    private function normalizeLookup(string $value): string
-    {
-        return trim((string) preg_replace('/[^A-Z0-9]+/', ' ', Str::upper(Str::ascii($value))));
-    }
-
-    private function xmlSafe(string $value): string
-    {
-        return htmlspecialchars($value, ENT_XML1 | ENT_COMPAT, 'UTF-8');
+        return 'tabella_a_'.$dal->format('Ymd').'_'.$al->format('Ymd').'.xml';
     }
 }
