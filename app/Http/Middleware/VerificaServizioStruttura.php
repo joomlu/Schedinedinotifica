@@ -22,6 +22,11 @@ class VerificaServizioStruttura
             return $next($request);
         }
 
+        $knownRoles = ['super_admin', 'admin', 'proprietario', 'struttura_user'];
+        if (!in_array((string) ($user->ruolo ?? ''), $knownRoles, true)) {
+            return $next($request);
+        }
+
         $currentId = StrutturaCorrente::getId();
         if ($currentId === null && method_exists($user, 'isStrutturaUser') && $user->isStrutturaUser()) {
             $currentId = $user->struttura_id;

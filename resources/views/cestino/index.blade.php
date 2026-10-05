@@ -158,7 +158,7 @@
 
                                     <div class="border rounded p-3">
                                         <div class="small text-muted mb-2">Snapshot archivio</div>
-                                        <pre class="mb-0 small text-wrap">{{ json_encode($item->payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) }}</pre>
+                                        <pre class="mb-0 small text-wrap">{{ json_encode($item->display_payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) }}</pre>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

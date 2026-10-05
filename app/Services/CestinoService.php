@@ -30,6 +30,18 @@ use Illuminate\Support\Str;
 
 class CestinoService
 {
+    // La natura dell'entità dipende dalla classe, non dall'etichetta o dal solo NULL.
+    public const TENANT_CLASSES = [
+        Customers::class, Schedina::class, Componenti::class, WebCheckinRichiesta::class,
+        TassaEsenzione::class, LicenzaAssegnazione::class,
+    ];
+
+    public const GLOBAL_CLASSES = [
+        User::class, Proprietario::class, Struttura::class, LicenzaArticolo::class,
+        Gruppo::class, Titolo::class, TipoCliente::class, TipoVia::class,
+        TipoDocumento::class, RilasciatoDa::class,
+    ];
+
     public function archiveModel(Model $model, array $meta = []): CestinoItem
     {
         $snapshot = $this->buildSnapshot($model);
@@ -44,9 +56,70 @@ class CestinoService
             'code' => $meta['code'] ?? ($snapshot['code'] ?? null),
             'circuito' => $meta['circuito'] ?? ($snapshot['circuito'] ?? null),
             'source' => $meta['source'] ?? ($snapshot['source'] ?? null),
-            'payload' => $snapshot['payload'] ?? $model->toArray(),
+            'payload' => $this->minimizeRestorePayload($model, $snapshot['payload'] ?? $model->toArray()),
             'deleted_at' => now(),
         ]);
+    }
+
+    public function displayPayload(CestinoItem $item): array
+    {
+        $class = $item->entity_class;
+        if (!in_array($class, [...self::TENANT_CLASSES, ...self::GLOBAL_CLASSES], true)) {
+            return [];
+        }
+
+        // Proiezione separata anche per snapshot preesistenti; nessuna scrittura.
+        return $this->withoutSensitiveFields($this->minimizeRestorePayload(
+            new $class(), is_array($item->payload) ? $item->payload : []
+        ));
+    }
+
+    private function minimizeRestorePayload(Model $model, array $payload): array
+    {
+        $extra = match (get_class($model)) {
+            User::class => ['managed_proprietario_ids', 'licenza_admin_ids', 'assigned_crm_lead_ids'],
+            Proprietario::class => ['struttura_ids', 'user_ids', 'licenza_ids', 'import_batch_ids'],
+            Struttura::class => ['access_user_ids', 'licenza_ids', 'crm_lead_ids'],
+            Schedina::class => ['componenti', 'camere'],
+            WebCheckinRichiesta::class => ['schedina'],
+            default => [],
+        };
+        $data = Arr::only($payload, ['id', ...$model->getFillable(), ...$extra]);
+        // I remember token non servono al restore; Web Check-in rigenera il token.
+        unset($data['remember_token']);
+        if ($model instanceof WebCheckinRichiesta) {
+            unset($data['token']);
+            if (is_array($data['schedina'] ?? null)) {
+                $data['schedina'] = $this->minimizeRestorePayload(new Schedina(), $data['schedina']);
+            }
+        }
+        if ($model instanceof Schedina) {
+            foreach (['componenti' => Componenti::class, 'camere' => SchedinaCamera::class] as $key => $class) {
+                if (is_array($data[$key] ?? null)) {
+                    $data[$key] = array_map(
+                        fn (array $row) => $this->minimizeRestorePayload(new $class(), $row),
+                        array_values(array_filter($data[$key], 'is_array'))
+                    );
+                }
+            }
+        }
+
+        // Hash User e credenziali Struttura restano per ricreare record assenti.
+        return $data;
+    }
+
+    private function withoutSensitiveFields(array $payload): array
+    {
+        $safe = [];
+        foreach ($payload as $key => $value) {
+            $field = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', (string) $key));
+            if (in_array($field, ['istat_username', 'questura_username', 'questura_codici'], true)
+                || preg_match('/password|passwd|token|secret|credential|credenzial|wskey|(^|_)(key|puk)($|_)|auth_code|codic[ei]_auth/', $field)) {
+                continue;
+            }
+            $safe[$key] = is_array($value) ? $this->withoutSensitiveFields($value) : $value;
+        }
+        return $safe;
     }
 
     public function restoreItem(CestinoItem $item): Model
