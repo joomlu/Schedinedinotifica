@@ -85,6 +85,9 @@ class CestinoService
             default => [],
         };
         $data = Arr::only($payload, ['id', ...$model->getFillable(), ...$extra]);
+        if ($model instanceof Struttura) {
+            unset($data['questura_password'], $data['questura_wskey'], $data['questura_codici'], $data['questura_puk']);
+        }
         // I remember token non servono al restore; Web Check-in rigenera il token.
         unset($data['remember_token']);
         if ($model instanceof WebCheckinRichiesta) {
@@ -462,6 +465,8 @@ class CestinoService
 
     private function restoreStruttura(array $payload): Struttura
     {
+        // Snapshot storici non possono reintrodurre plaintext o cifrare due volte.
+        unset($payload['questura_password'], $payload['questura_wskey'], $payload['questura_codici'], $payload['questura_puk']);
         $userIds = Arr::pull($payload, 'access_user_ids', []);
         $licenzaIds = Arr::pull($payload, 'licenza_ids', []);
         $crmLeadIds = Arr::pull($payload, 'crm_lead_ids', []);

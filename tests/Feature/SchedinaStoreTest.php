@@ -8,9 +8,14 @@ use Tests\TestCase;
 
 class SchedinaStoreTest extends TestCase
 {
-    public function test_schedina_store_minimal_valid_payload_redirects_to_list_and_creates_record(): void
+    use \Illuminate\Foundation\Testing\RefreshDatabase, \Tests\Support\StrutturaFixtures;
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('tipiAlloggiato')]
+    public function test_schedina_store_minimal_valid_payload_redirects_to_list_and_creates_record(string $capo, ?string $componente): void
     {
-        $user = User::query()->findOrFail(11);
+        \App\Models\GeoNazione::forceCreate(['id' => 777, 'nome' => 'Francia', 'cittadinanza' => 'Francese', 'codice_iso2' => 'FR', 'is_italia' => false]);
+        $structure = $this->structureFor(null);
+        $user = $this->actor('struttura_user', null, $structure->id);
 
         $payload = [
             'customer_privacy_consent' => '1',
@@ -45,16 +50,35 @@ class SchedinaStoreTest extends TestCase
             'or_published_city' => 'Roma',
         ];
 
+        $payload['relationship'] = $capo;
+        if ($componente !== null) {
+            $payload['cant_people'] = '2';
+            $payload['componenti'] = [[
+                'name' => 'Ospite sintetico', 'surname' => 'Esempio', 'sex' => 'F', 'relationship' => $componente,
+                'exent' => 'No', 'date_nac' => '1990-01-01', 'country_nac' => 'FRANCIA', 'city_nac' => 'FRANCESE',
+                'country' => 'FRANCIA', 'city' => 'Parigi',
+            ]];
+        }
         $response = $this->actingAs($user)->post(route('schedina.store'), $payload);
 
         $schedina = Schedina::query()->latest('id')->first();
 
-        $this->assertNotNull($schedina);
         $response->assertSessionHasNoErrors();
+        $this->assertNotNull($schedina);
         $response->assertRedirect(route('schedina'));
         $this->assertSame('QA', $schedina->name);
         $this->assertSame('Schedina', $schedina->surname);
         $this->assertSame('Roma', $schedina->oa_city);
         $this->assertSame('00100', $schedina->or_cap);
+        $this->assertSame($capo, $schedina->relationship);
+        $this->assertCount($componente === null ? 0 : 1, $schedina->componenti);
+        $payload['name'] = 'QA Modificato';
+        $this->put(route('schedina.update', ['id' => $schedina->id]), $payload)->assertSessionHasNoErrors();
+        $this->assertSame('QA Modificato', $schedina->fresh()->name);
+        $this->assertCount($componente === null ? 0 : 1, $schedina->fresh()->componenti);
+    }
+    public static function tipiAlloggiato(): array
+    {
+        return [['OSPITE SINGOLO', null], ['CAPO FAMIGLIA', 'FAMILIARE'], ['CAPO GRUPPO', 'MEMBRO GRUPPO']];
     }
 }

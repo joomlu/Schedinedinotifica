@@ -8,6 +8,15 @@
     @slot('title') Questura @endslot
 @endcomponent
 
+@if(!empty($questuraError))
+    <div class="alert alert-danger" role="alert">
+        <strong class="d-block">Errore nel ciclo Questura</strong>
+        <div>{{ $questuraError }}</div>
+        <div>Configurazione credenziali da verificare. Test e invio diretto non disponibili.</div>
+        <a href="{{ route('struttura.edit') }}" class="alert-link">Verifica configurazione</a>
+    </div>
+@endif
+
 @if($errors->any())
     <div class="alert alert-danger">
         @foreach($errors->all() as $error)
@@ -23,9 +32,11 @@
             <div class="text-muted">Da qui puoi scaricare il file ufficiale TXT da caricare manualmente sul portale nazionale Alloggiati Web oppure usare l'invio diretto elettronico del medesimo contenuto.</div>
         </div>
         <div class="text-md-end">
-            @if(!empty($credStatus['simulation']))
+            @if(!empty($credStatus['blocked']))
+                <span class="badge bg-warning-subtle text-warning">Invio diretto non disponibile</span>
+            @elseif(!empty($credStatus['simulation']))
                 <span class="badge bg-info-subtle text-info">Modalità prova invio attiva</span>
-                <div class="small text-muted mt-1">Verifica, invio diretto e ricevuta usano risposte demo interne.</div>
+                <div class="small text-muted mt-1">Invio esterno disabilitato dal guardrail tecnico. Nessuna ricevuta ufficiale viene simulata.</div>
             @elseif($credStatus['configured'])
                 <span class="badge bg-success-subtle text-success">Invio diretto configurato</span>
             @else
@@ -52,11 +63,11 @@
                     </div>
                     <div class="col-xl-2 col-md-6">
                         <div class="text-muted">Password</div>
-                        <div class="{{ filled($struttura->questura_password) ? 'text-success' : 'text-danger' }}">{{ filled($struttura->questura_password) ? 'Presente' : 'Mancante' }}</div>
+                        <div class="{{ !empty($credStatus['blocked']) ? 'text-warning' : (in_array('password', $credStatus['missing'], true) ? 'text-danger' : 'text-success') }}">{{ !empty($credStatus['blocked']) ? 'Da verificare' : (in_array('password', $credStatus['missing'], true) ? 'Mancante' : 'Presente') }}</div>
                     </div>
                     <div class="col-xl-2 col-md-6">
                         <div class="text-muted">WSKEY</div>
-                        <div class="{{ filled($struttura->questura_wskey) ? 'text-success' : 'text-danger' }}">{{ filled($struttura->questura_wskey) ? 'Presente' : 'Mancante' }}</div>
+                        <div class="{{ !empty($credStatus['blocked']) ? 'text-warning' : (in_array('WSKEY', $credStatus['missing'], true) ? 'text-danger' : 'text-success') }}">{{ !empty($credStatus['blocked']) ? 'Da verificare' : (in_array('WSKEY', $credStatus['missing'], true) ? 'Mancante' : 'Presente') }}</div>
                     </div>
                     <div class="col-xl-2 col-md-6">
                         <div class="text-muted">Codici accesso</div>
@@ -68,7 +79,7 @@
                     </div>
                     <div class="col-xl-2 col-md-6">
                         <div class="text-muted">Modalità</div>
-                        <div class="{{ !empty($credStatus['simulation']) ? 'text-info' : 'text-body' }}">{{ !empty($credStatus['simulation']) ? 'Simulazione attiva' : 'Invio reale' }}</div>
+                        <div class="{{ !empty($credStatus['simulation']) ? 'text-info' : 'text-body' }}">{{ !empty($credStatus['blocked']) ? 'Non disponibile' : (!empty($credStatus['simulation']) ? 'Simulazione attiva' : 'Invio reale') }}</div>
                     </div>
                 </div>
                 <div class="small text-muted mt-2">
@@ -76,9 +87,8 @@
                 </div>
                 @if(!empty($latestTableSnapshot))
                     <div class="small text-muted mt-2">
-                        Ultimo snapshot tabelle ufficiali: {{ \Carbon\Carbon::parse($latestTableSnapshot['downloaded_at'])->format('d/m/Y H:i') }}
-                        · documenti sincronizzati {{ data_get($latestTableSnapshot, 'sync.tipo_documento', 0) }}
-                        · tipi alloggiato sincronizzati {{ data_get($latestTableSnapshot, 'sync.tipo_alloggiato', 0) }}
+                        Ultimo snapshot tabelle ufficiali: {{ \Carbon\Carbon::parse($latestTableSnapshot['archived_at'] ?? $latestTableSnapshot['downloaded_at'] ?? now())->format('d/m/Y H:i') }}
+                        · codifiche conservate separatamente dai cataloghi generali
                         @if(!empty($latestTableSnapshot['simulation']))
                             · modalità simulazione
                         @endif
@@ -231,9 +241,11 @@
                                 </td>
                                 <td class="text-end align-middle text-nowrap">
                                     @if($item['valida'])
-                                        <a href="{{ route('questura.download.schedina', ['id' => $schedina->id]) }}" class="btn btn-soft-success" title="Scarica TXT">
+                                        <form method="POST" action="{{ route('questura.download.schedina', ['id' => $schedina->id]) }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-soft-success" title="Scarica TXT">
                                             <i class="ri-download-2-line fs-16 align-middle"></i>
-                                        </a>
+                                        </button></form>
                                     @else
                                         <a href="{{ route('schedina.edit', ['id' => $schedina->id]) }}" class="btn btn-soft-warning" title="Correggi schedina">
                                             <i class="ri-edit-line fs-16 align-middle"></i>
@@ -252,30 +264,37 @@
                     </div>
                     <div class="card-body pt-2">
                         <div class="small text-muted mb-2">
-                            <strong>Scarica TXT Questura</strong> produce il file ufficiale `.txt` da caricare manualmente nel portale Alloggiati Web. <strong>Verifica invio diretto</strong> e <strong>Invia direttamente</strong> usano invece il collegamento elettronico automatico con lo stesso contenuto logico, senza generare uno storico TXT separato.
+                            <strong>Scarica TXT Questura</strong> produce il file `.txt` destinato al caricamento manuale da caricare manualmente nel portale Alloggiati Web. Prima di <strong>Invia direttamente</strong> occorre un esito positivo di <strong>Verifica invio diretto</strong> sullo stesso elenco. Se cambiano i dati Questura, ripetere la verifica prima di inviare.
                         </div>
                         <div class="small text-muted mb-3">
-                            Le azioni restano sempre disponibili. Se manca un dato obbligatorio della schedina o della configurazione Questura, il sistema te lo segnala al momento dell'esecuzione. <strong>Scarica tabelle ufficiali</strong> salva anche uno snapshot CSV delle codifiche di riferimento del servizio Alloggiati Web.
+                            @if(!empty($credStatus['blocked']))
+                                Test e invio diretto richiedono la verifica della configurazione. Puoi consultare lo storico e scaricare i TXT consentiti.
+                            @else
+                                Se manca un dato obbligatorio della schedina o della configurazione Questura, il sistema te lo segnala al momento dell'esecuzione.
+                            @endif
+                            <strong>Archivia tabelle di riferimento</strong> salva uno snapshot delle codifiche pubbliche ufficiali acquisite il 06/10/2026.
                         </div>
                         <div class="d-flex flex-wrap gap-2 justify-content-end align-items-center">
-                            <a href="{{ route('questura.download.periodo', ['dal' => $dal->format('Y-m-d'), 'al' => $al->format('Y-m-d')]) }}" class="btn btn-success">
+                            <form method="POST" action="{{ route('questura.download.periodo', ['dal' => $dal->format('Y-m-d'), 'al' => $al->format('Y-m-d')]) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-success">
                                 Scarica TXT Questura
-                            </a>
+                            </button></form>
                             <form method="POST" action="{{ route('questura.ws.tables') }}" class="d-inline">
                                 @csrf
-                                <button type="submit" class="btn btn-soft-secondary">Scarica tabelle ufficiali</button>
+                                <button type="submit" class="btn btn-soft-secondary">Archivia tabelle di riferimento</button>
                             </form>
                             <form method="POST" action="{{ route('questura.ws.verify') }}" class="d-inline" data-confirm-kind="questura-verify">
                                 @csrf
                                 <input type="hidden" name="dal" value="{{ $dal->format('Y-m-d') }}">
                                 <input type="hidden" name="al" value="{{ $al->format('Y-m-d') }}">
-                                <button type="submit" class="btn btn-info text-white">Verifica invio diretto</button>
+                                <button type="submit" class="btn btn-info text-white" @disabled(!empty($credStatus['blocked']))>Verifica invio diretto</button>
                             </form>
                             <form method="POST" action="{{ route('questura.ws.send') }}" class="d-inline" data-confirm-kind="questura-send">
                                 @csrf
                                 <input type="hidden" name="dal" value="{{ $dal->format('Y-m-d') }}">
                                 <input type="hidden" name="al" value="{{ $al->format('Y-m-d') }}">
-                                <button type="submit" class="btn btn-primary">Invia direttamente</button>
+                                <button type="submit" class="btn btn-primary" @disabled(!empty($credStatus['blocked']))>Invia direttamente</button>
                             </form>
                         </div>
                     </div>
@@ -302,13 +321,26 @@
                                                 <div class="small text-muted">{{ $export->schedine_count }} schedine · {{ $export->righe_count }} righe</div>
                                                 <div class="small text-muted">{{ $export->created_at?->format('d/m/Y H:i') }}</div>
                                             </div>
-                                            <a href="{{ route('questura.download.storico', ['id' => $export->id]) }}" class="btn btn-soft-secondary" title="Scarica file storico">
-                                                <i class="ri-download-2-line fs-16 align-middle"></i>
-                                            </a>
+                                            <div class="d-flex flex-column gap-1">
+                                                @if($export->finalized_at)
+                                                    <span class="badge bg-success-subtle text-body">TXT eliminato dopo ricevuta</span>
+                                                    <a class="btn btn-soft-secondary" href="{{ route('questura.receipts.download', ['id' => $export->questura_receipt_id]) }}">Scarica ricevuta</a>
+                                                @else
+                                                    <a href="{{ route('questura.download.storico', ['id' => $export->id]) }}" class="btn btn-soft-secondary">Scarica TXT temporaneo</a>
+                                                    <form method="POST" action="{{ route('questura.txt.receipt', ['id' => $export->id]) }}">
+                                                        @csrf
+                                                        <label class="small">Data comunicazione manuale <input class="form-control" type="date" name="communication_date" required max="{{ today()->subDay()->toDateString() }}"></label>
+                                                        <label class="small d-block"><input type="checkbox" name="communication_confirmed" value="1" required> Confermo che questo elenco esatto è stato comunicato e riconciliato per la giornata indicata.</label>
+                                                        <div class="small text-muted">Il download non prova l'invio. Una ricevuta valida comporta la cancellazione delle copie Questura; le Schedine PMS restano disponibili.</div>
+                                                        <button type="submit" class="btn btn-soft-secondary">Acquisisci ricevuta e finalizza TXT</button>
+                                                    </form>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
+                            {{ $storico->withQueryString()->links() }}
                         @endif
                     </div>
                 </div>
@@ -331,32 +363,73 @@
                                             <div>
                                                 <div class="d-flex align-items-center gap-2 flex-wrap">
                                                     <span class="fw-semibold">{{ $tx->mode === 'verify' ? 'Verifica invio diretto' : 'Invio diretto' }}</span>
-                                                    <span class="badge bg-light text-body">{{ $tx->esitoSicuro()['state'] }}</span>
+                                                    <span class="badge bg-light text-body">{{ match ($tx->esitoSicuro()['state']) { 'simulation' => 'Prova interna', 'sent' => 'Richiesta inviata', 'rejected' => 'Rifiutato', 'technical_error' => 'Errore tecnico', 'uncertain' => 'Esito incerto', 'partial' => 'Acquisizione parziale', 'in_progress' => 'In corso', default => 'Esito non verificato' } }}</span>
                                                 </div>
                                                 <div class="small text-muted">{{ $tx->dal?->format('d/m/Y') }}@if($tx->al && !$tx->dal?->isSameDay($tx->al)) - {{ $tx->al?->format('d/m/Y') }}@endif</div>
                                                 <div class="small text-muted">{{ $tx->schedine_count }} schedine · {{ $tx->righe_count }} righe</div>
                                                 <div class="small text-muted">{{ $tx->esitoSicuro()['message'] }}</div>
+                                                @foreach($tx->esitoSicuro()['row_errors'] ?? [] as $rowError)
+                                                    <div class="small text-danger">Riga {{ $rowError['row'] }}: {{ match ($rowError['code']) { '11' => 'formato non corretto; verificare il record', '12' => 'campo non corretto; verificare i dati', default => 'errore remoto non classificato' } }}.</div>
+                                                @endforeach
                                                 @if($tx->esitoSicuro()['simulated'])
                                                     <div class="small text-info">Prova interna: nessun dato è stato inviato al portale reale.</div>
                                                 @endif
                                                 <div class="small text-muted">{{ $tx->executed_at?->format('d/m/Y H:i') }}</div>
                                             </div>
                                             <div class="d-flex flex-column gap-1">
-                                                @if($tx->mode === 'send')
-                                                    <a href="{{ route('questura.ws.receipt', ['id' => $tx->id]) }}" class="btn btn-soft-secondary" title="Download ricevuta sospeso">
+                                                @if($tx->finalized_at)
+                                                    <span class="badge bg-success-subtle text-body">Payload eliminato dopo ricevuta</span>
+                                                    <a class="btn btn-soft-secondary" href="{{ route('questura.receipts.download', ['id' => $tx->questura_receipt_id]) }}">Scarica ricevuta</a>
+                                                @else
+                                                    <a href="{{ route('questura.ws.payload', ['id' => $tx->id]) }}" class="btn btn-soft-secondary">Scarica payload temporaneo</a>
+                                                @endif
+                                                @if(!$tx->finalized_at && $tx->mode === 'send' && in_array($tx->status, ['sent', 'uncertain', 'partial', 'in_progress'], true))
+                                                    <form method="POST" action="{{ route('questura.ws.receipt.acquire', ['id' => $tx->id]) }}">
+                                                        @csrf
+                                                        <button class="btn btn-soft-secondary" type="submit">Acquisisci ricevuta giornaliera</button>
+                                                    </form>
+                                                    <a href="{{ route('questura.ws.receipt', ['id' => $tx->id]) }}" class="btn btn-soft-secondary" title="Scarica ricevuta archiviata">
                                                         <i class="ri-file-pdf-line fs-16 align-middle"></i>
                                                     </a>
+                                                    @if(in_array($tx->status, ['uncertain', 'partial', 'in_progress'], true))
+                                                        <form method="POST" action="{{ route('questura.ws.finalize', ['id' => $tx->id]) }}">
+                                                            @csrf
+                                                            <label class="small d-block"><input type="checkbox" name="reconciled" value="1" required> Ho riconciliato l'intero elenco con la comunicazione della giornata. La sola ricevuta giornaliera non prova ogni riga.</label>
+                                                            <button class="btn btn-soft-secondary" type="submit">Finalizza dopo riconciliazione</button>
+                                                        </form>
+                                                    @endif
                                                 @endif
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
+                            {{ $trasmissioni->withQueryString()->links() }}
                         @endif
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="card mt-3">
+    <div class="card-header"><h5 class="card-title">Ricevute giornaliere</h5></div>
+    <div class="card-body">
+        <p class="text-muted">Le copie Questura sono temporanee. La ricevuta resta conservata cinque anni dalla sua acquisizione; le Schedine PMS non vengono eliminate.</p>
+        @forelse($ricevute as $ricevuta)
+            <div class="d-flex justify-content-between gap-2 mb-2">
+                <div>
+                    <strong>Comunicazione {{ $ricevuta->remote_date?->format('d/m/Y') }}</strong>
+                    <div class="small">Acquisita: {{ $ricevuta->acquired_at?->format('d/m/Y H:i') ?? 'Da verificare' }} · Conservare fino al: {{ $ricevuta->retained_until?->format('d/m/Y H:i') ?? 'Da verificare' }}</div>
+                </div>
+                @if(!$ricevuta->purged_at && $ricevuta->acquired_at)
+                    <a class="btn btn-soft-secondary" href="{{ route('questura.receipts.download', ['id' => $ricevuta->id]) }}">Scarica ricevuta</a>
+                @endif
+            </div>
+        @empty
+            <p class="text-muted">Nessuna ricevuta archiviata.</p>
+        @endforelse
+        {{ $ricevute->withQueryString()->links() }}
     </div>
 </div>
 @endsection

@@ -77,11 +77,15 @@ class Struttura extends Model
         'sito_web',
     ];
 
+    protected $hidden = ['questura_password', 'questura_wskey', 'questura_codici', 'questura_puk'];
+
     protected $casts = [
         'data_apertura' => 'date',
         'data_chiusura' => 'date',
         'scadenza_servizio' => 'date',
         'istat_ws_simulazione' => 'boolean',
+        'questura_password' => 'encrypted',
+        'questura_wskey' => 'encrypted',
         'questura_ws_simulazione' => 'boolean',
         'camere_reali_enabled' => 'boolean',
         'attiva' => 'boolean',

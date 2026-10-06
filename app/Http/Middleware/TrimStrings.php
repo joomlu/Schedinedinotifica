@@ -15,5 +15,7 @@ class TrimStrings extends Middleware
         'current_password',
         'password',
         'password_confirmation',
+        'questura_password',
+        'questura_wskey',
     ];
 }

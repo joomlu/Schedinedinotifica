@@ -16,6 +16,8 @@ class QuesturaTransmission extends Model
     }
 
     protected $fillable = [
+        'identity_reserved_at',
+        'sha256', 'byte_size', 'charset', 'component_ids', 'send_key',
         'struttura_id',
         'user_id',
         'questura_export_id',
@@ -38,6 +40,9 @@ class QuesturaTransmission extends Model
     ];
 
     protected $casts = [
+        'identity_reserved_at' => 'datetime',
+        'finalized_at' => 'datetime', 'payload_deleted_at' => 'datetime', 'reconciled_at' => 'datetime',
+        'component_ids' => 'array',
         'dal' => 'date',
         'al' => 'date',
         'schedina_ids' => 'array',
@@ -45,4 +50,17 @@ class QuesturaTransmission extends Model
         'result' => 'array',
         'executed_at' => 'datetime',
     ];
+    protected static function booted(): void
+    {
+        static::updating(function ($model) {
+            if ($model->getRawOriginal('finalized_at')) { throw new \LogicException('Trasmissione Questura finalizzata e minimizzata.'); }
+            if ($model->getRawOriginal('status') !== 'in_progress') {
+                throw new \LogicException('Esito storico Questura immutabile: utilizzare un nuovo evento di audit.');
+            }
+            foreach (['identity_reserved_at', 'struttura_id', 'user_id', 'questura_export_id', 'mode', 'dal', 'al', 'schedina_ids', 'payload', 'sha256', 'byte_size', 'charset', 'send_key', 'component_ids', 'scope_type', 'schedine_count', 'righe_count', 'executed_at'] as $field) {
+                if ($model->isDirty($field)) { throw new \LogicException('Snapshot Questura immutabile.'); }
+            }
+        });
+        static::deleting(fn () => throw new \LogicException('Archivio Questura non eliminabile tramite CRUD.'));
+    }
 }

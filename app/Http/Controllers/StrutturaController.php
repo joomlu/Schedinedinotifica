@@ -62,7 +62,7 @@ class StrutturaController extends Controller
         }
 
         $data = $this->normalizeGeoLabels($data);
-
+        $data = $this->preserveExistingQuesturaSecrets($data, $struttura);
 
         // Gestione upload logo struttura
         if ($request->hasFile('logo')) {
@@ -85,7 +85,7 @@ class StrutturaController extends Controller
         // Flag gestione camere reali dal gestionale
         $data['camere_reali_enabled'] = $request->boolean('camere_reali_enabled');
         $data['istat_ws_simulazione'] = $request->boolean('istat_ws_simulazione');
-        $data['questura_ws_simulazione'] = $request->boolean('questura_ws_simulazione');
+        unset($data['questura_ws_simulazione'], $data['questura_codici'], $data['questura_puk']);
 
         // Compatibilità schema legacy: citta/localita/logo_citta vs città/località/logo_città
         $data = $this->normalizeLegacyColumnNames($data);
@@ -144,6 +144,17 @@ class StrutturaController extends Controller
             $comune = GeoComune::find((int) $data['citta']);
             if ($comune) {
                 $data['citta'] = $comune->nome;
+            }
+        }
+
+        return $data;
+    }
+
+    public function preserveExistingQuesturaSecrets(array $data, Struttura $struttura): array
+    {
+        foreach (['questura_password', 'questura_wskey'] as $field) {
+            if (array_key_exists($field, $data) && ($data[$field] === null || trim((string) $data[$field]) === '')) {
+                unset($data[$field]);
             }
         }
 

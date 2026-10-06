@@ -449,13 +449,19 @@ Route::middleware(['auth'])->group(function () {
 
     // Questura
     Route::get('/questura', [QuesturaExportController::class, 'index'])->name('questura.index');
-    Route::get('/questura/download/periodo', [QuesturaExportController::class, 'downloadPeriodo'])->name('questura.download.periodo');
-    Route::get('/questura/download/schedina/{id}', [QuesturaExportController::class, 'downloadSchedina'])->name('questura.download.schedina');
+    Route::post('/questura/download/periodo', [QuesturaExportController::class, 'downloadPeriodo'])->name('questura.download.periodo');
+    Route::post('/questura/download/schedina/{id}', [QuesturaExportController::class, 'downloadSchedina'])->name('questura.download.schedina');
     Route::get('/questura/download/storico/{id}', [QuesturaExportController::class, 'downloadStorico'])->name('questura.download.storico');
+    Route::get('/questura/ws/payload/{id}', [QuesturaExportController::class, 'downloadPayload'])->name('questura.ws.payload');
     Route::post('/questura/ws/tables', [QuesturaExportController::class, 'downloadOfficialTables'])->name('questura.ws.tables');
     Route::post('/questura/ws/verify', [QuesturaExportController::class, 'verifyPeriodo'])->name('questura.ws.verify');
     Route::post('/questura/ws/send', [QuesturaExportController::class, 'sendPeriodo'])->name('questura.ws.send');
+    Route::post('/questura/ws/receipt/{id}', [QuesturaExportController::class, 'acquireReceipt'])->name('questura.ws.receipt.acquire');
     Route::get('/questura/ws/receipt/{id}', [QuesturaExportController::class, 'downloadReceipt'])->name('questura.ws.receipt');
+
+    Route::post('/questura/txt/{id}/ricevuta', [QuesturaExportController::class, 'acquireManualReceipt'])->name('questura.txt.receipt');
+    Route::post('/questura/ws/{id}/finalizza', [QuesturaExportController::class, 'finalizeTransmission'])->name('questura.ws.finalize');
+    Route::get('/questura/ricevute/{id}', [QuesturaExportController::class, 'downloadArchivedReceipt'])->name('questura.receipts.download');
 
     // Tavola A / ISTAT
     Route::get('/istat-tabella-a', [IstatTabellaAController::class, 'index'])->name('istat.tabella_a.index');

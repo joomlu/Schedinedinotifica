@@ -2,11 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\TipoAlloggiato;
-use App\Models\TipoDocumento;
 use App\Models\Struttura;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 use SoapClient;
 use SoapFault;
 use Throwable;
@@ -17,17 +14,9 @@ class QuesturaWebService
 
     public function credentialsStatus(Struttura $struttura): array
     {
-        if ($this->isSimulation($struttura)) {
-            return [
-                'configured' => true,
-                'simulation' => true,
-                'missing' => [],
-            ];
-        }
-
         return [
             'configured' => filled($struttura->questura_username) && filled($struttura->questura_password) && filled($struttura->questura_wskey),
-            'simulation' => false,
+            'simulation' => $this->isSimulation($struttura),
             'missing' => array_values(array_filter([
                 blank($struttura->questura_username) ? 'username' : null,
                 blank($struttura->questura_password) ? 'password' : null,
@@ -42,7 +31,7 @@ class QuesturaWebService
             $internal = $this->verifyInternal($struttura, $txt);
             $state = ($internal['simulated'] ?? false) === true ? 'simulation'
                 : (($internal['ok'] ?? false) === true ? 'unknown' : 'rejected');
-            return EsitoTrasmissioneQuestura::crea($state, 'test');
+            return EsitoTrasmissioneQuestura::sanifica(['state' => $state, 'mode' => 'test'] + array_intersect_key($internal, array_flip(['valid_rows', 'row_errors'])));
         } catch (Throwable) {
             return EsitoTrasmissioneQuestura::crea('technical_error', 'test');
         }
@@ -53,10 +42,14 @@ class QuesturaWebService
         try {
             $internal = $this->sendInternal($struttura, $txt);
             $state = ($internal['simulated'] ?? false) === true ? 'simulation'
-                : (($internal['ok'] ?? false) === true ? 'sent' : 'rejected');
-            return EsitoTrasmissioneQuestura::crea($state, 'send');
+                : (($internal['pre_send_error'] ?? false) ? 'technical_error'
+                : (($internal['uncertain'] ?? false) ? 'uncertain'
+                : (($internal['partial'] ?? false) ? 'partial'
+                : (($internal['ok'] ?? false) === true ? 'sent' : 'rejected'))));
+            return EsitoTrasmissioneQuestura::sanifica(['state' => $state, 'mode' => 'send'] + array_intersect_key($internal, array_flip(['valid_rows', 'row_errors', 'transmission_excluded'])));
         } catch (Throwable) {
-            return EsitoTrasmissioneQuestura::crea('technical_error', 'send');
+            // Un errore inatteso senza prova della fase raggiunta non libera il retry.
+            return EsitoTrasmissioneQuestura::crea('uncertain', 'send');
         }
     }
 
@@ -77,17 +70,18 @@ class QuesturaWebService
 
         $client = $this->makeClient();
         $token = $this->generateToken($client, $struttura);
-        $auth = $this->authenticationTest($client, $token);
+        $auth = $this->authenticationTest($client, $token, $struttura);
         if (!$auth['ok']) {
             return $auth + ['stage' => 'authentication'];
         }
 
         $response = $this->call($client, 'Test', [
+            'Utente' => (string) $struttura->questura_username,
             'token' => $token,
-            'ElencoSchedine' => $txt,
+            'ElencoSchedine' => ['string' => explode("\r\n", $txt)],
         ]);
 
-        return $this->normalizeWsResponse('test', $response, ['token' => $token]);
+        return $this->normalizeWsResponse('test', $response, ['count' => count(explode("\r\n", $txt))]);
     }
 
     private function sendInternal(Struttura $struttura, string $txt): array
@@ -98,32 +92,63 @@ class QuesturaWebService
                 'mode' => 'send',
                 'response_code' => 'SIM-SEND-OK',
                 'message' => 'Simulazione Questura: invio completato con esito positivo.',
-                'detail' => 'Trasmissione demo registrata. Puoi scaricare la ricevuta simulata.',
+                'detail' => 'Nessuna trasmissione o ricevuta ufficiale.',
                 'raw' => ['simulation' => true, 'bytes' => strlen($txt)],
                 'context' => ['simulation' => true],
                 'simulated' => true,
             ];
         }
 
-        $client = $this->makeClient();
-        $token = $this->generateToken($client, $struttura);
-        $auth = $this->authenticationTest($client, $token);
-        if (!$auth['ok']) {
-            return $auth + ['stage' => 'authentication'];
+        try {
+            $client = $this->makeClient();
+            $token = $this->generateToken($client, $struttura);
+            $auth = $this->authenticationTest($client, $token, $struttura);
+            if (!$auth['ok']) {
+                return $auth + ['stage' => 'authentication', 'transmission_excluded' => true];
+            }
+        } catch (Throwable) {
+            return ['pre_send_error' => true, 'transmission_excluded' => true];
         }
 
-        $response = $this->call($client, 'Send', [
+        try {
+            $response = $this->call($client, 'Send', [
+                'Utente' => (string) $struttura->questura_username,
             'token' => $token,
-            'ElencoSchedine' => $txt,
+            'ElencoSchedine' => ['string' => explode("\r\n", $txt)],
         ]);
 
-        return $this->normalizeWsResponse('send', $response, ['token' => $token]);
+            return $this->normalizeWsResponse('send', $response, ['count' => count(explode("\r\n", $txt))]);
+        } catch (Throwable) {
+            return ['uncertain' => true, 'ok' => false];
+        }
     }
 
     public function receipt(Struttura $struttura, Carbon $date): array
     {
-        // Quarantine unvalidated remote/historical artifacts; never return raw bodies.
-        return EsitoTrasmissioneQuestura::crea('unavailable', 'receipt');
+        if ($this->isSimulation($struttura)) {
+            return EsitoTrasmissioneQuestura::crea('unavailable', 'receipt');
+        }
+        try {
+            if ($date->startOfDay()->greaterThanOrEqualTo(now()->startOfDay()) || $date->lessThan(now()->startOfDay()->subDays(30))) {
+                return EsitoTrasmissioneQuestura::crea('unavailable', 'receipt');
+            }
+            $client = $this->makeClient();
+            $token = $this->generateToken($client, $struttura);
+            $response = $this->normalizeValue($this->call($client, 'Ricevuta', [
+                'Utente' => (string) $struttura->questura_username,
+                'token' => $token,
+                'Data' => $date->format('Y-m-d\\TH:i:s'),
+            ]));
+            $pdf = $response['PDF'] ?? null;
+            // ext-soap decodifica xsd:base64Binary in byte; nessuna ricerca euristica.
+            if (($response['RicevutaResult']['esito'] ?? null) !== true || !is_string($pdf)
+                || strlen($pdf) > 10 * 1024 * 1024 || !str_starts_with($pdf, '%PDF-') || !str_contains(substr($pdf, -1024), '%%EOF')) {
+                return EsitoTrasmissioneQuestura::crea('unavailable', 'receipt');
+            }
+            return ['state' => 'receipt_available', 'bytes' => $pdf, 'mime' => 'application/pdf'];
+        } catch (Throwable) {
+            return EsitoTrasmissioneQuestura::crea('technical_error', 'receipt');
+        }
     }
 
     public function downloadReferenceTables(Struttura $struttura): array
@@ -132,18 +157,25 @@ class QuesturaWebService
         return EsitoTrasmissioneQuestura::crea('unavailable', 'tables');
     }
 
-    private function isSimulation(Struttura $struttura): bool
+    protected function isSimulation(Struttura $struttura): bool
     {
-        return (bool) ($struttura->questura_ws_simulazione ?? false);
+        return !function_exists('app') || !app()->environment('production')
+            || config('questura.enabled') !== true
+            || (bool) ($struttura->questura_ws_simulazione ?? true);
     }
 
     protected function makeClient(): SoapClient
     {
+        if (!app()->environment('production') || config('questura.enabled') !== true) {
+            throw new \RuntimeException('Trasporto Questura non abilitato.');
+        }
         if (!class_exists(SoapClient::class)) {
             throw new \RuntimeException('Estensione SOAP non disponibile sul server PHP.');
         }
 
         return new SoapClient(self::WSDL, [
+            'soap_version' => SOAP_1_2,
+            'stream_context' => stream_context_create(['ssl' => ['verify_peer' => true, 'verify_peer_name' => true], 'http' => ['timeout' => 30]]),
             'trace' => false,
             'exceptions' => true,
             'cache_wsdl' => WSDL_CACHE_NONE,
@@ -160,7 +192,15 @@ class QuesturaWebService
             'WsKey' => (string) $struttura->questura_wskey,
         ]);
 
-        $token = $this->extractScalar($response, ['GenerateTokenResult', 'generateTokenResult', 'token']);
+        $rawToken = $this->normalizeValue($response);
+        if (($rawToken['result']['esito'] ?? null) !== true) {
+            throw new \RuntimeException('Generazione token Questura non riuscita.');
+        }
+        $token = $rawToken['GenerateTokenResult']['token'] ?? null;
+        $expires = $rawToken['GenerateTokenResult']['expires'] ?? null;
+        if (!is_string($expires) || !str_contains($expires, 'T') || strtotime($expires) === false || strtotime($expires) <= time()) {
+            throw new \RuntimeException('Token Questura scaduto o senza scadenza verificabile.');
+        }
         if (!is_string($token) || trim($token) === '') {
             throw new \RuntimeException('GenerateToken non ha restituito un token valido.');
         }
@@ -168,9 +208,10 @@ class QuesturaWebService
         return trim($token);
     }
 
-    private function authenticationTest(SoapClient $client, string $token): array
+    private function authenticationTest(SoapClient $client, string $token, Struttura $struttura): array
     {
         $response = $this->call($client, 'Authentication_Test', [
+            'Utente' => (string) $struttura->questura_username,
             'token' => $token,
         ]);
 
@@ -191,121 +232,39 @@ class QuesturaWebService
     private function normalizeWsResponse(string $mode, mixed $response, array $context = []): array
     {
         $raw = $this->normalizeValue($response);
-        $flat = $this->flattenStrings($raw);
-        $joined = mb_strtolower(implode(' | ', $flat));
-
-        $responseCode = $this->findFirstMatch($raw, ['codice', 'code', 'esito', 'resultcode', 'returncode']);
-        $message = $this->findFirstMatch($raw, ['messaggio', 'message', 'descrizione', 'description', 'resultmessage']);
-        $detail = $this->findFirstMatch($raw, ['dettaglio', 'detail', 'details', 'errore']);
-
-        $ok = !str_contains($joined, 'errore')
-            && !str_contains($joined, 'error')
-            && !str_contains($joined, 'ko')
-            && !str_contains($joined, 'non valido')
-            && !str_contains($joined, 'fallit')
-            && ($message === null || !preg_match('/errore|error|ko|fallit/i', (string) $message));
-
-        if ($mode === 'authentication' && $responseCode !== null) {
-            $ok = $ok && !preg_match('/^0$/', (string) $responseCode);
+        $key = match ($mode) {
+            'authentication' => 'Authentication_TestResult',
+            'test' => 'TestResult',
+            'send' => 'SendResult',
+        };
+        $esito = $raw[$key]['esito'] ?? null;
+        if (!is_bool($esito)) {
+            throw new \RuntimeException('Risposta Questura non conforme al contratto.');
         }
-
-        // Legacy heuristic is transport control only, never official acceptance.
-        // Provider fields and authentication context never leave this interpreter.
-        return ['ok' => $ok];
-    }
-
-    private function extractTableCsv(mixed $response): ?string
-    {
-        $csv = $this->extractScalar($response, ['CSV', 'Csv', 'csv']);
-        if (is_string($csv) && trim($csv) !== '') {
-            return str_replace(["\r\n", "\r"], "\n", $csv);
+        if ($mode === 'authentication' || !$esito) {
+            // Il solo esito generale negativo non prova zero righe acquisite.
+            return ['ok' => $esito];
         }
-
-        foreach ($this->flattenStrings($this->normalizeValue($response)) as $value) {
-            $trimmed = trim($value);
-            if ($trimmed !== '' && str_contains($trimmed, ';')) {
-                return str_replace(["\r\n", "\r"], "\n", $trimmed);
+        $count = $raw['result']['SchedineValide'] ?? null;
+        $details = $raw['result']['Dettaglio']['EsitoOperazioneServizio'] ?? null;
+        if (is_array($details) && !array_is_list($details)) { $details = [$details]; }
+        if (!is_int($count) || $count < 0 || $count > ($context['count'] ?? 0)
+            || !is_array($details) || count($details) !== ($context['count'] ?? 0)) {
+            throw new \RuntimeException('Esiti per riga Questura non conformi al contratto.');
+        }
+        $valid = 0; $errors = [];
+        foreach ($details as $index => $detail) {
+            if (!is_bool($detail['esito'] ?? null)) { throw new \RuntimeException('Esito per riga Questura non valido.'); }
+            if ($detail['esito']) { $valid++; }
+            else {
+                $code = $detail['ErroreCod'] ?? null;
+                // Soltanto codici esplicitamente descritti nella fonte consultata.
+                $errors[] = ['row' => $index + 1, 'code' => in_array($code, ['11', '12'], true) ? $code : 'non_classificato'];
             }
         }
-
-        return null;
-    }
-
-    private function extractReceiptBinary(mixed $response): ?string
-    {
-        $raw = $this->normalizeValue($response);
-        foreach ($this->flattenStrings($raw) as $value) {
-            $trimmed = trim($value);
-            if ($trimmed === '') {
-                continue;
-            }
-            $decoded = base64_decode($trimmed, true);
-            if ($decoded !== false && str_starts_with($decoded, '%PDF')) {
-                return $decoded;
-            }
-        }
-
-        return null;
-    }
-
-    private function fakeReceiptPdf(Struttura $struttura, Carbon $date): string
-    {
-        $lines = [
-            'Ricevuta Questura - Simulazione',
-            'Struttura: ' . ($struttura->nome_struttura ?: 'Struttura'),
-            'Data riferimento: ' . $date->format('d/m/Y'),
-            'Esito: OK DEMO',
-            'Questa ricevuta e\' stata generata in modalita\' simulazione.',
-        ];
-        $text = implode("\\n", $lines);
-        $stream = "BT\n/F1 12 Tf\n50 760 Td\n14 TL\n";
-        foreach (explode("\n", $text) as $i => $line) {
-            if ($i > 0) {
-                $stream .= "T*\n";
-            }
-            $escaped = str_replace(['\\', '(', ')'], ['\\\\', '\\(', '\\)'], $line);
-            $stream .= '(' . $escaped . ") Tj\n";
-        }
-        $stream .= "ET";
-        $len = strlen($stream);
-
-        $pdf = "%PDF-1.4\n";
-        $offsets = [];
-        $offsets[] = strlen($pdf);
-        $pdf .= "1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n";
-        $offsets[] = strlen($pdf);
-        $pdf .= "2 0 obj\n<< /Type /Pages /Count 1 /Kids [3 0 R] >>\nendobj\n";
-        $offsets[] = strlen($pdf);
-        $pdf .= "3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>\nendobj\n";
-        $offsets[] = strlen($pdf);
-        $pdf .= "4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n";
-        $offsets[] = strlen($pdf);
-        $pdf .= "5 0 obj\n<< /Length $len >>\nstream\n$stream\nendstream\nendobj\n";
-        $xref = strlen($pdf);
-        $pdf .= "xref\n0 6\n0000000000 65535 f \n";
-        foreach ($offsets as $offset) {
-            $pdf .= sprintf("%010d 00000 n \n", $offset);
-        }
-        $pdf .= "trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n$xref\n%%EOF";
-        return $pdf;
-    }
-
-    private function extractScalar(mixed $value, array $preferredKeys = []): mixed
-    {
-        $normalized = $this->normalizeValue($value);
-        foreach ($preferredKeys as $key) {
-            $found = $this->findKey($normalized, $key);
-            if ($found !== null) {
-                return $found;
-            }
-        }
-
-        if (is_scalar($normalized) || $normalized === null) {
-            return $normalized;
-        }
-
-        $flat = $this->flattenStrings($normalized);
-        return $flat[0] ?? null;
+        if ($valid !== $count) { throw new \RuntimeException('Conteggio esiti Questura incoerente.'); }
+        return ['ok' => $count === ($context['count'] ?? 0), 'partial' => $count > 0 && $count < ($context['count'] ?? 0), 'valid_rows' => $count, 'row_errors' => $errors]
+            + ($mode === 'send' && $count === 0 ? ['transmission_excluded' => true] : []);
     }
 
     private function normalizeValue(mixed $value): mixed
@@ -325,188 +284,4 @@ class QuesturaWebService
         return $value;
     }
 
-    private function fakeReferenceTables(): array
-    {
-        return [
-            [
-                'slug' => 'luoghi',
-                'type' => 'Luoghi',
-                'filename' => 'questura_luoghi.csv',
-                'csv' => "CODICE;DESCRIZIONE\nH501;ROMA\nF205;MILANO\nZ110;FRANCIA\nZ129;ROMANIA",
-            ],
-            [
-                'slug' => 'tipi_documento',
-                'type' => 'Tipi_Documento',
-                'filename' => 'questura_tipi_documento.csv',
-                'csv' => $this->buildCsvFromModel(TipoDocumento::query()->orderBy('codice')->get()),
-            ],
-            [
-                'slug' => 'tipi_alloggiato',
-                'type' => 'Tipi_Alloggiato',
-                'filename' => 'questura_tipi_alloggiato.csv',
-                'csv' => $this->buildCsvFromModel(TipoAlloggiato::query()->orderBy('codice')->get()),
-            ],
-            [
-                'slug' => 'tipo_errore',
-                'type' => 'TipoErrore',
-                'filename' => 'questura_tipo_errore.csv',
-                'csv' => "CODICE;DESCRIZIONE\n0;Nessun errore\n999;Simulazione interna",
-            ],
-        ];
-    }
-
-    private function buildCsvFromModel(Collection $rows): string
-    {
-        $lines = ['CODICE;DESCRIZIONE'];
-        foreach ($rows as $row) {
-            $lines[] = trim((string) $row->codice) . ';' . trim((string) $row->descrizione);
-        }
-
-        return implode("\n", $lines);
-    }
-
-    private function syncReferenceTables(array $tables): array
-    {
-        $sync = [
-            'tipo_documento' => 0,
-            'tipo_alloggiato' => 0,
-        ];
-
-        foreach ($tables as $table) {
-            if (($table['slug'] ?? null) === 'tipi_documento') {
-                $sync['tipo_documento'] = $this->syncCatalogCsv(TipoDocumento::class, (string) ($table['csv'] ?? ''));
-            }
-
-            if (($table['slug'] ?? null) === 'tipi_alloggiato') {
-                $sync['tipo_alloggiato'] = $this->syncCatalogCsv(TipoAlloggiato::class, (string) ($table['csv'] ?? ''));
-            }
-        }
-
-        return $sync;
-    }
-
-    private function syncCatalogCsv(string $modelClass, string $csv): int
-    {
-        $rows = $this->parseCsvRows($csv);
-        $count = 0;
-
-        foreach ($rows as $row) {
-            $codice = trim((string) ($row['codice'] ?? $row['id'] ?? $row['tipoalloggiato'] ?? $row['tipodocumento'] ?? ''));
-            $descrizione = trim((string) ($row['descrizione'] ?? $row['descr'] ?? $row['denominazione'] ?? $row['tipo'] ?? ''));
-
-            if ($codice === '' || $descrizione === '') {
-                continue;
-            }
-
-            $modelClass::query()->updateOrCreate(
-                ['codice' => $codice],
-                ['descrizione' => $descrizione, 'locked' => true]
-            );
-            $count++;
-        }
-
-        return $count;
-    }
-
-    private function parseCsvRows(string $csv): array
-    {
-        $lines = preg_split('/\n+/', trim($csv)) ?: [];
-        if (count($lines) < 2) {
-            return [];
-        }
-
-        $header = str_getcsv(array_shift($lines), ';');
-        $header = array_map(function ($value) {
-            $value = mb_strtolower(trim((string) $value));
-            $value = str_replace([' ', '-'], '_', $value);
-            return preg_replace('/[^a-z0-9_]+/u', '', $value) ?: '';
-        }, $header);
-
-        $rows = [];
-        foreach ($lines as $line) {
-            if (trim($line) === '') {
-                continue;
-            }
-
-            $values = str_getcsv($line, ';');
-            $assoc = [];
-            foreach ($header as $index => $key) {
-                if ($key === '') {
-                    continue;
-                }
-                $assoc[$key] = $values[$index] ?? null;
-            }
-            $rows[] = $assoc;
-        }
-
-        return $rows;
-    }
-
-    private function flattenStrings(mixed $value): array
-    {
-        if (is_scalar($value) || $value === null) {
-            return [$value === null ? '' : (string) $value];
-        }
-
-        $out = [];
-        foreach ((array) $value as $item) {
-            array_push($out, ...$this->flattenStrings($item));
-        }
-        return $out;
-    }
-
-    private function findFirstMatch(mixed $value, array $needles): ?string
-    {
-        $normalized = $this->normalizeValue($value);
-        foreach ($needles as $needle) {
-            $found = $this->findByNeedle($normalized, mb_strtolower($needle));
-            if ($found !== null && $found !== '') {
-                return (string) $found;
-            }
-        }
-
-        return null;
-    }
-
-    private function findByNeedle(mixed $value, string $needle): mixed
-    {
-        if (!is_array($value)) {
-            return null;
-        }
-
-        foreach ($value as $key => $item) {
-            if (is_string($key) && mb_strtolower($key) === $needle) {
-                return is_array($item) ? json_encode($item, JSON_UNESCAPED_UNICODE) : $item;
-            }
-            if (is_array($item)) {
-                $found = $this->findByNeedle($item, $needle);
-                if ($found !== null) {
-                    return $found;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private function findKey(mixed $value, string $key): mixed
-    {
-        if (!is_array($value)) {
-            return null;
-        }
-
-        foreach ($value as $currentKey => $item) {
-            if ((string) $currentKey === $key) {
-                return $item;
-            }
-            if (is_array($item)) {
-                $found = $this->findKey($item, $key);
-                if ($found !== null) {
-                    return $found;
-                }
-            }
-        }
-
-        return null;
-    }
 }

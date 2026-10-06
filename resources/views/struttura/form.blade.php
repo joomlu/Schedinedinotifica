@@ -570,37 +570,25 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </div>
                                             <div class="col-12"><hr class="my-2"></div>
                                             <div class="col-md-4">
-                                                <label class="form-label">Questura username</label>
+                                                <label class="form-label">Utente Alloggiati Web</label>
                                                 <input type="text" name="questura_username" class="form-control" value="{{ old('questura_username', $struttura->questura_username) }}">
                                             </div>
                                             <div class="col-md-4">
-                                                <label class="form-label">Questura password</label>
+                                                <label class="form-label">Password Alloggiati Web</label>
                                                 <div class="input-group">
-                                                    <input type="password" name="questura_password" id="questura_password" class="form-control" value="{{ old('questura_password', $struttura->questura_password) }}" autocomplete="new-password">
+                                                    <input type="password" name="questura_password" id="questura_password" class="form-control" value="" autocomplete="new-password" placeholder="Inserisci nuova password">
                                                     <button type="button" class="btn btn-outline-secondary" data-password-toggle="questura_password" aria-label="Mostra password" title="Mostra password">
                                                         <i class="ri-eye-line align-middle"></i>
                                                     </button>
                                                 </div>
+                                                <small class="text-muted d-block mt-1">{{ filled($struttura->getRawOriginal('questura_password')) ? 'Configurata' : 'Non configurata' }}</small>
                                             </div>
                                             <div class="col-md-4">
                                                 <label class="form-label">WSKEY Questura</label>
-                                                <input type="text" name="questura_wskey" class="form-control" value="{{ old('questura_wskey', $struttura->questura_wskey) }}">
+                                                <input type="password" name="questura_wskey" autocomplete="new-password" class="form-control" value="" placeholder="Inserisci nuovo WSKEY">
+                                                <small class="text-muted d-block mt-1">{{ filled($struttura->getRawOriginal('questura_wskey')) ? 'Configurata' : 'Non configurata' }}</small>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="form-label">Codici Questura</label>
-                                                <input type="text" name="questura_codici" class="form-control" value="{{ old('questura_codici', $struttura->questura_codici) }}">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="form-label">PUK / codice di supporto</label>
-                                                <input type="text" name="questura_puk" class="form-control" value="{{ old('questura_puk', $struttura->questura_puk) }}">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="hidden" name="questura_ws_simulazione" value="0">
-                                                <div class="form-check form-switch form-switch-md mt-4">
-                                                    <input class="form-check-input" type="checkbox" role="switch" name="questura_ws_simulazione" id="questuraWsSimulazione" value="1" {{ old('questura_ws_simulazione', $struttura->questura_ws_simulazione) ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="questuraWsSimulazione">Modalità prova invio Questura</label>
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

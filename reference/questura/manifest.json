@@ -1,0 +1,30 @@
+[
+  {
+    "file": "comuni.csv",
+    "ente": "Polizia di Stato / CEN",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/ashx/Download.ashx?ID=0&N=COMUNI",
+    "acquisizione": "2026-10-06",
+    "sha256": "a9d0f21fc5511b3e05bca881914251ee18c1310a2351abc636bae432f47b6454"
+  },
+  {
+    "file": "stati.csv",
+    "ente": "Polizia di Stato / CEN",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/ashx/Download.ashx?ID=1&N=STATI",
+    "acquisizione": "2026-10-06",
+    "sha256": "77f4bb0b0df6bcf10385b9b8892d876a6023c2da40abea72c569b2beb205ced4"
+  },
+  {
+    "file": "documenti.csv",
+    "ente": "Polizia di Stato / CEN",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/ashx/Download.ashx?ID=2&N=DOCUMENTI",
+    "acquisizione": "2026-10-06",
+    "sha256": "b411088e0c5baf01c16cd64ca32c427258dde74eb9cdf13455dff904e1a00663"
+  },
+  {
+    "file": "tipi.csv",
+    "ente": "Polizia di Stato / CEN",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/ashx/Download.ashx?ID=3&N=TIPO_ALLOGGIATO",
+    "acquisizione": "2026-10-06",
+    "sha256": "3cf46914cf9806e9b0d2307c27bfcf67f849de1432c65ff7e8603cd74b69f4cd"
+  }
+]

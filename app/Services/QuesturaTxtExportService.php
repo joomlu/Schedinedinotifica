@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Componenti;
+use App\Support\Questura\Catalogo;
 use App\Models\GeoComune;
 use App\Models\GeoNazione;
 use App\Models\GeoProvincia;
@@ -19,7 +20,7 @@ class QuesturaTxtExportService
     {
         return Schedina::query()
             ->withoutGlobalScope('struttura')
-            ->with(['componenti' => fn ($query) => $query->withoutGlobalScope('struttura')])
+            ->with(['componenti' => fn ($query) => $query->withoutGlobalScope('struttura')->where('struttura_id', $strutturaId)->orderBy('id')])
             ->where('struttura_id', $strutturaId)
             ->where('circuito', 'schedina')
             ->whereDate('arrive', '>=', $dal->toDateString())
@@ -59,6 +60,9 @@ class QuesturaTxtExportService
             ->values()
             ->all();
 
+        if (count($lines) === 0 || count($lines) > 1000) {
+            throw ValidationException::withMessages(['questura_export' => 'Selezionare da 1 a 1000 alloggiati per file Questura.']);
+        }
         return implode("\r\n", $lines);
     }
 
@@ -100,7 +104,7 @@ class QuesturaTxtExportService
             $rows[] = $capoRow;
         }
 
-        foreach ($schedina->componenti as $index => $componente) {
+        foreach ($schedina->componenti->sortBy('id')->values() as $index => $componente) {
             [$componentErrors, $componentRow] = $this->buildComponenteRow($schedina, $componente, $index);
             $errors = array_merge($errors, $componentErrors);
             if ($componentRow !== null) {
@@ -119,11 +123,17 @@ class QuesturaTxtExportService
         $errors = [];
 
         $tipoAlloggiato = $this->tipoAlloggiatoCode($schedina->relationship);
+        if (in_array($tipoAlloggiato, ['17', '18'], true) && $schedina->componenti->isEmpty()) {
+            $errors[] = 'Capo famiglia/gruppo senza componenti: completare gli alloggiati collegati.';
+        }
         if ($tipoAlloggiato === null || !in_array($tipoAlloggiato, ['16', '17', '18'], true)) {
             $errors[] = 'Tipo alloggiato ospite non valido per Questura.';
         }
 
         $arrivo = $this->formatDate($schedina->arrive);
+        if ($arrivo !== null && !in_array($arrivo, [now()->format('d/m/Y'), now()->subDay()->format('d/m/Y')], true)) {
+            $errors[] = 'Data arrivo fuori dalla finestra Questura: usare il canale indicato dalla Questura per arrivi precedenti.';
+        }
         if ($arrivo === null) {
             $errors[] = 'Data arrivo mancante o non valida.';
         }
@@ -136,13 +146,13 @@ class QuesturaTxtExportService
         }
 
         $cognome = $this->sanitizeText($schedina->surname, 50);
-        if ($cognome === '') {
-            $errors[] = 'Cognome ospite mancante.';
+        if (trim($cognome) === '') {
+            $errors[] = 'Cognome ospite mancante, non rappresentabile o superiore a 50 caratteri; correggere il campo.';
         }
 
         $nome = $this->sanitizeText($schedina->name, 30);
-        if ($nome === '') {
-            $errors[] = 'Nome ospite mancante.';
+        if (trim($nome) === '') {
+            $errors[] = 'Nome ospite mancante, non rappresentabile o superiore a 30 caratteri; correggere il campo.';
         }
 
         $sesso = $this->sexCode($schedina->sex);
@@ -172,9 +182,9 @@ class QuesturaTxtExportService
             $errors[] = 'Tipo documento ospite non mappabile ai codici ufficiali.';
         }
 
-        $numeroDocumento = $this->sanitizeText($schedina->or_doc, 20);
-        if ($numeroDocumento === '') {
-            $errors[] = 'Numero documento ospite mancante.';
+        $numeroDocumento = $this->documentNumber($schedina->or_doc);
+        if (trim($numeroDocumento) === '') {
+            $errors[] = 'Numero documento mancante, non rappresentabile o superiore a 20 caratteri; correggere il campo.';
         }
 
         $luogoRilascio = $this->documentReleasePlaceCode($schedina->or_published_country, $schedina->or_published_city);
@@ -209,11 +219,18 @@ class QuesturaTxtExportService
         $errors = [];
 
         $tipoAlloggiato = $this->tipoAlloggiatoCode($componente->relationship);
+        $capo = $this->tipoAlloggiatoCode($schedina->relationship);
+        if (($componente->struttura_id !== null && (int) $componente->struttura_id !== (int) $schedina->struttura_id) || $tipoAlloggiato !== match ($capo) { '17' => '19', '18' => '20', default => null }) {
+            $errors[] = 'Componente incompatibile con struttura o tipo del capo: correggere il collegamento.';
+        }
         if ($tipoAlloggiato === null || !in_array($tipoAlloggiato, ['19', '20'], true)) {
             $errors[] = 'Tipo alloggiato componente non valido per Questura.';
         }
 
         $arrivo = $this->formatDate($schedina->arrive);
+        if ($arrivo !== null && !in_array($arrivo, [now()->format('d/m/Y'), now()->subDay()->format('d/m/Y')], true)) {
+            $errors[] = 'Data arrivo fuori dalla finestra Questura: usare il canale indicato dalla Questura per arrivi precedenti.';
+        }
         $permanenza = $this->permanenza($schedina->arrive, $schedina->departure);
         if ($arrivo === null || $permanenza === null) {
             $errors[] = 'Periodo soggiorno schedina non valido per il componente.';
@@ -222,13 +239,13 @@ class QuesturaTxtExportService
         }
 
         $cognome = $this->sanitizeText($componente->surname, 50);
-        if ($cognome === '') {
-            $errors[] = 'Cognome componente mancante.';
+        if (trim($cognome) === '') {
+            $errors[] = 'Cognome componente mancante, non rappresentabile o superiore a 50 caratteri; correggere il campo.';
         }
 
         $nome = $this->sanitizeText($componente->name, 30);
-        if ($nome === '') {
-            $errors[] = 'Nome componente mancante.';
+        if (trim($nome) === '') {
+            $errors[] = 'Nome componente mancante, non rappresentabile o superiore a 30 caratteri; correggere il campo.';
         }
 
         $sesso = $this->sexCode($componente->sex);
@@ -327,28 +344,17 @@ class QuesturaTxtExportService
             return null;
         }
 
-        $normalized = $this->normalizeLookup($value);
-        $record = TipoAlloggiato::query()->get(['codice', 'descrizione'])->first(function (TipoAlloggiato $row) use ($normalized) {
-            return $this->normalizeLookup($row->descrizione) === $normalized
-                || $this->normalizeLookup($row->codice) === $normalized;
-        });
-
-        return $record?->codice ? str_pad((string) $record->codice, 2, '0', STR_PAD_LEFT) : null;
+        return Catalogo::codice('tipi', $value);
     }
 
     private function tipoDocumentoCode(?string $value): ?string
     {
-        if (!$value) {
-            return null;
-        }
-
-        $normalized = $this->normalizeLookup($value);
-        $record = TipoDocumento::query()->get(['codice', 'descrizione'])->first(function (TipoDocumento $row) use ($normalized) {
-            return $this->normalizeLookup($row->descrizione) === $normalized
-                || $this->normalizeLookup($row->codice) === $normalized;
-        });
-
-        return $record?->codice ? $this->padRight($record->codice, 5) : null;
+        if (!$value) { return null; }
+        $record = TipoDocumento::query()->get(['codice', 'descrizione'])->first(fn ($row) =>
+            $this->normalizeLookup($row->codice) === $this->normalizeLookup($value)
+            || $this->normalizeLookup($row->descrizione) === $this->normalizeLookup($value));
+        return Catalogo::codice('documenti', $record?->codice ?? $value)
+            ?? Catalogo::codice('documenti', $record?->descrizione ?? $value);
     }
 
     private function stateCodeFromCountry($value): ?string
@@ -359,7 +365,7 @@ class QuesturaTxtExportService
 
         if (is_numeric($value)) {
             $nation = GeoNazione::query()->find((int) $value);
-            return $nation ? (string) $nation->id : null;
+            return $nation ? Catalogo::codice('stati', $nation->nome) : null;
         }
 
         $normalized = $this->normalizeLookup((string) $value);
@@ -368,7 +374,7 @@ class QuesturaTxtExportService
                 || $this->normalizeLookup((string) $row->cittadinanza) === $normalized;
         });
 
-        return $nation ? (string) $nation->id : null;
+        return $nation ? Catalogo::codice('stati', $nation->nome) : null;
     }
 
     private function stateCodeFromCitizenship(?string $value): ?string
@@ -383,7 +389,7 @@ class QuesturaTxtExportService
                 || $this->normalizeLookup($row->nome) === $normalized;
         });
 
-        return $nation ? $this->padRight((string) $nation->id, 9) : null;
+        return $nation ? Catalogo::codice('stati', $nation->nome) : null;
     }
 
     private function comuneCode($value): ?string
@@ -395,20 +401,20 @@ class QuesturaTxtExportService
         if (is_numeric($value)) {
             $comune = GeoComune::query()->find((int) $value);
             if ($comune) {
-                return (string) $comune->codice_istat;
+                return Catalogo::codice('comuni', $comune->nome, $comune->provincia?->sigla);
             }
 
             $comune = GeoComune::query()->where('codice_istat', (string) $value)->first();
-            return $comune?->codice_istat;
+            return $comune ? Catalogo::codice('comuni', $comune->nome, $comune->provincia?->sigla) : null;
         }
 
         $normalized = $this->normalizeLookup((string) $value);
-        $comune = GeoComune::query()->get(['codice_istat', 'nome'])->first(function (GeoComune $row) use ($normalized) {
+        $comune = GeoComune::query()->with('provincia')->get()->first(function (GeoComune $row) use ($normalized) {
             return $this->normalizeLookup($row->nome) === $normalized
                 || $this->normalizeLookup((string) $row->codice_istat) === $normalized;
         });
 
-        return $comune?->codice_istat;
+        return $comune ? Catalogo::codice('comuni', $comune->nome, $comune->provincia?->sigla) : null;
     }
 
     private function provinciaSigla($value): ?string
@@ -442,44 +448,61 @@ class QuesturaTxtExportService
 
     private function permanenza(?string $arrive, ?string $departure): ?int
     {
-        try {
-            $arrivo = Carbon::parse($arrive);
-            $partenza = Carbon::parse($departure);
-        } catch (\Throwable $e) {
-            return null;
-        }
-
-        $days = $arrivo->diffInDays($partenza);
-        return $days > 0 ? $days : null;
+        $start = $this->strictDate($arrive);
+        $end = $this->strictDate($departure);
+        if (!$start || !$end || $end <= $start) { return null; }
+        return (int) $start->diff($end)->days;
     }
 
     private function formatDate(?string $value): ?string
     {
-        if (!$value) {
-            return null;
-        }
+        return $this->strictDate($value)?->format('d/m/Y');
+    }
 
-        try {
-            return Carbon::parse($value)->format('d/m/Y');
-        } catch (\Throwable $e) {
-            return null;
+    private function strictDate(?string $value): ?\DateTimeImmutable
+    {
+        foreach (['Y-m-d', 'd/m/Y'] as $format) {
+            $date = \DateTimeImmutable::createFromFormat('!'.$format, (string) $value);
+            $errors = \DateTimeImmutable::getLastErrors();
+            if ($date && (!$errors || (!$errors['warning_count'] && !$errors['error_count'])) && $date->format($format) === $value) {
+                return $date;
+            }
         }
+        return null;
     }
 
     private function composeRecord(array $fields): string
     {
         $line = implode('', $fields);
-        return str_pad(substr($line, 0, 168), 168, ' ');
+        if (strlen($line) !== 168) { throw new \LogicException('Lunghezza record Questura non valida.'); }
+        return $line;
     }
 
     private function sanitizeText(?string $value, int $length): string
     {
-        $value = strtoupper(trim((string) $value));
-        $value = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value) ?: $value;
-        $value = preg_replace('/[^A-Z0-9 \'\-\/\.]/', ' ', $value);
+        $value = mb_strtoupper(trim((string) $value), 'UTF-8');
+        // Normalizzazione esplicita: iconv dipende dalla locale per gli accenti.
+        $value = strtr($value, [
+            'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A',
+            'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E',
+            'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I',
+            'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O',
+            'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U',
+            'Ç' => 'C', 'Ñ' => 'N', 'Ý' => 'Y', 'Ÿ' => 'Y', 'Æ' => 'AE', 'Œ' => 'OE',
+            '’' => "'", '‘' => "'", '‐' => '-', '‑' => '-',
+        ]);
+        if (preg_match('/[^A-Z0-9 \'\-\/\.]/', $value)) { return ''; }
         $value = preg_replace('/\s+/', ' ', (string) $value);
 
-        return $this->padRight(trim((string) $value), $length);
+        $value = trim((string) $value);
+        return strlen($value) > $length ? '' : $this->padRight($value, $length);
+    }
+
+    private function documentNumber(?string $value): string
+    {
+        $value = trim((string) $value);
+        if ($value === '' || strlen($value) > 20 || preg_match('/[^\x20-\x7e]/', $value)) { return ''; }
+        return $this->padRight($value, 20);
     }
 
     private function padRight(string $value, int $length): string
@@ -498,7 +521,7 @@ class QuesturaTxtExportService
     private function isItalia($value): bool
     {
         $stateCode = $this->stateCodeFromCountry($value);
-        return $stateCode === '106';
+        return $stateCode === '100000100';
     }
 
     private function prefixErrors(Schedina $schedina, array $errors, ?int $componentIndex = null): array

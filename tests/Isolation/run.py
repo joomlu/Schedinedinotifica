@@ -32,7 +32,12 @@ def main():
     parser.add_argument('--phpunit', nargs='*', default=[])
     parser.add_argument('--playwright', nargs='*')
     parser.add_argument('--fixtures', help='Script PHP di fixture esplicitamente selezionato sotto tests/')
+    parser.add_argument('--include', nargs='*', default=[], help='File sorgente nuovi esplicitamente inclusi, senza staging')
     args = parser.parse_args()
+    for name in args.include:
+        path = Path(name)
+        if path.is_absolute() or '..' in path.parts or not name.startswith(('app/', 'config/', 'database/migrations/', 'reference/questura/')) or not (ROOT/path).is_file() or (ROOT/path).is_symlink() or not (ROOT/path).resolve().is_relative_to(ROOT):
+            parser.error('Inclusione limitata a sorgenti applicativi, configurazioni, migration e riferimenti Questura')
     if args.playwright == []:
         parser.error('--playwright richiede almeno uno spec esplicito')
     selected = args.phpunit + (args.playwright or []) + ([args.fixtures] if args.fixtures else [])
@@ -83,7 +88,7 @@ def main():
         # Solo file versionati e i file di test di questa funzione, nessun untracked estraneo.
         tracked = subprocess.check_output(['git', 'ls-files', '-z'], cwd=ROOT).decode().split('\0')
         extra = [str(p.relative_to(ROOT)) for folder in ('tests/Isolation', 'tests/Support') for p in (ROOT/folder).glob('*') if p.is_file() and p.suffix in ('.py', '.php', '.js')]
-        extra += selected
+        extra += selected + args.include
         for name in set(tracked+extra):
             if not name or name.startswith(('tests/Feature/real-data', 'public/uploads/', 'storage/', 'bootstrap/cache/', 'public/storage', 'public/images/', '.env', 'database/seeders/')):
                 continue

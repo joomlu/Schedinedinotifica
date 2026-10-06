@@ -18,10 +18,10 @@ namespace {
         public function __soapCall(string $method, array $args, ?array $options = null, $inputHeaders = null, &$outputHeaders = null): mixed {
             self::$calls[] = $method;
             if (self::$callFail) { throw new \RuntimeException('SECRET_TOKEN SOAP request'); }
-            if ($method === 'GenerateToken') { return (object)['GenerateTokenResult'=>'SECRET_TOKEN']; }
-            if ($method === 'Authentication_Test') { return (object)['esito'=>1]; }
-            if (self::$reject) { return (object)['message'=>'error SECRET_TOKEN']; }
-            return (object)['HTTP'=>200, 'accepted'=>true, 'message'=>'SECRET_PASSWORD',
+            if ($method === 'GenerateToken') { return (object)['GenerateTokenResult'=>(object)['token'=>'SECRET_TOKEN', 'expires'=>date(DATE_ATOM, time()+3600)], 'result'=>(object)['esito'=>true]]; }
+            if ($method === 'Authentication_Test') { return (object)['Authentication_TestResult'=>(object)['esito'=>true]]; }
+            if (self::$reject) { return (object)[$method.'Result'=>(object)['esito'=>false, 'ErroreDettaglio'=>'SECRET_TOKEN']]; }
+            return (object)[$method.'Result'=>(object)['esito'=>true], 'result'=>(object)['SchedineValide'=>1, 'Dettaglio'=>(object)['EsitoOperazioneServizio'=>[(object)['esito'=>true]]]], 'HTTP'=>200, 'accepted'=>true, 'message'=>'SECRET_PASSWORD',
                 'nested'=>(object)['SOAP'=>'SECRET_SOAP','Authorization'=>'SECRET_TOKEN']];
         }
     }
@@ -42,7 +42,7 @@ namespace App\Models {
         public function create($data) { self::$saved = $data; return $this; }
     }
 }
-namespace App\Services { class QuesturaTxtExportService {} }
+namespace App\Services { class QuesturaTxtExportService {} class QuesturaRetentionService {} }
 namespace {
     require __DIR__.'/../../app/Services/EsitoTrasmissioneQuestura.php';
     require __DIR__.'/../../app/Services/QuesturaWebService.php';
@@ -53,6 +53,7 @@ namespace {
     function safe($value) { check(!str_contains(json_encode($value, JSON_THROW_ON_ERROR), 'SECRET')); }
     $s = new \App\Models\Struttura();
     $ws = new class extends \App\Services\QuesturaWebService {
+        protected function isSimulation(\App\Models\Struttura $s): bool { return $s->questura_ws_simulazione; }
         protected function makeClient(): \SoapClient {
             // Never invoke the native constructor or parent transport.
             return new \FakeSoapClient('fixture', ['trace'=>false]);
@@ -93,7 +94,7 @@ namespace {
     };
     $tests['nested and unexpected fields discarded; caller acceptance ignored'] = function () {
         $r=Esito::sanifica((object)['state'=>'sent','mode'=>'send','accepted'=>true,
-            'context'=>['token'=>'SECRET_TOKEN'],'raw'=>(object)['SOAP'=>'SECRET_SOAP'],
+            'context'=>['token'=>'SECRET_TOKEN', 'expires'=>date(DATE_ATOM, time()+3600)],'raw'=>(object)['SOAP'=>'SECRET_SOAP'],
             'message'=>'SECRET_PASSWORD','transport'=>['headers'=>['Authorization'=>'SECRET']]]);
         safe($r); check(!$r['accepted'] && count($r)===6);
     };
@@ -110,13 +111,15 @@ namespace {
     };
     $tests['receipt and tables cannot expose or persist unvalidated bodies'] = function () use ($ws,$s) {
         $before=FakeSoapClient::$calls;
+        $s->questura_ws_simulazione=true;
         foreach([$ws->receipt($s,new \Carbon\Carbon()),$ws->downloadReferenceTables($s)] as $r) {
             safe($r); check($r['state']==='unavailable' && count($r)===6);
         }
+        $s->questura_ws_simulazione=false;
         check(FakeSoapClient::$calls===$before);
     };
     $tests['actual persistence boundary projects injected provider material'] = function () use ($ws) {
-        $controller=new \App\Http\Controllers\QuesturaExportController(new \App\Services\QuesturaTxtExportService(),$ws);
+        $controller=new \App\Http\Controllers\QuesturaExportController(new \App\Services\QuesturaTxtExportService(),$ws,new \App\Services\QuesturaRetentionService());
         $m=new \ReflectionMethod($controller,'storeTransmission');
         $m->invoke($controller,1,null,null,'send',new \Carbon\Carbon(),new \Carbon\Carbon(),[],0,[],
             ['state'=>'sent','raw'=>'SECRET','context'=>['token'=>'SECRET'],'accepted'=>true],
