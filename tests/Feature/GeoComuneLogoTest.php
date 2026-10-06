@@ -49,6 +49,7 @@ class GeoComuneLogoTest extends TestCase
         $this->get('/geo/comuni/logo?q=Comune+Fixture')->assertOk()->assertSee($comune->nome);
         $this->get('/geo/comuni/logo?q=inesistente')->assertOk()->assertSee('Nessun comune trovato');
         $this->get('/geo/comuni/logo?page=2')->assertOk()->assertDontSee($comune->nome);
+        $this->get('/geo/comuni/logo')->assertOk()->assertSee('history.replaceState')->assertSee('fetch(')->assertDontSee('window.location.assign(');
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('roles')]
