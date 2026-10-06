@@ -80,144 +80,49 @@
 
             <div id="customerExportFilters" class="collapse {{ $hasActiveFilters ? 'show' : '' }}">
                 <div class="card-body border-top">
-                    <form method="GET" action="{{ route('customer.export.index') }}" class="row g-3">
+                    <form method="GET" action="{{ route('customer.export.index') }}" class="row g-3" id="customer-export-search-form">
                         <div class="col-12">
                             <div class="border rounded-3 p-3 bg-light-subtle">
-                                <div class="fw-semibold mb-3">Filtri principali</div>
-                                <div class="row g-3">
-                                    <div class="col-lg-3">
+                                <div class="fw-semibold mb-3">Filtri</div>
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-lg-9">
                                         <label class="form-label">Ricerca</label>
-                                        <input type="text" name="q" class="form-control" value="{{ request('q') }}" placeholder="Nome, cognome, email, telefono...">
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white border-end-0">
+                                                <i class="ri-search-line"></i>
+                                            </span>
+                                            <input
+                                                type="text"
+                                                id="customer-export-search"
+                                                name="q"
+                                                class="form-control border-start-0"
+                                                value="{{ request('q') }}"
+                                                placeholder="Nome, cognome, email, telefono..."
+                                                autocomplete="off"
+                                            >
+                                            <button
+                                                type="button"
+                                                class="btn btn-light border"
+                                                id="customer-export-search-clear"
+                                                aria-label="Pulisci ricerca"
+                                                style="{{ request('q') ? '' : 'display:none;' }}"
+                                            >
+                                                <i class="ri-close-line"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-3">
-                                        <label class="form-label">Tipo cliente</label>
-                                        <x-ui.select name="tipo_cliente" data-min-search="0">
-                                            <option value="">Tutti</option>
-                                            @foreach($tipiClienti as $tipo)
-                                                <option value="{{ $tipo->descrizione }}" @selected(request('tipo_cliente') === $tipo->descrizione)>{{ $tipo->descrizione }}</option>
-                                            @endforeach
-                                        </x-ui.select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label class="form-label">Nazione</label>
-                                        <x-ui.select name="country">
-                                            <option value="">Tutte</option>
-                                            @foreach($nazioni as $nazione)
-                                                <option value="{{ $nazione->nome }}" @selected(request('country') === $nazione->nome)>{{ $nazione->nome }}</option>
-                                            @endforeach
-                                        </x-ui.select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label class="form-label">Città</label>
-                                        <x-ui.select name="city">
-                                            <option value="">Tutte</option>
-                                            @foreach($citta as $row)
-                                                <option value="{{ $row->nome }}" @selected(request('city') === $row->nome)>{{ $row->nome }}</option>
-                                            @endforeach
-                                        </x-ui.select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="border rounded-3 p-3">
-                                <div class="fw-semibold mb-3">Segmentazione clienti</div>
-                                <div class="row g-3">
-                                    <div class="col-lg-3">
-                                        <label class="form-label">Gruppo I</label>
-                                        <x-ui.select name="group">
-                                            <option value="">Tutti</option>
-                                            @foreach($gruppiLivello1 as $row)
-                                                <option value="{{ $row->nome }}" @selected(request('group') === $row->nome)>{{ $row->nome }}</option>
-                                            @endforeach
-                                        </x-ui.select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label class="form-label">Gruppo II</label>
-                                        <x-ui.select name="subgroup">
-                                            <option value="">Tutti</option>
-                                            @foreach($gruppiLivello2 as $row)
-                                                <option value="{{ $row->nome }}" @selected(request('subgroup') === $row->nome)>{{ $row->nome }}</option>
-                                            @endforeach
-                                        </x-ui.select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label class="form-label">Gruppo III</label>
-                                        <x-ui.select name="subgroup1">
-                                            <option value="">Tutti</option>
-                                            @foreach($gruppiLivello3 as $row)
-                                                <option value="{{ $row->nome }}" @selected(request('subgroup1') === $row->nome)>{{ $row->nome }}</option>
-                                            @endforeach
-                                        </x-ui.select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label class="form-label">Stato scheda</label>
-                                        <x-ui.select name="stato" data-min-search="0">
-                                            <option value="">Tutti</option>
-                                            <option value="completo" @selected(request('stato') === 'completo')>Completati</option>
-                                            <option value="bozza" @selected(request('stato') === 'bozza')>Bozze / incompleti</option>
-                                        </x-ui.select>
+                                    <div class="col-lg-3 d-flex justify-content-end gap-2">
+                                        <a href="{{ route('customer.export.index') }}" class="btn btn-light btn-label">
+                                            <i class="ri-close-line label-icon align-middle fs-16 me-2"></i>
+                                            Pulisci
+                                        </a>
+                                        <button type="submit" class="btn btn-primary btn-label right">
+                                            <i class="ri-filter-3-line label-icon align-middle fs-16 ms-2"></i>
+                                            Applica filtri
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="border rounded-3 p-3">
-                                <div class="fw-semibold mb-3">Consensi e canali</div>
-                                <div class="row g-3">
-                                    <div class="col-lg-3">
-                                        <label class="form-label">Privacy</label>
-                                        <x-ui.select name="privacy_consent" data-min-search="0">
-                                            <option value="">Tutti</option>
-                                            <option value="1" @selected(request('privacy_consent') === '1')>Consenso privacy: sì</option>
-                                            <option value="0" @selected(request('privacy_consent') === '0')>Consenso privacy: no</option>
-                                        </x-ui.select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label class="form-label">Marketing</label>
-                                        <x-ui.select name="marketing_consent" data-min-search="0">
-                                            <option value="">Tutti</option>
-                                            <option value="1" @selected(request('marketing_consent') === '1')>Marketing: sì</option>
-                                            <option value="0" @selected(request('marketing_consent') === '0')>Marketing: no</option>
-                                        </x-ui.select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label class="form-label">Comunicazioni</label>
-                                        <x-ui.select name="communication_consent" data-min-search="0">
-                                            <option value="">Tutti</option>
-                                            <option value="1" @selected(request('communication_consent') === '1')>Comunicazioni: sì</option>
-                                            <option value="0" @selected(request('communication_consent') === '0')>Comunicazioni: no</option>
-                                        </x-ui.select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label class="form-label">Canale pronto</label>
-                                        <x-ui.select name="channel" data-min-search="0">
-                                            <option value="">Tutti</option>
-                                            <option value="email" @selected(request('channel') === 'email')>Email marketing</option>
-                                            <option value="whatsapp" @selected(request('channel') === 'whatsapp')>WhatsApp</option>
-                                            <option value="postal" @selected(request('channel') === 'postal')>Postale</option>
-                                        </x-ui.select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label class="form-label">Storico soggiorni</label>
-                                        <x-ui.select name="has_soggiorni" data-min-search="0">
-                                            <option value="">Tutti</option>
-                                            <option value="yes" @selected(request('has_soggiorni') === 'yes')>Con soggiorni</option>
-                                            <option value="no" @selected(request('has_soggiorni') === 'no')>Senza soggiorni</option>
-                                        </x-ui.select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex justify-content-end gap-2 pt-2">
-                            <a href="{{ route('customer.export.index') }}" class="btn btn-light btn-label">
-                                <i class="ri-close-line label-icon align-middle fs-16 me-2"></i>
-                                Pulisci
-                            </a>
-                            <button type="submit" class="btn btn-primary btn-label right">
-                                <i class="ri-filter-3-line label-icon align-middle fs-16 ms-2"></i>
-                                Applica filtri
-                            </button>
                         </div>
                     </form>
                 </div>
@@ -225,131 +130,133 @@
         </div>
     </div>
 
-    <div class="col-12">
-        <div class="row g-3">
-            <div class="col-md-3">
-                <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                    <div class="text-muted small">Clienti filtrati</div>
-                    <div class="fw-semibold fs-4">{{ $totaleFiltrati }}</div>
+    <div id="customer-export-results">
+        <div class="col-12">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <div class="border rounded-3 p-3 h-100 bg-light-subtle">
+                        <div class="text-muted small">Clienti filtrati</div>
+                        <div class="fw-semibold fs-4">{{ $totaleFiltrati }}</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                    <div class="text-muted small">Con email</div>
-                    <div class="fw-semibold fs-4">{{ $totaleConEmail }}</div>
+                <div class="col-md-3">
+                    <div class="border rounded-3 p-3 h-100 bg-light-subtle">
+                        <div class="text-muted small">Con email</div>
+                        <div class="fw-semibold fs-4">{{ $totaleConEmail }}</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                    <div class="text-muted small">Con cellulare</div>
-                    <div class="fw-semibold fs-4">{{ $totaleConCellulare }}</div>
+                <div class="col-md-3">
+                    <div class="border rounded-3 p-3 h-100 bg-light-subtle">
+                        <div class="text-muted small">Con cellulare</div>
+                        <div class="fw-semibold fs-4">{{ $totaleConCellulare }}</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                    <div class="text-muted small">Con consenso marketing</div>
-                    <div class="fw-semibold fs-4">{{ $totaleMarketing }}</div>
+                <div class="col-md-3">
+                    <div class="border rounded-3 p-3 h-100 bg-light-subtle">
+                        <div class="text-muted small">Con consenso marketing</div>
+                        <div class="fw-semibold fs-4">{{ $totaleMarketing }}</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header border-0 bg-light-subtle d-flex align-items-center justify-content-between">
-                <h5 class="card-title mb-0">Anteprima clienti filtrati</h5>
-                <span class="text-muted small">La tabella mostra un'anteprima. Gli export usano tutti i risultati filtrati.</span>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th style="width: 160px;">Azioni</th>
-                                <th>Codice</th>
-                                <th>Cliente</th>
-                                <th>Tipo</th>
-                                <th>Geo</th>
-                                <th>Gruppo</th>
-                                <th>Contatti</th>
-                                <th>Consensi</th>
-                                <th>Soggiorni</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($customers as $customer)
-                                <tr class="customer-export-row" data-href="{{ route('customer.edit', $customer->id) }}" title="Apri cliente">
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <a href="{{ route('customer.print', $customer->id) }}" class="btn btn-soft-secondary btn-sm js-customer-print" title="Stampa scheda cliente" data-popup-title="Scheda cliente">
-                                                <i class="ri-printer-line fs-16 align-middle"></i>
-                                            </a>
-                                            <a href="{{ route('customer.storico', $customer->id) }}" class="btn btn-soft-dark btn-sm" title="Storico cliente">
-                                                <i class="ri-history-line fs-16 align-middle"></i>
-                                            </a>
-                                            <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-soft-info btn-sm" title="Apri cliente">
-                                                <i class="ri-eye-line fs-16 align-middle"></i>
-                                            </a>
-                                            <form method="POST" action="{{ route('customer.export.destroy', array_merge(request()->except(['page', 'id']), ['id' => $customer->id])) }}" class="m-0"
-                                                data-confirm-text="{{ 'Sei sicuro di voler eliminare ' . (trim($customer->name . ' ' . $customer->surname) ?: 'questo cliente') . '?' }}"
-                                                onsubmit="return window.confirm(this.dataset.confirmText);">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-soft-danger btn-sm" title="Elimina cliente" aria-label="Elimina cliente">
-                                                    <i class="ri-delete-bin-line fs-16 align-middle" aria-hidden="true"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-dark-subtle text-dark">{{ $customer->numero_cliente ?: '—' }}</span></td>
-                                    <td>
-                                        <div class="fw-semibold">{{ $customer->full_name ?: '—' }}</div>
-                                        <div class="text-muted small">{{ $customer->email ?: ($customer->cellphone ?: 'Nessun contatto') }}</div>
-                                    </td>
-                                    <td>{{ $customer->type_housed ?: '—' }}</td>
-                                    <td>
-                                        <div>{{ $customer->display_city ?: '—' }}</div>
-                                        <div class="text-muted small">{{ $customer->display_country ?: '—' }}</div>
-                                    </td>
-                                    <td>
-                                        <div>{{ $customer->group ?: '—' }}</div>
-                                        @if($customer->subgroup)
-                                            <div class="text-muted small">{{ $customer->subgroup }}</div>
-                                        @endif
-                                        @if($customer->subgroup1)
-                                            <div class="text-muted small">{{ $customer->subgroup1 }}</div>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div>{{ $customer->phone ?: '—' }}</div>
-                                        <div class="text-muted small">{{ $customer->cellphone ?: '—' }}</div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-wrap gap-1">
-                                            <span class="badge {{ $customer->privacy_consent ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger' }}">Privacy {{ $customer->privacy_consent ? 'SI' : 'NO' }}</span>
-                                            <span class="badge {{ $customer->marketing_consent ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }}">Marketing {{ $customer->marketing_consent ? 'SI' : 'NO' }}</span>
-                                            <span class="badge {{ $customer->communication_consent ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }}">Comunicazioni {{ $customer->communication_consent ? 'SI' : 'NO' }}</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="fw-semibold">{{ $customer->schedine_count ?? 0 }}</div>
-                                        <div class="text-muted small">Ultimo: {{ $customer->last_arrive_at ?: '—' }}</div>
-                                    </td>
-                                </tr>
-                            @empty
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header border-0 bg-light-subtle d-flex align-items-center justify-content-between">
+                    <h5 class="card-title mb-0">Anteprima clienti filtrati</h5>
+                    <span class="text-muted small">La tabella mostra un'anteprima. Gli export usano tutti i risultati filtrati.</span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
                                 <tr>
-                                    <td colspan="8" class="text-center text-muted py-4">Nessun cliente trovato con i filtri selezionati.</td>
+                                    <th style="width: 160px;">Azioni</th>
+                                    <th>Codice</th>
+                                    <th>Cliente</th>
+                                    <th>Tipo</th>
+                                    <th>Geo</th>
+                                    <th>Gruppo</th>
+                                    <th>Contatti</th>
+                                    <th>Consensi</th>
+                                    <th>Soggiorni</th>
                                 </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @forelse($customers as $customer)
+                                    <tr class="customer-export-row" data-href="{{ route('customer.edit', $customer->id) }}" title="Apri cliente">
+                                        <td>
+                                            <div class="d-inline-flex gap-1">
+                                                <a href="{{ route('customer.print', $customer->id) }}" class="btn btn-soft-secondary btn-sm js-customer-print" title="Stampa scheda cliente" data-popup-title="Scheda cliente">
+                                                    <i class="ri-printer-line fs-16 align-middle"></i>
+                                                </a>
+                                                <a href="{{ route('customer.storico', $customer->id) }}" class="btn btn-soft-dark btn-sm" title="Storico cliente">
+                                                    <i class="ri-history-line fs-16 align-middle"></i>
+                                                </a>
+                                                <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-soft-info btn-sm" title="Apri cliente">
+                                                    <i class="ri-eye-line fs-16 align-middle"></i>
+                                                </a>
+                                                <form method="POST" action="{{ route('customer.export.destroy', array_merge(request()->except(['page', 'id']), ['id' => $customer->id])) }}" class="m-0"
+                                                    data-confirm-text="{{ 'Sei sicuro di voler eliminare ' . (trim($customer->name . ' ' . $customer->surname) ?: 'questo cliente') . '?' }}"
+                                                    onsubmit="return window.confirm(this.dataset.confirmText);">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-soft-danger btn-sm" title="Elimina cliente" aria-label="Elimina cliente">
+                                                        <i class="ri-delete-bin-line fs-16 align-middle" aria-hidden="true"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-dark-subtle text-dark">{{ $customer->numero_cliente ?: '—' }}</span></td>
+                                        <td>
+                                            <div class="fw-semibold">{{ $customer->full_name ?: '—' }}</div>
+                                            <div class="text-muted small">{{ $customer->email ?: ($customer->cellphone ?: 'Nessun contatto') }}</div>
+                                        </td>
+                                        <td>{{ $customer->type_housed ?: '—' }}</td>
+                                        <td>
+                                            <div>{{ $customer->display_city ?: '—' }}</div>
+                                            <div class="text-muted small">{{ $customer->display_country ?: '—' }}</div>
+                                        </td>
+                                        <td>
+                                            <div>{{ $customer->group ?: '—' }}</div>
+                                            @if($customer->subgroup)
+                                                <div class="text-muted small">{{ $customer->subgroup }}</div>
+                                            @endif
+                                            @if($customer->subgroup1)
+                                                <div class="text-muted small">{{ $customer->subgroup1 }}</div>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div>{{ $customer->phone ?: '—' }}</div>
+                                            <div class="text-muted small">{{ $customer->cellphone ?: '—' }}</div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-wrap gap-1">
+                                                <span class="badge {{ $customer->privacy_consent ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger' }}">Privacy {{ $customer->privacy_consent ? 'SI' : 'NO' }}</span>
+                                                <span class="badge {{ $customer->marketing_consent ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }}">Marketing {{ $customer->marketing_consent ? 'SI' : 'NO' }}</span>
+                                                <span class="badge {{ $customer->communication_consent ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }}">Comunicazioni {{ $customer->communication_consent ? 'SI' : 'NO' }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="fw-semibold">{{ $customer->schedine_count ?? 0 }}</div>
+                                            <div class="text-muted small">Ultimo: {{ $customer->last_arrive_at ?: '—' }}</div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="8" class="text-center text-muted py-4">Nessun cliente trovato con i filtri selezionati.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+                @if(method_exists($customers, 'links'))
+                    <div class="card-footer bg-white border-0">
+                        {{ $customers->links('vendor.pagination.bootstrap-5-clean') }}
+                    </div>
+                @endif
             </div>
-            @if(method_exists($customers, 'links'))
-                <div class="card-footer bg-white border-0">
-                    {{ $customers->links('vendor.pagination.bootstrap-5-clean') }}
-                </div>
-            @endif
         </div>
     </div>
 </div>
@@ -357,7 +264,7 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    function bindCustomerExportInteractions() {
         document.querySelectorAll('.customer-export-row[data-href]').forEach((row) => {
             row.addEventListener('click', function (event) {
                 const interactive = event.target.closest('a, button, input, select, textarea, label');
@@ -392,6 +299,116 @@
                 }
             });
         });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        bindCustomerExportInteractions();
+
+        const input = document.getElementById('customer-export-search');
+        const clearBtn = document.getElementById('customer-export-search-clear');
+        const form = document.getElementById('customer-export-search-form');
+        const results = document.getElementById('customer-export-results');
+
+        if (!input || !results || !form) {
+            return;
+        }
+
+        const updateClearButtonState = () => {
+            if (!clearBtn) return;
+            clearBtn.style.display = input.value.trim() ? '' : 'none';
+        };
+
+        const preserveFocus = () => {
+            if (document.activeElement !== input) {
+                input.focus();
+            }
+            const cursorPosition = input.value.length;
+            input.setSelectionRange(cursorPosition, cursorPosition);
+        };
+
+        let debounceTimer = null;
+        let latestRequestId = 0;
+
+        const applyResults = (html) => {
+            const parser = new DOMParser();
+            const parsed = parser.parseFromString(html, 'text/html');
+            const nextResults = parsed.getElementById('customer-export-results');
+            if (!nextResults) {
+                return;
+            }
+
+            results.innerHTML = nextResults.innerHTML;
+            bindCustomerExportInteractions();
+            preserveFocus();
+        };
+
+        const submitSearch = function () {
+            const url = new URL(window.location.href);
+            const q = (input.value || '').trim();
+
+            if (q !== '') {
+                url.searchParams.set('q', q);
+            } else {
+                url.searchParams.delete('q');
+            }
+
+            url.searchParams.delete('page');
+            history.replaceState({}, '', url.toString());
+
+            const currentRequestId = ++latestRequestId;
+            fetch(url.toString(), {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'text/html',
+                },
+                credentials: 'same-origin',
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch customer export results');
+                    }
+
+                    return response.text();
+                })
+                .then((html) => {
+                    if (currentRequestId !== latestRequestId) {
+                        return;
+                    }
+                    applyResults(html);
+                })
+                .catch(() => {
+                    console.warn('Customer export search refresh failed.');
+                });
+        };
+
+        input.addEventListener('input', function () {
+            updateClearButtonState();
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(submitSearch, 350);
+        });
+
+        input.addEventListener('keydown', function (event) {
+            if (event.key !== 'Enter') {
+                return;
+            }
+
+            event.preventDefault();
+            clearTimeout(debounceTimer);
+            submitSearch();
+        });
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function () {
+                input.value = '';
+                updateClearButtonState();
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(submitSearch, 350);
+                preserveFocus();
+            });
+        }
+
+        updateClearButtonState();
+        preserveFocus();
     });
 </script>
 @endpush

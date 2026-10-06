@@ -333,6 +333,8 @@ Correzione verificata 2026-10-05: il paginator di default Laravel era Tailwind (
 
 Ricerca Geo Comuni: il pattern riutilizzato è il debounce già presente nei componenti `x-table-topbar`/`x-crud-table` di questa applicazione. La pagina `GeoComuneLogoController` filtra automaticamente su `geo_comuni.nome` e su `geo_comuni_cap` → `geo_cap.cap`, senza usare `codice_istat`. Il campo `q` aggiorna la query con debounce di 350 ms, elimina `page` e reindirizza alla pagina 1; svuotando il campo ripristina il set completo. La validazione in runtime isolato include ricerca Comune, ricerca CAP, filtro negativo su codice ISTAT e mantenimento del flusso upload/rimozione logo.
 
+Liste e export clienti: il filtro di ricerca della pagina `resources/views/customers/export.blade.php` è stato semplificato a un unico campo `q`, con debounce di 350 ms, aggiornamento asincrono senza full reload, focus preservato e reset di `page` verso 1. Il backend in `app/Http/Controllers/CustomerExportController.php` mantiene la logica di filtraggio server-side, consent e canali/permessi; la modifica è solo UX e non altera il contratto di sicurezza/export né lo stato di tenant o DB.
+
 Questura: legge GEO e mapping propri di QuesturaTxtExportService. ISTAT: IstatCodifiche legge GEO e traduce su snapshot ufficiali dedicati `reference/istat/ross1000-er/`; non riscrive GEO né mapping Questura. Conformità di un'integrazione non certifica l'altra. Stato del dataset GEO reale e completezza di ogni codice non verificati qui.
 
 ## 7. Questura / Alloggiati Web
