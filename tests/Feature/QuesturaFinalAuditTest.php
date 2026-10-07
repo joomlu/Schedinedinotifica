@@ -36,6 +36,7 @@ class QuesturaFinalAuditTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        config(['questura.enabled' => true]);
         require_once __DIR__.'/QuesturaWsContractTest.php';
         $this->structure = $this->structureFor(null);
         $this->structure->update(['questura_username' => 'fixture-account', 'questura_password' => 'PASSWORD-RISERVATA-SINTETICA', 'questura_wskey' => 'WSKEY-RISERVATA-SINTETICA']);

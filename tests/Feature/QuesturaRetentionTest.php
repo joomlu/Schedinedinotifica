@@ -12,6 +12,12 @@ use Tests\TestCase;
 
 class QuesturaRetentionTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        config(['questura.enabled' => true]);
+    }
+
     use RefreshDatabase, StrutturaFixtures;
 
     public const PDF = "%PDF-1.4\nRICEVUTA SINTETICA\n%%EOF";

@@ -1,5 +1,12 @@
 # Despliegue de la versión LOCAL en SPanel
 
+## Separazione obbligatoria delle accettazioni — 07/10/2026
+
+Il flusso resta **LOCAL ACCEPTANCE → GITHUB → ROCKY/SPANEL DEPLOY ACCEPTANCE → PRODUCTION**. Le prove Laravel/PHPUnit/Playwright locali usano esclusivamente `tests/Isolation/run.py`, risorse effimere e servizi finti. L'assenza di Bubblewrap sul destinatario non blocca sviluppo, correzione o accettazione locale.
+
+Bubblewrap e le sei prove di `docs/ROCKY_PROCESS_ISOLATION.md` restano prerequisiti obbligatori del futuro deploy Rocky (**DEPLOY-TIME ROCKY ACCEPTANCE**). Una suite locale positiva non li sostituisce, non autorizza il deploy e non prova accettazione Questura o readiness produzione. Gli STOP precedenti sul destinatario riguardano quel gate; non sono un divieto di lavorare localmente. La correzione locale del guardrail C1 è documentata nel Maestro, appendice U, e nel rapporto Questura; deve seguire review e autorizzazione Git prima di qualsiasi transizione sul server.
+
+
 Fecha de auditoría: 2026-09-29. Flujo: **LOCAL → GitHub → nuevo SPanel**.
 El servidor anterior NO es fuente de código. Rama de preparación: `production-deploy`. El merge a main requiere aprobación expresa.
 

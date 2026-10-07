@@ -20,6 +20,7 @@ class QuesturaPayloadCoherenceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        config(['questura.enabled' => true]);
         require_once __DIR__.'/QuesturaWsContractTest.php';
         $this->structure = $this->structureFor(null);
         $this->structure->update(['questura_username' => 'fixture', 'questura_password' => 'fixture-password', 'questura_wskey' => 'fixture-key']);

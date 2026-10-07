@@ -42,6 +42,7 @@ class QuesturaLoggingPrivacyTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        config(['questura.enabled' => true]);
         require_once __DIR__.'/QuesturaWsContractTest.php';
         $this->structure = $this->structureFor(null);
         $this->structure->update(['questura_username' => 'UTENTE-Q3-SINTETICO', 'questura_password' => 'PASSWORD-Q3-SINTETICA', 'questura_wskey' => 'WSKEY-Q3-SINTETICA']);

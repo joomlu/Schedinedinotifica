@@ -11,6 +11,12 @@ use Tests\TestCase;
 
 class QuesturaTestSendSnapshotTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        config(['questura.enabled' => true]);
+    }
+
     use RefreshDatabase, StrutturaFixtures;
 
     #[\PHPUnit\Framework\Attributes\DataProvider('scenarios')]

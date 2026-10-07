@@ -1,5 +1,233 @@
 # Questura / Alloggiati Web — audit e correzioni del 6 ottobre 2026
 
+## P1 audit OFF corretto e review finale locale C1 — 07/10/2026
+
+**QUESTURA C1 LOCALMENTE PRONTO PER REVIEW FINALE**, esclusivamente nel perimetro C1 locale verificato. Supera lo STOP dell'appendice W per il middleware audit; **BASELINE IN AUDIT** invariato, nessuna certificazione globale del gestionale o della produzione.
+
+### Preflight e RED obbligatoria
+
+Repository locale confermato, fetch autorizzato: main, HEAD/origin/main `f742ff8d00e4fdd31235a75cad4fddf9205660cc`, ahead/behind 0/0, staging vuoto, 19 file previsti. Hash iniziali fuori Git in `/private/tmp/questura-audit-preflight.json`. Nessuna modifica preesistente persa.
+
+Regressione via vero kernel/gruppo web, autenticazione di utente con struttura sintetica, CSRF attivo, POST `/questura/ws/verify`, OFF: controller restituisce 302 con errore ma middleware crea una riga `struttura_audit_logs`. RED **53 test / 829 asserzioni, 1 failure attesa**, valore osservato 1 invece di 0. JSON409 nello stesso run non crea audit. Log `/private/tmp/questura-audit-red.log`; runtime `/private/tmp/schedine-test-phe5ys4l` rimosso. Non sola chiamata diretta al controller; nessun middleware disabilitato.
+
+### Fix semantico minimo e regressioni
+
+La risposta Web di `blockedTransportResponse` porta `QuesturaTransportDisabledException::RESPONSE_HEADER` (`X-Questura-Transport-Disabled: 1`). È generata dal backend soltanto nel catch dell'eccezione tipata. `LogOperativeAudit::handle`, dopo next(), esclude l'audit solo per nome route `questura.*` e marcatore della **risposta**, non della richiesta. JSON >=400 resta già escluso. Nessun matching del messaggio, seconda logica del flag, esclusione generale dei302 o disattivazione dell'audit Questura. Un header inviato dal client non sopprime audit legittimi.
+
+Quattro regressioni specifiche: OFF Web302/audit0; OFF JSON409/audit0; POST sintetico nonQuestura attraverso vero gruppo web con redirect/audit1; Questura ON offline con header client/audit1. Endpoint sintetico nonQuestura registrato solo nel test per isolare il contratto del middleware. Matrice precedente ampliata: cinque POST OFF preservano anche audit; finalizzazione e due export OFF preservano sette tabelle, hash/byte dei file e dati PMS; ON conserva finalizzazione/download e audit1. Test/Send/receipt/tables service OFF zero client/WSDL; ON soltanto simulazione/double, mai rete reale.
+
+Mirati **76 test / 1.044 asserzioni PASS**, guardrail+retention, log `/private/tmp/questura-audit-green.log`, runtime `/private/tmp/schedine-test-p5u5tntu` rimosso. Risultati sovrapposti non sommati.
+
+### Audit completo della catena successiva al rifiuto
+
+Route Questura in `routes/web.php:451–464`: gruppo auth del web, nessuna catena alternativa. Registrazioni in Kernel e RouteServiceProvider ricontrollate.
+
+| Middleware effettivo | Effetti e conclusione nel percorso OFF |
+|---|---|
+| TrustProxies, ValidatePostSize, TrimStrings, ConvertEmptyStringsToNull, PreventRequestsDuringMaintenance | intestazioni/normalizzazione/controlli iniziali; nessuna persistenza applicativa dopo next |
+| HandleCors | intestazioni della risposta; nessuna scrittura di dominio |
+| EncryptCookies, AddQueuedCookiesToResponse, VerifyCsrfToken | gestione cookie e token tecnico, nessuna operazione Questura persistente |
+| StartSession | sessione tecnica, flash errori fissi e cookie; non persiste payload/credenziali Questura |
+| ShareErrorsFromSession, SubstituteBindings, Authenticate | errori tecnici, lettura binding e controllo auth; nessun writer applicativo successivo |
+| Localization | lingua italiana prima di next; nessun effetto di dominio dopo il guard |
+| ImpostaStrutturaCorrente | selezione autorizzata prima di next; finally azzera soltanto memoria. Nessun writer DB/file dopo il rifiuto |
+| VerificaServizioStruttura | letture/controlli prima di next; nessuna mutazione successiva |
+| LogOperativeAudit | unico INSERT post-controller individuato, ora escluso dal rifiuto semanticamente marcato |
+
+Verificati provider, bootstrap, modelli/trait e ricerche `observe`, `dispatch`, `event`, `notify`, `subscribe`, `terminate`, `terminating`, `afterResponse`, `RequestHandled`, `retrieved`, `DB::listen`. EventServiceProvider registra soltanto Registered→verifica email, non attivato dal guard; notification reset password estranea. Nessun listener/subscriber/job applicativo sul rifiuto o sulla terminazione HTTP. Hook Questura impediscono aggiornamenti/cancellazioni, non persistono da letture; trait tenancy aggiunge scope e gestisce creating, non raggiunto OFF. Nessun nuovo P0/P1 distinto emerso nella catena verificata.
+
+Il requisito riguarda persistenza applicativa/di dominio provocata dall'operazione Questura. Sessione, flash dell'errore fisso, cookie, lingua/contesto autorizzato e infrastruttura tecnica framework restano consentiti; nessuna affermazione di zero scritture fisiche universali. Il guard non produce log tecnico contenente segreti né report di eccezione in questo percorso.
+
+### Batteria conclusiva e limiti
+
+**252 test / 3.857 asserzioni PASS**: batteria completa prevista per C1, Q1/Q2/Q3, retention, confini, UX, autorizzazioni/Schedine/Componenti e accettazione delle quattro migration da schema legacy sintetico, eseguita per ultima nello stesso run. **4 browser PASS; 5 guardrail PASS; 14 SOAP offline PASS; sintassi 17 PHP modificati PASS; Pint tre nuovi PHP PASS; git diff --check PASS.** Non attestata la suite globale del gestionale. Guardrail eseguiti anche separatamente, non sommati; SOAP con soli double in memoria.
+
+Log finale `/private/tmp/questura-audit-final.log`; runtime `/private/tmp/schedine-test-mb6eyle8`, DB `test_geo_b026672dfc5246e9107ae72b19c386bb`, MySQL18821/60744, HTTP18826/60745, risorse fermate e rimosse. PHP8.3.33/PHPUnit10.5.38/MySQL8.0.36; identità/riconnessione/23 rifiuti override, build/GEO PASS. Tutte le migration esclusivamente su DB effimero attestato; nessuna migration operativa.
+
+Pint sul controller segnala `class_attributes_separation`; sul middleware `concat_space`/`not_operator_with_successor_space`: debiti preesistenti. Copie pre/post formattate solo sotto `/private/tmp`: eliminando le aggiunte del fix dalla copia post formattata si ottiene la copia pre formattata byte-identica, per entrambi. Nuove righe conformi, nessun restyling applicato ai file reali. Questo esito non viene dichiarato come PASS integrale Pint.
+
+Review di tutto il diff C1: configurazione Questura, HandlerQ3, quattro migration e quattro manifest/lock dipendenze byte-identici a HEAD (10 file). Nessun endpoint reale aggiunto; dati/credenziali dei test sintetici; nessun .env, segreto riconoscibile, log, runtime, screenshot o dump tra i file. Verifiche sostanziali Q1/Q2/Q3 invariate; modifiche ai test precedenti solo setup ON esplicito.
+
+Comandi dei tre run (RED conservata separatamente):
+
+```sh
+python3 -B tests/Isolation/run.py --include app/Exceptions/QuesturaTransportDisabledException.php --phpunit tests/Feature/QuesturaTransportGuardTest.php > /private/tmp/questura-audit-red.log 2>&1
+python3 -B tests/Isolation/run.py --include app/Exceptions/QuesturaTransportDisabledException.php --phpunit tests/Feature/QuesturaTransportGuardTest.php tests/Feature/QuesturaRetentionTest.php > /private/tmp/questura-audit-green.log 2>&1
+python3 -B tests/Isolation/run.py --include app/Exceptions/QuesturaTransportDisabledException.php --fixtures tests/Isolation/questura-ux-fixtures.php --phpunit tests/Feature/QuesturaTransportGuardTest.php tests/Feature/QuesturaRetentionTest.php tests/Feature/QuesturaCredentialEncryptionTest.php tests/Feature/QuesturaBoundaryTest.php tests/Feature/QuesturaWsContractTest.php tests/Feature/QuesturaLegacyMigrationTest.php tests/Feature/QuesturaIdempotencyTest.php tests/Feature/QuesturaTestSendSnapshotTest.php tests/Feature/QuesturaPayloadCoherenceTest.php tests/Feature/StrutturaAuthorizationTest.php tests/Feature/SchedinaStoreTest.php tests/Unit/PianoSyncComponentiTest.php tests/Unit/ComponentiImportP1Test.php tests/Feature/QuesturaFinalAuditTest.php tests/Feature/QuesturaLoggingPrivacyTest.php tests/Feature/QuesturaConclusiveAuditTest.php tests/Feature/QuesturaUxTest.php tests/Feature/QuesturaC1MigrationAcceptanceTest.php --playwright tests/Feature/questura-ux.playwright.spec.js > /private/tmp/questura-audit-final.log 2>&1
+```
+
+### Inventario finale e gate
+
+**20 file esatti** (17 tracked modificati, 3 untracked). Il ventesimo è `app/Http/Middleware/LogOperativeAudit.php`, indispensabile al P1 autorizzato. Rispetto al preflight19, ulteriormente modificati eccezione/controller/testguardrail/rapporto/Maestro; gli altri14 preservati byte per byte. Inventario completo:
+
+- `app/Exceptions/QuesturaTransportDisabledException.php`
+- `app/Http/Controllers/QuesturaExportController.php`
+- `app/Http/Middleware/LogOperativeAudit.php`
+- `app/Services/QuesturaWebService.php`
+- `docs/DEPLOY_SPANEL.md`
+- `docs/maestro/MAESTRO-SCHEDINE-DI-NOTIFICA.md`
+- `docs/questura-audit-2026-10-06.md`
+- `tests/Feature/QuesturaBoundaryTest.php`
+- `tests/Feature/QuesturaC1MigrationAcceptanceTest.php`
+- `tests/Feature/QuesturaConclusiveAuditTest.php`
+- `tests/Feature/QuesturaFinalAuditTest.php`
+- `tests/Feature/QuesturaIdempotencyTest.php`
+- `tests/Feature/QuesturaLoggingPrivacyTest.php`
+- `tests/Feature/QuesturaPayloadCoherenceTest.php`
+- `tests/Feature/QuesturaRetentionTest.php`
+- `tests/Feature/QuesturaTestSendSnapshotTest.php`
+- `tests/Feature/QuesturaTransportGuardTest.php`
+- `tests/Feature/QuesturaUxTest.php`
+- `tests/Feature/QuesturaWsContractTest.php`
+- `tests/Safety/questura_security.php`
+
+Git finale main, HEAD/origin/main C1 invariati,0/0,staging vuoto; modifiche intenzionali non committate. Nessun commit/push/deploy/SPanel/produzione/.env reale/DB operativo/Questura reale. Gate Rocky/SPanel pendenti: Bubblewrap e sei prove obbligatorie, MariaDB target, preflight destinatario, intero intervallo release, blocco transizione, backup/restore e processi/OPcache. La review locale non li sostituisce né autorizza altre fasi. Fermarsi qui.
+
+
+## Export OFF corretti; STOP su audit operativo del rifiuto Web — 07/10/2026
+
+**QUESTURA C1 NON PRONTO**, per P1 aggiuntivo scoperto nell'audit trasversale dopo il fix dei due export. Supera lo STOP precedente soltanto per downloadPeriodo/downloadSchedina ora corretti; non promuove il blocco a zero side effect complessivo. BASELINE IN AUDIT invariato. Nessun accesso SPanel/produzione/DB operativo/Questura reale.
+
+Preflight dopo fetch: main HEAD/origin/main f742ff8d00e4fdd31235a75cad4fddf9205660cc,0/0,staging vuoto,stessi19file. Confronto con hash del preflight precedente: solo controller,testguardrail,rapporto,Maestro ulteriormente modificati; altri15coerenti. Nuovi hash /private/tmp/questura-export-preflight.json fuori repository.
+
+### RED e fix minimo
+
+Otto nuovi casi nello stesso QuesturaTransportGuardTest: periodo/singola, OFF/ON, Web/Accept JSON. Fixture di Schedina valida, snapshot TXT preesistente sintetico, spy builder reale locale. Prima esecuzione **51/776,6failure**: quattro difetti OFF e due aspettative errate dello spy ON singola; buildTxtPerSchedina non chiama buildTxt, corretta soltanto instrumentation del test. RED valida **51 test/784 asserzioni,4failure attese**: per entrambi i POST e contratti il builder esegue una generazione, export DB=1 e contatore Schedina=1, nuovo TXT presente. Log separati /private/tmp/questura-export-red.log e /private/tmp/questura-export-red-valid.log, nessun RED sovrascritto. Runtime valido /private/tmp/schedine-test-09idavo_, MySQL11967/58712, HTTP11972/58713, risorse rimosse.
+
+Fix: in downloadPeriodo e downloadSchedina, dopo risoluzione struttura e prima di query/build/payload, riuso blockedTransportResponse e assertTransportEnabled, quattro righe per metodo con separazione. Nessun secondo flag/meccanismo; storeExport/retention/servizio SOAP invariati in questa fase. OFF web redirect con errore fisso; Accept JSON409 fisso. ON conserva HTTP200 TXT/Content-Disposition anche con Accept JSON: il download non aveva un contratto ON JSON e non ne viene inventato uno.
+
+### Inventario completo caller storeExport e ricerca trasversale
+
+QuesturaExportController::storeExport è private. **Due soli caller Questura**, provati con ricerca app/routes:
+
+| Caller | Entry point | Guard prima del primo effetto | storeExport con OFF |
+|---|---|---|---|
+| downloadPeriodo, guard riga135/call146 | POST /questura/download/periodo | prima del builder | non raggiunto |
+| downloadSchedina, guard riga170/call188 | POST /questura/download/schedina/{id} | prima di query/generazione TXT | non raggiunto |
+
+IstatTabellaAController ha due chiamate a un proprio storeExport privato (righe91/190): altro modulo/metodo, non caller del metodo Questura, non modificati. Nessun caller Questura aggiuntivo.
+
+Audit di scritture/cancellazioni TXT, export, transmission, eventi, riserve, ricevute e metadati Schedine: tutti i POST mutanti del controller ora attraversano la guardia (i due export, tabelle, verify/send, ricevuta automatica/manuale, finalizzazione). Handler errori del controller non viene raggiunto con OFF dopo il preflight. I GET storico/payload/ricevute e index sono letture di dominio; nessun model retrieved writer. Retention mutante richiamata dal controller solo dopo guardia, helper interni senza ingresso HTTP alternativo. CLI Questura audit/scadenze sono sola lettura; scheduler senza trasmissioni; nessun job/Livewire/action alternativo. Unico new SoapClient remoto nel servizio protetto; legacy ArchivosController abort410 prima di DB/storage. Configurazione Struttura/CRUD PMS/cataloghi sono ingressi amministrativi distinti, non nuovi caller del circuito trasmissione. Nessun controllo di questi altri moduli modificato.
+
+**P1 aggiuntivo: middleware LogOperativeAudit persiste il rifiuto OFF Web. STOP.** Registrato nel gruppo web da app/Http/Kernel.php:43; handle chiama prima next(), poi scarta solo status>=400 (middleware25) e considera le route questura.* (shouldLog). blockedTransportResponse restituisce302 per Web (controller350 dopo questo fix). Per utente con struttura, POST OFF quindi raggiunge StrutturaAuditLog::create (middleware36), inserendo una riga in struttura_audit_logs benché l'operazione sia bloccata. JSON409 viene invece escluso. Prova statica inequivocabile del percorso completo; non nuova prova dinamica sulla tabella audit. Non è bypass SOAP o un nuovo leak dimostrato: viola il requisito zero scritture DB e registra un'operazione rifiutata. I test precedenti preservavano solo le tabelle Questura/Schedine e non comprendevano questa tabella. Nessuna dichiarazione zero-DB generale può derivare da quei PASS.
+
+Proposta minima NON applicata: distinguere il rifiuto tipato Questura nella risposta mediante indicatore prodotto dal backend e farlo escludere dal middleware di audit, preservando audit delle operazioni ON e degli altri moduli. Richiede autorizzazione separata e probabilmente un ventesimo file (middleware), non aggiunto ora. Non disabilitare audit globale o basarsi solo sul testo del messaggio.
+
+### Verifiche effettive e STOP
+
+Mirati **72 test/960 asserzioni PASS**: guardrail e retention, invarianti DB delle sei tabelle selezionate e filesystem, builder OFF mai chiamato, export ON valido e metadati corretti. **Non coprono struttura_audit_logs.** Runtime /private/tmp/schedine-test-kz_6kzrq, DB test_geo_fff762bc27ef51a03c31ac807f938c67, MySQL13208/59084, HTTP13213/59085, rimosso. Identità/riconnessione/23rifiuti override,build/GEO PASS, PHP8.3.33/MySQL8.0.36. Solo runtime locale isolato, nessun dato reale/trasporto esterno. Comandi:
+
+```sh
+python3 -B tests/Isolation/run.py --include app/Exceptions/QuesturaTransportDisabledException.php --phpunit tests/Feature/QuesturaTransportGuardTest.php > /private/tmp/questura-export-red-valid.log 2>&1
+python3 -B tests/Isolation/run.py --include app/Exceptions/QuesturaTransportDisabledException.php --phpunit tests/Feature/QuesturaTransportGuardTest.php tests/Feature/QuesturaRetentionTest.php > /private/tmp/questura-export-green.log 2>&1
+```
+
+**Lint2PHP PASS; Pinttest PASS; Pintcontroller FAIL per class_attributes_separation preesistente.** Copia pre-fix verificata byte-identica al preflight (hash controller), entrambe copie pre/post formattate esclusivamente sotto /private/tmp; rimuovendo i due guard dalla copia post formattata si ottiene byte-identica la copia pre formattata. Quindi nuove righe conformi, correzioni Pint fuori dal nuovo diff; nessun restyling del controller reale. Diff-check PASS.
+
+STOP richiesto dall'audit: completata solo la prova mirata già avviata, nessuna nuova batteria completa/browser/guardrail/SOAP/migration dopo scoperta; i risultati delle fasi precedenti non vengono sommati o rinnovati. Bubblewrap/sei prove Rocky, MariaDB target/SPanel e produzione pendenti, non simulati. Nessuna accettazione Questura reale o production readiness.
+
+Scope finale19file, nessun nuovo file: ulteriormente modificati solo controller,testguardrail,rapporto,Maestro; altri15byte-identici al preflight. Config,HandlerQ3,quattro migration e dipendenze invariati. Main C1/0/0,staging vuoto; nessun commit/push/deploy/SPanel/DBoperativo/Questura reale. Fermarsi al nuovo P1 prima di ampliare la correzione.
+
+
+## Fix P1 finalizzazione OFF e STOP su generazione TXT — 07/10/2026
+
+**QUESTURA C1 NON PRONTO.** Il precedente stato pronto per review dell'accettazione locale viene superato da questo STOP rispetto al contratto esteso richiesto: nessun entry point Questura deve produrre persistenza o altri side effect con OFF. BASELINE IN AUDIT invariato. Nessun accesso produzione, SPanel, DB operativo o Questura reale.
+
+Baseline verificata dopo fetch: locale main HEAD/origin/main f742ff8d00e4fdd31235a75cad4fddf9205660cc,0/0,staging vuoto,stessi19file inventariati. Hash iniziali dei19file salvati fuori repository in /private/tmp/questura-finalize-preflight.json. Nessuna perdita delle modifiche precedenti.
+
+**P1 finalizzazione riprodotto e corretto nello scope mirato.** Route reale POST /questura/ws/{id}/finalizza, stessa route per Web/JSON. Fixture TXT e PDF validi sintetici, Send sent/live con snapshot, export, evento e riserva esistenti. Prima del fix OFF chiamava retention una volta, eliminava TXT e payload, finalizzava export/trasmissione e minimizzava l'evento precedente aggiungendone un secondo. RED **43 test/717 asserzioni,2failure attese**: Web e JSON; i controlli ON passavano. Runtime /private/tmp/schedine-test-dp5kr452, MySQL7702/57573, HTTP7707/57574, rimosso. Log /private/tmp/questura-finalize-red.log conserva soltanto indicatori sintetici nella diagnosi.
+
+Fix: tre righe in finalizeTransmission, dopo selezione tenant della trasmissione e prima di validate/ricerca ricevuta/retention, riusano blockedTransportResponse e assertTransportEnabled preesistenti. Nessun secondo kill-switch, modifica del servizio retention o schema. Aggiunti quattro casi Web/JSON OFF/ON al già presente QuesturaTransportGuardTest: spy della retention, digest prima/dopo di trasmissioni/export/eventi/ricevute/riserve/Schedine e file, byte TXT/PDF preservati con OFF. Con ON finalizzazione reale locale della fixture, TXT eliminato, PDF conservato; nessun SOAP.
+
+Mirati GREEN **64 test/878 asserzioni PASS**, guardrail+retention insieme, non sommare con RED o suite precedenti. Runtime /private/tmp/schedine-test-ubz4da1t, DB test_geo_06f302a1882a24a799860732a6a1e868, MySQL8812/57889, HTTP8817/57890; identità/riconnessione/23rifiuti override,build/GEO PASS; risorse rimosse. PHP8.3.33/MySQL8.0.36, solo tests/Isolation/run.py. Comandi:
+
+```sh
+python3 -B tests/Isolation/run.py --include app/Exceptions/QuesturaTransportDisabledException.php --phpunit tests/Feature/QuesturaTransportGuardTest.php > /private/tmp/questura-finalize-red.log 2>&1
+python3 -B tests/Isolation/run.py --include app/Exceptions/QuesturaTransportDisabledException.php --phpunit tests/Feature/QuesturaTransportGuardTest.php tests/Feature/QuesturaRetentionTest.php > /private/tmp/questura-finalize-green.log 2>&1
+```
+
+**Nuovo P1 aggiuntivo — generazione TXT mutante con OFF. STOP senza correzione.** Ricerca di tutte le chiamate finalizeTransmission/finalizeDay/finalizeManual/minimizeCopies/deleteTemporaryFile/storeExport: i percorsi HTTP di retention risultano ora preceduti dal controllo centralizzato; rimangono downloadPeriodo e downloadSchedina, rispettivamente POST /questura/download/periodo e /questura/download/schedina/{id}, senza controllo OFF. Entrambi chiamano storeExport: scrittura TXT in Storage (controller riga535 dopo questo fix), INSERT export(riga542), UPDATE Schedina.questura_exported_at/questura_export_count/last_questura_export_id(righe560–565). Prova statica inequivocabile, non nuova riproduzione dinamica. Non è bypass SOAP; viola il nuovo contratto zero side effect OFF. Il documento precedente ammetteva queste operazioni locali: tale ammissione non soddisfa il requisito esteso della task corrente. Proposta minima, NON applicata: stessa guardia ai due POST prima di build/archiviazione e prove Web/JSON con invarianti DB/file; conservare download di archivi già esistenti in sola lettura.
+
+STOP richiesto dalla fase4: nessuna prosecuzione automatica della correzione e nessuna nuova suite completa/browser dopo il rilievo. I precedenti235/3621,226/3182,4browser,5guardrail,14SOAP restano evidenze storiche della fase precedente, non nuova validazione globale. **Lint2PHP PASS; Pint sul test PASS; Pint sul controller FAIL per class_attributes_separation preesistente**, riprodotto anche nella copia privata del controller anteriore al fix /private/tmp/QuesturaExportControllerPreFinalize.php. Nessuna formattazione estesa per nasconderlo. Diff-check PASS. Nessuna dichiarazione di tutti i controlli PASS.
+
+Scope finale sempre19file: nessun nuovo file. Ulteriormente modificati rispetto al preflight solo controller Questura, QuesturaTransportGuardTest, rapporto e Maestro; gli altri15file precedenti preservati. Config Questura, HandlerQ3 e quattro migration invariati. Maestro aggiornato con STOP; guida deploy non ulteriormente modificata. Main/C1/0/0,staging vuoto,nessun commit/push/deploy. Codice/test/documentazione SÌ; config/schema applicativo/dati reali NO; test SÌ; SPanel/Questura reale/ISTAT NO. Bubblewrap/sei prove Rocky, accettazione MariaDB/SPanel e produzione restano gate separati e pendenti.
+
+
+## Accettazione locale C1 — guardrail globale, 07/10/2026
+
+**QUESTURA C1 LOCALMENTE PRONTO PER REVIEW**, esclusivamente per le correzioni locali del guardrail e le regressioni autorizzate. BASELINE IN AUDIT invariato. Non costituisce accettazione Alloggiati Web, accettazione Rocky o readiness generale di produzione. Nessun accesso SPanel nella fase.
+
+### Baseline e difetti riprodotti
+
+Locale main, HEAD e origin/main `f742ff8d00e4fdd31235a75cad4fddf9205660cc`, ahead/behind 0/0, worktree/staging/untracked inizialmente vuoti. Fetch origin richiesto eseguito, riferimenti invariati. Maestro e protocolli locali/deploy letti; le precedenti evidenze server restano storiche, non rinnovate.
+
+A: `isSimulation()` includeva config globale diversa da true, così OFF produceva stati simulation per Test/Send prima di makeClient. B: runWsAction persisteva tentativo/evento/reserva prima della chiamata al servizio; assenza di traffico non significava assenza di tentativi. RED iniziale 26 test / 27 asserzioni, 25 failure attese; seconda RED stesso conteggio, assertion sul digest dei record prova il cambiamento DB al POST Test. Log separati `/private/tmp/questura-guard-red.log` e `/private/tmp/questura-guard-red-db.log`. Default config false già PASS. Primo tentativo sandbox rifiutato sulle porte loopback, nessun test eseguito; rilancio tramite escalation approvata, senza bypass del runtime.
+
+### Correzione minima e mappa
+
+`QuesturaTransportDisabledException` tipata con messaggio fisso, nessun segreto/previous. `QuesturaWebService::assertTransportEnabled()` richiede il booleano true; chiamata in verify/send/receipt/downloadReferenceTables prima di try/catch, simulazione, autenticazione e client, oltre a difesa in makeClient. Eccezione OFF non viene convertita in simulation/technical_error/uncertain. credentialsStatus resta una lettura informativa.
+
+Controller: controllo tipato prima di TXT e transaction in runWsAction; prima di archiviazione delle tabelle e prima di recupero/finalizzazione ricevuta normale/manuale, anche con ricevuta già presente. OFF: redirect con errore per web; JSON409 con solo messaggio fisso. Nessun nuovo tentativo/evento/reservation, aggiornamento ricevute/export/Schedine o file. Download di archivi esistenti e generazione TXT manuale restano attività locali separate dal trasporto.
+
+HTTP verify/send → preflight globale → snapshot/Q2 e riserve Q1 invariati → servizio → guardia → eventuale simulazione → eventuale makeClient. Ricevuta → tenant/stato → guardia → archivio esistente o servizio protetto. Tabelle HTTP archiviavano già riferimenti offline senza chiamare SOAP: ora la stessa azione viene bloccata quando OFF; con ON comportamento offline conservato. Il metodo servizio tabelle rimane unavailable con ON, nessuna funzionalità remota nuova.
+
+ON conserva il comportamento preesistente: ambiente non production continua a simulare; il client reale richiede anche production e condizioni struttura. I test ON sostituiscono solo il livello SOAP e la scelta simulazione con doubles; nessun endpoint remoto contattato. CLI: nessun comando trasmette; `questura:audit-archivi` e `questura:ricevute-scadute` usano retention in sola lettura. Invocazioni servizio in contesto console provano il medesimo blocco. Nessun job/scheduler/Livewire/action alternativo verso SOAP individuato nel codice app/routes. Unico new SoapClient remoto in makeClient, non raggiunto nelle prove OFF.
+
+### Verifiche isolate e limiti
+
+- RED: 26/27, 25 failure attese, zero errori.
+- Prima GREEN: 26/79, un failure di fixture per confronto modello appena creato contro rilettura con default DB; corretto solo il nuovo test con fresh(). 24 casi servizio passavano.
+- Regressione con migration: **226 test / 3.182 asserzioni PASS**, inclusa tutta baseline 196/2920, guardrail nuovo e acceptance migration. Runtime `/private/tmp/schedine-test-8k0w5vm4`, MySQL95779/53798, HTTP95786/53799, DB effimero `test_geo_7acc9cf78e3d1bad3a1d1e361126428a`.
+- Finale dopo aggiunta JSON, configurazione assente/invalida ed esistente ricevuta: **235 test / 3.621 asserzioni PASS**, **4 Playwright PASS**, **14 SOAP offline PASS**, **5 guardrail isolamento PASS**. Migration acceptance già eseguita nel run precedente, non selezionata nel run finale; non sommare run sovrapposti. Runtime `/private/tmp/schedine-test-4mkozeal`, MySQL257/55120, HTTP262/55121, DB `test_geo_609fbcdf806ec21ce08f622101a406e5`.
+- **20 PHP lint PASS**, **Pint sui tre PHP nuovi PASS**, **git diff --check PASS**. Nessun PHPStan/Psalm o ulteriore analizzatore statico obbligatorio configurato individuato. Nessuna formattazione generale dei file preesistenti.
+
+Solo `tests/Isolation/run.py`: istanza MySQL8.0.36 nuova, filesystem/server loopback effimeri, PHP8.3.33/PHPUnit10.5.38, fixture sintetiche, client finti. Attestazione identità/riconnessione e 23 rifiuti override prima delle migration; build e GEO immutabile PASS; risorse di tutti i runtime fermate/rimosse. Log finali `/private/tmp/questura-c1-local-full.log` e `/private/tmp/questura-c1-local-final.log`. Suite completa selezionata Questura + regressioni generali autorizzate, non certificazione di tutte le suite storiche del gestionale. Q1/Q2/Q3 PASS, algoritmi/Handler non modificati. Nei dieci setup operativi e nel fixture standalone sicurezza, ON è ora esplicito; nessuna assertion preesistente neutralizzata.
+
+OFF copre false, null e stringa non booleana `true`, struttura reale/simulata, quattro metodi servizio, cinque POST web/JSON; zero creazione client, zero accesso alla scelta simulazione e nessun nuovo trasporto. HTTP preserva record DB e filesystem anche con ricevuta già presente. ON usa solo SOAP double e mantiene successi simulati distinguibili, senza accettazione ufficiale.
+
+Comando finale esatto:
+
+```sh
+python3 -B tests/Isolation/run.py --include app/Exceptions/QuesturaTransportDisabledException.php --fixtures tests/Isolation/questura-ux-fixtures.php --phpunit tests/Feature/QuesturaTransportGuardTest.php tests/Feature/QuesturaRetentionTest.php tests/Feature/QuesturaCredentialEncryptionTest.php tests/Feature/QuesturaBoundaryTest.php tests/Feature/QuesturaWsContractTest.php tests/Feature/QuesturaLegacyMigrationTest.php tests/Feature/QuesturaIdempotencyTest.php tests/Feature/QuesturaTestSendSnapshotTest.php tests/Feature/QuesturaPayloadCoherenceTest.php tests/Feature/StrutturaAuthorizationTest.php tests/Feature/SchedinaStoreTest.php tests/Unit/PianoSyncComponentiTest.php tests/Unit/ComponentiImportP1Test.php tests/Feature/QuesturaFinalAuditTest.php tests/Feature/QuesturaLoggingPrivacyTest.php tests/Feature/QuesturaConclusiveAuditTest.php tests/Feature/QuesturaUxTest.php --playwright tests/Feature/questura-ux.playwright.spec.js > /private/tmp/questura-c1-local-final.log 2>&1
+```
+
+Run precedente con migration: stesso elenco PHPUnit, più `tests/Feature/QuesturaC1MigrationAcceptanceTest.php` in fondo, senza fixture/browser; log `/private/tmp/questura-c1-local-full.log`.
+
+### Migration e rollback
+
+Nuova acceptance ricostruisce esclusivamente DB TEMPORANEO dal set di migration precedenti C1 (`migrate:fresh --path` con lista esplicita delle vecchie migration). Mai sul DB locale operativo o produzione. Verifica VARCHAR100/191 reali, sette strutture, una password plaintext sintetica e WSKEY assente, archivio Send uncertain legacy. Applica in ordine le quattro migration; dati non segreti byte-equivalenti, password decifrabile ma cifrata a riposo, WSKEY null, colonne TEXT, nuove tabelle vuote, storico/payload preservati e nessuna riserva/backfill implicita. Secondo migrate non ripete DDL; conversione credenziale rieseguibile mantiene ciphertext. I quattro down sono conservativi/no-op: schema/dati/credenziali restano invariati. NON costituisce ripristino allo schema precedente: futuro rollback operativo richiede backup e riconciliazione, non rollback cieco. Prove ambiguous ciphertext nelle suite legacy preesistenti PASS. Le quattro migration e config/questura.php restano byte-identici a C1. Test MySQL locale, non certificazione MariaDB/produzione.
+
+### Separazione dei gate
+
+LOCAL ACCEPTANCE → review e autorizzazione Git → GITHUB → ROCKY/SPANEL DEPLOY ACCEPTANCE → deploy PRODUZIONE distinto. Bubblewrap e sei prove Rocky sono **DEPLOY-TIME ROCKY ACCEPTANCE**: requisito obbligatorio del futuro deploy, non impedimento allo sviluppo/accettazione locale. Rimangono anche preflight destinatario, audit dell'intero intervallo di release, OPcache/processi, blocco durante transizione, backup/restore e schema MariaDB. Nessun requisito di sicurezza rimosso. Il precedente STOP è relativo alla fase produzione, non a questa fase locale.
+
+### File e chiusura
+
+Esattamente 19 file della fase:
+
+- `app/Exceptions/QuesturaTransportDisabledException.php`
+- `app/Http/Controllers/QuesturaExportController.php`
+- `app/Services/QuesturaWebService.php`
+- `docs/DEPLOY_SPANEL.md`
+- `docs/maestro/MAESTRO-SCHEDINE-DI-NOTIFICA.md`
+- `docs/questura-audit-2026-10-06.md`
+- `tests/Feature/QuesturaBoundaryTest.php`
+- `tests/Feature/QuesturaC1MigrationAcceptanceTest.php`
+- `tests/Feature/QuesturaConclusiveAuditTest.php`
+- `tests/Feature/QuesturaFinalAuditTest.php`
+- `tests/Feature/QuesturaIdempotencyTest.php`
+- `tests/Feature/QuesturaLoggingPrivacyTest.php`
+- `tests/Feature/QuesturaPayloadCoherenceTest.php`
+- `tests/Feature/QuesturaRetentionTest.php`
+- `tests/Feature/QuesturaTestSendSnapshotTest.php`
+- `tests/Feature/QuesturaTransportGuardTest.php`
+- `tests/Feature/QuesturaUxTest.php`
+- `tests/Feature/QuesturaWsContractTest.php`
+- `tests/Safety/questura_security.php`
+
+Git finale main, HEAD/origin/main C1 invariati, 0/0, staging vuoto; modifiche locali intenzionali non committate. Nessun .env reale, credenziale/dato reale, DB operativo, SPanel, migration produzione, commit, push, deploy, Questura reale o ISTAT. CODICE/TEST/DOCUMENTAZIONE modificati SÌ; CONFIGURAZIONE/SCHEMA APPLICATIVO/DATI REALI modificati NO; TEST eseguiti SÌ; COMMIT/PUSH/DEPLOY/TRASMISSIONI REALI NO. Fermarsi per review.
+
+
 ## Fix visual/UX Questura prima del pre-commit — 07/10/2026
 
 **FIX UX QUESTURA VERIFICATO — PRONTO PER REVISIONE PRE-COMMIT**, nel perimetro dei due difetti richiesti. Baseline funzionale **PRONTO PER PROVA REALE CONTROLLATA** preservata, progetto **BASELINE IN AUDIT**. Nessun nuovo P0/P1 emerso; nessun commit o preparazione dello staging.

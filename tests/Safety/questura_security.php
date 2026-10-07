@@ -4,6 +4,7 @@ namespace {
     if (!class_exists('SoapClient')) { class SoapClient {} }
     if (!function_exists('mb_strtolower')) { function mb_strtolower($value) { return strtolower($value); } }
     function abort($status, $message) { throw new \RuntimeException($message, $status); }
+    function config($key) { return $key === 'questura.enabled' ? true : null; }
     function now() { return 'FIXTURE_TIME'; }
     class FakeSoapClient extends \SoapClient {
         public static array $calls = [];
@@ -44,6 +45,7 @@ namespace App\Models {
 }
 namespace App\Services { class QuesturaTxtExportService {} class QuesturaRetentionService {} }
 namespace {
+    require __DIR__.'/../../app/Exceptions/QuesturaTransportDisabledException.php';
     require __DIR__.'/../../app/Services/EsitoTrasmissioneQuestura.php';
     require __DIR__.'/../../app/Services/QuesturaWebService.php';
     require __DIR__.'/../../app/Http/Controllers/QuesturaExportController.php';

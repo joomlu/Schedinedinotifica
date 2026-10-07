@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\QuesturaTransportDisabledException;
 use App\Models\QuesturaExport;
 use App\Models\QuesturaReceipt;
 use App\Models\QuesturaTransmission;
@@ -131,6 +132,10 @@ class QuesturaExportController extends Controller
             return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
         }
 
+        if ($blocked = $this->blockedTransportResponse($request)) {
+            return $blocked;
+        }
+
         try {
             [$dal, $al, $txt, $analisi] = $this->buildPeriodoTxt($struttura->id, $request);
         } catch (ValidationException $e) {
@@ -160,6 +165,10 @@ class QuesturaExportController extends Controller
         $struttura = $this->resolveStruttura($request);
         if (!$struttura) {
             return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
+        }
+
+        if ($blocked = $this->blockedTransportResponse($request)) {
+            return $blocked;
         }
 
         $schedina = Schedina::query()
@@ -201,6 +210,9 @@ class QuesturaExportController extends Controller
     public function downloadOfficialTables(Request $request)
     {
         $struttura = $this->resolveStruttura($request);
+        if ($blocked = $this->blockedTransportResponse($request)) {
+            return $blocked;
+        }
         $path = 'questura/tabelle/struttura_'.$struttura->id.'/'.now()->format('Ymd_His').'_'.\Illuminate\Support\Str::uuid();
         $manifest = json_decode(file_get_contents(base_path('reference/questura/manifest.json')), true, 512, JSON_THROW_ON_ERROR);
         foreach ($manifest as $source) {
@@ -263,6 +275,9 @@ class QuesturaExportController extends Controller
         $struttura = $this->resolveStruttura($request);
         $transmission = QuesturaTransmission::where('struttura_id', $struttura->id)->findOrFail($id);
         abort_unless($transmission->mode === 'send' && in_array($transmission->status, ['sent', 'uncertain', 'partial', 'in_progress'], true), 409);
+        if ($blocked = $this->blockedTransportResponse($request)) {
+            return $blocked;
+        }
         $date = $transmission->executed_at->copy()->startOfDay();
         $existing = QuesturaReceipt::where('struttura_id', $struttura->id)->whereDate('remote_date', $date)->first();
         if ($existing) {
@@ -282,6 +297,9 @@ class QuesturaExportController extends Controller
     {
         $struttura = $this->resolveStruttura($request);
         $export = QuesturaExport::where('struttura_id', $struttura->id)->findOrFail($id);
+        if ($blocked = $this->blockedTransportResponse($request)) {
+            return $blocked;
+        }
         $data = $request->validate(['communication_date' => 'required|date_format:Y-m-d|before:today', 'communication_confirmed' => 'required|accepted']);
         $date = Carbon::createFromFormat('!Y-m-d', $data['communication_date']);
         abort_unless($export->created_at->lte($date->copy()->endOfDay()), 409);
@@ -302,6 +320,9 @@ class QuesturaExportController extends Controller
     {
         $struttura = $this->resolveStruttura($request);
         $tx = QuesturaTransmission::where('struttura_id', $struttura->id)->findOrFail($id);
+        if ($blocked = $this->blockedTransportResponse($request)) {
+            return $blocked;
+        }
         $request->validate(['reconciled' => 'required|accepted']);
         abort_unless($tx->executed_at, 409);
         $receipt = QuesturaReceipt::where('struttura_id', $struttura->id)->whereDate('remote_date', $tx->executed_at)->firstOrFail();
@@ -317,11 +338,31 @@ class QuesturaExportController extends Controller
         return response(Storage::disk('local')->get($receipt->path), 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="'.$receipt->filename.'"', 'X-Content-Type-Options' => 'nosniff', 'Cache-Control' => 'private, no-store']);
     }
 
+    private function blockedTransportResponse(Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse|null
+    {
+        try {
+            $this->webService->assertTransportEnabled();
+        } catch (QuesturaTransportDisabledException) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => QuesturaTransportDisabledException::MESSAGE], 409);
+            }
+
+            return redirect()->route('questura.index')->withErrors(['questura_ws' => QuesturaTransportDisabledException::MESSAGE])
+                ->header(QuesturaTransportDisabledException::RESPONSE_HEADER, '1');
+        }
+
+        return null;
+    }
+
     private function runWsAction(Request $request, string $mode)
     {
         $struttura = $this->resolveStruttura($request);
         if (!$struttura) {
             return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
+        }
+
+        if ($blocked = $this->blockedTransportResponse($request)) {
+            return $blocked;
         }
 
         $credStatus = $this->webService->credentialsStatus($struttura);

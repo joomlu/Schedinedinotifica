@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\QuesturaTransportDisabledException;
 use App\Models\StrutturaAuditLog;
 use Closure;
 use Illuminate\Http\Request;
@@ -28,6 +29,11 @@ class LogOperativeAudit
 
         $routeName = (string) optional($request->route())->getName();
         if ($routeName === '' || !$this->shouldLog($routeName)) {
+            return $response;
+        }
+
+        if (str_starts_with($routeName, 'questura.')
+            && $response->headers->get(QuesturaTransportDisabledException::RESPONSE_HEADER) === '1') {
             return $response;
         }
 

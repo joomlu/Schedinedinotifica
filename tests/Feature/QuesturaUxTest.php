@@ -14,6 +14,12 @@ use Tests\TestCase;
 
 class QuesturaUxTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        config(['questura.enabled' => true]);
+    }
+
     use RefreshDatabase, StrutturaFixtures;
 
     private function fixture(): Struttura

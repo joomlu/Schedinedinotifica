@@ -33,6 +33,12 @@ class QuesturaSoapDouble extends \SoapClient
 
 class QuesturaWsContractTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        config(['questura.enabled' => true]);
+    }
+
     private function service(QuesturaSoapDouble $double): QuesturaWebService
     {
         return new class($double) extends QuesturaWebService {

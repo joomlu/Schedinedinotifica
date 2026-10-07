@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\QuesturaTransportDisabledException;
 use App\Models\Struttura;
 use Carbon\Carbon;
 use SoapClient;
@@ -27,6 +28,7 @@ class QuesturaWebService
 
     public function verify(Struttura $struttura, string $txt): array
     {
+        $this->assertTransportEnabled();
         try {
             $internal = $this->verifyInternal($struttura, $txt);
             $state = ($internal['simulated'] ?? false) === true ? 'simulation'
@@ -39,6 +41,7 @@ class QuesturaWebService
 
     public function send(Struttura $struttura, string $txt): array
     {
+        $this->assertTransportEnabled();
         try {
             $internal = $this->sendInternal($struttura, $txt);
             $state = ($internal['simulated'] ?? false) === true ? 'simulation'
@@ -125,6 +128,7 @@ class QuesturaWebService
 
     public function receipt(Struttura $struttura, Carbon $date): array
     {
+        $this->assertTransportEnabled();
         if ($this->isSimulation($struttura)) {
             return EsitoTrasmissioneQuestura::crea('unavailable', 'receipt');
         }
@@ -153,8 +157,16 @@ class QuesturaWebService
 
     public function downloadReferenceTables(Struttura $struttura): array
     {
+        $this->assertTransportEnabled();
         // No CSV persistence or catalog mutation until a validated artifact contract exists.
         return EsitoTrasmissioneQuestura::crea('unavailable', 'tables');
+    }
+
+    public function assertTransportEnabled(): void
+    {
+        if (config('questura.enabled') !== true) {
+            throw new QuesturaTransportDisabledException;
+        }
     }
 
     protected function isSimulation(Struttura $struttura): bool
@@ -166,6 +178,7 @@ class QuesturaWebService
 
     protected function makeClient(): SoapClient
     {
+        $this->assertTransportEnabled();
         if (!app()->environment('production') || config('questura.enabled') !== true) {
             throw new \RuntimeException('Trasporto Questura non abilitato.');
         }
