@@ -2,7 +2,15 @@
 
 @section('title', 'Tabella A Emilia-Romagna')
 
+@section('css')
+<style>
+#istat-area .flex-grow-1 { min-width: 0; }
+#istat-area .crud-table-search-wrap { width: 100% !important; max-width: 360px !important; }
+</style>
+@endsection
+
 @section('content')
+<div id="istat-area">
 @component('components.breadcrumb')
     @slot('li_1') Invio Telematico @endslot
     @slot('title') Tabella A Emilia-Romagna @endslot
@@ -55,10 +63,7 @@
             <div class="text-muted">XML Ross1000 Emilia-Romagna, validazione locale e storico operativo.</div>
         </div>
         <div class="text-md-end">
-            @if(!empty($credStatus['simulation']))
-                <span class="badge bg-info-subtle text-info">Modalità prova invio attiva</span>
-                <div class="small text-muted mt-1">La validazione resta locale; invio ed esito in modalità prova usano risposte demo interne.</div>
-            @elseif($credStatus['configured'])
+            @if($credStatus['configured'])
                 <span class="badge bg-success-subtle text-success">Invio diretto configurato</span>
             @else
                 <span class="badge bg-warning-subtle text-warning">Invio diretto non completo</span>
@@ -87,28 +92,55 @@
                     </div>
                     <div class="col-xl-2 col-md-4">
                         <div class="text-muted">Username ISTAT</div>
-                        <div class="{{ filled($struttura->istat_username) ? 'text-success' : 'text-danger' }}">{{ filled($struttura->istat_username) ? 'Presente' : 'Mancante' }}</div>
+                        <div class="{{ !in_array('username', $credStatus['missing']) && !$credStatus['blocked'] ? 'text-success' : 'text-danger' }}">{{ !in_array('username', $credStatus['missing']) && !$credStatus['blocked'] ? 'Presente' : 'Mancante' }}</div>
                     </div>
                     <div class="col-xl-2 col-md-4">
                         <div class="text-muted">Password ISTAT</div>
-                        <div class="{{ filled($struttura->istat_password) ? 'text-success' : 'text-danger' }}">{{ filled($struttura->istat_password) ? 'Presente' : 'Mancante' }}</div>
+                        <div class="{{ !in_array('password', $credStatus['missing']) && !$credStatus['blocked'] ? 'text-success' : 'text-danger' }}">{{ !in_array('password', $credStatus['missing']) && !$credStatus['blocked'] ? 'Presente' : 'Mancante' }}</div>
                     </div>
                     <div class="col-xl-2 col-md-4">
                         <div class="text-muted">Codice Ross1000</div>
                         <div class="{{ filled($struttura->istat_codice_struttura) ? 'text-success' : 'text-danger' }}">{{ $struttura->istat_codice_struttura ?: 'Mancante' }}</div>
                     </div>
-                    <div class="col-xl-2 col-md-4">
-                        <div class="text-muted">URL Web Service</div>
-                        <div class="{{ filled($struttura->istat_ws_url) || !empty($credStatus['simulation']) ? 'text-success' : 'text-warning' }}">{{ filled($struttura->istat_ws_url) ? 'Endpoint personalizzato configurato' : 'Default Ross1000' }}</div>
-                    </div>
-                    <div class="col-xl-2 col-md-4">
-                        <div class="text-muted">Modalità</div>
-                        <div class="{{ !empty($credStatus['simulation']) ? 'text-info' : 'text-body' }}">{{ !empty($credStatus['simulation']) ? 'Simulazione attiva' : 'Invio reale' }}</div>
+                    <div class="col-xl-4 col-md-8">
+                        <div class="text-muted">Trasporto Ross1000</div>
+                        <div>{{ config('istat.enabled', false) === true ? 'Abilitato' : 'Disabilitato' }} — endpoint regionale fisso</div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <form method="POST" action="{{ route('istat.tabella_a.configure') }}" class="card border-0 bg-light-subtle mb-3">
+            @csrf
+            <div class="card-body row g-3">
+                <div class="col-12"><h5>Configurazione Ross1000</h5><p class="small text-muted">Lascia vuote le credenziali per conservare quelle salvate. Per credenziali non decifrabili reinserisci entrambi i valori forniti dall’ente. Il salvataggio non verifica l’accesso remoto.</p></div>
+                <div class="col-md-4"><label class="form-label" for="istat-username">Username WebService</label><input id="istat-username" name="username" type="password" value="" autocomplete="off" class="form-control"></div>
+                <div class="col-md-4"><label class="form-label" for="istat-password">Password WebService</label><input id="istat-password" name="password" type="password" value="" autocomplete="new-password" class="form-control"></div>
+                <div class="col-md-4"><label class="form-label" for="istat-codice">Codice struttura Ross1000</label><input id="istat-codice" name="codice" value="{{ $struttura->istat_codice_struttura }}" class="form-control" required></div>
+                <div class="col-12 text-end"><button class="btn btn-primary">Salva configurazione</button></div>
+            </div>
+        </form>
+        <div class="alert alert-info">Alternativa ufficiale: scarica XML e caricalo su Ross1000, Check-in → Importa file da gestionale. Carica in ordine cronologico; dopo un mese arretrato vanno ricaricati anche i mesi successivi. Controlla gli errori e lo storico prima di registrare la consegna. Con esito incerto verifica prima lo storico WebService. L’email di assistenza non è un canale di consegna.</div>
+        @if($storico->isNotEmpty())
+        <details class="card border-0 shadow-sm mb-3"><summary class="card-header">Consegne manuali e rettifiche sul portale</summary><div class="card-body">
+            <p>Non caricare nuovamente periodi con esito incerto. Prima verifica lo storico importazioni sul portale; per record già importati correggi partenza o annulla secondo la procedura regionale. I mesi consolidati richiedono lo sblocco dell’ufficio regionale. Un’operazione pending richiede una verifica tecnica separata e non può essere sbloccata qui.</p>
+            @foreach($storico as $export)
+                <form method="POST" action="{{ route('istat.tabella_a.manual', $export->id) }}" class="mb-3">@csrf
+                    <span>XML #{{ $export->id }} — {{ $export->dal->format('d/m/Y') }} / {{ $export->al->format('d/m/Y') }}</span>
+                    <label class="form-check"><input type="checkbox" class="form-check-input" name="conferma_portale" value="1" required> Ho caricato questo file e verificato gli esiti sul portale</label>
+                    <button class="btn btn-outline-primary btn-sm">Registra consegna manuale</button>
+                </form>
+            @endforeach
+            @foreach($trasmissioni->where('mode', '!=', 'verify')->where('status', '!=', 'pending')->whereNull('reconciled_at') as $tx)
+                <form method="POST" action="{{ route('istat.tabella_a.reconcile', $tx->id) }}" class="mb-3">@csrf
+                    <span>Operazione #{{ $tx->id }} — {{ $tx->esitoSicuro()['message'] }}</span>
+                    <label class="form-check"><input type="checkbox" class="form-check-input" name="conferma_portale" value="1" required> Ho verificato lo storico e completato correzione/annullamento sul portale; un nuovo XML ordinario è necessario</label>
+                    <label class="form-label">Procedura effettuata<select class="form-select" name="procedura" required><option value="correzione_portale">Correzione dati sul portale</option><option value="annullamento_portale">Annullamento sul portale</option><option value="reimportazione_cronologica">Reimportazione cronologica</option></select></label>
+                    <button class="btn btn-outline-warning btn-sm">Registra rettifica sul portale</button>
+                </form>
+            @endforeach
+        </div></details>
+        @endif
         <div class="step-arrow-nav mb-4">
             <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -121,7 +153,7 @@
                     <button class="nav-link {{ $activeTab === 'storico-xml' ? 'active' : '' }}" data-bs-toggle="pill" data-bs-target="#istat-pane-storico-xml" type="button" role="tab">Storico XML</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link {{ $activeTab === 'storico-invio' ? 'active' : '' }}" data-bs-toggle="pill" data-bs-target="#istat-pane-storico-invio" type="button" role="tab">Storico invio diretto</button>
+                    <button class="nav-link {{ $activeTab === 'storico-invio' ? 'active' : '' }}" data-bs-toggle="pill" data-bs-target="#istat-pane-storico-invio" type="button" role="tab">Storico comunicazioni</button>
                 </li>
             </ul>
         </div>
@@ -176,9 +208,34 @@
                     </div>
                 </div>
 
+                <details class="card border-0 shadow-sm mb-3" id="istat-preview">
+                    <summary class="card-header">Dettaglio dei movimenti da comunicare ({{ count($previewRecords) }})</summary>
+                    <div class="card-body">
+                        <p class="small text-muted">Campi estratti dall’XML validato dell’anteprima. Le partenze contengono identificativo, tipo ospite e arrivo originale; non ripetono i dati anagrafici. Il calendario del periodo è nel riepilogo giornaliero.</p>
+                        @if(!$previewHash)
+                            <div class="alert alert-warning">Correggi gli errori bloccanti per preparare l’anteprima.</div>
+                        @elseif(!$previewRecords)
+                            <p>Nessun arrivo o partenza nel periodo; il file comunica comunque il calendario.</p>
+                        @else
+                            <div class="table-responsive"><table class="table table-hover align-middle">
+                                <thead><tr><th>Giorno / movimento</th><th>Ospite / identificativi</th><th>Residenza / cittadinanza</th><th>Nascita</th><th>Dati statistici / arrivo originale</th></tr></thead>
+                                <tbody>@foreach($previewRecords as $record)
+                                    <tr>
+                                        <td>{{ $record['giorno'] }} — {{ $record['tipo'] }}</td>
+                                        <td>{{ $record['cognome'] }} {{ $record['nome'] }}<div class="small">{{ $record['idswh'] }} · tipo {{ $record['tipoalloggiato'] }} · capo {{ $record['idcapo'] ?: '—' }} · sesso {{ $record['sesso'] ?: '—' }}</div></td>
+                                        <td>{{ $record['statoresidenza'] ?: '—' }} / {{ $record['luogoresidenza'] ?: '—' }}<div class="small">Cittadinanza: {{ $record['cittadinanza'] ?: '—' }}</div></td>
+                                        <td>{{ $record['datanascita'] ?: '—' }}<div class="small">{{ $record['statonascita'] ?: '—' }} / {{ $record['comunenascita'] ?: '—' }}</div></td>
+                                        <td>{{ $record['tipoturismo'] }} · {{ $record['mezzotrasporto'] }} · {{ $record['canaleprenotazione'] }}<div class="small">{{ $record['titolostudio'] }} {{ $record['professione'] }} {{ $record['arrivo'] }}</div></td>
+                                    </tr>
+                                @endforeach</tbody>
+                            </table></div>
+                        @endif
+                    </div>
+                </details>
+
                 <x-crud-table
                     title="Anteprima schedine per Tabella A Emilia-Romagna"
-                    subtitle="Vista operativa mensile per controllare se i dati delle schedine sono coerenti prima di scaricare o inviare l XML Tabella A. Gli ospiti marcati come non turisti restano fuori dal conteggio statistico."
+                    subtitle="Vista operativa del periodo per controllare se i dati delle schedine sono coerenti prima di scaricare o inviare l XML Tabella A. Gli ospiti marcati come non turisti restano fuori dal conteggio statistico."
                     searchPlaceholder="Cerca per numero schedina, provenienza o regione..."
                     searchId="istatSearch"
                     createText=""
@@ -268,7 +325,10 @@
                         </div>
                         <div class="d-flex flex-wrap gap-2 justify-content-end align-items-center">
                             <a href="{{ route('istat.tabella_a.print.summary', ['dal' => $dal->toDateString(), 'al' => $al->toDateString()]) }}" class="btn btn-soft-secondary" target="_blank">Stampa riepilogo hotel</a>
-                            <a href="{{ route('istat.tabella_a.download.xml', ['dal' => $dal->toDateString(), 'al' => $al->toDateString()]) }}" class="btn btn-success">Scarica XML Tabella A</a>
+                            <form method="POST" action="{{ route('istat.tabella_a.download.xml') }}" class="d-inline">@csrf
+                                <input type="hidden" name="dal" value="{{ $dal->toDateString() }}"><input type="hidden" name="al" value="{{ $al->toDateString() }}">
+                                <button class="btn btn-success">Scarica XML Tabella A</button>
+                            </form>
                             <form method="POST" action="{{ route('istat.tabella_a.ws.verify') }}" class="d-inline" data-confirm-kind="save">
                                 @csrf
                                 <input type="hidden" name="dal" value="{{ $dal->toDateString() }}">
@@ -279,7 +339,8 @@
                                 @csrf
                                 <input type="hidden" name="dal" value="{{ $dal->toDateString() }}">
                                 <input type="hidden" name="al" value="{{ $al->toDateString() }}">
-                                <button type="submit" class="btn btn-primary">Invia direttamente</button>
+                                <input type="hidden" name="preview_hash" value="{{ $previewHash }}">
+                                <button type="submit" class="btn btn-primary" @disabled(config('istat.enabled', false) !== true || !$previewHash || !$credStatus['configured'])>Invia direttamente</button>
                             </form>
                         </div>
                     </div>
@@ -364,7 +425,7 @@
                         @else
                             <div class="table-responsive">
                                 <table class="table table-sm align-middle mb-0">
-                                    <thead class="table-light"><tr><th>Creato</th><th>Periodo</th><th>Schedine</th><th>Movimenti</th><th class="text-end">Azioni</th></tr></thead>
+                                    <thead class="table-light"><tr><th>Creato</th><th>Periodo</th><th>Schedine</th><th>Giornate XML</th><th class="text-end">Azioni</th></tr></thead>
                                     <tbody>
                                         @foreach($storico as $item)
                                             <tr>
@@ -387,7 +448,7 @@
                 <div class="card border-0 bg-light-subtle mb-0">
                     <div class="card-header border-0 py-2 d-flex align-items-center">
                         <i class="ri-history-line me-2 text-primary"></i>
-                        <h5 class="card-title mb-0 fs-6">Storico invio diretto</h5>
+                        <h5 class="card-title mb-0 fs-6">Storico comunicazioni</h5>
                     </div>
                     <div class="card-body p-0">
                         @if($trasmissioni->isEmpty())
@@ -400,10 +461,23 @@
                                         @foreach($trasmissioni as $tx)
                                             <tr>
                                                 <td>{{ optional($tx->executed_at ?: $tx->created_at)->format('d/m/Y H:i') }}</td>
-                                                <td class="text-nowrap">{{ $tx->mode === 'verify' ? ($tx->status === 'validated' ? 'Validazione locale' : 'Verifica registrata nello storico') : 'Invio diretto' }}</td>
+                                                <td class="text-nowrap">{{ $tx->mode === 'verify' ? ($tx->status === 'validated' ? 'Validazione locale' : 'Verifica registrata nello storico') : ($tx->mode === 'manual' ? 'Consegna sul portale' : 'Invio diretto') }}</td>
                                                 <td>{{ optional($tx->dal)->format('d/m/Y') }} - {{ optional($tx->al)->format('d/m/Y') }}</td>
                                                 <td>
                                                     <span class="badge bg-light text-body">{{ $tx->esitoSicuro()['state'] }}</span>
+                                                    <div class="small text-muted">Origine #{{ (int) $tx->user_id }} · Tentativo #{{ (int) $attemptActors->get($tx->id, $tx->user_id) }} · tentativo {{ (int) $tx->attempts }}</div>
+                                                    @foreach($reconciliations->get($tx->id, collect()) as $event)
+                                                        @php
+                                                            $kind = (json_decode($event->result ?? '{}', true) ?? [])['procedure'] ?? null;
+                                                            $label = match($kind) {
+                                                                'correzione_portale' => 'Correzione dati sul portale',
+                                                                'annullamento_portale' => 'Annullamento sul portale',
+                                                                'reimportazione_cronologica' => 'Reimportazione cronologica',
+                                                                default => 'Verifica sul portale',
+                                                            };
+                                                        @endphp
+                                                        <div class="small text-warning">{{ $label }} dichiarata da #{{ (int) $event->user_id }} il {{ \Carbon\Carbon::parse($event->created_at)->format('d/m/Y H:i') }}</div>
+                                                    @endforeach
                                                 </td>
                                                 <td class="small">{{ $tx->esitoSicuro()['message'] }}</td>
                                                 <td class="text-end">
@@ -420,5 +494,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

@@ -54,7 +54,6 @@ class Struttura extends Model
         'istat_password',
         'istat_codice_struttura',
         'istat_ws_url',
-        'istat_ws_simulazione',
         'questura_username',
         'questura_password',
         'questura_wskey',
@@ -77,13 +76,14 @@ class Struttura extends Model
         'sito_web',
     ];
 
-    protected $hidden = ['questura_password', 'questura_wskey', 'questura_codici', 'questura_puk'];
+    protected $hidden = ['istat_username', 'istat_password', 'questura_password', 'questura_wskey', 'questura_codici', 'questura_puk'];
 
     protected $casts = [
         'data_apertura' => 'date',
         'data_chiusura' => 'date',
         'scadenza_servizio' => 'date',
-        'istat_ws_simulazione' => 'boolean',
+        'istat_username' => 'encrypted',
+        'istat_password' => 'encrypted',
         'questura_password' => 'encrypted',
         'questura_wskey' => 'encrypted',
         'questura_ws_simulazione' => 'boolean',

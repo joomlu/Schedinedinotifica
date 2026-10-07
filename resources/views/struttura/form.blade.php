@@ -540,33 +540,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                     <div class="card-body">
                                         <div class="row g-3">
-                                            <div class="col-md-4">
-                                                <label class="form-label">ISTAT username</label>
-                                                <input type="text" name="istat_username" class="form-control" value="{{ old('istat_username', $struttura->istat_username) }}">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label class="form-label">ISTAT password</label>
-                                                <div class="input-group">
-                                                    <input type="password" name="istat_password" id="istat_password" class="form-control" value="{{ old('istat_password', $struttura->istat_password) }}" autocomplete="new-password">
-                                                    <button type="button" class="btn btn-outline-secondary" data-password-toggle="istat_password" aria-label="Mostra password" title="Mostra password">
-                                                        <i class="ri-eye-line align-middle"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label class="form-label">Codice struttura Ross1000</label>
-                                                <input type="text" name="istat_codice_struttura" class="form-control" value="{{ old('istat_codice_struttura', $struttura->istat_codice_struttura) }}">
-                                            </div>
-                                            <div class="col-md-8">
-                                                <label class="form-label">URL web service ISTAT</label>
-                                                <input type="url" name="istat_ws_url" class="form-control" value="{{ old('istat_ws_url', $struttura->istat_ws_url) }}" placeholder="https://...">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="hidden" name="istat_ws_simulazione" value="0">
-                                                <div class="form-check form-switch form-switch-md mt-4">
-                                                    <input class="form-check-input" type="checkbox" role="switch" name="istat_ws_simulazione" id="istatWsSimulazione" value="1" {{ old('istat_ws_simulazione', $struttura->istat_ws_simulazione) ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="istatWsSimulazione">Modalità prova invio ISTAT</label>
-                                                </div>
+                                            <div class="col-12">
+                                                <p class="text-muted">Le credenziali Ross1000 sono gestite nell’area ISTAT, senza mostrare i valori salvati.</p>
+                                                <a class="btn btn-outline-primary" href="{{ route('istat.tabella_a.index') }}">Configurazione Ross1000</a>
                                             </div>
                                             <div class="col-12"><hr class="my-2"></div>
                                             <div class="col-md-4">

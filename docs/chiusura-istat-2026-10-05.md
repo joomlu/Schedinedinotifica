@@ -1,5 +1,7 @@
 # ISTAT — verifica definitiva del 5 ottobre 2026
 
+> Documento storico del 05/10/2026. Per codice, route, configurazione e verifiche correnti prevalgono il [rapporto ISTAT del 07/10/2026](istat-master-2026-10-07.md) e il Maestro. Le osservazioni del DB operativo qui riportate non sono state rilette nella nuova fase locale.
+
 **Stato: ISTAT RESTA: identificativo ufficiale Ross1000 non configurato e file del periodo reale non ancora verificabile.**
 
 Il codice è stato corretto e verificato esclusivamente con fixture isolate. Questo documento non certifica l'accettazione di un file reale, non inventa un codice struttura e non autorizza una trasmissione.

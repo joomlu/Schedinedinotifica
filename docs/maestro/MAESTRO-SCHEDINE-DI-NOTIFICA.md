@@ -1539,3 +1539,48 @@ Audit tutti middleware della catenaweb/auth/global, provider/bootstrap, hook mod
 Mirati76/1044PASS; conclusiva **252 test/3.857 asserzioni PASS**, inclusa accettazione4migration effimera, **4browser/5guardrail/14SOAPoffline/17PHP lint PASS**, Pint3nuoviPHP PASS e diff-check PASS. Run sovrapposti non sommati. Pintcontroller/middleware segnalano esclusivamente debiti preesistenti, provati tramite confronto copiepre/post formattate fuori repository; nuove righe conformi, nessun restyling reale. Runtime finale mb6eyle8/DB test_geo_b026672dfc5246e9107ae72b19c386bb/MySQL18821:60744/HTTP18826:60745 rimosso; PHP8.3.33/MySQL8.0.36, identità/23rifiuti/build/GEO PASS. Nessun test Laravel operativo né SOAP reale.
 
 20file esatti: nuovo nello scope solo LogOperativeAudit, necessario alP1; altri14 dei19iniziali byte-preservati, eccezione/controller/testguardrail/rapporto/Maestro aggiornati. Config/HandlerQ3/4migration/4manifest-lock inalterati aHEAD. Nessun segreto/dato reale/endpoint reale improprio aggiunto. MainC1/0/0/stagingvuoto; nessun commit/push/deploy/SPanel/produzione/DBoperativo/.env reale/Questura reale. Bubblewrap e sei prove Rocky, targetMariaDB, preflight/transizione/backup/processi restano gate separati obbligatori pendenti. Fermarsi alla review locale, nessuna fase successiva autorizzata.
+
+
+## Appendice Y — Avvio fase maestra ISTAT, 07/10/2026
+
+**AUDIT INIZIALE PARZIALE — IMPLEMENTAZIONE NON AVVIATA**, BASELINE IN AUDIT invariato. [Evidenze, fonti e lacune](../istat-master-2026-10-07.md). Baseline main HEAD/origin dopo fetch7cdfd6e1cf84cbb0711faf3f98b8bb78007c23fd,0/0,worktree inizialmente pulito. QuesturaC1 fuori scope e invariato. Allegato ricevuto termina nel punto20 dopo «rettifica;»; richiesta parte restante e conferma del perimetro regionale, nessun requisito finale inventato.
+
+Ricontrollate fontiRegione: Ross1000SOAP/uploadXML-TXT/portale, BasicAuthWS distinto dall'accessoSPID. WSDLpubblico SHA5ee868bda0ffcd34c5eff41bbc9bf0c398903d93a0407f00ec6c1804d47bc309 identico alreference; XML2.4 ancora collegato daRegione, v3/18marzo2026 pubblicata dalfornitore distinta, adozioneER non presunta. Demoportale non prova WStest. Rilette dueCSV aggregati in sola lettura: anomalie aperture e totalepartenze confermate, nessuna copia nei test.
+
+Lacune preliminari: protezione segretoISTAT/form/flash, simulazione interna, URL/guardtrasporto, idempotenza/prenotazione atomica, parserrisultatiSOAP, consegnamanuale e rettifiche/snapshot. Non corrette e non dichiarate concluse. Baselineisolata **32test/146asserzioni con1errore** nel confrontoQuestura: fixturearrivo31marzo fuori finestraC1oggi/ieri, confronto nonraggiunto. Nessun indebolimento Questura; fixturecompatibile da chiarire. Runtimez4bnnc2g fermato/rimosso,DBoperativo nonconsultato,nessunrealeinvio.
+
+Solo rapporto e Maestro modificati documentalmente. Nessun codice/test/config/schema applicativo modificato; nessun commit/push/deploy/SPanel/produzione/.env reale. CircuitoISTAT resta PARZIALE, nessuna readiness o accettazione reale.
+
+
+## Appendice Z — ISTAT Emilia-Romagna / Ross1000: implementazione locale verificata, 07/10/2026
+
+**IMPLEMENTAZIONE LOCALE VERIFICATA — DA REVISIONARE**, progetto **BASELINE IN AUDIT**. Supera l’avvio parziale Y: ricevuti i requisiti 20–46 e confermata Emilia-Romagna. [Rapporto completo, fonti, mapping, writer e inventario](../istat-master-2026-10-07.md). Nessuna readiness produzione o accettazione reale.
+
+Baseline main, HEAD/origin dopo fetch iniziale `7cdfd6e1cf84cbb0711faf3f98b8bb78007c23fd`, 0/0, nessun nuovo commit o staging. Scope ISTAT: credenziali cifrate, non ripopolate né flashate; configurazione dedicata; simulazione operativa rimossa; guardrail globale OFF di default e endpoint regionale fisso. Unico generatore XML/XSD per preview/file/SOAP, confronto hash prima dell’invio, copie cifrate e fingerprint minimizzati; prenotazioni struttura/giorno con lock e vincoli; parser SOAP correlato, storico ed eventi. HTTP 200 non prova accettazione: processed conferma soltanto i record, non il calendario. Timeout/incompletezza → uncertain; pending dopo crash resta bloccato; retry solo per disabled/not_delivered.
+
+Fallback ufficiale: upload XML sul portale e dichiarazione manuale esplicita. Nessuna email o receipt API inventata. Modifiche di ospiti/soggiorni, anche comunicati nel mese precedente, richiedono verifica/rettifica sul portale; storico originale conservato, nuova anteprima e controllo cronologico. Nessuna modifica PMS per rettificare. Retention a 30 giorni tecnica, non legale; comando predefinito senza scritture, --apply conserva pending/incerti/partial non riconciliati e legacy non riconoscibili. Una nuova migration ISTAT, applicata solo nei DB effimeri; down conservativo, rollback operativo separato.
+
+Conclusiva **331 test / 4.499 asserzioni PASS**, **2 browser ISTAT + 4 browser Questura originali PASS**, race di prenotazione con due processi e due connessioni MySQL PASS; **5 guardrail / 22 privacy ISTAT / 14 SOAP Questura**, sintassi PHP, Pint sui nuovi PHP e diff-check PASS. Questura iniziale 134/2748 PASS. Baseline ISTAT32/146 con errore dovuto al clock della fixture: corretto soltanto nella prova ISTAT, mantenendo asserzioni e reset finally. Tutti dati sintetici e doubles, runtime isolati fermati/rimossi.
+
+**Suite globale NON PASS**: copia HEAD con 316 casi, 17 errori e 83 failure; prima candidata con 329 casi, 16 errori e le stesse 83 failure. Seeder esclusi per sicurezza, fixture legacy incomplete, Example obsoleto, Smoke basato su dati preesistenti; prova DDL Questura contaminante se eseguita a metà suite. Nessun test Questura o globale modificato per nascondere fallimenti. La suite compatibile esclude esplicitamente cinque classi legacy e colloca la prova DDL per ultima. Non certificare la suite globale verde.
+
+50 file Questura protetti e 146 migration storiche byte-identici; sole sezioni ISTAT nei file condivisi Struttura/routes, regressione Questura originale PASS. 32 file locali (20 tracked/12 nuovi), nessun artefatto temporaneo. Rapporto del 5 ottobre marcato storico. .env reale, dipendenze, Handler Q3, middleware audit e Questura invariati. Nessun DB operativo, SPanel, produzione, email, commit/push/deploy o trasmissione ISTAT/Questura reale. Rocky, Bubblewrap, sei prove obbligatorie e real acceptance restano gate separati pendenti. Fermarsi alla review locale.
+
+Anteprima ISTAT conclusiva dai campi dell’XML validato, risposta private/no-store; riconciliazione con procedura da elenco chiuso, operatore e data. Totale ISTAT 59 casi; evidenza conclusiva 331/4499 PASS. Nessuna nuova prova o accettazione reale dedotta.
+
+
+## Appendice AA — ISTAT P1/P2 corretti, pronto per re-audit, 07/10/2026
+
+**ISTAT CORRETTO — PRONTO PER RE-AUDIT**, BASELINE IN AUDIT invariato. [Causa, fix e regressioni](../istat-master-2026-10-07.md#o-correzione-controllata-p1p2-dopo-audit-indipendente). Supera Z soltanto nello scope dei difetti trovati dall’audit; nessuna readiness produzione o accettazione reale Ross1000.
+
+P1: una vecchia riconciliazione oscurava anche la seconda comunicazione sullo stesso export riutilizzato. Validator basato sulle comunicazioni attive del tenant/export: non riconciliate, non verify, non disabled/not_delivered. La riconciliazione libera soltanto la comunicazione interessata. Permanenti A/B/C: modifica consentita dopo prima riconciliazione, bloccata dopo nuovo Send sul medesimo export, nuovamente consentita dopo seconda riconciliazione; payload originale preservato. Tre stati processed/uncertain/partial; D/E nessuna interferenza di comunicazione/riconciliazione estranea. Stati incerti/parziali della nuova fixture assegnati sinteticamente; nessun esito reale simulato come accettazione.
+
+P2: manual nello storico etichettato Consegna sul portale; retry conserva origine A, registra pending/finalizzazione del nuovo tentativo B usando l’evento pending esistente. UI distingue Origine/Tentativo. Nessuna nuova migration o modifica model; test A→B e colonna Tipo.
+
+RED valido33/239 con5failure attese; corretta la sola nuova fixture che inizialmente poneva l’arrivo fuori periodo XML. Finale **337/4562 PASS**, inclusi65ISTAT, concorrenza due processi/connessioni, **2browserISTAT+4browserQuestura**, **5guardrail/22sicurezzaISTAT/14SOAPQuestura**, sintassi/Pint sui due nuovi PHP modificati/diffcheck PASS. Launcher unico tests/Isolation/run.py; tutti DB/processi HTTP effimeri fermati/rimossi, fixture sintetiche e doubles.
+
+Sette file ulteriormente aggiornati, nessuno aggiunto: validator storico, operation service, controller ISTAT, Blade ISTAT, test Cycle, rapporto e Maestro. Inventario20tracked/12nuovi=32, main HEAD/origin locale7cdfd6e1cf84cbb0711faf3f98b8bb78007c23fd,0/0,stagingvuoto. 50Questura/Q3 e146migration storiche invariati, nessun default trasporto alterato.
+
+Suite globale NON PASS: audit precedente HEAD Feature316/17errori/83failure, candidato343/16errori/86failure; tre nuovi fallimenti Questura da diagnosi separata e classe PHPUnit assente ComponentiImportReviewStatusTest su entrambi. Non corretti, non rieseguiti in questa fase; nessun test/fixture/seeder/ordine configurato/bootstrap globale modificato per ottenere verde.
+
+Commit/push/deploy/SPanel/produzione/.env reale/DB operativo/trasmissioni reali NO. Rocky/Bubblewrap, sei prove obbligatorie e accettazione ufficiale restano pendenti. Fermarsi per revisione indipendente del diff corretto prima del commit.

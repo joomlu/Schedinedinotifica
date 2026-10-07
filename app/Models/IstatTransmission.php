@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class IstatTransmission extends Model
 {
+    protected static function booted(): void
+    {
+        static::updating(function (self $tx) {
+            if ($tx->isDirty(['struttura_id', 'user_id', 'istat_export_id', 'mode', 'dal', 'al', 'schedina_ids', 'idempotency_key'])) {
+                throw new \LogicException('Identità della comunicazione ISTAT immutabile.');
+            }
+        });
+    }
+
     protected $table = 'istat_transmissions';
 
     // Legacy provider data must not leak through implicit JSON serialization.
@@ -17,11 +26,12 @@ class IstatTransmission extends Model
     }
 
     protected $fillable = [
-        'struttura_id', 'user_id', 'istat_export_id', 'mode', 'dal', 'al', 'schedina_ids', 'schedine_count', 'movimenti_count',
+        'idempotency_key', 'attempts', 'reconciled_at', 'struttura_id', 'user_id', 'istat_export_id', 'mode', 'dal', 'al', 'schedina_ids', 'schedine_count', 'movimenti_count',
         'status', 'response_code', 'response_message', 'response_detail', 'payload', 'result', 'receipt_filename', 'receipt_path', 'executed_at',
     ];
 
     protected $casts = [
+        'reconciled_at' => 'datetime',
         'dal' => 'date',
         'al' => 'date',
         'schedina_ids' => 'array',

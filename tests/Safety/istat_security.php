@@ -6,8 +6,8 @@ namespace App\Models {
         public string $istat_username = 'SYNTHETIC_USER';
         public string $istat_password = 'SYNTHETIC_PASSWORD';
         public string $istat_codice_struttura = 'FIXTURE';
-        public string $istat_ws_url = 'https://fixture.invalid/?token=SYNTHETIC_TOKEN';
-        public bool $istat_ws_simulazione = false;
+        public string $istat_ws_url = 'https://datiturismo.regione.emilia-romagna.it/ws/checkinV2';
+        public string $regione = 'Emilia-Romagna';
     }
 }
 namespace Carbon { class Carbon {} }
@@ -41,6 +41,12 @@ namespace Illuminate\Support\Facades {
     }
 }
 namespace {
+    $GLOBALS['istat_enabled'] = true;
+    function config($key, $default = null) { return $key === 'istat.enabled' ? $GLOBALS['istat_enabled'] : $default; }
+    function blank($value): bool { return $value === null || $value === ''; }
+    function base_path($path): string { return __DIR__.'/../../'.$path; }
+    require __DIR__.'/../../app/Services/IstatXmlValidator.php';
+    require __DIR__.'/../../app/Services/IstatResponseParser.php';
     require __DIR__.'/../../app/Services/EsitoTrasmissioneIstat.php';
     require __DIR__.'/../../app/Services/IstatWebService.php';
     use App\Services\EsitoTrasmissioneIstat as Esito;
@@ -59,13 +65,13 @@ namespace {
     $tests['provider echo cannot enter result'] = function () use ($service, $struttura, $date) {
         Http::$body = '<soap><password>SYNTHETIC_PASSWORD</password><user>SYNTHETIC_USER</user><cookie>SYNTHETIC_COOKIE</cookie></soap>';
         $r = $service->send($struttura, '<xml/>', $date, $date);
-        safe($r); check($r['state'] === 'sent' && !$r['accepted'] && !$r['ok']);
+        safe($r); check($r['state'] === 'uncertain' && !$r['accepted'] && !$r['ok']);
     };
     $tests['controlled exception discards request and URL'] = function () use ($service, $struttura, $date) {
         Http::$fail = true;
         try { $r = $service->send($struttura, '<xml/>', $date, $date); }
         finally { Http::$fail = false; }
-        safe($r); check($r['state'] === 'technical_error');
+        safe($r); check($r['state'] === 'uncertain');
     };
     $tests['recursive arrays and objects are projected'] = function () {
         $r = Esito::sanifica((object)['state'=>'sent', 'message'=>'SYNTHETIC_PASSWORD',
@@ -90,30 +96,29 @@ namespace {
     }
     foreach (['<SOAP:Fault>SYNTHETIC_PASSWORD</SOAP:Fault>', '<error>bad</error>'] as $i=>$body) {
         $tests['negative response '.$i] = function () use ($body) {
-            $r=Esito::daHttp(200,$body,'send'); safe($r); check($r['state']==='rejected' && !$r['ok']);
+            $r=Esito::daHttp(200,$body,'send'); safe($r); check($r['state']==='uncertain' && !$r['ok']);
         };
     }
     foreach ([302,401,500] as $code) {
-        $tests['HTTP failure '.$code] = function () use ($code) { check(Esito::daHttp($code,'','send')['state']==='technical_error'); };
+        $tests['HTTP failure '.$code] = function () use ($code) { check(Esito::daHttp($code,'','send')['state']==='uncertain'); };
     }
-    $tests['verify is unknown, never accepted'] = function () { check(Esito::daHttp(200,'','verify')['state']==='unknown'); };
-    $tests['simulation does not contact provider'] = function () use ($service,$struttura,$date) {
-        $struttura->istat_ws_simulazione=true; $calls=Http::$calls;
+    $tests['verify is unknown, never accepted'] = function () { check(Esito::daHttp(200,'','verify')['state']==='uncertain'); };
+    $tests['OFF does not contact provider'] = function () use ($service,$struttura,$date) {
+        $GLOBALS['istat_enabled'] = false; $calls = Http::$calls;
         try {
-            foreach (['send','verify'] as $method) {
-                $r=$service->$method($struttura,'<xml/>',$date,$date);
-                check($r['state']==='simulation' && !$r['accepted']); safe($r);
-            }
-            check(Http::$calls===$calls);
-        } finally { $struttura->istat_ws_simulazione=false; }
+            $r = $service->send($struttura, '<xml/>', $date, $date);
+            check($r['state'] === 'disabled' && !$r['accepted']); safe($r);
+            check(Http::$calls === $calls);
+        } finally { $GLOBALS['istat_enabled'] = true; }
     };
-    $tests['no fabricated receipt in either mode'] = function () use ($service,$struttura,$date) {
+    $tests['no fabricated receipt with ON or OFF'] = function () use ($service,$struttura,$date) {
         foreach ([true,false] as $sim) {
-            $struttura->istat_ws_simulazione=$sim;
+            $GLOBALS['istat_enabled']=$sim;
             $r=$service->receipt($struttura,$date);
             check(!isset($r['receipt_binary']) && !$r['accepted']);
         }
     };
+    $GLOBALS['istat_enabled']=true;
     $tests['legacy success is not official acceptance'] = function () {
         $legacy=['raw'=>['soap'=>'SYNTHETIC_PASSWORD'],'detail'=>'SYNTHETIC_TOKEN']; $copy=$legacy;
         $r=Esito::storico('success',$legacy); safe($r);

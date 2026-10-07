@@ -29,8 +29,7 @@ final class IstatXmlValidator
         $previous = libxml_use_internal_errors(true);
         try {
             if (!$doc->schemaValidate(base_path('reference/istat/ross1000-er/file-binding.xsd'))) {
-                $messages = array_map(fn ($e) => trim($e->message), libxml_get_errors());
-                $this->fail('XML incompatibile con i tipi XSD del WSDL regionale: '.implode(' ', $messages));
+                $this->fail('XML incompatibile con lo schema XSD regionale. Verificare i dati origine indicati nell’anteprima.');
             }
         } finally {
             libxml_clear_errors();

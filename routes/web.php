@@ -464,10 +464,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/questura/ricevute/{id}', [QuesturaExportController::class, 'downloadArchivedReceipt'])->name('questura.receipts.download');
 
     // Tavola A / ISTAT
+    Route::post('/istat-tabella-a/configurazione', [IstatTabellaAController::class, 'configure'])->name('istat.tabella_a.configure');
+    Route::post('/istat-tabella-a/manuale/{id}', [IstatTabellaAController::class, 'registerManual'])->name('istat.tabella_a.manual');
+    Route::post('/istat-tabella-a/riconcilia/{id}', [IstatTabellaAController::class, 'reconcile'])->name('istat.tabella_a.reconcile');
     Route::get('/istat-tabella-a', [IstatTabellaAController::class, 'index'])->name('istat.tabella_a.index');
     Route::post('/istat-tabella-a/controllo', [IstatTabellaAController::class, 'saveControllo'])->name('istat.tabella_a.controllo.save');
     Route::get('/istat-tabella-a/stampa-riepilogo', [IstatTabellaAController::class, 'printSummary'])->name('istat.tabella_a.print.summary');
-    Route::get('/istat-tabella-a/download/xml', [IstatTabellaAController::class, 'downloadXml'])->name('istat.tabella_a.download.xml');
+    Route::post('/istat-tabella-a/download/xml', [IstatTabellaAController::class, 'downloadXml'])->name('istat.tabella_a.download.xml');
     Route::get('/istat-tabella-a/download/storico/{id}', [IstatTabellaAController::class, 'downloadStorico'])->name('istat.tabella_a.download.storico');
     Route::post('/istat-tabella-a/ws/verify', [IstatTabellaAController::class, 'verifyPeriodo'])->name('istat.tabella_a.ws.verify');
     Route::post('/istat-tabella-a/ws/send', [IstatTabellaAController::class, 'sendPeriodo'])->name('istat.tabella_a.ws.send');

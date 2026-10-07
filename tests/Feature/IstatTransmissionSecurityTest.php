@@ -16,34 +16,34 @@ class IstatTransmissionSecurityTest extends TestCase
 {
     public function test_http_response_and_exception_never_expose_provider_material(): void
     {
+        config(['istat.enabled' => true]);
         Http::preventStrayRequests();
         $struttura = new Struttura([
             'istat_username' => 'FIXTURE_USER', 'istat_password' => 'FIXTURE_PASSWORD',
-            'istat_ws_url' => 'https://fixture.invalid', 'istat_ws_simulazione' => false,
+            'istat_codice_struttura' => 'FIXTURE', 'regione' => 'Emilia-Romagna',
         ]);
         $service = new IstatWebService(new IstatTabellaAService());
         Http::fake(['*' => Http::response('<password>FIXTURE_PASSWORD</password>', 200)]);
         $r = $service->send($struttura, '<movimenti><codice>FIXTURE</codice><prodotto>Fixture</prodotto><movimento><data>20260401</data><struttura><apertura>SI</apertura><camereoccupate>0</camereoccupate><cameredisponibili>1</cameredisponibili><lettidisponibili>1</lettidisponibili></struttura></movimento></movimenti>', Carbon::now(), Carbon::now());
-        $this->assertSame('sent', $r['state']);
+        $this->assertSame('uncertain', $r['state']);
         $this->assertFalse($r['accepted']);
         $this->assertStringNotContainsString('FIXTURE_PASSWORD', json_encode($r));
         Http::fake(fn () => throw new \RuntimeException('FIXTURE_PASSWORD request SOAP'));
         $r = $service->send($struttura, '<movimenti><codice>FIXTURE</codice><prodotto>Fixture</prodotto><movimento><data>20260401</data><struttura><apertura>SI</apertura><camereoccupate>0</camereoccupate><cameredisponibili>1</cameredisponibili><lettidisponibili>1</lettidisponibili></struttura></movimento></movimenti>', Carbon::now(), Carbon::now());
-        $this->assertSame('technical_error', $r['state']);
+        $this->assertSame('uncertain', $r['state']);
         $this->assertStringNotContainsString('FIXTURE_PASSWORD', json_encode($r));
     }
 
-    public function test_simulation_and_receipt_are_not_official_acceptance(): void
+    public function test_disabled_transport_and_receipt_do_not_fabricate_acceptance(): void
     {
+        config(['istat.enabled' => false]);
         Http::preventStrayRequests();
         Http::fake();
         $service = new IstatWebService(new IstatTabellaAService());
-        $struttura = new Struttura(['istat_ws_simulazione' => true]);
-        foreach (['verify', 'send'] as $mode) {
-            $result = $service->$mode($struttura, '<xml/>', Carbon::now(), Carbon::now());
-            $this->assertSame('simulation', $result['state']);
-            $this->assertFalse($result['accepted']);
-        }
+        $struttura = new Struttura();
+        $result = $service->send($struttura, '<xml/>', Carbon::now(), Carbon::now());
+        $this->assertSame('disabled', $result['state']);
+        $this->assertFalse($result['accepted']);
         $this->assertArrayNotHasKey('receipt_binary', $service->receipt($struttura, Carbon::now()));
         Http::assertNothingSent();
     }

@@ -9,12 +9,12 @@ use App\Models\Struttura;
 use App\Services\IstatTabellaAService;
 use App\Services\IstatWebService;
 use App\Services\EsitoTrasmissioneIstat;
-use App\Support\StrutturaCorrente;
+use App\Support\StrutturaAccess;
+use App\Services\IstatOperationService;
+use App\Services\IstatPayloadStore;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -47,9 +47,31 @@ class IstatTabellaAController extends Controller
         );
         $storico = IstatExport::query()->where('struttura_id', $struttura->id)->latest('id')->limit(10)->get();
         $trasmissioni = IstatTransmission::query()->where('struttura_id', $struttura->id)->latest('id')->limit(10)->get();
+        $attemptActors = \Illuminate\Support\Facades\DB::table('istat_transmission_events')
+            ->where('struttura_id', $struttura->id)->whereIn('istat_transmission_id', $trasmissioni->pluck('id'))
+            ->where('status', 'pending')->orderByDesc('id')->get()->groupBy('istat_transmission_id')
+            ->map(fn ($events) => $events->first()->user_id);
+        $reconciliations = \Illuminate\Support\Facades\DB::table('istat_transmission_events')
+            ->where('struttura_id', $struttura->id)->whereIn('istat_transmission_id', $trasmissioni->pluck('id'))
+            ->where('status', 'portal_reconciled')->orderBy('id')->get()->groupBy('istat_transmission_id');
         $regionSupported = $this->isSupportedRegion($struttura);
+        $previewHash = null;
+        $previewRecords = [];
+        if ($regionSupported && $analysis['valida']) {
+            try {
+                $previewXml = $this->service->buildXml($struttura, $dal, $al, $analysis);
+                $previewHash = hash('sha256', $previewXml);
+                $previewRecords = $this->service->previewRecords($previewXml);
+            } catch (ValidationException) {
+                // Gli errori origine sono già esposti nell’analisi.
+            }
+        }
 
-        return view('istat_tabella_a.index', [
+        return response()->view('istat_tabella_a.index', [
+            'previewHash' => $previewHash,
+            'previewRecords' => $previewRecords,
+            'reconciliations' => $reconciliations,
+            'attemptActors' => $attemptActors,
             'struttura' => $struttura,
             'credStatus' => $this->webService->credentialsStatus($struttura),
             'dal' => $dal,
@@ -60,11 +82,73 @@ class IstatTabellaAController extends Controller
             'trasmissioni' => $trasmissioni,
             'regionSupported' => $regionSupported,
             'regionMessage' => $regionSupported ? null : 'Questo modulo è attualmente configurato solo per strutture in Emilia-Romagna.',
+        ])->header('Cache-Control', 'private, no-store');
+    }
+
+    public function configure(Request $request)
+    {
+        $struttura = $this->resolveStruttura($request);
+        $validator = \Illuminate\Support\Facades\Validator::make($request->only('username', 'password', 'codice'), [
+            'username' => 'nullable|string|max:100', 'password' => 'nullable|string|max:100',
+            'codice' => 'required|string|max:50',
         ]);
+        if ($validator->fails()) {
+            return redirect()->route('istat.tabella_a.index')->withErrors(['istat_config' => 'Configurazione non valida. Controllare codice e lunghezza delle credenziali.']);
+        }
+        $data = ['istat_codice_struttura' => $request->input('codice'), 'istat_ws_url' => null];
+        foreach (['username', 'password'] as $field) {
+            if ($request->filled($field)) {
+                $data['istat_'.$field] = $request->input($field);
+            }
+        }
+        try {
+            $struttura->update($data);
+        } catch (Throwable) {
+            return redirect()->route('istat.tabella_a.index')->withErrors(['istat_config' => 'Configurazione non salvata. Nessun dettaglio sensibile disponibile.']);
+        }
+        return redirect()->route('istat.tabella_a.index')->with('success', 'Configurazione Ross1000 salvata. Nessuna richiesta effettuata.');
+    }
+
+    public function registerManual(Request $request, int $id)
+    {
+        $struttura = $this->resolveStruttura($request);
+        $export = IstatExport::where('struttura_id', $struttura->id)->findOrFail($id);
+        if (!$request->boolean('conferma_portale')) {
+            return redirect()->route('istat.tabella_a.index')->withErrors(['istat_ws' => 'Confermare caricamento e verifica degli esiti sul portale Ross1000.']);
+        }
+        try {
+            (new IstatPayloadStore())->read($export);
+            $operations = new IstatOperationService();
+            $tx = $operations->reserve($struttura, $export, 'manual', $request->user()->id);
+            $operations->finalize($tx, EsitoTrasmissioneIstat::crea('manual_registered', 'manual'));
+        } catch (ValidationException $e) {
+            return redirect()->route('istat.tabella_a.index')->withErrors($e->errors());
+        }
+        return redirect()->route('istat.tabella_a.index')->with('warning', 'Consegna manuale registrata; nessuna ricevuta ufficiale creata.');
+    }
+
+    public function reconcile(Request $request, int $id)
+    {
+        $struttura = $this->resolveStruttura($request);
+        $tx = IstatTransmission::where('struttura_id', $struttura->id)->findOrFail($id);
+        if (!$request->boolean('conferma_portale')) {
+            return redirect()->route('istat.tabella_a.index')->withErrors(['istat_ws' => 'Prima verificare lo storico importazioni e correggere o annullare i record sul portale Ross1000.']);
+        }
+        $procedure = $request->input('procedura', 'verifica_portale');
+        if (!is_string($procedure)) {
+            return redirect()->route('istat.tabella_a.index')->withErrors(['istat_ws' => 'Procedura sul portale non valida.']);
+        }
+        try {
+            (new IstatOperationService())->reconcile($tx, $request->user()->id, $procedure);
+        } catch (ValidationException $e) {
+            return redirect()->route('istat.tabella_a.index')->withErrors($e->errors());
+        }
+        return redirect()->route('istat.tabella_a.index')->with('warning', 'Verifica e rettifica sul portale dichiarate dall’operatore. Generare una nuova anteprima.');
     }
 
     public function saveControllo(Request $request)
     {
+        $this->resolveStruttura($request);
         [$dal, $al] = $this->resolvePeriodo($request);
         return redirect()->route('istat.tabella_a.index', ['dal' => $dal->toDateString(), 'al' => $al->toDateString()])
             ->withErrors(['istat_tabella_a' => 'Il riepilogo giornaliero di Tabella A Emilia-Romagna e solo informativo e non puo essere modificato da questa schermata.']);
@@ -80,15 +164,15 @@ class IstatTabellaAController extends Controller
         }
 
         [$dal, $al] = $this->resolvePeriodo($request);
+        $analysis = $this->service->analysePeriodo($struttura, $dal, $al);
         try {
-            $xml = $this->service->buildXml($struttura, $dal, $al);
+            $xml = $this->service->buildXml($struttura, $dal, $al, $analysis);
         } catch (ValidationException $e) {
             return redirect()->route('istat.tabella_a.index', ['dal' => $dal->toDateString(), 'al' => $al->toDateString()])->withErrors($e->errors());
         }
 
-        $analysis = $this->service->analysePeriodo($struttura, $dal, $al);
         $filename = $this->service->filename($dal, $al);
-        $export = $this->storeExport($struttura->id, $request->user()?->id, $dal, $al, $filename, $xml, $analysis['schedine']);
+        $export = (new IstatPayloadStore())->store($struttura->id, $request->user()?->id, $dal, $al, $filename, $xml, $analysis['schedine']);
 
         return response($xml, 200, [
             'Content-Type' => 'application/xml; charset=UTF-8',
@@ -102,15 +186,13 @@ class IstatTabellaAController extends Controller
         abort_unless($struttura, 403);
 
         $export = IstatExport::query()->where('struttura_id', $struttura->id)->findOrFail($id);
-        abort_unless(Storage::disk('local')->exists($export->path), 404);
-
         try {
-            (new \App\Services\IstatXmlValidator())->validate(Storage::disk('local')->get($export->path));
+            $xml = (new IstatPayloadStore())->read($export);
         } catch (ValidationException $e) {
             return redirect()->route('istat.tabella_a.index')->withErrors($e->errors());
         }
-
-        return Storage::disk('local')->download($export->path, $export->filename, ['Content-Type' => 'application/xml; charset=UTF-8']);
+        return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="istat_export_'.(int) $export->id.'.xml"']);
     }
 
     public function verifyPeriodo(Request $request)
@@ -175,51 +257,42 @@ class IstatTabellaAController extends Controller
         }
         [$dal, $al] = $this->resolvePeriodo($request);
 
+        if ($mode === 'send' && config('istat.enabled', false) !== true) {
+            return redirect()->route('istat.tabella_a.index')->withErrors(['istat_ws' => 'Trasporto ISTAT disabilitato.']);
+        }
         if ($mode === 'send' && !$this->webService->credentialsStatus($struttura)['configured']) {
             return redirect()->route('istat.tabella_a.index', ['dal' => $dal->toDateString(), 'al' => $al->toDateString()])
                 ->withErrors(['istat_ws' => 'Credenziali invio diretto ISTAT incomplete.']);
         }
 
+        $analysis = $this->service->analysePeriodo($struttura, $dal, $al);
         try {
-            $xml = $this->service->buildXml($struttura, $dal, $al);
+            $xml = $this->service->buildXml($struttura, $dal, $al, $analysis);
         } catch (ValidationException $e) {
             return redirect()->route('istat.tabella_a.index', ['dal' => $dal->toDateString(), 'al' => $al->toDateString()])->withErrors($e->errors());
         }
 
-        $analysis = $this->service->analysePeriodo($struttura, $dal, $al);
-        $export = $this->storeExport($struttura->id, $request->user()?->id, $dal, $al, $this->service->filename($dal, $al), $xml, $analysis['schedine']);
-        $transmission = IstatTransmission::query()->create([
-            'struttura_id' => $struttura->id,
-            'user_id' => $request->user()?->id,
-            'istat_export_id' => $export->id,
-            'mode' => $mode,
-            'dal' => $dal,
-            'al' => $al,
-            'schedina_ids' => $analysis['schedine']->pluck('id')->values()->all(),
-            'schedine_count' => $analysis['schedine']->count(),
-            'movimenti_count' => count($analysis['rows']),
-            'status' => 'pending',
-            'payload' => ['filename' => $export->filename],
-        ]);
+        if ($mode === 'send' && !hash_equals(hash('sha256', $xml), (string) $request->input('preview_hash'))) {
+            return redirect()->route('istat.tabella_a.index')->withErrors(['istat_ws' => 'Dati cambiati dopo l’anteprima. Verificare una nuova anteprima prima dell’invio.']);
+        }
+        $export = (new IstatPayloadStore())->store($struttura->id, $request->user()?->id, $dal, $al, $this->service->filename($dal, $al), $xml, $analysis['schedine']);
+        try {
+            $transmission = (new IstatOperationService())->reserve($struttura, $export, $mode, $request->user()?->id);
+        } catch (ValidationException $e) {
+            return redirect()->route('istat.tabella_a.index')->withErrors($e->errors());
+        }
 
         try {
             $result = $mode === 'verify'
                 ? $this->webService->verify($struttura, $xml, $dal, $al)
                 : $this->webService->send($struttura, $xml, $dal, $al);
         } catch (Throwable) {
-            $result = EsitoTrasmissioneIstat::crea('technical_error', $mode);
+            $result = EsitoTrasmissioneIstat::crea($mode === 'send' ? 'uncertain' : 'not_delivered', $mode);
         }
         // A second closed-schema projection protects the persistence boundary.
         $result = EsitoTrasmissioneIstat::sanifica($result);
 
-        $transmission->update([
-            'status' => $result['state'],
-            'response_code' => $result['transport']['http_status'],
-            'response_message' => $result['message'] ?? null,
-            'response_detail' => null,
-            'result' => $result,
-            'executed_at' => now(),
-        ]);
+        (new IstatOperationService())->finalize($transmission, $result);
 
         // Attempts remain in the transmission history. Without an official acceptance
         // parser, neither simulation nor HTTP delivery updates confirmed-send counters.
@@ -228,43 +301,16 @@ class IstatTabellaAController extends Controller
             ->with(in_array($result['state'], ['technical_error', 'rejected'], true) ? 'error' : 'warning', $result['message']);
     }
 
-    private function storeExport(int $strutturaId, ?int $userId, Carbon $dal, Carbon $al, string $filename, string $xml, $schedine): IstatExport
-    {
-        $storedBasename = now()->format('Ymd_His') . '_' . Str::uuid() . '_' . $filename;
-        $path = 'istat/struttura_' . $strutturaId . '/' . $storedBasename;
-        Storage::disk('local')->put($path, $xml);
-
-        $export = IstatExport::query()->create([
-            'struttura_id' => $strutturaId,
-            'user_id' => $userId,
-            'dal' => $dal,
-            'al' => $al,
-            'filename' => $filename,
-            'path' => $path,
-            'schedine_count' => $schedine->count(),
-            'movimenti_count' => Carbon::parse($dal)->diffInDays(Carbon::parse($al)) + 1,
-            'schedina_ids' => $schedine->pluck('id')->values()->all(),
-        ]);
-
-        Schedina::query()->withoutGlobalScope('struttura')->where('struttura_id', $strutturaId)->whereIn('id', $schedine->pluck('id')->all())->update([
-            'istat_exported_at' => now(),
-            'istat_export_count' => DB::raw('COALESCE(istat_export_count, 0) + 1'),
-            'last_istat_export_id' => $export->id,
-        ]);
-
-        return $export;
-    }
-
     private function buildOperatorReceiptPdf(Struttura $struttura, IstatTransmission $transmission): string
     {
         $lines = [
             'Riepilogo locale ISTAT - NON e una ricevuta ufficiale',
             'Identificativo trasmissione locale: ' . (int) $transmission->id,
-            'Tipo operazione: ' . ($transmission->mode === 'verify' ? ($transmission->status === 'validated' ? 'Validazione locale' : 'Verifica registrata nello storico') : 'Invio diretto'),
+            'Tipo operazione: ' . ($transmission->mode === 'verify' ? ($transmission->status === 'validated' ? 'Validazione locale' : 'Verifica registrata nello storico') : ($transmission->mode === 'manual' ? 'Consegna sul portale' : 'Invio diretto')),
             'Periodo: ' . optional($transmission->dal)->format('d/m/Y') . ' - ' . optional($transmission->al)->format('d/m/Y'),
             'Eseguito il: ' . optional($transmission->executed_at ?: $transmission->created_at)->format('d/m/Y H:i'),
             'Schedine incluse: ' . (string) ($transmission->schedine_count ?? 0),
-            'Movimenti XML: ' . (string) ($transmission->movimenti_count ?? 0),
+            'Giornate XML: ' . (string) ($transmission->movimenti_count ?? 0),
             'Esito: ' . $transmission->esitoSicuro()['state'],
             $transmission->esitoSicuro()['message'],
         ];
@@ -304,8 +350,7 @@ class IstatTabellaAController extends Controller
 
     private function resolveStruttura(Request $request): ?Struttura
     {
-        $id = StrutturaCorrente::getId() ?: $request->user()?->struttura_id;
-        return $id ? Struttura::query()->find($id) : null;
+        return StrutturaAccess::resolve($request);
     }
 
     private function resolvePeriodo(Request $request): array
@@ -337,8 +382,10 @@ class IstatTabellaAController extends Controller
             if ($dates[1]->lt($dates[0])) {
                 throw new \InvalidArgumentException();
             }
-            // Il modulo è mensile: mostra esplicitamente i limiti effettivamente esportati.
-            return [$dates[0]->startOfMonth(), $dates[1]->endOfMonth()->startOfDay()];
+            if ($dates[0]->diffInDays($dates[1]) > 366) {
+                throw new \InvalidArgumentException();
+            }
+            return [$dates[0], $dates[1]];
         } catch (\Throwable) {
             throw ValidationException::withMessages(['istat_periodo' => 'Periodo non valido: usa date reali in formato AAAA-MM-GG e un intervallo ordinato.']);
         }

@@ -84,7 +84,6 @@ class StrutturaController extends Controller
 
         // Flag gestione camere reali dal gestionale
         $data['camere_reali_enabled'] = $request->boolean('camere_reali_enabled');
-        $data['istat_ws_simulazione'] = $request->boolean('istat_ws_simulazione');
         unset($data['questura_ws_simulazione'], $data['questura_codici'], $data['questura_puk']);
 
         // Compatibilità schema legacy: citta/localita/logo_citta vs città/località/logo_città

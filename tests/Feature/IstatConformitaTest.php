@@ -30,7 +30,7 @@ class IstatConformitaTest extends TestCase
         GeoNazione::forceCreate(['id' => 9001, 'nome' => 'GERMANIA', 'cittadinanza' => 'TEDESCA', 'codice_iso2' => 'DE', 'is_italia' => false]);
         $owner = $this->ownerFor($this->actor('admin'));
         $structure = $this->structureFor($owner);
-        $structure->update(['regione' => 'Emilia-Romagna', 'camere_disponibili' => 10, 'letti_disponibili' => 20, 'istat_codice_struttura' => 'TEST-ISOLATO', 'istat_ws_simulazione' => false]);
+        $structure->update(['regione' => 'Emilia-Romagna', 'camere_disponibili' => 10, 'letti_disponibili' => 20, 'istat_codice_struttura' => 'TEST-ISOLATO']);
         $this->actingAs($this->actor('proprietario', $owner->id, $structure->id));
         return $structure->fresh();
     }
@@ -246,6 +246,7 @@ class IstatConformitaTest extends TestCase
         Http::fake(); $ws = new IstatWebService($service);
         $this->assertSame('validated', $ws->verify($s, $xml, Carbon::now(), Carbon::now())['state']);
         Http::assertNothingSent();
+        config(['istat.enabled' => true]);
         Http::fake(['*' => Http::response('<response/>', 200)]);
         $this->assertFalse($ws->send($s, $xml, Carbon::now(), Carbon::now())['accepted']);
         Http::assertSent(fn ($request) => $request->url() === 'https://datiturismo.regione.emilia-romagna.it/ws/checkinV2' && $request->hasHeader('SOAPAction', '""') && str_contains($request->body(), '<movimentazione>'));
@@ -255,10 +256,10 @@ class IstatConformitaTest extends TestCase
     {
         $s = $this->setupStructure(); $this->stay($s);
         $this->get('/istat-tabella-a?dal=2026-04-01&al=2026-04-30')->assertOk()->assertSee('Valida XML senza inviare');
-        $this->get('/istat-tabella-a/download/xml?dal=2026-04-01&al=2026-04-30')->assertOk()->assertHeader('Content-Type', 'application/xml; charset=UTF-8');
+        $this->post('/istat-tabella-a/download/xml?dal=2026-04-01&al=2026-04-30')->assertOk()->assertHeader('Content-Type', 'application/xml; charset=UTF-8');
         $this->assertSame(1, IstatExport::where('struttura_id', $s->id)->count());
         foreach (['dal=2026-02-30&al=2026-04-30', 'dal=2026-05-01&al=2026-04-30', 'mese=2026-13'] as $q) {
-            $this->get('/istat-tabella-a/download/xml?'.$q)->assertRedirect()->assertSessionHasErrors('istat_periodo');
+            $this->post('/istat-tabella-a/download/xml?'.$q)->assertRedirect()->assertSessionHasErrors('istat_periodo');
         }
         $this->assertSame(1, IstatExport::where('struttura_id', $s->id)->count());
     }
@@ -273,7 +274,7 @@ class IstatConformitaTest extends TestCase
         $this->assertSame('validated', \App\Models\IstatTransmission::latest('id')->first()->status);
         $count = IstatExport::count();
         $stay->update(['oa_city_nac' => 'CITTADINANZA_INVENTATA']);
-        $this->get('/istat-tabella-a/download/xml?dal=2026-04-01&al=2026-04-30')->assertRedirect()->assertSessionHasErrors('istat_export');
+        $this->post('/istat-tabella-a/download/xml?dal=2026-04-01&al=2026-04-30')->assertRedirect()->assertSessionHasErrors('istat_export');
         $this->assertSame($count, IstatExport::count());
     }
 
@@ -308,6 +309,8 @@ class IstatConformitaTest extends TestCase
 
     public function test_questura_bytes_and_source_guest_records_remain_unchanged(): void
     {
+        Carbon::setTestNow('2026-04-01 12:00:00');
+        try {
         $s = $this->setupStructure();
         $stay = $this->stay($s, ['name' => 'Fixture', 'surname' => 'Sintetico', 'oa_city' => 'Roma', 'or_published_city' => 'Roma']);
         \App\Models\TipoDocumento::create(['codice' => 'PASOR', 'descrizione' => 'PASSAPORTO']);
@@ -324,5 +327,8 @@ class IstatConformitaTest extends TestCase
         $this->assertSame($record, $stay->fresh()->getRawOriginal());
         $this->assertSame($before, $questura->buildTxtPerSchedina($stay->fresh()->load('componenti')));
         $this->assertNotSame('', $before);
+        } finally {
+            Carbon::setTestNow();
+        }
     }
 }

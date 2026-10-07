@@ -198,9 +198,31 @@ class IstatTabellaAService
             'totale_presenze' => (int) $rows->sum('presenti'), 'totale_partenze' => (int) $rows->sum('partenze')];
     }
 
-    public function buildXml(Struttura $struttura, Carbon $dal, Carbon $al): string
+    public function previewRecords(string $xml): array
     {
-        $analysis = $this->analysePeriodo($struttura, $dal, $al);
+        $validator = new IstatXmlValidator();
+        $validator->validate($xml);
+        $xpath = new \DOMXPath($validator->document($xml));
+        $records = [];
+        foreach ($xpath->query('/movimenti/movimento') as $day) {
+            foreach (['arrivi/arrivo' => 'Arrivo', 'partenze/partenza' => 'Partenza'] as $path => $kind) {
+                foreach ($xpath->query($path, $day) as $record) {
+                    $values = ['giorno' => $xpath->evaluate('string(data)', $day), 'tipo' => $kind];
+                    foreach (['idswh', 'idcapo', 'tipoalloggiato', 'nome', 'cognome', 'sesso', 'cittadinanza',
+                        'statoresidenza', 'luogoresidenza', 'datanascita', 'statonascita', 'comunenascita',
+                        'tipoturismo', 'mezzotrasporto', 'canaleprenotazione', 'titolostudio', 'professione', 'arrivo'] as $field) {
+                        $values[$field] = $xpath->evaluate('string('.$field.')', $record);
+                    }
+                    $records[] = $values;
+                }
+            }
+        }
+        return $records;
+    }
+
+    public function buildXml(Struttura $struttura, Carbon $dal, Carbon $al, ?array $analysis = null): string
+    {
+        $analysis ??= $this->analysePeriodo($struttura, $dal, $al);
         if (!$analysis['valida']) {
             throw ValidationException::withMessages(['istat_export' => $analysis['errors']]);
         }

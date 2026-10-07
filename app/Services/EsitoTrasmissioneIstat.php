@@ -13,6 +13,12 @@ final class EsitoTrasmissioneIstat
         'historical_error' => 'Errore registrato nello storico; nessuna accettazione ufficiale confermata.',
         'technical_error' => 'Errore tecnico ISTAT. Dettagli remoti omessi per sicurezza.',
         'pending' => 'Operazione in attesa; nessuna accettazione confermata.',
+        'disabled' => 'Trasporto ISTAT disabilitato: nessuna richiesta effettuata.',
+        'not_delivered' => 'Richiesta non consegnata: errore prima del trasporto.',
+        'uncertain' => 'Esito incerto: verificare lo storico Ross1000 prima di ripetere o caricare il file.',
+        'processed' => 'Esito positivo dei record ricevuto; verificare anche il calendario sul portale Ross1000.',
+        'partial' => 'Esito parziale dei record: verificare e correggere sul portale Ross1000.',
+        'manual_registered' => 'Consegna sul portale dichiarata dall’operatore; non costituisce ricevuta ufficiale.',
         'unknown' => 'Esito non verificato; nessuna accettazione ufficiale confermata.',
     ];
 
@@ -23,19 +29,15 @@ final class EsitoTrasmissioneIstat
 
     public static function daHttp(int $http, string $body, string $modo): array
     {
-        $stato = $http >= 200 && $http < 300 ? ($modo === 'send' ? 'sent' : 'unknown') : 'technical_error';
-        // A negative indication can prevent success, never prove official acceptance.
-        if (preg_match('/fault|errore|error/i', $body)) {
-            $stato = 'rejected';
-        }
-        return self::crea($stato, $modo, $http);
+        // Senza correlazione con i record originali l’HTTP non prova l’esito.
+        return self::crea('uncertain', $modo, $http);
     }
 
     public static function sanifica(mixed $input): array
     {
         $safe = self::proietta($input, [
             'state' => array_keys(self::MESSAGGI),
-            'mode' => ['send', 'verify', 'receipt'],
+            'mode' => ['send', 'verify', 'receipt', 'manual'],
             'transport' => ['http_status' => 'http'],
         ]);
         $stato = $safe['state'] ?? 'unknown';
