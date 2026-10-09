@@ -1,0 +1,36 @@
+{"exit_suite": 1, "storico_immutato": true, "scrittura_readonly_rifiutata": true, "namespace": "unshare-all; skip-networking; nessun mount operativo", "php": "8.3.35"}
+.PHPCliTests.test_version_gate_is_exact_and_no_other_validator_removed) ... ok
+test_indirect_storage_link_is_rejected (test_deploy_guards.PathTests.test_indirect_storage_link_is_rejected) ... ok
+test_permissions_do_not_touch_persistent_files (test_deploy_guards.PathTests.test_permissions_do_not_touch_persistent_files) ... ok
+test_provider_manifest_symlink_rejected (test_deploy_guards.PathTests.test_provider_manifest_symlink_rejected) ... ok
+test_provider_manifests_only_are_removed (test_deploy_guards.PathTests.test_provider_manifests_only_are_removed) ... ok
+test_runtime_hardlink_rejected (test_deploy_guards.PathTests.test_runtime_hardlink_rejected) ... ok
+test_runtime_symlink_rejected (test_deploy_guards.PathTests.test_runtime_symlink_rejected) ... ok
+test_storage_link_postcondition (test_deploy_guards.PathTests.test_storage_link_postcondition) ... ok
+test_walk_error_is_failure (test_deploy_guards.PathTests.test_walk_error_is_failure) ... ok
+test_world_writable_directory_rejected (test_deploy_guards.PathTests.test_world_writable_directory_rejected) ... ok
+test_cached_database_identity_cannot_hide_environment (test_deploy_guards.PreliminaryMigrationTests.test_cached_database_identity_cannot_hide_environment) ... ok
+test_preliminary_dispatch_does_not_use_strict_artisan_pending (test_deploy_guards.PreliminaryMigrationTests.test_preliminary_dispatch_does_not_use_strict_artisan_pending) ... ok
+test_real_readonly_metadata_ignores_vendor_versions_and_missing_vendor (test_deploy_guards.PreliminaryMigrationTests.test_real_readonly_metadata_ignores_vendor_versions_and_missing_vendor) ... ok
+test_unsafe_environment_and_configuration_fail_without_vendor (test_deploy_guards.PreliminaryMigrationTests.test_unsafe_environment_and_configuration_fail_without_vendor) ... 
+  test_unsafe_environment_and_configuration_fail_without_vendor (test_deploy_guards.PreliminaryMigrationTests.test_unsafe_environment_and_configuration_fail_without_vendor) (extra='DB_HOST=another\n') ... FAIL
+test_detached_daemon_is_reaped (test_deploy_guards.ProcessTests.test_detached_daemon_is_reaped) ... ok
+test_lock_exclusion_and_release (test_deploy_guards.ProcessTests.test_lock_exclusion_and_release) ... ok
+test_sigkill_cannot_leave_lock_inherited_by_child (test_deploy_guards.ProcessTests.test_sigkill_cannot_leave_lock_inherited_by_child) ... ok
+test_signals_reap_detached_descendants_ignoring_term (test_deploy_guards.ProcessTests.test_signals_reap_detached_descendants_ignoring_term) ... ok
+test_signals_stop_child_release_lock_and_retain_guard (test_deploy_guards.ProcessTests.test_signals_stop_child_release_lock_and_retain_guard) ... ok
+test_subprocess_does_not_inherit_lock_descriptor (test_deploy_guards.ProcessTests.test_subprocess_does_not_inherit_lock_descriptor) ... ok
+
+======================================================================
+FAIL: test_unsafe_environment_and_configuration_fail_without_vendor (test_deploy_guards.PreliminaryMigrationTests.test_unsafe_environment_and_configuration_fail_without_vendor) (extra='DB_HOST=another\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/runner-v18/tests/Deployment/test_deploy_guards.py", line 756, in test_unsafe_environment_and_configuration_fail_without_vendor
+    self.assertNotEqual(self.preliminary().returncode,0)
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 76 tests in 10.791s
+
+FAILED (failures=1)
+

@@ -1,0 +1,25 @@
+...................E............................E...........s.ss..
+======================================================================
+ERROR: test_build_pipeline_changes_blocked_before_execution (test_deploy_guards.ExecutionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 418, in test_build_pipeline_changes_blocked_before_execution
+    self.app.build_contract(self.root)
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/scripts/deployment/deploy.py", line 395, in build_contract
+    require(digest((source/name).read_bytes()) == expected, 'Build pipeline changed; review destinations and update runner: '+name)
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/scripts/deployment/deploy.py", line 53, in require
+    raise Failure(message)
+deployment.Failure: Build pipeline changed; review destinations and update runner: package.json
+
+======================================================================
+ERROR: test_real_http_503_headers_without_vendor (test_deploy_guards.MaintenanceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 301, in test_real_http_503_headers_without_vendor
+    listener.bind(('127.0.0.1',0))
+PermissionError: [Errno 1] Operation not permitted
+
+----------------------------------------------------------------------
+Ran 66 tests in 13.386s
+
+FAILED (errors=2, skipped=3)

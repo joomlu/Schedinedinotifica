@@ -10,28 +10,28 @@ use App\Models\GeoNazione;
 use App\Models\GeoProvincia;
 use App\Models\GeoRegione;
 use App\Models\Gruppo;
+use App\Models\RilasciatoDa;
 use App\Models\Schedina;
 use App\Models\Struttura;
 use App\Models\TassaDiSoggiorno;
 use App\Models\TassaEsenzione;
-use App\Models\TipoDocumento;
 use App\Models\TipoCliente;
+use App\Models\TipoDocumento;
 use App\Models\TipoVia;
 use App\Models\Titolo;
-use App\Models\RilasciatoDa;
-use App\Services\TassaDiSoggiornoService;
 use App\Services\CestinoService;
 use App\Services\CustomerImportService;
+use App\Services\TassaDiSoggiornoService;
 use App\Support\Componenti\DatiComponenteNormalizzati;
 use App\Support\Componenti\PianoSyncComponenti;
 use App\Support\Componenti\TipoAlloggiatoCatalogo;
 use App\Support\StrutturaCorrente;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
@@ -65,7 +65,7 @@ class SchedinaController extends Controller
             })
             ->with('componenti')
             ->when($q !== '', function ($query) use ($q) {
-                $like = '%' . $q . '%';
+                $like = '%'.$q.'%';
                 $query->where(function ($inner) use ($like) {
                     $inner->where('id', 'like', $like)
                         ->orWhere('scheda', 'like', $like)
@@ -87,21 +87,22 @@ class SchedinaController extends Controller
 
         $schedinas->getCollection()->transform(function (Schedina $schedina) use ($tassaConfig, $esenzioni, $strutturaInfo) {
             $schedina = $this->decorateSchedina($schedina);
-            $dettaglio = $this->tassaService->dettaglioSchedina(
+            $dettaglio = $this->dettaglioTassaPerGestione(
                 $schedina,
                 $schedina->componenti ?? collect(),
                 $tassaConfig,
                 $esenzioni,
                 $strutturaInfo
             );
-            $schedina->tassa_totale = (float) ($dettaglio['totale'] ?? 0);
+            $schedina->tassa_totale = $dettaglio['totale'];
             $schedina->tassa_righe = (int) count($dettaglio['righe'] ?? []);
-            $schedina->tassa_configurata = !empty($tassaConfig);
+            $schedina->tassa_configurata = empty($dettaglio['errore']);
             $schedina->tassa_warning = collect($dettaglio['righe'] ?? [])
                 ->pluck('motivo')
                 ->filter()
                 ->unique()
                 ->implode(' · ');
+
             return $schedina;
         });
 
@@ -123,7 +124,7 @@ class SchedinaController extends Controller
             ->where('circuito', 'bozza')
             ->with('componenti')
             ->when($q !== '', function ($query) use ($q) {
-                $like = '%' . $q . '%';
+                $like = '%'.$q.'%';
                 $query->where(function ($inner) use ($like) {
                     $inner->where('id', 'like', $like)
                         ->orWhere('scheda', 'like', $like)
@@ -144,21 +145,22 @@ class SchedinaController extends Controller
 
         $schedinas->getCollection()->transform(function (Schedina $schedina) use ($tassaConfig, $esenzioni, $strutturaInfo) {
             $schedina = $this->decorateSchedina($schedina);
-            $dettaglio = $this->tassaService->dettaglioSchedina(
+            $dettaglio = $this->dettaglioTassaPerGestione(
                 $schedina,
                 $schedina->componenti ?? collect(),
                 $tassaConfig,
                 $esenzioni,
                 $strutturaInfo
             );
-            $schedina->tassa_totale = (float) ($dettaglio['totale'] ?? 0);
+            $schedina->tassa_totale = $dettaglio['totale'];
             $schedina->tassa_righe = (int) count($dettaglio['righe'] ?? []);
-            $schedina->tassa_configurata = !empty($tassaConfig);
+            $schedina->tassa_configurata = empty($dettaglio['errore']);
             $schedina->tassa_warning = collect($dettaglio['righe'] ?? [])
                 ->pluck('motivo')
                 ->filter()
                 ->unique()
                 ->implode(' · ');
+
             return $schedina;
         });
 
@@ -173,20 +175,20 @@ class SchedinaController extends Controller
     public function new(Request $request)
     {
         $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
-        if (!$currentId) {
+        if (! $currentId) {
             return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
         }
 
         $strutturaInfo = Struttura::find($currentId);
-        if (!$strutturaInfo) {
+        if (! $strutturaInfo) {
             return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Struttura non valida.']);
         }
 
-        $schedina = new Schedina();
+        $schedina = new Schedina;
         $componenti = collect();
 
         $draftState = $request->session()->get($this->newSchedinaDraftComponentiKey(), []);
-        if (!empty($draftState)) {
+        if (! empty($draftState)) {
             $oldInput = $request->session()->getOldInput();
             $mergedInput = empty($oldInput) ? $draftState : array_replace_recursive($draftState, $oldInput);
             $mergedInput = array_diff_key($mergedInput, array_flip(['id', 'schedina_id', 'schedina']));
@@ -213,7 +215,7 @@ class SchedinaController extends Controller
         [$schedina, $componenti] = $this->previewFromOldInput($request, $schedina, $componenti, $prefilledCustomer);
 
         [$tassaConfig, $esenzioni] = $this->loadTassaContext($strutturaInfo);
-        $tassaDettaglio = $this->tassaService->dettaglioSchedina($schedina, $componenti, $tassaConfig, $esenzioni, $strutturaInfo);
+        $tassaDettaglio = $this->dettaglioTassaPerGestione($schedina, $componenti, $tassaConfig, $esenzioni, $strutturaInfo);
 
         return view('schedina.new', array_merge(
             $this->commonFormData(),
@@ -236,10 +238,11 @@ class SchedinaController extends Controller
     public function store(Request $request)
     {
         $currentId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
-        if (!$currentId) {
+        if (! $currentId) {
             return back()->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.'])->withInput();
         }
 
+        $this->authorizedCustomerReference($request);
         $saveMode = $this->resolveSaveMode($request);
         if ($saveMode === 'component') {
             return $this->handleSingleComponentSave($request, null, false);
@@ -272,13 +275,14 @@ class SchedinaController extends Controller
 
             $payload = $this->buildSchedinaPayload($request, $defaults);
             $payload['struttura_id'] = $currentId;
-            $payload['customer_id'] = $customer?->id ?: $request->input('customer_id');
+            $payload['customer_id'] = $customer?->id;
             $this->applySaveModeState($payload, $currentId, $saveMode, null);
 
             $schedina = Schedina::query()->create($payload);
             $this->syncCamere($schedina, $request);
             $this->syncComponenti($schedina, $request);
             $this->syncCircuitNumbering($currentId, null, (string) ($payload['circuito'] ?? 'schedina'));
+
             return $schedina;
         };
 
@@ -293,6 +297,7 @@ class SchedinaController extends Controller
                 ]);
             }
             $schedina = DB::transaction(function () use ($request, $currentId, $persist) {
+                Struttura::withoutGlobalScopes()->whereKey($currentId)->lockForUpdate()->firstOrFail();
                 $row = CustomerImportRow::query()
                     ->whereHas('batch', fn ($query) => $query->where('struttura_id', $currentId))
                     ->lockForUpdate()->findOrFail($request->input('customer_import_row_id'));
@@ -305,29 +310,35 @@ class SchedinaController extends Controller
                 }
                 $saved = $persist($row);
                 app(CustomerImportService::class)->completeFromSchedina($row, $saved);
+
                 return $saved;
             });
-            if (!$schedina) {
+            if (! $schedina) {
                 return redirect()->route('customer.imported.index')
                     ->with('success', 'Cliente importato già confermato: nessun duplicato creato.');
             }
         } else {
-            $schedina = $persist();
+            $schedina = DB::transaction(function () use ($currentId, $persist) {
+                Struttura::withoutGlobalScopes()->whereKey($currentId)->lockForUpdate()->firstOrFail();
+
+                return $persist();
+            });
         }
 
         $this->clearNewSchedinaDraftComponenti();
+
         return $this->redirectAfterSave($schedina, $request, $saveMode, false);
     }
 
     public function edit(int $id)
     {
         $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
-        if (!$currentId) {
+        if (! $currentId) {
             return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
         }
 
         $strutturaInfo = Struttura::find($currentId);
-        if (!$strutturaInfo) {
+        if (! $strutturaInfo) {
             return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Struttura non valida.']);
         }
 
@@ -335,7 +346,7 @@ class SchedinaController extends Controller
         $componenti = Componenti::query()->where('schedina_id', $id)->get();
         [$schedina, $componenti] = $this->previewFromOldInput($request = request(), $schedina, $componenti, $schedina->customer_id ? Customers::query()->find($schedina->customer_id) : null);
         [$tassaConfig, $esenzioni] = $this->loadTassaContext($strutturaInfo);
-        $tassaDettaglio = $this->tassaService->dettaglioSchedina($schedina, $componenti, $tassaConfig, $esenzioni, $strutturaInfo);
+        $tassaDettaglio = $this->dettaglioTassaPerGestione($schedina, $componenti, $tassaConfig, $esenzioni, $strutturaInfo);
         $prefilledCustomer = $schedina->customer_id ? Customers::query()->find($schedina->customer_id) : null;
 
         return view('schedina.edit', array_merge(
@@ -357,7 +368,7 @@ class SchedinaController extends Controller
     public function copy(int $id)
     {
         $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
-        if (!$currentId) {
+        if (! $currentId) {
             return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
         }
 
@@ -378,6 +389,7 @@ class SchedinaController extends Controller
     {
         $schedina = Schedina::query()->findOrFail($id);
         $previousCircuit = $this->normalizeSchedaCircuit($schedina);
+        $this->authorizedCustomerReference($request);
         $saveMode = $this->resolveSaveMode($request);
 
         if ($saveMode === 'component') {
@@ -404,19 +416,44 @@ class SchedinaController extends Controller
             $this->validateArriviModeRequest($request);
         }
 
-        $customer = $this->resolveCustomerFromRequest($request);
-        $defaults = $customer ? $this->customerToSchedinaDefaults($customer) : [];
+        return DB::transaction(function () use ($request, $schedina, $previousCircuit, $saveMode) {
+            Struttura::withoutGlobalScopes()->whereKey($schedina->struttura_id)->lockForUpdate()->firstOrFail();
+            $schedina->refresh();
+            \App\Models\WebCheckinRichiesta::where('schedina_id', $schedina->id)->where('struttura_id', $schedina->struttura_id)->lockForUpdate()->get();
+            $customer = $this->resolveCustomerFromRequest($request);
+            $defaults = $customer ? $this->customerToSchedinaDefaults($customer) : [];
 
-        $payload = $this->buildSchedinaPayload($request, $defaults);
-        $payload['customer_id'] = $customer?->id ?: $request->input('customer_id');
-        $this->applySaveModeState($payload, (int) $schedina->struttura_id, $saveMode, $schedina);
+            $payload = $this->buildSchedinaPayload($request, $defaults);
+            $payload['customer_id'] = $customer?->id;
+            $this->applySaveModeState($payload, (int) $schedina->struttura_id, $saveMode, $schedina);
 
-        $schedina->fill($payload)->save();
-        $this->syncCamere($schedina, $request);
-        $this->syncComponenti($schedina, $request);
-        $this->syncCircuitNumbering((int) $schedina->struttura_id, $previousCircuit, (string) ($payload['circuito'] ?? $previousCircuit));
+            foreach (\App\Models\WebCheckinRichiesta::where('schedina_id', $schedina->id)->where('struttura_id', $schedina->struttura_id)->get() as $web) {
+                $recipientChanged = false;
+                foreach (['customer_email', 'customer_cellphone', 'name', 'surname'] as $field) {
+                    if (array_key_exists($field, $payload) && $payload[$field] !== $schedina->{$field}) {
+                        $recipientChanged = true;
+                    }
+                }
+                if ($recipientChanged) {
+                    $web->link_revoked_at = $web->link_revoked_at ?? now();
+                }
+                $web->save();
+            }
+            $schedina->fill($payload)->save();
+            $this->syncCamere($schedina, $request);
+            $this->syncComponenti($schedina, $request);
+            $this->syncCircuitNumbering((int) $schedina->struttura_id, $previousCircuit, (string) ($payload['circuito'] ?? $previousCircuit));
 
-        return $this->redirectAfterSave($schedina, $request, $saveMode, true);
+            if (in_array($payload['circuito'] ?? null, ['arrivi', 'schedina'], true)) {
+                \App\Models\WebCheckinRichiesta::query()
+                    ->where('schedina_id', $schedina->id)
+                    ->where('struttura_id', $schedina->struttura_id)
+                    ->where('stato', '<>', 'convertito')
+                    ->update(['stato' => 'convertito', 'convertito_at' => now()]);
+            }
+
+            return $this->redirectAfterSave($schedina, $request, $saveMode, true);
+        });
     }
 
     public function destroy(int $id)
@@ -500,20 +537,75 @@ class SchedinaController extends Controller
         return $payload;
     }
 
-    public function printTassa(int $id)
+    private function dettaglioTassaPerGestione(Schedina $schedina, $componenti, ?TassaDiSoggiorno $config, $esenzioni, ?Struttura $struttura): array
     {
+        try {
+            if ($struttura) {
+                $config = $this->tassaService->configurazioneAutomatica($struttura, $config, $this->tassaService->parseDate($schedina->arrive) ?? now());
+            }
+            if (! $config || $config->tassa_soggiorno === null || $config->giorni_massimo === null || ! $config->inizio || ! $config->fine) {
+                throw \Illuminate\Validation\ValidationException::withMessages(['configurazione_tassa' => 'Configurazione fiscale incompleta.']);
+            }
+
+            return array_merge($this->tassaService->dettaglioSchedina($schedina, $componenti, $config, $esenzioni, $struttura), ['configurazione_effettiva' => $config]);
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            return ['totale' => null, 'righe' => [], 'errore' => collect($exception->errors())->flatten()->first().' La Schedina può essere registrata, ma il calcolo della Tassa non è disponibile.'];
+        }
+    }
+
+    public function printTassa(Request $request, int $id)
+    {
+        $anteprima = $request->routeIs('schedina.tassa.anteprima');
+        if ($request->filled('export_id')) {
+            $request->validate(['export_id' => 'integer|min:1']);
+            $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
+            $export = \App\Models\TassaExport::query()->when($currentId, fn ($q) => $q->where('struttura_id', $currentId))->findOrFail($request->integer('export_id'));
+            $snapshot = $export->snapshot;
+            abort_unless(hash_equals($export->sha256, hash('sha256', $snapshot['csv'])), 409, 'Integrità export Tassa non verificata.');
+            $saved = $snapshot['calcoli'][$id] ?? null;
+            abort_unless($saved, 404);
+            $schedina = (new Schedina)->forceFill($saved['schedina']);
+            $struttura = (new Struttura)->forceFill($snapshot['struttura']);
+            $tassaConfig = new TassaDiSoggiorno($saved['configurazione'] ?? $snapshot['configurazione'] ?? []);
+
+            return view('schedina.print-tassa', [
+                'anteprima' => $anteprima, 'schedina' => $schedina, 'struttura' => $struttura, 'tassaConfig' => $tassaConfig,
+                'dettaglio' => $saved['dettaglio'], 'componenti' => collect(),
+                'arrivo' => $this->tassaService->parseDate($schedina->arrive),
+                'partenza' => $this->tassaService->parseDate($schedina->departure),
+                'logoComune' => $this->resolveLogoComune($struttura), 'storicoVersione' => $export->versione,
+            ]);
+        }
         $schedina = Schedina::query()->findOrFail($id);
         $componenti = Componenti::query()->where('schedina_id', $id)->get();
-        $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id ?? $schedina->struttura_id;
+        $currentId = $schedina->struttura_id;
         $struttura = $currentId ? Struttura::find($currentId) : null;
         [$tassaConfig, $esenzioni] = $this->loadTassaContext($struttura);
-        $dettaglio = $this->tassaService->dettaglioSchedina($schedina, $componenti, $tassaConfig, $esenzioni, $struttura);
+        try {
+            if ($struttura) {
+                $tassaConfig = $this->tassaService->configurazioneAutomatica($struttura, $tassaConfig, $this->tassaService->parseDate($schedina->arrive) ?? now());
+            }
+            abort_if(! $tassaConfig || $tassaConfig->tassa_soggiorno === null || $tassaConfig->giorni_massimo === null, 422, 'Configurare la Tassa prima di stampare la ricevuta.');
+            $dettaglio = $this->tassaService->dettaglioSchedina($schedina, $componenti, $tassaConfig, $esenzioni, $struttura);
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            if ($request->expectsJson()) {
+                throw $exception;
+            }
+
+            return response()->view('schedina.print-tassa', [
+                'erroreCalcolo' => collect($exception->errors())->flatten()->first(),
+                'schedina' => $schedina, 'struttura' => $struttura,
+                'annoFiscale' => $this->tassaService->parseDate($schedina->arrive)?->year,
+            ], 422);
+        }
         $arrivo = $this->tassaService->parseDate($schedina->arrive);
         $partenza = $this->tassaService->parseDate($schedina->departure);
         $logoComune = $this->resolveLogoComune($struttura);
 
         return view('schedina.print-tassa', [
             'schedina' => $schedina,
+            'anteprima' => $anteprima,
+            'storicoVersione' => null,
             'componenti' => $componenti,
             'struttura' => $struttura,
             'tassaConfig' => $tassaConfig,
@@ -536,7 +628,7 @@ class SchedinaController extends Controller
 
         $rilasciatoDa = Schema::hasTable('rilasciato_da')
             ? RilasciatoDa::query()
-                ->when(Schema::hasColumn('rilasciato_da', 'attivo'), fn($query) => $query->where('attivo', true))
+                ->when(Schema::hasColumn('rilasciato_da', 'attivo'), fn ($query) => $query->where('attivo', true))
                 ->orderBy('name')
                 ->get(['id', 'name'])
             : collect();
@@ -544,7 +636,7 @@ class SchedinaController extends Controller
         return [
             'titoli' => Titolo::query()->orderBy('nome')->get(['id', 'nome as name']),
             'tipiCliente' => TipoCliente::query()
-                ->when(Schema::hasColumn('tipo_cliente', 'attivo'), fn($query) => $query->where('attivo', true))
+                ->when(Schema::hasColumn('tipo_cliente', 'attivo'), fn ($query) => $query->where('attivo', true))
                 ->orderBy('descrizione')
                 ->get(['id', 'codice', 'descrizione as nome']),
             'groups' => Schema::hasTable('gruppi')
@@ -581,9 +673,14 @@ class SchedinaController extends Controller
             $esenzioni = TassaEsenzione::query()
                 ->where('struttura_id', $struttura->id)
                 ->where('attivo', true)
+                ->where('codice', '<>', '777')
                 ->orderBy('ordine')
                 ->orderBy('codice')
                 ->get();
+        }
+
+        if ($struttura) {
+            $esenzioni = $this->tassaService->catalogoBellaria($struttura, $esenzioni);
         }
 
         return [$tassaConfig, $esenzioni];
@@ -611,7 +708,7 @@ class SchedinaController extends Controller
             'surname' => ['required', 'string', 'max:100'],
             'sex' => ['required', 'in:M,F'],
             'relationship' => ['nullable', 'string', 'max:50'],
-            'exent' => ['nullable', 'string', 'max:191'],
+            'exent' => ['nullable', 'string', 'max:191', Rule::notIn(['777'])],
             'arrive' => ['required', 'date'],
             'departure' => ['required', 'date', 'after_or_equal:arrive'],
             'cant_people' => ['required', 'integer', 'min:1', 'max:999'],
@@ -641,6 +738,7 @@ class SchedinaController extends Controller
             'or_published_city' => [
                 Rule::requiredIf(function () use ($request) {
                     $country = Str::of((string) $request->input('or_published_country', ''))->ascii()->lower()->value();
+
                     return $country === 'italia' || str_contains($country, 'italia');
                 }),
                 'nullable',
@@ -652,7 +750,7 @@ class SchedinaController extends Controller
             'componenti.*.surname' => ['nullable', 'string', 'max:100'],
             'componenti.*.sex' => ['nullable', 'in:M,F'],
             'componenti.*.relationship' => ['nullable', 'string', 'max:50'],
-            'componenti.*.exent' => ['nullable', 'string', 'max:50'],
+            'componenti.*.exent' => ['nullable', 'string', 'max:50', Rule::notIn(['777'])],
             'componenti.*.city_nac' => ['nullable', 'string', 'max:150'],
             'componenti.*.province_nac' => ['nullable', 'string', 'max:150'],
             'componenti.*.country_nac' => ['nullable', 'string', 'max:150'],
@@ -698,18 +796,8 @@ class SchedinaController extends Controller
     private function resolveCustomerFromRequest(Request $request): ?Customers
     {
         $currentStrutturaId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
-        $customerId = (int) $request->input('customer_id', 0);
-        if ($customerId <= 0 || !$currentStrutturaId) {
-            return null;
-        }
-
-        $allowedStrutturaIds = $this->customerSearchStructureIds((int) $currentStrutturaId);
-        $customer = Customers::query()
-            ->withoutGlobalScopes()
-            ->whereIn('struttura_id', $allowedStrutturaIds)
-            ->find($customerId);
-
-        if (!$customer) {
+        $customer = $this->authorizedCustomerReference($request);
+        if (! $customer) {
             return null;
         }
 
@@ -718,6 +806,26 @@ class SchedinaController extends Controller
         }
 
         return $this->localizeChainCustomerForCurrentStruttura($customer, (int) $currentStrutturaId);
+    }
+
+    private function authorizedCustomerReference(Request $request): ?Customers
+    {
+        $request->validate(['customer_id' => ['nullable', 'integer', 'min:1']]);
+        if (! $request->filled('customer_id')) {
+            return null;
+        }
+
+        $currentId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
+        $customer = $currentId ? Customers::withoutGlobalScopes()
+            ->whereIn('struttura_id', $this->customerSearchStructureIds((int) $currentId))
+            ->find($request->input('customer_id')) : null;
+        if (! $customer) {
+            throw ValidationException::withMessages([
+                'customer_id' => 'Il cliente selezionato non è disponibile per la struttura corrente.',
+            ]);
+        }
+
+        return $customer;
     }
 
     private function importedRowToPrefilledCustomer(CustomerImportRow $row): Customers
@@ -827,6 +935,7 @@ class SchedinaController extends Controller
             if ($value === null || $value === '') {
                 return $default;
             }
+
             return $value;
         };
 
@@ -911,6 +1020,7 @@ class SchedinaController extends Controller
             $payload['circuito'] = 'bozza';
             $payload['is_arrive'] = 0;
             $payload['scheda'] = $schedina?->scheda ?: null;
+
             return;
         }
 
@@ -921,6 +1031,7 @@ class SchedinaController extends Controller
                 ? ($schedina?->scheda ?: $this->nextSchedaCode($strutturaId, 'arrivi'))
                 : $this->nextSchedaCode($strutturaId, 'arrivi');
             $this->applyOperationalArriviDates($payload);
+
             return;
         }
 
@@ -934,7 +1045,7 @@ class SchedinaController extends Controller
     private function customerSearchStructureIds(int $currentStrutturaId): array
     {
         $struttura = Struttura::query()->find($currentStrutturaId);
-        if (!$struttura) {
+        if (! $struttura) {
             return [$currentStrutturaId];
         }
 
@@ -947,7 +1058,7 @@ class SchedinaController extends Controller
             ->pluck('id')
             ->all();
 
-        return !empty($ids) ? $ids : [$currentStrutturaId];
+        return ! empty($ids) ? $ids : [$currentStrutturaId];
     }
 
     private function localizeChainCustomerForCurrentStruttura(Customers $sourceCustomer, int $currentStrutturaId): Customers
@@ -978,29 +1089,29 @@ class SchedinaController extends Controller
             ->where('name', $sourceCustomer->name)
             ->where('surname', $sourceCustomer->surname);
 
-        if (!empty($sourceCustomer->num_doc_reg)) {
+        if (! empty($sourceCustomer->num_doc_reg)) {
             return $query
                 ->where('num_doc_reg', $sourceCustomer->num_doc_reg)
-                ->when(!empty($sourceCustomer->nac_reg), fn ($inner) => $inner->where('nac_reg', $sourceCustomer->nac_reg))
+                ->when(! empty($sourceCustomer->nac_reg), fn ($inner) => $inner->where('nac_reg', $sourceCustomer->nac_reg))
                 ->latest('id')
                 ->first();
         }
 
-        if (!empty($sourceCustomer->email)) {
+        if (! empty($sourceCustomer->email)) {
             return (clone $query)
                 ->where('email', $sourceCustomer->email)
                 ->latest('id')
                 ->first();
         }
 
-        if (!empty($sourceCustomer->cellphone)) {
+        if (! empty($sourceCustomer->cellphone)) {
             return (clone $query)
                 ->where('cellphone', $sourceCustomer->cellphone)
                 ->latest('id')
                 ->first();
         }
 
-        if (!empty($sourceCustomer->phone)) {
+        if (! empty($sourceCustomer->phone)) {
             return (clone $query)
                 ->where('phone', $sourceCustomer->phone)
                 ->latest('id')
@@ -1047,7 +1158,7 @@ class SchedinaController extends Controller
             ->orderByDesc('numero_cliente')
             ->value('numero_cliente');
 
-        if (!$lastCode || !preg_match('/-(\d{4})$/', $lastCode, $matches)) {
+        if (! $lastCode || ! preg_match('/-(\d{4})$/', $lastCode, $matches)) {
             return 1;
         }
 
@@ -1078,14 +1189,14 @@ class SchedinaController extends Controller
         $userId = (int) (auth()->id() ?? 0);
         $strutturaId = (int) (StrutturaCorrente::getId() ?? auth()->user()?->struttura_id ?? 0);
 
-        return 'componenti_import_new_schedina.' . $userId . '.' . $strutturaId;
+        return 'componenti_import_new_schedina.'.$userId.'.'.$strutturaId;
     }
 
     private function handleSingleComponentSave(Request $request, ?Schedina $schedina, bool $isPersisted): \Illuminate\Http\RedirectResponse
     {
         [$index, $row, $componentId] = $this->resolveSingleComponentSelection($request);
 
-        if (!is_array($row) || $index === null) {
+        if (! is_array($row) || $index === null) {
             throw ValidationException::withMessages([
                 'componenti' => 'Seleziona un componente valido da salvare.',
             ]);
@@ -1100,7 +1211,7 @@ class SchedinaController extends Controller
 
         $singleRow = $normalized[0];
         $singleErrors = DatiComponenteNormalizzati::validaRighe([$singleRow]);
-        if (!empty($singleErrors)) {
+        if (! empty($singleErrors)) {
             throw ValidationException::withMessages($singleErrors);
         }
 
@@ -1118,7 +1229,7 @@ class SchedinaController extends Controller
                 ->where('schedina_id', $schedina->id)
                 ->find((int) $componentId);
 
-            if (!$componente) {
+            if (! $componente) {
                 throw ValidationException::withMessages([
                     'componenti' => 'Il componente non appartiene alla schedina corrente.',
                 ]);
@@ -1157,7 +1268,7 @@ class SchedinaController extends Controller
 
         if ($componentId !== null && $componentId !== '') {
             foreach ($rows as $index => $row) {
-                if (!is_array($row)) {
+                if (! is_array($row)) {
                     continue;
                 }
 
@@ -1227,6 +1338,11 @@ class SchedinaController extends Controller
         }
     }
 
+    protected function camereForSchedina(Schedina $schedina): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $schedina->camere();
+    }
+
     protected function syncCamere(Schedina $schedina, Request $request): void
     {
         $camerePayload = collect($request->input('camere', []))
@@ -1241,14 +1357,15 @@ class SchedinaController extends Controller
                 ];
             })
             ->filter(function ($row) {
-                return !empty($row['numero_camera']) || !empty($row['note']) || (!is_null($row['posti_letto']));
+                return ! empty($row['numero_camera']) || ! empty($row['note']) || (! is_null($row['posti_letto']));
             })
             ->values()
             ->all();
 
-        $schedina->camere()->delete();
-        if (!empty($camerePayload)) {
-            $schedina->camere()->createMany($camerePayload);
+        $camere = $this->camereForSchedina($schedina);
+        $camere->delete();
+        if (! empty($camerePayload)) {
+            $camere->createMany($camerePayload);
         }
     }
 
@@ -1268,13 +1385,13 @@ class SchedinaController extends Controller
         $errors = DatiComponenteNormalizzati::validaRighe($rows);
 
         $reviewBlocks = $this->componentiWithBlockingReview($request);
-        if (!empty($reviewBlocks)) {
+        if (! empty($reviewBlocks)) {
             throw ValidationException::withMessages([
-                'componenti' => 'Impossibile salvare la schedina. Ci sono ' . count($reviewBlocks) . ' componenti da verificare o da completare.',
+                'componenti' => 'Impossibile salvare la schedina. Ci sono '.count($reviewBlocks).' componenti da verificare o da completare.',
             ]);
         }
 
-        if (!empty($errors)) {
+        if (! empty($errors)) {
             throw ValidationException::withMessages($errors);
         }
     }
@@ -1369,7 +1486,7 @@ class SchedinaController extends Controller
         $defaults = $prefilledCustomer ? $this->customerToSchedinaDefaults($prefilledCustomer) : [];
         $schedina->fill($this->buildSchedinaPayload($previewRequest, $defaults));
 
-        if (!array_key_exists('componenti', $old)) {
+        if (! array_key_exists('componenti', $old)) {
             return [$schedina, $componenti];
         }
 
@@ -1384,6 +1501,11 @@ class SchedinaController extends Controller
         return DatiComponenteNormalizzati::normalizzaRighe((array) $request->input('componenti', []));
     }
 
+    protected function componentiForSchedina(Schedina $schedina): \Illuminate\Database\Eloquent\Builder
+    {
+        return Componenti::query()->where('schedina_id', $schedina->id);
+    }
+
     protected function syncComponenti(Schedina $schedina, Request $request): void
     {
         $rows = $this->normalizedComponentiRows($request);
@@ -1391,8 +1513,7 @@ class SchedinaController extends Controller
         $eliminazioneTotaleIntenzionale = $this->componenteDeleteAllIntenzionale($request);
 
         $callback = function () use ($schedina, $rows, $rawRows, $eliminazioneTotaleIntenzionale) {
-            $esistenti = Componenti::query()
-                ->where('schedina_id', $schedina->id)
+            $esistenti = $this->componentiForSchedina($schedina)
                 ->get()
                 ->keyBy('id');
 
@@ -1406,14 +1527,14 @@ class SchedinaController extends Controller
             }
 
             if (empty($rows)) {
-                Componenti::query()
-                    ->where('schedina_id', $schedina->id)
+                $this->componentiForSchedina($schedina)
                     ->delete();
+
                 return;
             }
 
             $piano = PianoSyncComponenti::costruisci($rows, $esistenti->keys()->all());
-            if (!empty($piano->errori)) {
+            if (! empty($piano->errori)) {
                 throw ValidationException::withMessages($piano->errori);
             }
 
@@ -1423,11 +1544,12 @@ class SchedinaController extends Controller
 
                 if ($id === null || $id === '') {
                     Componenti::query()->create($payload);
+
                     continue;
                 }
 
                 $componente = $esistenti->get((int) $id);
-                if (!$componente) {
+                if (! $componente) {
                     throw ValidationException::withMessages([
                         'componenti' => 'Impossibile aggiornare un componente esterno alla schedina corrente.',
                     ]);
@@ -1437,9 +1559,8 @@ class SchedinaController extends Controller
                 $componente->save();
             }
 
-            if (!empty($piano->idDaEliminare)) {
-                Componenti::query()
-                    ->where('schedina_id', $schedina->id)
+            if (! empty($piano->idDaEliminare)) {
+                $this->componentiForSchedina($schedina)
                     ->whereIn('id', $piano->idDaEliminare)
                     ->delete();
             }
@@ -1447,6 +1568,7 @@ class SchedinaController extends Controller
 
         if (DB::transactionLevel() > 0) {
             $callback();
+
             return;
         }
 
@@ -1509,13 +1631,13 @@ class SchedinaController extends Controller
         $problematic = [];
 
         foreach ($rows as $index => $row) {
-            if (!is_array($row)) {
+            if (! is_array($row)) {
                 continue;
             }
 
             $status = strtoupper((string) ($row['_review_status'] ?? $row['review_status'] ?? $row['status'] ?? ''));
             if (in_array($status, [DatiComponenteNormalizzati::STATO_DA_VERIFICARE, DatiComponenteNormalizzati::STATO_DA_COMPLETARE], true)) {
-                $problematic[] = trim((string) (($row['surname'] ?? '') . ' ' . ($row['name'] ?? '')));
+                $problematic[] = trim((string) (($row['surname'] ?? '').' '.($row['name'] ?? '')));
             }
         }
 
@@ -1525,7 +1647,7 @@ class SchedinaController extends Controller
     private function resolveGeoLabelsFromInput(array $data): array
     {
         foreach (['oa_country', 'or_country', 'or_published_country'] as $field) {
-            if (!array_key_exists($field, $data) || !is_numeric($data[$field])) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
                 continue;
             }
 
@@ -1536,7 +1658,7 @@ class SchedinaController extends Controller
         }
 
         foreach (['oa_region', 'or_region'] as $field) {
-            if (!array_key_exists($field, $data) || !is_numeric($data[$field])) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
                 continue;
             }
 
@@ -1547,7 +1669,7 @@ class SchedinaController extends Controller
         }
 
         foreach (['oa_prov', 'or_prov'] as $field) {
-            if (!array_key_exists($field, $data) || !is_numeric($data[$field])) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
                 continue;
             }
 
@@ -1558,7 +1680,7 @@ class SchedinaController extends Controller
         }
 
         foreach (['oa_city', 'or_city', 'or_published_city'] as $field) {
-            if (!array_key_exists($field, $data) || !is_numeric($data[$field])) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
                 continue;
             }
 
@@ -1574,7 +1696,7 @@ class SchedinaController extends Controller
     private function resolveComponenteGeoLabels(array $data): array
     {
         foreach (['country_nac', 'country'] as $field) {
-            if (!array_key_exists($field, $data) || !is_numeric($data[$field])) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
                 continue;
             }
 
@@ -1585,7 +1707,7 @@ class SchedinaController extends Controller
         }
 
         foreach (['regione_nac', 'regione'] as $field) {
-            if (!array_key_exists($field, $data) || !is_numeric($data[$field])) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
                 continue;
             }
 
@@ -1596,7 +1718,7 @@ class SchedinaController extends Controller
         }
 
         foreach (['province_nac', 'province'] as $field) {
-            if (!array_key_exists($field, $data) || !is_numeric($data[$field])) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
                 continue;
             }
 
@@ -1607,7 +1729,7 @@ class SchedinaController extends Controller
         }
 
         foreach (['comune_nac', 'city'] as $field) {
-            if (!array_key_exists($field, $data) || !is_numeric($data[$field])) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
                 continue;
             }
 
@@ -1637,7 +1759,7 @@ class SchedinaController extends Controller
             return '';
         }
 
-        if (!ctype_digit($value)) {
+        if (! ctype_digit($value)) {
             return $value;
         }
 
@@ -1647,8 +1769,8 @@ class SchedinaController extends Controller
     protected function nextSchedaCode(int $strutturaId, string $circuito = 'schedina'): string
     {
         $yy = now()->format('y');
-        $prefix = $this->circuitCodePrefix($circuito) . '-' . $yy;
-        $pattern = $prefix . '%';
+        $prefix = $this->circuitCodePrefix($circuito).'-'.$yy;
+        $pattern = $prefix.'%';
 
         $last = Schedina::query()
             ->withoutGlobalScopes()
@@ -1693,11 +1815,13 @@ class SchedinaController extends Controller
                             $legacy->whereNull('circuito')
                                 ->where('is_arrive', 1);
                         });
+
                     return;
                 }
 
                 if ($normalized === 'web') {
                     $query->where('circuito', 'web');
+
                     return;
                 }
 
@@ -1754,7 +1878,7 @@ class SchedinaController extends Controller
 
     protected function normalizeSchedaCircuit(?Schedina $schedina): ?string
     {
-        if (!$schedina) {
+        if (! $schedina) {
             return null;
         }
 
@@ -1803,7 +1927,7 @@ class SchedinaController extends Controller
 
     private function resolveLogoComune(?Struttura $struttura): ?string
     {
-        if (!$struttura) {
+        if (! $struttura) {
             return null;
         }
 

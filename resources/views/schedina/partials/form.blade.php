@@ -1,5 +1,7 @@
 @php
     $prefilledCustomer = $prefilledCustomer ?? null;
+    $tassaConfig = $tassaDettaglio['configurazione_effettiva'] ?? $tassaConfig ?? null;
+    $tariffaVariabile = collect($tassaDettaglio['righe'] ?? [])->contains(fn ($riga) => array_key_exists('aliquota', $riga) && $riga['aliquota'] === null);
     $usePutMethod = $usePutMethod ?? null;
     $hasPersistedSchedina = ($schedinaContext ?? null) !== 'new' && !empty($schedina) && $schedina instanceof \App\Models\Schedina && $schedina->exists && !empty($schedina->getKey());
     $isEdit = $usePutMethod !== null ? (bool) $usePutMethod : $hasPersistedSchedina;
@@ -230,14 +232,15 @@
                                         </label>
                                         @php $exentValue = old('exent', $schedina->exent ?? 'NO'); @endphp
                                         <x-ui.select name="exent">
-                                            <option value="NO" {{ $exentValue === 'NO' ? 'selected' : '' }}>No</option>
-                                            <option value="Personale" {{ $exentValue === 'Personale' ? 'selected' : '' }}>Personale</option>
-                                            <option value="Acompagnatore Turistico" {{ $exentValue === 'Acompagnatore Turistico' ? 'selected' : '' }}>Acompagnatore Turistico</option>
-                                            <option value="Autista" {{ $exentValue === 'Autista' ? 'selected' : '' }}>Autista</option>
-                                            <option value="Forze armate in seervizio" {{ $exentValue === 'Forze armate in seervizio' ? 'selected' : '' }}>Forze armate in seervizio</option>
-                                            <option value="Accompagnatori per pazienti" {{ $exentValue === 'Accompagnatori per pazienti' ? 'selected' : '' }}>Accompagnatori per pazienti</option>
-                                            <option value="Residente in hotel" {{ $exentValue === 'Residente in hotel' ? 'selected' : '' }}>Residente in hotel</option>
-                                            <option value="Residente nel comune" {{ $exentValue === 'Residente nel comune' ? 'selected' : '' }}>Residente nel comune</option>
+                                            @php $valore = $exentValue; $catalogo = collect($esenzioni ?? []); @endphp
+<option value="NO" {{ strtoupper((string)$valore) === 'NO' ? 'selected' : '' }}>Nessuna esenzione</option>
+@foreach($catalogo->reject(fn ($e) => (string)$e->codice === '777') as $esenzione)
+    <option value="{{ $esenzione->codice }}" {{ (string)$valore === (string)$esenzione->codice ? 'selected' : '' }}>{{ $esenzione->codice }} — {{ $esenzione->descrizione }}</option>
+@endforeach
+@if(filled($valore) && strtoupper((string)$valore) !== 'NO' && !$catalogo->contains(fn ($e) => (string)$e->codice === (string)$valore && (string)$e->codice !== '777'))
+    <option value="{{ $valore }}" selected>{{ $valore }} — valore legacy da verificare</option>
+@endif
+
                                         </x-ui.select>
                                     </div>
                                 </div>
@@ -537,7 +540,7 @@
                                             'manual_flag' => 'oa_geo_manual',
                                         ]"
                                         :value="[
-                                            'nazione_text' => $valueOf('oa_country'),
+                                            'nazione' => $valueOf('oa_country'),
                                             'regione_text' => $valueOf('oa_region'),
                                             'provincia_text' => $valueOf('oa_prov'),
                                             'comune_text' => $valueOf('oa_city'),
@@ -604,7 +607,7 @@
                                     <x-geo.italia
                                         title="Geo residenza"
                                         :value="[
-                                            'nazione_text' => $valueOf('or_country'),
+                                            'nazione' => $valueOf('or_country'),
                                             'regione_text' => $valueOf('or_region'),
                                             'provincia_text' => $valueOf('or_prov'),
                                             'comune_text' => $valueOf('or_city'),
@@ -1032,7 +1035,7 @@
                                                             'manual_flag' => 'componenti['.$index.'][geo_anag_manual]',
                                                         ]"
                                                         :value="[
-                                                            'nazione_text' => $rowVal('country_nac'),
+                                                            'nazione' => $rowVal('country_nac'),
                                                             'regione_text' => $rowVal('regione_nac'),
                                                             'provincia_text' => $rowVal('province_nac'),
                                                             'comune_text' => $rowVal('comune_nac'),
@@ -1101,7 +1104,7 @@
                                                             'manual_flag' => 'componenti['.$index.'][geo_res_manual]',
                                                         ]"
                                                         :value="[
-                                                            'nazione_text' => $rowVal('country'),
+                                                            'nazione' => $rowVal('country'),
                                                             'regione_text' => $rowVal('regione'),
                                                             'provincia_text' => $rowVal('province'),
                                                             'comune_text' => $cityGeoLabel !== '' ? $cityGeoLabel : $rowVal('city'),
@@ -1192,13 +1195,17 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0">Tassa di soggiorno</h5>
-                                @if($hasPersistedSchedina)
-                                    <a href="{{ route('schedina.tassa.print', ['id' => $schedina->id]) }}" class="btn btn-outline-secondary btn-sm" target="_blank">Stampa ricevuta costo tassa</a>
+<h5 class="card-title mb-0">Tassa di soggiorno</h5>
+                                @if($hasPersistedSchedina && empty($tassaDettaglio['errore']))
+                                    <a href="{{ route('schedina.tassa.anteprima', ['id' => $schedina->id]) }}" class="btn btn-outline-secondary btn-sm" target="_blank" rel="noopener">Anteprima ricevuta</a>
                                 @endif
                             </div>
                         </div>
                         <div class="card-body">
+                            <p class="text-muted small">Calcolo corrente. Le versioni consolidate restano disponibili nel rapporto Tassa.</p>
+                            @if(!empty($tassaDettaglio['errore']))
+                                <div class="alert alert-warning" role="alert">{{ $tassaDettaglio['errore'] }} <a href="{{ route('tassa_di_soggiorno.edit') }}">Configurazione fiscale</a></div>
+                            @else
                             @if(!empty($tassaConfig))
                                 <div class="card border-0 bg-light-subtle shadow-sm mb-3">
                                     <div class="card-body">
@@ -1215,7 +1222,7 @@
                                             </div>
                                             <div class="text-end">
                                                 <div class="text-muted small">Aliquota</div>
-                                                <div class="fw-semibold">{{ number_format((float) str_replace(',', '.', $tassaConfig->tassa_soggiorno ?? 0), 2, ',', '.') }} €</div>
+                                                <div class="fw-semibold">{{ $tariffaVariabile ? 'Variabile' : number_format((float) str_replace(',', '.', $tassaConfig->tassa_soggiorno ?? 0), 2, ',', '.').' €' }}</div>
                                             </div>
                                             <div class="text-end">
                                                 <div class="text-muted small">Giorni massimo</div>
@@ -1228,7 +1235,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="text-muted">Aliquota: <strong>{{ $tassaConfig->tassa_soggiorno }} €</strong> — Giorni massimo: <strong>{{ $tassaConfig->giorni_massimo }}</strong></p>
+                                <p class="text-muted">Aliquota: <strong>{{ $tariffaVariabile ? 'Variabile' : $tassaConfig->tassa_soggiorno.' €' }}</strong> — Giorni massimo: <strong>{{ $tassaConfig->giorni_massimo }}</strong></p>
                             @else
                                 <div class="alert alert-warning">Configura prima la tassa di soggiorno nella sezione dedicata.</div>
                             @endif
@@ -1253,13 +1260,13 @@
                                             <tr>
                                                 <td>{{ $riga['nome'] }}</td>
                                                 <td>{{ $riga['eta'] ?? '—' }}</td>
-                                                <td>{{ $riga['esente'] ? 'Sì' : 'No' }}</td>
+                                                <td>{{ !empty($riga['esenzione_parziale']) ? 'Parziale' : ($riga['esente'] ? 'Sì' : 'No') }}</td>
                                                 <td>{{ $riga['motivo'] ?? '—' }}</td>
                                                 <td>{{ $riga['notti_totali'] }}</td>
                                                 <td>{{ $riga['notti_periodo'] ?? $riga['notti_totali'] }}</td>
-                                                <td>{{ $riga['notti_imponibili'] }}</td>
+                                                <td>{{ $riga['notti_tassate'] }}</td>
                                                 <td>{{ $riga['notti_oltre_max'] }}</td>
-                                                <td>{{ number_format($riga['aliquota'], 2, ',', '.') }}</td>
+                                                <td>{{ $riga['aliquota'] === null ? 'Variabile' : number_format($riga['aliquota'], 2, ',', '.') }}</td>
                                                 <td>{{ number_format($riga['subtotale'], 2, ',', '.') }}</td>
                                             </tr>
                                         @endforeach
@@ -1272,6 +1279,7 @@
                                     </tfoot>
                                 </table>
                             </div>
+                            @endif
                         </div>
                     </div>
                     @include('schedina.partials.save-actions', ['previous' => 'schedina-step-comp', 'isEdit' => $isEdit])

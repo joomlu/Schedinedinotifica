@@ -1,0 +1,9 @@
+test_cached_database_identity_cannot_hide_environment (test_deploy_guards.PreliminaryMigrationTests) ... skipped 'Richiede MariaDB sintetico senza rete'
+test_preliminary_dispatch_does_not_use_strict_artisan_pending (test_deploy_guards.PreliminaryMigrationTests) ... ok
+test_real_readonly_metadata_ignores_vendor_versions_and_missing_vendor (test_deploy_guards.PreliminaryMigrationTests) ... skipped 'Richiede MariaDB sintetico senza rete'
+test_unsafe_environment_and_configuration_fail_without_vendor (test_deploy_guards.PreliminaryMigrationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.411s
+
+OK (skipped=2)

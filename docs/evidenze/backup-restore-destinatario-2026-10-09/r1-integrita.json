@@ -1,0 +1,13 @@
+{
+  "fase": "R1_integrita_credenziali",
+  "esito": "PASS",
+  "controlli": {
+    "esito": "PASS",
+    "tabelle_originali_confrontate": 57,
+    "storico_separatamente_verificato": true,
+    "campi_cifrati_decifrati": 3,
+    "cast_modello_verificati": 3,
+    "normalizzazioni_legacy_vuoto_null_attese": 0
+  },
+  "istanze_private_fermate": true
+}

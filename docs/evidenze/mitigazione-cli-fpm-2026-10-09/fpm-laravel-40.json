@@ -1,0 +1,579 @@
+{
+  "rete_senza_route": true,
+  "risultati": [
+    {
+      "ciclo": 0,
+      "richiesta": 0,
+      "secondi": 0.187154,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 1,
+      "secondi": 0.03054,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 2,
+      "secondi": 0.027645,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/dashboard",
+        "metodo": "GET",
+        "http": 302
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 3,
+      "secondi": 0.047073,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 4,
+      "secondi": 0.053134,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 5,
+      "secondi": 0.043178,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/dashboard",
+        "metodo": "GET",
+        "http": 302
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 6,
+      "secondi": 0.049006,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 7,
+      "secondi": 0.042013,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 8,
+      "secondi": 0.045848,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/dashboard",
+        "metodo": "GET",
+        "http": 302
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 9,
+      "secondi": 0.042162,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 10,
+      "secondi": 0.044641,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 11,
+      "secondi": 0.040166,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/dashboard",
+        "metodo": "GET",
+        "http": 302
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 12,
+      "secondi": 0.045332,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 13,
+      "secondi": 0.039298,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 14,
+      "secondi": 0.044674,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/dashboard",
+        "metodo": "GET",
+        "http": 302
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 15,
+      "secondi": 0.041313,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 16,
+      "secondi": 0.049034,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 17,
+      "secondi": 0.041409,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/dashboard",
+        "metodo": "GET",
+        "http": 302
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 18,
+      "secondi": 0.048259,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 19,
+      "secondi": 0.041763,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 0,
+      "secondi": 0.178315,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 1,
+      "secondi": 0.044321,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 2,
+      "secondi": 0.043569,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/dashboard",
+        "metodo": "GET",
+        "http": 302
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 3,
+      "secondi": 0.021426,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 4,
+      "secondi": 0.062251,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 5,
+      "secondi": 0.044029,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/dashboard",
+        "metodo": "GET",
+        "http": 302
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 6,
+      "secondi": 0.039624,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 7,
+      "secondi": 0.04414,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 8,
+      "secondi": 0.040075,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/dashboard",
+        "metodo": "GET",
+        "http": 302
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 9,
+      "secondi": 0.04469,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 10,
+      "secondi": 0.038545,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 11,
+      "secondi": 0.042534,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/dashboard",
+        "metodo": "GET",
+        "http": 302
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 12,
+      "secondi": 0.04033,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 13,
+      "secondi": 0.041039,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 14,
+      "secondi": 0.040116,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/dashboard",
+        "metodo": "GET",
+        "http": 302
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 15,
+      "secondi": 0.042917,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 16,
+      "secondi": 0.038336,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 17,
+      "secondi": 0.045314,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/dashboard",
+        "metodo": "GET",
+        "http": 302
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 18,
+      "secondi": 0.039561,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "GET",
+        "http": 200
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 19,
+      "secondi": 0.047734,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/login",
+        "metodo": "POST",
+        "http": 419
+      }
+    }
+  ],
+  "processi_fermati": [
+    {
+      "pid": 73,
+      "exit": 0
+    },
+    {
+      "pid": 81,
+      "exit": 0
+    }
+  ],
+  "flussi_laravel": "login,CSRF,redirect_anonimo; tenant autenticato e rate limit PENDENTI",
+  "schema_solo_DDL_senza_dati": true,
+  "esito": "PASS_FLUSSI_PARZIALI",
+  "db_privato_fermato": true
+}

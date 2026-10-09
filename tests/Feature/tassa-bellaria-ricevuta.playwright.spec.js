@@ -1,0 +1,52 @@
+import { test, expect, BASE_URL } from '../Support/playwright.js';
+import { readFile } from 'node:fs/promises';
+
+test.use({headless:true});
+for (const mode of ['senza', 'con', 'gruppo']) {
+  test(`Ricevuta A4 e periodo, modalità ${mode} immagine`, async ({page}) => {
+    await page.goto(`${BASE_URL}/login`);
+    await page.getByLabel(/Nome di accesso o email/i).fill(`tassa-${mode}`);
+    await page.getByLabel(/Password personale/i).fill('Password-tassa-fixture-123!');
+    await page.getByRole('button', {name:/Entra/i}).click();
+    await expect(page).not.toHaveURL(/\/login$/);
+    const ids = await (await page.request.get(`${BASE_URL}/tassa-fixture-ids.json`)).json();
+    await page.goto(`${BASE_URL}/schedine/${ids[mode]}/tassa/print`);
+    await expect(page.locator('[data-tassa-totale]')).toHaveAttribute('data-tassa-totale',mode === 'gruppo' ? '318' : '12');
+    await expect(page.locator('.ricevuta-immagine')).toHaveCount(mode === 'con' ? 1 : 0);
+    await expect(page.locator('.ricevuta-software')).toContainText('Schedine di Notifica - Tanggo Platform | Versione 2.0');
+    await page.emulateMedia({media:'print'});
+    await expect(page.locator('.no-print')).toBeHidden();
+    await expect(page.locator('.ricevuta-software .footer')).toBeVisible();
+    await page.locator('#ricevuta-tassa-card').screenshot({path:`/private/tmp/ids-ricevuta-${mode}.png`});
+    await page.pdf({path:`/private/tmp/ids-ricevuta-${mode}.pdf`,format:'A4',printBackground:true,preferCSSPageSize:true});
+    const pdf = await readFile(`/private/tmp/ids-ricevuta-${mode}.pdf`);
+    expect(pdf.length).toBeGreaterThan(1000);
+    await page.emulateMedia({media:'screen'});
+    await page.goto(`${BASE_URL}/tassa_di_soggiorno/rapporto?data_da=2026-06-01&data_a=2026-06-30`);
+    await expect(page.locator('input[name=data_da]').first()).toHaveValue('2026-06-01');
+    await expect(page.locator('input[name=data_a]').first()).toHaveValue('2026-06-30');
+    await expect(page.locator('[data-tassa-periodo]')).toHaveAttribute('data-tassa-periodo',mode === 'gruppo' ? '318' : '12');
+    await expect(page.getByRole('link',{name:'Questo mese',exact:true})).toBeVisible();
+    await page.getByRole('link',{name:/Controllo interno/}).click();
+    await expect(page).toHaveURL(/data_da=2026-06-01.*data_a=2026-06-30/);
+    await expect(page.locator('body')).toContainText('Quantità e importi riconciliati');
+    await page.goto(`${BASE_URL}/tassa_di_soggiorno/rapporto?data_da=2026-06-01&data_a=2026-06-30`);
+    const download = page.waitForEvent('download');
+    await page.getByRole('button',{name:'Consolida e scarica CSV'}).click();
+    await expect(page.locator('body')).toContainText('Conferma salvataggio');
+    await page.getByRole('button',{name:'Sì, salva',exact:true}).click();
+    await expect(page.locator('body')).toContainText('Salvataggio confermato');
+    await page.getByRole('button',{name:'OK',exact:true}).click();
+    await download;
+    await page.goto(`${BASE_URL}/tassa_di_soggiorno/rapporto?data_da=2026-06-01&data_a=2026-06-30`);
+    await page.getByText('Export consolidati e versioni', {exact:true}).click();
+    await page.getByRole('link',{name:/versione 1/}).click();
+    await expect(page.locator('body')).toContainText('Report storico immutabile');
+    const popup = page.waitForEvent('popup');
+    await page.getByRole('link',{name:/Ricevuta storica/}).click();
+    const historical = await popup;
+    await expect(historical.locator('[data-tassa-totale]')).toHaveAttribute('data-tassa-totale',mode === 'gruppo' ? '318' : '12');
+    await expect(historical.locator('body')).toContainText('Versione storica consolidata 1');
+    await historical.close();
+  });
+}

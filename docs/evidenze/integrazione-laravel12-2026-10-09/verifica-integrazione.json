@@ -1,0 +1,17 @@
+{
+  "data": "2026-10-09",
+  "indice_precedente_file": 318,
+  "archivio_sha256": "6e99228bce9aa7970065963fba69ed7ca8178b601b695658a2c01b2173e5fa51",
+  "delta_4_file_identico": "PASS",
+  "head": "faef3cf01f43d19b20d1558c1fbd3ae32e48d849",
+  "ssh": {
+    "destinatario": "root@217.174.149.23:6543",
+    "connessione": "PASS",
+    "autenticazione": "RIFIUTATA prima della firma",
+    "impronta_offerta": "SHA256:CTwvC9v41u3VbBq0el3Qyp7yDZGbmKfIQaTC8JyqiqU",
+    "errore": "Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).",
+    "comandi_remoti_eseguiti": 0
+  },
+  "suite_non_ripetuta": "Delta byte-identico a quello gi\u00e0 verificato:750/8252,26/26browser",
+  "vendor_herd": "Invariato11.31.0; nessun composer install operativo"
+}

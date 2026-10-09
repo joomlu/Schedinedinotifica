@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\TassaEsenzione;
 use App\Services\CestinoService;
 use App\Support\StrutturaCorrente;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
@@ -18,7 +18,7 @@ class TassaEsenzioneController extends Controller
         $this->ensureAdminAccess($request);
 
         $strutturaId = StrutturaCorrente::getId();
-        if (!$strutturaId) {
+        if (! $strutturaId) {
             return back()->withErrors(['struttura_id' => 'Seleziona prima una struttura.']);
         }
 
@@ -35,7 +35,7 @@ class TassaEsenzioneController extends Controller
         $this->ensureAdminAccess($request);
 
         $strutturaId = StrutturaCorrente::getId();
-        if (!$strutturaId) {
+        if (! $strutturaId) {
             return back()->withErrors(['struttura_id' => 'Seleziona prima una struttura.']);
         }
 
@@ -71,7 +71,7 @@ class TassaEsenzioneController extends Controller
                 'required',
                 'string',
                 'max:50',
-                Rule::unique('tassa_esenzioni')->where(fn($q) => $q->where('struttura_id', $strutturaId))->ignore($ignoreId),
+                Rule::unique('tassa_esenzioni')->where(fn ($q) => $q->where('struttura_id', $strutturaId))->ignore($ignoreId),
             ],
             'descrizione' => ['required', 'string', 'max:255'],
             'ordine' => ['nullable', 'integer', 'min:0', 'max:10000'],
@@ -90,8 +90,13 @@ class TassaEsenzioneController extends Controller
 
     private function ensureAdminAccess(Request $request): void
     {
+        $strutturaId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
+        $comune = \App\Models\Struttura::find($strutturaId)?->citta;
+        if (in_array(mb_strtolower(trim((string) $comune)), ['bellaria-igea marina', 'bellaria igea marina'], true)) {
+            throw new AuthorizationException('Il catalogo ufficiale Bellaria è una regola del sistema e non è modificabile da questa pagina.');
+        }
         $user = $request->user();
-        if (!$user || (!$user->isAdmin() && !$user->isSuperAdmin())) {
+        if (! $user || (! $user->isAdmin() && ! $user->isSuperAdmin())) {
             throw new AuthorizationException('Operazione riservata ad admin e super admin.');
         }
     }

@@ -1,0 +1,10 @@
+{
+  "HEAD": "faef3cf01f43d19b20d1558c1fbd3ae32e48d849",
+  "nessun_commit_creato": true,
+  "prove": [
+    "Git reale: clone senza hardlink, HEAD commit reale, clean PASS",
+    "Candidato non committato: checkout sporco rifiutato dal controllo reale"
+  ],
+  "merge_stesso_HEAD_exit": 0,
+  "limite": "HEAD reale non identifica il candidato445; tree staged non \u00e8 un commit distribuibile. prepare/execute integrale con candidato resta bloccato senza commit approvato e pubblicazione."
+}

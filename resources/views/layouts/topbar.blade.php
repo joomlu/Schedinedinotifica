@@ -223,6 +223,12 @@
                         <a class="dropdown-item" href="{{ route('supporto.index') }}"><i class="ri-customer-service-2-line text-muted fs-16 align-middle me-1"></i><span class="align-middle">Supporto online</span></a>
                         <a class="dropdown-item" href="{{ route('help.index') }}"><i class="ri-question-line text-muted fs-16 align-middle me-1"></i><span class="align-middle">Aiuto</span></a>
                         <div class="dropdown-divider"></div>
+                        @if(session('impersonator_id'))
+                            <form method="POST" action="{{ route('superadmin.impersona.stop') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item"><i class="mdi mdi-account-arrow-left text-muted fs-16 align-middle me-1"></i><span class="align-middle">Esci impersonazione</span></button>
+                            </form>
+                        @endif
                         <a class="dropdown-item" href="{{ route('logout.get') }}"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i><span class="align-middle">Logout</span></a>
                     </div>
                 </div>

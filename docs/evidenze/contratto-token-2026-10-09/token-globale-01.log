@@ -1,0 +1,233 @@
+TEST isolato: /private/tmp/schedine-test-qobhnku3; database=test_geo_143bb20bd2e8e7398b8041b51008bcc3; MySQL pid=69783, porta=64843; HTTP pid=69790, porta=64844
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 10.5.38 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /private/tmp/schedine-test-qobhnku3/checkout/phpunit.xml
+
+................\nP1-A {"input":"31\/02\/2026","status":"NON_IMPORTABILE","date_preview":"31\/02\/2026","payload_date":null,"valid_count":0}
+\nP1-A {"input":"29\/02\/2025","status":"NON_IMPORTABILE","date_preview":"29\/02\/2025","payload_date":null,"valid_count":0}
+\nP1-A {"input":"12-31-1980","status":"NON_IMPORTABILE","date_preview":"12-31-1980","payload_date":null,"valid_count":0}
+.\nP1-B {"status":"ERRORE","valid_count":0,"payloads":[]}
+...
+Conteggi preview/conferma {"stati":["DA_COMPLETARE"],"confirmable_rows":1,"valid_count":1,"payload_count":1}
+
+Conteggi preview/conferma {"stati":["COMPLETO","DA_VERIFICARE","DA_COMPLETARE","NON_IMPORTABILE","ERRORE"],"confirmable_rows":3,"valid_count":3,"payload_count":3}
+...........................................  63 / 743 (  8%)
+............................................................... 126 / 743 ( 16%)
+............................................................\nA14 {"attivo":false,"reset_status":302,"autenticato":false,"access_status":302}\n... 189 / 743 ( 25%)
+.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n..............................F........................... 252 / 743 ( 33%)
+............................................................... 315 / 743 ( 42%)
+............................................................... 378 / 743 ( 50%)
+............................................................... 441 / 743 ( 59%)
+............................................................... 504 / 743 ( 67%)
+............................................................... 567 / 743 ( 76%)
+............................................................... 630 / 743 ( 84%)
+...................................FFFFFFFFFFFFFFFF...FFFFFFFF. 693 / 743 ( 93%)
+....F.....................FFFFFFFF...........F.FF.              743 / 743 (100%)
+
+Time: 01:37.416, Memory: 108.50 MB
+
+There were 37 failures:
+
+1) Tests\Feature\CestinoSecurityTest::test_webcheckin_non_archivia_vecchio_token_e_restore_ne_genera_uno_nuovo
+Failed asserting that 64 is identical to 80.
+
+
+2) Tests\Feature\WebCheckinCameraIsolationTest::test_sostituzione_ripetuta_e_riapertura_senza_duplicazioni with data set #0 ('completo', true)
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+3) Tests\Feature\WebCheckinCameraIsolationTest::test_sostituzione_ripetuta_e_riapertura_senza_duplicazioni with data set #1 ('breve', true)
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+4) Tests\Feature\WebCheckinCameraIsolationTest::test_sostituzione_ripetuta_e_riapertura_senza_duplicazioni with data set #2 ('completo', false)
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+5) Tests\Feature\WebCheckinCameraIsolationTest::test_sostituzione_ripetuta_e_riapertura_senza_duplicazioni with data set #3 ('breve', false)
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+6) Tests\Feature\WebCheckinCameraIsolationTest::test_camere_multiple_e_rimozione_esplicita_restano_supportate
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+7) Tests\Feature\WebCheckinCameraIsolationTest::test_token_prevale_su_sessione_estranea_e_identificatori_forgiati
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+8) Tests\Feature\WebCheckinCameraIsolationTest::test_relazione_con_tenant_incoerente_non_viene_letta_o_cancellata
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+9) Tests\Feature\WebCheckinCameraIsolationTest::test_errore_finale_ripristina_camera_precedente_e_tutte_le_scritture
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'ERRORE-SINTETICO-A11'
++'POST http://127.0.0.1:64844/checkin/29d86b93e47fd1248ba1ba90187a2ce46b5ff7fe5fdc87677914181281a21d72'
+
+
+10) Tests\Feature\WebCheckinCameraIsolationTest::test_rifiuti_422_e_token_invalido_non_alterano_relazioni
+Expected response status code [422] but received 404.
+Failed asserting that 404 is identical to 422.
+
+
+11) Tests\Feature\WebCheckinFiscalContextTest::test_anonimo_legge_configurazione_propria_e_non_allenta_scope_gestionale
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+12) Tests\Feature\WebCheckinFiscalContextTest::test_token_determina_tenant_e_non_parametri_o_sessione_estranea
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+13) Tests\Feature\WebCheckinFiscalContextTest::test_profilo_mancante_o_discordante_non_usa_configurazione_altro_tenant with data set #0 ('assente')
+Expected response status code [422] but received 404.
+Failed asserting that 404 is identical to 422.
+
+
+14) Tests\Feature\WebCheckinFiscalContextTest::test_profilo_mancante_o_discordante_non_usa_configurazione_altro_tenant with data set #1 ('aliquota')
+Expected response status code [422] but received 404.
+Failed asserting that 404 is identical to 422.
+
+
+15) Tests\Feature\WebCheckinFiscalContextTest::test_profilo_mancante_o_discordante_non_usa_configurazione_altro_tenant with data set #2 ('periodo')
+Expected response status code [422] but received 404.
+Failed asserting that 404 is identical to 422.
+
+
+16) Tests\Feature\WebCheckinFiscalContextTest::test_fuori_periodo_e_cavallo_periodo_con_configurazione_valida with data set #0 ('2026-05-10', '2026-05-13', 0)
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+17) Tests\Feature\WebCheckinFiscalContextTest::test_fuori_periodo_e_cavallo_periodo_con_configurazione_valida with data set #1 ('2026-05-31', '2026-06-03', 3)
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+18) Tests\Feature\WebCheckinFiscalContextTest::test_revoca_e_tempo_non_introducono_nuova_politica_di_scadenza
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+19) Tests\Feature\WebCheckinGroupAtomicityTest::test_salvataggio_e_riapertura_componenti_senza_duplicati with data set #0 ('completo')
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+20) Tests\Feature\WebCheckinGroupAtomicityTest::test_salvataggio_e_riapertura_componenti_senza_duplicati with data set #1 ('breve')
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+21) Tests\Feature\WebCheckinGroupAtomicityTest::test_componente_esterno_rollback_principale_camere_componenti_richiesta with data set #0 ('completo')
+Expected response status code [422] but received 404.
+Failed asserting that 404 is identical to 422.
+
+
+22) Tests\Feature\WebCheckinGroupAtomicityTest::test_componente_esterno_rollback_principale_camere_componenti_richiesta with data set #1 ('breve')
+Expected response status code [422] but received 404.
+Failed asserting that 404 is identical to 422.
+
+
+23) Tests\Feature\WebCheckinGroupAtomicityTest::test_sessione_estranea_non_cambia_contesto_del_token
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+24) Tests\Feature\WebCheckinGroupAtomicityTest::test_errore_tardivo_db_ripristina_tutte_le_scritture
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'ERRORE-SINTETICO-PERSISTENZA'
++'POST http://127.0.0.1:64844/checkin/17af246eb08de992c180a854c4b9e3b1a69a1ae14a4dde2fe5ab104d810469c6'
+
+
+25) Tests\Feature\WebCheckinGroupAtomicityTest::test_convertito_non_accetta_modifiche_e_conserva_conteggio
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+26) Tests\Feature\WebCheckinLifecycleTest::test_ospite_salva_corregge_senza_estendere_data_operatore
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+27) Tests\Feature\WebCheckinParentSecurityTest::test_parent_autorizzato_restato_accessibile_e_richiesta_estranea_negata
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+28) Tests\Feature\WebCheckinParentSecurityTest::test_creazione_autorizzata_associa_parent_e_tenant_e_modifica_funzionante
+Expected response status code [201, 301, 302, 303, 307, 308] but received 422.
+Failed asserting that false is true.
+
+
+29) Tests\Feature\WebCheckinShortLinkTest::test_link_generato_invito_e_token_completo_preservato
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+30) Tests\Feature\WebCheckinShortLinkTest::test_salvataggio_breve_autorizzato_e_csrf_preservato
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+31) Tests\Feature\WebCheckinShortLinkTest::test_token_completo_legacy_con_formato_diverso_restato_compatibile
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+32) Tests\Feature\WebCheckinShortLinkTest::test_convertito_restato_leggibile_e_non_modificabile with data set #0 ('GET', '')
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+33) Tests\Feature\WebCheckinShortLinkTest::test_convertito_restato_leggibile_e_non_modificabile with data set #1 ('POST', '')
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+34) Tests\Feature\WebCheckinShortLinkTest::test_convertito_restato_leggib
+TEST interrotto senza fallback: phpunit-1 fallito: 1
+mysql-error.log:
+2026-10-09T14:37:53.256317Z 0 [System] [MY-013169] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld (mysqld 8.0.36) initializing of server in progress as process 69782
+2026-10-09T14:37:53.259920Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /private/tmp/schedine-test-qobhnku3/mysql-data/ is case insensitive
+2026-10-09T14:37:53.263610Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2026-10-09T14:37:53.345454Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2026-10-09T14:37:54.386502Z 5 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+2026-10-09T14:37:54.735584Z 0 [System] [MY-013172] [Server] Received SHUTDOWN from user <via user signal>. Shutting down mysqld (Version: 8.0.36).
+2026-10-09T14:37:55.796353Z 0 [Warning] [MY-010101] [Server] Insecure configuration for --secure-file-priv: Location is accessible to all OS users. Consider choosing a different directory.
+2026-10-09T14:37:55.796400Z 0 [System] [MY-010116] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld (mysqld 8.0.36) starting as process 69783
+2026-10-09T14:37:55.799666Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /private/tmp/schedine-test-qobhnku3/mysql-data/ is case insensitive
+2026-10-09T14:37:55.805418Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2026-10-09T14:37:55.844438Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2026-10-09T14:37:55.988851Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2026-10-09T14:37:55.988870Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2026-10-09T14:37:55.990644Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/private/tmp' in the path is accessible to all OS users. Consider choosing a different directory.
+2026-10-09T14:37:56.005956Z 0 [System] [MY-010931] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld: ready for connections. Version: '8.0.36'  socket: '/private/tmp/schedine-test-qobhnku3/mysql.sock'  port: 64843  MySQL Community Server - GPL.
+
+http.log:
+[Fri Oct  9 16:37:56 2026] PHP 8.3.33 Development Server (http://127.0.0.1:64844) started
+[Fri Oct  9 16:37:56 2026] 127.0.0.1:64878 Accepted
+[Fri Oct  9 16:37:56 2026] 127.0.0.1:64878 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri Oct  9 16:37:56 2026] 127.0.0.1:64878 Closing
+[Fri Oct  9 16:37:56 2026] 127.0.0.1:64887 Accepted
+[Fri Oct  9 16:37:56 2026] 127.0.0.1:64887 Closing
+
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-qobhnku3

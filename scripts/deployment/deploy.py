@@ -24,9 +24,9 @@ PRODUCTION = Path('/home/tanggosoftware/repos/schedinedinotifica')
 DOMAIN = 'schedinedinotifica.tanggo.software'
 INDEX_HASH = 'c96ed6bbe80f9105534af4d1510dc79f0143e6843970dba7ddd4ec7d03097cab'
 BUILD_HASHES = {
-    'package.json': '0f591de75ab44ad61381c0d09a564ad963aaa1b1893f9511c54d523454916590',
+    'package.json': '1954c82f8cf076373b8b9fee93301c29943052e6cb808db54b2950ba6d58ac01',
     'vite.config.js': 'dc907b202ee2dd410c02fd3cbddd89725494b4dff98be5039f35aed248135d33',
-    'package-copy-config.json': '11bda5d30443a82687fc024afebafef1dae9941fc6dca42dccee4f6754707919',
+    'package-copy-config.json': '53964ccebe7ff4d23c910d5b605beb769a0605319a547b0a8b88abef70310b87',
     'scripts/verify-architecture.mjs': 'b0bf8cb296fdf164573db2276df31db8eb6f187d27709dc7dbe9b40ad0e4d403',
 }
 BUNDLE = ['deploy.sh', 'scripts/deployment/deploy.py', 'scripts/deployment/artisan.php', 'scripts/deployment/maintenance.php']
@@ -300,6 +300,22 @@ class Deployment:
     def project(self, argv, **kwargs):
         self.seal.verify()
         try:
+            if argv and str(argv[0]) == str(self.php):
+                # Scope limitato a questo processo CLI; FPM e gli ini restano invariati.
+                options = list(argv[1:])
+                for index, value in enumerate(options):
+                    value = str(value)
+                    if index > 0 and str(options[index - 1]) == '-d':
+                        continue
+                    if value == '--' or not value.startswith('-'):
+                        break
+                    require(value != '-n', 'PHP without extensions rejected')
+                    setting = (str(options[index + 1]) if value == '-d' and index + 1 < len(options)
+                               else value[2:] if value.startswith('-d') else '')
+                    if setting.partition('=')[0].strip().lower() == 'opcache.enable_cli':
+                        require(setting.partition('=')[2].strip().lower() in ['0', 'off', 'false'],
+                                'Conflicting OPcache CLI override rejected')
+                argv = [argv[0], '-d', 'opcache.enable_cli=0', *argv[1:]]
             return self.run(argv, **kwargs)
         finally:
             self.seal.verify()
@@ -379,8 +395,8 @@ class Deployment:
         self.runtime()
         return result
 
-    def pending(self, directory):
-        result = json.loads(self.artisan('pending', str(directory)))
+    def pending(self, directory, preliminary=False):
+        result = json.loads(self.artisan('preliminary-pending' if preliminary else 'pending', str(directory)))
         require(isinstance(result, list) and all(isinstance(n, str) and re.fullmatch(r'[A-Za-z0-9_]+', n) for n in result), 'Invalid migration response')
         return result
 
@@ -489,7 +505,7 @@ class Deployment:
         self.project([self.php,self.composer,'--no-plugins','validate','--strict','--no-check-publish'], cwd=source)
         self.project([self.php,self.composer,'--no-plugins','check-platform-reqs','--lock','--no-dev'], cwd=source)
         self.http('/login',200)
-        return target, self.pending(source/'database/migrations')
+        return target, self.pending(source/'database/migrations', preliminary=True)
 
     def execute(self, target, pending, migrate, backup):
         require(not pending or migrate, 'Explicit --migrate required')
@@ -498,10 +514,11 @@ class Deployment:
         require(self.git('rev-parse','HEAD').decode().strip() == self.before, 'HEAD changed during preflight')
         self.maintenance.close(); self.verify_maintenance()
         self.git('merge','--ff-only',target)
-        # Run guarded config clear before installing new dependencies; failure stays behind static 503.
-        self.artisan('config:clear')
+        # Composer non avvia l'app: script e plugin restano disabilitati.
         self.project([self.php,self.composer,'--no-plugins','install','--no-dev','--no-scripts','--optimize-autoloader','--no-interaction','--prefer-dist'], timeout=1200)
         self.project([self.php,self.composer,'--no-plugins','check-platform-reqs','--no-dev'])
+        # Il gate Laravel 12 richiede il vendor candidato, non quello precedente 11.
+        self.artisan('config:clear')
         self.clear_manifests()
         self.artisan('package:discover')
         self.project(['npm','ci','--include=dev','--engine-strict','--ignore-scripts','--no-audit','--no-fund'], timeout=1200)

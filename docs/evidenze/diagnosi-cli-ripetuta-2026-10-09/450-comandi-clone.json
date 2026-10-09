@@ -1,0 +1,3163 @@
+{
+  "fase": "comandi_CLI_clone",
+  "esito": "PASS",
+  "prove": [
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1607
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.143
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2261
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1331
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1343
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1347
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1469
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.139
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1471
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1512
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3357
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1229
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1862
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1736
+    },
+    {
+      "variante": "B",
+      "ripetizione": 0,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1202
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1688
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1224
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.3117
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1319
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.135
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1367
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1475
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1437
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1432
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1577
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3046
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1456
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1591
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1819
+    },
+    {
+      "variante": "B",
+      "ripetizione": 1,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1165
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1741
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1309
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.4089
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1427
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1723
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1697
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1786
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1502
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1738
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1847
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.333
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1348
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1969
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1849
+    },
+    {
+      "variante": "B",
+      "ripetizione": 2,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1406
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1767
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1302
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2745
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1652
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1285
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1492
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1354
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1527
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.149
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1847
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3414
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.13
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.2389
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.191
+    },
+    {
+      "variante": "B",
+      "ripetizione": 3,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.124
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1901
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1275
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.265
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.126
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1285
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.131
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1744
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1431
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1506
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1808
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3281
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1584
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1764
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.2031
+    },
+    {
+      "variante": "B",
+      "ripetizione": 4,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1375
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1945
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1454
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.3889
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1314
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1269
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1236
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1409
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.134
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1501
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1966
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.2788
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1331
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1728
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.2014
+    },
+    {
+      "variante": "B",
+      "ripetizione": 5,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1539
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1758
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1375
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2948
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1281
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1389
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1812
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.2179
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1849
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.2439
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.215
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3399
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1453
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1793
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1774
+    },
+    {
+      "variante": "B",
+      "ripetizione": 6,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1448
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1768
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1664
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.4009
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1468
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1276
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1611
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1476
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1344
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1648
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1601
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3034
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.137
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.2036
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1948
+    },
+    {
+      "variante": "B",
+      "ripetizione": 7,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1238
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1842
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1628
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.5165
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1417
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1614
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1468
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1717
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1367
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1612
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1634
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3111
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1353
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1707
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.186
+    },
+    {
+      "variante": "B",
+      "ripetizione": 8,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1241
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1501
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1244
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.342
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1819
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1606
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1329
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1609
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.142
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1956
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.179
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.2912
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1238
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1634
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.174
+    },
+    {
+      "variante": "B",
+      "ripetizione": 9,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1188
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.241
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1906
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2722
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.2409
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.2194
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.242
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.252
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.2441
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.2424
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.2394
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3616
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.2193
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.2621
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.294
+    },
+    {
+      "variante": "C",
+      "ripetizione": 0,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.2291
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.2222
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1868
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2098
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.2225
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.2331
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.2233
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.2553
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.24
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.2567
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.2598
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3766
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.2268
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.2577
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.3166
+    },
+    {
+      "variante": "C",
+      "ripetizione": 1,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.2232
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.2198
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1976
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2569
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.2491
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.214
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.2569
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.25
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.2372
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.2541
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.2631
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3921
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.2305
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.2413
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.2925
+    },
+    {
+      "variante": "C",
+      "ripetizione": 2,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.2438
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.23
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.183
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2639
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.2297
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.219
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.2409
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.2496
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.2323
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.2358
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.2465
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3576
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.2071
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.2489
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.3137
+    },
+    {
+      "variante": "C",
+      "ripetizione": 3,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.2171
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.2106
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.2054
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2235
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.2184
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.2146
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.2241
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.2546
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.2771
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.2375
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.2808
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3578
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.2136
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.2532
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.3439
+    },
+    {
+      "variante": "C",
+      "ripetizione": 4,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.2229
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.2275
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1983
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2314
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.2157
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.225
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.2321
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.2606
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.2476
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.2606
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.2749
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.4216
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.2361
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.259
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.3415
+    },
+    {
+      "variante": "C",
+      "ripetizione": 5,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.2192
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.2254
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.2213
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2586
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.2257
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.2265
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.2305
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.2367
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.2319
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.2375
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.2596
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3632
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.2234
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.2603
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.3014
+    },
+    {
+      "variante": "C",
+      "ripetizione": 6,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.2264
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.2086
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1914
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2755
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.2112
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.2232
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.2277
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.2579
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.2466
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.2584
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.2624
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3723
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.2296
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.2502
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.2861
+    },
+    {
+      "variante": "C",
+      "ripetizione": 7,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.2122
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.2065
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1761
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2122
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.2158
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.2148
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.2247
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.2376
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.2301
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.2284
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.2375
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3616
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.2218
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.2451
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.2841
+    },
+    {
+      "variante": "C",
+      "ripetizione": 8,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.209
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.2112
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1825
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2341
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.2323
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.2196
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.2385
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.2333
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.2417
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.2431
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.2663
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3797
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.2643
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.2557
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.3698
+    },
+    {
+      "variante": "C",
+      "ripetizione": 9,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.2921
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.2433
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1295
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2976
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1084
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1067
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1216
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1471
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1134
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.14
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1457
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.2623
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1165
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1861
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1686
+    },
+    {
+      "variante": "D",
+      "ripetizione": 0,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1086
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1632
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1284
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2072
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.109
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.104
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1105
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1213
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1212
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1454
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.138
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.2698
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1164
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1758
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1945
+    },
+    {
+      "variante": "D",
+      "ripetizione": 1,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1064
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1525
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1225
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2079
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1131
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1155
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1138
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1294
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1438
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1238
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1437
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.2845
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1095
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1521
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.2066
+    },
+    {
+      "variante": "D",
+      "ripetizione": 2,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.127
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1573
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1352
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2238
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1141
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1155
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1102
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1211
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1273
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1438
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1372
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.2678
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1049
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1716
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1883
+    },
+    {
+      "variante": "D",
+      "ripetizione": 3,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1056
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1557
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1306
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2648
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1108
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1289
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1176
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1335
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1195
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1209
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1341
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.2784
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1346
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1534
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1646
+    },
+    {
+      "variante": "D",
+      "ripetizione": 4,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1118
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.171
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1144
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.4137
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1639
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1103
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.119
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1326
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1275
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.13
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1766
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.3094
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1247
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.2031
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1904
+    },
+    {
+      "variante": "D",
+      "ripetizione": 5,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1068
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1461
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1247
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.1664
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1093
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1059
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1375
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1238
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1111
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.123
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1265
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.2655
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1162
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1464
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1505
+    },
+    {
+      "variante": "D",
+      "ripetizione": 6,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1275
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1604
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1196
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.1635
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1068
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1032
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.1089
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1436
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1358
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1723
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1594
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.2574
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1034
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1493
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.158
+    },
+    {
+      "variante": "D",
+      "ripetizione": 7,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1039
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1419
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1164
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2368
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.116
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.105
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.119
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1202
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1436
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1322
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1525
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.2736
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1119
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1746
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1534
+    },
+    {
+      "variante": "D",
+      "ripetizione": 8,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1025
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "/usr/bin/composer --no-plugins validate --strict --no-check-publish",
+      "exit": 0,
+      "secondi": 0.1603
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "/usr/bin/composer --no-plugins check-platform-reqs --no-dev",
+      "exit": 0,
+      "secondi": 0.1229
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "/usr/bin/composer --no-plugins install --no-dev --no-scripts --no-interaction --prefer-dist",
+      "exit": 0,
+      "secondi": 1.2815
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "artisan package:discover",
+      "exit": 0,
+      "secondi": 0.1137
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "artisan config:clear",
+      "exit": 0,
+      "secondi": 0.1065
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "artisan route:clear",
+      "exit": 0,
+      "secondi": 0.111
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "artisan view:clear",
+      "exit": 0,
+      "secondi": 0.1327
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "artisan event:clear",
+      "exit": 0,
+      "secondi": 0.1139
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "artisan config:cache",
+      "exit": 0,
+      "secondi": 0.1304
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "artisan route:cache",
+      "exit": 0,
+      "secondi": 0.1322
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "artisan view:cache",
+      "exit": 0,
+      "secondi": 0.2565
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "artisan event:cache",
+      "exit": 0,
+      "secondi": 0.1038
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "artisan migrate:status",
+      "exit": 0,
+      "secondi": 0.1355
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "artisan route:list",
+      "exit": 0,
+      "secondi": 0.1465
+    },
+    {
+      "variante": "D",
+      "ripetizione": 9,
+      "comando": "artisan schedule:list",
+      "exit": 0,
+      "secondi": 0.1028
+    }
+  ],
+  "dipendenza_ioncube": {
+    "php_sorgenti_scansionati": 8641,
+    "stub_encoded": [],
+    "riferimenti_app": [],
+    "requisiti_composer": []
+  },
+  "istanza_privata_fermata": true
+}

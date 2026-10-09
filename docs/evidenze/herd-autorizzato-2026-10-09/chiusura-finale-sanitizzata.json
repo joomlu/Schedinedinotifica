@@ -1,0 +1,20 @@
+{
+  "data": "2026-10-09",
+  "H1_Ross1000_Herd": "CHIUSO nel perimetroTanggo/Admin verificato",
+  "backup_reale_restore_isolato": "PASS dati61tabelle e metadati effettivi",
+  "schema_migration_singola": "PASS exit0; altre2pending non eseguite",
+  "lettura_cast_credenziali": "PASS2campi valori identici senza esposizione",
+  "browser_reale": "PASSDOM pulsante/pagina/credenziali vuote/inviodisabilitato; statusHTTPnumerico non acquisito",
+  "APP_KEY_env_config_invariati": true,
+  "metadati_AppleDouble_archivio_preservati": 22,
+  "diagnostico_archivio_originale": "FileNotFoundError: ._config virtuale AppleDouble; corretto confronto dei file reali, archivio e metadati preservati",
+  "backup_riservato_permessi": "directory700/file600/FileVaultOn",
+  "candidato_principale": "318file indice e manifest immutati",
+  "sorgenti_inventario": "1819/1819 immutati",
+  "sorgenti_contratto": "13/13 immutati",
+  "evidenze_contratto": "31/31 immutate",
+  "nuovo_delta_Laravel12": "locale positivo, worktree separato, non integrato",
+  "trasmissioni_reali": false,
+  "serverproduttivo_modificato": false,
+  "commit_push_deploy": false
+}

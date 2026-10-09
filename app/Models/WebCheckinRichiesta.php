@@ -29,6 +29,9 @@ class WebCheckinRichiesta extends Model
     ];
 
     protected $casts = [
+        'link_expires_at' => 'datetime',
+        'link_revoked_at' => 'datetime',
+        'link_issued_at' => 'datetime',
         'arrivo' => 'date',
         'partenza' => 'date',
         'ultimo_accesso_at' => 'datetime',

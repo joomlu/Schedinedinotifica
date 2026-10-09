@@ -554,7 +554,6 @@ class CalendarioController extends Controller
             ->select(['id', 'name', 'surname', 'date_nac'])
             ->where('struttura_id', $struttura->id)
             ->whereNotNull('date_nac')
-            ->where('date_nac', '<>', '')
             ->get();
 
         foreach ($componenti as $componente) {

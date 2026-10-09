@@ -1,0 +1,18 @@
+import pathlib,subprocess,tempfile,json,importlib.util,hashlib
+r=pathlib.Path.cwd();out=r/'docs/evidenze/completamento-fpm-git-2026-10-09';out.mkdir(parents=True,exist_ok=True)
+sha=subprocess.check_output(['git','rev-parse','HEAD']).decode().strip();report={'HEAD':sha,'nessun_commit_creato':True,'prove':[]}
+with tempfile.TemporaryDirectory(prefix='schedine-git-reale-') as tmp:
+ c=pathlib.Path(tmp).resolve()/'clone';p=subprocess.run(['git','clone','--no-local','--no-hardlinks','--single-branch',str(r),str(c)],capture_output=True);assert p.returncode==0
+ spec=importlib.util.spec_from_file_location('d',r/'scripts/deployment/deploy.py');d=importlib.util.module_from_spec(spec);spec.loader.exec_module(d)
+ (c/'.env').write_text('APP_KEY=sintetica\n');a=d.Deployment(c,r);a.seal=d.EnvironmentSeal(c)
+ assert a.git('rev-parse','HEAD').decode().strip()==sha
+ assert a.git('cat-file','-t',sha).strip()==b'commit'
+ assert a.git('status','--porcelain').strip()==b''
+ a.clean();report['prove'].append('Git reale: clone senza hardlink, HEAD commit reale, clean PASS')
+ (c/'scripts/deployment/artisan.php').write_bytes((r/'scripts/deployment/artisan.php').read_bytes())
+ try:a.clean()
+ except d.Failure as e:report['prove'].append('Candidato non committato: checkout sporco rifiutato dal controllo reale')
+ else:raise AssertionError('Checkout modificato accettato')
+ p=subprocess.run(['git','-C',str(c),'merge','--ff-only',sha],capture_output=True);report['merge_stesso_HEAD_exit']=p.returncode
+report['limite']='HEAD reale non identifica il candidato445; tree staged non è un commit distribuibile. prepare/execute integrale con candidato resta bloccato senza commit approvato e pubblicazione.'
+(out/'git-reale.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))

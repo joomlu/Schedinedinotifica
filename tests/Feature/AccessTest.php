@@ -2,19 +2,25 @@
 
 namespace Tests\Feature;
 
-use Database\Seeders\DemoSaasDataFullSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\StrutturaFixtures;
+use Tests\TestCase;
 
 class AccessTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, StrutturaFixtures;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(DemoSaasDataFullSeeder::class);
+        $this->actor('super_admin')->update(['email' => 'tanggo@schedinedinotifica.test']);
+        $admin = $this->actor('admin');
+        $admin->update(['email' => 'admin1@schedinedinotifica.test']);
+        $owner = $this->ownerFor($admin);
+        $this->actor('proprietario', $owner->id)->update(['email' => 'proprietario@schedinedinotifica.test']);
+        $structure = $this->structureFor($owner);
+        $this->actor('struttura_user', null, $structure->id)->update(['email' => 'hotelK2@schedinedinotifica.test']);
     }
 
     public function test_super_admin_can_access_demo_map(): void

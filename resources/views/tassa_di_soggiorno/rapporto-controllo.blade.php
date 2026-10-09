@@ -25,6 +25,10 @@
     }
 </style>
 
+<div class="alert {{ empty($reconciliationErrors) ? 'alert-success' : 'alert-danger' }}">
+    @if(empty($reconciliationErrors)) Quantità e importi riconciliati tra calcolo delle Schedine e movimenti CSV pertinenti.
+    @else Incoerenza nelle Schedine tecniche: {{ implode(', ', $reconciliationErrors) }}. Verificare prima del consolidamento. @endif
+</div>
 <div class="row config-page">
     <div class="col-12">
         <div class="card">
@@ -36,27 +40,30 @@
                     </div>
                     <div class="card-body pt-2">
                         <form method="GET" class="row g-3 align-items-end tassa-controllo-periodo" action="{{ route('tassa_di_soggiorno.rapporto.controllo') }}">
-                            <div class="col-xl-3 col-md-6 col-mese">
-                                <label class="form-label">Mese</label>
-                                <x-ui.select name="mese">
-                                    @for($m = 1; $m <= 12; $m++)
-                                        <option value="{{ $m }}" {{ (int)$mese === $m ? 'selected' : '' }}>{{ \Carbon\Carbon::create(null, $m, 1)->locale('it')->monthName }}</option>
-                                    @endfor
-                                </x-ui.select>
-                            </div>
-                            <div class="col-xl-2 col-md-6 col-anno">
-                                <label class="form-label">Anno</label>
-                                <input type="number" class="form-control" name="anno" value="{{ $anno }}" min="2015" max="2100">
-                            </div>
+                            <div class="col-md-3">
+    <label class="form-label" for="tassa-data-da">Dal</label>
+    <x-calendario id="tassa-data-da" name="data_da" variant="period-start" group="rapporto-tassa" :value="$dataDa" min-date="2015-01-01" max-date="2100-12-31" :required="true" />
+</div>
+<div class="col-md-3">
+    <label class="form-label" for="tassa-data-a">Al</label>
+    <x-calendario id="tassa-data-a" name="data_a" variant="period-end" group="rapporto-tassa" :value="$dataA" min-date="2015-01-01" max-date="2100-12-31" :required="true" />
+</div>
+<div class="col-12 d-flex flex-wrap gap-2">
+    @foreach(['Questo mese' => [now()->startOfMonth(), now()->endOfMonth()], 'Mese precedente' => [now()->subMonthNoOverflow()->startOfMonth(), now()->subMonthNoOverflow()->endOfMonth()], "Quest’anno" => [now()->startOfYear(), now()->endOfYear()]] as $label => $dates)
+        <a class="btn btn-outline-secondary btn-sm" href="{{ request()->url() }}?{{ http_build_query(['data_da' => $dates[0]->toDateString(), 'data_a' => $dates[1]->toDateString()]) }}">{{ $label }}</a>
+    @endforeach
+    <small class="text-muted align-self-center">Inclusione per data di arrivo. Intervalli annuali e personalizzati: consultazione interna; validità amministrativa dell’importazione StayTour non attestata.</small>
+</div>
+
                             <div class="col-xl-7 col-md-12 col-azioni d-flex justify-content-xl-end flex-wrap gap-2">
                                 <button type="submit" class="btn btn-primary"><i class="ri-refresh-line me-1"></i> Aggiorna</button>
-                                <a href="{{ route('tassa_di_soggiorno.rapporto', ['mese' => $mese, 'anno' => $anno]) }}" class="btn btn-light">
+                                <a href="{{ route('tassa_di_soggiorno.rapporto', ['data_da' => $dataDa, 'data_a' => $dataA]) }}" class="btn btn-light">
                                     <i class="ri-arrow-left-line me-1"></i> Rapporto ufficiale
                                 </a>
-                                <a href="{{ route('tassa_di_soggiorno.rapporto.controllo.csv', ['mese' => $mese, 'anno' => $anno]) }}" class="btn btn-success">
+                                <a href="{{ route('tassa_di_soggiorno.rapporto.controllo.csv', ['data_da' => $dataDa, 'data_a' => $dataA]) }}" class="btn btn-success">
                                     <i class="ri-file-download-line me-1"></i> CSV controllo
                                 </a>
-                                <a href="{{ route('tassa_di_soggiorno.rapporto.controllo.print', ['mese' => $mese, 'anno' => $anno]) }}" target="_blank" class="btn btn-info text-white">
+                                <a href="{{ route('tassa_di_soggiorno.rapporto.controllo.print', ['data_da' => $dataDa, 'data_a' => $dataA]) }}" target="_blank" class="btn btn-info text-white">
                                     <i class="ri-printer-line me-1"></i> Stampa controllo
                                 </a>
                             </div>
@@ -216,7 +223,7 @@
                                     <td>{{ $row['notti_periodo'] }}</td>
                                     <td>{{ $row['notti_tassate'] }}</td>
                                     <td>{{ $row['pernottamenti_oltre_max'] }}</td>
-                                    <td>{{ number_format((float) $row['tariffa'], 2, ',', '.') }}</td>
+                                    <td>{{ $row['tariffa'] === null ? 'Variabile' : number_format((float) $row['tariffa'], 2, ',', '.') }}</td>
                                     <td>{{ number_format((float) $row['tassa'], 2, ',', '.') }}</td>
                                 </tr>
                             @empty

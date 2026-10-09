@@ -1,0 +1,14 @@
+import {test,expect,BASE_URL} from '../Support/playwright.js';
+test.use({headless:true});
+test('Client HTTP condiviso: GET autenticata e PUT con CSRF e validazione422',async({page})=>{
+ await page.goto(`${BASE_URL}/login`);await page.getByLabel(/Nome di accesso o email/i).fill('ross-completa');await page.getByLabel(/Password personale/i).fill('Password-ross-sintetica-123!');await page.getByRole('button',{name:/Entra/i}).click();await expect(page).not.toHaveURL(/\/login$/);
+ await page.goto(`${BASE_URL}/struttura`);
+ const put=page.waitForRequest(r=>r.method()==='PUT'&&r.url()===`${BASE_URL}/struttura`);
+ const result=await page.evaluate(async()=>{
+  const read=await window.http.get('/struttura');let write;
+  try{await window.http.put('/struttura',{});write={status:200};}catch(error){write={status:error.response?.status,errors:!!error.response?.data?.errors};}
+  return {readStatus:read.status,hasRoss:read.data.includes('Configurazione Ross1000'),write};
+ });
+ expect(result.readStatus).toBe(200);expect(result.hasRoss).toBe(true);expect(result.write).toEqual({status:422,errors:true});
+ const headers=await(await put).allHeaders();expect(!!(headers['x-csrf-token']||headers['x-xsrf-token'])).toBe(true);
+});

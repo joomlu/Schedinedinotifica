@@ -1,0 +1,121 @@
+{
+  "fonte": "storage/logs/laravel.log",
+  "byte": 48691558,
+  "sha256_fonte": "de1c23ecfcf4d82c347f292c002195aca012b14fd1048bd518553120b918a716",
+  "metodo": "estrazione tecnica per allowlist; nessuna query completa, valori SQL, userId, request/sessione o messaggi personali esportati",
+  "eventi": [
+    {
+      "timestamp_locale": "2026-10-09 15:57:07",
+      "classe": "Illuminate\\Database\\QueryException",
+      "SQLSTATE": "42S22",
+      "tabella": "istat_exports",
+      "colonna_assente": "snapshot",
+      "catena": [
+        "IstatStoricoValidator::errors:20",
+        "IstatTabellaAService::analysePeriodo:181",
+        "IstatTabellaAController::index:38"
+      ],
+      "versione_storica": "non registrata nei log; frame coerenti con sorgenti attuali",
+      "ruolo": "non attestabile dal log sanitizzato; nessun accesso a utenti/dati personali"
+    },
+    {
+      "timestamp_locale": "2026-10-09 16:11:16",
+      "classe": "Illuminate\\Database\\QueryException",
+      "SQLSTATE": "42S22",
+      "tabella": "istat_exports",
+      "colonna_assente": "snapshot",
+      "catena": [
+        "IstatStoricoValidator::errors:20",
+        "IstatTabellaAService::analysePeriodo:181",
+        "IstatTabellaAController::index:38"
+      ],
+      "versione_storica": "non registrata nei log; frame coerenti con sorgenti attuali",
+      "ruolo": "non attestabile dal log sanitizzato; nessun accesso a utenti/dati personali"
+    },
+    {
+      "timestamp_locale": "2026-10-09 17:32:17",
+      "classe": "Illuminate\\Database\\QueryException",
+      "SQLSTATE": "42S22",
+      "tabella": "istat_exports",
+      "colonna_assente": "snapshot",
+      "catena": [
+        "IstatStoricoValidator::errors:20",
+        "IstatTabellaAService::analysePeriodo:181",
+        "IstatTabellaAController::index:38"
+      ],
+      "versione_storica": "non registrata nei log; frame coerenti con sorgenti attuali",
+      "ruolo": "non attestabile dal log sanitizzato; nessun accesso a utenti/dati personali"
+    },
+    {
+      "timestamp_locale": "2026-10-09 17:33:14",
+      "classe": "Illuminate\\Database\\QueryException",
+      "SQLSTATE": "42S22",
+      "tabella": "istat_exports",
+      "colonna_assente": "snapshot",
+      "catena": [
+        "IstatStoricoValidator::errors:20",
+        "IstatTabellaAService::analysePeriodo:181",
+        "IstatTabellaAController::index:38"
+      ],
+      "versione_storica": "non registrata nei log; frame coerenti con sorgenti attuali",
+      "ruolo": "non attestabile dal log sanitizzato; nessun accesso a utenti/dati personali"
+    },
+    {
+      "timestamp_locale": "2026-10-09 17:34:07",
+      "classe": "Illuminate\\Database\\QueryException",
+      "SQLSTATE": "42S22",
+      "tabella": "istat_exports",
+      "colonna_assente": "snapshot",
+      "catena": [
+        "IstatStoricoValidator::errors:20",
+        "IstatTabellaAService::analysePeriodo:181",
+        "IstatTabellaAController::index:38"
+      ],
+      "versione_storica": "non registrata nei log; frame coerenti con sorgenti attuali",
+      "ruolo": "non attestabile dal log sanitizzato; nessun accesso a utenti/dati personali"
+    },
+    {
+      "timestamp_locale": "2026-10-09 17:34:20",
+      "classe": "Illuminate\\Database\\QueryException",
+      "SQLSTATE": "42S22",
+      "tabella": "istat_exports",
+      "colonna_assente": "snapshot",
+      "catena": [
+        "IstatStoricoValidator::errors:20",
+        "IstatTabellaAService::analysePeriodo:181",
+        "IstatTabellaAController::index:38"
+      ],
+      "versione_storica": "non registrata nei log; frame coerenti con sorgenti attuali",
+      "ruolo": "non attestabile dal log sanitizzato; nessun accesso a utenti/dati personali"
+    },
+    {
+      "timestamp_locale": "2026-10-09 17:58:08",
+      "classe": "Illuminate\\Database\\QueryException",
+      "SQLSTATE": "42S22",
+      "tabella": "istat_exports",
+      "colonna_assente": "snapshot",
+      "catena": [
+        "IstatStoricoValidator::errors:20",
+        "IstatTabellaAService::analysePeriodo:181",
+        "IstatTabellaAController::index:38"
+      ],
+      "versione_storica": "non registrata nei log; frame coerenti con sorgenti attuali",
+      "ruolo": "non attestabile dal log sanitizzato; nessun accesso a utenti/dati personali"
+    },
+    {
+      "timestamp_locale": "2026-10-09 18:11:21",
+      "classe": "Illuminate\\Database\\QueryException",
+      "SQLSTATE": "42S22",
+      "tabella": "istat_exports",
+      "colonna_assente": "snapshot",
+      "catena": [
+        "IstatStoricoValidator::errors:20",
+        "IstatTabellaAService::analysePeriodo:181",
+        "IstatTabellaAController::index:38"
+      ],
+      "versione_storica": "non registrata nei log; frame coerenti con sorgenti attuali",
+      "ruolo": "non attestabile dal log sanitizzato; nessun accesso a utenti/dati personali"
+    }
+  ],
+  "fuso": "timestamp log privo di offset; configurazione corrente non prova il fuso storico"
+}

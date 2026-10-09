@@ -22,6 +22,11 @@
 @endphp
 
 @if($richiesta->exists)
+    <p class="text-muted">Link {{ app(\App\Services\WebCheckinLink::class)->valid($richiesta) ? 'valido' : 'non utilizzabile: revocato, scaduto o date da correggere' }}. La nuova emissione non modifica il termine dell’arrivo previsto.</p>
+    <div class="d-flex gap-2 mb-3">
+        <form method="POST" data-confirm-title="Revoca link" data-confirm-text="Il link corrente non sarà più utilizzabile." data-confirm-button="Sì, revoca" data-done-title="Revoca confermata" data-done-text="Premi OK per revocare il link." action="{{ route('web_checkin.revoke', $richiesta->id) }}">@csrf<button class="btn btn-outline-danger" type="submit">Revoca link</button></form>
+        <form method="POST" data-confirm-title="Nuova emissione" data-confirm-text="Tutti i link precedenti saranno invalidati." data-confirm-button="Sì, emetti" data-done-title="Emissione confermata" data-done-text="Premi OK per emettere il nuovo link." action="{{ route('web_checkin.regenerate', $richiesta->id) }}">@csrf<button class="btn btn-outline-primary" type="submit">Emetti nuovo link</button></form>
+    </div>
     <div class="row mb-3">
         <div class="col-12">
             <div class="card border-0 shadow-sm">

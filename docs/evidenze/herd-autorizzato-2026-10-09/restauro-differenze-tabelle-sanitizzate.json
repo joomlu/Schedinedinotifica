@@ -1,0 +1,173 @@
+[
+  {
+    "tabella": "arrivi",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "1",
+        "restauro": null
+      }
+    }
+  },
+  {
+    "tabella": "classificazione_tipologia",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "99",
+        "restauro": "98"
+      }
+    }
+  },
+  {
+    "tabella": "classificazioni",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "20",
+        "restauro": "19"
+      }
+    }
+  },
+  {
+    "tabella": "failed_jobs",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "1",
+        "restauro": null
+      }
+    }
+  },
+  {
+    "tabella": "geo_cap",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "4642",
+        "restauro": "4641"
+      }
+    }
+  },
+  {
+    "tabella": "geo_comuni",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "7897",
+        "restauro": "7896"
+      }
+    }
+  },
+  {
+    "tabella": "geo_comuni_cap",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "8475",
+        "restauro": "8474"
+      }
+    }
+  },
+  {
+    "tabella": "geo_nazioni",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "214",
+        "restauro": "213"
+      }
+    }
+  },
+  {
+    "tabella": "geo_province",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "108",
+        "restauro": "107"
+      }
+    }
+  },
+  {
+    "tabella": "geo_regioni",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "21",
+        "restauro": "20"
+      }
+    }
+  },
+  {
+    "tabella": "gruppi",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "142",
+        "restauro": "141"
+      }
+    }
+  },
+  {
+    "tabella": "migrations",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "147",
+        "restauro": "146"
+      }
+    }
+  },
+  {
+    "tabella": "personal_access_tokens",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "1",
+        "restauro": null
+      }
+    }
+  },
+  {
+    "tabella": "rilasciato_da",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "87",
+        "restauro": "86"
+      }
+    }
+  },
+  {
+    "tabella": "tipo_documento",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "96",
+        "restauro": "95"
+      }
+    }
+  },
+  {
+    "tabella": "tipo_via",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "200",
+        "restauro": "199"
+      }
+    }
+  },
+  {
+    "tabella": "tipologie_generali",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "4",
+        "restauro": "3"
+      }
+    }
+  },
+  {
+    "tabella": "tipologie_struttura",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "23",
+        "restauro": "22"
+      }
+    }
+  },
+  {
+    "tabella": "titolo",
+    "differenze": {
+      "AUTO_INCREMENT": {
+        "origine": "83",
+        "restauro": "82"
+      }
+    }
+  }
+]

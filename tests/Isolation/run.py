@@ -3,19 +3,21 @@
 import argparse
 import base64
 import json
-from http.client import HTTPConnection
+from http.client import HTTPConnection, IncompleteRead
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit
 import os
 from pathlib import Path
 import secrets
 import signal
+import sys
 import select
 import shutil
 import socket
 import subprocess
 import tempfile
 import threading
+from database_policy import vendor, validate, CANDIDATE
 import time
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -24,16 +26,25 @@ ROOT = Path(__file__).resolve().parents[2]
 def port():
     with socket.socket() as s:
         s.bind(('127.0.0.1', 0))
-        return s.getsockname()[1]
+        chosen = s.getsockname()[1]
+        return chosen if chosen >= 49152 else port()
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--phpunit', nargs='*', default=[])
+    parser.add_argument('--phpunit-global', action='store_true', help='Suite completa definita da phpunit.xml')
+    parser.add_argument('--phpunit-repeat', type=int, choices=range(1, 4), default=1, help='Esecuzioni sullo stesso runtime, DB reinizializzato fra prove')
+    parser.add_argument('--phpunit-discovery', action='store_true', help='Elenco dei test raccolti, senza eseguirli')
+    parser.add_argument('--phpunit-random-seed', type=int, help='Ordine casuale riproducibile')
     parser.add_argument('--playwright', nargs='*')
     parser.add_argument('--fixtures', help='Script PHP di fixture esplicitamente selezionato sotto tests/')
     parser.add_argument('--include', nargs='*', default=[], help='File sorgente nuovi esplicitamente inclusi, senza staging')
     args = parser.parse_args()
+    if args.phpunit_global and args.phpunit:
+        parser.error('Selezionare la suite globale oppure file PHPUnit espliciti')
+    if (args.phpunit_repeat != 1 or args.phpunit_discovery or args.phpunit_random_seed is not None) and not (args.phpunit_global or args.phpunit):
+        parser.error('Le opzioni PHPUnit richiedono una suite')
     for name in args.include:
         path = Path(name)
         if path.is_absolute() or '..' in path.parts or not name.startswith(('app/', 'config/', 'database/migrations/', 'reference/questura/')) or not (ROOT/path).is_file() or (ROOT/path).is_symlink() or not (ROOT/path).resolve().is_relative_to(ROOT):
@@ -41,6 +52,8 @@ def main():
     if args.playwright == []:
         parser.error('--playwright richiede almeno uno spec esplicito')
     selected = args.phpunit + (args.playwright or []) + ([args.fixtures] if args.fixtures else [])
+    if args.phpunit_global:
+        selected += [str(p.relative_to(ROOT)) for folder in ('tests/Unit', 'tests/Feature') for p in sorted((ROOT/folder).glob('*Test.php'))]
     for name in selected:
         path = Path(name)
         if path.is_absolute() or '..' in path.parts or not name.startswith('tests/') or not (ROOT/path).is_file():
@@ -52,9 +65,14 @@ def main():
     mysql = shutil.which('mysql')
     if not mysqld or not mysql:
         raise SystemExit('Servono i binari mysqld e mysql; nessun server esistente viene riutilizzato.')
+    sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+    if sha != CANDIDATE:
+        raise SystemExit('SHA candidato errato: BLOCK')
+    engine = vendor(subprocess.check_output([mysqld, '--version'], text=True))
     dbport, httpport, proxyport, trapport = port(), port(), port(), port()
+    server_id = secrets.randbelow(2**32-1)+1
     mysqld, mysql = str(Path(mysqld).resolve()), str(Path(mysql).resolve())
-    run = Path(tempfile.mkdtemp(prefix='schedine-test-', dir='/private/tmp')).resolve()
+    run = Path(tempfile.mkdtemp(prefix='schedine-test-', dir='/private/tmp' if sys.platform == 'darwin' else '/tmp')).resolve()
     os.chmod(run, 0o700)
     checkout = run/'checkout'
     datadir = run/'mysql-data'
@@ -69,7 +87,7 @@ def main():
     signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
     exitcode = 1
     env = {'PATH': os.environ['PATH'], 'HOME': str(run/'home'), 'TMPDIR': str(run/'tmp'),
-           'LANG': 'en_US.UTF-8', 'APP_ENV': 'testing', 'APP_URL': f'http://127.0.0.1:{httpport}',
+           'LANG': 'en_US.UTF-8', 'APP_DEBUG': 'false', 'ISTAT_WS_ENABLED': 'false', 'QUESTURA_WS_ENABLED': 'false', 'APP_ENV': 'testing', 'APP_URL': f'http://127.0.0.1:{httpport}',
            'APP_KEY': 'base64:'+base64.b64encode(secrets.token_bytes(32)).decode(),
            'DB_CONNECTION': 'mysql', 'DB_HOST': '127.0.0.1', 'DB_PORT': str(dbport),
            'DB_DATABASE': dbname, 'DB_USERNAME': 'fixture', 'DB_PASSWORD': password,
@@ -107,8 +125,15 @@ def main():
             (checkout/folder).mkdir(parents=True, exist_ok=True)
         (checkout/'public/storage').symlink_to(checkout/'storage/app/public', target_is_directory=True)
         log = open(run/'mysql.log', 'w'); files.append(log)
-        subprocess.run([mysqld, '--no-defaults', '--initialize-insecure', f'--datadir={datadir}', f'--log-error={run}/mysql-error.log'], env=env, stdout=log, stderr=log, check=True)
-        db = subprocess.Popen([mysqld, '--no-defaults', f'--datadir={datadir}', '--bind-address=127.0.0.1', f'--port={dbport}', f'--socket={run}/mysql.sock', f'--pid-file={run}/mysql.pid', f'--log-error={run}/mysql-error.log', '--mysqlx=0', '--skip-log-bin', '--local-infile=0', f'--secure-file-priv={run}/tmp'], env=env, stdout=log, stderr=log)
+        if engine == 'mysql':
+            init = [mysqld, '--no-defaults', '--initialize-insecure', f'--datadir={datadir}', f'--log-error={run}/mysql-error.log']
+        else:
+            installer = shutil.which('mariadb-install-db')
+            if not installer:
+                raise RuntimeError('Inizializzatore MariaDB assente: BLOCK')
+            init = [installer, '--no-defaults', f'--datadir={datadir}', '--auth-root-authentication-method=normal', '--skip-test-db']
+        subprocess.run(init, env=env, stdout=log, stderr=log, check=True)
+        db = subprocess.Popen([mysqld, '--no-defaults', f'--datadir={datadir}', '--bind-address=127.0.0.1', f'--port={dbport}', f'--socket={run}/mysql.sock', f'--pid-file={run}/mysql.pid', f'--log-error={run}/mysql-error.log', *(['--mysqlx=0'] if engine == 'mysql' else []), f'--server-id={server_id}', '--skip-log-bin', '--local-infile=0', f'--secure-file-priv={run}/tmp'], env=env, stdout=log, stderr=log)
         processes.append(db)
         admin = [mysql, '--no-defaults', '--protocol=TCP', '--host=127.0.0.1', f'--port={dbport}', '--user=root', '--batch', '--skip-column-names']
         for _ in range(100):
@@ -120,11 +145,24 @@ def main():
             time.sleep(.2)
         else:
             raise RuntimeError('Istanza temporanea non pronta')
+        if db.poll() is not None or int((run/'mysql.pid').read_text().strip()) != db.pid:
+            raise RuntimeError('Processo DB non attestato prima del DDL: BLOCK')
+        expected = {'root': str(run), 'sha': sha, 'vendor': engine, 'database': dbname,
+                    'datadir': str(datadir), 'port': dbport, 'socket': str(run/'mysql.sock'),
+                    'server_id': server_id, 'username': 'fixture', 'app_env': 'testing',
+                    'pid': db.pid, 'launcher_pid': os.getpid(), 'uid': os.getuid(), 'executable': mysqld,
+                    'uuid': (datadir/'auto.cnf').read_text().split('server-uuid=')[1].strip() if engine == 'mysql' else None}
+        query = "SELECT @@datadir, @@port, @@socket, @@server_id, CONCAT(VERSION(), ' ', @@version_comment)"+(', @@server_uuid' if engine == 'mysql' else '')
+        row = subprocess.check_output(admin+['-e', query], env=env, text=True).strip().split('\t')
+        observed = dict(zip(('datadir', 'port', 'socket', 'server_id', 'version', 'uuid'), row))
+        observed.update({'vendor': vendor(observed['version']), 'database': dbname})
+        validate(expected, observed)  # Istanza propria attestata prima di CREATE DATABASE/USER.
         subprocess.run(admin, input=f"CREATE DATABASE `{dbname}`; CREATE USER 'fixture'@'127.0.0.1' IDENTIFIED BY '{password}'; GRANT ALL ON `{dbname}`.* TO 'fixture'@'127.0.0.1'; ALTER USER 'root'@'localhost' IDENTIFIED BY '{secrets.token_hex(32)}';", text=True, env=env, check=True, stdout=log, stderr=log)
-        uuid = (datadir/'auto.cnf').read_text().split('server-uuid=')[1].strip()
+        uuid = expected['uuid']
         info = {'root': str(run), 'checkout': str(checkout), 'datadir': str(datadir), 'db_pid': db.pid,
                 'http_pid': None, 'db_port': dbport, 'http_port': httpport, 'proxy_port': proxyport, 'database': dbname,
                 'username': 'fixture', 'password': password, 'uuid': uuid, 'identity': identity,
+                'vendor': engine, 'server_id': server_id, 'db_binary': Path(mysqld).name, 'db_executable': mysqld, 'db_uid': os.getuid(), 'sha': sha,
                 'environment': env, 'launcher_pid': os.getpid(), 'trap_port': trapport, 'trap_hits': 0, 'denied_requests': 0}
         class ForbiddenOrigin(BaseHTTPRequestHandler):
             def log_message(self, *unused):
@@ -182,6 +220,11 @@ def main():
                     self.end_headers()
                     if self.command != 'HEAD':
                         self.wfile.write(content)
+                except IncompleteRead as error:
+                    # Non inviare un successo con un corpo incompleto; nessun URL,
+                    # token o contenuto della risposta viene registrato.
+                    print(f'PROXY_CORPO_INCOMPLETO ricevuti={len(error.partial)} mancanti={error.expected}', file=sys.stderr, flush=True)
+                    self.send_error(502, 'ISOLATED_UPSTREAM_INCOMPLETE')
                 except (BrokenPipeError, ConnectionResetError):
                     pass  # Il browser può annullare asset durante una navigazione.
                 finally:
@@ -243,8 +286,19 @@ def main():
         subprocess.run(['php', 'tests/Isolation/verify.php'], cwd=checkout, env=env, check=True)
         step(['npm', 'run', 'build'], 'build')
         subprocess.run(['php', 'tests/Isolation/console.php', 'migrate', '--force', '--no-interaction', '--quiet'], cwd=checkout, env=env, check=True)
-        if args.phpunit:
-            step(['php', 'vendor/bin/phpunit', *args.phpunit], 'phpunit')
+        if args.phpunit or args.phpunit_global:
+            command = ['php', 'vendor/bin/phpunit', *args.phpunit, '--display-deprecations', '--display-phpunit-deprecations']
+            if args.phpunit_discovery:
+                step(command+['--list-tests'], 'phpunit-discovery')
+            else:
+                if args.phpunit_random_seed is not None:
+                    command += ['--order-by=random', '--random-order-seed='+str(args.phpunit_random_seed)]
+                for iteration in range(1, args.phpunit_repeat+1):
+                    if iteration > 1:
+                        # Stesso endpoint attestato, mai un DB esterno. Storage
+                        # dei singoli casi gestito da TestCase, non cancellato qui.
+                        subprocess.run(['php', 'tests/Isolation/console.php', 'migrate:fresh', '--force', '--no-interaction', '--quiet'], cwd=checkout, env=env, check=True)
+                    step(command+['--log-junit', 'phpunit-'+str(iteration)+'.xml'], 'phpunit-'+str(iteration))
         if args.fixtures:
             subprocess.run(['php', args.fixtures], cwd=checkout, env=env, check=True)
         if args.playwright is not None:

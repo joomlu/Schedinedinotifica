@@ -1,0 +1,139 @@
+import os,pathlib,subprocess,socket,struct,time,json,resource,concurrent.futures
+resource.setrlimit(resource.RLIMIT_CORE,(0,0));os.umask(0o077)
+r=pathlib.Path('/work/fpm-diagnosi-v10');r.mkdir(mode=0o700)
+sock=str(r/'fastcgi.sock');php='/opt/remi/php83/root/usr/sbin/php-fpm'
+import shutil,base64
+app=r/'app';app.mkdir(mode=0o700)
+for folder in ['app','config','routes','resources','bootstrap','database']:
+ shutil.copytree(pathlib.Path('/work/candidato')/folder,app/folder)
+for f in (app/'bootstrap/cache').glob('*.php'):f.unlink()
+(app/'vendor').symlink_to('/work/candidato/vendor')
+(app/'public').mkdir();shutil.copy('/work/candidato/public/index.php',app/'public/index.php');shutil.copytree('/work/assets-v6/build',app/'public/build')
+for folder in ['framework/cache/data','framework/views','framework/sessions','logs','app/public']:(app/'storage'/folder).mkdir(parents=True,exist_ok=True)
+for f in ['artisan','composer.json']:shutil.copy(pathlib.Path('/work/candidato')/f,app/f)
+(app/'.env').write_text('APP_ENV=local\nAPP_DEBUG=false\nAPP_URL=http://isolato\nAPP_KEY=base64:'+base64.b64encode(b'S'*32).decode()+'\nDB_CONNECTION=mysql\nDB_HOST=localhost\nDB_DATABASE=sintetico_fpm_v5\nDB_USERNAME=root\nDB_PASSWORD=\nDB_SOCKET='+str(r/'db.sock')+'\nSESSION_DRIVER=file\nCACHE_DRIVER=file\nQUEUE_CONNECTION=sync\nMAIL_MAILER=array\nQUESTURA_ENABLED=false\nISTAT_ENABLED=false\nLOG_CHANNEL=single\n')
+db=None
+(r/'sentinella.php').write_text("<?php header('Content-Type: application/json'); echo json_encode(['sentinella'=>'OK','sapi'=>PHP_SAPI,'php'=>PHP_VERSION,'opcache'=>ini_get('opcache.enable'),'zend'=>get_loaded_extensions(true),'pid'=>getmypid(),'cached_index'=>opcache_is_script_cached('"+str(app/'public/index.php')+"'),'hits'=>(opcache_get_status(false)['opcache_statistics']['hits']??null),'cached'=>(opcache_get_status(false)['opcache_statistics']['num_cached_scripts']??null)]);")
+(r/'pool.conf').write_text(f'''[global]\npid = {r}/fpm.pid\nerror_log = {r}/fpm.log\ndaemonize = no\n[isolato]\nlisten = {sock}\nlisten.mode = 0600\npm = static\npm.max_children = 2\npm.max_requests = 100\nrequest_terminate_timeout = 10s\ncatch_workers_output = yes\nclear_env = yes\nphp_admin_value[memory_limit] = 128M\n''')
+import re,urllib.parse,threading,hashlib,statistics
+seed=r/'fixture.php'
+seed.write_text(r'''<?php
+require __DIR__.'/app/vendor/autoload.php'; $app=require __DIR__.'/app/bootstrap/app.php';$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+$g=App\Models\TipologiaGenerale::firstOrCreate(['nome'=>'Alberghiera']);
+$t=App\Models\TipologiaStruttura::firstOrCreate(['nome'=>'Hotel sintetico','tipologia_generale_id'=>$g->id]);$out=[];
+foreach(['A','B'] as $k){
+$s=App\Models\Struttura::forceCreate(['nome_struttura'=>'STRUTTURA-FPM-'.$k,'tipologia_generale'=>'Alberghiera','tipologia_struttura'=>'Hotel sintetico','tipologia_generale_id'=>$g->id,'tipologia_struttura_id'=>$t->id,'tipo_apertura'=>'Annuale','nazione'=>'Italia','regione'=>'Lazio','provincia'=>'RM','citta'=>'Roma','indirizzo'=>'Via Sintetica','cap'=>'00100','email'=>'s'.$k.'@example.invalid','attiva'=>true,'scadenza_servizio'=>'2099-12-31']);
+$u=App\Models\User::forceCreate(['name'=>'Operatore '.$k,'email'=>'u'.$k.'@example.invalid','username'=>'fpm-'.$k,'password'=>Illuminate\Support\Facades\Hash::make('Password-sintetica-123!'),'email_verified_at'=>now(),'ruolo'=>'struttura_user','ruolo_operativo'=>'proprietario','struttura_id'=>$s->id,'attivo'=>true]);
+$c=App\Models\Customers::forceCreate(['struttura_id'=>$s->id,'name'=>'CLIENTE-FPM-'.$k,'surname'=>'Sintetico']);
+$p=App\Models\Schedina::forceCreate(['struttura_id'=>$s->id,'name'=>'OSPITE-FPM-'.$k,'surname'=>'Sintetico','arrive'=>now()->toDateString(),'departure'=>now()->addDays(3)->toDateString(),'circuito'=>'web','cant_people'=>1]);
+$w=App\Models\WebCheckinRichiesta::forceCreate(['struttura_id'=>$s->id,'schedina_id'=>$p->id,'codice'=>'FPM'.$k,'numero_prenotazione'=>'SINTETICA-'.$k,'email'=>'w'.$k.'@example.invalid','nome_referente'=>'Referente '.$k,'arrivo'=>now()->toDateString(),'partenza'=>now()->addDays(3)->toDateString(),'token'=>str_repeat(strtolower($k),64),'short_token'=>str_repeat(strtolower($k),32),'stato'=>'convertito']);
+$out[$k]=['struttura'=>$s->id,'user'=>$u->id,'cliente'=>$c->id,'web'=>$w->id,'full'=>$w->token,'short'=>$w->short_token];}
+file_put_contents(__DIR__.'/fixture-ids.json',json_encode($out)); echo 'Fixture sintetiche create';
+''')
+def rec(t,b):return struct.pack('!BBHHBB',1,t,1,len(b),0,0)+b
+def param(k,v):
+ k=k.encode();v=v.encode()
+ def ln(n):return bytes([n]) if n<128 else struct.pack('!I',n|0x80000000)
+ return ln(len(k))+ln(len(v))+k+v
+seq=0;seq_lock=threading.Lock();results=[];rss=[];stop=threading.Event();master=None
+class Client:
+ def __init__(self):self.cookies={}
+ def send(self,path,method='GET',form=None,expected=200,sentinel=False):
+  global seq
+  with seq_lock:seq+=1;n=seq
+  payload=urllib.parse.urlencode(form or {}).encode() if form is not None else b''
+  params={'SCRIPT_FILENAME':str(r/'sentinella.php') if sentinel else str(app/'public/index.php'),'REQUEST_METHOD':method,'SCRIPT_NAME':'/sentinella.php' if sentinel else '/index.php','REQUEST_URI':path,'DOCUMENT_ROOT':str(app/'public'),'SERVER_PROTOCOL':'HTTP/1.1','SERVER_NAME':'isolato','SERVER_PORT':'0','REMOTE_ADDR':'127.0.0.1','QUERY_STRING':urllib.parse.urlsplit(path).query,'HTTP_COOKIE':'; '.join(k+'='+v for k,v in self.cookies.items()),'CONTENT_TYPE':'application/x-www-form-urlencoded','CONTENT_LENGTH':str(len(payload))}
+  s=socket.socket(socket.AF_UNIX);s.settimeout(15);s.connect(sock);start=time.monotonic();s.sendall(rec(1,struct.pack('!HB5x',1,0))+rec(4,b''.join(param(k,v) for k,v in params.items()))+rec(4,b'')+rec(5,payload)+rec(5,b''));out=b'';err=b''
+  def read(n):
+   b=b''
+   while len(b)<n:
+    z=s.recv(n-len(b))
+    if not z:raise RuntimeError('Risposta FastCGI tronca')
+    b+=z
+   return b
+  while True:
+   _,typ,req,nbytes,pad,_=struct.unpack('!BBHHBB',read(8));b=read(nbytes)
+   if pad:read(pad)
+   if typ==6:out+=b
+   elif typ==7:err+=b
+   elif typ==3:status=struct.unpack('!IB3x',b);break
+  s.close();headers,body=out.split(b'\r\n\r\n',1);code=200;hs=headers.decode().split('\r\n')
+  for h in hs:
+   if h.lower().startswith('status:'):code=int(h.split(':',1)[1].strip().split()[0])
+   if h.lower().startswith('set-cookie:'):
+    k,v=h.split(':',1)[1].strip().split(';',1)[0].split('=',1);self.cookies[k]=v
+  # Cookie e HTML restano riservati, non esportati in Git.
+  prefix=r/f'http-{n:05d}';Path(str(prefix)+'-headers.log').write_bytes(headers);Path(str(prefix)+'-body.log').write_bytes(body);Path(str(prefix)+'-stderr.log').write_bytes(err)
+  result={'n':n,'path':path,'method':method,'http':code,'expected':expected,'seconds':round(time.monotonic()-start,6),'fastcgi':status};results.append(result);Path(str(prefix)+'-meta.json').write_text(json.dumps(result));assert code==expected and status==(0,0) and not err,(path,method,code,expected)
+  return body,hs
+ def token(self,path='/login'):
+  body,_=self.send(path);m=re.search(rb'name="_token"\s+value="([^"]+)"',body) or re.search(rb'name="csrf-token"\s+content="([^"]+)"',body);assert m,'CSRF assente';return m[1].decode()
+ def login(self,k):
+  tok=self.token();self.send('/login','POST',{'_token':tok,'login':'fpm-'+k,'password':'Password-sintetica-123!'},302)
+ def own_list(self,k):
+  body,_=self.send('/clienti');assert ('CLIENTE-FPM-'+k).encode() in body;other='B' if k=='A' else 'A';assert ('CLIENTE-FPM-'+other).encode() not in body
+
+def sample():
+ while not stop.wait(.05):
+  if master is None:continue
+  for p in pathlib.Path('/proc').iterdir():
+   if not p.name.isdigit():continue
+   try:
+    st=(p/'status').read_text();parent=int(re.search(r'^PPid:\s+(\d+)',st,re.M)[1])
+    if int(p.name)!=master.pid and parent!=master.pid:continue
+    val=int(re.search(r'^VmRSS:\s+(\d+)',st,re.M)[1]);rss.append({'t':round(time.monotonic(),4),'pid':int(p.name),'master':int(p.name)==master.pid,'kib':val})
+   except (OSError,TypeError):pass
+report={'esito':'FAIL','rete_senza_route':len(Path('/proc/net/route').read_text().splitlines())==1,'cicli':[],'criteri':{'crash':0,'http_inattesi':0,'cold_warm_cicli':20,'worker_RSS_massimo_MiB':192,'durata_massima_secondi':600,'tenant_cross_lettura_scrittura':'404 e righe immutate','sessioni':'indipendenti e persistenti fra worker/master privati'}}
+start=time.monotonic();sampler=threading.Thread(target=sample,daemon=True);sampler.start()
+try:
+ schema=Path('/work/fpm-diagnosi-v7/schema-solo-DDL.sql').read_bytes();datadir=r/'datadir';datadir.mkdir(mode=0o700)
+ q=subprocess.run(['mariadb-install-db','--no-defaults','--datadir='+str(datadir),'--auth-root-authentication-method=normal','--skip-test-db'],capture_output=True);assert q.returncode==0
+ db=subprocess.Popen(['mariadbd','--no-defaults','--datadir='+str(datadir),'--socket='+str(r/'db.sock'),'--pid-file='+str(r/'db.pid'),'--skip-networking','--event-scheduler=OFF','--skip-log-bin','--log-error='+str(r/'db.log')],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+ cli=['mariadb','--no-defaults','--socket='+str(r/'db.sock'),'-uroot']
+ for _ in range(120):
+  if subprocess.run(cli+['-e','SELECT 1'],capture_output=True).returncode==0:break
+  time.sleep(.1)
+ for args,data in [(['-e','CREATE DATABASE sintetico_fpm_v5'],None),(['sintetico_fpm_v5'],schema)]:
+  q=subprocess.run(cli+args,input=data,capture_output=True);assert q.returncode==0
+ q=subprocess.run(['/opt/remi/php83/root/usr/bin/php','-d','opcache.enable_cli=0',str(seed)],cwd=app,capture_output=True);(r/'fixture.log').write_bytes(q.stdout+q.stderr);assert q.returncode==0,'Allestimento fixture fallito'
+ ids=json.loads((r/'fixture-ids.json').read_text());clients={'A':Client(),'B':Client()}
+ baseline_query=['sintetico_fpm_v5','-N','-e','SELECT id,struttura_id,name,surname FROM clienti ORDER BY id']
+ before=subprocess.run(cli+baseline_query,capture_output=True).stdout
+ time.sleep(2.1)
+ for cycle in range(20):
+  assert time.monotonic()-start<600
+  log=open(r/f'avvio-{cycle}.log','wb');master=subprocess.Popen([php,'-F','-y',str(r/'pool.conf'),'-c','/etc/opt/remi/php83/php.ini'],stdout=log,stderr=log)
+  try:
+   deadline=time.monotonic()+15
+   while not Path(sock).exists():
+    assert master.poll() is None and time.monotonic()<deadline,'Avvio FPM fallito';time.sleep(.05)
+   cold=json.loads(Client().send('/sentinella.php',sentinel=True)[0]);assert cold['cached_index']==False
+   if cycle==0:
+    for k in ['A','B']:clients[k].login(k)
+   for k in ['A','B']:
+    clients[k].own_list(k);other='B' if k=='A' else 'A'
+    clients[k].send('/clienti/'+str(ids[k]['cliente'])+'/modifica')
+    clients[k].send('/clienti/'+str(ids[other]['cliente'])+'/modifica',expected=404)
+    tok=clients[k].token('/clienti')
+    clients[k].send('/clienti/'+str(ids[other]['cliente']),'POST',{'_token':tok,'_method':'DELETE'},404)
+    clients[k].send('/clienti/'+str(ids[k]['cliente']),'POST',{'_method':'DELETE'},419)
+   def load(n):clients['A' if n%2==0 else 'B'].own_list('A' if n%2==0 else 'B')
+   with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex:list(ex.map(load,range(40)))
+   warm=json.loads(Client().send('/sentinella.php',sentinel=True)[0]);assert warm['cached_index']==True and warm['hits']>cold['hits'];report['cicli'].append({'n':cycle,'cold':cold,'warm':warm})
+   assert subprocess.run(cli+baseline_query,capture_output=True).stdout==before
+   assert master.poll() is None
+  finally:
+   if master.poll() is None:master.terminate()
+   master.wait(timeout=15);log.close();assert master.returncode==0
+   if Path(sock).exists():Path(sock).unlink()
+  assert not re.search('SIGSEGV|signal 11|SIGABRT|signal 6',(r/'fpm.log').read_text())
+ # Chiusura sessione e rigetto successivo vengono provati nell'ultimo avvio separato.
+ report['esito']='PASS';report['tenant_righe_immutate']=True
+except Exception as e:report['errore']=str(e)
+finally:
+ stop.set();sampler.join(timeout=2)
+ if db is not None and db.poll() is None:db.terminate();db.wait(timeout=30)
+ report['DB_privato_fermato']=db is None or db.poll() is not None
+ report['richieste']=results;report['RSS_campioni']=len(rss);report['worker_RSS_picco_MiB']=round(max((v['kib'] for v in rss if not v['master']),default=0)/1024,3);report['master_RSS_picco_MiB']=round(max((v['kib'] for v in rss if v['master']),default=0)/1024,3);report['secondi']=round(time.monotonic()-start,3)
+ if report['worker_RSS_picco_MiB']>192:report['esito']='FAIL';report['errore']='Budget RSS superato'
+ (r/'RSS-campioni.json').write_text(json.dumps(rss));(r/'manifest-sanitizzato.json').write_text(json.dumps(report,indent=2));print(json.dumps({k:v for k,v in report.items() if k not in ['richieste','cicli']}));print('richieste',len(results),'cicli',len(report['cicli']))

@@ -1,0 +1,43 @@
+import os,pathlib,subprocess,time,json,hashlib
+os.umask(0o077);w=pathlib.Path('/work');report={'fase':'R0','esito':'FAIL'};server=None
+
+def run(args,timeout=120,stdin=None,output=None):
+ p=subprocess.run(args,stdin=stdin,stdout=output if output is not None else subprocess.PIPE,stderr=subprocess.PIPE,timeout=timeout)
+ if p.returncode:raise RuntimeError(pathlib.Path(args[0]).name+' exit'+str(p.returncode))
+ return p.stdout
+
+def sha(p):
+ with p.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
+try:
+ assert os.getuid()==1002 and not pathlib.Path('/home/tanggosoftware/repos/schedinedinotifica').exists()
+ assert len(pathlib.Path('/proc/net/route').read_text().splitlines())==1
+ data=w/'datadir-r0';data.mkdir(mode=0o700)
+ run(['mariadb-install-db','--no-defaults','--datadir='+str(data),'--auth-root-authentication-method=normal','--skip-test-db'])
+ sock=str(w/'r0.sock');server=subprocess.Popen(['mariadbd','--no-defaults','--datadir='+str(data),'--socket='+sock,'--pid-file='+str(w/'r0.pid'),'--skip-networking','--event-scheduler=OFF','--skip-log-bin','--server-id=9182371','--log-error='+str(w/'r0-mariadb-riservato.log')],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+ cli=['mariadb','--no-defaults','--socket='+sock,'-uroot']
+ for _ in range(120):
+  p=subprocess.run(cli+['-e','SELECT 1'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+  if p.returncode==0:break
+  if server.poll() is not None:raise RuntimeError('MariaDB privato terminato')
+  time.sleep(.25)
+ else:raise RuntimeError('MariaDB privato non pronto')
+ run(cli+['-e','CREATE DATABASE schedine_restore_r0 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'])
+ t=time.monotonic()
+ with (w/'db.sql').open('rb') as f:run(cli+['schedine_restore_r0'],stdin=f,timeout=300)
+ report['import_secondi']=round(time.monotonic()-t,3)
+ dest=w/'r0-ridump.sql'
+ with dest.open('wb') as f:run(['mariadb-dump','--no-defaults','--socket='+sock,'-uroot','--single-transaction','--skip-lock-tables','--routines','--events','--triggers','--hex-blob','--default-character-set=utf8mb4','--skip-comments','--order-by-primary','schedine_restore_r0'],output=f,timeout=120)
+ report['dump_sha_originale']=sha(w/'db.sql');report['dump_sha_restore']=sha(dest)
+ if sha(w/'db.sql')!=sha(dest):raise RuntimeError('Dump restore non identico: preservare confronto')
+ report['db_restore_identico']=True
+ report['tabelle']=int(run(cli+['-N','-e',"SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='schedine_restore_r0'"]).strip())
+ report['esito']='PASS_DB';report['socket_privato']=True;report['rete_esterna_assente']=True
+except Exception as e:report['errore']=str(e)
+finally:
+ if server is not None and server.poll() is None:
+  server.terminate()
+  try:server.wait(timeout=30)
+  except subprocess.TimeoutExpired:server.kill();server.wait()
+ report['istanza_privata_fermata']=server is None or server.poll() is not None
+ (w/'r0-sanitizzato.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))
+ if report['esito']!='PASS_DB':raise SystemExit(1)

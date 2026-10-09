@@ -1,0 +1,762 @@
+{
+  "esito": "FAIL",
+  "rete_senza_route": true,
+  "cicli": [
+    {
+      "n": 0,
+      "cold": {
+        "sentinella": "OK",
+        "sapi": "fpm-fcgi",
+        "php": "8.3.35",
+        "opcache": "1",
+        "zend": [
+          "the ionCube PHP Loader",
+          "Zend OPcache"
+        ],
+        "pid": 58,
+        "cached_index": false,
+        "hits": 0,
+        "cached": 1
+      },
+      "warm": {
+        "sentinella": "OK",
+        "sapi": "fpm-fcgi",
+        "php": "8.3.35",
+        "opcache": "1",
+        "zend": [
+          "the ionCube PHP Loader",
+          "Zend OPcache"
+        ],
+        "pid": 58,
+        "cached_index": true,
+        "hits": 35405,
+        "cached": 764
+      }
+    }
+  ],
+  "criteri": {
+    "crash": 0,
+    "http_inattesi": 0,
+    "cold_warm_cicli": 1,
+    "worker_RSS_massimo_MiB": 192,
+    "durata_massima_secondi": 600,
+    "tenant_cross_lettura_scrittura": "404 e righe immutate",
+    "sessioni": "indipendenti e persistenti fra worker/master privati"
+  },
+  "errore": "",
+  "DB_privato_fermato": true,
+  "richieste": [
+    {
+      "n": 1,
+      "path": "/sentinella.php",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.001242,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 2,
+      "path": "/login",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.19093,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 3,
+      "path": "/login",
+      "method": "POST",
+      "http": 302,
+      "expected": 302,
+      "seconds": 0.108322,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 4,
+      "path": "/login",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.030569,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 5,
+      "path": "/login",
+      "method": "POST",
+      "http": 302,
+      "expected": 302,
+      "seconds": 0.079821,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 6,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.053559,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 7,
+      "path": "/clienti/48/modifica",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.052111,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 8,
+      "path": "/clienti/49/modifica",
+      "method": "GET",
+      "http": 404,
+      "expected": 404,
+      "seconds": 0.033123,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 9,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.033308,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 10,
+      "path": "/clienti/49",
+      "method": "POST",
+      "http": 404,
+      "expected": 404,
+      "seconds": 0.028455,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 11,
+      "path": "/clienti/48",
+      "method": "POST",
+      "http": 419,
+      "expected": 419,
+      "seconds": 0.022655,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 12,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.033107,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 13,
+      "path": "/clienti/49/modifica",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.038762,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 14,
+      "path": "/clienti/48/modifica",
+      "method": "GET",
+      "http": 404,
+      "expected": 404,
+      "seconds": 0.024553,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 15,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.030281,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 16,
+      "path": "/clienti/48",
+      "method": "POST",
+      "http": 404,
+      "expected": 404,
+      "seconds": 0.024832,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 17,
+      "path": "/clienti/49",
+      "method": "POST",
+      "http": 419,
+      "expected": 419,
+      "seconds": 0.024397,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 19,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.029333,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 18,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.029824,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 21,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.057839,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 20,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.058556,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 22,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.059094,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 23,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.059698,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 25,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.058378,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 24,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.059146,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 27,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.057452,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 26,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.058991,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 29,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.058317,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 28,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.058843,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 31,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.057613,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 30,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.058289,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 33,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.058041,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 32,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.058973,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 34,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.058896,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 35,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.059338,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 36,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.060109,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 37,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.060332,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 38,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.06028,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 39,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.060359,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 41,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.05765,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 40,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.058093,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 42,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.056175,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 43,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.056182,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 44,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.056156,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 45,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.056312,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 46,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.05656,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 47,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.056166,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 48,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.055899,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 49,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.056275,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 50,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.055849,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 51,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.055934,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 53,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.055314,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 52,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.05595,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 55,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.055355,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 54,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.055954,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 57,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.055801,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 56,
+      "path": "/clienti",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.05609,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 58,
+      "path": "/sentinella.php",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.000337,
+      "fastcgi": [
+        0,
+        0
+      ]
+    },
+    {
+      "n": 59,
+      "path": "/checkin/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "method": "GET",
+      "http": 200,
+      "expected": 200,
+      "seconds": 0.037612,
+      "fastcgi": [
+        0,
+        0
+      ]
+    }
+  ],
+  "RSS_campioni": 87,
+  "worker_RSS_picco_MiB": 49.551,
+  "master_RSS_picco_MiB": 41.672,
+  "secondi": 5.429
+}

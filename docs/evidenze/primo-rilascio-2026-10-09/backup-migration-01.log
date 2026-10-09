@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Isolation/run.py", line 336, in <module>
+    raise SystemExit(main())
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Isolation/run.py", line 72, in main
+    dbport, httpport, proxyport, trapport = port(), port(), port(), port()
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Isolation/run.py", line 28, in port
+    s.bind(('127.0.0.1', 0))
+PermissionError: [Errno 1] Operation not permitted

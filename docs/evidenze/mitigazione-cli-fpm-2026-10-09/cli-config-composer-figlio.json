@@ -1,0 +1,171 @@
+{
+  "config_effettiva_20": [
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    },
+    {
+      "cli": "0",
+      "ioncube": true,
+      "extensions": [
+        "the ionCube PHP Loader",
+        "Zend OPcache"
+      ]
+    }
+  ],
+  "env_sigillato": true,
+  "figlio_composer_exit": 0,
+  "figlio_composer": {
+    "cli": "1"
+  },
+  "runner_install_no_scripts_no_plugins": true,
+  "reti_esterne_assenti": true
+}

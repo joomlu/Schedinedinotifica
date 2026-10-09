@@ -13,6 +13,18 @@ class QuesturaC1MigrationAcceptanceTest extends TestCase
 {
     use StrutturaFixtures;
 
+    protected function tearDown(): void
+    {
+        try {
+            // Il DDL non partecipa alle transazioni di RefreshDatabase. Ricrea
+            // soltanto il DB effimero attestato, anche dopo un'asserzione fallita.
+            $this->artisan('migrate:fresh', ['--force' => true])->assertSuccessful();
+            \Illuminate\Foundation\Testing\RefreshDatabaseState::$migrated = false;
+        } finally {
+            parent::tearDown();
+        }
+    }
+
     public function test_quattro_migration_da_schema_legacy_senza_perdita_dati(): void
     {
         $paths = array_map(fn ($path) => 'database/migrations/'.basename($path), glob(database_path('migrations/*.php')));

@@ -1,0 +1,131 @@
+TEST isolato: /private/tmp/schedine-test-wl0ixc8y; database=test_geo_57af7f929e92d8cb3b610783ddfeb215; MySQL pid=88797, porta=62348; HTTP pid=88804, porta=62349
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PASS SOAP 200 and positive body never prove acceptance; no token/body leaves service
+PASS verification is unknown and retains Test operation
+PASS external constructor exception is contained
+PASS SOAP call exceptions do not escape with their chain
+PASS negative provider text is replaced with a fixed message
+PASS simulation makes no SOAP calls and is never accepted
+PASS nested and unexpected fields discarded; caller acceptance ignored
+PASS allowed slots cannot carry arrays objects or arbitrary strings
+PASS historical success never becomes accepted; history not rewritten
+PASS receipt and tables cannot expose or persist unvalidated bodies
+PASS actual persistence boundary projects injected provider material
+PASS legacy handler aborts before any DB or storage dependency
+PASS controller has no confirmed-send mutation for simulation or attempts
+PASS view never presents legacy provider messages or success as acceptance
+14 safety checks passed; in-memory doubles only
+Fixture Tassa sintetiche create esclusivamente nel database effimero.
+Fixture anteprime sintetiche create esclusivamente nel database effimero.
+
+Running 4 tests using 1 worker
+
+  ✓  1 tests/Feature/local-import-cycle.playwright.spec.js:32:1 › Clienti: upload, annullamento, conferma persistente e duplicati (14.1s)
+CICLO_HTTP {"path":"/schedine/15/componenti/import","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/schedine/15/componenti/import","status":200,"method":"POST"}
+CICLO_HTTP {"path":"/schedine/15/modifica","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/schedine/15/componenti/import","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/schedine/15/componenti/import","status":200,"method":"POST"}
+CICLO_HTTP {"path":"/schedine/15/componenti/import/conferma","status":302,"method":"POST"}
+CICLO_HTTP {"path":"/schedine/15/modifica","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/geo/resolve","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/geo/resolve","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/api/geo/resolve","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/api/geo/resolve","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/schedine/15/componenti/import","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/schedine/15/modifica","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/geo/resolve","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/geo/resolve","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/schedine/15","status":302,"method":"POST"}
+CICLO_HTTP {"path":"/api/geo/resolve","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/api/geo/resolve","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/arrivi","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/schedine/15/modifica","status":200,"method":"GET"}
+CAMPI_FULL {
+  oa_geo_manual: [32m'0'[39m,
+  oa_country: [32m'ITALIA'[39m,
+  oa_region: [32m'Lazio'[39m,
+  oa_prov: [32m'RM'[39m,
+  oa_city: [32m'Roma'[39m,
+  oa_cap: [32m''[39m,
+  oa_city_nac: [32m'ITALIANA'[39m,
+  oa_date_nac: [32m'1980-01-01'[39m,
+  or_geo_manual: [32m'0'[39m,
+  or_country: [32m'ITALIA'[39m,
+  or_region: [32m'Lazio'[39m,
+  or_prov: [32m'RM'[39m,
+  or_city: [32m'Roma'[39m,
+  or_cap: [32m'00100'[39m,
+  or_typeaway: [32m'Via'[39m,
+  or_address: [32m'Via Sintetica'[39m,
+  or_num: [32m'1'[39m,
+  or_doctype: [32m"CARTA DI IDENTITA'"[39m,
+  or_doc: [32m'SINTETICO'[39m,
+  or_published_date: [32m'2025-01-01'[39m,
+  or_expire: [32m'2030-01-01'[39m,
+  or_published: [32m'Comune sintetico'[39m,
+  or_published_country: [32m'ITALIA'[39m,
+  or_published_city: [32m'Roma'[39m,
+  customer_privacy_consent: [32m'0'[39m,
+  customer_privacy_consent_at: [32m''[39m,
+  componenti_intenzione: [32m''[39m,
+  [32m'componenti[0][id]'[39m: [32m'39'[39m,
+  [32m'componenti[0][relationship]'[39m: [32m'MEMBRO GRUPPO'[39m,
+  [32m'componenti[0][name]'[39m: [32m'ACCOMPAGNATORE-BROWSER-SINTETICO'[39m,
+  [32m'componenti[0][surname]'[39m: [32m'Audit'[39m,
+  [32m'componenti[0][sex]'[39m: [32m'F'[39m,
+  [32m'componenti[0][exent]'[39m: [32m'NO'[39m,
+  [32m'componenti[0][geo_anag_manual]'[39m: [32m'0'[39m,
+  [32m'componenti[0][country_nac]'[39m: [32m'GERMANIA'[39m,
+  [32m'componenti[0][regione_nac]'[39m: [32m''[39m,
+  [32m'componenti[0][province_nac]'[39m: [32m''[39m,
+  [32m'componenti[0][comune_nac]'[39m: [32m''[39m,
+  [32m'componenti[0][cap_nac]'[39m: [32m''[39m,
+  [32m'componenti[0][city_nac]'[39m: [32m'TEDESCA'[39m,
+  [32m'componenti[0][date_nac]'[39m: [32m'1980-01-01'[39m,
+  [32m'componenti[0][geo_res_manual]'[39m: [32m'0'[39m,
+  [32m'componenti[0][country]'[39m: [32m'FRANCIA'[39m,
+  [32m'componenti[0][regione]'[39m: [32m''[39m,
+  [32m'componenti[0][province]'[39m: [32m''[39m,
+  [32m'componenti[0][city]'[39m: [32m'Parigi'[39m,
+  [32m'componenti[0][cap]'[39m: [32m''[39m,
+  [32m'componenti[0][typeaway]'[39m: [32m''[39m,
+  [32m'componenti[0][address]'[39m: [32m''[39m,
+  [32m'componenti[0][number]'[39m: [32m''[39m,
+  [32m'componenti[1][id]'[39m: [32m'40'[39m,
+  [32m'componenti[1][relationship]'[39m: [32m'MEMBRO GRUPPO'[39m,
+  [32m'componenti[1][name]'[39m: [32m'IMPORT-COMPONENTE'[39m,
+  [32m'componenti[1][surname]'[39m: [32m'Sintetico'[39m,
+  [32m'componenti[1][sex]'[39m: [32m'M'[39m,
+  [32m'componenti[1][exent]'[39m: [32m'NO'[39m,
+  [32m'componenti[1][geo_anag_manual]'[39m: [32m'0'[39m,
+  [32m'componenti[1][country_nac]'[39m: [32m'GERMANIA'[39m,
+  [32m'componenti[1][regione_nac]'[39m: [32m''[39m,
+  [32m'componenti[1][province_nac]'[39m: [32m''[39m,
+  [32m'componenti[1][comune_nac]'[39m: [32m''[39m,
+  [32m'componenti[1][cap_nac]'[39m: [32m''[39m,
+  [32m'componenti[1][city_nac]'[39m: [32m'TEDESCA'[39m,
+  [32m'componenti[1][date_nac]'[39m: [32m'1980-01-01'[39m,
+  [32m'componenti[1][geo_res_manual]'[39m: [32m'0'[39m,
+  [32m'componenti[1][country]'[39m: [32m'ITALIA'[39m,
+  [32m'componenti[1][regione]'[39m: [32m''[39m,
+  [32m'componenti[1][province]'[39m: [32m'RM'[39m,
+  [32m'componenti[1][city]'[39m: [32m'Roma'[39m,
+  [32m'componenti[1][cap]'[39m: [32m'00100'[39m,
+  [32m'componenti[1][typeaway]'[39m: [32m''[39m,
+  [32m'componenti[1][address]'[39m: [32m''[39m,
+  [32m'componenti[1][number]'[39m: [32m''[39m
+}
+CICLO_HTTP {"path":"/geo/resolve","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/geo/resolve","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/schedine/15","status":302,"method":"POST"}
+CICLO_HTTP {"path":"/api/geo/resolve","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/api/geo/resolve","status":200,"method":"GET"}
+CICLO_HTTP {"path":"/schedine","status":200,"method":"GET"}
+  ✓  2 tests/Feature/local-import-cycle.playwright.spec.js:58:1 › Componenti: import browser, annullamento, conferma monouso e conversione gruppo (12.7s)
+  ✓  3 tests/Feature/local-secondary-responsive.playwright.spec.js:12:2 › Navigazione moduli secondari e viewport 1440 (8.9s)
+  ✓  4 tests/Feature/local-secondary-responsive.playwright.spec.js:12:2 › Navigazione moduli secondari e viewport 390 (8.4s)
+
+  4 passed (46.7s)
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-wl0ixc8y

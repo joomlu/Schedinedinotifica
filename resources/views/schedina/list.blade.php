@@ -71,7 +71,7 @@
                         data-citta="{{ $schedina->oa_city }}"
                         data-persone="{{ $schedina->cant_people }}"
                         data-camera="{{ $schedina->room }}"
-                        data-tassa="{{ number_format((float) ($schedina->tassa_totale ?? 0), 2, ',', '.') }}"
+                        data-tassa="{{ $schedina->tassa_configurata ? number_format($schedina->tassa_totale, 2, ',', '.') : 'Calcolo non disponibile' }}"
                     >
                         <td class="align-middle">
                             @if($schedina->scheda)
@@ -95,7 +95,7 @@
                                     <div class="small text-muted mt-1">{{ $schedina->tassa_warning }}</div>
                                 @endif
                             @else
-                                <span class="text-muted">Non configurata</span>
+                                <span class="text-muted">Calcolo non disponibile</span>
                             @endif
                         </td>
                         <td class="text-end align-middle">
@@ -103,7 +103,7 @@
                                 <a href="{{ route('schedina.copy', ['id' => $schedina->id]) }}" class="btn btn-soft-primary btn-sm" title="Copia schedina">
                                     <i class="ri-file-copy-line fs-16 align-middle"></i>
                                 </a>
-                                <a href="{{ route('schedina.tassa.print', ['id' => $schedina->id]) }}" class="btn btn-soft-secondary btn-sm" title="Stampa tassa" target="_blank">
+                                <a href="{{ route('schedina.tassa.anteprima', ['id' => $schedina->id]) }}" class="btn btn-soft-secondary btn-sm" title="Anteprima ricevuta" aria-label="Anteprima ricevuta" target="_blank" rel="noopener">
                                     <i class="ri-printer-line fs-16 align-middle"></i>
                                 </a>
                                 <a href="{{ route('schedina.edit', ['id' => $schedina->id]) }}" class="btn btn-soft-info btn-sm" title="Modifica">

@@ -1,0 +1,13 @@
+{
+  "errore_quoting_locale": "SyntaxError prima di ogni azione remota",
+  "namespace_root_uid_mapping": "Permission denied sui mount privati;nessun dato importato",
+  "correzione": "runuser tanggosoftware,BubblewrapUID1002,permessi0700 invariati,workspaceseparata daldepositobackup",
+  "namespace_verificato": {
+    "uid": 1002,
+    "produzione_assente": true,
+    "nessuna_route": true
+  },
+  "R0_install_primo_fail": "localhost/hostname non risolvibili in namespace senza rete;stdout originale conservato in privato",
+  "correzione_R0": "hosts privato127.0.0.1 e hostname schedine-isolato, reteesternaancoraassente, datadirnuovoR0b",
+  "risposte_HTTP_raw": "Percorso server riservato/http-1-503 e http-2-200, file separati immutabili; noncopiati inGit"
+}

@@ -1,0 +1,37 @@
+import pathlib,subprocess,os,json,time,resource,shutil,re
+resource.setrlimit(resource.RLIMIT_CORE,(0,0));os.umask(0o077);w=pathlib.Path('/work');d=w/'cli-operazioni-v3';d.mkdir(mode=0o700);php='/opt/remi/php83/root/usr/bin/php';s=None;report={'fase':'comandi_CLI_clone','esito':'FAIL','prove':[]}
+try:
+ assert json.loads((w/'r1-integrita-sanitizzato.json').read_text())['esito']=='PASS'
+ # Copia di lavoro autonoma: archivi/R0/R1/R2 e candidata precedenti non sovrascritti.
+ root=d/'candidato';shutil.copytree(w/'candidato',root,symlinks=True)
+ encoded=[];references=[];php_files=0
+ for p in root.rglob('*.php'):
+  if p.is_file() and not p.is_symlink():
+   php_files+=1;head=p.read_bytes()[:8192]
+   if re.search(rb'<\?php\s*//\d{3,}',head) or b'ioncube_loader_iversion' in head:encoded.append(str(p.relative_to(root)))
+   if b'ioncube' in head.lower() and not str(p.relative_to(root)).startswith('vendor/'):references.append(str(p.relative_to(root)))
+ locks=json.loads((root/'composer.lock').read_text());requires=[p['name'] for p in locks['packages'] if any('ioncube' in k.lower() for k in p.get('require',{}))]
+ report['dipendenza_ioncube']={'php_sorgenti_scansionati':php_files,'stub_encoded':encoded,'riferimenti_app':references,'requisiti_composer':requires}
+ if encoded or requires:raise RuntimeError('Dipendenza ionCube da approfondire')
+ s=subprocess.Popen(['mariadbd','--no-defaults','--datadir=/work/datadir-r1','--socket=/work/r1.sock','--pid-file=/work/r1.pid','--skip-networking','--event-scheduler=OFF','--skip-log-bin','--log-error=/work/cli-operazioni-v3/db-riservato.log'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+ for _ in range(120):
+  if subprocess.run(['mariadb','--no-defaults','--socket=/work/r1.sock','-uroot','-e','SELECT 1'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:break
+  time.sleep(.25)
+ commands=[['/usr/bin/composer','--no-plugins','validate','--strict','--no-check-publish'],['/usr/bin/composer','--no-plugins','check-platform-reqs','--no-dev'],['/usr/bin/composer','--no-plugins','install','--no-dev','--no-scripts','--no-interaction','--prefer-dist'],['artisan','package:discover'],['artisan','config:clear'],['artisan','route:clear'],['artisan','view:clear'],['artisan','event:clear'],['artisan','config:cache'],['artisan','route:cache'],['artisan','view:cache'],['artisan','event:cache'],['artisan','migrate:status'],['artisan','route:list'],['artisan','schedule:list']]
+ for variant in ['B','C','D']:
+  env=os.environ.copy();env.update({'COMPOSER_HOME':str(d/'composer-home'),'COMPOSER_CACHE_DIR':str(d/'composer-cache'),'COMPOSER_DISABLE_NETWORK':'1'});extra=['-d','opcache.enable_cli=0'] if variant=='B' else []
+  if variant in ['C','D']:env['PHP_INI_SCAN_DIR']='/work/ini-'+variant
+  # Ogni catena è ripetuta dieci volte; nessuna migrate/seed/queue/schedule:run.
+  for repeat in range(10):
+   for i,c in enumerate(commands):
+    t=time.monotonic();p=subprocess.run([php,*extra,*c],cwd=root,env=env,capture_output=True,timeout=90)
+    name=variant+'-'+str(repeat)+'-'+str(i);(d/(name+'-stdout-riservato.log')).write_bytes(p.stdout);(d/(name+'-stderr-riservato.log')).write_bytes(p.stderr)
+    report['prove'].append({'variante':variant,'ripetizione':repeat,'comando':' '.join(c),'exit':p.returncode,'secondi':round(time.monotonic()-t,4)})
+    if p.returncode:raise RuntimeError('Comando fallito:'+name)
+ report['esito']='PASS'
+except Exception as e:report['errore']=str(e)
+finally:
+ if s is not None and s.poll() is None:s.terminate();s.wait(timeout=30)
+ report['istanza_privata_fermata']=s is None or s.poll() is not None
+ (d/'manifest-sanitizzato.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({'fase':report['fase'],'esito':report['esito'],'dipendenza_ioncube':report.get('dipendenza_ioncube'),'numero_comandi':len(report['prove']),'errore':report.get('errore'),'ultimo':report['prove'][-1] if report['prove'] else None,'istanza_privata_fermata':report['istanza_privata_fermata']}))
+ if report['esito']!='PASS':raise SystemExit(1)

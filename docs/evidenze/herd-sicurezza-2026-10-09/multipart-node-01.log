@@ -1,0 +1,1 @@
+PASS: boundary indipendenti da Math.random e CRLF nei parametri multipart neutralizzati; nessuna richiesta di rete.

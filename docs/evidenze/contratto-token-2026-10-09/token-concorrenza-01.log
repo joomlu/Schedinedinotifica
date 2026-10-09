@@ -1,0 +1,24 @@
+TEST isolato: /private/tmp/schedine-test-m51_qf1d; database=test_geo_bbb23370b0085e72d434418550fd88b5; MySQL pid=4639, porta=54173; HTTP pid=4646, porta=54174
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-m51_qf1d
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Isolation/run.py", line 336, in <module>
+    raise SystemExit(main())
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Isolation/run.py", line 301, in main
+    step(command+['--log-junit', 'phpunit-'+str(iteration)+'.xml'], 'phpunit-'+str(iteration))
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Isolation/run.py", line 272, in step
+    result = subprocess.run(command, cwd=checkout, env=env, capture_output=True, text=True)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 507, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1134, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1979, in _communicate
+    ready = selector.select(timeout)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/selectors.py", line 416, in select
+    fd_event_list = self._selector.poll(timeout)
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Isolation/run.py", line 87, in <lambda>
+    signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Isolation/run.py", line 87, in <genexpr>
+    signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
+KeyboardInterrupt

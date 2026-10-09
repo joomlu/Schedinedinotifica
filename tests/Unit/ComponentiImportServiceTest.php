@@ -63,7 +63,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_route_nuova_schedina_usa_get_post_canonici_per_import(): void
     {
-        $routes = file_get_contents(__DIR__ . '/../../routes/web.php');
+        $routes = file_get_contents(__DIR__.'/../../routes/web.php');
 
         $this->assertStringContainsString("Route::post('/schedine/nuova/componenti/import/prepara'", $routes);
         $this->assertStringContainsString("Route::get('/schedine/nuova/componenti/import'", $routes);
@@ -74,7 +74,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_form_nuova_schedina_non_usa_id_schedina_persistente_per_import(): void
     {
-        $form = file_get_contents(__DIR__ . '/../../resources/views/schedina/partials/form.blade.php');
+        $form = file_get_contents(__DIR__.'/../../resources/views/schedina/partials/form.blade.php');
 
         $this->assertStringContainsString("\$hasPersistedSchedina = (\$schedinaContext ?? null) !== 'new' && !empty(\$schedina) && \$schedina instanceof \\App\\Models\\Schedina && \$schedina->exists && !empty(\$schedina->getKey());", $form);
         $this->assertStringContainsString("route('schedina.componenti.import.new.prepare')", $form);
@@ -83,7 +83,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_headers_template_corrette_e_senza_colonne_tech(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
 
         $headers = $service->headersTemplate();
 
@@ -116,7 +116,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_legacy_alias_headers_vengono_riconosciuti(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $legacy = [
             'Nome', 'Cognome', 'Sesso', 'Comune nascita', 'Nazione nascita', 'Data di nascita',
             'Provincia nascita', 'Cittadinanza', 'Nazione residenza', 'Provincia residenza',
@@ -138,7 +138,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_mapping_header_to_field_e_definitivo(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $mapping = array_flip($service->mappingIntestazioni());
 
         $this->assertSame('name', $mapping['Nome']);
@@ -150,7 +150,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_ordine_colonne_differente_viene_gestito(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $shuffled = [
             'Cognome', 'Nome', 'Sesso', 'Cittadinanza', 'Nazione nascita', 'Data di nascita', 'Provincia nascita',
             'Comune nascita', 'Nazione residenza', 'Provincia residenza', 'Comune residenza', 'Tipo via', 'Indirizzo', 'Numero civico', 'CAP',
@@ -169,7 +169,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_csv_con_colonna_extra_diventa_errore_di_riga(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921', 'EXTRA',
         ]]);
@@ -184,7 +184,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_csv_con_colonna_mancante_diventa_errore_di_riga(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10',
         ]]);
@@ -198,7 +198,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_txt_con_colonna_extra_diventa_errore_di_riga(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $txt = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921', 'EXTRA',
         ]], "\t");
@@ -211,7 +211,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_txt_con_colonna_mancante_diventa_errore_di_riga(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $txt = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10',
         ]], "\t");
@@ -224,7 +224,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_riga_malformata_tra_righe_valide_non_contamina_le_successive(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [
             [
                 'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
@@ -234,15 +234,15 @@ class ComponentiImportServiceTest extends TestCase
                 'Italia', 'Emilia-Romagna', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921', 'EXTRA',
             ],
             [
-                'Anna', 'Verdi', 'F', 'Statunitense', 'Stati Uniti', '02/10/1980', '', '', '', '', '', '', '', '', '', '', '', '',
+                'Anna', 'Verdi', 'F', 'Stati Uniti', '02/10/1980', '', '', 'Statunitense', '', '', '', '', '', '', '',
             ],
         ]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
 
-        $this->assertSame('VALIDO', $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_COMPLETO, $preview['rows'][0]['status']);
         $this->assertSame('ERRORE', $preview['rows'][1]['status']);
-        $this->assertSame('VALIDO', $preview['rows'][2]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_COMPLETO, $preview['rows'][2]['status']);
         $this->assertSame(2, $preview['rows'][0]['row_number']);
         $this->assertSame(3, $preview['rows'][1]['row_number']);
         $this->assertSame(4, $preview['rows'][2]['row_number']);
@@ -254,7 +254,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->expectException(ComponentiImportException::class);
         $this->expectExceptionMessage('mancante');
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile([
             'Nome', 'Cognome', 'Sesso', 'Cittadinanza', 'Nazione nascita', 'Data di nascita', 'Provincia nascita',
             'Comune nascita', 'Nazione residenza', 'Provincia residenza', 'Comune residenza', 'Tipo via', 'Indirizzo',
@@ -268,7 +268,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->expectException(ComponentiImportException::class);
         $this->expectExceptionMessage('duplicato');
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $headers = $service->headersTemplate();
         $headers[1] = 'Nome';
 
@@ -282,7 +282,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->expectException(ComponentiImportException::class);
         $this->expectExceptionMessage('sconosciuta');
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $headers = $service->headersTemplate();
         $headers[] = 'Colonna fantasma';
 
@@ -293,7 +293,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_riga_vuota_viene_ignorata(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [
             array_fill(0, 15, ''),
             [
@@ -308,7 +308,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_trim_valori_e_utf8_vengono_preservati(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
             '  José  ', '  Núñez ', ' M ', ' Italia ', ' 02/10/1980 ', ' RN ', ' Rimini ', ' Italiana ', ' Italia ', ' RN ', ' Rimini ', ' Via ', ' Via Roma ', ' 10 ', ' 47921 ',
         ]]);
@@ -322,7 +322,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_csv_quoted_field_viene_parsato_correttamente(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma; centro', '10', '47921',
         ]]);
@@ -334,7 +334,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_data_giorno_mese_anno_valida_viene_normalizzata(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
@@ -343,82 +343,82 @@ class ComponentiImportServiceTest extends TestCase
 
         $this->assertSame('1980-10-02', $preview['rows'][0]['data']['date_nac']);
         $this->assertSame('02/10/1980', $preview['rows'][0]['date_nac']);
-        $this->assertSame('VALIDO', $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_COMPLETO, $preview['rows'][0]['status']);
     }
 
     public function test_data_invalida_genera_errore(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '12-31-1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
 
-        $this->assertSame('ERRORE', $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_NON_IMPORTABILE, $preview['rows'][0]['status']);
         $this->assertNotEmpty(array_filter($preview['rows'][0]['errors'], fn ($error) => $error['field'] === 'date_nac'));
     }
 
     public function test_data_impossibile_genera_errore(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '31/02/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
 
-        $this->assertSame('ERRORE', $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_NON_IMPORTABILE, $preview['rows'][0]['status']);
         $this->assertNotEmpty(array_filter($preview['rows'][0]['errors'], fn ($error) => $error['field'] === 'date_nac'));
     }
 
     public function test_italia_valida_e_estero_valido(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [
             [
                 'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
             ],
             [
-                'John', 'Doe', 'M', 'Statunitense', 'Stati Uniti', '02/10/1980', '', '', '', '', '', '', '', '', '', '', '', '',
+                'John', 'Doe', 'M', 'Stati Uniti', '02/10/1980', '', '', 'Statunitense', '', '', '', '', '', '', '',
             ],
         ]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
 
-        $this->assertSame('VALIDO', $preview['rows'][0]['status']);
-        $this->assertSame('VALIDO', $preview['rows'][1]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_COMPLETO, $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_COMPLETO, $preview['rows'][1]['status']);
     }
 
     public function test_italia_senza_provincia_o_comune_restituisce_errore(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', '', '', 'Italiana', 'Italia', '', '', 'Via', 'Via Roma', '10', '47921',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
 
-        $this->assertSame('ERRORE', $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_DA_COMPLETARE, $preview['rows'][0]['status']);
         $this->assertNotEmpty(array_filter($preview['rows'][0]['errors'], fn ($error) => $error['field'] === 'province_nac'));
     }
 
     public function test_nazione_sconosciuta_genera_errore(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
-            'Mario', 'Rossi', 'M', 'Italiana', 'Atlantide', '02/10/1980', '', '', '', '', '', '', '', '', '', '', '', '',
+            'Mario', 'Rossi', 'M', 'Atlantide', '02/10/1980', '', '', 'Italiana', '', '', '', '', '', '', '',
         ]]);
 
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
 
-        $this->assertSame('ERRORE', $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_NON_IMPORTABILE, $preview['rows'][0]['status']);
         $this->assertNotEmpty(array_filter($preview['rows'][0]['errors'], fn ($error) => $error['field'] === 'country_nac'));
     }
 
     public function test_default_tipo_alloggiato_e_default_esente_vengono_applicati(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
@@ -432,7 +432,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_nome_file_template_ufficiale_csv_e_txt(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
 
         $this->assertSame('modello_componenti.csv', $service->nomeFileTemplate('csv'));
         $this->assertSame('modello_componenti.txt', $service->nomeFileTemplate('txt'));
@@ -441,7 +441,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_formati_supportati_includono_xlsx(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
 
         $this->assertSame(['csv', 'txt', 'xlsx'], $service->formatiSupportati());
         $this->assertSame('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $service->contentTypePerFormato('xlsx'));
@@ -449,7 +449,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_template_csv_vuoto_usa_colonne_contratto_senza_righe_esempio(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $content = $service->contenutoTemplateVuoto('csv');
 
         $stream = fopen('php://temp', 'r+');
@@ -477,7 +477,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_template_txt_vuoto_usa_colonne_contratto_senza_righe_esempio(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $content = $service->contenutoTemplateVuoto('txt');
 
         $stream = fopen('php://temp', 'r+');
@@ -498,7 +498,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_round_trip_template_csv_con_parser_esistente(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $content = $service->contenutoTemplateVuoto('csv');
 
         $preview = $service->previewDaContenuto($content, 'csv', fn () => $this->tipoAlloggiatoFixture());
@@ -512,7 +512,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_round_trip_template_txt_con_parser_esistente(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $content = $service->contenutoTemplateVuoto('txt');
 
         $preview = $service->previewDaContenuto($content, 'txt', fn () => $this->tipoAlloggiatoFixture());
@@ -526,14 +526,14 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_template_xlsx_vuoto_valido_con_un_solo_worksheet_e_header_contratto(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $content = $service->contenutoTemplateVuoto('xlsx');
 
         $tmpFile = tempnam(sys_get_temp_dir(), 'test_componenti_tpl_xlsx_');
         $this->assertNotFalse($tmpFile);
         file_put_contents($tmpFile, $content);
 
-        $reader = new XlsxReader(new XlsxReaderOptions());
+        $reader = new XlsxReader(new XlsxReaderOptions);
 
         try {
             $reader->open($tmpFile);
@@ -565,7 +565,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_round_trip_template_xlsx_con_parser_esistente(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $content = $service->contenutoTemplateVuoto('xlsx');
 
         $preview = $service->previewDaContenuto($content, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
@@ -579,7 +579,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_xlsx_compilato_valido_produce_preview_valida(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
@@ -589,13 +589,13 @@ class ComponentiImportServiceTest extends TestCase
         $this->assertSame(1, $preview['totale_righe']);
         $this->assertSame(1, $preview['righe_valide']);
         $this->assertSame(0, $preview['righe_in_errore']);
-        $this->assertSame('VALIDO', $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_COMPLETO, $preview['rows'][0]['status']);
         $this->assertSame('Mario', $preview['rows'][0]['name']);
     }
 
     public function test_xlsx_celle_finali_presenti_ma_vuote_non_causano_errore_strutturale(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '', '',
         ]]);
@@ -611,7 +611,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_xlsx_riga_strutturalmente_corta_non_viene_normalizzata_con_padding(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma',
         ]]);
@@ -625,7 +625,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_xlsx_riga_con_colonna_extra_genera_errore_strutturale(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921', 'EXTRA',
         ]]);
@@ -639,7 +639,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_xlsx_celle_vuote_interne_non_shiftano_le_colonne_successive(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', '', 'Rimini', 'Italiana', 'Italia', '', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
@@ -654,7 +654,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_xlsx_righe_successive_restano_allineate_anche_con_riga_precedente_malformata(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [
             [
                 'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma',
@@ -669,14 +669,14 @@ class ComponentiImportServiceTest extends TestCase
         $this->assertSame(2, $preview['totale_righe']);
         $this->assertSame('ERRORE', $preview['rows'][0]['status']);
         $this->assertNotEmpty(array_filter($preview['rows'][0]['errors'], fn ($error) => $error['field'] === '_struct'));
-        $this->assertSame('VALIDO', $preview['rows'][1]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_COMPLETO, $preview['rows'][1]['status']);
         $this->assertSame('Giulia', $preview['rows'][1]['name']);
         $this->assertSame('Neri', $preview['rows'][1]['surname']);
     }
 
     public function test_xlsx_riga_invalida_diventa_errore_riga(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '31/02/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
@@ -684,7 +684,7 @@ class ComponentiImportServiceTest extends TestCase
         $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
 
         $this->assertSame(1, $preview['totale_righe']);
-        $this->assertSame('ERRORE', $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_NON_IMPORTABILE, $preview['rows'][0]['status']);
     }
 
     public function test_xlsx_colonna_extra_genera_errore(): void
@@ -692,7 +692,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->expectException(ComponentiImportException::class);
         $this->expectExceptionMessage('sconosciuta');
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $headers = $service->headersTemplate();
         $headers[] = 'Colonna fantasma';
 
@@ -705,7 +705,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->expectException(ComponentiImportException::class);
         $this->expectExceptionMessage('mancante');
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $headers = $service->headersTemplate();
         array_pop($headers);
 
@@ -718,7 +718,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->expectException(ComponentiImportException::class);
         $this->expectExceptionMessage('duplicato');
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $headers = $service->headersTemplate();
         $headers[1] = 'Nome';
 
@@ -731,7 +731,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->expectException(ComponentiImportException::class);
         $this->expectExceptionMessage('un solo foglio');
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [], true);
 
         $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
@@ -742,7 +742,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->expectException(ComponentiImportException::class);
         $this->expectExceptionMessage('formule non supportate');
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $formulaRow = Row::fromValues([
             '=CONCAT("Ma","rio")', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]);
@@ -756,7 +756,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->expectException(ComponentiImportException::class);
         $this->expectExceptionMessage('non valido o corrotto');
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $service->previewDaContenuto("\x50\x4B\x03\x04BROKEN", 'xlsx', fn () => $this->tipoAlloggiatoFixture());
     }
 
@@ -765,7 +765,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->expectException(ComponentiImportException::class);
         $this->expectExceptionMessage('non valido o corrotto');
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $service->previewDaContenuto('questa-non-e-una-cartella-zip-xlsx', 'xlsx', fn () => $this->tipoAlloggiatoFixture());
     }
 
@@ -774,7 +774,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->expectException(ComponentiImportException::class);
         $this->expectExceptionMessage('Numero massimo righe superato');
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
 
         $rows = [];
         for ($i = 0; $i < ComponentiImportService::MAX_RIGHE + 1; $i++) {
@@ -789,7 +789,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_xlsx_celle_vuote_vengono_gestite_come_pipeline_corrente(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $xlsx = $this->buildXlsxFile($service->headersTemplate(), [
             [
                 'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
@@ -805,14 +805,14 @@ class ComponentiImportServiceTest extends TestCase
         $this->assertSame(2, $preview['totale_righe']);
         $this->assertSame('Mario', $preview['rows'][0]['name']);
         $this->assertSame('Giulia', $preview['rows'][1]['name']);
-        $this->assertSame('VALIDO', $preview['rows'][0]['status']);
-        $this->assertSame('VALIDO', $preview['rows'][1]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_COMPLETO, $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_COMPLETO, $preview['rows'][1]['status']);
     }
 
     public function test_xlsx_data_excel_nativa_viene_convertita_senza_cambiare_contratto(): void
     {
-        $service = new ComponentiImportService();
-        $dateStyle = (new Style())->setFormat('dd/mm/yyyy');
+        $service = new ComponentiImportService;
+        $dateStyle = (new Style)->setFormat('dd/mm/yyyy');
         $nativeDateRow = Row::fromValuesWithStyles([
             'Mario', 'Rossi', 'M', 'Italia', 29496, 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ], null, [4 => $dateStyle]);
@@ -821,14 +821,14 @@ class ComponentiImportServiceTest extends TestCase
 
         $preview = $service->previewDaContenuto($xlsx, 'xlsx', fn () => $this->tipoAlloggiatoFixture());
 
-        $this->assertSame('VALIDO', $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_COMPLETO, $preview['rows'][0]['status']);
         $this->assertSame('02/10/1980', $preview['rows'][0]['date_nac']);
         $this->assertSame('1980-10-02', $preview['rows'][0]['data']['date_nac']);
     }
 
     public function test_template_vuoto_non_modifica_default_import(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
@@ -848,7 +848,7 @@ class ComponentiImportServiceTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('codice 20');
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
@@ -863,7 +863,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_piu_righe_valide_e_mix_valide_invalide(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [
             [
                 'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
@@ -876,15 +876,15 @@ class ComponentiImportServiceTest extends TestCase
         $preview = $service->previewDaContenuto($csv, 'csv', fn () => $this->tipoAlloggiatoFixture());
 
         $this->assertCount(2, $preview['rows']);
-        $this->assertSame('VALIDO', $preview['rows'][0]['status']);
-        $this->assertSame('ERRORE', $preview['rows'][1]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_COMPLETO, $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_NON_IMPORTABILE, $preview['rows'][1]['status']);
         $this->assertSame(2, $preview['rows'][0]['row_number']);
         $this->assertSame(3, $preview['rows'][1]['row_number']);
     }
 
     public function test_limite_massimo_righe_viene_applicato(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $headers = $service->headersTemplate();
         $rows = [];
         for ($i = 0; $i < ComponentiImportService::MAX_RIGHE + 1; $i++) {
@@ -905,13 +905,13 @@ class ComponentiImportServiceTest extends TestCase
     {
         $this->expectException(ComponentiImportException::class);
 
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $service->previewDaContenuto('abc', 'xls', fn () => $this->tipoAlloggiatoFixture());
     }
 
     public function test_txt_produce_lo_stesso_contratto_del_csv(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $rows = [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]];
@@ -927,7 +927,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_csv_con_tab_e_estensione_csv_viene_rilevato_automaticamente(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $headers = $service->headersTemplate();
         $rows = [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
@@ -939,12 +939,12 @@ class ComponentiImportServiceTest extends TestCase
         $this->assertSame(15, count($preview['headers']));
         $this->assertSame('Mario', $preview['rows'][0]['name']);
         $this->assertSame('Rossi', $preview['rows'][0]['surname']);
-        $this->assertSame('VALIDO', $preview['rows'][0]['status']);
+        $this->assertSame(DatiComponenteNormalizzati::STATO_COMPLETO, $preview['rows'][0]['status']);
     }
 
     public function test_nessun_id_interno_e_nessuna_colonna_tecnica_nel_modello(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $headers = $service->headersTemplate();
 
         $this->assertNotContains('id', array_map('strtolower', $headers));
@@ -957,7 +957,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_prepara_conferma_batch_pending_puo_procedere(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $batch = $this->buildValidBatch($service);
 
         $result = $service->preparaConfermaBatch($batch, 77, 10, 501, fn () => $this->tipoAlloggiatoFixture());
@@ -972,7 +972,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_prepara_conferma_batch_confirmed_viene_rifiutato(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $batch = $this->buildValidBatch($service);
         $batch['status'] = 'confirmed';
         $batch['confirmed_at'] = time();
@@ -985,7 +985,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_prepara_conferma_batch_scaduto_viene_rifiutato(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $batch = $this->buildValidBatch($service);
         $batch['expires_at'] = time() - 10;
 
@@ -997,7 +997,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_prepara_conferma_batch_user_diverso_viene_rifiutato(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $batch = $this->buildValidBatch($service);
 
         $this->expectException(ComponentiImportException::class);
@@ -1008,7 +1008,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_prepara_conferma_batch_struttura_diversa_viene_rifiutato(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $batch = $this->buildValidBatch($service);
 
         $this->expectException(ComponentiImportException::class);
@@ -1019,7 +1019,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_prepara_conferma_batch_schedina_diversa_viene_rifiutato(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $batch = $this->buildValidBatch($service);
 
         $this->expectException(ComponentiImportException::class);
@@ -1030,7 +1030,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_prepara_conferma_batch_senza_token_viene_rifiutato(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $batch = $this->buildValidBatch($service);
         $batch['token'] = '';
 
@@ -1042,7 +1042,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_prepara_conferma_batch_con_payload_mancante_viene_rifiutato(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $batch = $this->buildValidBatch($service);
         unset($batch['raw_rows']);
 
@@ -1054,7 +1054,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_prepara_conferma_batch_con_codice_20_mancante_fallisce(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $batch = $this->buildValidBatch($service);
 
         $this->expectException(RuntimeException::class);
@@ -1070,7 +1070,7 @@ class ComponentiImportServiceTest extends TestCase
 
     public function test_prepara_conferma_batch_supporta_context_nuova_schedina_senza_id(): void
     {
-        $service = new ComponentiImportService();
+        $service = new ComponentiImportService;
         $csv = $this->buildDelimitedFile($service->headersTemplate(), [[
             'Mario', 'Rossi', 'M', 'Italia', '02/10/1980', 'RN', 'Rimini', 'Italiana', 'Italia', 'RN', 'Rimini', 'Via', 'Via Roma', '10', '47921',
         ]]);
@@ -1134,8 +1134,8 @@ class ComponentiImportServiceTest extends TestCase
     }
 
     /**
-     * @param array<int, string> $headers
-     * @param array<int, array<int, string>> $rows
+     * @param  array<int, string>  $headers
+     * @param  array<int, array<int, string>>  $rows
      */
     private function buildDelimitedFile(array $headers, array $rows, string $delimiter = ';'): string
     {
@@ -1153,15 +1153,15 @@ class ComponentiImportServiceTest extends TestCase
     }
 
     /**
-     * @param array<int, string> $headers
-     * @param array<int, array<int, string|DateTimeImmutable>|Row> $rows
+     * @param  array<int, string>  $headers
+     * @param  array<int, array<int, string|DateTimeImmutable>|Row>  $rows
      */
     private function buildXlsxFile(array $headers, array $rows, bool $addSecondWorksheet = false): string
     {
         $tmpFile = tempnam(sys_get_temp_dir(), 'test_componenti_xlsx_');
         $this->assertNotFalse($tmpFile);
 
-        $writer = new XlsxWriter();
+        $writer = new XlsxWriter;
 
         try {
             $writer->openToFile($tmpFile);
@@ -1171,6 +1171,7 @@ class ComponentiImportServiceTest extends TestCase
             foreach ($rows as $row) {
                 if ($row instanceof Row) {
                     $writer->addRow($row);
+
                     continue;
                 }
 

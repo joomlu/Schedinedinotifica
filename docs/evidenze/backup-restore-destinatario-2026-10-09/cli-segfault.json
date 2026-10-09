@@ -1,0 +1,35 @@
+{
+  "fase": "stabilita_CLI",
+  "esito": "FAIL",
+  "prove": [
+    {
+      "variante": "A",
+      "file_sintetico_o_sorgente": "sentinella-sintetica.php",
+      "exit": -11,
+      "secondi": 0.0898
+    },
+    {
+      "variante": "B",
+      "file_sintetico_o_sorgente": "sentinella-sintetica.php",
+      "exit": 0,
+      "secondi": 0.0321
+    },
+    {
+      "variante": "C",
+      "file_sintetico_o_sorgente": "sentinella-sintetica.php",
+      "exit": 0,
+      "secondi": 0.0357
+    },
+    {
+      "variante": "D",
+      "file_sintetico_o_sorgente": "sentinella-sintetica.php",
+      "exit": 0,
+      "secondi": 0.0306
+    }
+  ],
+  "FPM": "NON AVVIATO",
+  "errore": "Configurazione standard fallisce il lint sintetico; fasi successive ferme",
+  "core_memoria_esportata": false,
+  "core_limit": 0,
+  "rete_esterna_assente": true
+}

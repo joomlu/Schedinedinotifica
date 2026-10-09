@@ -1,0 +1,341 @@
+{
+  "framework": "12.69.3",
+  "php_minimo_effettivo": "8.3",
+  "platform_solver": "8.3.0",
+  "php_test": "8.3.33",
+  "aggiornamenti": 50,
+  "installazioni": 5,
+  "rimozioni": 0,
+  "cambiamenti": [
+    {
+      "pacchetto": "filp/whoops",
+      "prima": "2.16.0",
+      "dopo": "2.18.6",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "laravel/framework",
+      "prima": "v11.31.0",
+      "dopo": "v12.69.3",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "laravel/sail",
+      "prima": "v1.38.0",
+      "dopo": "v1.68.0",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "laravel/sanctum",
+      "prima": "v4.0.3",
+      "dopo": "v4.3.3",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "laravel/tinker",
+      "prima": "v2.10.0",
+      "dopo": "v2.11.1",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "laravel/ui",
+      "prima": "v4.5.2",
+      "dopo": "v4.6.3",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "league/uri",
+      "prima": null,
+      "dopo": "7.8.1",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "league/uri-interfaces",
+      "prima": null,
+      "dopo": "7.8.1",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "myclabs/deep-copy",
+      "prima": "1.12.1",
+      "dopo": "1.14.0",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "nikic/php-parser",
+      "prima": "v5.3.1",
+      "dopo": "v5.9.0",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "nunomaduro/collision",
+      "prima": "v8.5.0",
+      "dopo": "v8.9.5",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "nunomaduro/termwind",
+      "prima": "v2.2.0",
+      "dopo": "v2.4.0",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "phpunit/php-code-coverage",
+      "prima": "10.1.16",
+      "dopo": "11.0.12",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "phpunit/php-file-iterator",
+      "prima": "4.1.0",
+      "dopo": "5.1.1",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "phpunit/php-invoker",
+      "prima": "4.0.0",
+      "dopo": "5.0.1",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "phpunit/php-text-template",
+      "prima": "3.0.1",
+      "dopo": "4.0.1",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "phpunit/php-timer",
+      "prima": "6.0.0",
+      "dopo": "7.0.1",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "phpunit/phpunit",
+      "prima": "10.5.38",
+      "dopo": "11.5.57",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/cli-parser",
+      "prima": "2.0.1",
+      "dopo": "3.0.2",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/code-unit",
+      "prima": "2.0.0",
+      "dopo": "3.0.3",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/code-unit-reverse-lookup",
+      "prima": "3.0.0",
+      "dopo": "4.0.1",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/comparator",
+      "prima": "5.0.3",
+      "dopo": "6.3.3",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/complexity",
+      "prima": "3.2.0",
+      "dopo": "4.0.1",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/diff",
+      "prima": "5.1.1",
+      "dopo": "6.0.2",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/environment",
+      "prima": "6.1.0",
+      "dopo": "7.2.1",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/exporter",
+      "prima": "5.1.2",
+      "dopo": "6.3.2",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/global-state",
+      "prima": "6.0.2",
+      "dopo": "7.0.2",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/lines-of-code",
+      "prima": "2.0.2",
+      "dopo": "3.0.1",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/object-enumerator",
+      "prima": "5.0.0",
+      "dopo": "6.0.1",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/object-reflector",
+      "prima": "3.0.0",
+      "dopo": "4.0.1",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/recursion-context",
+      "prima": "5.0.0",
+      "dopo": "6.0.3",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/type",
+      "prima": "4.0.0",
+      "dopo": "5.1.3",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "sebastian/version",
+      "prima": "4.0.1",
+      "dopo": "5.0.2",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "spatie/backtrace",
+      "prima": "1.6.2",
+      "dopo": "1.8.2",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "spatie/error-solutions",
+      "prima": "1.1.1",
+      "dopo": "1.1.3",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "spatie/flare-client-php",
+      "prima": "1.8.0",
+      "dopo": "1.11.1",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "spatie/ignition",
+      "prima": "1.15.0",
+      "dopo": "1.16.0",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "spatie/laravel-ignition",
+      "prima": "2.8.0",
+      "dopo": "2.12.0",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "staabm/side-effects-detector",
+      "prima": null,
+      "dopo": "1.0.5",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "symfony/console",
+      "prima": "v7.1.7",
+      "dopo": "v7.4.20",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/error-handler",
+      "prima": "v7.1.7",
+      "dopo": "v7.4.20",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/event-dispatcher",
+      "prima": "v7.1.6",
+      "dopo": "v7.4.17",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/finder",
+      "prima": "v7.1.6",
+      "dopo": "v7.4.20",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/http-kernel",
+      "prima": "v7.1.7",
+      "dopo": "v7.4.20",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/polyfill-intl-grapheme",
+      "prima": "v1.31.0",
+      "dopo": "v1.43.0",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/polyfill-php83",
+      "prima": "v1.31.0",
+      "dopo": "v1.43.0",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/polyfill-php84",
+      "prima": null,
+      "dopo": "v1.43.0",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/polyfill-php85",
+      "prima": null,
+      "dopo": "v1.43.0",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/process",
+      "prima": "v7.1.7",
+      "dopo": "v7.4.19",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/string",
+      "prima": "v7.1.6",
+      "dopo": "v7.4.19",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/uid",
+      "prima": "v7.1.6",
+      "dopo": "v7.4.20",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/var-dumper",
+      "prima": "v7.1.7",
+      "dopo": "v7.4.18",
+      "ambito": "produzione"
+    },
+    {
+      "pacchetto": "symfony/yaml",
+      "prima": "v7.1.6",
+      "dopo": "v6.4.40",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "theseer/tokenizer",
+      "prima": "1.2.3",
+      "dopo": "1.3.1",
+      "ambito": "sviluppo"
+    },
+    {
+      "pacchetto": "voku/portable-ascii",
+      "prima": "2.0.1",
+      "dopo": "2.1.1",
+      "ambito": "produzione"
+    }
+  ]
+}

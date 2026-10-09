@@ -91,7 +91,7 @@
         <h1>Rapporto mensile tassa di soggiorno {{ ($vista ?? 'schede') === 'persone' ? 'per persona' : 'per schedina' }}</h1>
         <div class="muted">{{ $struttura->nome_struttura ?? 'Struttura' }}</div>
         <div class="muted">
-            Periodo: {{ \Illuminate\Support\Str::title($meseLabel) }} {{ $anno }}
+            Periodo: {{ \Carbon\Carbon::parse($dataDa)->format('d/m/Y') }} — {{ \Carbon\Carbon::parse($dataA)->format('d/m/Y') }}
             | Aliquota: {{ number_format((float) ($config->tassa_soggiorno ?? 0), 2, ',', '.') }} €
             | Giorni max: {{ $config->giorni_massimo ?? 'n/d' }}
         </div>
@@ -185,7 +185,7 @@
                             <td>{{ $row['notti_periodo'] ?? '—' }}</td>
                             <td>{{ $row['pernottamenti_imponibili'] }}</td>
                             <td>{{ $row['pernottamenti_oltre_max'] }}</td>
-                            <td>{{ number_format((float) $row['tariffa'], 2, ',', '.') }} €</td>
+                            <td>{{ $row['tariffa'] === null ? 'Variabile' : number_format((float) $row['tariffa'], 2, ',', '.') }} €</td>
                             <td class="text-right">{{ number_format((float) $row['tassa'], 2, ',', '.') }} €</td>
                         </tr>
                     @empty

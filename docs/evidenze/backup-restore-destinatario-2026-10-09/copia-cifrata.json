@@ -1,0 +1,9 @@
+{
+  "esito": "PASS",
+  "artefatti_verificati": [
+    "db.sql",
+    "app.tar.gz",
+    "config-server.tar.gz"
+  ],
+  "contenuti_in_chiaro_persistiti": false
+}

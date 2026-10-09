@@ -1,0 +1,78 @@
+{
+  "data": "2026-10-09",
+  "stato": "BASELINE IN AUDIT — NON VALIDATA",
+  "head": "faef3cf01f43d19b20d1558c1fbd3ae32e48d849",
+  "globali_definitive": [
+    {
+      "esecuzione": 1,
+      "test": 715,
+      "asserzioni": 7552,
+      "failure": 0,
+      "errori": 0,
+      "skip": 0,
+      "sha256_junit": "cf2a7a1898344d226ad1be441bea54d8f7dc74c8a2710badc1b17bf2978ff648"
+    },
+    {
+      "esecuzione": 2,
+      "test": 715,
+      "asserzioni": 7552,
+      "failure": 0,
+      "errori": 0,
+      "skip": 0,
+      "sha256_junit": "66eab3694c8b07c1a7e3afbc130460c864ca932c59019ad956928c8078b6e0dd"
+    }
+  ],
+  "inventario_e_asserzioni_per_caso_identici": true,
+  "browser_chromium": {
+    "test": 12,
+    "pass": 12
+  },
+  "mirati_http": {
+    "test": 48,
+    "asserzioni": 369,
+    "pass": 48
+  },
+  "originali_red_http": {
+    "test": 9,
+    "asserzioni": 27,
+    "failure": 5
+  },
+  "originali_post_correzione": {
+    "test": 18,
+    "asserzioni": 88,
+    "failure": 3,
+    "motivi": [
+      "Due A16 fuori scope",
+      "A14: asserzione flash eseguita dopo una seconda richiesta; regressione nuova con asserzioni ordinate correttamente verde"
+    ]
+  },
+  "hash_sorgenti_finali": {
+    "app/Http/Kernel.php": "17699f168385da5a374ea2c861c8d712280a6dcedfb79ae61aac48b56517b944",
+    "app/Http/Middleware/AuthenticateAccountSession.php": "5d76cf8d03a4af8622c63f731283440f029fa466ef52004b5a0b68020166aff4",
+    "app/Providers/EventServiceProvider.php": "a05f2fb23500042f802462f5857ab0c210d23a1a8973642f0100573746c1f6eb",
+    "app/Http/Controllers/Auth/ResetPasswordController.php": "50eae0f74fbbbc818ba8221ddff6fe0c3e25113d4426b27a64a004cb27783583",
+    "app/Http/Controllers/ArrivalsController.php": "b3dacd693c4807962e245f841293aa47e90756d3a19e0204de21fa179eb34f32",
+    "tests/TestCase.php": "ae5aebf95e909f8effef7f2f6307f7e5cbf3f34e29911fada09eebd432ae6d28",
+    "tests/Feature/AccountSessionSecurityTest.php": "b22eebea29499f35fcd97bc5ae940ce25d8794f60df65bbd9971b66cb9b04eb7",
+    "tests/Feature/ArriviCustomerReferenceSecurityTest.php": "3b434e5d85382d3e30c66acde3b90ff7df76e950c2fa13896641a1fbf833af62",
+    "tests/Feature/account-session.playwright.spec.js": "960ebda961acfa4a3551d3102eb64f86358b1551a8a0edc2bf4676ca3d582cf3",
+    "tests/Isolation/account-session-fixtures.php": "e663947c90148fb156bac4b009c9cf4a812e4cbc615d46e2dee0dad72c09db6b"
+  },
+  "hash_diagnostici_originali": {
+    "tests/Feature/BaselineAcceptanceSecurityAudit.php": "5e66e678f1aa14cd19531701186376741ef4c47ee864552c119549899a0f9cc0",
+    "tests/Feature/BaselineAcceptanceArriviAudit.php": "d6bb557b05e0dde597716780abdac22259d8ff946e2ef45c1c01214a1781fe49",
+    "tests/Feature/BaselineAcceptanceOperationalAudit.php": "6a1913ba2f1bfa03ef3392ac3ac233087d9c29d5bf3377a7f425541a096cf594",
+    "tests/Feature/BaselineFinalAuthorizationAudit.php": "e3ee2ad8fca899ff39146c33b23095bf4033594be960ec886710edd12101271e",
+    "tests/Feature/baseline-acceptance-sessioni.playwright.spec.js": "e43481b103b6b29e001fb6be118e0f9d69d7df8c6ec6bd7de501e3e28fe95d75"
+  },
+  "sorgenti_php_checkout_definitivo_identici": true,
+  "guardrail": 5,
+  "policy_database": 10,
+  "soap_offline": 14,
+  "istat_offline": 22,
+  "db_operativo": false,
+  "commit": false,
+  "push": false,
+  "deploy": false,
+  "trasmissioni_reali": false
+}

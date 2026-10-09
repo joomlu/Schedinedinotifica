@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
-@section('title') Rapporto mensile Tassa di soggiorno @endsection
+@section('title') Rapporto Tassa di soggiorno @endsection
 
 @section('content')
 @component('components.breadcrumb')
     @slot('li_1') Invio Telematico @endslot
-    @slot('title') Rapporto mensile Tassa di soggiorno @endslot
+    @slot('title') Rapporto Tassa di soggiorno @endslot
 @endcomponent
 
 <style>
@@ -42,26 +42,29 @@
                     </div>
                     <div class="card-body pt-2">
                         <form method="GET" class="row g-3 align-items-end" action="{{ route('tassa_di_soggiorno.rapporto') }}">
-                            <div class="col-xl-3 col-md-6">
-                                <label class="form-label">Mese</label>
-                                <x-ui.select name="mese">
-                                    @for($m = 1; $m <= 12; $m++)
-                                        <option value="{{ $m }}" {{ (int)$mese === $m ? 'selected' : '' }}>{{ \Carbon\Carbon::create(null, $m, 1)->locale('it')->monthName }}</option>
-                                    @endfor
-                                </x-ui.select>
-                            </div>
-                            <div class="col-xl-2 col-md-6">
-                                <label class="form-label">Anno</label>
-                                <input type="number" class="form-control" name="anno" value="{{ $anno }}" min="2015" max="2100">
-                            </div>
+                            <div class="col-md-3">
+    <label class="form-label" for="tassa-data-da">Dal</label>
+    <x-calendario id="tassa-data-da" name="data_da" variant="period-start" group="rapporto-tassa" :value="$dataDa" min-date="2015-01-01" max-date="2100-12-31" :required="true" />
+</div>
+<div class="col-md-3">
+    <label class="form-label" for="tassa-data-a">Al</label>
+    <x-calendario id="tassa-data-a" name="data_a" variant="period-end" group="rapporto-tassa" :value="$dataA" min-date="2015-01-01" max-date="2100-12-31" :required="true" />
+</div>
+<div class="col-12 d-flex flex-wrap gap-2">
+    @foreach(['Questo mese' => [now()->startOfMonth(), now()->endOfMonth()], 'Mese precedente' => [now()->subMonthNoOverflow()->startOfMonth(), now()->subMonthNoOverflow()->endOfMonth()], "Quest’anno" => [now()->startOfYear(), now()->endOfYear()]] as $label => $dates)
+        <a class="btn btn-outline-secondary btn-sm" href="{{ request()->url() }}?{{ http_build_query(['data_da' => $dates[0]->toDateString(), 'data_a' => $dates[1]->toDateString()]) }}">{{ $label }}</a>
+    @endforeach
+    <small class="text-muted align-self-center">Inclusione per data di arrivo. Intervalli annuali e personalizzati: consultazione interna; validità amministrativa dell’importazione StayTour non attestata.</small>
+</div>
+
                             <div class="col-xl-7 col-md-12 d-flex justify-content-xl-end flex-wrap gap-2">
                                 <button type="submit" class="btn btn-primary"><i class="ri-refresh-line me-1"></i> Aggiorna</button>
-                                <a href="{{ route('tassa_di_soggiorno.rapporto.controllo', ['mese' => $mese, 'anno' => $anno]) }}"
+                                <a href="{{ route('tassa_di_soggiorno.rapporto.controllo', ['data_da' => $dataDa, 'data_a' => $dataA]) }}"
                                    class="btn btn-light {{ !empty($missingSchedina) ? 'disabled' : '' }}"
                                    @if(!empty($missingSchedina)) aria-disabled="true" tabindex="-1" @endif>
                                     <i class="ri-file-list-3-line me-1"></i> Controllo interno
                                 </a>
-                                <a href="{{ route('tassa_di_soggiorno.rapporto.csv', ['mese' => $mese, 'anno' => $anno]) }}"
+                                <a href="{{ $storico ? route('tassa_di_soggiorno.export.download', $storico->id) : route('tassa_di_soggiorno.rapporto.csv', ['data_da' => $dataDa, 'data_a' => $dataA]) }}"
                                    class="btn btn-success {{ !empty($missingSchedina) ? 'disabled' : '' }}"
                                    @if(!empty($missingSchedina)) aria-disabled="true" tabindex="-1" @endif>
                                     <i class="ri-download-2-line me-1"></i> Scarica CSV
@@ -71,6 +74,33 @@
                     </div>
                 </div>
 
+                @if($storico)
+                    <div class="alert alert-info">Report storico immutabile · versione {{ $storico->versione }}. I filtri di ricerca consultano la versione conservata; il controllo interno riguarda il calcolo corrente.</div>
+                @else
+                <form method="POST" action="{{ route('tassa_di_soggiorno.export.consolida') }}" class="mb-3">
+                    @csrf
+                    <input type="hidden" name="data_da" value="{{ $dataDa }}">
+                    <input type="hidden" name="data_a" value="{{ $dataA }}">
+                    <button class="btn btn-outline-primary" type="submit">Consolida e scarica CSV</button>
+                    <small class="text-muted">La consultazione e il CSV corrente sono ricalcolati; il consolidamento conserva una versione immutabile. Un nuovo consolidamento crea una versione successiva, senza attestare un invio al Comune.</small>
+                </form>
+                @endif
+                @if($storico)
+                    <div class="mb-3">
+                        @foreach(array_keys($storico->snapshot['calcoli'] ?? []) as $schedinaId)
+                            <a class="btn btn-outline-secondary btn-sm" target="_blank" href="{{ route('schedina.tassa.print', ['id' => $schedinaId, 'export_id' => $storico->id]) }}">Ricevuta storica · Schedina {{ $schedinaId }}</a>
+                            <a class="btn btn-outline-primary btn-sm" target="_blank" rel="noopener" href="{{ route('schedina.tassa.anteprima', ['id' => $schedinaId, 'export_id' => $storico->id]) }}">Anteprima storica · Schedina {{ $schedinaId }}</a>
+                        @endforeach
+                    </div>
+                @endif
+                @if($exports->isNotEmpty())
+                    <details class="mb-3"><summary>Export consolidati e versioni</summary>
+                        @foreach($exports as $export)
+                            <a class="d-block" href="{{ route('tassa_di_soggiorno.rapporto', ['export_id' => $export->id]) }}">{{ $export->data_da }} — {{ $export->data_a }} · versione {{ $export->versione }}</a>
+                        @endforeach
+                    </details>
+                @endif
+                <div class="alert alert-success">Totale Tassa del periodo: <strong data-tassa-periodo="{{ $totalePeriodo }}">€ {{ number_format($totalePeriodo, 2, ',', '.') }}</strong> · Tutti i movimenti del periodo, prima della ricerca e della paginazione.</div>
                 <div class="alert alert-info">
                     <strong>Struttura:</strong> {{ $struttura->nome_struttura ?? '—' }} — <strong>Aliquota:</strong> {{ $config->tassa_soggiorno ?? 'n/d' }} € — <strong>Giorni max:</strong> {{ $config->giorni_massimo ?? 'n/d' }}
                 </div>

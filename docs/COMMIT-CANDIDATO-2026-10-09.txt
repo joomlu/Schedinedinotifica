@@ -1,0 +1,30 @@
+Consolida la baseline verificata e prepara il primo rilascio controllato
+
+Applica il contratto approvato dei link Web Check-in: scadenza Europe/Rome,
+revoca e rigenerazione, stato convertito, alias condivisi e limiti isolati
+per richiesta, struttura e IP. Include le correzioni della baseline e le
+regressioni relative a tenancy, sessioni, Cestino, ISTAT e tassa di soggiorno.
+
+Integra Laravel 12.69.3 e i rimedi verificati alle dipendenze e agli asset.
+Mitiga OPcache CLI nelle invocazioni del runner, conserva no-scripts e
+no-plugins e riallinea il gate e l'ordine di installazione del vendor.
+
+Preserva diagnosi originali, risultati storici, procedure di backup e
+recupero, matrici e riferimenti recuperabili dei candidati precedenti.
+
+Verifiche registrate: suite globale 750 test/8252 asserzioni; guardie Linux
+76/76 dopo la correzione del preflight; prove browser nel perimetro documentato; campioni FPM autenticati,
+tenant, cold/warm, RSS e carico sostenuto senza crash osservati.
+
+BASELINE IN AUDIT — NON VALIDATA. Il runner integrale sul commit pubblicato
+e i gate produttivi restano pendenti. L'installazione nuova su MariaDB
+11.8.9 è bloccata dalla migrazione storica documentata; tale migrazione
+è già applicata sul destinatario dell'upgrade previsto.
+
+Corregge la lettura preliminare delle migration con PDO READ ONLY,
+senza dipendere dal vendor precedente. Conserva il gate esatto Laravel
+12.69.3 e i controlli completi dopo Composer. Registra regressioni su
+vendor assente, baseline 11, versioni incompatibili, identità e storico.
+Il diagnostico originale e i fallimenti delle fixture restano conservati.
+La sequenza su fixture è verde; il runner integrale sullo SHA approvato
+resta da eseguire esclusivamente in isolamento.

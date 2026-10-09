@@ -1,0 +1,37 @@
+import pathlib,subprocess,os,json,time,resource,concurrent.futures
+resource.setrlimit(resource.RLIMIT_CORE,(0,0));os.umask(0o077);w=pathlib.Path('/work');php='/opt/remi/php83/root/usr/bin/php';report={'fase':'stabilita_CLI','esito':'FAIL','prove':[],'FPM':'NON AVVIATO'}
+assert json.loads((w/'r2-completo-sanitizzato.json').read_text())['esito']=='PASS'
+(w/'sentinella-sintetica.php').write_text("<?php echo 'sentinella';\n")
+for variant,omit in [('C',('ioncube',)),('D',('ioncube','opcache'))]:
+ d=w/('ini-'+variant);d.mkdir(mode=0o700)
+ for p in pathlib.Path('/etc/opt/remi/php83/php.d').glob('*.ini'):
+  if not any(x in p.name.lower() for x in omit):(d/p.name).write_bytes(p.read_bytes())
+def probe(variant,file,label):
+ env=os.environ.copy();extra=[]
+ if variant=='B':extra=['-d','opcache.enable_cli=0']
+ if variant in ['C','D']:env['PHP_INI_SCAN_DIR']='/work/ini-'+variant
+ start=time.monotonic();p=subprocess.run([php,*extra,'-l',str(file)],capture_output=True,timeout=20,env=env)
+ (w/(label+'-stdout.log')).write_bytes(p.stdout);(w/(label+'-stderr.log')).write_bytes(p.stderr)
+ return {'variante':variant,'file_sintetico_o_sorgente':file.name,'exit':p.returncode,'secondi':round(time.monotonic()-start,4)}
+try:
+ a=probe('A',w/'sentinella-sintetica.php','cli-A-sentinella');report['prove'].append(a)
+ if a['exit']!=0:
+  # Attribuzione nello stesso gate CLI; nessuna fase applicativa/FPM dopo ilFAIL.
+  for variant in ['B','C','D']:report['prove'].append(probe(variant,w/'sentinella-sintetica.php','cli-'+variant+'-sentinella'))
+  report['errore']='Configurazione standard fallisce il lint sintetico; fasi successive ferme'
+ else:
+  files=[w/'sentinella-sintetica.php',w/'candidato/app/Http/Controllers/WebCheckinController.php',w/'candidato/app/Services/WebCheckinLink.php',w/'candidato/database/migrations/2026_10_07_180000_protect_istat_cycle.php']
+  for i in range(20):
+   for j,f in enumerate(files):
+    v=probe('A',f,'cli-A-'+str(i)+'-'+str(j));report['prove'].append(v)
+    if v['exit']!=0:raise RuntimeError('Lintstandard fallito')
+  with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+   futures=[pool.submit(probe,'A',f,'cli-concorrente-'+str(i)+'-'+str(j)) for i in range(20) for j,f in enumerate(files)]
+   for future in futures:
+    v=future.result();report['prove'].append(v)
+    if v['exit']!=0:raise RuntimeError('Lintconcorrente fallito')
+  report['esito']='PASS'
+except Exception as e:report['errore']=str(e)
+report['core_memoria_esportata']=False;report['core_limit']=0;report['rete_esterna_assente']=len(pathlib.Path('/proc/net/route').read_text().splitlines())==1
+(w/'cli-stabilita-sanitizzato.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))
+if report['esito']!='PASS':raise SystemExit(1)

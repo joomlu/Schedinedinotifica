@@ -1,6 +1,5 @@
 {
     "packagesToCopy": [
-        "@ckeditor/ckeditor5-build-classic",
         "@simonwep/pickr",
         "@tarekraafat/autocomplete.js",
         "aos",

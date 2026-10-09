@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Struttura;
+use App\Models\User;
 use App\Support\StrutturaCorrente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 class StrutturaUserController extends Controller
 {
@@ -26,6 +25,8 @@ class StrutturaUserController extends Controller
     public function create(Request $request)
     {
         $struttura = $this->resolveStrutturaCorrente($request->user());
+        abort_unless($request->user()->isProprietario() || $request->user()->canManageGestioneOperativa($struttura->id), 403, 'Operazione riservata alla gestione della struttura.');
+
         return view('struttura.utenti.create', [
             'struttura' => $struttura,
         ]);
@@ -34,6 +35,7 @@ class StrutturaUserController extends Controller
     public function store(Request $request)
     {
         $struttura = $this->resolveStrutturaCorrente($request->user());
+        abort_unless($request->user()->isProprietario() || $request->user()->canManageGestioneOperativa($struttura->id), 403, 'Operazione riservata alla gestione della struttura.');
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
@@ -42,6 +44,7 @@ class StrutturaUserController extends Controller
         ]);
 
         User::create([
+            'avatar' => '',
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -55,6 +58,7 @@ class StrutturaUserController extends Controller
     public function resetPassword(Request $request, int $id)
     {
         $struttura = $this->resolveStrutturaCorrente($request->user());
+        abort_unless($request->user()->isProprietario() || $request->user()->canManageGestioneOperativa($struttura->id), 403, 'Operazione riservata alla gestione della struttura.');
         $utente = User::where('struttura_id', $struttura->id)->where('id', $id)->firstOrFail();
 
         $data = $request->validate([
@@ -69,26 +73,27 @@ class StrutturaUserController extends Controller
 
     protected function resolveStrutturaCorrente($user): Struttura
     {
-        if (!$user) {
+        if (! $user) {
             abort(403);
         }
 
         if (method_exists($user, 'isStrutturaUser') && $user->isStrutturaUser()) {
             $struttura = $user->struttura;
-            if (!$struttura) {
+            if (! $struttura) {
                 abort(403, 'Struttura non trovata.');
             }
             StrutturaCorrente::setId($struttura->id);
+
             return $struttura;
         }
 
         $currentId = StrutturaCorrente::getId();
-        if (!$currentId) {
+        if (! $currentId) {
             abort(403, 'Seleziona una struttura.');
         }
 
         $struttura = Struttura::find($currentId);
-        if (!$struttura) {
+        if (! $struttura) {
             abort(403, 'Struttura non trovata.');
         }
 
@@ -99,7 +104,7 @@ class StrutturaUserController extends Controller
 
         if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
             $ok = Struttura::where('id', $struttura->id)
-                ->whereHas('proprietario', fn($q) => $q->where('admin_id', $user->id))
+                ->whereHas('proprietario', fn ($q) => $q->where('admin_id', $user->id))
                 ->exists();
             if ($ok) {
                 return $struttura;

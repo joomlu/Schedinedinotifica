@@ -1,0 +1,241 @@
+TEST isolato: /private/tmp/schedine-test-n6cnh2ct; database=test_geo_9ab686c2803ed5cca7b83d1eac03f6e0; MySQL pid=27623, porta=64660; HTTP pid=27777, porta=64661
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 10.5.38 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /private/tmp/schedine-test-n6cnh2ct/checkout/phpunit.xml
+
+.....                                                               5 / 5 (100%)
+
+Time: 00:05.535, Memory: 48.50 MB
+
+OK (5 tests, 25 assertions)
+PASS SOAP 200 and positive body never prove acceptance; no token/body leaves service
+PASS verification is unknown and retains Test operation
+PASS external constructor exception is contained
+PASS SOAP call exceptions do not escape with their chain
+PASS negative provider text is replaced with a fixed message
+PASS simulation makes no SOAP calls and is never accepted
+PASS nested and unexpected fields discarded; caller acceptance ignored
+PASS allowed slots cannot carry arrays objects or arbitrary strings
+PASS historical success never becomes accepted; history not rewritten
+PASS receipt and tables cannot expose or persist unvalidated bodies
+PASS actual persistence boundary projects injected provider material
+PASS legacy handler aborts before any DB or storage dependency
+PASS controller has no confirmed-send mutation for simulation or attempts
+PASS view never presents legacy provider messages or success as acceptance
+14 safety checks passed; in-memory doubles only
+
+Running 4 tests using 1 worker
+
+  ✘  1 tests/Feature/dependency-assets.playwright.spec.js:3:1 › Asset corretti: dialogo operativo, date e evidenziazione in Chromium (3.4s)
+  ✓  2 tests/Feature/ross1000-navigation.playwright.spec.js:4:2 › Ross1000: bottone e Tabella A, struttura sintetica incompleta (3.3s)
+  ✓  3 tests/Feature/ross1000-navigation.playwright.spec.js:4:2 › Ross1000: bottone e Tabella A, struttura sintetica completa (2.3s)
+  ✓  4 tests/Feature/ross1000-navigation.playwright.spec.js:4:2 › Ross1000: bottone e Tabella A, struttura sintetica soggiorno-incompleto (3.4s)
+
+
+  1) tests/Feature/dependency-assets.playwright.spec.js:3:1 › Asset corretti: dialogo operativo, date e evidenziazione in Chromium 
+
+    Error: page.addScriptTag: Error: Failed to load script at http://127.0.0.1:64661/build/libs/moment/min/moment.min.js
+        at script.onerror (eval at evaluate (:290:30), <anonymous>:8:76)
+        at script.onerror (eval at evaluate (:290:30), <anonymous>:8:76)
+        at /private/tmp/schedine-test-n6cnh2ct/checkout/tests/Feature/dependency-assets.playwright.spec.js:15:13
+
+    Error Context: test-results/dependency-assets.playwrig-79092--evidenziazione-in-Chromium/error-context.md
+
+  1 failed
+    tests/Feature/dependency-assets.playwright.spec.js:3:1 › Asset corretti: dialogo operativo, date e evidenziazione in Chromium 
+  3 passed (16.1s)
+dependency-assets.playwrig-79092--evidenziazione-in-Chromium:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - button [ref=e7] [cursor=pointer]
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic "Struttura":
+            - generic: 
+            - text: "Struttura: tanggo sintetica completa"
+        - link "" [ref=e15] [cursor=pointer]:
+          - /url: http://127.0.0.1:64661/calendario
+          - generic [ref=e16]: 
+        - generic [ref=e17]:
+          - button "" [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: 
+          - text:  
+        - button "" [ref=e21] [cursor=pointer]:
+          - generic [ref=e22]: 
+        - generic [ref=e23]:
+          - button "Avatar Sebastiano Struttura" [ref=e24] [cursor=pointer]:
+            - generic [ref=e25]:
+              - img "Avatar" [ref=e27]
+              - generic [ref=e28]:
+                - generic [ref=e29]: Sebastiano
+                - generic [ref=e30]: Struttura
+          - text: 󰀉      󰍃
+  - generic [ref=e31]:
+    - link "Tango" [ref=e33] [cursor=pointer]:
+      - /url: http://127.0.0.1:64661/dashboard
+      - img "Tango" [ref=e35]
+    - list [ref=e38]:
+      - listitem [ref=e39]:
+        - generic [ref=e40]: Menu
+      - listitem [ref=e41]:
+        - link "Dashboard" [ref=e42] [cursor=pointer]:
+          - /url: http://127.0.0.1:64661/dashboard
+          - generic [ref=e43]: Dashboard
+      - listitem [ref=e44]:
+        - link "Dati struttura" [ref=e45] [cursor=pointer]:
+          - /url: http://127.0.0.1:64661/struttura
+          - generic [ref=e46]: Dati struttura
+      - listitem [ref=e47]:
+        - button "Configurazioni 󰅂" [ref=e48] [cursor=pointer]:
+          - generic [ref=e49]: Configurazioni
+          - text: 󰅂
+      - listitem [ref=e50]:
+        - button "Clienti 󰅂" [ref=e51] [cursor=pointer]:
+          - generic [ref=e52]: Clienti
+          - text: 󰅂
+      - listitem [ref=e53]:
+        - button "Schedine 󰅂" [ref=e54] [cursor=pointer]:
+          - generic [ref=e55]: Schedine
+          - text: 󰅂
+      - listitem [ref=e56]:
+        - link "Web Check-in" [ref=e57] [cursor=pointer]:
+          - /url: http://127.0.0.1:64661/web-checkin
+          - generic [ref=e58]: Web Check-in
+      - listitem [ref=e59]:
+        - button "Invio telematico 󰅂" [ref=e60] [cursor=pointer]:
+          - generic [ref=e61]: Invio telematico
+          - text: 󰅂
+      - listitem [ref=e62]:
+        - button "Statistica 󰅂" [ref=e63] [cursor=pointer]:
+          - generic [ref=e64]: Statistica
+          - text: 󰅂
+      - listitem [ref=e65]:
+        - link "Calendario" [ref=e66] [cursor=pointer]:
+          - /url: http://127.0.0.1:64661/calendario
+          - generic [ref=e67]: Calendario
+      - listitem [ref=e68]:
+        - link "Cestino" [ref=e69] [cursor=pointer]:
+          - /url: http://127.0.0.1:64661/cestino
+          - generic [ref=e70]: Cestino
+  - generic [ref=e72]:
+    - generic [ref=e74]:
+      - generic [ref=e77]:
+        - heading "Dati struttura" [level=4] [ref=e78]
+        - list [ref=e80]:
+          - listitem [ref=e81]:
+            - link "Anagrafica" [ref=e82] [cursor=pointer]:
+              - /url: "javascript: void(0);"
+          - listitem [ref=e83]: 󰅂 Dati struttura
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - generic [ref=e91]:
+            - generic [ref=e92]:
+              - generic [ref=e93]: 
+              - heading "Identità Struttura" [level=5] [ref=e94]
+            - generic [ref=e95]:
+              - generic [ref=e96]:
+                - generic [ref=e97]:
+                  - generic [ref=e98]:
+                    - generic [ref=e99]: Tipologia generale *
+                    - combobox [ref=e100]
+                    - combobox "Alberghiera" [ref=e103] [cursor=pointer]:
+                      - textbox "Alberghiera" [ref=e104]
+                  - generic [ref=e105]:
+                    - generic [ref=e106]: Tipologia struttura *
+                    - combobox [ref=e107]
+                    - combobox "Fix
+TEST interrotto senza fallback: playwright fallito: 1
+mysql-error.log:
+2026-10-09T16:25:42.074189Z 0 [System] [MY-013169] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld (mysqld 8.0.36) initializing of server in progress as process 26935
+2026-10-09T16:25:42.077815Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /private/tmp/schedine-test-n6cnh2ct/mysql-data/ is case insensitive
+2026-10-09T16:25:42.080985Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2026-10-09T16:25:42.165950Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2026-10-09T16:25:43.268945Z 5 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+2026-10-09T16:25:43.707631Z 0 [System] [MY-013172] [Server] Received SHUTDOWN from user <via user signal>. Shutting down mysqld (Version: 8.0.36).
+2026-10-09T16:25:44.496628Z 0 [Warning] [MY-010101] [Server] Insecure configuration for --secure-file-priv: Location is accessible to all OS users. Consider choosing a different directory.
+2026-10-09T16:25:44.496694Z 0 [System] [MY-010116] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld (mysqld 8.0.36) starting as process 27623
+2026-10-09T16:25:44.499505Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /private/tmp/schedine-test-n6cnh2ct/mysql-data/ is case insensitive
+2026-10-09T16:25:44.502863Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2026-10-09T16:25:44.540355Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2026-10-09T16:25:44.622119Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2026-10-09T16:25:44.622140Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2026-10-09T16:25:44.624094Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/private/tmp' in the path is accessible to all OS users. Consider choosing a different directory.
+2026-10-09T16:25:44.632505Z 0 [System] [MY-010931] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld: ready for connections. Version: '8.0.36'  socket: '/private/tmp/schedine-test-n6cnh2ct/mysql.sock'  port: 64660  MySQL Community Server - GPL.
+
+http.log:
+6:23 2026] 127.0.0.1:51461 Closing
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51467 Closing
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51480 Closing
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51481 Closing
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51492 Accepted
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51492 Closing
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51495 Accepted
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51496 Accepted
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51495 Closing
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51504 Accepted
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51496 Closing
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51524 Accepted
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51504 Closing
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51525 Accepted
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51524 Closing
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51538 Accepted
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51525 Closing
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51557 Accepted
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51538 Closing
+[Fri Oct  9 18:26:23 2026] 127.0.0.1:51558 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51557 [200]: GET /build/css/bootstrap.min.css
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51559 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51558 [200]: GET /build/css/icons.min.css
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51560 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51559 [200]: GET /build/libs/select2/css/select2.min.css
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51561 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51560 [200]: GET /build/css/app.min.css
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51562 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51557 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51561 [200]: GET /build/libs/flatpickr/flatpickr.min.css
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51602 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51559 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51562 [200]: GET /build/css/custom.min.css
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51606 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51602 [200]: GET /build/js/app2.js
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51606 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51561 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51616 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51558 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51560 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51562 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51617 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51616 [200]: GET /build/libs/jquery/jquery.min.js
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51618 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51617 [200]: GET /build/libs/select2/js/select2.full.min.js
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51628 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51618 [200]: GET /build/libs/bootstrap/js/bootstrap.bundle.min.js
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51629 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51616 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51628 [200]: GET /build/libs/simplebar/simplebar.min.js
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51635 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51617 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51602 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51629 [200]: GET /build/libs/node-waves/waves.min.js
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51638 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51635 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51618 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51640 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51638 [200]: GET /build/icons/remixicon.woff2?t=1718271040674
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51628 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51645 Accepted
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51640 [200]: GET /build/icons/boxicons.woff2
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51629 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51645 [200]: GET /build/icons/materialdesignicons-webfont.woff2?v=7.2.96
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51638 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51640 Closing
+[Fri Oct  9 18:26:24 2026] 127.0.0.1:51645 Closing
+
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-n6cnh2ct

@@ -4,25 +4,27 @@ namespace Tests\Feature;
 
 use App\Models\CustomerImportBatch;
 use App\Models\CustomerImportRow;
-use App\Models\Customers;
-use App\Models\Struttura;
 use App\Models\User;
 use App\Services\CustomerImportService;
 use App\Support\StrutturaCorrente;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use Tests\Support\StrutturaFixtures;
 use Tests\TestCase;
 
 class CustomerImportedFiltersDeleteTest extends TestCase
 {
+    use RefreshDatabase, StrutturaFixtures;
+
     public function test_imported_index_filters_pending_rows_by_structure_and_filter_fields(): void
     {
         DB::beginTransaction();
 
         try {
-            $strutturaA = Struttura::create(['nome_struttura' => 'Hotel A']);
-            $strutturaB = Struttura::create(['nome_struttura' => 'Hotel B']);
+            $strutturaA = $this->structureFor(null);
+            $strutturaB = $this->structureFor(null);
 
-            $user = User::create([
+            $user = User::factory()->create([
                 'name' => 'Operatore A',
                 'email' => 'operatore-a@example.com',
                 'password' => bcrypt('secret'),
@@ -125,9 +127,9 @@ class CustomerImportedFiltersDeleteTest extends TestCase
         DB::beginTransaction();
 
         try {
-            $strutturaA = Struttura::create(['nome_struttura' => 'Hotel A']);
-            $strutturaB = Struttura::create(['nome_struttura' => 'Hotel B']);
-            $user = User::create([
+            $strutturaA = $this->structureFor(null);
+            $strutturaB = $this->structureFor(null);
+            $user = User::factory()->create([
                 'name' => 'Operatore A',
                 'email' => 'operatore-b@example.com',
                 'password' => bcrypt('secret'),

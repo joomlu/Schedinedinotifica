@@ -44,6 +44,10 @@ class CestinoService
 
     public function archiveModel(Model $model, array $meta = []): CestinoItem
     {
+        if ($model instanceof Schedina) {
+            WebCheckinRichiesta::where('schedina_id', $model->id)->where('struttura_id', $model->struttura_id)
+                ->whereNull('link_revoked_at')->update(['link_revoked_at' => now()]);
+        }
         $snapshot = $this->buildSnapshot($model);
 
         return CestinoItem::query()->create([
@@ -91,7 +95,7 @@ class CestinoService
         // I remember token non servono al restore; Web Check-in rigenera il token.
         unset($data['remember_token']);
         if ($model instanceof WebCheckinRichiesta) {
-            unset($data['token']);
+            unset($data['token'], $data['short_token']);
             if (is_array($data['schedina'] ?? null)) {
                 $data['schedina'] = $this->minimizeRestorePayload(new Schedina(), $data['schedina']);
             }
@@ -373,11 +377,16 @@ class CestinoService
             $payload['codice'] = $this->nextRichiestaCode($strutturaId);
         }
         $payload['token'] = $this->nextWebCheckinToken();
+        $payload['short_token'] = null;
+        $payload['link_revoked_at'] = now();
+        $payload['link_issued_at'] = null;
+        $payload['link_expires_at'] = null;
 
         /** @var WebCheckinRichiesta $richiesta */
         $richiesta = $this->restoreSimpleModel(WebCheckinRichiesta::class, $payload, [
             'preserve_id' => false,
         ]);
+        $richiesta->forceFill(['short_token' => null, 'link_revoked_at' => now(), 'link_issued_at' => null, 'link_expires_at' => null])->save();
         return $richiesta;
     }
 
@@ -642,7 +651,7 @@ class CestinoService
     private function nextWebCheckinToken(): string
     {
         do {
-            $token = Str::random(80);
+            $token = Str::random(64);
         } while (WebCheckinRichiesta::query()->withoutGlobalScopes()->where('token', $token)->exists());
 
         return $token;

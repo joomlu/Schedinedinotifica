@@ -1,0 +1,15 @@
+{
+  "fase": "preflight_pending_legacy",
+  "exit": 1,
+  "causa_sanitizzata": {
+    "classe": "RuntimeException",
+    "messaggio": "Approved Laravel 12.69.3 required."
+  },
+  "guard_originale_non_modificata": true,
+  "copia_identificata": "solo osservabilit\u00e0 catch",
+  "fixture_vendor": "Laravel11.31.0",
+  "DB": "endpoint sintetico127.0.0.1:1; rigetto prima della querypending",
+  "app_key": "fixtureAAAA",
+  "invocazione_php_mitigata": true,
+  "effetto": "prepare termina prima di execute/install vendor12"
+}

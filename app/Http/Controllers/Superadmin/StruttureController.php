@@ -154,15 +154,15 @@ class StruttureController extends Controller
         return $request->validate(
             [
                 'nome_struttura' => ['required', 'string', 'max:255'],
-                'nazione' => ['nullable', 'string', 'max:120'],
-                'regione' => ['nullable', 'string', 'max:120'],
-                'citta' => ['nullable', 'string', 'max:255'],
-                'provincia' => ['nullable', 'string', 'max:255'],
+                'nazione' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:100'],
+                'regione' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:100'],
+                'citta' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:150'],
+                'provincia' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:2'],
                 'localita' => ['nullable', 'string', 'max:255'],
                 'zona' => ['nullable', 'string', 'max:255'],
-                'indirizzo' => ['nullable', 'string', 'max:255'],
+                'indirizzo' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:191'],
                 'numero_civico' => ['nullable', 'string', 'max:30'],
-                'cap' => ['nullable', 'string', 'max:20'],
+                'cap' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:10'],
                 'latitudine' => ['nullable', 'string', 'max:50'],
                 'longitudine' => ['nullable', 'string', 'max:50'],
                 'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
@@ -221,6 +221,10 @@ class StruttureController extends Controller
     {
         return $this->enrichGeoDefaults($this->normalizeGeoLabels([
             'nome_struttura' => $data['nome_struttura'],
+            'tipologia_generale' => $struttura->tipologia_generale ?? 'Alberghiera',
+            'tipologia_struttura' => $struttura->tipologia_struttura ?? 'Hotel',
+            'telefono' => $struttura->telefono ?? '',
+            'email' => $struttura->email ?? '',
             'nazione' => $data['nazione'] ?? ($struttura->nazione ?? null),
             'regione' => $data['regione'] ?? ($struttura->regione ?? null),
             'citta' => $data['citta'] ?? ($struttura->citta ?? null),

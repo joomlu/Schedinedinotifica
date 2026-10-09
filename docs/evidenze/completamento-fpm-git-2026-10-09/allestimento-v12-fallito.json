@@ -1,0 +1,21 @@
+{
+  "esito": "FAIL",
+  "rete_senza_route": true,
+  "cicli": [],
+  "criteri": {
+    "crash": 0,
+    "http_inattesi": 0,
+    "cold_warm_cicli": 20,
+    "worker_RSS_massimo_MiB": 192,
+    "durata_massima_secondi": 600,
+    "tenant_cross_lettura_scrittura": "404 e righe immutate",
+    "sessioni": "indipendenti e persistenti fra worker/master privati"
+  },
+  "errore": "[Errno 2] No such file or directory: '/work/fpm-diagnosi-v12/fixture-ids.json'",
+  "DB_privato_fermato": true,
+  "richieste": [],
+  "RSS_campioni": 0,
+  "worker_RSS_picco_MiB": 0.0,
+  "master_RSS_picco_MiB": 0.0,
+  "secondi": 2.88
+}

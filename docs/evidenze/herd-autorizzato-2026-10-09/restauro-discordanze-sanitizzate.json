@@ -1,0 +1,269 @@
+{
+  "restore_import_exit": 0,
+  "tabelle_origine": 61,
+  "tabelle_restore": 61,
+  "discordanze": [
+    {
+      "tabella": "admin_fatturazione_righe",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "admin_fatturazioni",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "admin_servizi",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "admin_servizio_proprietario",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "calendario_eventi",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "cestino_items",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "clienti",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "componenti",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "crm_lead_activities",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "crm_leads",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "customer_import_batches",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "customer_import_rows",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "istat_exports",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "istat_movimenti_giornalieri",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "istat_transmissions",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "licenza_articoli",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "licenza_assegnazioni",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "proprietari",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "proprietario_fatturazione_righe",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "proprietario_fatturazioni",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "questura_exports",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "questura_receipts",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "questura_send_reservations",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "questura_transmission_events",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "questura_transmissions",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "schedina",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "struttura",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "struttura_accessi",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "struttura_audit_logs",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "struttura_comande",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "struttura_zone",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "support_ticket_messages",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "support_tickets",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "tipo_alloggiato",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "tipo_cliente",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "users",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    },
+    {
+      "tabella": "web_checkin_richieste",
+      "campi_comparatore_diversi": [
+        "schema_sha256"
+      ],
+      "conteggi_uguali": true
+    }
+  ],
+  "credenziali_identiche": true,
+  "migration_identiche": true,
+  "migration_operativa_eseguita": false
+}

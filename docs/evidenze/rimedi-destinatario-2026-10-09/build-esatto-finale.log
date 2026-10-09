@@ -1,0 +1,89 @@
+
+> velzon@4.3.0 build
+> npm run clean && vite build && npm run verify-architecture
+
+
+> velzon@4.3.0 clean
+> rimraf public/build
+
+vite v5.2.8 building for production...
+transforming...
+
+../fonts/hkgrotesk-bold.eot referenced in /private/tmp/schedine-npm-rimedi-atz20m1r/build-finale/resources/scss/app.scss didn't resolve at build time, it will remain unchanged to be resolved at runtime
+✓ 143 modules transformed.
+rendering chunks...
+computing gzip size...
+public/build/icons/modal-bg.png                           1.09 kB
+public/build/icons/new.png                                4.20 kB
+public/build/icons/chat-bg-pattern.png                    5.56 kB
+public/build/.vite/manifest.json                          7.62 kB │ gzip:   0.83 kB
+public/build/icons/la-regular-400.woff2                  12.90 kB
+public/build/icons/la-regular-400.woff                   15.49 kB
+public/build/icons/us.svg                                16.29 kB │ gzip:   1.36 kB
+public/build/icons/cover-pattern.png                     21.58 kB
+public/build/icons/la-regular-400.ttf                    33.72 kB
+public/build/icons/la-regular-400.eot                    33.92 kB
+public/build/icons/hkgrotesk-light.woff                  40.94 kB
+public/build/icons/hkgrotesk-medium.woff                 42.17 kB
+public/build/icons/hkgrotesk-regular.woff                61.07 kB
+public/build/icons/hkgrotesk-bold.woff                   61.18 kB
+public/build/icons/hkgrotesk-semibold.woff               62.69 kB
+public/build/icons/file.png                              78.62 kB
+public/build/icons/la-brands-400.woff2                   84.77 kB
+public/build/icons/hkgrotesk-light.eot                   93.73 kB
+public/build/icons/hkgrotesk-medium.eot                  94.58 kB
+public/build/icons/la-solid-900.woff2                    96.75 kB
+public/build/icons/la-brands-400.woff                    98.67 kB
+public/build/icons/bg-pattern.png                       102.94 kB
+public/build/icons/img-2.jpg                            109.30 kB
+public/build/icons/la-regular-400.svg                   113.54 kB │ gzip:  29.45 kB
+public/build/icons/boxicons.woff2                       115.68 kB
+public/build/icons/la-solid-900.woff                    125.42 kB
+public/build/icons/img-4.jpg                            126.08 kB
+public/build/icons/hkgrotesk-regular.eot                139.64 kB
+public/build/icons/hkgrotesk-semibold.eot               141.12 kB
+public/build/icons/remixicon.woff2                      145.96 kB
+public/build/icons/la-brands-400.ttf                    156.07 kB
+public/build/icons/la-brands-400.eot                    156.26 kB
+public/build/icons/marketplace.png                      157.98 kB
+public/build/icons/img-3.jpg                            181.72 kB
+public/build/icons/remixicon.woff                       201.26 kB
+public/build/icons/img-1.jpg                            210.93 kB
+public/build/icons/la-solid-900.ttf                     226.13 kB
+public/build/icons/la-solid-900.eot                     226.31 kB
+public/build/icons/auth-one-bg.jpg                      239.96 kB
+public/build/icons/boxicons.ttf                         320.94 kB
+public/build/icons/boxicons.woff                        321.02 kB
+public/build/icons/materialdesignicons-webfont.woff2    396.73 kB
+public/build/icons/boxicons.eot                         405.67 kB
+public/build/icons/remixicon.ttf                        470.16 kB
+public/build/icons/remixicon.eot                        470.34 kB
+public/build/icons/materialdesignicons-webfont.woff     576.75 kB
+public/build/icons/bg-home.jpg                          624.07 kB
+public/build/icons/la-solid-900.svg                     923.15 kB │ gzip: 296.57 kB
+public/build/icons/la-brands-400.svg                    927.34 kB │ gzip: 304.36 kB
+public/build/icons/boxicons.svg                       1,242.12 kB │ gzip: 354.03 kB
+public/build/icons/materialdesignicons-webfont.ttf    1,279.99 kB
+public/build/icons/materialdesignicons-webfont.eot    1,280.21 kB
+public/build/icons/remixicon.svg                      2,314.16 kB │ gzip: 522.59 kB
+public/build/css/custom.min.css                          11.44 kB │ gzip:   2.78 kB
+public/build/css/bootstrap.min.css                      235.88 kB │ gzip:  31.59 kB
+public/build/css/app.min.css                            325.10 kB │ gzip:  51.46 kB
+public/build/css/icons.min.css                          551.40 kB │ gzip:  95.66 kB
+public/build/js/app2.js                                 568.42 kB │ gzip: 175.49 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 6.20s
+
+> velzon@4.3.0 verify-architecture
+> node scripts/verify-architecture.mjs
+
+verify-architecture: OK (manifest presente, GEO immutabile integro)
+npm notice
+npm notice New minor version of npm available! 11.12.0 -> 11.21.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.0
+npm notice To update run: npm install -g npm@11.21.0
+npm notice

@@ -1,0 +1,1948 @@
+{
+  "data": "2026-10-09",
+  "head": "faef3cf01f43d19b20d1558c1fbd3ae32e48d849",
+  "stato": "Candidato preparato per review; nessun commit",
+  "numero_file": 318,
+  "categorie": {
+    "applicazione": 45,
+    "documentazione_evidenze": 162,
+    "test_diagnostici_isolamento": 111
+  },
+  "corrispondenza_accettazione": {
+    "inventario_storico": "1813/1818 invariati;5divergenze autorizzate e una nuova classe",
+    "inventario_corrente": "docs/inventario-herd-sicurezza-2026-10-09.json:1819/1819",
+    "sorgenti_contratto": "13/13 invariati",
+    "artefatti_contratto": "31/31 invariati"
+  },
+  "file": [
+    {
+      "percorso": "app/Http/Controllers/Admin/StruttureController.php",
+      "stato": "modificato",
+      "sha256": "c60fc9be2822016916fc28e4976eabe09e1b76838a035f2ca2e2abd76d892c76",
+      "byte": 31499
+    },
+    {
+      "percorso": "app/Http/Controllers/ArrivalsController.php",
+      "stato": "modificato",
+      "sha256": "38ab64adb7653e0d31338ca0631b4ee44bf001356372cea2bb5023d142e7670c",
+      "byte": 47398
+    },
+    {
+      "percorso": "app/Http/Controllers/Auth/ResetPasswordController.php",
+      "stato": "modificato",
+      "sha256": "50eae0f74fbbbc818ba8221ddff6fe0c3e25113d4426b27a64a004cb27783583",
+      "byte": 1664
+    },
+    {
+      "percorso": "app/Http/Controllers/CalendarioController.php",
+      "stato": "modificato",
+      "sha256": "9d6eaab6334220a9349bbc588ffc484838b7c478d9ab02e2815b3f8a9fec2bd4",
+      "byte": 34038
+    },
+    {
+      "percorso": "app/Http/Controllers/SchedinaController.php",
+      "stato": "modificato",
+      "sha256": "26e89047b093a2cdafe8d70296b36b030d84fa6a252ef695635fb4b19e1b0343",
+      "byte": 84397
+    },
+    {
+      "percorso": "app/Http/Controllers/StrutturaUserController.php",
+      "stato": "modificato",
+      "sha256": "64f69c94dcad646bdfc6bc5a094f93886a3d6eaa066b012fa878a97c510421bc",
+      "byte": 4154
+    },
+    {
+      "percorso": "app/Http/Controllers/Superadmin/ImpersonazioneController.php",
+      "stato": "modificato",
+      "sha256": "f0994ee2b0d06a119d60900214d617b55b4c95613760f4c0c3dcf98684829826",
+      "byte": 3351
+    },
+    {
+      "percorso": "app/Http/Controllers/Superadmin/StruttureController.php",
+      "stato": "modificato",
+      "sha256": "dbcc84e2902296cdc11cc9c4287887978069fbf91564df935be2dd8f13d8df5c",
+      "byte": 28874
+    },
+    {
+      "percorso": "app/Http/Controllers/SupportoController.php",
+      "stato": "modificato",
+      "sha256": "9f03e19c374aab453c6f57e7d7b001e652cbf57979ea70a1c303d936a710dc03",
+      "byte": 16074
+    },
+    {
+      "percorso": "app/Http/Controllers/TassaDiSoggiornoController.php",
+      "stato": "modificato",
+      "sha256": "34262b20c6b7cd034f54396b31c9c5eda50825bce09af07e31d81e6d04995a7f",
+      "byte": 16834
+    },
+    {
+      "percorso": "app/Http/Controllers/TassaEsenzioneController.php",
+      "stato": "modificato",
+      "sha256": "c443f80dd2124d8b0586e654c7e0b8696fb3ffd35959c498e666a25f4d414607",
+      "byte": 3644
+    },
+    {
+      "percorso": "app/Http/Controllers/TassaReportController.php",
+      "stato": "modificato",
+      "sha256": "3c5d40bf5432c64bc6e93c47415c0ab01a830587022ee9b57aaedff6dd25b9cf",
+      "byte": 34079
+    },
+    {
+      "percorso": "app/Http/Controllers/WebCheckinController.php",
+      "stato": "modificato",
+      "sha256": "2111361adfd7a1fd215b74e482676e6f4dfe2e7e0b1b73f9c7f710fdfde9e643",
+      "byte": 28151
+    },
+    {
+      "percorso": "app/Http/Kernel.php",
+      "stato": "modificato",
+      "sha256": "476674d2cd46c66584eea51f6fbcdc3608415a480cf5afe11769256167c8ce98",
+      "byte": 3255
+    },
+    {
+      "percorso": "app/Http/Middleware/AuthenticateAccountSession.php",
+      "stato": "aggiunto",
+      "sha256": "5d76cf8d03a4af8622c63f731283440f029fa466ef52004b5a0b68020166aff4",
+      "byte": 734
+    },
+    {
+      "percorso": "app/Http/Middleware/WebCheckinRateLimit.php",
+      "stato": "aggiunto",
+      "sha256": "b04f0b046910556c9e9cd0a1d9a79103371665e1312961291c2069ad0703489a",
+      "byte": 1983
+    },
+    {
+      "percorso": "app/Models/TassaDiSoggiorno.php",
+      "stato": "modificato",
+      "sha256": "d50d506455de6d8ec1d3f4f45e5ff713c7f754743449014604f5b6f2331b0f4d",
+      "byte": 850
+    },
+    {
+      "percorso": "app/Models/TassaExport.php",
+      "stato": "aggiunto",
+      "sha256": "ad5cefe88b503c13fd1e24f206f379bcf573b5e071b3025f2a7a7d405f9753b6",
+      "byte": 674
+    },
+    {
+      "percorso": "app/Models/WebCheckinRichiesta.php",
+      "stato": "modificato",
+      "sha256": "5d3ddd2e30bc3877bff88d21f53646bb650c17b44d722a766b40151cd088267d",
+      "byte": 1182
+    },
+    {
+      "percorso": "app/Providers/AppServiceProvider.php",
+      "stato": "modificato",
+      "sha256": "0fe93b8e4e2f5f3e79b5eee3cb63b0b5d94e042308e2151aad8bbe80513bb4e8",
+      "byte": 3379
+    },
+    {
+      "percorso": "app/Providers/EventServiceProvider.php",
+      "stato": "modificato",
+      "sha256": "a05f2fb23500042f802462f5857ab0c210d23a1a8973642f0100573746c1f6eb",
+      "byte": 971
+    },
+    {
+      "percorso": "app/Services/CestinoService.php",
+      "stato": "modificato",
+      "sha256": "83c00c9e259cf5e1fd74de223abcf1fe25ea713c83159412dfac8588cd3754b1",
+      "byte": 27776
+    },
+    {
+      "percorso": "app/Services/TassaDiSoggiornoService.php",
+      "stato": "modificato",
+      "sha256": "8c89a68a2621ee8916256bf5707643cbf7e02e40b5ff3dda8775b1d6c384ab59",
+      "byte": 30330
+    },
+    {
+      "percorso": "app/Services/WebCheckinLink.php",
+      "stato": "aggiunto",
+      "sha256": "47094e6bce1473ceb92e251f8fd24818f03d5a463d15b24a0f72ea23405ba242",
+      "byte": 2844
+    },
+    {
+      "percorso": "app/Validation/EmailControlValidator.php",
+      "stato": "aggiunto",
+      "sha256": "fa870fc56c5553a971192b309a11017d90ad07d57aad0503f9223276675f3819",
+      "byte": 552
+    },
+    {
+      "percorso": "composer.lock",
+      "stato": "modificato",
+      "sha256": "ace4bae15b0e49d891ed4a97acb8f9821574f57840e62cad871ccca7390560e4",
+      "byte": 318699
+    },
+    {
+      "percorso": "database/migrations/2026_10_07_180000_create_tassa_exports_and_receipt_image.php",
+      "stato": "aggiunto",
+      "sha256": "4b742294edbfa2da6e1136869fe3d503fe5dfaf6d65e272c466e6fdb20e9c277",
+      "byte": 1218
+    },
+    {
+      "percorso": "database/migrations/2026_10_09_230000_add_web_checkin_link_lifecycle.php",
+      "stato": "aggiunto",
+      "sha256": "69ba345db9358ba90d0dab2cd248850937698dfa1fd5e297e07e0791b24cd5c4",
+      "byte": 847
+    },
+    {
+      "percorso": "docs/CANDIDATO-PRIMO-RILASCIO-2026-10-09.md",
+      "stato": "aggiunto",
+      "sha256": "d19a3d05451f1887885757b6782cddd516678064b8253f81f6cae431b8718962",
+      "byte": 23504
+    },
+    {
+      "percorso": "docs/CHIUSURA-BLOCCHI-PRIMO-RILASCIO-2026-10-09.md",
+      "stato": "aggiunto",
+      "sha256": "487139d34e320c31f54478e7b0bccfe3b8d41f6f4ccfbb491deeb45589db4f6b",
+      "byte": 23528
+    },
+    {
+      "percorso": "docs/DEPLOY_SPANEL.md",
+      "stato": "modificato",
+      "sha256": "bd86505e0b7ea533a7807e8d3beb0779895f619192d3dca522c53d2f47b7551c",
+      "byte": 44442
+    },
+    {
+      "percorso": "docs/HERD-ROSS1000-SICUREZZA-2026-10-09.md",
+      "stato": "aggiunto",
+      "sha256": "5e102f850e7621ebdd63634815686e6c50fdfe8dd43b5c496b82f541c7359aac",
+      "byte": 10324
+    },
+    {
+      "percorso": "docs/IMPATTO-LARAVEL12-2026-10-09.md",
+      "stato": "aggiunto",
+      "sha256": "16e59f6611f93f9b3cc8e433e42fef3902b093ff03a20228ab7306b63150a69e",
+      "byte": 5537
+    },
+    {
+      "percorso": "docs/OPERAZIONE-HERD-ROSS1000-2026-10-09.md",
+      "stato": "aggiunto",
+      "sha256": "9a7c89705d99524f50d4b8375da7e1fda5b34f358d239bd11b46f05dfde7f394",
+      "byte": 10969
+    },
+    {
+      "percorso": "docs/PENDENTI-LOCALI-ROSS1000-DIPENDENZE-2026-10-09.md",
+      "stato": "aggiunto",
+      "sha256": "d39fc9b8b975a6b706b6f7c2f8433cbb07f0cb0c87b92d9ce0af9ccfc4803cbd",
+      "byte": 6927
+    },
+    {
+      "percorso": "docs/PRIMO-RILASCIO-CONTROLLATO-2026-10-09.md",
+      "stato": "aggiunto",
+      "sha256": "45447e4b3a1914cb463c55cd085084c7ef037ef77ca89133a0b344127e28180c",
+      "byte": 29902
+    },
+    {
+      "percorso": "docs/RIMEDI-DESTINATARIO-2026-10-09.md",
+      "stato": "aggiunto",
+      "sha256": "be6c9bf1a7054d72843cb72932e814e13770acca719837671d051807dc3d3523",
+      "byte": 9410
+    },
+    {
+      "percorso": "docs/SSH-MAC-CHIAVE-AUTORIZZATA-2026-10-09.md",
+      "stato": "aggiunto",
+      "sha256": "b9b788e6eaaa12354f9f4fbf2cde980951b5745d37bdeeb748f2bba84fbd1bdc",
+      "byte": 4320
+    },
+    {
+      "percorso": "docs/baseline-applicativa-audit-2026-10-08.md",
+      "stato": "aggiunto",
+      "sha256": "293e102c533f2184bec718bd96ba3126c4f7ac688cfe9822537f3212d7a789a9",
+      "byte": 251974
+    },
+    {
+      "percorso": "docs/candidato-primo-rilascio-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": null,
+      "byte": null
+    },
+    {
+      "percorso": "docs/composer-classificazione-46-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "a8c998aaeb770a0c7bfbafdbff37b4d807e6fd74567802077914482f7c678cbf",
+      "byte": 74056
+    },
+    {
+      "percorso": "docs/composer-rimedi-rilascio-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "4697b2c97b611b8d717e6e29c9bc0af261818c841267d77a3abe1cc7ba5ec4ee",
+      "byte": 82910
+    },
+    {
+      "percorso": "docs/contratto-token-proposta-2026-10-09.md",
+      "stato": "aggiunto",
+      "sha256": "ce4039176487129bc41303617b5cacd73514ab7329c671b772c7ebd2350109db",
+      "byte": 41963
+    },
+    {
+      "percorso": "docs/evidenze-a12-a15-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "aa4682a8ea622b6dad65e781555b9af8f15462071600ad6d09beaa815e6f05c6",
+      "byte": 3292
+    },
+    {
+      "percorso": "docs/evidenze-a16-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "fd2947d359c1f5ae2ef5577c234fbb9f399e35c4794a8b7d49cf5020c9df1e35",
+      "byte": 5096
+    },
+    {
+      "percorso": "docs/evidenze-accettazione-locale-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "bd0c365bfed0759db140142779113ba6636042bca5f59d97e68784849f9fd101",
+      "byte": 44877
+    },
+    {
+      "percorso": "docs/evidenze-chiusura-locale-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "02697b44a7bb4b2442988ecf3c7551a863c801f203e32d2f39d65c612450457e",
+      "byte": 8503
+    },
+    {
+      "percorso": "docs/evidenze-contratto-token-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "6705ca214f1e444d44d19329b5d212d9a5bd17e91035a3f0deafb7c79efbc187",
+      "byte": 21195
+    },
+    {
+      "percorso": "docs/evidenze/chiusura-herd-2026-10-09/backup-diagnostico-01.log",
+      "stato": "aggiunto",
+      "sha256": "51970cfc78c16986b655cc7c81713bb5860df37f54f92f67a0cbfb30a963302a",
+      "byte": 401
+    },
+    {
+      "percorso": "docs/evidenze/chiusura-herd-2026-10-09/backup-diagnostico-02.log",
+      "stato": "aggiunto",
+      "sha256": "ba7dd31ce932f407d8d28d8b8d29918d553d99872e46df469c78b4e95b1f9080",
+      "byte": 4283
+    },
+    {
+      "percorso": "docs/evidenze/chiusura-herd-2026-10-09/backup-diagnostico-03-sorgente.txt",
+      "stato": "aggiunto",
+      "sha256": "7daa1afb0188396974089ef9f429a310521ba74bc5d1ed6e43b0b308437ba765",
+      "byte": 5232
+    },
+    {
+      "percorso": "docs/evidenze/chiusura-herd-2026-10-09/backup-diagnostico-03.log",
+      "stato": "aggiunto",
+      "sha256": "2b5a28522c505f53c229df6d842240c20a200076bb2e255f3b30776b13e9f905",
+      "byte": 4255
+    },
+    {
+      "percorso": "docs/evidenze/chiusura-herd-2026-10-09/backup-diagnostico-originale.txt",
+      "stato": "aggiunto",
+      "sha256": "1e1edcbf2600a0679c67e12908e0ef315624226496c9baca7a4e9571c8e8a214",
+      "byte": 5256
+    },
+    {
+      "percorso": "docs/evidenze/chiusura-herd-2026-10-09/backup-verifica-04.log",
+      "stato": "aggiunto",
+      "sha256": "850ddd42f227e1e1d1ea4c125576d061a13fb7435af51c6dad9247c1167b55f1",
+      "byte": 699
+    },
+    {
+      "percorso": "docs/evidenze/chiusura-herd-2026-10-09/candidato-precedente-306.json",
+      "stato": "aggiunto",
+      "sha256": "d5afce057232c7b152b532bbd9e65606d5acac44ec17b27e5bf88312467a68bf",
+      "byte": 68480
+    },
+    {
+      "percorso": "docs/evidenze/chiusura-herd-2026-10-09/candidato-precedente-306.md",
+      "stato": "aggiunto",
+      "sha256": "63b5eb12602da8ce0b1474ab9ad44a00d6746d8e98b43322263551d9496c0d16",
+      "byte": 22394
+    },
+    {
+      "percorso": "docs/evidenze/chiusura-herd-2026-10-09/metadati-herd-preflight.json",
+      "stato": "aggiunto",
+      "sha256": "2dd36891cf46918c093e8368ba56e35eba1fcbd148a29406ccbb60ab99ae89ed",
+      "byte": 79385
+    },
+    {
+      "percorso": "docs/evidenze/chiusura-herd-2026-10-09/ssh-identita-esplicita.json",
+      "stato": "aggiunto",
+      "sha256": "56a6b2b081508325887dc93ed1839277fd66ca9ffdfc57c62917a91ece9e8c15",
+      "byte": 742
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-browser-06.log",
+      "stato": "aggiunto",
+      "sha256": "cfd44e6020f2249f222d12a0661d41e54be64916bf2eda7f8ccfbe48872875ae",
+      "byte": 2528
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-browser-12.log",
+      "stato": "aggiunto",
+      "sha256": "ac8361e3dd517d65a1e34e806e61a5cac1fa469f1cf07cb340ade2c46c6a2210",
+      "byte": 17222
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-browser-13.log",
+      "stato": "aggiunto",
+      "sha256": "c6dbac4088f7503858183f38be2782d8d6ec624628ea38edb7d2bc8bf16660d0",
+      "byte": 17305
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-browser-originale-16.log",
+      "stato": "aggiunto",
+      "sha256": "ddf07e24e554fa041438a0e237e1070d9bb89cac7098160a35461fec05c4ebfb",
+      "byte": 3190
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-concorrenza-01.log",
+      "stato": "aggiunto",
+      "sha256": "1f54784a68af7a820599e1403003d0bafa105f6459490e22a8a898ab999a906d",
+      "byte": 2147
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-concorrenza-02.log",
+      "stato": "aggiunto",
+      "sha256": "2e686ddcee4ceab472b19e0e446aa05b5513d046ed7da3680e636a7dc9bbbed5",
+      "byte": 702
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-finali-09.log",
+      "stato": "aggiunto",
+      "sha256": "e89f33376d272b5be7e43421fb90c58dc7b50f1c46f3057e5b6c5779cc57bc7c",
+      "byte": 15407
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-finali-browser-11.log",
+      "stato": "aggiunto",
+      "sha256": "ed53921c7b9217778bed24fb75a28a5247fa2ff901a00e34eb8ce4a2042c095c",
+      "byte": 16547
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-finali-browser-11.xml",
+      "stato": "aggiunto",
+      "sha256": "74b08d38273140bfedaf8080d214d8b93527a51771b1b66bff4287d09d82d7ee",
+      "byte": 6554
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-finali-browser-15.log",
+      "stato": "aggiunto",
+      "sha256": "93e50c744e6ea0de791acf99fbd957b5063e37f656691e2dd2c45e36ff085eb9",
+      "byte": 16781
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-finali-browser-15.xml",
+      "stato": "aggiunto",
+      "sha256": "4f26ae8e66ce43c2d0f10a41fe8c5ef215de677c854298d49f2718d80192ab25",
+      "byte": 6554
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-globale-01.log",
+      "stato": "aggiunto",
+      "sha256": "2e7c7f80622cb47a649cead5562dcaf8374d63f09d639ebc35d5974c633d95b3",
+      "byte": 13235
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-globale-08.log",
+      "stato": "aggiunto",
+      "sha256": "9af4d9ba7328007bc107eb212c8acc3321c5a756502b844cc33bc70fd7a59513",
+      "byte": 2667
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-globale-10.log",
+      "stato": "aggiunto",
+      "sha256": "19f261350bc94ab652bc0278518369a5c92ee5f85c20fe6c307cf3deb2b7614d",
+      "byte": 2667
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-globale-10.xml",
+      "stato": "aggiunto",
+      "sha256": "6a8841f676726619c133e4f9c0d3f526359308baee294cc7739f8c622a8bb7c8",
+      "byte": 275705
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-globale-14.log",
+      "stato": "aggiunto",
+      "sha256": "2421faab99700383e1a7d0b7f242d047836ee150f22f2fd19f8314031fcfaacc",
+      "byte": 2667
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-globale-14.xml",
+      "stato": "aggiunto",
+      "sha256": "3943faf2752f159e241d02e9df39c08df8bd64236d2be5462c92ad15de4cd325",
+      "byte": 276040
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-globale-17.log",
+      "stato": "aggiunto",
+      "sha256": "297066256949f78c364cbefc982b837cfd8070dbe4a59fe3e56902278992fda8",
+      "byte": 2667
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-globale-17.xml",
+      "stato": "aggiunto",
+      "sha256": "47510b2c7855bd5af01c0c66647cf107b70ff3950f2b3c9cc154ad817dfbe6bb",
+      "byte": 276040
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-istat-sicurezza.log",
+      "stato": "aggiunto",
+      "sha256": "f23710f58fbfda28475a455f0ca6d4b6684fa7b381cf046f5811547917ee6918",
+      "byte": 912
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-mirati-01.log",
+      "stato": "aggiunto",
+      "sha256": "c84cef80c7e5bf6a9e2224b073e73122b47eb19b69192ee938dcafbb4459b282",
+      "byte": 515
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-mirati-02.log",
+      "stato": "aggiunto",
+      "sha256": "7fd6a656cb1f7f12a2389d75804ee9d335dd882bd7e9e725cf7c93bc08cd6919",
+      "byte": 8660
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-mirati-03.log",
+      "stato": "aggiunto",
+      "sha256": "761ad9d7984dea7e5557956704ed2cc749e227e68468c2cb0692e45b23ae111c",
+      "byte": 3783
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-mirati-07.log",
+      "stato": "aggiunto",
+      "sha256": "b50f5dc852c1e9561f517eb0cf7536e3966510ffd479d470b23aab6a94bd7970",
+      "byte": 3792
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-mirati-browser-04.log",
+      "stato": "aggiunto",
+      "sha256": "ad026bcc20419152b5db5dc4b17bae54f36007895af15fbcc3415481466b25d9",
+      "byte": 15169
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-mirati-browser-05.log",
+      "stato": "aggiunto",
+      "sha256": "b30588b1730435b7a6022090546b552a3695710e6ca3288bd33a1a00f446b9cc",
+      "byte": 15307
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-pint-14.log",
+      "stato": "aggiunto",
+      "sha256": "63a9e92c9368ef46d5ce2bffc2398498ef5e27e0b23a7460089052740ea5d132",
+      "byte": 319
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-pint-2.log",
+      "stato": "aggiunto",
+      "sha256": "58c10ce8104432a87859be470d0d08d68963d82e92280df138c6ba139ba55c0c",
+      "byte": 391
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-pint-3.log",
+      "stato": "aggiunto",
+      "sha256": "13dd28f64a2337593c9cd91db8365fbc38ea280bb6b1abaf98068ca6a9a5be7c",
+      "byte": 392
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-pint-finale.log",
+      "stato": "aggiunto",
+      "sha256": "63a9e92c9368ef46d5ce2bffc2398498ef5e27e0b23a7460089052740ea5d132",
+      "byte": 319
+    },
+    {
+      "percorso": "docs/evidenze/contratto-token-2026-10-09/token-pint.log",
+      "stato": "aggiunto",
+      "sha256": "3720b2beec67ee482b468fdbf99b76d223d90fe792650451b7fb744746bf8484",
+      "byte": 928
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/AppServiceProvider-originale.txt",
+      "stato": "aggiunto",
+      "sha256": "52049639608d3098f10e44329ee6ad5fcd6d9e648b334fe888bb4a30cf534eb4",
+      "byte": 3169
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/artefatto-browser-01.log",
+      "stato": "aggiunto",
+      "sha256": "e4b46a4f603f9e106c2719d04195f037fc064d03799568ae87c6dadf6e0fc4d0",
+      "byte": 1589
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/artefatto-browser-02.log",
+      "stato": "aggiunto",
+      "sha256": "dbd6f8ae38b170d4209f0168838a304539a9c0dae9b1c2f9599fcfcd3ac4e1c3",
+      "byte": 2009
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/artefatto-diagnostico-prima-definizione-scope.txt",
+      "stato": "aggiunto",
+      "sha256": "fd064b7a10eb9ffceafd82a9773e36c8dd96ebd491c24562c78a2e83da8b4d00",
+      "byte": 626
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/asset-update-mirato.log",
+      "stato": "aggiunto",
+      "sha256": "b29979cbf33ec2a77a55ebb0cb8ebdf7d8c8434491c291726914332d3ba26119",
+      "byte": 230
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/axios-browser-01.log",
+      "stato": "aggiunto",
+      "sha256": "7f4dff8abdaf5b8294cc23c10799f37afedca024b57628a4811b188703a8ab72",
+      "byte": 13344
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/axios-browser-02.log",
+      "stato": "aggiunto",
+      "sha256": "5de137bc38bf4de78d9a990daaa53e2567a9af5058e6435d089c611715fff119",
+      "byte": 1568
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/candidato-controlli.json",
+      "stato": "aggiunto",
+      "sha256": "2f65c68e6aa51b6b0402d9f4f8e8e452ab0b56f4804a2c1b4d57695e61a282ca",
+      "byte": 10666
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/candidato-precedente-250.json",
+      "stato": "aggiunto",
+      "sha256": "fa329de45fa35aad23e81bf1935b00c964dba4dce0aa210a6aa00326e4e534d4",
+      "byte": 55620
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/candidato-precedente-250.md",
+      "stato": "aggiunto",
+      "sha256": "996ba2abf17361f15a439bb98b6d7b0c3f7f17b574b3500aa896832840ffc0f7",
+      "byte": 18052
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/ckeditor-trial-update.log",
+      "stato": "aggiunto",
+      "sha256": "91611fabb007911708a8410de0ddce40abdc2789273d37f60035859002061d4c",
+      "byte": 18
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/ckeditor43-metadata.json",
+      "stato": "aggiunto",
+      "sha256": "94017e90837f4f0654738d91def509c4a3c1afbf57c2b39a3eda46a0d95dacba",
+      "byte": 907
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/consumer-assets-sorgenti.json",
+      "stato": "aggiunto",
+      "sha256": "f3f496e42f7ef722d3aa7a650b173c3162dd0f8c0bcaf277672beaa80ded128f",
+      "byte": 267
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/dependency-http-diagnostico-originale.txt",
+      "stato": "aggiunto",
+      "sha256": "d364bb263a82e48c800f487ac9a4d017d51dfc2c531dc3f86651ad3c2930bbeb",
+      "byte": 1071
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/globale-email-01.log",
+      "stato": "aggiunto",
+      "sha256": "bb92cb65d475e4ce1fe930201a6b0dac6606774efcc33c4e4f298eeccb874e4f",
+      "byte": 2643
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/http-update-mirato.log",
+      "stato": "aggiunto",
+      "sha256": "b125771fda8addd462adfe7f7b03299feb35e28badbb2d16ae8589e371216f8f",
+      "byte": 18
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/laravel12-solver-con-collision.log",
+      "stato": "aggiunto",
+      "sha256": "4fa800266201a790796ad6202328991d34d3aebe54110f7720c02c7f6b714505",
+      "byte": 1102
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/laravel12-solver-con-prerequisiti.log",
+      "stato": "aggiunto",
+      "sha256": "1743f3cf862612316fe9d4eaa05840e04f4edf1757fead63a2c66e22d37633bb",
+      "byte": 1619
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/laravel12-solver-ecosistema.log",
+      "stato": "aggiunto",
+      "sha256": "2a9220c5c68a327e80709ccff0c9365b3b62bad2a69daef1e7e0b4cb2f1778f4",
+      "byte": 3315
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/laravel12-solver-impatto-completo.log",
+      "stato": "aggiunto",
+      "sha256": "1f42000504c433d5ab6ba08636f963e05f895f9ba529fbc4194873b8b12cf19d",
+      "byte": 1644
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/laravel12-solver.log",
+      "stato": "aggiunto",
+      "sha256": "9cd16593e26251b216f00e5a72ca90679c38b2019432e59998233ec3ffb69a5a",
+      "byte": 1058
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/metadata-herd-sola-lettura.json",
+      "stato": "aggiunto",
+      "sha256": "bce1710cf4a3bfac099db727de8350f8f0c5e889fd7f033e3ceb528ff00c74b0",
+      "byte": 1958
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/multipart-node-01.log",
+      "stato": "aggiunto",
+      "sha256": "b5348f4bc2d49c393b17eb26c6c06853c85b0a86125f24045bbb518ceb0535bc",
+      "byte": 116
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/multipart-prima-dopo.log",
+      "stato": "aggiunto",
+      "sha256": "44836bcd15aeb81b5033c0a2beb0495beef41a947d9ec478e01fa7426f8ba356",
+      "byte": 326
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/npm-audit-finale-stato.json",
+      "stato": "aggiunto",
+      "sha256": "34d52479a874eeb214bba93efdd6e0dd559f6d45a38591369371fd4a13c3cbb8",
+      "byte": 45
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/npm-audit-finale.json",
+      "stato": "aggiunto",
+      "sha256": "783eafa84485e6d21749e2e1601d75ee4d1b7ee9a51542c183e0a19ba7d5afbd",
+      "byte": 57742
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/npm-audit-prima-http-stato.json",
+      "stato": "aggiunto",
+      "sha256": "e8eecd101f614bd5c68b38b95e09dcaa4dc00af1910c8a10c811999665dd2699",
+      "byte": 63
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/npm-audit-prima-http.json",
+      "stato": "aggiunto",
+      "sha256": "451950cbbaab8e784fcde845f7a0ddfd42a88c6d7ba7b8aafd19c5c70cdff2da",
+      "byte": 77239
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/npm-audit-tre-asset.json",
+      "stato": "aggiunto",
+      "sha256": "cfe69c274969b2b2db4d469fb7cbfe4bda3996a3d1e51cb50323253ff7278d30",
+      "byte": 77362
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/npm-audit-trial-ckeditor43.json",
+      "stato": "aggiunto",
+      "sha256": "ad50d7cdd0b81185b16d8d7bc071ffb49b796ee1c433524c80ce743580f76ca0",
+      "byte": 100533
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/npm-bulk-trial-ckeditor43-matching.json",
+      "stato": "aggiunto",
+      "sha256": "af1f224c6be94744bcbcb385103ea8b4183a63af2325f51b57c477d48a695524",
+      "byte": 32933
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/npm-lock-trial-ckeditor43.json",
+      "stato": "aggiunto",
+      "sha256": "5c952cfc60ce5e72694696bf0fe48bc19c8bb2765c68a45452c094e8dd1ff35e",
+      "byte": 395579
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/package-copy-config-originale.json",
+      "stato": "aggiunto",
+      "sha256": "11bda5d30443a82687fc024afebafef1dae9941fc6dca42dccee4f6754707919",
+      "byte": 1219
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/package-lock-originale.json",
+      "stato": "aggiunto",
+      "sha256": "eaf9ba10ed11f226c8b75c90b4f455aa16bd5ba8a82bb9476ffc69a7e818bcda",
+      "byte": 355644
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/package-originale.json",
+      "stato": "aggiunto",
+      "sha256": "4a078a59cb08def72571ff8f06c38505610b28f454c15f4360b546883a8e2c71",
+      "byte": 2904
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/ross1000-eccezione-sanitizzata.json",
+      "stato": "aggiunto",
+      "sha256": "f3f6b315df376c93ee565186e6faa7a8a6d00956650606020ad3b2f9b7f0fac8",
+      "byte": 4921
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/ross1000-schema-01.log",
+      "stato": "aggiunto",
+      "sha256": "d5d8b1a2b18bcfe3d0458a3159ac6e0224041bec2bba2f25d02deaa6529f211e",
+      "byte": 701
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/ross1000-schema-browser-01.log",
+      "stato": "aggiunto",
+      "sha256": "ece981bf680d0bbabb11cf5ee8b4baa425fe2f4efe28278685594e80e8c09182",
+      "byte": 1584
+    },
+    {
+      "percorso": "docs/evidenze/herd-sicurezza-2026-10-09/sicurezza-mirati-browser-01.log",
+      "stato": "aggiunto",
+      "sha256": "c68eaf7dcf55899fb43129708b10ff8283a9c509720d775b8750c8abee3f125d",
+      "byte": 2142
+    },
+    {
+      "percorso": "docs/evidenze/pendenti-locali-2026-10-09/candidato-precedente-194.json",
+      "stato": "aggiunto",
+      "sha256": "a7a0ea7d45cce806c4441c2e20314da55e80d2f8fc936413a88a376fad6e68e4",
+      "byte": 42307
+    },
+    {
+      "percorso": "docs/evidenze/pendenti-locali-2026-10-09/candidato-precedente-194.md",
+      "stato": "aggiunto",
+      "sha256": "423d03540daad77c88f9fff428a368dce387e3ff3e5c535d96b034a4233d15e8",
+      "byte": 13819
+    },
+    {
+      "percorso": "docs/evidenze/pendenti-locali-2026-10-09/mitigazioni-04.log",
+      "stato": "aggiunto",
+      "sha256": "ba35606dbab377d9ffd753b8d9347af7b3fedd92ab71096d78fd27d0c477833e",
+      "byte": 3794
+    },
+    {
+      "percorso": "docs/evidenze/pendenti-locali-2026-10-09/mitigazioni-06.log",
+      "stato": "aggiunto",
+      "sha256": "5f900b4613840ceb0bc32b8f1ac6d69a5b9f6371abf877cd3983b2f032d01a12",
+      "byte": 702
+    },
+    {
+      "percorso": "docs/evidenze/pendenti-locali-2026-10-09/npm-audit-cache-stderr.log",
+      "stato": "aggiunto",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byte": 0
+    },
+    {
+      "percorso": "docs/evidenze/pendenti-locali-2026-10-09/npm-audit-cache.json",
+      "stato": "aggiunto",
+      "sha256": "ad009afa265c53f632f40ccb71fbfb47d4cb860d6e8f4de606342555c80ed220",
+      "byte": 82986
+    },
+    {
+      "percorso": "docs/evidenze/pendenti-locali-2026-10-09/npm-bulk.json",
+      "stato": "aggiunto",
+      "sha256": "fff5c9dbd96fb4fbec9d6036e656ef8700c6bdc486eeb7b8c646bfe2bd436702",
+      "byte": 33406
+    },
+    {
+      "percorso": "docs/evidenze/pendenti-locali-2026-10-09/ross-01.log",
+      "stato": "aggiunto",
+      "sha256": "7623269b26412ad467df9bc246571f70c5baa4cb44126dfdfdfa72b51ed1c3af",
+      "byte": 3796
+    },
+    {
+      "percorso": "docs/evidenze/pendenti-locali-2026-10-09/ross-02.log",
+      "stato": "aggiunto",
+      "sha256": "2af0c526859afcf4b7435a02ad939f11f739ed8804436a08d9ae5dd29f73fd50",
+      "byte": 700
+    },
+    {
+      "percorso": "docs/evidenze/pendenti-locali-2026-10-09/ross-browser-03.log",
+      "stato": "aggiunto",
+      "sha256": "b57a593d663287ac16c9a502790b25658684c0acbed0e4055df669208d18fd11",
+      "byte": 3489
+    },
+    {
+      "percorso": "docs/evidenze/pendenti-locali-2026-10-09/ross-browser-05.log",
+      "stato": "aggiunto",
+      "sha256": "406322c72ee6a87ff864e569c35b6b1aa1dd3b62031cb39c0ccf18cd4295405b",
+      "byte": 4312
+    },
+    {
+      "percorso": "docs/evidenze/primo-rilascio-2026-10-09/accesso-server.log",
+      "stato": "aggiunto",
+      "sha256": "49e868124a9aba22c4885df3e51f22f416bf88299ebf9f60e16e24d7927200fd",
+      "byte": 358
+    },
+    {
+      "percorso": "docs/evidenze/primo-rilascio-2026-10-09/backup-migration-01.log",
+      "stato": "aggiunto",
+      "sha256": "c84cef80c7e5bf6a9e2224b073e73122b47eb19b69192ee938dcafbb4459b282",
+      "byte": 515
+    },
+    {
+      "percorso": "docs/evidenze/primo-rilascio-2026-10-09/backup-migration-02.log",
+      "stato": "aggiunto",
+      "sha256": "e34c4575047763dd773cbc46757f3b2b0aec835261ff0feb281e0b6f5c78aad0",
+      "byte": 699
+    },
+    {
+      "percorso": "docs/evidenze/primo-rilascio-2026-10-09/composer-audit-rete-stderr.log",
+      "stato": "aggiunto",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byte": 0
+    },
+    {
+      "percorso": "docs/evidenze/primo-rilascio-2026-10-09/composer-audit-rete.json",
+      "stato": "aggiunto",
+      "sha256": "4d32de5a3f75dcc1899aaf13aa2c4cc254e04e2bee5227c022c8f392091b0356",
+      "byte": 37468
+    },
+    {
+      "percorso": "docs/evidenze/primo-rilascio-2026-10-09/composer-audit-stderr.log",
+      "stato": "aggiunto",
+      "sha256": "0161be04e6a0164df3b25e35a70d8c42559c7d423386f3386fe782a42a03edc1",
+      "byte": 862
+    },
+    {
+      "percorso": "docs/evidenze/primo-rilascio-2026-10-09/composer-audit.json",
+      "stato": "aggiunto",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byte": 0
+    },
+    {
+      "percorso": "docs/evidenze/primo-rilascio-2026-10-09/npm-audit-rete-02-stderr.log",
+      "stato": "aggiunto",
+      "sha256": "3a4ee597fcfe7b38eede7fd5756e3df11f73232bf4a2f7ea492cceff06295958",
+      "byte": 60
+    },
+    {
+      "percorso": "docs/evidenze/primo-rilascio-2026-10-09/npm-audit-stderr.log",
+      "stato": "aggiunto",
+      "sha256": "600e9f02136de70224b9ba2141c2234a0f25e950ec834cbc4d3c8628b36303db",
+      "byte": 336
+    },
+    {
+      "percorso": "docs/evidenze/primo-rilascio-2026-10-09/npm-audit.json",
+      "stato": "aggiunto",
+      "sha256": "abcf9a393d63fc0f7562b87bb163684d54549d4b96c7775e2ebc24f8633e15d6",
+      "byte": 202
+    },
+    {
+      "percorso": "docs/evidenze/primo-rilascio-2026-10-09/staging-controlli.json",
+      "stato": "aggiunto",
+      "sha256": "e84dcc5565642f91dfefcce84a7d2b57c4890423f90ba58a9e580351ed840b6f",
+      "byte": 4490
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/asset-browser-03.log",
+      "stato": "aggiunto",
+      "sha256": "2e4cded6636337a09097870cd6c174ff9f47cb293a676108692338c833421d5d",
+      "byte": 1568
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/asset-browser-04.log",
+      "stato": "aggiunto",
+      "sha256": "7c19ff36b6b2d76cbd957910133c9049c531410d1645156b3f74cbe655e3bfcc",
+      "byte": 1568
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/build-esatto-finale.log",
+      "stato": "aggiunto",
+      "sha256": "0d2e4b755c1f791afabb74c1e9e0f8c78753833aa9f67c6ca29230588244f24c",
+      "byte": 5234
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/candidato-precedente-212.json",
+      "stato": "aggiunto",
+      "sha256": "d1896c0b190497fd43c2f2ec7192779327d053d77a12543ac19d08693b429b0a",
+      "byte": 46794
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/candidato-precedente-212.md",
+      "stato": "aggiunto",
+      "sha256": "185634d526ae8d4d6ddcabf26ad72fb3f0473a4c0b8feac03a5553973039c628",
+      "byte": 15178
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/composer-audit-corretto.json",
+      "stato": "aggiunto",
+      "sha256": "1bee2263382eaf9cfd429a50f7cabab44ff892340228e0b90ccad5b01246e2ae",
+      "byte": 10114
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/composer-globale-01.log",
+      "stato": "aggiunto",
+      "sha256": "60c037e02ac55098d661cad1dd14f1464aea2376c9a24a7953df29ff9590093d",
+      "byte": 4730
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/composer-globale-02.log",
+      "stato": "aggiunto",
+      "sha256": "150a674ab692d1e1b26272ef65da53c997d777b434456e68f4327969b7035931",
+      "byte": 4799
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/composer-globale-03.log",
+      "stato": "aggiunto",
+      "sha256": "1d649adf78b7193f86626f768013d1a5676c4a06079fd1b9fd14e41f601a2fcd",
+      "byte": 2643
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/composer-install.log",
+      "stato": "aggiunto",
+      "sha256": "51d5a2ade552e111d043380423f80955c2ef04d26453f8caeeadfa03f0b9542d",
+      "byte": 5529
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/composer-laravel-rifiutato.log",
+      "stato": "aggiunto",
+      "sha256": "dd61394335796fb332dddbeeb88d0d48a2f29ddb60bba2712b7f14c08669a2a6",
+      "byte": 826
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/composer-lock-originale.json",
+      "stato": "aggiunto",
+      "sha256": "8cd9224d27bbaec4615279b676114cc5a35a2f7092a87e41e4fa2baf837ddba1",
+      "byte": 317246
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/composer-update-mirato.log",
+      "stato": "aggiunto",
+      "sha256": "d3099f2fda406a8e40d32b4af1f3079b15c0b6917ec7f6bb56cc16bd97cc0dc8",
+      "byte": 875
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/mirati-browser-01.log",
+      "stato": "aggiunto",
+      "sha256": "62d4b7decfed15f027e22bb5a92152f619e4052ecfd398632de6a2aaf90da9eb",
+      "byte": 4793
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/mirati-browser-02.log",
+      "stato": "aggiunto",
+      "sha256": "8f6bee1f0bfdb42ade5e42bc2f1c5d9c00818776912ce8d9c6a0b634a1a582e0",
+      "byte": 13605
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/npm-audit-corretto.json",
+      "stato": "aggiunto",
+      "sha256": "d3e5c995c38b1e5da9efec0a508fb984c1e8c178563e0caa398e790122b183ba",
+      "byte": 77869
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/npm-audit-finale.json",
+      "stato": "aggiunto",
+      "sha256": "14fb2aead448853bbaca324ca8e51cc74d5c1e85b092ff5343945465421f3830",
+      "byte": 78872
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/npm-audit-intermedio-braces.json",
+      "stato": "aggiunto",
+      "sha256": "bd04232432363714e308ba8e18ae3b7c6070c9718640932bc34709aba5d90e99",
+      "byte": 81189
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/npm-audit-tre-rimedi.json",
+      "stato": "aggiunto",
+      "sha256": "03cd26e62359e152d366e7134234388ebd62273a8206aa612b61a6ce32858d2c",
+      "byte": 77869
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/npm-braces.log",
+      "stato": "aggiunto",
+      "sha256": "d9e177d4d0db1f946e28a26ebd5f997876b6a2acf08fbf2bf45487aa16de764f",
+      "byte": 29
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/npm-install.log",
+      "stato": "aggiunto",
+      "sha256": "d8c7f3b4495a72d481a29d258504ef45a943e4d266e29f9aeabd5b493a5f9bb0",
+      "byte": 68
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/npm-moment-sass-minimi.log",
+      "stato": "aggiunto",
+      "sha256": "da87144fed42b122529bc0c2e6c73ddea4029ed5565ecf602cb3e38515dcf8d5",
+      "byte": 51
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/npm-sass-originale.log",
+      "stato": "aggiunto",
+      "sha256": "69f7a96aa36b5e6259502ec1f932440f366acac853388cdaa5efb0fe14c9fea3",
+      "byte": 68
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/npm-sass.log",
+      "stato": "aggiunto",
+      "sha256": "944e3b802686a1d2591066d0f061e9ff8ddb4e6b707756414e9810dc83416f38",
+      "byte": 25
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/npm-update-mirato.log",
+      "stato": "aggiunto",
+      "sha256": "b29979cbf33ec2a77a55ebb0cb8ebdf7d8c8434491c291726914332d3ba26119",
+      "byte": 230
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/package-lock-originale.json",
+      "stato": "aggiunto",
+      "sha256": "f2146fc9f273f5d6ce8a7f74d108aee898d4f07c4b6b91b422db33f2b25dd356",
+      "byte": 366836
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/package-originale.json",
+      "stato": "aggiunto",
+      "sha256": "0f591de75ab44ad61381c0d09a564ad963aaa1b1893f9511c54d523454916590",
+      "byte": 2878
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/regressioni-prima-dopo.log",
+      "stato": "aggiunto",
+      "sha256": "5618abbde34e58fbbe8b44d9c7e365fcf046e794d68e41140d52abb54ff4dd96",
+      "byte": 207
+    },
+    {
+      "percorso": "docs/evidenze/rimedi-destinatario-2026-10-09/ssh-destinatario.log",
+      "stato": "aggiunto",
+      "sha256": "78980502e7e281d60b4927033797912e6737ec2c4bdbe7e4c71261eaca563adb",
+      "byte": 414
+    },
+    {
+      "percorso": "docs/imposta-soggiorno-bellaria-audit-2026-10-07.md",
+      "stato": "aggiunto",
+      "sha256": "eb07f0dd6c31ee8aca09fa2ecfe6396fc54107bf2c9a8f080f95648e012721bf",
+      "byte": 159206
+    },
+    {
+      "percorso": "docs/inventario-candidato-rilascio-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "2f5780153e96f99565c0d57064b8fa24ac6d4d53af7af3176b502be3549865df",
+      "byte": 288545
+    },
+    {
+      "percorso": "docs/inventario-herd-sicurezza-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "911007c548dfcd61c0cf78e55302e13fbcb7c190fb19a17baeed9deaacdffaef",
+      "byte": 288694
+    },
+    {
+      "percorso": "docs/inventario-rimedi-rilascio-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "88b9807000fc83e3b50cb82389ab50def87fe5523f230bfcca8f470524aef3ee",
+      "byte": 288540
+    },
+    {
+      "percorso": "docs/laravel-avvisi-residui-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "d52711f7f644632db93c8637f95d67def04bebf18ff14053398ae12b80660488",
+      "byte": 5951
+    },
+    {
+      "percorso": "docs/maestro/MAESTRO-SCHEDINE-DI-NOTIFICA.md",
+      "stato": "modificato",
+      "sha256": "14d8d822620b2d2de0e1ed63f759ccef2f1812b0b118a102af1684acb782d817",
+      "byte": 369402
+    },
+    {
+      "percorso": "docs/npm-esposizione-effettiva-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "e880ede14abb2687866b1041d3885c819169f1a5a601032d7cc3037f07f89e28",
+      "byte": 50433
+    },
+    {
+      "percorso": "docs/npm-rimedi-rilascio-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "adddb089b6e116156737bfd1083bceb2a6b5a6e096cea115c0b516f395218447",
+      "byte": 87965
+    },
+    {
+      "percorso": "docs/npm-valutazione-locale-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "fcc83f858918b5d3677ce037d48ceb8a787b5a7ecc4cf42890d667ecccae8b91",
+      "byte": 141352
+    },
+    {
+      "percorso": "docs/suite-globale-risanamento-2026-10-08.md",
+      "stato": "aggiunto",
+      "sha256": "43aaaab3983ea0fd806fe59b88b51c56756a392d539ac2727b9869bbeb2f5ecb",
+      "byte": 17045
+    },
+    {
+      "percorso": "docs/triage-dipendenze-primo-rilascio-2026-10-09.json",
+      "stato": "aggiunto",
+      "sha256": "97eac32c480bda9daacc0d0155b2d9b404bac3a8c26ad71fd36087ac2ee4711d",
+      "byte": 32097
+    },
+    {
+      "percorso": "package-copy-config.json",
+      "stato": "modificato",
+      "sha256": "53964ccebe7ff4d23c910d5b605beb769a0605319a547b0a8b88abef70310b87",
+      "byte": 1175
+    },
+    {
+      "percorso": "package-lock.json",
+      "stato": "modificato",
+      "sha256": "34873f00e2deeef212b21720a6b93644ce52b9c082eb3b2aab38800776bbc08c",
+      "byte": 354728
+    },
+    {
+      "percorso": "package.json",
+      "stato": "modificato",
+      "sha256": "1954c82f8cf076373b8b9fee93301c29943052e6cb808db54b2950ba6d58ac01",
+      "byte": 2903
+    },
+    {
+      "percorso": "resources/views/layouts/topbar.blade.php",
+      "stato": "modificato",
+      "sha256": "d45d4221e88b0537b12e960b75db7061faaf6e833962d09cd2a6b073ec0fe202",
+      "byte": 22970
+    },
+    {
+      "percorso": "resources/views/schedina/list.blade.php",
+      "stato": "modificato",
+      "sha256": "eb8ffe9c990f21e86c24bbf6ecbcd64fb1c61b5b1f0e8b9b9b12ba6081b6057f",
+      "byte": 7355
+    },
+    {
+      "percorso": "resources/views/schedina/partials/form.blade.php",
+      "stato": "modificato",
+      "sha256": "c6d18d8a3b53a5196f8b284600dc6a04890740366d1a241d4454379246c12449",
+      "byte": 100299
+    },
+    {
+      "percorso": "resources/views/schedina/print-tassa.blade.php",
+      "stato": "modificato",
+      "sha256": "0a161adc089d52a05a29357efcf6848f0fd0ffe983a07222fc10e57d16b138de",
+      "byte": 9549
+    },
+    {
+      "percorso": "resources/views/struttura/seleziona.blade.php",
+      "stato": "modificato",
+      "sha256": "3bb29000938c9da71bc27bb70c6a669c4bcf5b8e24e3e009b69ea28d90d7cddd",
+      "byte": 2127
+    },
+    {
+      "percorso": "resources/views/struttura/utenti/create.blade.php",
+      "stato": "modificato",
+      "sha256": "4d46912a80baca414fd9f9b4b6caa344df29595941d9be0c5d0390affd3a53ce",
+      "byte": 1083
+    },
+    {
+      "percorso": "resources/views/struttura/utenti/index.blade.php",
+      "stato": "modificato",
+      "sha256": "e14b997fb5dfbbd937a97e5bfe2d08b002965d99548baeaf6f97c062bbbfa36b",
+      "byte": 1888
+    },
+    {
+      "percorso": "resources/views/tassa_di_soggiorno/edit.blade.php",
+      "stato": "modificato",
+      "sha256": "c014914b294ae3a613344bc7905b430bcb21a9b5109cb966c4b02aebe0bab2ad",
+      "byte": 37251
+    },
+    {
+      "percorso": "resources/views/tassa_di_soggiorno/rapporto-controllo.blade.php",
+      "stato": "modificato",
+      "sha256": "cd2185ad071dbba1b5ea88bae62cda7c32a3a63524a8b2ea1f54158e3e6d731a",
+      "byte": 15506
+    },
+    {
+      "percorso": "resources/views/tassa_di_soggiorno/rapporto-print.blade.php",
+      "stato": "modificato",
+      "sha256": "a28347e0b4eb9f0962bf8dd8697b5251601dc176d95bf70f896f0d11920366d4",
+      "byte": 12587
+    },
+    {
+      "percorso": "resources/views/tassa_di_soggiorno/rapporto.blade.php",
+      "stato": "modificato",
+      "sha256": "618f7c157081f4d71f1e02626c11ae43367da18fbe7394e3e03778a71c3c35a7",
+      "byte": 13574
+    },
+    {
+      "percorso": "resources/views/web-checkin/form.blade.php",
+      "stato": "modificato",
+      "sha256": "9a938e462240e70795fb1205d6a9fcde478d0583bc6b59751e1513b41b9af9f3",
+      "byte": 28583
+    },
+    {
+      "percorso": "resources/views/web-checkin/index.blade.php",
+      "stato": "modificato",
+      "sha256": "8561d55a5283ce8c2e1717f3bfa189a90a35529c550ac7e3ad67ee90aeba8cb0",
+      "byte": 15448
+    },
+    {
+      "percorso": "routes/web.php",
+      "stato": "modificato",
+      "sha256": "0a9f2d9fd56b93ded14cf0f5957e7c90cd6a8f042784865be536f78196412482",
+      "byte": 44585
+    },
+    {
+      "percorso": "tests/Diagnostics/token-precontratto-2026-10-09/CestinoSecurityTest.php",
+      "stato": "aggiunto",
+      "sha256": "85433f46e148f740af5cbe01af62a41924ea3ce017df0fc607b44f76d31d3718",
+      "byte": 15953
+    },
+    {
+      "percorso": "tests/Diagnostics/token-precontratto-2026-10-09/WebCheckinCameraIsolationTest.php",
+      "stato": "aggiunto",
+      "sha256": "4f0d47ae5315b0051220451b0d6b6e78f3cbf45ff3a11bf7d0c32dbd1b82daf0",
+      "byte": 7357
+    },
+    {
+      "percorso": "tests/Diagnostics/token-precontratto-2026-10-09/WebCheckinFiscalContextTest.php",
+      "stato": "aggiunto",
+      "sha256": "04ddd6e7f463c8e3c2ec65fc34137cc9f7590b0a38a921a401ca58a3d106af33",
+      "byte": 7777
+    },
+    {
+      "percorso": "tests/Diagnostics/token-precontratto-2026-10-09/WebCheckinGroupAtomicityTest.php",
+      "stato": "aggiunto",
+      "sha256": "e07700c2a02d7b744d8771cf2a65093d6389d7ceb8a2cdc12fd36c2c65fbb7de",
+      "byte": 5655
+    },
+    {
+      "percorso": "tests/Diagnostics/token-precontratto-2026-10-09/WebCheckinParentSecurityTest.php",
+      "stato": "aggiunto",
+      "sha256": "4d383e802a26e4c386297a00f5e62500ff0da65f8414726ca87e6fd29c864352",
+      "byte": 5241
+    },
+    {
+      "percorso": "tests/Diagnostics/token-precontratto-2026-10-09/WebCheckinShortLinkTest.php",
+      "stato": "aggiunto",
+      "sha256": "dc0e5fb767ad28207e84a647010a551220a84766fe4df6a5e9598ea996d497f9",
+      "byte": 8128
+    },
+    {
+      "percorso": "tests/Diagnostics/token-precontratto-2026-10-09/cestino-index-originale.blade.php",
+      "stato": "aggiunto",
+      "sha256": "41ed67601392add66af7a663188610cf9d95e6639dcedbcad1bfd5f38cdcea07",
+      "byte": 11474
+    },
+    {
+      "percorso": "tests/Feature/AccessTest.php",
+      "stato": "modificato",
+      "sha256": "8f38df51bc816223f30e4e8867f0a9889e6e980f5a8bbcd2029e56345ea3cb7e",
+      "byte": 2770
+    },
+    {
+      "percorso": "tests/Feature/AccountSessionSecurityTest.php",
+      "stato": "aggiunto",
+      "sha256": "b22eebea29499f35fcd97bc5ae940ce25d8794f60df65bbd9971b66cb9b04eb7",
+      "byte": 6919
+    },
+    {
+      "percorso": "tests/Feature/ArriviCustomerReferenceSecurityTest.php",
+      "stato": "aggiunto",
+      "sha256": "3b434e5d85382d3e30c66acde3b90ff7df76e950c2fa13896641a1fbf833af62",
+      "byte": 4136
+    },
+    {
+      "percorso": "tests/Feature/ArriviEsenzioniTest.php",
+      "stato": "aggiunto",
+      "sha256": "8f7c6f581ed3da193cecb017bb926ad470e642f6a58c14680cde68970c1f3cc4",
+      "byte": 899
+    },
+    {
+      "percorso": "tests/Feature/BaselineAcceptanceArriviAudit.php",
+      "stato": "aggiunto",
+      "sha256": "d6bb557b05e0dde597716780abdac22259d8ff946e2ef45c1c01214a1781fe49",
+      "byte": 1467
+    },
+    {
+      "percorso": "tests/Feature/BaselineAcceptanceOperationalAudit.php",
+      "stato": "aggiunto",
+      "sha256": "6a1913ba2f1bfa03ef3392ac3ac233087d9c29d5bf3377a7f425541a096cf594",
+      "byte": 7457
+    },
+    {
+      "percorso": "tests/Feature/BaselineAcceptanceSecurityAudit.php",
+      "stato": "aggiunto",
+      "sha256": "5e66e678f1aa14cd19531701186376741ef4c47ee864552c119549899a0f9cc0",
+      "byte": 5465
+    },
+    {
+      "percorso": "tests/Feature/BaselineAcceptanceSecurityFlashOrderAudit.php",
+      "stato": "aggiunto",
+      "sha256": "e795db051e098e0bd421d073cfc59bceade5df3f99c6adbacc50e65c4ca0a25f",
+      "byte": 5577
+    },
+    {
+      "percorso": "tests/Feature/BaselineFinalAuthorizationAudit.php",
+      "stato": "aggiunto",
+      "sha256": "e3ee2ad8fca899ff39146c33b23095bf4033594be960ec886710edd12101271e",
+      "byte": 4900
+    },
+    {
+      "percorso": "tests/Feature/BaselineFinalBoundaryAudit.php",
+      "stato": "aggiunto",
+      "sha256": "5552698655c21ca827b7d5613b6fa8b8ae1e8496ab92205a3a7da7f03a3e053d",
+      "byte": 5025
+    },
+    {
+      "percorso": "tests/Feature/CestinoSecurityTest.php",
+      "stato": "modificato",
+      "sha256": "997be796d06f20bef744d156acef279f5a41a0cb4c55da376ca40403d18a670b",
+      "byte": 16173
+    },
+    {
+      "percorso": "tests/Feature/CustomerImportedFiltersDeleteTest.php",
+      "stato": "modificato",
+      "sha256": "e17e501fc463e54a773aef47a49c7c86f6f3c81fd22e3670bb651ee49cab504e",
+      "byte": 8122
+    },
+    {
+      "percorso": "tests/Feature/DependencyMitigationAudit.php",
+      "stato": "aggiunto",
+      "sha256": "dd778441d253369983ceffc7257fdc847a1ea3c2fcfa88afe7890ebef8abe778",
+      "byte": 1714
+    },
+    {
+      "percorso": "tests/Feature/DependencySecurityRegressionAudit.php",
+      "stato": "aggiunto",
+      "sha256": "fce3a4ec479ab2ca5c4833a00e017c6b12f9e07e781388616e1d490f3527b17f",
+      "byte": 1327
+    },
+    {
+      "percorso": "tests/Feature/ExampleTest.php",
+      "stato": "modificato",
+      "sha256": "f809ce2004160778b43e94b17d0075b3b5123651a8b2d72b2f8fc8e60b0fcf92",
+      "byte": 654
+    },
+    {
+      "percorso": "tests/Feature/ImpersonazioneSecurityTest.php",
+      "stato": "aggiunto",
+      "sha256": "2b5317aea4c1c5a0b75ba0cfa3542f5229e91bcd5838fd4707be6ed75732e32a",
+      "byte": 4846
+    },
+    {
+      "percorso": "tests/Feature/LaravelResidualExposureAudit.php",
+      "stato": "aggiunto",
+      "sha256": "4f9ce26a890ccc241e1312bc9edc0ad23f15dd650e32b59414900c469aa5da71",
+      "byte": 2307
+    },
+    {
+      "percorso": "tests/Feature/LegacyPasswordAuthorizationTest.php",
+      "stato": "aggiunto",
+      "sha256": "697b7d27ece06addd5bdfda1869b351f4a4ba72e040f060a40993f9e2a9a2046",
+      "byte": 1784
+    },
+    {
+      "percorso": "tests/Feature/LegacyUserCreationSecurityTest.php",
+      "stato": "aggiunto",
+      "sha256": "a735bb558748579802efbe46ddf6bba42bba8b0a19a86c475faf0ee5326f5244",
+      "byte": 5690
+    },
+    {
+      "percorso": "tests/Feature/LocalAcceptanceMatrixAudit.php",
+      "stato": "aggiunto",
+      "sha256": "58310a53d9198377d9719f58e106148710efc31e648ad1143074311bd16851bd",
+      "byte": 20333
+    },
+    {
+      "percorso": "tests/Feature/LocalCustomerWriteDiagnosticAudit.php",
+      "stato": "aggiunto",
+      "sha256": "1fb30bed812c02b25d7880eb343361f0f124916e7ea6e28c4d2325d170f5373c",
+      "byte": 1095
+    },
+    {
+      "percorso": "tests/Feature/LocalGeoInitialValueAudit.php",
+      "stato": "aggiunto",
+      "sha256": "b52bd19e38e37a79b99acefcb6f49f3c0ca300298591f413a9560be3c2d5d8c5",
+      "byte": 1292
+    },
+    {
+      "percorso": "tests/Feature/LocalNumberingConcurrencyAudit.php",
+      "stato": "aggiunto",
+      "sha256": "1b87390d9afe807392f127def7532773e120b0671014c086c43af6c413ecaf15",
+      "byte": 3434
+    },
+    {
+      "percorso": "tests/Feature/LocalPublicTokenContractAudit.php",
+      "stato": "aggiunto",
+      "sha256": "6a047c00452fc2f1d4788d8b77e56bfcf750a2bec750cf0c46223488eb5ff640",
+      "byte": 1781
+    },
+    {
+      "percorso": "tests/Feature/LocalWebConversionAudit.php",
+      "stato": "aggiunto",
+      "sha256": "7e322eb14c47e43b4e928d6ff397ab7bed286f0580c9935f80e525b87ea6c5c1",
+      "byte": 2266
+    },
+    {
+      "percorso": "tests/Feature/QuesturaC1MigrationAcceptanceTest.php",
+      "stato": "modificato",
+      "sha256": "458c2285c3582e88ed17418ea07185210bbe45868ba7dacf8d72e28378564c70",
+      "byte": 4763
+    },
+    {
+      "percorso": "tests/Feature/RecoveryFlashDiagnosticTest.php",
+      "stato": "aggiunto",
+      "sha256": "8b2fabfdb0d811a7b2a4be475ae0a50f786e0b9673de60950b210ef6caac215e",
+      "byte": 1300
+    },
+    {
+      "percorso": "tests/Feature/ReleaseSyntheticBackupMigrationAudit.php",
+      "stato": "aggiunto",
+      "sha256": "1ab387cfb2369beb14a31536d8e991d7278aa634e41bf26712c6399a3a8c5797",
+      "byte": 4239
+    },
+    {
+      "percorso": "tests/Feature/Ross1000BackupRestoreAudit.php",
+      "stato": "aggiunto",
+      "sha256": "270fb64607f88e8c297f71b72e18a4c13edfc15c91f2d0ed47b959250b777a23",
+      "byte": 5772
+    },
+    {
+      "percorso": "tests/Feature/Ross1000LegacySchemaAudit.php",
+      "stato": "aggiunto",
+      "sha256": "20244ca1d611a4230c5c578ca5a895107c335b67bbad4fd3f65d3aa464795d3a",
+      "byte": 2649
+    },
+    {
+      "percorso": "tests/Feature/Ross1000NavigationAudit.php",
+      "stato": "aggiunto",
+      "sha256": "1d206c4fc4a6881eec82f652bae3f8995f569a3b26400f1782c9ae8ed2544746",
+      "byte": 1571
+    },
+    {
+      "percorso": "tests/Feature/SchedinaCustomerReferenceSecurityTest.php",
+      "stato": "aggiunto",
+      "sha256": "925ea5043749a15adca531de5cff40c8e7c2f14861a2bf98801b2477a6dc61b5",
+      "byte": 6162
+    },
+    {
+      "percorso": "tests/Feature/SmokePagesQaTest.php",
+      "stato": "modificato",
+      "sha256": "e57977dda6cc70cd95a70eb166e982d29b66e801b1a59e518d150f1230663542",
+      "byte": 2430
+    },
+    {
+      "percorso": "tests/Feature/StrutturaSelezioneTest.php",
+      "stato": "aggiunto",
+      "sha256": "0bdae94b066345c89c5865d49b7b4f575ada2d55ac472d34c713e457dcefe966",
+      "byte": 2646
+    },
+    {
+      "percorso": "tests/Feature/SuiteResourceIsolationTest.php",
+      "stato": "aggiunto",
+      "sha256": "afe35a974125eed486ccd1d98d974945e87f09d496145cc418def031eca3f898",
+      "byte": 1875
+    },
+    {
+      "percorso": "tests/Feature/TassaBellariaAnteprimaTest.php",
+      "stato": "aggiunto",
+      "sha256": "a216ee62109ecfa9e5f59cd66a5fb78e4132ed1f3a2f70bf001b015a83873287",
+      "byte": 10502
+    },
+    {
+      "percorso": "tests/Feature/TassaBellariaCompletenessTest.php",
+      "stato": "aggiunto",
+      "sha256": "bb4503db5d2abde10c4a0909573879f7a8faf8a862d0df90fb4bb50952ea7677",
+      "byte": 30719
+    },
+    {
+      "percorso": "tests/Feature/TassaBellariaConfigurazioneAutomaticaTest.php",
+      "stato": "aggiunto",
+      "sha256": "c2edd65b878dce797656978f41b3cba485ec8f1437b3d86ec7aa2214022b5d18",
+      "byte": 11223
+    },
+    {
+      "percorso": "tests/Feature/TassaBellariaEtaCsvTest.php",
+      "stato": "aggiunto",
+      "sha256": "f984d8ff750e9acac18b477ca428d7d0707517ee43d32d531f2345a705f56f60",
+      "byte": 8711
+    },
+    {
+      "percorso": "tests/Feature/TassaBellariaRiallineamentoTest.php",
+      "stato": "aggiunto",
+      "sha256": "bafc5d448397cb5dc7ca2b849dd450cec668cd8685f04e2d3d083b8e796a7307",
+      "byte": 6405
+    },
+    {
+      "percorso": "tests/Feature/TassaBellariaVersionamentoTest.php",
+      "stato": "aggiunto",
+      "sha256": "80678ac3395d402cdbda3b8a563ca12e76fe84ac03f2b6f190ede63bfa84ab57",
+      "byte": 8589
+    },
+    {
+      "percorso": "tests/Feature/TenancyTest.php",
+      "stato": "modificato",
+      "sha256": "d36167633279f45df23549acc4ac48f04a6640276bf508212063c592fad576cb",
+      "byte": 2006
+    },
+    {
+      "percorso": "tests/Feature/WebCheckinCameraBoundaryAudit.php",
+      "stato": "aggiunto",
+      "sha256": "a2e8c5cf6ae255d43f03f2429cc1ab8b0c5c0ce6ac1ebac5e9368449eedabda4",
+      "byte": 1941
+    },
+    {
+      "percorso": "tests/Feature/WebCheckinCameraIsolationTest.php",
+      "stato": "aggiunto",
+      "sha256": "e1c37fe07c5a07028ccb68de847f88a697b7bd41ea8b4ce8dc23d461e7691041",
+      "byte": 7730
+    },
+    {
+      "percorso": "tests/Feature/WebCheckinFiscalContextTest.php",
+      "stato": "aggiunto",
+      "sha256": "20b1b0dbe77f747ee6c2811162273dbb323a6157a62bc32d97b98dc9f199d082",
+      "byte": 8158
+    },
+    {
+      "percorso": "tests/Feature/WebCheckinGroupAtomicityTest.php",
+      "stato": "aggiunto",
+      "sha256": "65098618157ae8cb41095645499ebaa873df27fee697742a2e1a7439e4b9ebc8",
+      "byte": 5979
+    },
+    {
+      "percorso": "tests/Feature/WebCheckinLifecycleConcurrencyAudit.php",
+      "stato": "aggiunto",
+      "sha256": "ddfcc4ef3c8b6772a9d08dfba4c9b407d1c8add243a14588dfd6905ef59dabbb",
+      "byte": 5807
+    },
+    {
+      "percorso": "tests/Feature/WebCheckinLifecycleMigrationAudit.php",
+      "stato": "aggiunto",
+      "sha256": "5b16ddb8984487588a889c3ab607ba1f3f4e24cfac2e2312d59d529e9a59f6c1",
+      "byte": 956
+    },
+    {
+      "percorso": "tests/Feature/WebCheckinLifecycleTest.php",
+      "stato": "aggiunto",
+      "sha256": "f301db7d357b6475b8d236b7faca6246355ca53382ccee8bee802da93159e868",
+      "byte": 17102
+    },
+    {
+      "percorso": "tests/Feature/WebCheckinParentSecurityTest.php",
+      "stato": "aggiunto",
+      "sha256": "114528cc662867e3c3268c40c49fe60569ecb0e81a5b0d20444e70067300e923",
+      "byte": 5618
+    },
+    {
+      "percorso": "tests/Feature/WebCheckinShortLinkTest.php",
+      "stato": "aggiunto",
+      "sha256": "992f1f8c82e2402c6ee58e4043b4c20e6ac48446b0e3435b1106d79e599237eb",
+      "byte": 8509
+    },
+    {
+      "percorso": "tests/Feature/account-session.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "960ebda961acfa4a3551d3102eb64f86358b1551a8a0edc2bf4676ca3d582cf3",
+      "byte": 6186
+    },
+    {
+      "percorso": "tests/Feature/baseline-acceptance-sessioni.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "e43481b103b6b29e001fb6be118e0f9d69d7df8c6ec6bd7de501e3e28fe95d75",
+      "byte": 3430
+    },
+    {
+      "percorso": "tests/Feature/baseline-final.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "43cd8d8316af9c2443addddd3822b255c398dcf6165bc214c6fc5018a9097e48",
+      "byte": 1396
+    },
+    {
+      "percorso": "tests/Feature/dependency-artifact-boundary.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "fc40dd1f37d6d92b8b6f582c5e252042f9acd9aef4bf75d7c581fb8c0a6ad72d",
+      "byte": 657
+    },
+    {
+      "percorso": "tests/Feature/dependency-assets.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "d0d661298c0d58fa71315a0aa39ab7c2f9992548a66f237a3dec248eb18395e8",
+      "byte": 1534
+    },
+    {
+      "percorso": "tests/Feature/dependency-http.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "bdc16f15d52da1622c58e572e902adcff2bc997609fa519743e75de8eabd5722",
+      "byte": 1221
+    },
+    {
+      "percorso": "tests/Feature/dependency-public-assets.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "88da7fb3c1c9f34d9135be3907130156fc3a1c23f9f61eeee6ef8fe1b2b83d65",
+      "byte": 3449
+    },
+    {
+      "percorso": "tests/Feature/legacy-user.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "5263f08efd10fde6a72ea336f8069a10ddb3bf95d58857b9f28249eef57011e8",
+      "byte": 3281
+    },
+    {
+      "percorso": "tests/Feature/local-import-cycle.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "d827d7beb48dd9c153db409b124b57c7ec42300b92488a4d8941fd9c89c5d8e6",
+      "byte": 6811
+    },
+    {
+      "percorso": "tests/Feature/local-secondary-responsive.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "5cf0f1da031e2c1ee07be5192dec956e5e31eb3612c10dbec76b64d7dad716e3",
+      "byte": 1938
+    },
+    {
+      "percorso": "tests/Feature/p1-baseline.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "e5df1789cae3d315dbeee552b548dda968b5f903e23ea80ce857f6e88e1804d8",
+      "byte": 2802
+    },
+    {
+      "percorso": "tests/Feature/proxy-download-audit.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "915e8836a8ed0da7d399aaf7add400a15f6e690f57cb31043564502c9dc683a3",
+      "byte": 1125
+    },
+    {
+      "percorso": "tests/Feature/ross1000-legacy-schema.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "447611ad2d7698d62ea884fda14681cfe73f3376122141e11d7e780f36f2fef3",
+      "byte": 1498
+    },
+    {
+      "percorso": "tests/Feature/ross1000-navigation.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "a6ce0f6dd03d05c21f66df93fd24129039a4e30f74b290f1ccbda21f2cdb0b0a",
+      "byte": 1508
+    },
+    {
+      "percorso": "tests/Feature/struttura-selezione.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "25baf278d4d73afd47a51fccfd591101ca9afaf111a7eee8d73f7e7dca4c66f1",
+      "byte": 6204
+    },
+    {
+      "percorso": "tests/Feature/tassa-bellaria-anteprima.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "b4a0948f728c9fa944295d9a63fa30af93bf021ecc70e425676d1188e9879f1b",
+      "byte": 5262
+    },
+    {
+      "percorso": "tests/Feature/tassa-bellaria-configurazione.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "e3a6a53e3335f7eb412858094a337c5fd53df93c5eb9d22c5f24f41c8e07519c",
+      "byte": 4776
+    },
+    {
+      "percorso": "tests/Feature/tassa-bellaria-ricevuta.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "18fc0cf6d1133228f4d1db0422f93ce13e8aa537fde8968949b576ffdf532602",
+      "byte": 3682
+    },
+    {
+      "percorso": "tests/Feature/web-checkin-camera-navigation-audit.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "9ae8820d5a15583a21c5a1e2a9a6ba4443cbea286bf1a451315f869ed306005a",
+      "byte": 2087
+    },
+    {
+      "percorso": "tests/Feature/web-checkin-camera.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "5ca7121c2d5ac0e34a0b6d1c800378253ef0f74559de951ddf74aabe8e3b3e73",
+      "byte": 1472
+    },
+    {
+      "percorso": "tests/Feature/web-checkin-group.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "9f3573cfb52ff5ab0fa88488aa094f93657afabf745cbd1eb4525bec987f5fe5",
+      "byte": 1866
+    },
+    {
+      "percorso": "tests/Feature/web-checkin-lifecycle.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "3084aa71a204dd1c49a779ae3a8cf896afce05584992d15739cf7cd5f70cc23e",
+      "byte": 9782
+    },
+    {
+      "percorso": "tests/Feature/web-checkin-short.playwright.spec.js",
+      "stato": "aggiunto",
+      "sha256": "56c46ce29bddf986ac0b35647aab52b751cc91e154ebbbb7b7a265eb6a9c28c4",
+      "byte": 2858
+    },
+    {
+      "percorso": "tests/Isolation/account-session-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "e663947c90148fb156bac4b009c9cf4a812e4cbc615d46e2dee0dad72c09db6b",
+      "byte": 1688
+    },
+    {
+      "percorso": "tests/Isolation/baseline-acceptance-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "a073cb184038efe1a345848fc9b0f3ab487df687c3c7ae7aebe3daa121919101",
+      "byte": 1129
+    },
+    {
+      "percorso": "tests/Isolation/baseline-final-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "3b460938dc95dbb14c50bacb2c109ac99581b6981662f994569e02d33bb6eec7",
+      "byte": 1287
+    },
+    {
+      "percorso": "tests/Isolation/database_policy.py",
+      "stato": "aggiunto",
+      "sha256": "d258f9f2203936769ad68a18ceb6e16baf58ce8701a3aff6f64da0713171090e",
+      "byte": 5172
+    },
+    {
+      "percorso": "tests/Isolation/legacy-user-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "389e41991f7c5d8b94726fac0b5b517e9b9506548064148e7925e27eb7d92a66",
+      "byte": 587
+    },
+    {
+      "percorso": "tests/Isolation/local-acceptance-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "1c507619c0978117f7fd8a2c1b46a7f2847bb0d3752216aa9f2d7656229ac26c",
+      "byte": 6040
+    },
+    {
+      "percorso": "tests/Isolation/local-closure-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "0c30f3d6552d63d5fd6c1ba399291a6c6eb975899deb992d5bc7ab55e5880b02",
+      "byte": 336
+    },
+    {
+      "percorso": "tests/Isolation/p1-baseline-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "cbb3b3b0381341b5ef591d981aa65e3657092e7442d090f44b1ed0f33d15a212",
+      "byte": 1090
+    },
+    {
+      "percorso": "tests/Isolation/ross1000-legacy-schema-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "4c825f25a4044412c9f4b93026318b99fc576ce559a8f60bedfaafb7f6cb609d",
+      "byte": 1671
+    },
+    {
+      "percorso": "tests/Isolation/ross1000-navigation-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "f8d6205aa74cf6ce1ee4858302edd57cc094475ce79ecadbac53eddaf2d8c47e",
+      "byte": 1363
+    },
+    {
+      "percorso": "tests/Isolation/run.py",
+      "stato": "modificato",
+      "sha256": "c1ca0329fde3e7996ae17340a4157d2d787f7fcd9509370b0fa61933db58fa36",
+      "byte": 20621
+    },
+    {
+      "percorso": "tests/Isolation/struttura-selezione-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "efdd56e867fdbead6b3ee33ed10768293673c780f5c1d141ed5170fdfc501c15",
+      "byte": 1717
+    },
+    {
+      "percorso": "tests/Isolation/tassa-anteprima-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "19adc2ba9d63e3670becbc32c64d19096eb53ae313ee37cae48c8f31b8154e0f",
+      "byte": 1769
+    },
+    {
+      "percorso": "tests/Isolation/tassa-bellaria-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "1625c97680084387629fe730e58e5d6913eb57f1da0fc37e55134d8213cca5b2",
+      "byte": 3682
+    },
+    {
+      "percorso": "tests/Isolation/test_database_policy.py",
+      "stato": "aggiunto",
+      "sha256": "7b7b76873c93608bad5ced13871ca1fa26f87eca6199d8627591d48b7bcb7442",
+      "byte": 6205
+    },
+    {
+      "percorso": "tests/Isolation/test_proxy_response.py",
+      "stato": "aggiunto",
+      "sha256": "8d265bae94c465ed6ece260e2bda83719d50dc90a435f83679a55cce4c999998",
+      "byte": 2889
+    },
+    {
+      "percorso": "tests/Isolation/web-checkin-camera-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "5bc2b5c53f7c2435fe916d977bda27cd5d1710dc3a5769f4879314a2c4fcb1bd",
+      "byte": 976
+    },
+    {
+      "percorso": "tests/Isolation/web-checkin-group-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "50cfd634e6995466a30298c617c01ebd7d60264924b879d8842b1be3b1b05cbb",
+      "byte": 577
+    },
+    {
+      "percorso": "tests/Isolation/web-checkin-lifecycle-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "ce80726e0fb54cb7d763229574516f7286bf7b7cbafd0cbda777aee135dd0678",
+      "byte": 3690
+    },
+    {
+      "percorso": "tests/Isolation/web-checkin-lifecycle-original-cestino-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "9677b7ddac1fd93eb9bfcdc07a7126073ec36b8b51c028e6518cede7b37ce5d7",
+      "byte": 15550
+    },
+    {
+      "percorso": "tests/Isolation/web-checkin-short-fixtures.php",
+      "stato": "aggiunto",
+      "sha256": "7fb8331555818fed0e6590b9cf66d324f164ca1fa9e2d30a2678fab23fd5eaca",
+      "byte": 1560
+    },
+    {
+      "percorso": "tests/Support/IsolatedTestStorage.php",
+      "stato": "aggiunto",
+      "sha256": "4c6487cf72fd4bfd4d3d6e0a75a2a843722dbcadddb76002e6543510ead3cdf8",
+      "byte": 1551
+    },
+    {
+      "percorso": "tests/Support/TestingEnvironment.php",
+      "stato": "modificato",
+      "sha256": "3c05f6e38ad13d099530895f994ea12fdb306c20f7903c63141b7738dc7f2272",
+      "byte": 12966
+    },
+    {
+      "percorso": "tests/Support/componenti-import-review-status.php",
+      "stato": "aggiunto",
+      "sha256": "2b0a219d56492c6a4172b79318ffe40e6cc5742e00f4d0868bd749e47c5c63a7",
+      "byte": 4014
+    },
+    {
+      "percorso": "tests/TestCase.php",
+      "stato": "modificato",
+      "sha256": "ae5aebf95e909f8effef7f2f6307f7e5cbf3f34e29911fada09eebd432ae6d28",
+      "byte": 2616
+    },
+    {
+      "percorso": "tests/Unit/ComponentiImportFormTest.php",
+      "stato": "modificato",
+      "sha256": "5426d5daa63a519f491357ffd8d2c9de882b854f83fc5e50b3bf957de26b5c59",
+      "byte": 20310
+    },
+    {
+      "percorso": "tests/Unit/ComponentiImportReviewStatusTest.php",
+      "stato": "modificato",
+      "sha256": "ba99c424568789c50ba7b89c4c024c04a4cdf40646a37e923dc828d95582f05a",
+      "byte": 788
+    },
+    {
+      "percorso": "tests/Unit/ComponentiImportServiceTest.php",
+      "stato": "modificato",
+      "sha256": "3c9adc5fcf1691d2f39ad1dd341d0610196e2ebc445264c530ce5a712d496053",
+      "byte": 52736
+    },
+    {
+      "percorso": "tests/Unit/componenti-import-submit-complete-dom.test.mjs",
+      "stato": "aggiunto",
+      "sha256": "73de1f4f3491ea991cc076bc7ce978f9eacba3be56d21b2c20ac83e8dceba5b9",
+      "byte": 1834
+    },
+    {
+      "percorso": "tests/Unit/dependency-multipart-security.test.cjs",
+      "stato": "aggiunto",
+      "sha256": "f4a0018d3925f9630802f1c35c2fa84c07dcf86131a0a7336520ea4df99d6616",
+      "byte": 703
+    }
+  ],
+  "integrazione_pendenti_locali": {
+    "Ross1000": "Causa42S22snapshot assente confermata nel logHerd/metadati sola lettura; riproduzione sintetica1/13 e Chromium1/1; nessuna migrationoperativa",
+    "Laravel": "ResolverCRLF2/16PASS;7avvisi framework residui, major12 non applicato, impatto documentato",
+    "npm": "audit53:0critiche/15alte/37moderate/1bassa; artefatto+asset4/4,Axios1/1,multipartNodePASS; CKEditor escluso nuovo artefatto, QuillHTMLexport condizionale",
+    "precedente": "docs/evidenze/herd-sicurezza-2026-10-09/candidato-precedente-250.json",
+    "globale": "750/8252 PASS dopo resolver applicativo; build e asset finali verificati separatamente",
+    "scansione_segreti": "nessun pattern chiave privata, token GitHub o access key AWS rilevato; nessun file cancellato o link simbolico"
+  },
+  "preparazione_herd": {
+    "base": "schedinedinotifica@127.0.0.1:3306",
+    "migration_singola": "2026_10_07_180000_protect_istat_cycle",
+    "altre_pending_escluse": [
+      "2026_10_07_180000_create_tassa_exports_and_receipt_image",
+      "2026_10_09_230000_add_web_checkin_link_lifecycle"
+    ],
+    "prova_sintetica": "1/85 PASS backup/upgrade/restore",
+    "operativo": "nessuna scrittura o backup reale; autorizzazione e recuperabilità mancanti",
+    "ssh": "chiave esplicita offerta ma non accettata,exit255",
+    "Laravel": "11.31.0 fuori supporto;12.69.x proposto non implementato",
+    "precedente": "docs/evidenze/chiusura-herd-2026-10-09/candidato-precedente-306.json"
+  }
+}

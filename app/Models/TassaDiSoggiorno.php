@@ -20,6 +20,7 @@ class TassaDiSoggiorno extends Model
         'max_age_children',
         'min_age_adult',
         'note',
+        'ricevuta_immagine',
     ];
 
     protected $casts = [

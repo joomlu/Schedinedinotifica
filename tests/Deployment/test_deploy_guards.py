@@ -20,6 +20,7 @@ import urllib.request
 from unittest import mock
 
 REPO = Path(__file__).resolve().parents[2]
+VENDOR = Path(os.environ.get('DEPLOY_TEST_VENDOR', str(REPO/'vendor'))).resolve()
 MODULE = REPO / 'scripts/deployment/deploy.py'
 spec = importlib.util.spec_from_file_location('deployment', MODULE)
 d = importlib.util.module_from_spec(spec)
@@ -411,6 +412,33 @@ class MaintenanceTests(Fixture):
         self.app.maintenance.verify_files()
         self.assertIn('503 maintenance VERIFIED',output)
 
+class PHPCliTests(Fixture):
+    def test_all_project_php_calls_disable_cli_opcache(self):
+        for arguments in [['-r', 'echo 1;'], [self.root/'artisan', 'route:list'],
+                          ['/usr/bin/composer', '--no-plugins', 'install', '--no-scripts']]:
+            with self.subTest(arguments=arguments), mock.patch.object(self.app, 'run', return_value=b'OK') as run:
+                self.app.project([self.app.php, *arguments])
+                self.assertEqual(run.call_args.args[0][:3], [self.app.php, '-d', 'opcache.enable_cli=0'])
+                self.assertEqual(run.call_args.args[0][3:], arguments)
+        with mock.patch.object(self.app, 'run', return_value=b'OK') as run:
+            self.app.project(['node', '--version'])
+            self.assertEqual(run.call_args.args[0], ['node', '--version'])
+
+    def test_conflicting_cli_flags_and_no_ini_rejected(self):
+        for flags in [['-dopcache.enable_cli=1'], ['-d', 'opcache.enable_cli=1'], ['-d', 'display_errors=0', '-d', 'opcache.enable_cli=1'], ['-n']]:
+            with self.subTest(flags=flags), mock.patch.object(self.app, 'run') as run:
+                with self.assertRaises(d.Failure):
+                    self.app.project([self.app.php, *flags, '-r', 'echo 1;'])
+                run.assert_not_called()
+        self.app.seal.verify()
+
+    def test_version_gate_is_exact_and_no_other_validator_removed(self):
+        source=(REPO/'scripts/deployment/artisan.php').read_text()
+        self.assertIn("$app->version() !== '12.69.3'",source)
+        self.assertIn('paths($app',source)
+        self.assertIn('identity($freshConfig',source)
+        self.assertIn('MariaDB required.',source)
+
 class ExecutionTests(Fixture):
     def test_build_pipeline_changes_blocked_before_execution(self):
         for name in list(d.BUILD_HASHES)+['composer.json']:
@@ -470,6 +498,56 @@ class ExecutionTests(Fixture):
         with self.assertRaisesRegex(d.Failure,'--migrate'):
             self.app.execute('sha',['001_pending'],False,'backup')
         self.assertFalse(self.app.maintenance.started)
+
+    def test_complete_sequence_and_isolated_snapshot_recovery(self):
+        self.acquire()
+        self.app.before = 'old'
+        state = {'sha': 'old'}
+        events = []
+        snapshot = {name: (self.root/name).read_bytes()
+                    for name in ['.env','storage/app/keep','public/images/keep']}
+        self.app.clean = lambda: self.app.seal.verify()
+        def git(*args):
+            if args[0] == 'merge': state['sha'] = args[2]
+            return state['sha'].encode() if args == ('rev-parse','HEAD') else b''
+        self.app.git = git
+        self.app.verify_maintenance = self.app.maintenance.verify_files
+        pending = iter([['001_pending'], []])
+        self.app.pending = lambda directory: next(pending)
+        self.write('public/build/css/app.min.css','sintetico')
+        self.write('public/build/.vite/manifest.json',json.dumps({'app':{'file':'css/app.min.css'}}))
+        def run(argv, **kwargs):
+            if argv[0] == self.app.php:
+                self.assertEqual(argv[1:3], ['-d','opcache.enable_cli=0'])
+                self.assertIn('--no-plugins', argv)
+                if 'install' in argv:
+                    self.assertIn('--no-scripts', argv)
+                    events.append('composer install')
+            elif 'ci' in argv:
+                (self.root/'node_modules').mkdir()
+            return b''
+        def artisan(command, extra=None):
+            events.append(command)
+            if command == 'storage:link':
+                (self.root/'public/storage').symlink_to(self.root/'storage/app/public')
+            if command == 'migrate': self.assertEqual(json.loads(extra), ['001_pending'])
+            return b''
+        self.app.artisan = artisan
+        self.app.http = lambda path, *args: b'sintetico' if path.endswith('.css') else b''
+        with mock.patch.object(self.app,'run',side_effect=run):
+            self.app.execute('new',['001_pending'],True,'snapshot-isolato-verificato')
+        self.assertTrue(self.app.success)
+        self.assertLess(events.index('composer install'), events.index('config:clear'))
+        self.assertEqual(self.app.finish(0), 0)
+        self.assertFalse((self.root/'storage/framework/down').exists())
+        self.persistent(); self.app.seal.verify()
+        # Recupero manuale della sola fixture: il runner non promette rollback automatico.
+        for name in ['storage/app/keep','public/images/keep']:
+            (self.root/name).write_bytes(b'modifica-sintetica')
+        for name, content in snapshot.items():
+            (self.root/name).write_bytes(content)
+        self.assertEqual({name:(self.root/name).read_bytes() for name in snapshot},snapshot)
+        self.persistent(); self.app.seal.verify()
 
     def test_each_deployment_stage_failure_retains_guard(self):
         stages = ['composer','npm ci','npm build','storage:link','migrate',*d.CLEAR,*d.CACHE,'route:list','schedule:list','HTTPS','assets']
@@ -645,7 +723,67 @@ finally:
                 self.assertEqual(result.returncode,0,result.stderr)
                 self.persistent(); self.app.seal.verify()
 
-@unittest.skipUnless((REPO/'vendor/autoload.php').is_file() and shutil.which('php'), 'Installed Laravel vendor and PHP required')
+@unittest.skipUnless(shutil.which('php'), 'PHP richiesto')
+class PreliminaryMigrationTests(Fixture):
+    """Metadati sintetici: socket fornito solo dall'infrastruttura isolata."""
+    def setUp(self):
+        super().setUp()
+        self.write('config/database.php', (REPO/'config/database.php').read_text())
+        self.directory = self.root/'database/migrations'
+        self.write('database/migrations/001_applied.php', '<?php throw new RuntimeException("must not execute");')
+        self.write('database/migrations/002_pending.php', '<?php throw new RuntimeException("must not execute");')
+        self.env = {k:v for k,v in os.environ.items() if not k.startswith(('APP_','DB_','LARAVEL_','VIEW_','MYSQL_','DATABASE_'))}
+        socket = os.environ.get('DEPLOY_TEST_DB_SOCKET')
+        self.write('.env', DUMMY_ENV+'DB_SOCKET='+str(socket or '/nonexistent-isolated.sock')+'\nDB_DATABASE=preflight_fixture\nDB_USERNAME=root\nDB_PASSWORD=\n')
+
+    def preliminary(self, env=None):
+        return subprocess.run(['php','-d','opcache.enable_cli=0',str(REPO/'scripts/deployment/artisan.php'),
+            str(self.root),'preliminary-pending',str(self.directory)],env=env or self.env,capture_output=True,timeout=15)
+
+    def test_preliminary_dispatch_does_not_use_strict_artisan_pending(self):
+        self.app.artisan = mock.Mock(return_value=b'["002_pending"]')
+        self.assertEqual(self.app.pending(self.directory, preliminary=True), ['002_pending'])
+        self.app.artisan.assert_called_once_with('preliminary-pending', str(self.directory))
+        self.app.artisan.reset_mock()
+        self.app.pending(self.directory)
+        self.app.artisan.assert_called_once_with('pending', str(self.directory))
+
+    def test_unsafe_environment_and_configuration_fail_without_vendor(self):
+        original = (self.root/'.env').read_text()
+        for extra in ['DB_USERNAME=another\n', 'DATABASE_URL=mysql://fixture\n', 'APP_CONFIG_CACHE=/tmp/foreign\n', 'DB_PORT=3306;dbname=foreign\n']:
+            with self.subTest(extra=extra):
+                self.write('.env',original+extra)
+                self.assertNotEqual(self.preliminary().returncode,0)
+                self.assertEqual(self.preliminary().stdout,b'')
+        self.write('.env',original)
+        self.write('config/database.php','<?php throw new RuntimeException("must not execute");')
+        self.assertNotEqual(self.preliminary().returncode,0)
+        self.persistent()
+
+    @unittest.skipUnless(os.environ.get('DEPLOY_TEST_DB_SOCKET'), 'Richiede MariaDB sintetico senza rete')
+    def test_real_readonly_metadata_ignores_vendor_versions_and_missing_vendor(self):
+        original = (self.root/'.env').read_bytes()
+        for version in [None,'11.31.0','12.69.3','12.69.2','13.0.0']:
+            with self.subTest(version=version):
+                if version is not None:
+                    self.write('vendor/autoload.php','<?php throw new RuntimeException("vendor must not load");')
+                    self.write('vendor/composer/installed.json',json.dumps({'version':version}))
+                r = self.preliminary()
+                self.assertEqual(r.returncode,0,r.stderr)
+                self.assertEqual(json.loads(r.stdout),['002_pending'])
+                self.assertEqual((self.root/'.env').read_bytes(),original)
+        # Catalogo mancante: nessuna riscrittura dello storico.
+        (self.directory/'001_applied.php').unlink()
+        self.assertNotEqual(self.preliminary().returncode,0)
+        self.persistent()
+
+    @unittest.skipUnless(os.environ.get('DEPLOY_TEST_DB_SOCKET'), 'Richiede MariaDB sintetico senza rete')
+    def test_cached_database_identity_cannot_hide_environment(self):
+        self.write('bootstrap/cache/config.php',"<?php return ['database'=>['default'=>'mysql'], 'app'=>['key'=>'wrong']];")
+        self.assertNotEqual(self.preliminary().returncode,0)
+        self.persistent()
+
+@unittest.skipUnless((VENDOR/'autoload.php').is_file() and shutil.which('php'), 'Installed Laravel vendor and PHP required')
 class ArtisanIntegrationTests(Fixture):
     """Real Laravel commands, only fixture runtime and dummy environment; no DB calls."""
     def setUp(self):
@@ -654,7 +792,7 @@ class ArtisanIntegrationTests(Fixture):
             shutil.copytree(REPO/directory,self.root/directory,dirs_exist_ok=True)
         self.write('bootstrap/app.php',(REPO/'bootstrap/app.php').read_text())
         self.write('composer.json',(REPO/'composer.json').read_text())
-        (self.root/'vendor').symlink_to(REPO/'vendor')
+        (self.root/'vendor').symlink_to(VENDOR)
         self.clean_env = {key: value for key,value in os.environ.items()
                           if not key.startswith(('APP_','DB_','LARAVEL_','VIEW_','LOG_','CACHE_','SESSION_','QUEUE_','FILESYSTEM_'))}
         # DB calls must fail locally rather than reach any service if a future provider changes.
@@ -662,9 +800,28 @@ class ArtisanIntegrationTests(Fixture):
         self.original_env = (self.root/'.env').read_bytes()
 
     def artisan(self, operation, env=None):
-        return subprocess.run(['php','-d','display_errors=0','-d','log_errors=0',
+        return subprocess.run(['php','-d','opcache.enable_cli=0','-d','display_errors=0','-d','log_errors=0',
                                str(REPO/'scripts/deployment/artisan.php'),str(self.root),operation],
                               cwd=self.root,env=env or self.clean_env,capture_output=True,timeout=45)
+
+    def test_missing_vendor_is_rejected_after_composer(self):
+        (self.root/'vendor').unlink()
+        self.assertNotEqual(self.artisan('config:clear').returncode, 0)
+        self.assertEqual((self.root/'.env').read_bytes(), self.original_env)
+        self.persistent()
+
+    def test_unapproved_framework_versions_are_rejected(self):
+        bootstrap = (self.root/'bootstrap/app.php')
+        original = bootstrap.read_text()
+        for version in ['11.31.0', '12.69.2', '13.0.0']:
+            with self.subTest(version=version):
+                declaration = ("class DeploymentFixtureApplication extends Illuminate\\Foundation\\Application { "
+                               "public function version() { return '"+version+"'; } }\n")
+                bootstrap.write_text(original.replace('<?php', '<?php\n'+declaration, 1)
+                                     .replace('new Illuminate\\Foundation\\Application(', 'new DeploymentFixtureApplication('))
+                self.assertNotEqual(self.artisan('config:clear').returncode, 0)
+                self.assertEqual((self.root/'.env').read_bytes(), self.original_env)
+        bootstrap.write_text(original)
 
     def test_actual_individual_cache_commands(self):
         for command in d.CLEAR+d.CACHE:

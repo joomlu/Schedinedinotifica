@@ -1,0 +1,5 @@
+Nessun profilo ~/.ssh/config; nessun terminale app collegato.
+Tentativo SSH BatchMode=yes StrictHostKeyChecking=yes ConnectTimeout=8 al dominio documentato, porta22:
+sandbox: Could not resolve hostname
+fuori sandbox: connect to host ... port22: Connection refused, exit255
+Nessun comando remoto eseguito; nessuna porta alternativa inventata o host scandito.

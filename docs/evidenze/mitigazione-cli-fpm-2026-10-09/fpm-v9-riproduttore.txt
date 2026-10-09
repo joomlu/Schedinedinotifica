@@ -1,0 +1,104 @@
+import os,pathlib,subprocess,socket,struct,time,json,resource,concurrent.futures
+resource.setrlimit(resource.RLIMIT_CORE,(0,0));os.umask(0o077)
+r=pathlib.Path('/work/fpm-diagnosi-v9');r.mkdir(mode=0o700)
+sock=str(r/'fastcgi.sock');php='/opt/remi/php83/root/usr/sbin/php-fpm'
+import shutil,base64
+app=r/'app';app.mkdir(mode=0o700)
+for folder in ['app','config','routes','resources','bootstrap','database']:
+ shutil.copytree(pathlib.Path('/work/candidato')/folder,app/folder)
+for f in (app/'bootstrap/cache').glob('*.php'):f.unlink()
+(app/'vendor').symlink_to('/work/candidato/vendor')
+(app/'public').mkdir();shutil.copy('/work/candidato/public/index.php',app/'public/index.php');shutil.copytree('/work/assets-v6/build',app/'public/build')
+for folder in ['framework/cache/data','framework/views','framework/sessions','logs','app/public']:(app/'storage'/folder).mkdir(parents=True,exist_ok=True)
+for f in ['artisan','composer.json']:shutil.copy(pathlib.Path('/work/candidato')/f,app/f)
+(app/'.env').write_text('APP_ENV=local\nAPP_DEBUG=false\nAPP_URL=http://isolato\nAPP_KEY=base64:'+base64.b64encode(b'S'*32).decode()+'\nDB_CONNECTION=mysql\nDB_HOST=localhost\nDB_DATABASE=sintetico_fpm_v5\nDB_USERNAME=root\nDB_PASSWORD=\nDB_SOCKET='+str(r/'db.sock')+'\nSESSION_DRIVER=file\nCACHE_DRIVER=file\nQUEUE_CONNECTION=sync\nMAIL_MAILER=array\nQUESTURA_ENABLED=false\nISTAT_ENABLED=false\nLOG_CHANNEL=single\n')
+db=None
+(r/'sentinella.php').write_text("<?php header('Content-Type: application/json'); echo json_encode(['sentinella'=>'OK','sapi'=>PHP_SAPI,'php'=>PHP_VERSION,'opcache'=>ini_get('opcache.enable'),'cli'=>ini_get('opcache.enable_cli'),'zend'=>get_loaded_extensions(true)]);")
+(r/'pool.conf').write_text(f'''[global]\npid = {r}/fpm.pid\nerror_log = {r}/fpm.log\ndaemonize = no\n[isolato]\nlisten = {sock}\nlisten.mode = 0600\npm = static\npm.max_children = 2\npm.max_requests = 100\nrequest_terminate_timeout = 10s\ncatch_workers_output = yes\nclear_env = yes\nphp_admin_value[memory_limit] = 128M\n''')
+def rec(t,b):return struct.pack('!BBHHBB',1,t,1,len(b),0,0)+b
+def param(k,v):
+ k=k.encode();v=v.encode()
+ def ln(n):return bytes([n]) if n<128 else struct.pack('!I',n|0x80000000)
+ return ln(len(k))+ln(len(v))+k+v
+
+def request(c,i):
+ if i<62: k,method,expected=1,'GET',404 if i<60 else 429
+ elif i<64:k,method,expected=i-60,'GET',404
+ elif i<86:k,method,expected=4,'POST',419 if i<84 else 429
+ else:k,method,expected=3,'GET',404
+ route=('/checkin/'+str(k)*64) if i%2==0 else ('/w/'+str(k)*32)
+ t=time.monotonic();s=socket.socket(socket.AF_UNIX);s.settimeout(12);s.connect(sock)
+ params={'SCRIPT_FILENAME':str(app/'public/index.php'),'REQUEST_METHOD':method,'SCRIPT_NAME':'/index.php','REQUEST_URI':route,'DOCUMENT_ROOT':str(app/'public'),'SERVER_PROTOCOL':'HTTP/1.1','SERVER_NAME':'isolato','SERVER_PORT':'0','REMOTE_ADDR':'127.0.0.1','QUERY_STRING':''}
+ s.sendall(rec(1,struct.pack('!HB5x',1,0))+rec(4,b''.join(param(k,v) for k,v in params.items()))+rec(4,b'')+rec(5,b''))
+ out=b'';err=b'';status=None
+ def read(n):
+  b=b''
+  while len(b)<n:
+   z=s.recv(n-len(b))
+   if not z:raise RuntimeError('FastCGI risposta tronca')
+   b+=z
+  return b
+ while True:
+  _,typ,req,n,pad,_=struct.unpack('!BBHHBB',read(8));b=read(n)
+  if pad:read(pad)
+  if typ==6:out+=b
+  elif typ==7:err+=b
+  elif typ==3:status=struct.unpack('!IB3x',b);break
+ s.close();head,body=out.split(b'\r\n\r\n',1)
+ prefix=r/f'c{c:02d}-r{i:03d}';pathlib.Path(str(prefix)+'-headers.log').write_bytes(head);pathlib.Path(str(prefix)+'-body.json').write_bytes(body);pathlib.Path(str(prefix)+'-stderr.log').write_bytes(err)
+ code=200
+ for h in head.decode().split('\r\n'):
+  if h.lower().startswith('status:'):code=int(h.split(':',1)[1].strip().split()[0])
+ assert (code!=429 or any(h.lower().startswith('retry-after:') and int(h.split(':',1)[1].strip())>0 for h in head.decode().split('\r\n')))
+ assert code==expected and status==(0,0) and not err, (route,method,code,expected)
+ data={'route':route,'metodo':method,'http':code}
+ meta={'ciclo':c,'richiesta':i,'secondi':round(time.monotonic()-t,6),'status_fastcgi':status,'config':data};pathlib.Path(str(prefix)+'-meta.json').write_text(json.dumps(meta));return meta
+report={'rete_senza_route':len(pathlib.Path('/proc/net/route').read_text().splitlines())==1,'risultati':[],'processi_fermati':[],'flussi_laravel':'contatori_60_letture_20_POST_alias_ospiti_strutture; flussi_tenant_autenticati_PENDENTI'}
+try:
+ # Solo schema della copia R1: nessuna riga o credenziale trasferita nella nuova base.
+ source=subprocess.Popen(['mariadbd','--no-defaults','--datadir=/work/datadir-r1','--socket='+str(r/'schema.sock'),'--pid-file='+str(r/'schema.pid'),'--skip-networking','--event-scheduler=OFF','--skip-log-bin','--log-error='+str(r/'schema-db.log')],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+ try:
+  for _ in range(100):
+   if subprocess.run(['mariadb','--no-defaults','--socket='+str(r/'schema.sock'),'-uroot','-e','SELECT 1'],capture_output=True).returncode==0:break
+   time.sleep(.1)
+  p=subprocess.run(['mariadb-dump','--no-defaults','--socket='+str(r/'schema.sock'),'-uroot','--no-data','--skip-comments','schedine_restore_r1'],capture_output=True);assert p.returncode==0
+  schema=p.stdout;(r/'schema-solo-DDL.sql').write_bytes(schema)
+ finally:source.terminate();source.wait(timeout=30)
+ datadir=r/'datadir';datadir.mkdir(mode=0o700)
+ p=subprocess.run(['mariadb-install-db','--no-defaults','--datadir='+str(datadir),'--auth-root-authentication-method=normal','--skip-test-db'],capture_output=True);assert p.returncode==0
+ db=subprocess.Popen(['mariadbd','--no-defaults','--datadir='+str(datadir),'--socket='+str(r/'db.sock'),'--pid-file='+str(r/'db.pid'),'--skip-networking','--event-scheduler=OFF','--skip-log-bin','--log-error='+str(r/'db.log')],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+ cli=['mariadb','--no-defaults','--socket='+str(r/'db.sock'),'-uroot']
+ for _ in range(100):
+  if subprocess.run(cli+['-e','SELECT 1'],capture_output=True).returncode==0:break
+  time.sleep(.1)
+ p=subprocess.run(cli+['-e','CREATE DATABASE sintetico_fpm_v5'],capture_output=True);assert p.returncode==0
+ p=subprocess.run(cli+['sintetico_fpm_v5'],input=schema,capture_output=True);assert p.returncode==0
+ report['schema_solo_DDL_senza_dati']=True
+ for k,tenant in [(1,101),(2,101),(3,102),(4,101)]:
+  sql="INSERT INTO web_checkin_richieste (id,struttura_id,codice,numero_prenotazione,email,nome_referente,arrivo,partenza,token,short_token,stato) VALUES (%d,%d,'S%d','S%d','sintetico@example.invalid','Sintetico','2030-01-01','2030-01-03','%s','%s','convertito')"%(k,tenant,k,k,str(k)*64,str(k)*32)
+  p=subprocess.run(cli+['sintetico_fpm_v5','-e',sql],capture_output=True);assert p.returncode==0
+ report['fixture_contatori']='Richieste sintetiche su ID struttura distinti; struttura/schedina non popolate: 404 atteso, non acceptance tenant funzionale'
+ before=subprocess.run(cli+['sintetico_fpm_v5','-N','-e','SELECT id,struttura_id,token,short_token,stato,ultimo_accesso_at FROM web_checkin_richieste ORDER BY id'],capture_output=True).stdout
+ for c in range(1):
+  log=open(r/f'avvio-{c}.log','wb');p=subprocess.Popen([php,'-F','-y',str(r/'pool.conf'),'-c','/etc/opt/remi/php83/php.ini'],stdout=log,stderr=log)
+  try:
+   deadline=time.monotonic()+15
+   while not pathlib.Path(sock).exists():
+    if p.poll() is not None or time.monotonic()>deadline:raise RuntimeError('Avvio FPM fallito')
+    time.sleep(.05)
+   # Prima richiesta fredda, poi richieste concorrenti calde.
+   report['risultati'].append(request(c,0))
+   report['risultati'] += [request(c,i) for i in range(1,92)]
+   assert p.poll() is None
+  finally:
+   if p.poll() is None:p.terminate()
+   p.wait(timeout=15);log.close();report['processi_fermati'].append({'pid':p.pid,'exit':p.returncode})
+   if pathlib.Path(sock).exists():pathlib.Path(sock).unlink()
+  if 'SIGSEGV' in (r/'fpm.log').read_text() or 'signal 11' in (r/'fpm.log').read_text():raise RuntimeError('Crash FPM osservato')
+ after=subprocess.run(cli+['sintetico_fpm_v5','-N','-e','SELECT id,struttura_id,token,short_token,stato,ultimo_accesso_at FROM web_checkin_richieste ORDER BY id'],capture_output=True).stdout
+ assert before==after;report['richieste_DB_immutate']=True
+ report['esito']='PASS_CONTATORI_PARZIALI'
+except Exception as e:report['esito']='FAIL';report['errore']=str(e)
+if db is not None and db.poll() is None:db.terminate();db.wait(timeout=30)
+report['db_privato_fermato']=db is None or db.poll() is not None
+(r/'manifest-sanitizzato.json').write_text(json.dumps(report,indent=2));print(json.dumps(report))

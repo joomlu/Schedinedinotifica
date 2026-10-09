@@ -1,0 +1,47 @@
+{
+  "data": "2026-10-09",
+  "kernel_eventi": 29,
+  "systemd_core_eventi_php": 49,
+  "core_presenti": 2,
+  "core_non_disponibili": 47,
+  "core_campione_pid": [
+    1896486,
+    1896671
+  ],
+  "uid": 1002,
+  "eseguibile": "/opt/remi/php83/root/usr/bin/php",
+  "stack_campione": [
+    "zend_get_file_handle_timestamp",
+    "opcache_compile_file",
+    "persistent_compile_file",
+    "ioncube_loader.so",
+    "php_lint_script",
+    "do_cli"
+  ],
+  "causa_completa": "Non dimostrata; lint CLI OPcache/ionCube identificato nei due core disponibili",
+  "motori_db": {
+    "InnoDB": 58
+  },
+  "event_scheduler": "OFF",
+  "log_bin": "OFF",
+  "build_guardrail": {
+    "package.json": {
+      "atteso": "0f591de75ab44ad61381c0d09a564ad963aaa1b1893f9511c54d523454916590",
+      "effettivo": "1954c82f8cf076373b8b9fee93301c29943052e6cb808db54b2950ba6d58ac01"
+    },
+    "vite.config.js": {
+      "atteso": "dc907b202ee2dd410c02fd3cbddd89725494b4dff98be5039f35aed248135d33",
+      "effettivo": "dc907b202ee2dd410c02fd3cbddd89725494b4dff98be5039f35aed248135d33"
+    },
+    "package-copy-config.json": {
+      "atteso": "11bda5d30443a82687fc024afebafef1dae9941fc6dca42dccee4f6754707919",
+      "effettivo": "53964ccebe7ff4d23c910d5b605beb769a0605319a547b0a8b88abef70310b87"
+    },
+    "scripts/verify-architecture.mjs": {
+      "atteso": "b0bf8cb296fdf164573db2276df31db8eb6f187d27709dc7dbe9b40ad0e4d403",
+      "effettivo": "b0bf8cb296fdf164573db2276df31db8eb6f187d27709dc7dbe9b40ad0e4d403"
+    }
+  },
+  "operazioni_remote_scrittura": 0,
+  "core_memoria_esportata": false
+}

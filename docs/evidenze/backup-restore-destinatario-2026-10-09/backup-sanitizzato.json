@@ -1,0 +1,49 @@
+{
+  "backup": "COMPLETO_VERIFICATO_ACQUISIZIONE_NON_RESTORE",
+  "riapertura": true,
+  "inizio_utc": "2026-10-09T20:39:48Z",
+  "fasi_http": [
+    {
+      "fase": "http-1-503",
+      "atteso": 503,
+      "codice": "503",
+      "secondi": 0.032081,
+      "controlli": {
+        "codice": true,
+        "marker": true,
+        "retry_after": true,
+        "trasporto": true
+      }
+    },
+    {
+      "fase": "http-2-200",
+      "atteso": 200,
+      "codice": "200",
+      "secondi": 0.064313,
+      "controlli": {
+        "codice": true,
+        "trasporto": true
+      }
+    }
+  ],
+  "drenaggio": "PASS",
+  "artefatti": {
+    "db.sql": {
+      "byte": 21562240,
+      "sha256": "f7687e42c07b1ad2cea75535b67520aa3a17c433d3d9791f8d776ce3943228ca"
+    },
+    "app.tar.gz": {
+      "byte": 288233177,
+      "sha256": "55ff46beb876bd1761ed4799b4c854fd08fb9b8c63d56e8aa6c7d467f2083bb4"
+    },
+    "config-server.tar.gz": {
+      "byte": 31615,
+      "sha256": "8f0806fa534d7d819dd30719e0a5da39592d1eaf02ff5dc423b4eaa66529c99f"
+    }
+  },
+  "db_doppio_dump_identico": true,
+  "filetree_identico": true,
+  "APP_KEY_env_immutati": true,
+  "secondi_manutenzione": 31.661,
+  "fine_utc": "2026-10-09T20:40:20Z"
+}

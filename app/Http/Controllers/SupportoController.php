@@ -151,7 +151,7 @@ class SupportoController extends Controller
                 'categoria' => $data['categoria'],
                 'priorita' => $data['priorita'],
                 'stato' => 'aperto',
-                'modulo_riferimento' => $data['modulo_riferimento'] ?: null,
+                'modulo_riferimento' => ($data['modulo_riferimento'] ?? null) ?: null,
                 'descrizione' => $data['descrizione'],
                 'ultimo_messaggio_at' => now(),
                 'ultimo_messaggio_da' => 'struttura',

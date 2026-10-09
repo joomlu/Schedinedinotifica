@@ -1,0 +1,4639 @@
+{
+  "rete_senza_route": true,
+  "risultati": [
+    {
+      "ciclo": 0,
+      "richiesta": 0,
+      "secondi": 0.203008,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 1,
+      "secondi": 0.039437,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 2,
+      "secondi": 0.029504,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 3,
+      "secondi": 0.060685,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 4,
+      "secondi": 0.064392,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 5,
+      "secondi": 0.059413,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 6,
+      "secondi": 0.054581,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 7,
+      "secondi": 0.057806,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 8,
+      "secondi": 0.305951,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 9,
+      "secondi": 0.058067,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 10,
+      "secondi": 0.085211,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 11,
+      "secondi": 0.087561,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 12,
+      "secondi": 0.088984,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 13,
+      "secondi": 0.090369,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 14,
+      "secondi": 0.090422,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 15,
+      "secondi": 0.089731,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 16,
+      "secondi": 0.089418,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 17,
+      "secondi": 0.090219,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 18,
+      "secondi": 0.077073,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 19,
+      "secondi": 0.059892,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 20,
+      "secondi": 0.059539,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 21,
+      "secondi": 0.058151,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 22,
+      "secondi": 0.056819,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 23,
+      "secondi": 0.058775,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 24,
+      "secondi": 0.060743,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 25,
+      "secondi": 0.05992,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 26,
+      "secondi": 0.061868,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 27,
+      "secondi": 0.058817,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 28,
+      "secondi": 0.060874,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 29,
+      "secondi": 0.057712,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 30,
+      "secondi": 0.058819,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 31,
+      "secondi": 0.058166,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 32,
+      "secondi": 0.058519,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 33,
+      "secondi": 0.057913,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 34,
+      "secondi": 0.058175,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 35,
+      "secondi": 0.057889,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 36,
+      "secondi": 0.057252,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 37,
+      "secondi": 0.057361,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 38,
+      "secondi": 0.057177,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 39,
+      "secondi": 0.05728,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 40,
+      "secondi": 0.058437,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 41,
+      "secondi": 0.060959,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 42,
+      "secondi": 0.059187,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 43,
+      "secondi": 0.060108,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 44,
+      "secondi": 0.058291,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 45,
+      "secondi": 0.057541,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 46,
+      "secondi": 0.059995,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 47,
+      "secondi": 0.058991,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 48,
+      "secondi": 0.060503,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 49,
+      "secondi": 0.058924,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 50,
+      "secondi": 0.06056,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 51,
+      "secondi": 0.057529,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 52,
+      "secondi": 0.05948,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 53,
+      "secondi": 0.057624,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 54,
+      "secondi": 0.058484,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 55,
+      "secondi": 0.060733,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 56,
+      "secondi": 0.059538,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 57,
+      "secondi": 0.065514,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 58,
+      "secondi": 0.059519,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 59,
+      "secondi": 0.06362,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 60,
+      "secondi": 0.057531,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 61,
+      "secondi": 0.056506,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 62,
+      "secondi": 0.055224,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 63,
+      "secondi": 0.055304,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 64,
+      "secondi": 0.055929,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 65,
+      "secondi": 0.057434,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 66,
+      "secondi": 0.057761,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 67,
+      "secondi": 0.060501,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 68,
+      "secondi": 0.058059,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 69,
+      "secondi": 0.059189,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 70,
+      "secondi": 0.057266,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 71,
+      "secondi": 0.056866,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 72,
+      "secondi": 0.057381,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 73,
+      "secondi": 0.057192,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 74,
+      "secondi": 0.058605,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 75,
+      "secondi": 0.057262,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 76,
+      "secondi": 0.057545,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 77,
+      "secondi": 0.057995,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 78,
+      "secondi": 0.056217,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 79,
+      "secondi": 0.059702,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 80,
+      "secondi": 0.058469,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 81,
+      "secondi": 0.063191,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 82,
+      "secondi": 0.060924,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 83,
+      "secondi": 0.066662,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 84,
+      "secondi": 0.063578,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 85,
+      "secondi": 0.068857,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 86,
+      "secondi": 0.066799,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 87,
+      "secondi": 0.075726,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 88,
+      "secondi": 0.065737,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 89,
+      "secondi": 0.076298,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 90,
+      "secondi": 0.072663,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 91,
+      "secondi": 0.074382,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 92,
+      "secondi": 0.06994,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 93,
+      "secondi": 0.066003,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 94,
+      "secondi": 0.063536,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 95,
+      "secondi": 0.314775,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 96,
+      "secondi": 0.061296,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 97,
+      "secondi": 0.062878,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 98,
+      "secondi": 0.092683,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 99,
+      "secondi": 0.09315,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 100,
+      "secondi": 0.091811,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 101,
+      "secondi": 0.092578,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 102,
+      "secondi": 0.090729,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 103,
+      "secondi": 0.09168,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 104,
+      "secondi": 0.090946,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 105,
+      "secondi": 0.096387,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 106,
+      "secondi": 0.067768,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 107,
+      "secondi": 0.317101,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 108,
+      "secondi": 0.060323,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 109,
+      "secondi": 0.05977,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 110,
+      "secondi": 0.089404,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 111,
+      "secondi": 0.093526,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 112,
+      "secondi": 0.097615,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 113,
+      "secondi": 0.096334,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 114,
+      "secondi": 0.093957,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 115,
+      "secondi": 0.092662,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 116,
+      "secondi": 0.345933,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 117,
+      "secondi": 0.093968,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 118,
+      "secondi": 0.094479,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 119,
+      "secondi": 0.093921,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 120,
+      "secondi": 0.094203,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 121,
+      "secondi": 0.092459,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 122,
+      "secondi": 0.091655,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 123,
+      "secondi": 0.091394,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 124,
+      "secondi": 0.092052,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 125,
+      "secondi": 0.093398,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 126,
+      "secondi": 0.064634,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 127,
+      "secondi": 0.062984,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 128,
+      "secondi": 0.059837,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 129,
+      "secondi": 0.312953,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 130,
+      "secondi": 0.060192,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 131,
+      "secondi": 0.064296,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 132,
+      "secondi": 0.094284,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 133,
+      "secondi": 0.094026,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 134,
+      "secondi": 0.091661,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 135,
+      "secondi": 0.091674,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 136,
+      "secondi": 0.093372,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 137,
+      "secondi": 0.091885,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 138,
+      "secondi": 0.091347,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 139,
+      "secondi": 0.089882,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 140,
+      "secondi": 0.310637,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 141,
+      "secondi": 0.059792,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 142,
+      "secondi": 0.086789,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 143,
+      "secondi": 0.08939,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 144,
+      "secondi": 0.088787,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 145,
+      "secondi": 0.08916,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 146,
+      "secondi": 0.088881,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 147,
+      "secondi": 0.088689,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 148,
+      "secondi": 0.087928,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 149,
+      "secondi": 0.089731,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 150,
+      "secondi": 0.072701,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 151,
+      "secondi": 0.060378,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 152,
+      "secondi": 0.058148,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 153,
+      "secondi": 0.059124,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 154,
+      "secondi": 0.056393,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 155,
+      "secondi": 0.059559,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 156,
+      "secondi": 0.056876,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 157,
+      "secondi": 0.059508,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 158,
+      "secondi": 0.057017,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 159,
+      "secondi": 0.058194,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 160,
+      "secondi": 0.056312,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 161,
+      "secondi": 0.057752,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 162,
+      "secondi": 0.058448,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 163,
+      "secondi": 0.061289,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 164,
+      "secondi": 0.060008,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 0,
+      "secondi": 0.205051,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 1,
+      "secondi": 0.03874,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 2,
+      "secondi": 0.289176,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 3,
+      "secondi": 0.070289,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 4,
+      "secondi": 0.101806,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 5,
+      "secondi": 0.096191,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 6,
+      "secondi": 0.10436,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 7,
+      "secondi": 0.112729,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 8,
+      "secondi": 0.112795,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 9,
+      "secondi": 0.105188,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 10,
+      "secondi": 0.104943,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 11,
+      "secondi": 0.07663,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 12,
+      "secondi": 0.07701,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 13,
+      "secondi": 0.073376,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 14,
+      "secondi": 0.075189,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 15,
+      "secondi": 0.073678,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 16,
+      "secondi": 0.075598,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 17,
+      "secondi": 0.072599,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 18,
+      "secondi": 0.073052,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 19,
+      "secondi": 0.322264,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 20,
+      "secondi": 0.066199,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 21,
+      "secondi": 0.093894,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 22,
+      "secondi": 0.091418,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 23,
+      "secondi": 0.091879,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 24,
+      "secondi": 0.092539,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 25,
+      "secondi": 0.092752,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 26,
+      "secondi": 0.092669,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 27,
+      "secondi": 0.096792,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 28,
+      "secondi": 0.099957,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 29,
+      "secondi": 0.074904,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 30,
+      "secondi": 0.064822,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 31,
+      "secondi": 0.078287,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 32,
+      "secondi": 0.060522,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 33,
+      "secondi": 0.079415,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 34,
+      "secondi": 0.059007,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 35,
+      "secondi": 0.079309,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 36,
+      "secondi": 0.059878,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 37,
+      "secondi": 0.06868,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 38,
+      "secondi": 0.07486,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 39,
+      "secondi": 0.064965,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 40,
+      "secondi": 0.079757,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 41,
+      "secondi": 0.060237,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 42,
+      "secondi": 0.079025,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 43,
+      "secondi": 0.308726,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 44,
+      "secondi": 0.067523,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 45,
+      "secondi": 0.092013,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 46,
+      "secondi": 0.094646,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 47,
+      "secondi": 0.096818,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 48,
+      "secondi": 0.095472,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 49,
+      "secondi": 0.0929,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 50,
+      "secondi": 0.092059,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 51,
+      "secondi": 0.343417,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 52,
+      "secondi": 0.094529,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 53,
+      "secondi": 0.095009,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 54,
+      "secondi": 0.092201,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 55,
+      "secondi": 0.088831,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 56,
+      "secondi": 0.089754,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 57,
+      "secondi": 0.090397,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 58,
+      "secondi": 0.091525,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 59,
+      "secondi": 0.090569,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 60,
+      "secondi": 0.088911,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 61,
+      "secondi": 0.075796,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 62,
+      "secondi": 0.056556,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 63,
+      "secondi": 0.072252,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 64,
+      "secondi": 0.059446,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 65,
+      "secondi": 0.070396,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 66,
+      "secondi": 0.06109,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 67,
+      "secondi": 0.067548,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 68,
+      "secondi": 0.060683,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 69,
+      "secondi": 0.319186,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 70,
+      "secondi": 0.066916,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 71,
+      "secondi": 0.067384,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 72,
+      "secondi": 0.099322,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 73,
+      "secondi": 0.092645,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 74,
+      "secondi": 0.091118,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 75,
+      "secondi": 0.089245,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 76,
+      "secondi": 0.089431,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 77,
+      "secondi": 0.089277,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 78,
+      "secondi": 0.089184,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 79,
+      "secondi": 0.091606,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 80,
+      "secondi": 0.080405,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 81,
+      "secondi": 0.064039,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 82,
+      "secondi": 0.076838,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 83,
+      "secondi": 0.062276,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 84,
+      "secondi": 0.065768,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 85,
+      "secondi": 0.059485,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 86,
+      "secondi": 0.063609,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 87,
+      "secondi": 0.059104,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 88,
+      "secondi": 0.065403,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 89,
+      "secondi": 0.060365,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 90,
+      "secondi": 0.063022,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 91,
+      "secondi": 0.061814,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 92,
+      "secondi": 0.062136,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 93,
+      "secondi": 0.063106,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 94,
+      "secondi": 0.062277,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 95,
+      "secondi": 0.063153,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 96,
+      "secondi": 0.060303,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 97,
+      "secondi": 0.061519,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 98,
+      "secondi": 0.059661,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 99,
+      "secondi": 0.060849,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 100,
+      "secondi": 0.062928,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 101,
+      "secondi": 0.065727,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 102,
+      "secondi": 0.073008,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 103,
+      "secondi": 0.075966,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 104,
+      "secondi": 0.078892,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 105,
+      "secondi": 0.081807,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 106,
+      "secondi": 0.083719,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 107,
+      "secondi": 0.077503,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 108,
+      "secondi": 0.080289,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 109,
+      "secondi": 0.321881,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 110,
+      "secondi": 0.065752,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 111,
+      "secondi": 0.094311,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 112,
+      "secondi": 0.092428,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 113,
+      "secondi": 0.09237,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 114,
+      "secondi": 0.092508,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 115,
+      "secondi": 0.092372,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 116,
+      "secondi": 0.092534,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 117,
+      "secondi": 0.095977,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 118,
+      "secondi": 0.095193,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 119,
+      "secondi": 0.066439,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 120,
+      "secondi": 0.058697,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 121,
+      "secondi": 0.058567,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 122,
+      "secondi": 0.058289,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 123,
+      "secondi": 0.0577,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 124,
+      "secondi": 0.060421,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 125,
+      "secondi": 0.309818,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 126,
+      "secondi": 0.090078,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 127,
+      "secondi": 0.058946,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 128,
+      "secondi": 0.089754,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 129,
+      "secondi": 0.091188,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 130,
+      "secondi": 0.099437,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 131,
+      "secondi": 0.102022,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 132,
+      "secondi": 0.105733,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 133,
+      "secondi": 0.10835,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 134,
+      "secondi": 0.088424,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 135,
+      "secondi": 0.064252,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 136,
+      "secondi": 0.051201,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 137,
+      "secondi": 0.045996,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 138,
+      "secondi": 0.044307,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 139,
+      "secondi": 0.045953,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 140,
+      "secondi": 0.043682,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 141,
+      "secondi": 0.045025,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 142,
+      "secondi": 0.044046,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 143,
+      "secondi": 0.044131,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 144,
+      "secondi": 0.047643,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 145,
+      "secondi": 0.045315,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 146,
+      "secondi": 0.046635,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 147,
+      "secondi": 0.046983,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 148,
+      "secondi": 0.043311,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 149,
+      "secondi": 0.051429,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 150,
+      "secondi": 0.043577,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 151,
+      "secondi": 0.055338,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 152,
+      "secondi": 0.04536,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 153,
+      "secondi": 0.049662,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 154,
+      "secondi": 0.053715,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 155,
+      "secondi": 0.046741,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 156,
+      "secondi": 0.057701,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 157,
+      "secondi": 0.046023,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 158,
+      "secondi": 0.050109,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 159,
+      "secondi": 0.042931,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 160,
+      "secondi": 0.044021,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 161,
+      "secondi": 0.043608,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 162,
+      "secondi": 0.044647,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 163,
+      "secondi": 0.042909,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 1,
+      "richiesta": 164,
+      "secondi": 0.046742,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/token-sintetico-inesistente",
+        "metodo": "GET",
+        "http": 429
+      }
+    }
+  ],
+  "processi_fermati": [
+    {
+      "pid": 73,
+      "exit": 0
+    },
+    {
+      "pid": 82,
+      "exit": 0
+    }
+  ],
+  "flussi_laravel": "limite_generale_IP_300_minuto_condiviso_tra_worker; tenant autenticato PENDENTE",
+  "schema_solo_DDL_senza_dati": true,
+  "esito": "PASS_FLUSSI_PARZIALI",
+  "db_privato_fermato": true
+}

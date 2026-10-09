@@ -1,0 +1,91 @@
+{
+  "righe": 7,
+  "nota": "Due righe CRLF riferiscono la stessa GHSA-5vg9-5847-vvmq; non sette exploit distinti",
+  "avvisi": [
+    {
+      "PKSA": "PKSA-d5tc-s1qs-h781",
+      "fonte": "https://github.com/advisories/GHSA-jh5r-qr3c-85q8",
+      "titolo": "Laravel: XSS in Debug Page Information",
+      "versione": "11.31.0",
+      "range": ">=13.0.0,<13.30.0|<12.69.0",
+      "ambito": "produzione diretta",
+      "esposizione": "Richiede debug attivo e input non fidato; flagfalse verificato nel runtime isolato, non attestato sul destinatario",
+      "prova": "DependencyMitigationAudit: debugfalse/404 senza trace; globale750/8252",
+      "rimedio": "Attestare APP_DEBUGfalse effettivo FPM/cache prima esposizione;11.36 corregge due righe,12.69 corregge l’intera famiglia",
+      "stato": "CONDIZIONE LOCALE VERIFICATA; nessuna patch del framework né attestazione produttiva"
+    },
+    {
+      "PKSA": "PKSA-m5cs-t1y6-qpcs",
+      "fonte": "https://github.com/advisories/GHSA-crmm-hgp2-wgrp",
+      "titolo": "Laravel Framework: Temporary Signed URL Path Confusion",
+      "versione": "11.31.0",
+      "range": "<12.61.1|>=13.0.0,<13.12.0",
+      "ambito": "produzione diretta",
+      "esposizione": "Nessuna route signed/ValidateSignature attiva; User non MustVerifyEmail; token checkin indipendenti",
+      "prova": "LaravelResidualExposureAudit verifica registry route e contratto User",
+      "rimedio": "Nessun consumer attuale; rivalutare prima di introdurre URL temporanee firmate, patch12.61.1",
+      "stato": "CONDIZIONE LOCALE VERIFICATA; nessuna patch del framework né attestazione produttiva"
+    },
+    {
+      "PKSA": "PKSA-3r5d-mb8f-1qw9",
+      "fonte": "https://github.com/advisories/GHSA-5vg9-5847-vvmq",
+      "titolo": "Laravel Framework: CRLF injection in default email rule ",
+      "versione": "11.31.0",
+      "range": "<12.60.0|>=13.0.0,<=13.9.0",
+      "ambito": "produzione diretta",
+      "esposizione": "Ingressi con regola email: resolver applicativo rifiuta CR/LF; vecchi record e ingressi senza regola non certificati",
+      "prova": "LaravelResidualExposureAudit: originale accetta FWS CRLF, resolver e POST reset422 rifiutano; valido/nullable/annidati preservati",
+      "rimedio": "Controllo applicativo implementato; versione framework corretta>=12.60 o>=13.10 richiede impatto maggiore separato",
+      "stato": "CONDIZIONE LOCALE VERIFICATA; nessuna patch del framework né attestazione produttiva"
+    },
+    {
+      "PKSA": "PKSA-mdq4-51ck-6kdq",
+      "fonte": "https://github.com/laravel/framework/security/advisories/GHSA-5vg9-5847-vvmq",
+      "titolo": "Laravel CRLF injection in default email rule",
+      "versione": "11.31.0",
+      "range": ">=9.0.0,<10.0.0|>=10.0.0,<11.0.0|>=11.0.0,<12.0.0|>=12.0.0,<12.60.0|>=13.0.0,<13.10.0",
+      "ambito": "produzione diretta",
+      "esposizione": "Ingressi con regola email: resolver applicativo rifiuta CR/LF; vecchi record e ingressi senza regola non certificati",
+      "prova": "LaravelResidualExposureAudit: originale accetta FWS CRLF, resolver e POST reset422 rifiutano; valido/nullable/annidati preservati",
+      "rimedio": "Controllo applicativo implementato; versione framework corretta>=12.60 o>=13.10 richiede impatto maggiore separato",
+      "stato": "CONDIZIONE LOCALE VERIFICATA; nessuna patch del framework né attestazione produttiva"
+    },
+    {
+      "PKSA": "PKSA-8qx3-n5y5-vvnd",
+      "fonte": "https://github.com/advisories/GHSA-78fx-h6xr-vch4",
+      "titolo": "Laravel has a File Validation Bypass",
+      "versione": "11.31.0",
+      "range": "<10.48.29|>=11.0.0,<11.44.1|>=12.0.0,<12.1.1",
+      "ambito": "produzione diretta",
+      "esposizione": "Vulnerabilità richiede wildcard file/image array; regole upload attuali scalari, nessuna wildcard file individuata",
+      "prova": "Ricerca completa app; POSTregister avatar-array422, nessun utente creato",
+      "rimedio": "Prerequisito assente nei consumer esaminati;11.44.1 corregge upstream ma non chiude le altre advisory11",
+      "stato": "CONDIZIONE LOCALE VERIFICATA; nessuna patch del framework né attestazione produttiva"
+    },
+    {
+      "PKSA": "PKSA-q46n-4fdk-zjr4",
+      "fonte": "https://github.com/sbaresearch/advisories/tree/public/2024/SBA-ADV-20241209-02_Laravel_Reflected_XSS_via_Route_Parameter_in_Debug-Mode_Error_Page",
+      "titolo": "Laravel Reflected XSS via Route Parameter in Debug-Mode Error Page",
+      "versione": "11.31.0",
+      "range": ">=11.9.0,<11.36.0",
+      "ambito": "produzione diretta",
+      "esposizione": "Richiede debug attivo e input non fidato; flagfalse verificato nel runtime isolato, non attestato sul destinatario",
+      "prova": "DependencyMitigationAudit: debugfalse/404 senza trace; globale750/8252",
+      "rimedio": "Attestare APP_DEBUGfalse effettivo FPM/cache prima esposizione;11.36 corregge due righe,12.69 corregge l’intera famiglia",
+      "stato": "CONDIZIONE LOCALE VERIFICATA; nessuna patch del framework né attestazione produttiva"
+    },
+    {
+      "PKSA": "PKSA-qzrn-rnz3-85w1",
+      "fonte": "https://github.com/sbaresearch/advisories/tree/public/2024/SBA-ADV-20241209-01_Laravel_Reflected_XSS_via_Request_Parameter_in_Debug-Mode_Error_Page",
+      "titolo": "Laravel Reflected XSS via Request Parameter in Debug-Mode Error Page",
+      "versione": "11.31.0",
+      "range": ">=11.9.0,<11.36.0",
+      "ambito": "produzione diretta",
+      "esposizione": "Richiede debug attivo e input non fidato; flagfalse verificato nel runtime isolato, non attestato sul destinatario",
+      "prova": "DependencyMitigationAudit: debugfalse/404 senza trace; globale750/8252",
+      "rimedio": "Attestare APP_DEBUGfalse effettivo FPM/cache prima esposizione;11.36 corregge due righe,12.69 corregge l’intera famiglia",
+      "stato": "CONDIZIONE LOCALE VERIFICATA; nessuna patch del framework né attestazione produttiva"
+    }
+  ],
+  "impatto12": "5install/50update in dryrun, non implementato"
+}

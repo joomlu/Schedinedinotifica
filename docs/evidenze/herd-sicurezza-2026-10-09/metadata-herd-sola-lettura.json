@@ -1,0 +1,75 @@
+{
+    "versione": "8.0.44",
+    "colonne_istat_exports": [
+        {
+            "COLUMN_NAME": "id",
+            "COLUMN_TYPE": "bigint unsigned",
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "struttura_id",
+            "COLUMN_TYPE": "bigint unsigned",
+            "IS_NULLABLE": "YES"
+        },
+        {
+            "COLUMN_NAME": "user_id",
+            "COLUMN_TYPE": "bigint unsigned",
+            "IS_NULLABLE": "YES"
+        },
+        {
+            "COLUMN_NAME": "dal",
+            "COLUMN_TYPE": "date",
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "al",
+            "COLUMN_TYPE": "date",
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "filename",
+            "COLUMN_TYPE": "varchar(191)",
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "path",
+            "COLUMN_TYPE": "varchar(191)",
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "schedine_count",
+            "COLUMN_TYPE": "int unsigned",
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "movimenti_count",
+            "COLUMN_TYPE": "int unsigned",
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "schedina_ids",
+            "COLUMN_TYPE": "json",
+            "IS_NULLABLE": "YES"
+        },
+        {
+            "COLUMN_NAME": "created_at",
+            "COLUMN_TYPE": "timestamp",
+            "IS_NULLABLE": "YES"
+        },
+        {
+            "COLUMN_NAME": "updated_at",
+            "COLUMN_TYPE": "timestamp",
+            "IS_NULLABLE": "YES"
+        }
+    ],
+    "migration_istat": [
+        {
+            "migration": "2026_03_12_170000_add_istat_tabella_a_fields_and_tables",
+            "batch": 27
+        },
+        {
+            "migration": "2026_03_12_171500_add_istat_non_turista_to_schedina",
+            "batch": 28
+        }
+    ]
+}

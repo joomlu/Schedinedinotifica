@@ -1,0 +1,39 @@
+TEST isolato: /private/tmp/schedine-test-kh8kh7x4; database=test_geo_dc2e34552038a1d482e021d53635d912; MySQL pid=64289, porta=55198; HTTP pid=64296, porta=55199
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PASS SOAP 200 and positive body never prove acceptance; no token/body leaves service
+PASS verification is unknown and retains Test operation
+PASS external constructor exception is contained
+PASS SOAP call exceptions do not escape with their chain
+PASS negative provider text is replaced with a fixed message
+PASS simulation makes no SOAP calls and is never accepted
+PASS nested and unexpected fields discarded; caller acceptance ignored
+PASS allowed slots cannot carry arrays objects or arbitrary strings
+PASS historical success never becomes accepted; history not rewritten
+PASS receipt and tables cannot expose or persist unvalidated bodies
+PASS actual persistence boundary projects injected provider material
+PASS legacy handler aborts before any DB or storage dependency
+PASS controller has no confirmed-send mutation for simulation or attempts
+PASS view never presents legacy provider messages or success as acceptance
+14 safety checks passed; in-memory doubles only
+Fixture Tassa sintetiche create esclusivamente nel database effimero.
+Fixture anteprime sintetiche create esclusivamente nel database effimero.
+
+Running 9 tests using 1 worker
+
+  ✓  1 tests/Feature/web-checkin-lifecycle.playwright.spec.js:7:1 › Ciclo reale: invito indipendente, form, salvataggio e correzione (4.5s)
+  ✓  2 tests/Feature/web-checkin-lifecycle.playwright.spec.js:17:1 › Conversione: ogni alias e completed contiene solo conferma; scaduti e revocati rifiutati; legacy80 valido (1.8s)
+  ✓  3 tests/Feature/web-checkin-lifecycle.playwright.spec.js:24:1 › Operatore reale: revoca, nuova emissione e invalidazione vecchi alias (7.4s)
+  ✓  4 tests/Feature/web-checkin-lifecycle.playwright.spec.js:30:1 › Riprogrammazione gestionale nel browser: attivo aggiornato e scaduto non riattivato (2.9s)
+  ✓  5 tests/Feature/web-checkin-lifecycle.playwright.spec.js:40:1 › Conversione reale dall’interfaccia in Arrivo: dati operatore conservati, link senza dati (4.0s)
+ASSOCIAZIONE_RIPRISTINO {
+  action: [32m'http://127.0.0.1:55199/cestino/1/ripristina'[39m,
+  closest: [32m'http://127.0.0.1:55199/cestino/1/ripristina'[39m
+}
+  ✓  6 tests/Feature/web-checkin-lifecycle.playwright.spec.js:46:1 › Cestino nel browser: cancellazione, ripristino bloccato, emissione autorizzata nuova (6.8s)
+  ✓  7 tests/Feature/web-checkin-lifecycle.playwright.spec.js:55:1 › Limite letture reale: alias condivisi, altri ospiti e strutture Wi-Fi indipendenti (6.4s)
+  ✓  8 tests/Feature/web-checkin-lifecycle.playwright.spec.js:60:1 › Limite POST reale20/10min: CSRF valido, nessuna modifica, letture indipendenti (2.9s)
+  ✓  9 tests/Feature/web-checkin-lifecycle.playwright.spec.js:65:1 › Limite generale Wi-Fi condiviso300 prima del lookup, anche altre strutture (16.0s)
+
+  9 passed (55.3s)
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-kh8kh7x4

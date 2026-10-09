@@ -30,6 +30,13 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
+    protected function credentials(Request $request)
+    {
+        return array_merge($request->only('email', 'password', 'password_confirmation', 'token'), [
+            'attivo' => true,
+        ]);
+    }
+
     protected function sendResetResponse(Request $request, $response)
     {
         return redirect($this->redirectPath())

@@ -1,57 +1,56 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\GeoController;
+use App\Http\Controllers\Admin\PagamentiController as AdminPagamentiController;
+use App\Http\Controllers\Admin\ProprietariController as AdminProprietariController;
+use App\Http\Controllers\Admin\StruttureController as AdminStruttureController;
+use App\Http\Controllers\ArchivosController;
+use App\Http\Controllers\ArrivalsController;
+use App\Http\Controllers\CalendarioController;
+use App\Http\Controllers\CestinoController;
+use App\Http\Controllers\ComponentiImportController;
+use App\Http\Controllers\CrmController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerExportController;
+use App\Http\Controllers\CustomerImportController;
 use App\Http\Controllers\GeoComuneLogoController;
+use App\Http\Controllers\GeoController;
+use App\Http\Controllers\GestioneOperativaController;
+use App\Http\Controllers\GroupController;
+use App\Http\Controllers\HelpCenterController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IstatTabellaAController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\NotificheController;
+use App\Http\Controllers\PresenzeController;
+use App\Http\Controllers\Proprietario\StruttureController as ProprietarioStruttureController;
+use App\Http\Controllers\PublicSiteController;
+use App\Http\Controllers\QA\DemoMapController;
+use App\Http\Controllers\QaController;
+use App\Http\Controllers\QuesturaExportController;
+use App\Http\Controllers\RilasciatoDaController;
+use App\Http\Controllers\SchedinaController;
+use App\Http\Controllers\StrutturaController;
+use App\Http\Controllers\StrutturaSelezioneController;
+use App\Http\Controllers\StrutturaUserController;
+use App\Http\Controllers\Superadmin\AmministratoriController;
+use App\Http\Controllers\Superadmin\ArticoliController;
+use App\Http\Controllers\Superadmin\ImpersonazioneController;
+use App\Http\Controllers\Superadmin\PagamentiController;
+use App\Http\Controllers\Superadmin\ProprietariController as SuperadminProprietariController;
+use App\Http\Controllers\Superadmin\StruttureController as SuperadminStruttureController;
+use App\Http\Controllers\SupportoController;
 use App\Http\Controllers\TassaDiSoggiornoController;
 use App\Http\Controllers\TassaEsenzioneController;
 use App\Http\Controllers\TassaReportController;
 use App\Http\Controllers\TipoAlloggiatoController;
 use App\Http\Controllers\TipoClienteController;
 use App\Http\Controllers\TipoDocumentoController;
-use App\Http\Controllers\StrutturaController;
-use App\Http\Controllers\StrutturaSelezioneController;
-use App\Http\Controllers\StrutturaUserController;
-use App\Http\Controllers\RilasciatoDaController;
-use App\Http\Controllers\ArrivalsController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ArchivosController;
-use App\Http\Controllers\ComponentiImportController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\CustomerExportController;
-use App\Http\Controllers\CustomerImportController;
-use App\Http\Controllers\SchedinaController;
-use App\Http\Controllers\GroupController;
-use App\Http\Controllers\TitleController;
 use App\Http\Controllers\TipoViaController;
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\Superadmin\AmministratoriController;
-use App\Http\Controllers\Superadmin\ProprietariController as SuperadminProprietariController;
-use App\Http\Controllers\Superadmin\StruttureController as SuperadminStruttureController;
-use App\Http\Controllers\Superadmin\PagamentiController;
-use App\Http\Controllers\Superadmin\ArticoliController;
-use App\Http\Controllers\Superadmin\ImpersonazioneController;
-use App\Http\Controllers\Admin\ProprietariController as AdminProprietariController;
-use App\Http\Controllers\Admin\StruttureController as AdminStruttureController;
-use App\Http\Controllers\Admin\PagamentiController as AdminPagamentiController;
-use App\Http\Controllers\Proprietario\StruttureController as ProprietarioStruttureController;
-use App\Http\Controllers\QaController;
-use App\Http\Controllers\QA\DemoMapController;
-use App\Http\Controllers\CestinoController;
-use App\Http\Controllers\CalendarioController;
-use App\Http\Controllers\GestioneOperativaController;
-use App\Http\Controllers\HelpCenterController;
-use App\Http\Controllers\IstatTabellaAController;
-use App\Http\Controllers\NotificheController;
-use App\Http\Controllers\PresenzeController;
-use App\Http\Controllers\QuesturaExportController;
-use App\Http\Controllers\SupportoController;
+use App\Http\Controllers\TitleController;
 use App\Http\Controllers\WebCheckinController;
-use App\Http\Controllers\PublicSiteController;
 use App\Http\Controllers\WebsiteContactController;
-use App\Http\Controllers\CrmController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
@@ -86,9 +85,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Download Adwords
     Route::get('/adwords/files/{filename}', function ($filename) {
-        $path = storage_path('app/uploads/adwords/' . $filename);
+        $path = storage_path('app/uploads/adwords/'.$filename);
 
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             abort(404);
         }
 
@@ -119,12 +118,16 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tipo_documento', TipoDocumentoController::class)->names('tipo_documento');
 
     Route::get('/tassa_di_soggiorno', [TassaDiSoggiornoController::class, 'edit'])->name('tassa_di_soggiorno.edit');
+    Route::post('/tassa_di_soggiorno/riallinea', [TassaDiSoggiornoController::class, 'riallinea'])->name('tassa_di_soggiorno.riallinea');
     Route::put('/tassa_di_soggiorno', [TassaDiSoggiornoController::class, 'update'])->name('tassa_di_soggiorno.update');
+    Route::get('/tassa_di_soggiorno/immagine', [TassaDiSoggiornoController::class, 'immagine'])->name('tassa_di_soggiorno.immagine');
     Route::get('/tassa_di_soggiorno/create', function () {
         return redirect()->route('tassa_di_soggiorno.edit');
     });
 
     Route::get('/tassa_di_soggiorno/rapporto', [TassaReportController::class, 'index'])->name('tassa_di_soggiorno.rapporto');
+    Route::post('/tassa_di_soggiorno/rapporto/consolida', [TassaReportController::class, 'consolida'])->name('tassa_di_soggiorno.export.consolida');
+    Route::get('/tassa_di_soggiorno/export/{id}', [TassaReportController::class, 'downloadStorico'])->name('tassa_di_soggiorno.export.download');
     Route::get('/tassa_di_soggiorno/rapporto/csv', [TassaReportController::class, 'exportCsv'])->name('tassa_di_soggiorno.rapporto.csv');
     Route::get('/tassa_di_soggiorno/rapporto/controllo', [TassaReportController::class, 'controllo'])->name('tassa_di_soggiorno.rapporto.controllo');
     Route::get('/tassa_di_soggiorno/rapporto/controllo/csv', [TassaReportController::class, 'exportControlloCsv'])->name('tassa_di_soggiorno.rapporto.controllo.csv');
@@ -211,9 +214,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/crm/{id}/agenda-esempio', [CrmController::class, 'addExampleAgenda'])->name('superadmin.crm.agenda.example');
 
         Route::get('/impersonazione', [ImpersonazioneController::class, 'index'])->name('superadmin.impersonazione.index');
-        Route::post('/impersona/{userId}', [ImpersonazioneController::class, 'impersona'])->name('superadmin.impersona.start');
-        Route::post('/impersona/esci', [ImpersonazioneController::class, 'esci'])->name('superadmin.impersona.stop');
+        Route::post('/impersona/{userId}', [ImpersonazioneController::class, 'impersona'])->whereNumber('userId')->name('superadmin.impersona.start');
     });
+
+    Route::post('/superadmin/impersona/esci', [ImpersonazioneController::class, 'esci'])
+        ->withoutMiddleware(\App\Http\Middleware\VerificaServizioStruttura::class)
+        ->name('superadmin.impersona.stop');
 
     // QA (solo super_admin)
     Route::prefix('qa')->middleware(['ruolo:super_admin', 'qa.enabled'])->group(function () {
@@ -389,6 +395,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/schedine/{id}/modifica', [SchedinaController::class, 'edit'])->name('schedina.edit');
     Route::put('/schedine/{id}', [SchedinaController::class, 'update'])->name('schedina.update');
     Route::delete('/schedine/{id}', [SchedinaController::class, 'destroy'])->name('schedina.destroy');
+    Route::get('/schedine/{id}/tassa/anteprima', [SchedinaController::class, 'printTassa'])->name('schedina.tassa.anteprima');
     Route::get('/schedine/{id}/tassa/print', [SchedinaController::class, 'printTassa'])->name('schedina.tassa.print');
 
     Route::redirect('/schedina', '/schedine');
@@ -417,7 +424,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
     // typeDoc
-    require __DIR__ . '/typedoc.php';
+    require __DIR__.'/typedoc.php';
 
     //tipovia
     Route::get('/tipovia', [TipoViaController::class, 'index'])->name('tipovia');
@@ -444,6 +451,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/web-checkin/{id}/modifica', [WebCheckinController::class, 'edit'])->name('web_checkin.edit');
     Route::put('/web-checkin/{id}', [WebCheckinController::class, 'update'])->name('web_checkin.update');
     Route::delete('/web-checkin/{id}', [WebCheckinController::class, 'destroy'])->name('web_checkin.destroy');
+    Route::post('/web-checkin/{id}/revoca', [WebCheckinController::class, 'revoke'])->name('web_checkin.revoke');
+    Route::post('/web-checkin/{id}/rigenera', [WebCheckinController::class, 'regenerate'])->name('web_checkin.regenerate');
     Route::post('/web-checkin/{id}/converti', [WebCheckinController::class, 'toSchedina'])->name('web_checkin.to_schedina');
     Route::redirect('/schedine-web', '/web-checkin');
 
@@ -525,9 +534,9 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/checkin/{token}', [WebCheckinController::class, 'publicShow'])->name('web_checkin.public.show');
 Route::post('/checkin/{token}', [WebCheckinController::class, 'publicStore'])->name('web_checkin.public.store');
 Route::get('/checkin/{token}/completato', [WebCheckinController::class, 'publicCompleted'])->name('web_checkin.public.completed');
-Route::get('/w/{token}', [WebCheckinController::class, 'publicShow'])->name('web_checkin.public.short.show');
-Route::post('/w/{token}', [WebCheckinController::class, 'publicStore'])->name('web_checkin.public.short.store');
-Route::get('/w/{token}/completato', [WebCheckinController::class, 'publicCompleted'])->name('web_checkin.public.short.completed');
+Route::get('/w/{token}', [WebCheckinController::class, 'publicShowShort'])->name('web_checkin.public.short.show');
+Route::post('/w/{token}', [WebCheckinController::class, 'publicStoreShort'])->name('web_checkin.public.short.store');
+Route::get('/w/{token}/completato', [WebCheckinController::class, 'publicCompletedShort'])->name('web_checkin.public.short.completed');
 
 Route::middleware(['auth'])->group(function () {
     // Catch-all

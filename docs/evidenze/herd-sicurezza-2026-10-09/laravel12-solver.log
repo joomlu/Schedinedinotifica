@@ -1,0 +1,14 @@
+Loading composer repositories with package information
+Dependency guzzlehttp/guzzle is also a root requirement. Package has not been listed as an update argument, so keeping locked at old version. Use --with-all-dependencies (-W) to include root dependencies.
+Updating dependencies
+Your requirements could not be resolved to an installable set of packages.
+
+  Problem 1
+    - Root composer.json requires laravel/framework ^12.69 -> satisfiable by laravel/framework[v12.69.0, v12.69.1, v12.69.2, v12.69.3].
+    - nunomaduro/collision is locked to version v8.5.0 and an update of this package was not requested.
+    - nunomaduro/collision v8.5.0 conflicts with laravel/framework v12.69.3.
+    - nunomaduro/collision v8.5.0 conflicts with laravel/framework v12.69.2.
+    - nunomaduro/collision v8.5.0 conflicts with laravel/framework v12.69.1.
+    - nunomaduro/collision v8.5.0 conflicts with laravel/framework v12.69.0.
+
+Use the option --with-all-dependencies (-W) to allow upgrades, downgrades and removals for packages currently locked to specific versions.

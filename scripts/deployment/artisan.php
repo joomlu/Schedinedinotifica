@@ -93,8 +93,102 @@ function paths($app, $config, string $root): void {
     }
 }
 
+
+// Lettura preliminare indipendente da vendor, autoload e provider Laravel.
+// Contratto ristretto: configurazione DB revisionata e valori dotenv letterali.
+function preliminaryEnvironment(string $root): array {
+    physicalPath($root.'/.env');
+    if (!is_file($root.'/.env')) { throw new RuntimeException('Missing environment.'); }
+    $env = [];
+    foreach (file($root.'/.env', FILE_IGNORE_NEW_LINES) as $line) {
+        if (!preg_match('/^\s*(?:export\s+)?(APP_KEY|APP_ENV|APP_DEBUG|DB_[A-Z_]+|DATABASE_URL|MYSQL_ATTR_SSL_CA)\s*=\s*(.*)$/', $line, $m)) { continue; }
+        if (array_key_exists($m[1], $env)) { throw new RuntimeException('Duplicate environment value.'); }
+        if (!preg_match('/^(?:"([^"\r\n]*)"|\'([^\'\r\n]*)\'|([^\s#\'"]*))(?:\s+#.*)?$/', trim($m[2]), $v, PREG_UNMATCHED_AS_NULL)) {
+            throw new RuntimeException('Literal environment required.');
+        }
+        $value = $v[1] ?? $v[2] ?? $v[3];
+        if (str_contains($value, '$') || str_contains($value, '\\')) { throw new RuntimeException('Interpolated environment rejected.'); }
+        $env[$m[1]] = $value;
+    }
+    $pathVariables = ['APP_BASE_PATH'=>$root, 'LARAVEL_STORAGE_PATH'=>$root.'/storage',
+        'VIEW_COMPILED_PATH'=>$root.'/storage/framework/views', 'APP_CONFIG_CACHE'=>$root.'/bootstrap/cache/config.php',
+        'APP_ROUTES_CACHE'=>$root.'/bootstrap/cache/routes-v7.php', 'APP_EVENTS_CACHE'=>$root.'/bootstrap/cache/events.php',
+        'APP_SERVICES_CACHE'=>$root.'/bootstrap/cache/services.php', 'APP_PACKAGES_CACHE'=>$root.'/bootstrap/cache/packages.php'];
+    foreach ($pathVariables as $name=>$expected) {
+        foreach ([$_ENV[$name] ?? null, $_SERVER[$name] ?? null, getenv($name)] as $value) {
+            if ($value !== false && $value !== null && $value !== $expected) { throw new RuntimeException('Path override rejected.'); }
+        }
+        foreach (file($root.'/.env', FILE_IGNORE_NEW_LINES) as $line) {
+            if (preg_match('/^\s*(?:export\s+)?'.preg_quote($name, '/').'\s*=/', $line)) { throw new RuntimeException('Path assignment requires review.'); }
+        }
+    }
+    $defaults = ['DB_CONNECTION'=>'mysql', 'DB_HOST'=>'127.0.0.1', 'DB_PORT'=>'3306', 'DB_PASSWORD'=>'', 'DB_SOCKET'=>''];
+    $env += $defaults;
+    foreach (['APP_KEY','DB_DATABASE','DB_USERNAME'] as $name) {
+        if (empty($env[$name])) { throw new RuntimeException('Missing identity.'); }
+    }
+    foreach (array_merge(array_keys($env), ['DATABASE_URL','MYSQL_ATTR_SSL_CA']) as $name) {
+        foreach ([$_ENV[$name] ?? null, $_SERVER[$name] ?? null, getenv($name)] as $value) {
+            if ($value !== false && $value !== null && $value !== ($env[$name] ?? '')) { throw new RuntimeException('Environment override rejected.'); }
+        }
+    }
+    if ($env['DB_CONNECTION'] !== 'mysql' || ($env['APP_ENV'] ?? '') !== 'production'
+        || !in_array(strtolower($env['APP_DEBUG'] ?? ''), ['false','0'], true)
+        || !empty($env['DATABASE_URL']) || !empty($env['MYSQL_ATTR_SSL_CA'])) {
+        throw new RuntimeException('Unsupported preliminary configuration.');
+    }
+    return $env;
+}
+function preliminaryPending(string $root, string $directory): array {
+    physicalPath($root.'/config/database.php'); physicalPath($directory);
+    if (hash_file('sha256', $root.'/config/database.php') !== 'df1e85513075c64bb3e49336626047f7abdbcfeba673e61a773cb30cf0a7dc41') {
+        throw new RuntimeException('Unreviewed database configuration.');
+    }
+    $env = preliminaryEnvironment($root);
+    $cache = $root.'/bootstrap/cache/config.php'; physicalPath($cache);
+    if (file_exists($cache)) {
+        $config = require $cache;
+        if (!is_array($config) || ($config['database']['default'] ?? '') !== 'mysql'
+            || ($config['database']['migrations'] ?? null) !== 'migrations'
+            || !hash_equals($env['APP_KEY'], (string) ($config['app']['key'] ?? ''))) {
+            throw new RuntimeException('Cached identity rejected.');
+        }
+        $db = $config['database']['connections']['mysql'] ?? [];
+        foreach (['DB_HOST'=>'host','DB_PORT'=>'port','DB_DATABASE'=>'database','DB_USERNAME'=>'username','DB_PASSWORD'=>'password','DB_SOCKET'=>'unix_socket'] as $name=>$field) {
+            if ((string) ($db[$field] ?? '') !== $env[$name]) { throw new RuntimeException('Cached database identity rejected.'); }
+        }
+        if (!empty($db['url']) || !empty($db['prefix']) || !empty($db['options'])) { throw new RuntimeException('Unsupported cached database options.'); }
+    }
+    foreach (['DB_HOST','DB_PORT','DB_DATABASE','DB_SOCKET'] as $name) {
+        if (strpbrk($env[$name], ";\r\n\0") !== false) { throw new RuntimeException('Invalid connection component.'); }
+    }
+    if (!ctype_digit($env['DB_PORT']) || (int) $env['DB_PORT'] < 1 || (int) $env['DB_PORT'] > 65535) { throw new RuntimeException('Invalid database port.'); }
+    $dsn = $env['DB_SOCKET'] !== '' ? 'mysql:unix_socket='.$env['DB_SOCKET'] : 'mysql:host='.$env['DB_HOST'].';port='.$env['DB_PORT'];
+    $pdo = new PDO($dsn.';dbname='.$env['DB_DATABASE'].';charset=utf8mb4', $env['DB_USERNAME'], $env['DB_PASSWORD'], [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION, PDO::ATTR_TIMEOUT=>5]);
+    $pdo->exec('SET TRANSACTION READ ONLY'); $pdo->beginTransaction();
+    try {
+        if (stripos((string) $pdo->query('SELECT VERSION()')->fetchColumn(), 'MariaDB') === false) { throw new RuntimeException('MariaDB required.'); }
+        $ran = $pdo->query('SELECT migration FROM migrations ORDER BY batch, migration')->fetchAll(PDO::FETCH_COLUMN);
+        if (count($ran) !== count(array_unique($ran))) { throw new RuntimeException('Duplicate migration history.'); }
+        $files = [];
+        $catalog = glob($directory.'/*_*.php');
+        if ($catalog === false || !is_dir($directory)) { throw new RuntimeException('Invalid migration directory.'); }
+        foreach ($catalog as $file) {
+            physicalPath($file); $name = basename($file, '.php');
+            if (!preg_match('/^[A-Za-z0-9_]+$/', $name)) { throw new RuntimeException('Invalid migration name.'); }
+            $files[] = $name;
+        }
+        sort($files, SORT_STRING);
+        if (array_diff($ran, $files)) { throw new RuntimeException('Applied migration missing.'); }
+        return array_values(array_diff($files, $ran));
+    } finally { $pdo->rollBack(); }
+}
+
 try {
     $root = $argv[1]; $operation = $argv[2];
+    if ($operation === 'preliminary-pending') {
+        echo json_encode(preliminaryPending($root, $argv[3]), JSON_THROW_ON_ERROR); exit(0);
+    }
     require $root.'/vendor/autoload.php';
     $env = Dotenv\Dotenv::createArrayBacked($root)->load();
     Dotenv\Dotenv::createImmutable($root)->load();
@@ -134,7 +228,7 @@ try {
     if (($env['APP_ENV'] ?? '') !== 'production' || !in_array(strtolower($env['APP_DEBUG'] ?? ''), ['false','0'], true)) {
         throw new RuntimeException('Unsafe .env flags.');
     }
-    if (!str_starts_with($app->version(), '11.')) { throw new RuntimeException('Laravel 11 required.'); }
+    if ($app->version() !== '12.69.3') { throw new RuntimeException('Approved Laravel 12.69.3 required.'); }
     $app->bootstrapWith([
         Illuminate\Foundation\Bootstrap\HandleExceptions::class,
         Illuminate\Foundation\Bootstrap\RegisterFacades::class,

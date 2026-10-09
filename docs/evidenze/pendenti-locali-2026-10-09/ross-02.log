@@ -1,0 +1,14 @@
+TEST isolato: /private/tmp/schedine-test-se0u2xv9; database=test_geo_1a76b9ec108e61dafb4465f2c94e245f; MySQL pid=11692, porta=62182; HTTP pid=11699, porta=62183
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 10.5.38 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /private/tmp/schedine-test-se0u2xv9/checkout/phpunit.xml
+
+.                                                                   1 / 1 (100%)
+
+Time: 00:03.669, Memory: 46.50 MB
+
+OK (1 test, 9 assertions)
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-se0u2xv9

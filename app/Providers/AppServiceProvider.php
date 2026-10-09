@@ -31,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app['validator']->resolver(fn ($translator, $data, $rules, $messages, $attributes) =>
+            new \App\Validation\EmailControlValidator($translator, $data, $rules, $messages, $attributes));
+
         Paginator::useBootstrapFive();
         Schema::defaultStringLength(191);
 

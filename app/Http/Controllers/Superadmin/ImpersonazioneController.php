@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Support\StrutturaCorrente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ImpersonazioneController extends Controller
@@ -28,7 +29,7 @@ class ImpersonazioneController extends Controller
     public function impersona(Request $request, int $userId)
     {
         $impersonator = $request->user();
-        if (!$impersonator || !$impersonator->isSuperAdmin()) {
+        if (! $impersonator || ! $impersonator->isSuperAdmin()) {
             abort(403);
         }
 
@@ -51,26 +52,36 @@ class ImpersonazioneController extends Controller
         StrutturaCorrente::setId($target->struttura_id);
 
         Auth::loginUsingId($target->id);
+        $request->session()->regenerate();
 
-        return redirect()->route('root')->with('status', 'Stai impersonando ' . $target->name);
+        return redirect()->route('root')->with('status', 'Stai impersonando '.$target->name);
     }
 
     public function esci(Request $request)
     {
-        $impersonatorId = $request->session()->pull('impersonator_id');
-        $logId = $request->session()->pull('impersonation_log_id');
-        $request->session()->forget('impersonated_id');
+        $impersonatorId = (int) $request->session()->get('impersonator_id');
+        $targetId = (int) $request->session()->get('impersonated_id');
+        $logId = (int) $request->session()->get('impersonation_log_id');
+        abort_unless($impersonatorId > 0 && $targetId > 0 && $logId > 0
+            && (int) $request->user()?->id === $targetId, 403);
 
-        if ($logId) {
-            ImpersonationLog::where('id', $logId)->update(['ended_at' => now()]);
-        }
+        $impersonator = DB::transaction(function () use ($impersonatorId, $targetId, $logId) {
+            $log = ImpersonationLog::query()->lockForUpdate()->find($logId);
+            $original = User::query()->find($impersonatorId);
+            abort_unless($log && $log->ended_at === null
+                && (int) $log->impersonator_id === $impersonatorId
+                && (int) $log->impersonated_id === $targetId
+                && $original?->isSuperAdmin() && $original->attivo, 403);
+            $log->update(['ended_at' => now()]);
 
-        if ($impersonatorId) {
-            Auth::loginUsingId($impersonatorId);
-            StrutturaCorrente::clear();
-            return redirect()->route('root')->with('status', 'Impersonazione terminata');
-        }
+            return $original;
+        });
 
-        return redirect()->route('root');
+        Auth::login($impersonator);
+        $request->session()->forget(['impersonator_id', 'impersonated_id', 'impersonation_log_id', 'struttura_corrente_id']);
+        $request->session()->regenerate();
+        StrutturaCorrente::clear();
+
+        return redirect()->route('root')->with('status', 'Impersonazione terminata');
     }
 }

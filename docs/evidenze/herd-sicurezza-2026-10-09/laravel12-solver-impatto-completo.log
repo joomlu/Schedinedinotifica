@@ -1,0 +1,16 @@
+Loading composer repositories with package information
+Dependency guzzlehttp/guzzle is also a root requirement. Package has not been listed as an update argument, so keeping locked at old version. Use --with-all-dependencies (-W) to include root dependencies.
+Updating dependencies
+Your requirements could not be resolved to an installable set of packages.
+
+  Problem 1
+    - Root composer.json requires laravel/framework ^12.69 -> satisfiable by laravel/framework[v12.69.0, v12.69.1, v12.69.2, v12.69.3].
+    - laravel/sail is locked to version v1.38.0 and an update of this package was not requested.
+    - laravel/sail v1.38.0 requires illuminate/support ^9.52.16|^10.0|^11.0 -> satisfiable by illuminate/support[v9.52.16, v10.0.0, ..., v10.49.0, v11.0.0, ..., v11.51.0].
+    - Conclusion: don't install laravel/framework v12.69.1 (conflict analysis result)
+    - Conclusion: don't install laravel/framework v12.69.2 (conflict analysis result)
+    - Conclusion: don't install laravel/framework v12.69.3 (conflict analysis result)
+    - Only one of these can be installed: laravel/framework[v12.69.0, v12.69.1, v12.69.2, v12.69.3], illuminate/support[v9.51.0, ..., v9.52.16, v10.0.0, ..., v10.49.0, v11.0.0, ..., v11.51.0]. laravel/framework replaces illuminate/support and thus cannot coexist with it.
+    - Only one of these can be installed: laravel/framework[v12.69.0, v12.69.1, v12.69.2, v12.69.3], illuminate/support[v11.0.0, ..., v11.51.0]. They all replace spatie/once and thus cannot coexist.
+
+Use the option --with-all-dependencies (-W) to allow upgrades, downgrades and removals for packages currently locked to specific versions.

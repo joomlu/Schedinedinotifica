@@ -1,0 +1,17 @@
+{
+  "esito": "FAIL",
+  "confronti_metadati_effettivi": {
+    "tabelle": false,
+    "colonne": true,
+    "indici": true,
+    "vincoli": true,
+    "foreign_keys": true,
+    "regole_fk": true,
+    "oggetti": true
+  },
+  "originale_SHOWCREATE_FAIL_preservato": true,
+  "dati61tabelle_digest_identici": true,
+  "migration_identiche": true,
+  "credenziali_identiche": true,
+  "solo_analisi_sola_lettura": true
+}

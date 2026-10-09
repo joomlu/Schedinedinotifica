@@ -1,0 +1,7 @@
+{
+  "ambito": "View e moduli app.js/core/ui; esclusi inizializzatori pages non importati",
+  "file_esaminati": 178,
+  "consumer_editor_grafici": [],
+  "export_html_risorse": [],
+  "hash_copertura": "3759a8e684cd1c85da8a6ab2fa3efc0466f0f642318e303edc9e9bb140886377"
+}

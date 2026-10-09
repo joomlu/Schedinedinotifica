@@ -1,0 +1,7 @@
+{
+    "esito": "PASS",
+    "campi_cifrati_letti_tramite_cast": 2,
+    "valori_identici_pre_migration": true,
+    "nessun_valore_esposto": true,
+    "trasmissioni": false
+}

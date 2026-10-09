@@ -1,0 +1,14 @@
+TEST isolato: /private/tmp/schedine-test-otylum76; database=test_geo_0cc622bf5576079b95f2e46cba5deb90; MySQL pid=12576, porta=55806; HTTP pid=12584, porta=55807
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 10.5.38 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /private/tmp/schedine-test-otylum76/checkout/phpunit.xml
+
+....                                                                4 / 4 (100%)
+
+Time: 00:23.116, Memory: 48.50 MB
+
+OK (4 tests, 50 assertions)
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-otylum76

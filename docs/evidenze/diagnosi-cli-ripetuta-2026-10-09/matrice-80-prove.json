@@ -1,0 +1,578 @@
+{
+  "fase": "matrice_CLI_ripetuta",
+  "versioni": {},
+  "varianti": {
+    "A": {
+      "config": {
+        "php": "8.3.35",
+        "sapi": "cli",
+        "zend": "4.3.35",
+        "ini": "/etc/opt/remi/php83/php.ini",
+        "scanned": "/etc/opt/remi/php83/php.d/01-ioncube_loader.ini,\n/etc/opt/remi/php83/php.d/10-opcache.ini,\n/etc/opt/remi/php83/php.d/20-bcmath.ini,\n/etc/opt/remi/php83/php.d/20-bz2.ini,\n/etc/opt/remi/php83/php.d/20-calendar.ini,\n/etc/opt/remi/php83/php.d/20-ctype.ini,\n/etc/opt/remi/php83/php.d/20-curl.ini,\n/etc/opt/remi/php83/php.d/20-dom.ini,\n/etc/opt/remi/php83/php.d/20-enchant.ini,\n/etc/opt/remi/php83/php.d/20-exif.ini,\n/etc/opt/remi/php83/php.d/20-fileinfo.ini,\n/etc/opt/remi/php83/php.d/20-ftp.ini,\n/etc/opt/remi/php83/php.d/20-gd.ini,\n/etc/opt/remi/php83/php.d/20-gettext.ini,\n/etc/opt/remi/php83/php.d/20-iconv.ini,\n/etc/opt/remi/php83/php.d/20-imap.ini,\n/etc/opt/remi/php83/php.d/20-intl.ini,\n/etc/opt/remi/php83/php.d/20-ldap.ini,\n/etc/opt/remi/php83/php.d/20-mbstring.ini,\n/etc/opt/remi/php83/php.d/20-mysqlnd.ini,\n/etc/opt/remi/php83/php.d/20-pdo.ini,\n/etc/opt/remi/php83/php.d/20-pgsql.ini,\n/etc/opt/remi/php83/php.d/20-phar.ini,\n/etc/opt/remi/php83/php.d/20-posix.ini,\n/etc/opt/remi/php83/php.d/20-shmop.ini,\n/etc/opt/remi/php83/php.d/20-simplexml.ini,\n/etc/opt/remi/php83/php.d/20-soap.ini,\n/etc/opt/remi/php83/php.d/20-sodium.ini,\n/etc/opt/remi/php83/php.d/20-sqlite3.ini,\n/etc/opt/remi/php83/php.d/20-sysvmsg.ini,\n/etc/opt/remi/php83/php.d/20-sysvsem.ini,\n/etc/opt/remi/php83/php.d/20-sysvshm.ini,\n/etc/opt/remi/php83/php.d/20-tidy.ini,\n/etc/opt/remi/php83/php.d/20-tokenizer.ini,\n/etc/opt/remi/php83/php.d/20-xml.ini,\n/etc/opt/remi/php83/php.d/20-xmlwriter.ini,\n/etc/opt/remi/php83/php.d/20-xsl.ini,\n/etc/opt/remi/php83/php.d/30-mcrypt.ini,\n/etc/opt/remi/php83/php.d/30-mysqli.ini,\n/etc/opt/remi/php83/php.d/30-pdo_mysql.ini,\n/etc/opt/remi/php83/php.d/30-pdo_pgsql.ini,\n/etc/opt/remi/php83/php.d/30-pdo_sqlite.ini,\n/etc/opt/remi/php83/php.d/30-xmlreader.ini,\n/etc/opt/remi/php83/php.d/30-xmlrpc.ini,\n/etc/opt/remi/php83/php.d/30-zip.ini,\n/etc/opt/remi/php83/php.d/40-igbinary.ini,\n/etc/opt/remi/php83/php.d/40-imagick.ini,\n/etc/opt/remi/php83/php.d/40-mailparse.ini,\n/etc/opt/remi/php83/php.d/40-msgpack.ini,\n/etc/opt/remi/php83/php.d/50-memcached.ini,\n/etc/opt/remi/php83/php.d/50-redis.ini\n",
+        "zend_extensions": [
+          "the ionCube PHP Loader",
+          "Zend OPcache"
+        ],
+        "ionCube": "15.5",
+        "OPcache": "8.3.35",
+        "enable_cli": "1",
+        "enable": "1",
+        "jit": "tracing",
+        "jit_buffer": "0"
+      },
+      "pass": 0,
+      "SIGSEGV": 20,
+      "esiti": [
+        {
+          "numero": 0,
+          "exit": -11,
+          "secondi": 0.100496,
+          "segnale": 11
+        },
+        {
+          "numero": 1,
+          "exit": -11,
+          "secondi": 0.098307,
+          "segnale": 11
+        },
+        {
+          "numero": 2,
+          "exit": -11,
+          "secondi": 0.083525,
+          "segnale": 11
+        },
+        {
+          "numero": 3,
+          "exit": -11,
+          "secondi": 0.101031,
+          "segnale": 11
+        },
+        {
+          "numero": 4,
+          "exit": -11,
+          "secondi": 0.102525,
+          "segnale": 11
+        },
+        {
+          "numero": 5,
+          "exit": -11,
+          "secondi": 0.092919,
+          "segnale": 11
+        },
+        {
+          "numero": 6,
+          "exit": -11,
+          "secondi": 0.095888,
+          "segnale": 11
+        },
+        {
+          "numero": 7,
+          "exit": -11,
+          "secondi": 0.084665,
+          "segnale": 11
+        },
+        {
+          "numero": 8,
+          "exit": -11,
+          "secondi": 0.113594,
+          "segnale": 11
+        },
+        {
+          "numero": 9,
+          "exit": -11,
+          "secondi": 0.097672,
+          "segnale": 11
+        },
+        {
+          "numero": 10,
+          "exit": -11,
+          "secondi": 0.090729,
+          "segnale": 11
+        },
+        {
+          "numero": 11,
+          "exit": -11,
+          "secondi": 0.092331,
+          "segnale": 11
+        },
+        {
+          "numero": 12,
+          "exit": -11,
+          "secondi": 0.084248,
+          "segnale": 11
+        },
+        {
+          "numero": 13,
+          "exit": -11,
+          "secondi": 0.098078,
+          "segnale": 11
+        },
+        {
+          "numero": 14,
+          "exit": -11,
+          "secondi": 0.091455,
+          "segnale": 11
+        },
+        {
+          "numero": 15,
+          "exit": -11,
+          "secondi": 0.107601,
+          "segnale": 11
+        },
+        {
+          "numero": 16,
+          "exit": -11,
+          "secondi": 0.094072,
+          "segnale": 11
+        },
+        {
+          "numero": 17,
+          "exit": -11,
+          "secondi": 0.100831,
+          "segnale": 11
+        },
+        {
+          "numero": 18,
+          "exit": -11,
+          "secondi": 0.091866,
+          "segnale": 11
+        },
+        {
+          "numero": 19,
+          "exit": -11,
+          "secondi": 0.092314,
+          "segnale": 11
+        }
+      ]
+    },
+    "B": {
+      "config": {
+        "php": "8.3.35",
+        "sapi": "cli",
+        "zend": "4.3.35",
+        "ini": "/etc/opt/remi/php83/php.ini",
+        "scanned": "/etc/opt/remi/php83/php.d/01-ioncube_loader.ini,\n/etc/opt/remi/php83/php.d/10-opcache.ini,\n/etc/opt/remi/php83/php.d/20-bcmath.ini,\n/etc/opt/remi/php83/php.d/20-bz2.ini,\n/etc/opt/remi/php83/php.d/20-calendar.ini,\n/etc/opt/remi/php83/php.d/20-ctype.ini,\n/etc/opt/remi/php83/php.d/20-curl.ini,\n/etc/opt/remi/php83/php.d/20-dom.ini,\n/etc/opt/remi/php83/php.d/20-enchant.ini,\n/etc/opt/remi/php83/php.d/20-exif.ini,\n/etc/opt/remi/php83/php.d/20-fileinfo.ini,\n/etc/opt/remi/php83/php.d/20-ftp.ini,\n/etc/opt/remi/php83/php.d/20-gd.ini,\n/etc/opt/remi/php83/php.d/20-gettext.ini,\n/etc/opt/remi/php83/php.d/20-iconv.ini,\n/etc/opt/remi/php83/php.d/20-imap.ini,\n/etc/opt/remi/php83/php.d/20-intl.ini,\n/etc/opt/remi/php83/php.d/20-ldap.ini,\n/etc/opt/remi/php83/php.d/20-mbstring.ini,\n/etc/opt/remi/php83/php.d/20-mysqlnd.ini,\n/etc/opt/remi/php83/php.d/20-pdo.ini,\n/etc/opt/remi/php83/php.d/20-pgsql.ini,\n/etc/opt/remi/php83/php.d/20-phar.ini,\n/etc/opt/remi/php83/php.d/20-posix.ini,\n/etc/opt/remi/php83/php.d/20-shmop.ini,\n/etc/opt/remi/php83/php.d/20-simplexml.ini,\n/etc/opt/remi/php83/php.d/20-soap.ini,\n/etc/opt/remi/php83/php.d/20-sodium.ini,\n/etc/opt/remi/php83/php.d/20-sqlite3.ini,\n/etc/opt/remi/php83/php.d/20-sysvmsg.ini,\n/etc/opt/remi/php83/php.d/20-sysvsem.ini,\n/etc/opt/remi/php83/php.d/20-sysvshm.ini,\n/etc/opt/remi/php83/php.d/20-tidy.ini,\n/etc/opt/remi/php83/php.d/20-tokenizer.ini,\n/etc/opt/remi/php83/php.d/20-xml.ini,\n/etc/opt/remi/php83/php.d/20-xmlwriter.ini,\n/etc/opt/remi/php83/php.d/20-xsl.ini,\n/etc/opt/remi/php83/php.d/30-mcrypt.ini,\n/etc/opt/remi/php83/php.d/30-mysqli.ini,\n/etc/opt/remi/php83/php.d/30-pdo_mysql.ini,\n/etc/opt/remi/php83/php.d/30-pdo_pgsql.ini,\n/etc/opt/remi/php83/php.d/30-pdo_sqlite.ini,\n/etc/opt/remi/php83/php.d/30-xmlreader.ini,\n/etc/opt/remi/php83/php.d/30-xmlrpc.ini,\n/etc/opt/remi/php83/php.d/30-zip.ini,\n/etc/opt/remi/php83/php.d/40-igbinary.ini,\n/etc/opt/remi/php83/php.d/40-imagick.ini,\n/etc/opt/remi/php83/php.d/40-mailparse.ini,\n/etc/opt/remi/php83/php.d/40-msgpack.ini,\n/etc/opt/remi/php83/php.d/50-memcached.ini,\n/etc/opt/remi/php83/php.d/50-redis.ini\n",
+        "zend_extensions": [
+          "the ionCube PHP Loader",
+          "Zend OPcache"
+        ],
+        "ionCube": "15.5",
+        "OPcache": "8.3.35",
+        "enable_cli": "0",
+        "enable": "1",
+        "jit": "tracing",
+        "jit_buffer": "0"
+      },
+      "pass": 20,
+      "SIGSEGV": 0,
+      "esiti": [
+        {
+          "numero": 0,
+          "exit": 0,
+          "secondi": 0.037163,
+          "segnale": null
+        },
+        {
+          "numero": 1,
+          "exit": 0,
+          "secondi": 0.032547,
+          "segnale": null
+        },
+        {
+          "numero": 2,
+          "exit": 0,
+          "secondi": 0.031711,
+          "segnale": null
+        },
+        {
+          "numero": 3,
+          "exit": 0,
+          "secondi": 0.033337,
+          "segnale": null
+        },
+        {
+          "numero": 4,
+          "exit": 0,
+          "secondi": 0.034681,
+          "segnale": null
+        },
+        {
+          "numero": 5,
+          "exit": 0,
+          "secondi": 0.035383,
+          "segnale": null
+        },
+        {
+          "numero": 6,
+          "exit": 0,
+          "secondi": 0.032846,
+          "segnale": null
+        },
+        {
+          "numero": 7,
+          "exit": 0,
+          "secondi": 0.032158,
+          "segnale": null
+        },
+        {
+          "numero": 8,
+          "exit": 0,
+          "secondi": 0.032648,
+          "segnale": null
+        },
+        {
+          "numero": 9,
+          "exit": 0,
+          "secondi": 0.03173,
+          "segnale": null
+        },
+        {
+          "numero": 10,
+          "exit": 0,
+          "secondi": 0.045881,
+          "segnale": null
+        },
+        {
+          "numero": 11,
+          "exit": 0,
+          "secondi": 0.039837,
+          "segnale": null
+        },
+        {
+          "numero": 12,
+          "exit": 0,
+          "secondi": 0.033872,
+          "segnale": null
+        },
+        {
+          "numero": 13,
+          "exit": 0,
+          "secondi": 0.03317,
+          "segnale": null
+        },
+        {
+          "numero": 14,
+          "exit": 0,
+          "secondi": 0.035286,
+          "segnale": null
+        },
+        {
+          "numero": 15,
+          "exit": 0,
+          "secondi": 0.036411,
+          "segnale": null
+        },
+        {
+          "numero": 16,
+          "exit": 0,
+          "secondi": 0.03373,
+          "segnale": null
+        },
+        {
+          "numero": 17,
+          "exit": 0,
+          "secondi": 0.033005,
+          "segnale": null
+        },
+        {
+          "numero": 18,
+          "exit": 0,
+          "secondi": 0.032415,
+          "segnale": null
+        },
+        {
+          "numero": 19,
+          "exit": 0,
+          "secondi": 0.032156,
+          "segnale": null
+        }
+      ]
+    },
+    "C": {
+      "config": {
+        "php": "8.3.35",
+        "sapi": "cli",
+        "zend": "4.3.35",
+        "ini": "/etc/opt/remi/php83/php.ini",
+        "scanned": "/work/ini-C/10-opcache.ini,\n/work/ini-C/20-bcmath.ini,\n/work/ini-C/20-bz2.ini,\n/work/ini-C/20-calendar.ini,\n/work/ini-C/20-ctype.ini,\n/work/ini-C/20-curl.ini,\n/work/ini-C/20-dom.ini,\n/work/ini-C/20-enchant.ini,\n/work/ini-C/20-exif.ini,\n/work/ini-C/20-fileinfo.ini,\n/work/ini-C/20-ftp.ini,\n/work/ini-C/20-gd.ini,\n/work/ini-C/20-gettext.ini,\n/work/ini-C/20-iconv.ini,\n/work/ini-C/20-imap.ini,\n/work/ini-C/20-intl.ini,\n/work/ini-C/20-ldap.ini,\n/work/ini-C/20-mbstring.ini,\n/work/ini-C/20-mysqlnd.ini,\n/work/ini-C/20-pdo.ini,\n/work/ini-C/20-pgsql.ini,\n/work/ini-C/20-phar.ini,\n/work/ini-C/20-posix.ini,\n/work/ini-C/20-shmop.ini,\n/work/ini-C/20-simplexml.ini,\n/work/ini-C/20-soap.ini,\n/work/ini-C/20-sodium.ini,\n/work/ini-C/20-sqlite3.ini,\n/work/ini-C/20-sysvmsg.ini,\n/work/ini-C/20-sysvsem.ini,\n/work/ini-C/20-sysvshm.ini,\n/work/ini-C/20-tidy.ini,\n/work/ini-C/20-tokenizer.ini,\n/work/ini-C/20-xml.ini,\n/work/ini-C/20-xmlwriter.ini,\n/work/ini-C/20-xsl.ini,\n/work/ini-C/30-mcrypt.ini,\n/work/ini-C/30-mysqli.ini,\n/work/ini-C/30-pdo_mysql.ini,\n/work/ini-C/30-pdo_pgsql.ini,\n/work/ini-C/30-pdo_sqlite.ini,\n/work/ini-C/30-xmlreader.ini,\n/work/ini-C/30-xmlrpc.ini,\n/work/ini-C/30-zip.ini,\n/work/ini-C/40-igbinary.ini,\n/work/ini-C/40-imagick.ini,\n/work/ini-C/40-mailparse.ini,\n/work/ini-C/40-msgpack.ini,\n/work/ini-C/50-memcached.ini,\n/work/ini-C/50-redis.ini\n",
+        "zend_extensions": [
+          "Zend OPcache"
+        ],
+        "ionCube": null,
+        "OPcache": "8.3.35",
+        "enable_cli": "1",
+        "enable": "1",
+        "jit": "tracing",
+        "jit_buffer": "0"
+      },
+      "pass": 20,
+      "SIGSEGV": 0,
+      "esiti": [
+        {
+          "numero": 0,
+          "exit": 0,
+          "secondi": 0.038037,
+          "segnale": null
+        },
+        {
+          "numero": 1,
+          "exit": 0,
+          "secondi": 0.037041,
+          "segnale": null
+        },
+        {
+          "numero": 2,
+          "exit": 0,
+          "secondi": 0.03736,
+          "segnale": null
+        },
+        {
+          "numero": 3,
+          "exit": 0,
+          "secondi": 0.03931,
+          "segnale": null
+        },
+        {
+          "numero": 4,
+          "exit": 0,
+          "secondi": 0.038096,
+          "segnale": null
+        },
+        {
+          "numero": 5,
+          "exit": 0,
+          "secondi": 0.036586,
+          "segnale": null
+        },
+        {
+          "numero": 6,
+          "exit": 0,
+          "secondi": 0.035294,
+          "segnale": null
+        },
+        {
+          "numero": 7,
+          "exit": 0,
+          "secondi": 0.039096,
+          "segnale": null
+        },
+        {
+          "numero": 8,
+          "exit": 0,
+          "secondi": 0.036298,
+          "segnale": null
+        },
+        {
+          "numero": 9,
+          "exit": 0,
+          "secondi": 0.034139,
+          "segnale": null
+        },
+        {
+          "numero": 10,
+          "exit": 0,
+          "secondi": 0.033318,
+          "segnale": null
+        },
+        {
+          "numero": 11,
+          "exit": 0,
+          "secondi": 0.03404,
+          "segnale": null
+        },
+        {
+          "numero": 12,
+          "exit": 0,
+          "secondi": 0.043069,
+          "segnale": null
+        },
+        {
+          "numero": 13,
+          "exit": 0,
+          "secondi": 0.035867,
+          "segnale": null
+        },
+        {
+          "numero": 14,
+          "exit": 0,
+          "secondi": 0.033861,
+          "segnale": null
+        },
+        {
+          "numero": 15,
+          "exit": 0,
+          "secondi": 0.033861,
+          "segnale": null
+        },
+        {
+          "numero": 16,
+          "exit": 0,
+          "secondi": 0.03208,
+          "segnale": null
+        },
+        {
+          "numero": 17,
+          "exit": 0,
+          "secondi": 0.035613,
+          "segnale": null
+        },
+        {
+          "numero": 18,
+          "exit": 0,
+          "secondi": 0.034121,
+          "segnale": null
+        },
+        {
+          "numero": 19,
+          "exit": 0,
+          "secondi": 0.032838,
+          "segnale": null
+        }
+      ]
+    },
+    "D": {
+      "config": {
+        "php": "8.3.35",
+        "sapi": "cli",
+        "zend": "4.3.35",
+        "ini": "/etc/opt/remi/php83/php.ini",
+        "scanned": "/work/ini-D/20-bcmath.ini,\n/work/ini-D/20-bz2.ini,\n/work/ini-D/20-calendar.ini,\n/work/ini-D/20-ctype.ini,\n/work/ini-D/20-curl.ini,\n/work/ini-D/20-dom.ini,\n/work/ini-D/20-enchant.ini,\n/work/ini-D/20-exif.ini,\n/work/ini-D/20-fileinfo.ini,\n/work/ini-D/20-ftp.ini,\n/work/ini-D/20-gd.ini,\n/work/ini-D/20-gettext.ini,\n/work/ini-D/20-iconv.ini,\n/work/ini-D/20-imap.ini,\n/work/ini-D/20-intl.ini,\n/work/ini-D/20-ldap.ini,\n/work/ini-D/20-mbstring.ini,\n/work/ini-D/20-mysqlnd.ini,\n/work/ini-D/20-pdo.ini,\n/work/ini-D/20-pgsql.ini,\n/work/ini-D/20-phar.ini,\n/work/ini-D/20-posix.ini,\n/work/ini-D/20-shmop.ini,\n/work/ini-D/20-simplexml.ini,\n/work/ini-D/20-soap.ini,\n/work/ini-D/20-sodium.ini,\n/work/ini-D/20-sqlite3.ini,\n/work/ini-D/20-sysvmsg.ini,\n/work/ini-D/20-sysvsem.ini,\n/work/ini-D/20-sysvshm.ini,\n/work/ini-D/20-tidy.ini,\n/work/ini-D/20-tokenizer.ini,\n/work/ini-D/20-xml.ini,\n/work/ini-D/20-xmlwriter.ini,\n/work/ini-D/20-xsl.ini,\n/work/ini-D/30-mcrypt.ini,\n/work/ini-D/30-mysqli.ini,\n/work/ini-D/30-pdo_mysql.ini,\n/work/ini-D/30-pdo_pgsql.ini,\n/work/ini-D/30-pdo_sqlite.ini,\n/work/ini-D/30-xmlreader.ini,\n/work/ini-D/30-xmlrpc.ini,\n/work/ini-D/30-zip.ini,\n/work/ini-D/40-igbinary.ini,\n/work/ini-D/40-imagick.ini,\n/work/ini-D/40-mailparse.ini,\n/work/ini-D/40-msgpack.ini,\n/work/ini-D/50-memcached.ini,\n/work/ini-D/50-redis.ini\n",
+        "zend_extensions": [],
+        "ionCube": null,
+        "OPcache": false,
+        "enable_cli": false,
+        "enable": false,
+        "jit": false,
+        "jit_buffer": false
+      },
+      "pass": 20,
+      "SIGSEGV": 0,
+      "esiti": [
+        {
+          "numero": 0,
+          "exit": 0,
+          "secondi": 0.028642,
+          "segnale": null
+        },
+        {
+          "numero": 1,
+          "exit": 0,
+          "secondi": 0.030574,
+          "segnale": null
+        },
+        {
+          "numero": 2,
+          "exit": 0,
+          "secondi": 0.031343,
+          "segnale": null
+        },
+        {
+          "numero": 3,
+          "exit": 0,
+          "secondi": 0.029875,
+          "segnale": null
+        },
+        {
+          "numero": 4,
+          "exit": 0,
+          "secondi": 0.028583,
+          "segnale": null
+        },
+        {
+          "numero": 5,
+          "exit": 0,
+          "secondi": 0.029357,
+          "segnale": null
+        },
+        {
+          "numero": 6,
+          "exit": 0,
+          "secondi": 0.03253,
+          "segnale": null
+        },
+        {
+          "numero": 7,
+          "exit": 0,
+          "secondi": 0.031334,
+          "segnale": null
+        },
+        {
+          "numero": 8,
+          "exit": 0,
+          "secondi": 0.032669,
+          "segnale": null
+        },
+        {
+          "numero": 9,
+          "exit": 0,
+          "secondi": 0.039017,
+          "segnale": null
+        },
+        {
+          "numero": 10,
+          "exit": 0,
+          "secondi": 0.031857,
+          "segnale": null
+        },
+        {
+          "numero": 11,
+          "exit": 0,
+          "secondi": 0.032237,
+          "segnale": null
+        },
+        {
+          "numero": 12,
+          "exit": 0,
+          "secondi": 0.03478,
+          "segnale": null
+        },
+        {
+          "numero": 13,
+          "exit": 0,
+          "secondi": 0.041227,
+          "segnale": null
+        },
+        {
+          "numero": 14,
+          "exit": 0,
+          "secondi": 0.041095,
+          "segnale": null
+        },
+        {
+          "numero": 15,
+          "exit": 0,
+          "secondi": 0.033357,
+          "segnale": null
+        },
+        {
+          "numero": 16,
+          "exit": 0,
+          "secondi": 0.031748,
+          "segnale": null
+        },
+        {
+          "numero": 17,
+          "exit": 0,
+          "secondi": 0.043482,
+          "segnale": null
+        },
+        {
+          "numero": 18,
+          "exit": 0,
+          "secondi": 0.03301,
+          "segnale": null
+        },
+        {
+          "numero": 19,
+          "exit": 0,
+          "secondi": 0.030731,
+          "segnale": null
+        }
+      ]
+    }
+  },
+  "ripetizioni_per_variante": 20,
+  "FPM_avviato": false,
+  "core_limit": 0,
+  "reti_esterne_assenti": true
+}

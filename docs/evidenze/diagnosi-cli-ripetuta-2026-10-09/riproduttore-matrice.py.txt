@@ -1,0 +1,20 @@
+import pathlib,subprocess,os,json,time,resource,concurrent.futures,hashlib
+resource.setrlimit(resource.RLIMIT_CORE,(0,0));os.umask(0o077);w=pathlib.Path('/work');root=w/'cli-matrice-v3';root.mkdir(mode=0o700);php='/opt/remi/php83/root/usr/bin/php'
+report={'fase':'matrice_CLI_ripetuta','versioni':{},'varianti':{},'ripetizioni_per_variante':20,'FPM_avviato':False}
+(w/'sentinella-sintetica.php').write_text("<?php echo 'sentinella';\n")
+for v in ['A','B','C','D']:
+ d=root/v;d.mkdir(mode=0o700);env=os.environ.copy();extra=[]
+ if v=='B':extra=['-d','opcache.enable_cli=0']
+ if v in ['C','D']:env['PHP_INI_SCAN_DIR']='/work/ini-'+v
+ meta="echo json_encode(['php'=>PHP_VERSION,'sapi'=>PHP_SAPI,'zend'=>zend_version(),'ini'=>php_ini_loaded_file(),'scanned'=>php_ini_scanned_files(),'zend_extensions'=>get_loaded_extensions(true),'ionCube'=>function_exists('ioncube_loader_version')?ioncube_loader_version():null,'OPcache'=>phpversion('Zend OPcache'),'enable_cli'=>ini_get('opcache.enable_cli'),'enable'=>ini_get('opcache.enable'),'jit'=>ini_get('opcache.jit'),'jit_buffer'=>ini_get('opcache.jit_buffer_size')]);"
+ p=subprocess.run([php,*extra,'-r',meta],env=env,capture_output=True,timeout=20);(d/'config-stdout.log').write_bytes(p.stdout);(d/'config-stderr.log').write_bytes(p.stderr)
+ conf=json.loads(p.stdout) if p.returncode==0 else {'exit_config':p.returncode};results=[]
+ # Riproduzioni deliberate del crash sintetico, nessun carico applicativo dopo unFAIL.
+ for i in range(20):
+  t=time.monotonic();p=subprocess.run([php,*extra,'-l','/work/sentinella-sintetica.php'],env=env,capture_output=True,timeout=20)
+  (d/('lint-'+str(i)+'-stdout.log')).write_bytes(p.stdout);(d/('lint-'+str(i)+'-stderr.log')).write_bytes(p.stderr)
+  results.append({'numero':i,'exit':p.returncode,'secondi':round(time.monotonic()-t,6),'segnale':-p.returncode if p.returncode<0 else None})
+ (d/'esiti.json').write_text(json.dumps(results,indent=2)+'\n')
+ report['varianti'][v]={'config':conf,'pass':sum(x['exit']==0 for x in results),'SIGSEGV':sum(x['exit']==-11 for x in results),'esiti':results}
+report['core_limit']=0;report['reti_esterne_assenti']=len(pathlib.Path('/proc/net/route').read_text().splitlines())==1
+(root/'manifest-sanitizzato.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))

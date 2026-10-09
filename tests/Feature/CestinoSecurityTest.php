@@ -2,7 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Models\{CestinoItem, Customers, LicenzaAssegnazione, Struttura, Titolo, User, WebCheckinRichiesta};
+use App\Models\CestinoItem;
+use App\Models\Customers;
+use App\Models\LicenzaAssegnazione;
+use App\Models\Struttura;
+use App\Models\Titolo;
+use App\Models\User;
+use App\Models\WebCheckinRichiesta;
 use App\Services\CestinoService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +33,7 @@ class CestinoSecurityTest extends TestCase
         $proprietario = $this->actor('proprietario', $ownerA->id);
         $vuoto = $this->actor('proprietario', $this->ownerFor($adminA)->id);
         $super = $this->actor('super_admin');
+
         return compact('adminA', 'ownerA', 'a', 'adminB', 'ownerB', 'b', 'reception', 'proprietario', 'vuoto', 'super');
     }
 
@@ -37,6 +44,7 @@ class CestinoSecurityTest extends TestCase
         $this->assertSoftDeleted('users', ['id' => $c['adminB']->id]);
         $item = CestinoItem::where('entity_class', User::class)->where('original_id', $c['adminB']->id)->sole();
         $this->assertNull($item->struttura_id);
+
         return $item;
     }
 
@@ -60,6 +68,7 @@ class CestinoSecurityTest extends TestCase
         $this->assertSoftDeleted('struttura', ['id' => $c['b']->id]);
         $item = CestinoItem::where('entity_class', Struttura::class)->where('original_id', $c['b']->id)->sole();
         $this->assertNull($item->struttura_id);
+
         return $item;
     }
 
@@ -69,6 +78,7 @@ class CestinoSecurityTest extends TestCase
         $cliente = Customers::create(['struttura_id' => $c[$tenant]->id, 'name' => 'CLIENTE-SINTETICO-'.$tenant, 'surname' => 'Cestino']);
         $item = app(CestinoService::class)->archiveModel($cliente);
         $cliente->delete();
+
         return $item;
     }
 
@@ -78,6 +88,7 @@ class CestinoSecurityTest extends TestCase
         foreach (['cestino_items', 'users', 'proprietari', 'struttura', 'clienti', 'licenza_assegnazioni', 'crm_leads'] as $table) {
             $state[$table] = hash('sha256', DB::table($table)->orderBy('id')->get()->toJson());
         }
+
         return hash('sha256', json_encode($state, JSON_THROW_ON_ERROR));
     }
 
@@ -121,6 +132,7 @@ class CestinoSecurityTest extends TestCase
                 }
             }
         }
+
         return $cases;
     }
 
@@ -296,7 +308,9 @@ class CestinoSecurityTest extends TestCase
         $this->post('/cestino/'.$item->id.'/ripristina')->assertRedirect();
         $restored = WebCheckinRichiesta::where('struttura_id', $c['a']->id)->sole();
         $this->assertNotSame('TOKEN-WEB-SINTETICO', $restored->token);
-        $this->assertSame(80, strlen($restored->token));
+        $this->assertSame(64, strlen($restored->token));
+        $this->assertNotNull($restored->link_revoked_at);
+        $this->get('/checkin/'.$restored->token)->assertNotFound();
     }
 
     public function test_classi_sconosciute_e_ruoli_sconosciuti_negati(): void

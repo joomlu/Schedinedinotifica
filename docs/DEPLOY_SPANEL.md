@@ -349,3 +349,59 @@ Conservar por despliegue SHA anterior, backup consistente, archivos mutables y `
 4. Reconstruir assets y caches individuales, comprobar secretos, `public/storage`, permisos y HTTPS. Solo retirar el mantenimiento después de aprobar esas comprobaciones. Cualquier cambio de credenciales/base requiere una operación manual separada; este script nunca modifica `.env` ni APP_KEY.
 
 No usar `git reset --hard`, `git clean` o borrado de datos para recuperar una instalación.
+
+
+## Adeguamento harness Rocky/MariaDB — 07/10/2026
+
+Stato corrente: **HARNESS ROCKY ANCORA BLOCCATO**, nessun deploy o nuova accettazione applicativa. Questa evidenza supera soltanto le indicazioni storiche sulla mancanza di Bubblewrap: sul server Rocky10.2 è presente Bubblewrap0.10.0. La SELECT sulla connessione applicativa effettiva conferma MariaDB11.8.9, non soltanto un binario installato.
+
+Modifiche locali limitate a tests/Isolation/run.py, database_policy.py, test_database_policy.py, tests/Support/TestingEnvironment.php, tests/Deployment/check_rocky10.py e test_rocky_isolation.py. SHA candidato fissato a faef3cf01f43d19b20d1558c1fbd3ae32e48d849. Il launcher delle sei prove conserva il percorso canonico, Bubblewrap e tutte le protezioni precedenti.
+
+MySQL mantiene auto.cnf/@@server_uuid; MariaDB usa inizializzazione esplicita mariadb-install-db, server_id casuale, datadir/socket/porta/processo effimeri, vendor/versione e attestazione broker. Prima del DDL iniziale il launcher controlla la propria istanza; prima dell'uso Laravel/PDO controlla testing, SHA, allowlist test_geo_ con32caratteri esadecimali, denylist DB operativo e utente fixture. Restano controllo della parentela dei processi, challenge broker, riconnessione, filesystem privato e fake dei trasporti. /tmp è il prefisso temporaneo Linux; /private/tmp resta macOS. Nessuna credenziale operativa entra nel runtime.
+
+Policy sintetiche:5 test DB PASS e22 protezioni Rocky PASS, localmente e su Python3.12.14 del server;5 guardrail locali PASS. Nessun caso positivo apre DB o applica migration. Questo non dimostra ancora l'identità di una vera istanza MariaDB effimera. Sintassi Python e diff-check PASS. Lint PHP locale PASS; sul server PHP8.3.35 standard termina con segmentation fault due volte, mentre php -n -l passa. Causa del crash non identificata; non disabilitare estensioni per certificare l'accettazione.
+
+Bundle separato: /home/tanggosoftware/tmp/harness-faef3cf-zx4hO3a0. Clone canonico esistente pulito a d90b60cd84df183b0ccb49c924df33bfa442a8a1, branch codex/safe-spanel-deploy, owner tanggosoftware, permessi755, nessun processo riferito rilevato; nessun .env reale/log/dump rilevato dalla ricognizione limitata. Non sostituito. Prima di una futura sostituzione conservare integralmente clone/evidenze, verificare processi/cwd/file aperti e inventario anche ignorato, quindi predisporre un nuovo clone privato allo SHA esatto; nessun reset/clean o cancellazione autorizzati in questa fase.
+
+Produzione riconfermata c21b9185a33d1f5e0720c08f1547af6fa4857b20, origin/main faef3cf, worktree pulito; candidato separato faef3cf senza diff. Nessuna scrittura DB operativo, modifica .env/DocumentRoot, trasmissione, commit/push, build, migration o sei prove di accettazione. Le sole query DB sono SELECT/SHOW VARIABLES. Integrità dei dati/config produzione dichiarata nel perimetro delle operazioni effettuate, non come confronto completo di snapshot prima/dopo.
+
+
+## Sei prove Rocky/Bubblewrap — 07/10/2026
+
+**SEI PROVE ROCKY/BUBBLEWRAP PASS — PROCESS ISOLATION ROCKY/BUBBLEWRAP VALIDATA**. Launcher originale del commit faef3cf01f43d19b20d1558c1fbd3ae32e48d849, eseguito come tanggosoftware da /home/tanggosoftware/deploy-rocky-test con Bubblewrap0.10.0:6 test in1.751s, zero skip/errori/fallimenti, exit0. Lock, descrittore non ereditato, segnali SIGINT/SIGTERM/SIGHUP, daemon separato, doppio fork con TERM ignorato e SIGKILL PASS. I singoli unittest risultano ok; il codice0 è del launcher aggregato, non sei processi indipendenti.
+
+Il launcher attesta namespace PID/mount/net/user distinti e nessun marker di violazione; filesystem operativo non montato, rete separata, nessun PHP/DB nel percorso. La sandbox minima verificata prima del gate aveva zero route esterne. Nessuna richiesta reale eseguita.
+
+Clone precedente conservato integralmente e reversibilmente in /home/tanggosoftware/tmp/rocky-clone-preservato-ewyendjv/clone-originale, SHA d90b60cd84df183b0ccb49c924df33bfa442a8a1; metadati in preflight.json e output in sei-prove.log nella stessa directory privata. Clone canonico ora detached a faef3cf, remote GitHub joomlu/Schedinedinotifica, owner applicativo, mode0700, senza.env, worktree pulito/stagingvuoto/untrackednessuno, zero .rocky-process-* residui.
+
+Produzione ancora c21b9185a33d1f5e0720c08f1547af6fa4857b20, worktree pulito e hash.env prima/dopo identico. Nessuna modifica DB/.env/DocumentRoot/cron/queue/PHP/SPanel, commit/push/deploy o trasmissione. Error_log del candidato applicativo temporaneo preservato separatamente, non copiato nel clone canonico.
+
+Questo supera soltanto la precedente pendenza delle sei prove di process isolation. Non certifica Laravel/PHP/migration/MySQL/MariaDB/ISTAT/Questura, non autorizza deploy e non dichiara produzione pronta. Diagnosi PHP e accettazione applicativa MariaDB restano gate separati pendenti; harness locale adattato non utilizzato per queste sei prove.
+
+
+## Correzione controllata harness MariaDB P1/P2 — 07/10/2026
+
+**HARNESS MARIADB CORRETTO — PRONTO PER RE-AUDIT**, non ancora approvato per uso sul server. Audit precedente: l'identità concordante consentiva3306, traversal, PID assente e server_id0. Policy ora separa risorsa autorizzata e confronto: porta49152..65535 con denylist3306 e porta operativa aggiuntiva se fornita, denylist socket operativo e DB operativo, path assoluti canonici risolti e senza symlink/traversal, root temporanea privata0700 del medesimo utente. PID positivo, supervisore corrente, UID, eseguibile e argv completi attestati tramite process snapshot prima del DDL; broker e verifiche PHP prima PDO preservati/rafforzati. server_id1..4294967295 su entrambi i lati, casuale nel launcher, non prova autonoma. MySQL mantiene auto.cnf e UUID verificato.
+
+Vendor riconosciuto positivamente mediante marker esclusivi MySQL/MariaDB sia sul binario sia sulla versione/commento della connessione: sconosciuto o ambiguoBLOCK, nessun fallback elseMySQL. Semantica Python/PHP confrontata tramite prova senza bootstrap applicativo.
+
+Regressioni permanenti:10 test policy con sottocasi per tutti i P1, ambienti/DB/SHA/vendor/config, porta/socket/datadir operativi anche concordi, traversal/symlink, PID assente/zero/negativo, parentela/UID/eseguibile/argv errati, server_id zero/fuori range/mismatch e positivi sintetici MySQL/MariaDB;21 test isolamento originali e5 guardrail PASS. Path launcher errato coperto dalla policy originale Rocky. Lint Python e PHP con opcache.enable_cli0, diff-checkPASS. Nessun DB creato o contattato; i positivi usano snapshot di processo sintetici e non certificano un'istanza reale.
+
+Escluse le modifiche SHA a check_rocky10.py e relativa regressione: entrambi ripristinati byte per byte a faef3cf. Sei prove certificate e relative protezioni non alterate. Bundle locale ora6file: tests/Isolation/run.py, database_policy.py, test_database_policy.py, tests/Support/TestingEnvironment.php, questa guida e Maestro (4trackedmodificati+2nuovi). APP_BYTES_CHANGED=NO su1831file controfaef3cf.
+
+Nessun accesso server, copia harness, commit/push, DB operativo/temporaneo, migration, Laravel, deploy o trasmissione reale. Mitigazione PHP soltanto per processo di lint/test; nessuna configurazione globale modificata. Accettazione MariaDB reale ancora NON eseguita; attendere re-audit indipendente.
+
+
+## Preparazione concreta del primo rilascio controllato — 9 ottobre 2026
+
+**Accettazione locale positiva conservata; lancio effettivo BLOCCATO da B1–B4, non dallo stato BASELINE IN AUDIT — NON VALIDATA.** Il piano unico è in [Preparazione del primo rilascio](PRIMO-RILASCIO-CONTROLLATO-2026-10-09.md). Quattro condizioni finite: candidato con SHA approvato che includa il lavoro non versionato; accettazione attuale CLI/FPM/MariaDB del destinatario; elenco migration riconciliato e restore dimostrato; chiusura documentata del gate storico di esposizione/dipendenze. V1–V4 specificano le verifiche server che chiudono quei blocchi; V5–V7 delimitano link legacy, provider/mail e ampliamento fiscale. M1–M3 restano differibili, senza nuova audit generale.
+
+Preparati procedura di rilascio, piano delle sette migration recenti da riconciliare con lo storico effettivo, configurazione senza segreti, backup/recupero e controlli prima/dopo apertura; inventario SHA-256 di1.818sorgenti in `inventario-candidato-rilascio-2026-10-09.json`, non artefatto distribuibile. Sintassi dei due wrapperbash e5/5hash fissi supervisor PASS. Nessuna ripetizione delle750prove/8.252asserzioni o Chromium9/9già superate: nessun codice modificato.
+
+Storico preservato: sei proveRocky/Bubblewrap PASS prevalgono sulla vecchia annotazione di assenza; non certificano runtime PHP né annullano i segfault storici da verificare. Nessuna nuova vulnerabilità dichiarata dalla sola lista avvisi dipendenze. Nessun DBoperativo, configurazione/schemaoperativo, commit/push/fetch/deploy o trasmissione; nessuna validazione produttiva. Accesso server necessario esclusivamente per le verifiche V1–V4 indicate; dati/provider per V5–V7.
+
+## Mitigazione CLI verificata — 9 ottobre 2026
+
+Il runner usa PHP con `-d opcache.enable_cli=0` per ogni invocazione del progetto. Usare lo stesso prefisso per i comandi Artisan autorizzati, senza modificare ini o FPM. Composer mantiene `--no-plugins`; install mantiene anche `--no-scripts`: il flag del padre **non è ereditato** dai figli `@php`, come provato su fixture. Non usare script/plugin Composer sotto questa accettazione.
+
+Il gate richiede Laravel12.69.3. Composer install/check-platform-reqs precedono il primo config:clear protetto, per consentire la transizione dal vendor11. Tutte le guardie restano; nessun rollback automatico. Esiti e limiti del runner/FPM: [Mitigazione verificata](MITIGAZIONE-CLI-FPM-2026-10-09.md). FPM privato non equivale al vhost operativo; nessun deploy autorizzato da questa verifica.

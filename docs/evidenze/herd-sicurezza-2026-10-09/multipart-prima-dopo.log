@@ -1,0 +1,7 @@
+originale
+{"boundary_indipendenti":false,"header_iniettato":true}
+(node:99463) [DEP0044] DeprecationWarning: The `util.isArray` API is deprecated. Please use `Array.isArray()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+corretto
+{"boundary_indipendenti":true,"header_iniettato":false}

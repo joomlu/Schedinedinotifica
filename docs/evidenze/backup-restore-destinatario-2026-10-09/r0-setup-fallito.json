@@ -1,0 +1,6 @@
+{
+  "fase": "R0",
+  "esito": "FAIL",
+  "errore": "mariadb-install-db exit1",
+  "istanza_privata_fermata": true
+}

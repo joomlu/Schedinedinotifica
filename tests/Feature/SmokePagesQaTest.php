@@ -4,16 +4,18 @@ namespace Tests\Feature;
 
 use App\Models\Customers;
 use App\Models\Schedina;
-use App\Models\Struttura;
-use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Support\StrutturaFixtures;
 use Tests\TestCase;
 
 class SmokePagesQaTest extends TestCase
 {
+    use RefreshDatabase, StrutturaFixtures;
+
     private function authContext(): array
     {
-        $user = User::query()->where('ruolo', 'super_admin')->first() ?? User::query()->first();
-        $strutturaId = Struttura::query()->value('id');
+        $user = $this->actor('super_admin');
+        $strutturaId = $this->structureFor(null)->id;
 
         $this->assertNotNull($user, 'Nessun utente disponibile per test.');
         $this->assertNotNull($strutturaId, 'Nessuna struttura disponibile per test.');
@@ -61,12 +63,9 @@ class SmokePagesQaTest extends TestCase
     {
         [$user, $strutturaId] = $this->authContext();
 
-        $schedinaId = Schedina::query()->withoutGlobalScopes()->value('id');
-        $customerId = Customers::query()->withoutGlobalScopes()->value('id');
-
-        if ($schedinaId === null || $customerId === null) {
-            $this->markTestSkipped('Dataset insufficiente: servono almeno 1 schedina e 1 cliente.');
-        }
+        $customerId = Customers::create(['struttura_id' => $strutturaId, 'name' => 'Cliente sintetico', 'surname' => 'Smoke'])->id;
+        $schedinaId = Schedina::forceCreate(['struttura_id' => $strutturaId, 'customer_id' => $customerId,
+            'name' => 'Ospite sintetico', 'surname' => 'Smoke', 'arrive' => '2026-06-10', 'departure' => '2026-06-11'])->id;
 
         $response = $this
             ->actingAs($user)
