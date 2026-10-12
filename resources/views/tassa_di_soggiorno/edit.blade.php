@@ -50,19 +50,10 @@
                     <form method="GET" action="{{ route('tassa_di_soggiorno.edit') }}" class="d-flex gap-2 mb-3">
                         <label class="form-label" for="anno-fiscale">Anno fiscale</label><input class="form-control w-auto" id="anno-fiscale" name="anno_fiscale" type="number" min="2015" max="2100" value="{{ $annoFiscale }}"><button class="btn btn-outline-primary">Verifica profilo</button>
                     </form>
-                    @if($diagnosi['stato'] === 'configurazione_legacy_discordante')<p class="text-warning"><strong>Configurazione legacy conservata.</strong> Nessuna modifica automatica ai valori salvati.</p>@endif
-                    @if($confronto)
-                        <p>Il periodo di applicazione dell’imposta è quello del profilo comunale dell’anno selezionato. Le eventuali date salvate restano conservate e non sono utilizzate né richiedono ricopiatura; non dipendono dall’apertura della struttura.</p>
-                        <div class="table-responsive"><table class="table align-middle"><thead><tr><th>Campo</th><th>Valore salvato</th><th>Profilo comunale di {{ $datiStruttura['comune'] }} — anno {{ $annoFiscale }}</th><th>Stato</th></tr></thead><tbody>
-                        @foreach(['tassa_soggiorno' => 'Tariffa per notte', 'giorni_massimo' => 'Limite notti', 'inizio' => 'Inizio periodo', 'fine' => 'Fine periodo', 'max_age_children' => 'Età minori', 'min_age_adult' => 'Età adulti'] as $campo => $nome)
-                            <tr><td>{{ $nome }}</td><td>{{ $confronto['attuali'][$campo] ?? 'Non salvato' }}</td><td>{{ $confronto['richiesti'][$campo] }}</td><td>{{ in_array($campo, ['inizio', 'fine'], true) ? 'Periodo definito dal profilo comunale — anno '.$annoFiscale : (isset($confronto['differenze'][$campo]) ? 'Differente dal profilo comunale — anno '.$annoFiscale : 'Coincidente') }}</td></tr>
-                        @endforeach
-                        </tbody></table></div>
-                    @endif
                     @if($riallineamentoToken)
                         <form method="POST" action="{{ route('tassa_di_soggiorno.riallinea') }}">
                             @csrf<input type="hidden" name="token" value="{{ $riallineamentoToken }}">
-                            <div class="alert alert-warning">Riallineamento esplicito dei soli sei parametri sopra indicati. Nessuna ricevuta salvata, export consolidato o Schedina sarà riscritta. Le elaborazioni correnti saranno ricalcolate usando il profilo certificato.</div>
+                            <div class="alert alert-warning">Riallineamento esplicito dei soli sei parametri fiscali. Nessuna ricevuta salvata, export consolidato o Schedina sarà riscritta. Le elaborazioni correnti saranno ricalcolate usando il profilo certificato.</div>
                             <div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="consenso-riallineamento" name="consenso" value="1" required><label class="form-check-label" for="consenso-riallineamento">Ho verificato le differenze e autorizzo il riallineamento della struttura e dell’anno indicati.</label></div>
                             <button type="submit" class="btn btn-primary">Riallinea al profilo certificato</button>
                         </form>
@@ -70,7 +61,7 @@
                         <p>Richiedere il riallineamento a un amministratore o al proprietario autorizzato.</p>
                     @endif
                 </div>
-                <div class="col-12"><p class="text-muted">Il periodo fiscale è indipendente dall’apertura della struttura. Una Schedina può essere registrata anche fuori stagione o quando il calcolo Tassa non è disponibile.</p><a class="btn btn-light" href="{{ route('tassa_di_soggiorno.rapporto') }}">Vai al rapporto Tassa</a></div>
+                <div class="col-12"><a class="btn btn-light" href="{{ route('tassa_di_soggiorno.rapporto') }}">Vai al rapporto Tassa</a></div>
             </div>
         </div>
         <div class="tab-pane fade" id="pane-esenzioni" role="tabpanel" aria-labelledby="tab-esenzioni">

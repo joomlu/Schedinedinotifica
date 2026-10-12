@@ -1,0 +1,9 @@
+# Pulizia della vista Tassa di soggiorno — 13 ottobre 2026
+
+Scope autorizzato: sola rimozione del report inferiore e testi collegati, documentazione, commit/push/rilascio tramite procedura esistente. Rischio BASSO. Stato generale BASELINE IN AUDIT, nessuna validazione globale.
+
+Modifica applicativa unica: `resources/views/tassa_di_soggiorno/edit.blade.php`. Rimosse la tabella Campo/Valore salvato/Profilo comunale/Stato, la nota di conservazione collegata al report, la spiegazione su date salvate/ricopiatura e il paragrafo sull’indipendenza dall’apertura. Blocco superiore «Configurazione fiscale applicata», periodo comunale mostrato, diagnosi e form GET dell’anno byte-identici alla versione precedente. Conservati azione di riallineamento, schede Esenzioni/Stampa e collegamento al rapporto Tassa; il testo del riallineamento ora indica «sei parametri fiscali» senza rimandare alla tabella rimossa. Nessun controller, servizio, profilo, importo, limite, esenzione, schema/dato, ruolo o permesso modificato.
+
+Verifica statica PASS: confronto byte-esatto del blocco superiore/selettore/diagnosi e assenza delle intestazioni/testi rimossi. Diff applicativo limitato alla sola vista. Test del repository non modificati. Prova mirata selezionata nel runtime esistente senza rete, DB effimero e fixture sintetiche: `python3 scripts/development/ambiente-interno.py test tests/Feature/TassaPeriodoComunaleTest.php`. Esito PASS: 3 test/67 asserzioni, build asset/GEO immutabile e23rifiuti di override PASS. Copia temporanea e DB effimero fermati/rimossi. Cache Python derivata obsoleta rimossa nella sola VM dopo confronto sorgente/Git, guardia invariata. Rilascio ancora in preparazione, nessuna dichiarazione online anticipata.
+
+Lavoro locale pregresso: tre documenti storici e modifiche al Maestro, più artefatti non versionati, preservati ed esclusi dallo staging. Sola nuova voce Maestro pubblicata con il consuntivo. Nessun reset/clean/force, nessun invio agli enti.

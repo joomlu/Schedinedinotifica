@@ -1,5 +1,9 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Aggiornamento corrente — pulizia mirata della vista Tassa
+
+[Consuntivo](../PULIZIA-VISTA-TASSA-2026-10-13.md). Sola vista: rimossi report inferiore Campo/Valore salvato/Profilo comunale/Stato e testi collegati a date salvate/ricopiatura/apertura. Blocco fiscale superiore, diagnosi e selettore anno byte-identici; azioni/schede/rapporto preservati, rimando testuale alla tabella eliminata corretto. Nessun servizio/controller/calcolo/profilo/importo/limite/esenzione/dato/schema/ruolo/permesso/test permanente modificato. Confronto statico e rendering isolato3test/67asserzioni/build/GEO/23override PASS; rilascio in preparazione, nessuna dichiarazione online anticipata. Diff/staging selettivi, modifiche pregresse conservate. BASELINE IN AUDIT.
+
 ## Aggiornamento corrente — periodo dell’imposta corretto, pubblicato e verificato online
 
 [Consuntivo mirato e rilascio effettivo](../CORREZIONE-PERIODO-IMPOSTA-2026-10-12.md). Causa accertata: valori salvati dal record Tassa legacy, riferimento/calcolo dal profilo comunale annuale; nessuna dipendenza dall’apertura trovata, blocco preliminare sulle date legacy discordanti corretto. Solo servizio/vista: date salvate conservate e non bloccanti, periodo del profilo pertinente con Comune/anno/dal-al espliciti; nessuna ricopiatura o data universale, anno mancante resta bloccato. Importi/cap/età/esenzioni/autorizzazioni e storico preservati. VM esistente/norete/DB effimero:53prove,51PASS/1546asserzioni/2SKIP immagini GDassente, build/GEO/23overridePASS; fallimenti cache/migrazione storica/fixture documentati. Nessun nuovo laboratorio o cambio infrastruttura;10prove componentiC5 incluse7auth PASS.
