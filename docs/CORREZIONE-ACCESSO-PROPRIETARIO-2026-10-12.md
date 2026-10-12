@@ -1,6 +1,6 @@
 # Correzione della validazione accesso proprietario — 12 ottobre 2026
 
-Stato: VERIFICATO nella VM isolata; pubblicazione e verifica online PENDENTI. BASELINE IN AUDIT.
+Stato: correzione VERIFICATA nella VM isolata e PUBBLICATA su GitHub; deploy BLOCCATO dalla revisione automatica. Baseline precedente riaperta e VERIFICATA online. BASELINE IN AUDIT.
 
 Scope autorizzato: esclusivamente validazione, messaggi e presentazione degli errori del proprietario nelle aree Admin e Superadmin. Nessun nuovo stato, modulo, permesso, ruolo o controllo di abilitazione. Commit, push e deploy autorizzati dall’utente, senza invii agli enti.
 
@@ -13,3 +13,25 @@ Verifica: `python3 scripts/development/ambiente-interno.py stato`, `sincronizza`
 Rischio medio: gestione credenziali. Restano fuori scope i criteri legacy di risoluzione accesso per email/nome e la matrice generale dei permessi. Nessuna certificazione generale del modulo o dell’applicazione. Lavoro documentale preesistente preservato, selezione Git limitata al delta di questa task.
 
 Il rilascio richiede candidato esatto, preflight corrente, backup recuperabile e sonde online senza record fittizi. Esito effettivo da registrare dopo esecuzione, nessuna dichiarazione di deploy completato anticipata.
+
+## Pubblicazione e tentativo produttivo effettivo
+
+Commit applicativo `8b7908f26654e79b45ab9f4418da6aaa233132e1`, tree `d2f6e2ce56855eca603a426b845ff7b3d0abb031`, pubblicato su `origin/main`. Sei soli file: due controller, modulo condiviso, test mirato, rapporto e sola nuova annotazione del Maestro. Fetch: HEAD e origin/main inizialmente coincidenti; diff completo e `--check` revisionati. Le modifiche documentali preesistenti sono state preservate ed escluse mediante selezione del solo nuovo contenuto del Maestro nell’index. Nessuna modifica ad altri repository.
+
+Depositi nuovi, mirror immutabile e bundle del runner verificati; cache rigenerate da lock fuori dall’applicazione e dalla manutenzione, prebuild offline nativo PASS. Kit `50864ead775adbb30d62af652f149799fbdbca6f5e1b12299d608e8d630a1472`; piano RUN `f1b9f4f4b83c33653e2d4912212fc5c79dbedf407ea7c29696096f948b79f772`; migrazioni previste nessuna. Backup anticipato cifrato, seconda copia/rilettura sul Data interno e recupero indipendente nella VM senza rete PASS (DB/files/metadati/key/FPM/TLS/flags); chiave mai esportata sul Mac. Non è S0 finale: il tentativo è fallito prima della sua acquisizione. Stato C5 precedente conservato sotto lock originale.
+
+Tentativo reale con guardiano indipendente: worker STOP subito dopo barriera/T0 perché `/var/lib/schedine-release/operations` era stato rimosso nella pulizia precedente. Nessun prepare/execute applicativo, nessun cambio HEAD, nessuna DDL/DML, nessun S0 finale. Ricreato il solo contenitore privato, ma il recupero storico aveva due vincoli incompatibili con la baseline corrente: versione Laravel11.31 fissa nel ramo senza mutazione e sonda nativa ammessa solo per SHA6ac6. Recupero tramite `RecoveryControl` dello stesso piano/T0, verifica autentica della baseline12.69.3 con il suo SHA e nonce corrente, schema/inventario stabile/chiave/config/egress/zero-query/HEAD PASS; decisione `BASELINE_NON_MODIFICATA` e riapertura **129,614s dal T0**. Nessun restore di dati. Errore successivo nel solo report, perché `elapsed()` richiedeva ancora la barriera dopo la decisione: riapertura già verificata, consuntivo corretto e sonde ripetute PASS. Il tentativo resta FAIL, non promosso a deploy.
+
+Verifica online finale: produzione HEAD `6ac6b876a1845b698ceef55e44a1b682a387a868`, Laravel12.69.3,149migrazioni/64tabelle, chiave coerente, Questura/ISTATfalse/mailarray, barriera assente. Nove sonde sui tre alias `/`, `/login`, CSS: HTTP200/TLS0 e CSS byte-identico. **Dump DB byte-identico al backup anticipato**. Sessione browser già autenticata: listato proprietari, modulo nuovo e scheda Accesso visibili dopo riapertura; sole GET e selezione scheda, nessun salvataggio e nessun record fittizio. Modulo già aperto dall’utente preservato, sola scheda temporanea chiusa. Questa verifica prova la baseline precedente, non la correzione8b7908f.
+
+## Blocco e delta concreto proposto
+
+La revisione automatica ha respinto la creazione persistente di un nuovo helper PHP e l’aggiunta del candidato alla whitelist, ritenendole modifiche di sicurezza/configurazione prive di autorizzazione esplicita aggiuntiva. Azione **NON ESEGUITA**, helper nuovo accertato assente; nessun aggiramento del rifiuto. Richiesta all’utente sull’esatto delta preparato:
+
+- nuovo helper `/etc/schedine-release/helpers/probe-accesso-8b7908f2.php`, conservando quello originale; whitelist esclusiva baseline6ac6/candidato8b7908f, stessa firmaRSA/nonce48/scadenza60s e socket privato; nessuna route pubblica, nuova chiave, ruolo o permesso;
+- nuova copia del kit con sola correzione del ramo guardiano: versione effettiva attesa dal piano anziché11.31 fissa;
+- rigenerazione piano/sigilli/backup e nuovo tentativo distinto con S0 finale indipendente, guardiano e zero migrazioni.
+
+Delta locale reviewabile: `output/correzione-accesso-proprietario/proposta-r2.json`, helper proposto SHA256 `8294869734a435ccef534ade6f938bbaec55e315f740c168ab632004ee32f109`, kitR2 `b3a6a2fe6b4fca82152c2577a120eecc158df893993b41bccc7084805785d0be`. Non installati in produzione. Prove di componente nella VM senza rete/SELinuxEnforcing: **4 test PASS**, tre casi guardiano (baseline corrente, baseline storica, versione errata respinta) e sette casi firma/SHA/nonce/scadenza della sola autenticazione PHP con chiavi sintetiche. Non collaudo integrale del nuovo rilascio. Due fallimenti preparatori di fixture per permessi600/700 conservati, corretti nelle sole fixture e ripetizione PASS; nessuna guardia indebolita.
+
+Evidenze private locali e server conservate sotto `output/correzione-accesso-proprietario` e `/root/schedine-accesso-8b7908f2`; backup cifrati, chiavi distinte, originali e diagnostici preservati. Autorizzazione aggiuntiva PENDENTE. Codice SI, test SI, documentazione SI; configurazione applicativa NO, strumentazione/depositi operativi SI; schema/dati operativi NO; test isolati SI; commit/push SI; deploy della correzione NO (tentativo FAIL, baseline recuperata); trasmissioni agli enti NO. Prossimo passo: solo dopo autorizzazione del delta esatto, completare nuova preparazione e rilascio, poi verificare online la correzione senza record fittizi.
