@@ -50,11 +50,8 @@ class TassaDiSoggiornoService
         if ((float) $config->tassa_soggiorno !== (float) $regola['tassa_soggiorno'] || (int) $config->giorni_massimo !== $regola['giorni_massimo']) {
             throw \Illuminate\Validation\ValidationException::withMessages(['categoria_tassa' => 'Aliquota o limite non coerenti con il profilo fiscale certificato per la data del soggiorno. Verificare la configurazione senza riscrivere lo storico.']);
         }
-        $inizio = $this->parseDate($config->inizio ? (string) $config->inizio : null);
-        $fine = $this->parseDate($config->fine ? (string) $config->fine : null);
-        if (! $inizio || ! $fine || $inizio->format('m-d') !== Carbon::parse($regola['inizio'])->format('m-d') || $fine->format('m-d') !== Carbon::parse($regola['fine'])->format('m-d')) {
-            throw \Illuminate\Validation\ValidationException::withMessages(['periodo_tassa' => 'La configurazione Bellaria deve indicare il periodo documentato 1 giugno–30 settembre. Le impostazioni esistenti non sono state riscritte.']);
-        }
+        // Il periodo applicabile proviene dal profilo comunale della data.
+        // Le date legacy restano conservate, ma non condizionano il calcolo.
     }
 
     public function datiStrutturaFiscali(Struttura $struttura): array
@@ -162,8 +159,9 @@ class TassaDiSoggiornoService
         if (! $profilo) {
             return $legacy;
         }
-        // I record discordanti restano bloccati. Nessun riallineamento silenzioso o salvataggio.
-        $campi = ['tassa_soggiorno', 'giorni_massimo', 'inizio', 'fine', 'max_age_children', 'min_age_adult'];
+        // Discordanze economiche/età restano bloccate; le date sono del profilo comunale.
+        // Nessun riallineamento persistente o salvataggio.
+        $campi = ['tassa_soggiorno', 'giorni_massimo', 'max_age_children', 'min_age_adult'];
         $haValori = $legacy && collect($campi)->contains(fn ($campo) => $legacy->{$campo} !== null);
         if ($haValori) {
             try {

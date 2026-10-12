@@ -7,7 +7,7 @@ use App\Models\Struttura;
 use App\Models\TassaDiSoggiorno;
 use App\Models\TassaEsenzione;
 use App\Models\TassaExport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\StrutturaFixtures;
@@ -15,7 +15,7 @@ use Tests\TestCase;
 
 class TassaBellariaConfigurazioneAutomaticaTest extends TestCase
 {
-    use RefreshDatabase, StrutturaFixtures;
+    use DatabaseTransactions, StrutturaFixtures;
 
     private function hotel(): Struttura
     {
@@ -108,7 +108,7 @@ class TassaBellariaConfigurazioneAutomaticaTest extends TestCase
         $this->get('/tassa_di_soggiorno')->assertOk()->assertViewHas('diagnosi', fn ($d) => $d['stato'] === 'automatica');
         $this->get('/schedine/'.$p->id.'/tassa/print')->assertOk()->assertViewHas('dettaglio', fn ($d) => $d['totale'] == 9);
         $this->assertSame($prima, $cfg->fresh()->getAttributes());
-        $cfg->update(['tassa_soggiorno' => 1.5, 'giorni_massimo' => 6, 'inizio' => '2026-03-01', 'fine' => '2026-10-01']);
+        $cfg->update(['tassa_soggiorno' => 2.5, 'giorni_massimo' => 6, 'inizio' => '2026-03-01', 'fine' => '2026-10-01']);
         $prima = $cfg->fresh()->getAttributes();
         $this->get('/tassa_di_soggiorno')->assertOk()->assertViewHas('diagnosi', fn ($d) => $d['stato'] === 'configurazione_legacy_discordante')->assertSee('Configurazione legacy conservata');
         foreach ([6, 7] as $mese) {
@@ -122,6 +122,9 @@ class TassaBellariaConfigurazioneAutomaticaTest extends TestCase
 
     public function test_upload_formati_limite_sostituzione_rimozione_e_tenant(): void
     {
+        if (! extension_loaded('gd')) {
+            $this->markTestSkipped('Prova immagini non eseguibile: GD assente nel runtime isolato.');
+        }
         Storage::fake('local');
         $a = $this->hotel();
         $this->ospite($a);

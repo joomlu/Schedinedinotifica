@@ -30,13 +30,14 @@
                 </div></div></div>
                 <div class="col-lg-6"><div class="card border h-100"><div class="card-body">
                     <h5 class="card-title">Configurazione fiscale applicata</h5>
+                    <p>Profilo comunale di {{ $datiStruttura['comune'] ?: 'Comune non configurato' }} — anno {{ $annoFiscale }}</p>
                     <div class="alert {{ $diagnosi['stato'] === 'automatica' ? 'alert-success' : 'alert-warning' }}" data-tassa-stato="{{ $diagnosi['stato'] }}">{{ $diagnosi['messaggio'] }}</div>
                     @if($diagnosi['profilo'])
                         @if($diagnosi['stato'] !== 'automatica')<p>Regola certificata di riferimento, non applicabile finché la discordanza segnalata non è risolta.</p>@endif
                         <dl class="row">
                             <dt class="col-sm-6">Tariffa per notte</dt><dd class="col-sm-6">€ {{ number_format($diagnosi['profilo']['tassa_soggiorno'], 2, ',', '.') }}</dd>
                             <dt class="col-sm-6">Massimo pernottamenti</dt><dd class="col-sm-6">{{ $diagnosi['profilo']['giorni_massimo'] }}</dd>
-                            <dt class="col-sm-6">Periodo fiscale</dt><dd class="col-sm-6">{{ \Carbon\Carbon::parse($diagnosi['profilo']['inizio'])->format('d/m/Y') }} – {{ \Carbon\Carbon::parse($diagnosi['profilo']['fine'])->format('d/m/Y') }}</dd>
+                            <dt class="col-sm-6">Periodo di applicazione dell’imposta</dt><dd class="col-sm-6">Dal {{ \Carbon\Carbon::parse($diagnosi['profilo']['inizio'])->format('d/m/Y') }} al {{ \Carbon\Carbon::parse($diagnosi['profilo']['fine'])->format('d/m/Y') }}</dd>
                             <dt class="col-sm-6">Versione</dt><dd class="col-sm-6">{{ $diagnosi['profilo']['regola_versione'] }}</dd>
                             <dt class="col-sm-6">Validità della regola</dt><dd class="col-sm-6">{{ \Carbon\Carbon::parse($diagnosi['profilo']['valida_dal'])->format('d/m/Y') }} – {{ \Carbon\Carbon::parse($diagnosi['profilo']['valida_al'])->format('d/m/Y') }}</dd>
                         </dl>
@@ -51,9 +52,10 @@
                     </form>
                     @if($diagnosi['stato'] === 'configurazione_legacy_discordante')<p class="text-warning"><strong>Configurazione legacy conservata.</strong> Nessuna modifica automatica ai valori salvati.</p>@endif
                     @if($confronto)
-                        <div class="table-responsive"><table class="table align-middle"><thead><tr><th>Campo</th><th>Valore salvato</th><th>Profilo certificato</th><th>Stato</th></tr></thead><tbody>
+                        <p>Il periodo di applicazione dell’imposta è quello del profilo comunale dell’anno selezionato. Le eventuali date salvate restano conservate e non sono utilizzate né richiedono ricopiatura; non dipendono dall’apertura della struttura.</p>
+                        <div class="table-responsive"><table class="table align-middle"><thead><tr><th>Campo</th><th>Valore salvato</th><th>Profilo comunale di {{ $datiStruttura['comune'] }} — anno {{ $annoFiscale }}</th><th>Stato</th></tr></thead><tbody>
                         @foreach(['tassa_soggiorno' => 'Tariffa per notte', 'giorni_massimo' => 'Limite notti', 'inizio' => 'Inizio periodo', 'fine' => 'Fine periodo', 'max_age_children' => 'Età minori', 'min_age_adult' => 'Età adulti'] as $campo => $nome)
-                            <tr><td>{{ $nome }}</td><td>{{ $confronto['attuali'][$campo] ?? 'Non salvato' }}</td><td>{{ $confronto['richiesti'][$campo] }}</td><td>{{ isset($confronto['differenze'][$campo]) ? 'Differente / derivato dal profilo' : 'Coincidente' }}</td></tr>
+                            <tr><td>{{ $nome }}</td><td>{{ $confronto['attuali'][$campo] ?? 'Non salvato' }}</td><td>{{ $confronto['richiesti'][$campo] }}</td><td>{{ in_array($campo, ['inizio', 'fine'], true) ? 'Periodo definito dal profilo comunale — anno '.$annoFiscale : (isset($confronto['differenze'][$campo]) ? 'Differente dal profilo comunale — anno '.$annoFiscale : 'Coincidente') }}</td></tr>
                         @endforeach
                         </tbody></table></div>
                     @endif

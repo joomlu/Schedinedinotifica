@@ -7,13 +7,13 @@ use App\Models\Struttura;
 use App\Models\TassaDiSoggiorno;
 use App\Models\TassaExport;
 use App\Services\TassaDiSoggiornoService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\Support\StrutturaFixtures;
 use Tests\TestCase;
 
 class TassaBellariaAnteprimaTest extends TestCase
 {
-    use RefreshDatabase, StrutturaFixtures;
+    use DatabaseTransactions, StrutturaFixtures;
 
     private function hotel(): Struttura
     {
@@ -79,10 +79,10 @@ class TassaBellariaAnteprimaTest extends TestCase
         $this->get('/schedine/'.$p->id.'/tassa/anteprima')->assertOk()->assertSee('Anteprima del calcolo')->assertDontSee('Data emissione');
         $this->assertSame($prima, $p->fresh()->getAttributes());
         $this->assertSame(0, TassaExport::count());
-        $c = TassaDiSoggiorno::create(['struttura_id' => $s->id, 'tassa_soggiorno' => 1.5, 'giorni_massimo' => 6, 'inizio' => '2026-03-01', 'fine' => '2026-10-01']);
+        $c = TassaDiSoggiorno::create(['struttura_id' => $s->id, 'tassa_soggiorno' => 2.5, 'giorni_massimo' => 6, 'inizio' => '2026-03-01', 'fine' => '2026-10-01']);
         $this->get('/schedine/'.$p->id.'/tassa/anteprima')->assertStatus(422)->assertSee('Configurazione fiscale')->assertDontSee('id="ricevuta-tassa-card"', false);
         $this->getJson('/schedine/'.$p->id.'/tassa/anteprima')->assertUnprocessable();
-        $c->update(['inizio' => '2026-06-01', 'fine' => '2026-09-30']);
+        $c->update(['tassa_soggiorno' => 1.5, 'inizio' => '2026-06-01', 'fine' => '2026-09-30']);
         $p->update(['arrive' => '2026-12-31', 'departure' => '2027-01-03']);
         foreach (['anteprima', 'print'] as $route) {
             $this->getJson('/schedine/'.$p->id.'/tassa/'.$route)->assertUnprocessable()->assertJsonValidationErrors('regola_non_disponibile');

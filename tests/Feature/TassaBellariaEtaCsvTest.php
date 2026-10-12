@@ -9,13 +9,13 @@ use App\Models\TassaDiSoggiorno;
 use App\Models\TassaEsenzione;
 use App\Services\TassaDiSoggiornoService;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\Support\StrutturaFixtures;
 use Tests\TestCase;
 
 class TassaBellariaEtaCsvTest extends TestCase
 {
-    use RefreshDatabase, StrutturaFixtures;
+    use DatabaseTransactions, StrutturaFixtures;
 
     private function config(): TassaDiSoggiorno
     {

@@ -10,13 +10,13 @@ use App\Models\TassaEsenzione;
 use App\Models\TassaExport;
 use App\Services\TassaDiSoggiornoService;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\Support\StrutturaFixtures;
 use Tests\TestCase;
 
 class TassaBellariaCompletenessTest extends TestCase
 {
-    use RefreshDatabase, StrutturaFixtures;
+    use DatabaseTransactions, StrutturaFixtures;
 
     private function contesto(): Struttura
     {
@@ -171,7 +171,7 @@ class TassaBellariaCompletenessTest extends TestCase
         foreach (['incoerente', 'incompleta', 'mancante'] as $caso) {
             $config = TassaDiSoggiorno::first();
             if ($caso === 'incoerente') {
-                $config->update(['inizio' => '2026-03-01', 'fine' => '2026-10-01']);
+                $config->update(['tassa_soggiorno' => '2.50', 'inizio' => '2026-03-01', 'fine' => '2026-10-01']);
             } elseif ($caso === 'incompleta') {
                 $config->update(['tassa_soggiorno' => null]);
             } else {
@@ -226,7 +226,7 @@ class TassaBellariaCompletenessTest extends TestCase
         $this->persona($a, 3);
         $config = TassaDiSoggiorno::firstOrFail();
         $valida = ['tassa_soggiorno' => '1.50', 'giorni_massimo' => 6, 'inizio' => '2026-06-01', 'fine' => '2026-09-30'];
-        foreach ([['inizio' => '2026-03-01', 'fine' => '2026-10-01'], ['inizio' => null], ['fine' => null], ['tassa_soggiorno' => null], ['tassa_soggiorno' => '2.50'], ['giorni_massimo' => null], ['giorni_massimo' => 10]] as $errore) {
+        foreach ([['tassa_soggiorno' => null], ['tassa_soggiorno' => '2.50'], ['giorni_massimo' => null], ['giorni_massimo' => 10]] as $errore) {
             $config->update(array_replace($valida, $errore));
             foreach ([6, 7] as $mese) {
                 $dal = sprintf('2026-%02d-01', $mese);
@@ -258,7 +258,7 @@ class TassaBellariaCompletenessTest extends TestCase
         $this->post('/tassa_di_soggiorno/rapporto/consolida', $periodo)->assertRedirect();
         $export = TassaExport::firstOrFail();
         $csv = $export->snapshot['csv'];
-        TassaDiSoggiorno::firstOrFail()->update(['inizio' => '2026-03-01', 'fine' => '2026-10-01']);
+        TassaDiSoggiorno::firstOrFail()->update(['tassa_soggiorno' => '2.50', 'inizio' => '2026-03-01', 'fine' => '2026-10-01']);
         $this->get('/tassa_di_soggiorno/rapporto?export_id='.$export->id)->assertOk()->assertViewHas('totalePeriodo', 0);
         $this->get('/tassa_di_soggiorno/export/'.$export->id)->assertOk()->assertContent($csv);
         $this->getJson('/tassa_di_soggiorno/rapporto?'.http_build_query($periodo))->assertUnprocessable();
@@ -434,7 +434,7 @@ class TassaBellariaCompletenessTest extends TestCase
         $this->getJson('/tassa_di_soggiorno/rapporto/csv'.$this->query())->assertUnprocessable();
         $a->update(['classificazione' => '3 stelle']);
         TassaDiSoggiorno::first()->update(['inizio' => '2026-03-01', 'fine' => '2026-10-01']);
-        $this->getJson('/tassa_di_soggiorno/rapporto/csv'.$this->query())->assertUnprocessable();
+        $this->getJson('/tassa_di_soggiorno/rapporto/csv'.$this->query())->assertOk();
         $this->assertSame('03-01', TassaDiSoggiorno::first()->inizio->format('m-d'));
         TassaDiSoggiorno::first()->update(['inizio' => '2026-06-01', 'fine' => '2026-09-30']);
         TassaDiSoggiorno::first()->update(['giorni_massimo' => 10]);

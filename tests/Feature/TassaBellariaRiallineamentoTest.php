@@ -6,13 +6,13 @@ use App\Models\Schedina;
 use App\Models\StrutturaAuditLog;
 use App\Models\TassaDiSoggiorno;
 use App\Models\TassaExport;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\Support\StrutturaFixtures;
 use Tests\TestCase;
 
 class TassaBellariaRiallineamentoTest extends TestCase
 {
-    use RefreshDatabase, StrutturaFixtures;
+    use DatabaseTransactions, StrutturaFixtures;
 
     private function legacy(): array
     {
@@ -21,7 +21,7 @@ class TassaBellariaRiallineamentoTest extends TestCase
         $u = $this->actor('struttura_user', null, $a->id);
         $u->update(['ruolo_operativo' => 'proprietario']);
         $this->actingAs($u);
-        $c = TassaDiSoggiorno::create(['struttura_id' => $a->id, 'tassa_soggiorno' => 1.5, 'giorni_massimo' => 6, 'inizio' => '2026-03-01', 'fine' => '2026-10-01', 'max_age_children' => 17, 'min_age_adult' => 18, 'note' => 'Nota sintetica preservata']);
+        $c = TassaDiSoggiorno::create(['struttura_id' => $a->id, 'tassa_soggiorno' => 2.5, 'giorni_massimo' => 6, 'inizio' => '2026-03-01', 'fine' => '2026-10-01', 'max_age_children' => 17, 'min_age_adult' => 18, 'note' => 'Nota sintetica preservata']);
 
         return [$a, $c, $u];
     }
@@ -87,12 +87,12 @@ class TassaBellariaRiallineamentoTest extends TestCase
     public function test_ricevuta_report_csv_e_storico_preservati_dopo_riallineamento(): void
     {
         [$a, $c] = $this->legacy();
-        $c->update(['inizio' => '2026-06-01', 'fine' => '2026-09-30']);
+        $c->update(['tassa_soggiorno' => 1.5, 'inizio' => '2026-06-01', 'fine' => '2026-09-30']);
         $p = Schedina::forceCreate(['struttura_id' => $a->id, 'name' => 'Sintetico', 'surname' => 'Audit', 'arrive' => '2026-06-10', 'departure' => '2026-06-13', 'oa_date_nac' => '1980-01-01', 'exent' => 'NO', 'is_arrive' => 0]);
         $this->get('/schedine/'.$p->id.'/tassa/print')->assertOk()->assertViewHas('dettaglio', fn ($d) => $d['totale'] == 4.5);
         $this->post('/tassa_di_soggiorno/rapporto/consolida', ['mese' => 6, 'anno' => 2026])->assertRedirect();
         $export = TassaExport::firstOrFail()->getAttributes();
-        $c->update(['fine' => '2026-10-01']);
+        $c->update(['tassa_soggiorno' => 2.5, 'fine' => '2026-10-01']);
         $this->post('/tassa_di_soggiorno/riallinea', ['token' => $this->token(), 'consenso' => 1])->assertRedirect();
         $this->assertSame($export, TassaExport::firstOrFail()->getAttributes());
         $this->get('/tassa_di_soggiorno/rapporto?mese=6&anno=2026')->assertOk()->assertViewHas('totalePeriodo', 4.5);

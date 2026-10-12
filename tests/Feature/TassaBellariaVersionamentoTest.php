@@ -6,7 +6,7 @@ use App\Models\Schedina;
 use App\Models\TassaDiSoggiorno;
 use App\Models\TassaExport;
 use App\Services\TassaDiSoggiornoService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\Support\StrutturaFixtures;
@@ -14,7 +14,7 @@ use Tests\TestCase;
 
 class TassaBellariaVersionamentoTest extends TestCase
 {
-    use RefreshDatabase, StrutturaFixtures;
+    use DatabaseTransactions, StrutturaFixtures;
 
     private function hotel()
     {
@@ -131,6 +131,9 @@ class TassaBellariaVersionamentoTest extends TestCase
 
     public function test_failure_upload_preserva_precedente_e_rimuove_solo_file_nuovo(): void
     {
+        if (! extension_loaded('gd')) {
+            $this->markTestSkipped('Prova immagini non eseguibile: GD assente nel runtime isolato.');
+        }
         Storage::fake('local');
         $s = $this->hotel();
         foreach ([false, true] as $conPrecedente) {
