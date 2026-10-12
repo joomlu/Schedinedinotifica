@@ -86,7 +86,9 @@ class ProprietariController extends Controller
         ]);
         $this->syncProprietarioAccessUser($proprietario, $data);
 
-        return redirect()->route('admin.proprietari.index')->with('status', 'Proprietario creato');
+        return redirect()->route('admin.proprietari.index')->with('status', $this->resolveAccessUser($proprietario->fresh())
+            ? 'Proprietario creato'
+            : 'Proprietario salvato senza accesso al portale. Per configurarlo, inserisci username e password.');
     }
 
     public function edit(Request $request, int $id)
@@ -112,9 +114,11 @@ class ProprietariController extends Controller
 
         return redirect()
             ->route('admin.proprietari.index')
-            ->with('status', $passwordAggiornata
+            ->with('status', !$this->resolveAccessUser($proprietario->fresh())
+                ? 'Proprietario salvato senza accesso al portale. Per configurarlo, inserisci username e password.'
+                : ($passwordAggiornata
                 ? 'Proprietario aggiornato. Password di accesso salvata correttamente.'
-                : 'Proprietario aggiornato');
+                : 'Proprietario aggiornato'));
     }
 
     public function disable(Request $request, int $id)
@@ -386,7 +390,7 @@ class ProprietariController extends Controller
             'accesso_nome' => ['nullable', 'string', 'max:255'],
             'accesso_username' => [
                 'nullable',
-                'required_with:accesso_email,accesso_password,accesso_nome',
+                'required_with:accesso_password',
                 'string',
                 'max:120',
                 Rule::unique('users', 'username')->whereNull('deleted_at')->ignore($accessoPrincipale?->id),
@@ -397,12 +401,30 @@ class ProprietariController extends Controller
                 'max:255',
                 Rule::unique('users', 'email')->whereNull('deleted_at')->ignore($accessoPrincipale?->id),
             ],
-            'accesso_password' => ['nullable', 'string', 'min:8'],
+            'accesso_password' => ['nullable', Rule::requiredIf(!$accessoPrincipale && filled($request->input('accesso_username'))), 'string', 'min:8'],
         ], [
+            'required' => 'Il campo :attribute è obbligatorio.',
+            'string' => 'Il campo :attribute deve contenere testo.',
+            'max' => 'Il campo :attribute non può superare :max caratteri.',
+            'email' => 'Inserisci un indirizzo email valido nel campo :attribute.',
+            'integer' => 'Seleziona un valore valido per :attribute.',
+            'exists' => 'Il valore selezionato per :attribute non è disponibile.',
+            'accesso_password.required' => 'Inserisci la password per creare l’accesso del proprietario.',
             'accesso_username.required_with' => 'Inserisci lo username di accesso del proprietario.',
-            'accesso_username.unique' => 'Lo username di accesso e gia utilizzato da un altro utente.',
-            'accesso_email.unique' => 'L email di accesso e gia utilizzata da un altro utente.',
+            'accesso_username.unique' => 'Lo username di accesso è già utilizzato da un altro utente.',
+            'accesso_email.unique' => "L’email di accesso è già utilizzata da un altro utente.",
             'accesso_password.min' => 'La password di accesso deve contenere almeno 8 caratteri.',
+        ], [
+            'nome' => 'nome', 'email' => 'email', 'telefono' => 'telefono', 'cellulare' => 'cellulare',
+            'admin_id' => 'amministratore', 'ragione_sociale' => 'ragione sociale',
+            'codice_fiscale' => 'codice fiscale', 'partita_iva' => 'partita IVA',
+            'codice_destinatario' => 'codice destinatario', 'codice_unico' => 'codice unico',
+            'pec' => 'PEC', 'indirizzo' => 'indirizzo', 'numero_civico' => 'numero civico',
+            'cap' => 'CAP', 'citta' => 'città', 'provincia' => 'provincia', 'regione' => 'regione',
+            'nazione' => 'nazione', 'latitudine' => 'latitudine', 'longitudine' => 'longitudine',
+            'note' => 'note', 'note_amministrative' => 'note amministrative',
+            'accesso_nome' => 'nome accesso', 'accesso_username' => 'username',
+            'accesso_email' => 'email accesso', 'accesso_password' => 'password',
         ]);
     }
 
@@ -519,12 +541,7 @@ class ProprietariController extends Controller
     private function syncProprietarioAccessUser(Proprietario $proprietario, array $data): void
     {
         $accesso = $this->resolveAccessUser($proprietario);
-        $hasInput = filled($data['accesso_username'] ?? null)
-            || filled($data['accesso_email'] ?? null)
-            || filled($data['accesso_password'] ?? null)
-            || filled($data['accesso_nome'] ?? null);
-
-        if (!$accesso && !$hasInput) {
+        if (!$accesso && (!filled($data['accesso_username'] ?? null) || !filled($data['accesso_password'] ?? null))) {
             return;
         }
 

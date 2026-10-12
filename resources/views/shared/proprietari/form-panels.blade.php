@@ -3,6 +3,11 @@
     $accessoUsername = old('accesso_username', $accessoPrincipale->username ?? '');
     $accessoEmail = old('accesso_email', $accessoPrincipale->email ?? '');
     $activeTab = request('tab', old('ragione_sociale') || old('partita_iva') || old('codice_fiscale') ? 'fiscale' : (old('accesso_username') || old('accesso_password') ? 'accesso' : 'profilo'));
+    if ($errors->hasAny(['accesso_nome', 'accesso_username', 'accesso_email', 'accesso_password'])) {
+        $activeTab = 'accesso';
+    } elseif ($errors->has('nome')) {
+        $activeTab = 'profilo';
+    }
     $serviziAttiviCount = $serviziAttiviCount ?? 0;
     $prossimaScadenza = $prossimaScadenza ?? null;
     $fatturatoTotale = $fatturatoTotale ?? 0;
@@ -127,7 +132,8 @@
                                 <div class="row g-3">
                                     <div class="col-lg-4">
                                         <label class="form-label">Nome proprietario</label>
-                                        <input type="text" name="nome" class="form-control" value="{{ old('nome', $proprietario->nome) }}">
+                                        <input type="text" required name="nome" class="form-control @error('nome') is-invalid @enderror" value="{{ old('nome', $proprietario->nome) }}">
+                                        @error('nome')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Ragione sociale</label>
@@ -298,20 +304,24 @@
                                 <div class="row g-3">
                                     <div class="col-lg-4">
                                         <label class="form-label">Nome accesso</label>
-                                        <input type="text" name="accesso_nome" class="form-control" value="{{ $accessoNome }}" placeholder="Mario Rossi">
+                                        <input type="text" name="accesso_nome" class="form-control @error('accesso_nome') is-invalid @enderror" value="{{ $accessoNome }}" placeholder="Mario Rossi">
+                                        @error('accesso_nome')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Username</label>
-                                        <input type="text" name="accesso_username" class="form-control" value="{{ $accessoUsername }}" placeholder="mrossi">
+                                        <input type="text" name="accesso_username" class="form-control @error('accesso_username') is-invalid @enderror" value="{{ $accessoUsername }}" placeholder="mrossi">
+                                        @error('accesso_username')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Email accesso</label>
-                                        <input type="email" name="accesso_email" class="form-control" value="{{ $accessoEmail }}" placeholder="proprietario@example.com">
+                                        <input type="email" name="accesso_email" class="form-control @error('accesso_email') is-invalid @enderror" value="{{ $accessoEmail }}" placeholder="proprietario@example.com">
+                                        @error('accesso_email')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Password</label>
                                         <div class="position-relative">
-                                            <input type="password" name="accesso_password" class="form-control pe-5" id="proprietario_accesso_password" placeholder="{{ $mode === 'edit' ? 'Lascia vuoto per mantenerla' : 'Minimo 8 caratteri' }}">
+                                            <input type="password" name="accesso_password" class="form-control @error('accesso_password') is-invalid @enderror pe-5" id="proprietario_accesso_password" placeholder="{{ $mode === 'edit' ? 'Lascia vuoto per mantenerla' : 'Minimo 8 caratteri' }}">
+                                        @error('accesso_password')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                             <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" data-password-toggle="proprietario_accesso_password" style="height: 100%;">
                                                 <i class="ri-eye-fill align-middle"></i>
                                             </button>

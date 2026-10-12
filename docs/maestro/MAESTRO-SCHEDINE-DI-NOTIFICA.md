@@ -1,5 +1,9 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Aggiornamento corrente — validazione accesso proprietario corretta e verificata in isolamento
+
+[Rapporto mirato](../CORREZIONE-ACCESSO-PROPRIETARIO-2026-10-12.md). Sole regole e messaggi Admin/Superadmin: nome obbligatorio server, credenziali entrambe vuote consentite, coppia obbligatoria per nuovo accesso, username univoco secondo regola esistente, password vuota conserva accesso esistente. Errori italiani accanto ai campi e scheda Accesso visibile; messaggio esatto per salvataggio senza portale. Nessun nuovo stato/modulo/permesso/configurazione/migrazione. VM interna senza rete, DB effimero sintetico: 23 override respinti/build-GEO PASS; 3 test/95 asserzioni PASS, entrambe aree e Admin cross-tenant404. Commit/push/deploy autorizzati nella task; pubblicazione e acceptance online PENDENTI fino evidenza effettiva. Lavoro preesistente preservato. BASELINE IN AUDIT; correzione VERIFICATA nello scope isolato.
+
 Versione documentale: **1.0**
 Data baseline: **2026-10-05**
 Stato: **BASELINE IN AUDIT**
