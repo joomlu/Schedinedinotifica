@@ -285,4 +285,35 @@ class GruppiTenantTest extends TestCase
         $this->assertDatabaseMissing('cestino_items', ['id' => $item->id]);
     }
 
+    public function test_endpoint_schedine_in_contesto_web_blocca_cataloghi_estranei_e_preserva_rollback(): void
+    {
+        [$a] = $this->context();
+        $b = $this->structureFor(null);
+        $this->root($b->id)->update(['nome' => 'Privato schedine B']);
+        // PHPUnit nasce in CLI: abilita esplicitamente il ramo reale HTTP dei modelli.
+        $console = new \ReflectionProperty($this->app, 'isRunningInConsole');
+        $previous = $console->getValue($this->app);
+        $console->setValue($this->app, false);
+        try {
+            $this->postJson('/schedine', ['save_mode' => 'draft', 'name' => 'Bozza estranea', 'customer_group' => 'Privato schedine B'])
+                ->assertUnprocessable()->assertJsonValidationErrors('customer_group');
+            $this->assertDatabaseMissing('schedina', ['name' => 'Bozza estranea']);
+            $payload = ['save_mode' => 'draft', 'name' => 'Bozza Gruppi HTTP', 'customer_group' => 'Business', 'customer_subgroup' => 'Meeting'];
+            $this->post('/schedine', $payload)->assertSessionHasNoErrors();
+            $sheet = Schedina::withoutGlobalScopes()->where('struttura_id', $a->id)->where('name', 'Bozza Gruppi HTTP')->firstOrFail();
+            $before = $sheet->getAttributes();
+            $this->putJson('/schedine/'.$sheet->id, array_replace($payload, ['customer_group' => 'Privato schedine B']))
+                ->assertUnprocessable()->assertJsonValidationErrors('customer_group');
+            $this->assertSame($before, $sheet->fresh()->getAttributes());
+            $this->putJson('/schedine/'.$sheet->id, array_replace($payload, ['customer_subgroup' => 'Radice estranea']))
+                ->assertUnprocessable()->assertJsonValidationErrors('customer_subgroup');
+            $this->assertSame($before, $sheet->fresh()->getAttributes());
+            $this->put('/schedine/'.$sheet->id, array_replace($payload, ['customer_group' => null, 'customer_subgroup' => null]))->assertSessionHasNoErrors();
+            $this->assertNull($sheet->fresh()->customer_group);
+            $this->assertNull($sheet->fresh()->customer_subgroup);
+        } finally {
+            $console->setValue($this->app, $previous);
+        }
+    }
+
 }

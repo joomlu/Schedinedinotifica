@@ -1,6 +1,6 @@
 # Verifica del modulo Gruppi — 13 ottobre 2026
 
-Stato generale **BASELINE IN AUDIT**. Rischio ALTO per isolamento, associazioni memorizzate per nome e migrazione. L’utente ha autorizzato correzioni, migrazione conservativa necessaria, documentazione, commit, push e rilascio C5 con checkpoint recuperabile. Il rilascio è ancora PENDENTE nella presente revisione preparatoria.
+Stato generale **BASELINE IN AUDIT**. Rischio ALTO per isolamento, associazioni memorizzate per nome e migrazione. L’utente ha autorizzato correzioni, migrazione conservativa necessaria, documentazione, commit, push e rilascio C5 con checkpoint recuperabile. Rilascio applicativo C5 e verifiche online **VERIFICATI nello scope eseguibile**; residui puntuali nel registro dei pendenti.
 
 ## Regola definitiva e modello effettivo
 
@@ -32,7 +32,7 @@ Preflight produttivo in sola lettura: SHA `f960f7ac6746403922c77e959097509b2ed9d
 
 ## Prove e limiti reali
 
-VM ufficiale `schedine-sviluppo-interno`, PHP8.3.33/MariaDB11.8.9, namespace senza rete, DB `test_geo_…` e filesystem propri. Build e controllo GEO immutabile, identità/riconnessione e 23 rifiuti di override PASS. Selezione mirata: 65 test/402 asserzioni PASS. Include CRUD/validazioni/ricerca/paginazione; due strutture dalla stessa base; rinomina/nuova struttura; avvio effettivo di entrambi i seed; cancellazione di un default senza ricreazione; ruoli/ID/parenti estranei/CSRF; clienti/schedine/componenti; bozze; archivio/ripristino; conservazione degli ambigui; FK composita e payload malformati. Guardie: 15 PASS.
+VM ufficiale `schedine-sviluppo-interno`, PHP8.3.33/MariaDB11.8.9, namespace senza rete, DB `test_geo_…` e filesystem propri. Build e controllo GEO immutabile, identità/riconnessione e 23 rifiuti di override PASS. Selezione mirata: 66 test/418 asserzioni PASS. Include CRUD/validazioni/ricerca/paginazione; due strutture dalla stessa base; rinomina/nuova struttura; avvio effettivo di entrambi i seed; cancellazione di un default senza ricreazione; ruoli/ID/parenti estranei/CSRF; clienti/schedine/componenti; bozze; archivio/ripristino; conservazione degli ambigui; FK composita e payload malformati. Guardie: 15 PASS.
 
 Prova separata di migrazione e recupero: 1 test/23 asserzioni PASS; schema predecessore149 ricostruito solo nel DB effimero; due strutture sintetiche e classificazione condivisa. DDL/DML reali, 137 gruppi per struttura, clienti/schedine invariati; errore sintetico DOPO entrambe le migrazioni e mutazione; restore SQL integrale e ridump byte-identico, schema precedente e originali recuperati. È una prova di recupero DB dopo mutazione, non un nuovo SIGKILL/reboot del guardiano C5.
 
@@ -48,8 +48,61 @@ I singoli launcher hanno fermato e rimosso soltanto le proprie risorse effimere;
 
 ## Git e rilascio
 
-HEAD iniziale locale `6806f779bdd099fe60fc63b6f6c98d833632c27e`, branch main; numerosi documenti/artefatti preesistenti fuori scope. Staging selettivo, inclusione della sola voce nuova del Maestro nell’indice per preservare il suo delta preesistente. Commit, push, C5, SHA online, conservazione dopo DDL e acceptance autenticata saranno registrati qui soltanto dopo esecuzione effettiva.
+HEAD iniziale locale `6806f779bdd099fe60fc63b6f6c98d833632c27e`, branch main; numerosi documenti/artefatti preesistenti fuori scope. Staging selettivo, inclusione della sola voce nuova del Maestro nell’indice per preservare il suo delta preesistente. Commit applicativi `d7b79ee` e `1e2c5e7` push eseguiti; pubblicazione e acceptance effettive riportate di seguito. Il consuntivo e l’ultima prova HTTP entrano nel commit conclusivo della task; SHA del commit conclusivo e allineamento finale vengono attestati prima della risposta, evitando riferimenti autoreferenziali al proprio hash.
 
 Aggiornamento preparatorio: primo candidato `d7b79ee23b6cbb1255d99ca240e0b8a7ed21f598` registrato e push eseguito, non pubblicato. PREPARE indipendente PASS; sole copie decifrate temporanee verificate rimosse, cifrati/chiavi/dump preservati. Ambiente quotidiano VM: checkpoint privato cifrato/riletto, schema149→150; tutti i 22.760 record precedenti in64tabelle confrontati su tutte le colonne originali e identici;137 globali preservati e946 privati, zero padri cross-tenant. MySQL/Herd originale non usato. Ultimo delta archivi/import verificato65/402PASS; avvio precedente interrotto per capienza e confronto fixture poi corretto, diagnostici conservati.
 
 Ripetizione del browser con il delta archivi/import:2flussi PASS/35,7secondi; recupero1test/23asserzioni dopo entrambe le migrazioni PASS. La prova Web Check-in completa usa archiviazione/ripristino effettivi; i nuovi ID di schedina/componenti sono il comportamento già previsto dal Cestino, non una modifica della task.
+
+## File modificati nello scope
+
+- `app/Http/Controllers/CustomerController.php`
+- `app/Http/Controllers/GroupController.php`
+- `app/Models/Customers.php`
+- `app/Models/Gruppo.php`
+- `app/Models/Schedina.php`
+- `app/Models/Struttura.php`
+- `app/Services/CestinoService.php`
+- `app/Services/CustomerImportService.php`
+- `app/Services/GruppiStrutturaService.php`
+- `config/gruppi.php`
+- `database/migrations/2026_10_13_210000_isolate_gruppi_per_struttura.php`
+- `database/migrations/2026_10_13_210100_recover_gruppi_archivi_import.php`
+- `database/seeders/GruppiSeeder.php`
+- `database/seeders/GruppoSeeder.php`
+- `docs/PENDENTI-LOCALI-ROSS1000-DIPENDENZE-2026-10-09.md`
+- `docs/TESTING_ISOLATION.md`
+- `docs/VERIFICA-GRUPPI-2026-10-13.md`
+- `docs/maestro/MAESTRO-SCHEDINE-DI-NOTIFICA.md`
+- `resources/js/components/filtri/customer-group-cascade.js`
+- `resources/views/customers/partials/scheda-cliente-form.blade.php`
+- `resources/views/gruppi/index.blade.php`
+- `resources/views/schedina/partials/form.blade.php`
+- `routes/web.php`
+- `tests/Diagnostics/GruppiMigrationRecoveryTest.php`
+- `tests/Diagnostics/SchedinaCustomerReferenceSecurityTestGruppiAuditTest.php`
+- `tests/Diagnostics/SchedinaStoreTestGruppiAuditTest.php`
+- `tests/Diagnostics/WebCheckinGroupAtomicityTestGruppiAuditTest.php`
+- `tests/Feature/GruppiIntegrityTest.php`
+- `tests/Feature/GruppiTenantTest.php`
+- `tests/Feature/gruppi.playwright.spec.js`
+- `tests/Isolation/run.py`
+- `tests/Isolation/seed-gruppi.php`
+
+Candidato completo `1e2c5e770acae7d7c8fa16b76d5ca20eb16c1d3e` commit/push PASS. Locale VM schema150→151: checkpoint cifrato/riletto,23.707record precedenti/64tabelle identici su tutte le colonne,946privati/137globali. PREPARE online1 interrotto per capienza durante inizializzazione DB della copia, prima di qualsiasi DDL/manutenzione produttiva; nessun PASS attribuito. Estratto e HMAC verificati, soli derivati rimossi e diagnostico parziale conservato; la soglia immediata di spazio della pulizia non era ancora raggiunta (rilascio differito dei blocchi). Due copie VM cifrate superate custodite/rilette nel Mac FileVault e originali server conservati; bundle/mutabili plaintext temporanei locali rimossi soltanto dopo decifratura streaming/hash dei cifrati autentici; dump/chiavi/checkpoint/diagnostici preservati. Capienza effettiva riconfermata1.948.262.400byte. Nuovo piano/base/approval PREPARE2, nessun riuso del fallimento.
+
+## Rilascio e stato finale attestato
+
+Ultima selezione **66test/418asserzioni PASS**: ramo HTTP dei modelli abilitato esplicitamente nell’ultima prova, richieste dirette su schedine/bozze con cataloghi estranei respinte422, salvataggio valido/rimozione e rollback provati. Nessun nuovo codice applicativo dopo `1e2c5e7`; la prova aggiuntiva chiude un limite del test CLI. Browser isolato2flussi/35,7s e recupero1/23PASS già descritti. Nessuna suite generale dichiarata.
+
+PREPARE2STOP per inventario mutato, prima di manutenzione/DDL; confronto diagnostico TAR corretto per precisione dei timestamp:125nuove sessioni e1metadato rispetto al TAR, non attribuzione della causa originale (inventario iniziale non persistito dal ramo fallito). PREPARE3PASS con nuova base/piano, recupero indipendente completo. Custodia su Mac FileVault di cache Chromium/FFmpeg e cifrati dei checkpoint locali dopo rilettura/hash/HMAC; chiavi/dump/diagnostici nella VM. Margine effettivo2.503.819.264byte riconfermato prima della fase finale; soli derivati della task, nessuna pulizia indiscriminata.
+
+RUN1STOP al gate degli ingressi primaDDL; worker97,439s, causa specifica non attribuita dal diagnostico originale. Guardiano autonomo PASS/BASELINE_NON_MODIFICATA, riapertura e SHAf960/Gitpulito/DB/schema identici allo S0 della stessa finestra, chiave e9sondePASS. Copie e report conservati. RUN2con nuovo piano/finestra/S0 e osservatore in sola lettura, nessun indebolimento di presidi o modifica infrastrutturale. Un precontrollo aggiuntivo prudenziale dello spazio non propagava l’errore alla sequenza shell; errore operativo riconosciuto, capienza ricontrollata durante il recupero e propagazione corretta per le sequenze successive. Recupero completo obbligatorio primaDDL rimasto operativo e superato.
+
+RUN2**PASS_AGGIORNAMENTO_C5**, commit applicativo `1e2c5e770acae7d7c8fa16b76d5ca20eb16c1d3e`/tree97520b785766f35e9e564a21740ea99083782e94. Piano311dcf10ff9abb18b7d6f1eba22be1e4bb921c650806a32574df0df0a5311127, manifest0f2956205979b03ba9ed9b0a68d8d01e4d53ec0327308033603906410e3ec55f. S0fresco indipendente verificato124,193s; riapertura/accettazione222,606s, due migrazioni149→151, Laravel12.69.3/64tabelle. Guardiano disarmato/inattivo/disabilitato, manutenzioni assenti, Gitproduzione pulito; presidi/key/env/provider/mail originali preservati.
+
+Conservazione **64tabelle/35.512record precedenti su tutte le colonne originali identici allo S0**, mediante HMAC su dati HEX ordinati con timezoneUTC, DB recuperato senza rete e sigilli autentici. Escluse esclusivamente colonne nuove/migrazioni nuove e gruppi privati aggiunti;137globali originali intatti. Verifica ripetuta dopo i GET nel browser PASS.946privati per7strutture, tutti inizializzati, nessun orfano/cross-tenant/gerarchia privata invalida/duplicato privato; clienti/schedine/componenti e JSON degli archivi coerenti.74persistenti preesistenti/env/upload/logo identici al checkpoint; nessun dato fittizio o invio enti. Adattatore HMAC inizialmente fermato per parametro `dump` mancante, corretto e ripetuto senza modificare dati/schema.
+
+Browser online autenticato Superadmin, HOTEL GIOIELLA:135gruppi; ricerca Business4risultati, pulizia filtro, pagina2(11–20), apertura modali, nome obbligatorio/max100, bozza modifica→annulla→nome originale e nuova bozza→annulla→vuota PASS, nessun salvataggio su record reali. Formulari nuovi Cliente/Schedina:15radici, Business→Fiere/Meeting/Roadshow e Meeting→Board meeting/Team building PASS senza persistenza. Richiesta GETdiretta dell’ID953 di HOTEL GIOIELLA nel contesto Hotel Dream restituisce0risultati; contesto iniziale ripristinato. Schermata privata `output/verifica-gruppi-2026-10-13/gruppi-online.jpg`. Limite reale: apertura delle14/35schede originali esclusa dalla struttura già archiviata;20classificazioni import già needs_review senza origine globale, intatte. Identificativi e azioni necessarie **solo nel registro pendenti**, nessuna assegnazione arbitraria o riattivazione.
+
+Monitoraggio reale **917,734s**,31campioni/279sonde HTTP-TLS-CSS PASS, FPM/key/flagsPASS; ulteriori9sonde e guardiano conclusoPASS. I launcher hanno rimosso tutti e soli i propri DB/processi/filesystem sintetici; default e dati reali preesistenti preservati. Cifrati, chiavi separate, dump, checkpoint e diagnostici custoditi. MySQL/Herd originale mai usato per i test. Lavoro Gitpreesistente mantenuto fuori staging. **BASELINE IN AUDIT** resta lo stato generale; nessuna affermazione di validazione completa fuori scope o dei controlli bloccati.
