@@ -411,6 +411,7 @@ Route::middleware(['auth'])->group(function () {
     Route::redirect('/schedina_update/{id}', '/schedine/{id}');
     //gruppi (RESTful, nomi legacy)
     Route::resource('gruppi', GroupController::class)
+        ->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)
         ->only(['index', 'store', 'update', 'destroy'])
         ->names([
             'index' => 'gruppi',

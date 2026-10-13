@@ -41,3 +41,7 @@ Host utilizzato: **schedinedinotifica.tanggo.software**, porta **22**, utente do
 B1: review del candidato e futuro commit/pubblicazione separatamente autorizzati. B2: CLI/FPM/MariaDB/segfault e attribuzione500non riprodotto richiedono accesso. B3: pending/schema e recuperabilita destinatario; quota sintetica gia verde. B4: rimedi/mitigazioni applicabili Composer/npm e confine pubblico effettivo. **Il pendente npm non completato e chiuso**, restano gli avvisi effettivi. V5legacy/V6provider-mail/V7fiscalita sono gate di attivazione separati.
 
 Nessuna globale ripetuta: applicazione e lock immutati, aggiunti soloAudit espliciti. Accettazione750/8252 e Chromiumtoken9/9 conservate nel perimetro originario. Nessun commit/push/deploy, DBoperativo, credenziale reale, configurazioneserver o trasmissione.
+
+## Gruppi — 13 ottobre 2026
+
+Registro unico dei residui della [verifica Gruppi](VERIFICA-GRUPPI-2026-10-13.md): originali globali con gerarchie incoerenti/omonimie e classificazioni storiche non univoche conservati. Nessuna assegnazione arbitraria a strutture; le catene non ricostruibili restano valori storici, da identificare puntualmente nel controllo successivo alla migrazione. Rilascio C5 e acceptance online ancora PENDENTI nella revisione preparatoria; non è un blocco di autorizzazione, l’utente li ha già autorizzati. Dettagli di implementazione, test e contatori nel rapporto, senza duplicarli qui.

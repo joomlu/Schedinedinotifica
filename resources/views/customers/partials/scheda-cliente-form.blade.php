@@ -105,15 +105,24 @@
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <label class="form-label">Gruppo I</label>
+                                                        @php
+                                                            $groupFieldValue = static fn ($field) => is_string($fieldValue($field)) ? $fieldValue($field) : '';
+                                                            $savedRoot = $gruppiLivello1->firstWhere('nome', $groupFieldValue('group'));
+                                                            $savedChild = $gruppiLivello2->where('parent_id', $savedRoot?->id)->firstWhere('nome', $groupFieldValue('subgroup'));
+                                                            $savedLeaf = $gruppiLivello3->where('parent_id', $savedChild?->id)->firstWhere('nome', $groupFieldValue('subgroup1'));
+                                                        @endphp
                                                         <x-ui.select name="group" id="customer-group" data-role="customer-group-l1" data-no-select2="1">
                                                             <option value="">Seleziona gruppo</option>
                                                             @foreach($gruppiLivello1 as $gruppo)
                                                                 <option value="{{ $gruppo->nome }}"
                                                                     data-group-id="{{ $gruppo->id }}"
-                                                                    @selected($fieldValue('group') === $gruppo->nome)>
+                                                                    @selected($groupFieldValue('group') === $gruppo->nome)>
                                                                     {{ $gruppo->nome }}
                                                                 </option>
                                                             @endforeach
+                                                        @if($groupFieldValue('group') && !$savedRoot)
+                                                                <option value="{{ $groupFieldValue('group') }}" data-legacy="1" selected>{{ $groupFieldValue('group') }} (valore storico conservato)</option>
+                                                            @endif
                                                         </x-ui.select>
                                                     </div>
                                                     <div class="col-lg-3">
@@ -124,10 +133,13 @@
                                                                 <option value="{{ $gruppo->nome }}"
                                                                     data-group-id="{{ $gruppo->id }}"
                                                                     data-parent-id="{{ $gruppo->parent_id }}"
-                                                                    @selected($fieldValue('subgroup') === $gruppo->nome)>
+                                                                    @selected($groupFieldValue('subgroup') === $gruppo->nome)>
                                                                     {{ $gruppo->nome }}
                                                                 </option>
                                                             @endforeach
+                                                        @if($groupFieldValue('subgroup') && !$savedChild)
+                                                                <option value="{{ $groupFieldValue('subgroup') }}" data-legacy="1" selected>{{ $groupFieldValue('subgroup') }} (valore storico conservato)</option>
+                                                            @endif
                                                         </x-ui.select>
                                                     </div>
                                                     <div class="col-lg-3">
@@ -137,10 +149,13 @@
                                                             @foreach($gruppiLivello3 as $gruppo)
                                                                 <option value="{{ $gruppo->nome }}"
                                                                     data-parent-id="{{ $gruppo->parent_id }}"
-                                                                    @selected($fieldValue('subgroup1') === $gruppo->nome)>
+                                                                    @selected($groupFieldValue('subgroup1') === $gruppo->nome)>
                                                                     {{ $gruppo->nome }}
                                                                 </option>
                                                             @endforeach
+                                                        @if($groupFieldValue('subgroup1') && !$savedLeaf)
+                                                                <option value="{{ $groupFieldValue('subgroup1') }}" data-legacy="1" selected>{{ $groupFieldValue('subgroup1') }} (valore storico conservato)</option>
+                                                            @endif
                                                         </x-ui.select>
                                                     </div>
                                                 </div>

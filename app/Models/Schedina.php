@@ -9,6 +9,31 @@ class Schedina extends Model
 {
     use AppartieneAStruttura;
 
+    public function save(array $options = [])
+    {
+        if (app()->runningInConsole()) return parent::save($options);
+        // Serializza classificazioni e rinomine della stessa struttura.
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($options) {
+            $sid = $this->struttura_id ?: (\App\Support\StrutturaCorrente::getId() ?? auth()->user()?->struttura_id);
+            if ($sid) \Illuminate\Support\Facades\DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
+            return parent::save($options);
+        });
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (self $record) {
+            if (app()->runningInConsole()) return;
+            $sid = (int) ($record->struttura_id ?: (\App\Support\StrutturaCorrente::getId() ?? auth()->user()?->struttura_id));
+            $values = []; $old = [];
+            foreach (['group', 'subgroup', 'subgroup1'] as $field) {
+                $values[$field] = $record->getAttribute('customer_'.$field);
+                $old[$field] = $record->exists ? $record->getRawOriginal('customer_'.$field) : null;
+            }
+            app(\App\Services\GruppiStrutturaService::class)->validateSelection($values, $sid, $record->exists ? $old : [], 'customer_');
+        });
+    }
+
     protected $table = 'schedina';
     protected $fillable = ['scheda', 'circuito', 'type','name','surname', 'customer_id', 'customer_type_housed', 'customer_group', 'customer_subgroup', 'customer_subgroup1', 'customer_email', 'customer_phone', 'customer_cellphone', 'customer_fax', 'customer_observation', 'customer_anag_observation', 'customer_privacy_consent', 'customer_privacy_consent_at', 'customer_marketing_consent', 'customer_marketing_consent_at', 'customer_communication_consent', 'customer_communication_consent_at', 'sex','relationship','exent','arrive','departure','cant_people','room',
     'beds','observation','oa_country','oa_city','oa_region','oa_prov','oa_cap','oa_city_nac','oa_date_nac','or_country','or_city'

@@ -293,32 +293,44 @@
                                     <div class="row g-3 align-items-end" data-ui="customer-group-cascade" data-scope="schedina">
                                         <div class="col-lg-3">
                                             <label class="form-label">Gruppo I</label>
-                                            @php $customerGroupValue = old('customer_group', $schedina->customer_group ?? $prefilledCustomer?->group); @endphp
+                                            @php $customerGroupValue = old('customer_group', $schedina->customer_group ?? $prefilledCustomer?->group); $customerGroupValue = is_string($customerGroupValue) ? $customerGroupValue : ''; @endphp
                                             <x-ui.select name="customer_group" id="schedina-customer-group" data-role="customer-group-l1" data-no-select2="1">
                                                 <option value="">Seleziona gruppo</option>
                                                 @foreach(($gruppiLivello1 ?? collect()) as $group)
                                                     <option value="{{ $group->nome }}" data-group-id="{{ $group->id }}" @selected($customerGroupValue === $group->nome)>{{ $group->nome }}</option>
                                                 @endforeach
+                                            @php $savedSchedinaRoot = ($gruppiLivello1 ?? collect())->firstWhere('nome', $customerGroupValue); @endphp
+                                                @if($customerGroupValue && !$savedSchedinaRoot)
+                                                    <option value="{{ $customerGroupValue }}" data-legacy="1" selected>{{ $customerGroupValue }} (valore storico conservato)</option>
+                                                @endif
                                             </x-ui.select>
                                         </div>
                                         <div class="col-lg-3">
                                             <label class="form-label">Gruppo II</label>
-                                            @php $customerSubgroupValue = old('customer_subgroup', $schedina->customer_subgroup ?? $prefilledCustomer?->subgroup); @endphp
+                                            @php $customerSubgroupValue = old('customer_subgroup', $schedina->customer_subgroup ?? $prefilledCustomer?->subgroup); $customerSubgroupValue = is_string($customerSubgroupValue) ? $customerSubgroupValue : ''; @endphp
                                             <x-ui.select name="customer_subgroup" id="schedina-customer-subgroup" data-role="customer-group-l2" data-no-select2="1">
                                                 <option value="">Seleziona gruppo</option>
                                                 @foreach(($gruppiLivello2 ?? collect()) as $group)
                                                     <option value="{{ $group->nome }}" data-group-id="{{ $group->id }}" data-parent-id="{{ $group->parent_id }}" @selected($customerSubgroupValue === $group->nome)>{{ $group->nome }}</option>
                                                 @endforeach
+                                            @php $savedSchedinaChild = ($gruppiLivello2 ?? collect())->where('parent_id', $savedSchedinaRoot?->id)->firstWhere('nome', $customerSubgroupValue); @endphp
+                                                @if($customerSubgroupValue && !$savedSchedinaChild)
+                                                    <option value="{{ $customerSubgroupValue }}" data-legacy="1" selected>{{ $customerSubgroupValue }} (valore storico conservato)</option>
+                                                @endif
                                             </x-ui.select>
                                         </div>
                                         <div class="col-lg-3">
                                             <label class="form-label">Gruppo III</label>
-                                            @php $customerSubgroup1Value = old('customer_subgroup1', $schedina->customer_subgroup1 ?? $prefilledCustomer?->subgroup1); @endphp
+                                            @php $customerSubgroup1Value = old('customer_subgroup1', $schedina->customer_subgroup1 ?? $prefilledCustomer?->subgroup1); $customerSubgroup1Value = is_string($customerSubgroup1Value) ? $customerSubgroup1Value : ''; @endphp
                                             <x-ui.select name="customer_subgroup1" id="schedina-customer-subgroup1" data-role="customer-group-l3" data-no-select2="1">
                                                 <option value="">Seleziona sottogruppo</option>
                                                 @foreach(($gruppiLivello3 ?? collect()) as $group)
                                                     <option value="{{ $group->nome }}" data-parent-id="{{ $group->parent_id }}" @selected($customerSubgroup1Value === $group->nome)>{{ $group->nome }}</option>
                                                 @endforeach
+                                            @php $savedSchedinaLeaf = ($gruppiLivello3 ?? collect())->where('parent_id', $savedSchedinaChild?->id)->firstWhere('nome', $customerSubgroup1Value); @endphp
+                                                @if($customerSubgroup1Value && !$savedSchedinaLeaf)
+                                                    <option value="{{ $customerSubgroup1Value }}" data-legacy="1" selected>{{ $customerSubgroup1Value }} (valore storico conservato)</option>
+                                                @endif
                                             </x-ui.select>
                                         </div>
                                     </div>

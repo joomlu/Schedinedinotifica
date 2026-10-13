@@ -47,7 +47,7 @@ def main():
         parser.error('Le opzioni PHPUnit richiedono una suite')
     for name in args.include:
         path = Path(name)
-        if path.is_absolute() or '..' in path.parts or not name.startswith(('app/', 'config/', 'database/migrations/', 'reference/questura/')) or not (ROOT/path).is_file() or (ROOT/path).is_symlink() or not (ROOT/path).resolve().is_relative_to(ROOT):
+        if path.is_absolute() or '..' in path.parts or (not name.startswith(('app/', 'config/', 'database/migrations/', 'reference/questura/')) and name not in ('database/seeders/GruppiSeeder.php', 'database/seeders/GruppoSeeder.php')) or not (ROOT/path).is_file() or (ROOT/path).is_symlink() or not (ROOT/path).resolve().is_relative_to(ROOT):
             parser.error('Inclusione limitata a sorgenti applicativi, configurazioni, migration e riferimenti Questura')
     if args.playwright == []:
         parser.error('--playwright richiede almeno uno spec esplicito')
@@ -108,7 +108,8 @@ def main():
         extra = [str(p.relative_to(ROOT)) for folder in ('tests/Isolation', 'tests/Support') for p in (ROOT/folder).glob('*') if p.is_file() and p.suffix in ('.py', '.php', '.js')]
         extra += selected + args.include
         for name in set(tracked+extra):
-            if not name or name.startswith(('tests/Feature/real-data', 'public/uploads/', 'storage/', 'bootstrap/cache/', 'public/storage', 'public/images/', '.env', 'database/seeders/')):
+            if (not name or name.startswith(('tests/Feature/real-data', 'public/uploads/', 'storage/', 'bootstrap/cache/', 'public/storage', 'public/images/', '.env'))
+                or (name.startswith('database/seeders/') and name not in args.include)):
                 continue
             source = ROOT/name
             if not source.is_file() or source.is_symlink():

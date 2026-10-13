@@ -6,9 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gruppo extends Model
 {
+    use \App\Models\Concerns\AppartieneAStruttura;
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('catalogo_corrente', function ($query) {
+            $id = \App\Support\StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
+            $id ? $query->where('gruppi.struttura_id', $id) : $query->whereRaw('1 = 0');
+        });
+    }
+
     protected $table = 'gruppi';
 
     protected $fillable = [
+        'struttura_id',
         'nome',
         'descrizione',
         'livello',

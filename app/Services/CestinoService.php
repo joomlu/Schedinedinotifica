@@ -32,18 +32,27 @@ class CestinoService
 {
     // La natura dell'entità dipende dalla classe, non dall'etichetta o dal solo NULL.
     public const TENANT_CLASSES = [
-        Customers::class, Schedina::class, Componenti::class, WebCheckinRichiesta::class,
+        Customers::class, Schedina::class, Componenti::class, WebCheckinRichiesta::class, Gruppo::class,
         TassaEsenzione::class, LicenzaAssegnazione::class,
     ];
 
     public const GLOBAL_CLASSES = [
         User::class, Proprietario::class, Struttura::class, LicenzaArticolo::class,
-        Gruppo::class, Titolo::class, TipoCliente::class, TipoVia::class,
+        Titolo::class, TipoCliente::class, TipoVia::class,
         TipoDocumento::class, RilasciatoDa::class,
     ];
 
     public function archiveModel(Model $model, array $meta = []): CestinoItem
     {
+        if (in_array(get_class($model), [Gruppo::class, Customers::class, Schedina::class], true)) {
+            if (DB::transactionLevel() === 0) {
+                return DB::transaction(fn () => $this->archiveModel($model, $meta));
+            }
+            if ($model->struttura_id) {
+                DB::table('struttura')->where('id', $model->struttura_id)->lockForUpdate()->first();
+                $model->refresh();
+            }
+        }
         if ($model instanceof Schedina) {
             WebCheckinRichiesta::where('schedina_id', $model->id)->where('struttura_id', $model->struttura_id)
                 ->whereNull('link_revoked_at')->update(['link_revoked_at' => now()]);
@@ -132,13 +141,17 @@ class CestinoService
     public function restoreItem(CestinoItem $item): Model
     {
         return DB::transaction(function () use ($item) {
+            if (in_array($item->entity_class, [Gruppo::class, Customers::class, Schedina::class], true) && $item->struttura_id) {
+                DB::table('struttura')->where('id', $item->struttura_id)->lockForUpdate()->first();
+                $item->refresh();
+            }
             $payload = is_array($item->payload) ? $item->payload : [];
             $restored = match ($item->entity_class) {
                 Schedina::class => $this->restoreSchedina($payload),
                 WebCheckinRichiesta::class => $this->restoreWebCheckinRichiesta($payload),
                 Customers::class => $this->restoreSimpleModel(Customers::class, $payload),
                 Componenti::class => $this->restoreComponente($payload),
-                Gruppo::class => $this->restoreSimpleModel(Gruppo::class, $payload),
+                Gruppo::class => $this->restoreGruppo($payload),
                 Titolo::class => $this->restoreSimpleModel(Titolo::class, $payload),
                 TipoCliente::class => $this->restoreSimpleModel(TipoCliente::class, $payload),
                 TipoVia::class => $this->restoreSimpleModel(TipoVia::class, $payload),
@@ -522,6 +535,25 @@ class CestinoService
         }
 
         return $this->restoreSimpleModel($class, $payload);
+    }
+
+    private function restoreGruppo(array $payload): Model
+    {
+        $sid = (int) ($payload['struttura_id'] ?? 0);
+        if (!$sid || !\App\Support\StrutturaAccess::query(auth()->user(), true)->whereKey($sid)->exists()
+            || (\App\Support\StrutturaCorrente::getId() !== $sid)) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['gruppo' => 'Il gruppo storico non ha una struttura autorizzata ricostruibile.']);
+        }
+        DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
+        $level = (int) ($payload['livello'] ?? 0);
+        $parent = isset($payload['parent_id']) ? DB::table('gruppi')->where('id', $payload['parent_id'])->where('struttura_id', $sid)->first() : null;
+        if (!in_array($level, [1, 2, 3], true) || ($level === 1 && !empty($payload['parent_id'])) || ($level > 1 && (!$parent || (int) $parent->livello !== $level - 1))) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['gruppo' => 'Ripristina prima il padre corretto del gruppo nella stessa struttura.']);
+        }
+        if (DB::table('gruppi')->where('struttura_id', $sid)->where('livello', $level)->where('parent_id', $payload['parent_id'] ?? null)->where('nome', $payload['nome'])->exists()) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['gruppo' => 'Il gruppo esiste già nella struttura.']);
+        }
+        return $this->restoreSimpleModel(Gruppo::class, $payload);
     }
 
     private function restoreSimpleModel(string $class, array $payload, array $options = []): Model

@@ -56,3 +56,7 @@ Le migrazioni sono quelle originali, senza dump o dati reali. Le fixture Geo cre
 La factory utenti include `avatar`, obbligatorio nello schema. Le fixture di struttura hanno nomi distinti e rileggono i valori persistiti prima dei confronti. La regressione del menu con una sola struttura verifica la lista del composer, perché quella UX non espone un selettore con opzioni.
 
 Sono supportate e verificate le suite indicate sopra. Le vecchie suite che presumono dati preesistenti, seeder o utenti reali non sono automaticamente dichiarate compatibili: richiedono proprie fixture sintetiche. L'autorizzazione delle strutture mantiene le regole applicative esistenti, inclusa l'eccezione operativa legacy dell'Admin, senza ampliarla al selettore o al CRUD.
+
+## Verifica Gruppi del 13 ottobre 2026
+
+Il parametro `--include` può includere esplicitamente anche i soli `database/seeders/GruppiSeeder.php` e `database/seeders/GruppoSeeder.php`. Restano esclusi tutti i seed impliciti e gli altri seed; non è un avvio automatico del DatabaseSeeder. Consente di provare realmente l’idempotenza delle personalizzazioni nel DB effimero. Protezioni originali intatte,15 guardie PASS. La selezione Gruppi e i relativi limiti sono nel [consuntivo](VERIFICA-GRUPPI-2026-10-13.md).

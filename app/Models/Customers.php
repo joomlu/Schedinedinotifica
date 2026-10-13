@@ -9,7 +9,32 @@ class Customers extends Model
 {
     use AppartieneAStruttura;
 
-    // Usa la tabella rinominata "clienti"
+    public function save(array $options = [])
+    {
+        if (app()->runningInConsole()) return parent::save($options);
+        // Serializza classificazioni e rinomine della stessa struttura.
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($options) {
+            $sid = $this->struttura_id ?: (\App\Support\StrutturaCorrente::getId() ?? auth()->user()?->struttura_id);
+            if ($sid) \Illuminate\Support\Facades\DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
+            return parent::save($options);
+        });
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (self $record) {
+            if (app()->runningInConsole()) return;
+            $sid = (int) ($record->struttura_id ?: (\App\Support\StrutturaCorrente::getId() ?? auth()->user()?->struttura_id));
+            $values = []; $old = [];
+            foreach (['group', 'subgroup', 'subgroup1'] as $field) {
+                $values[$field] = $record->getAttribute($field);
+                $old[$field] = $record->exists ? $record->getRawOriginal($field) : null;
+            }
+            app(\App\Services\GruppiStrutturaService::class)->validateSelection($values, $sid, $record->exists ? $old : [], '');
+        });
+    }
+
+    // Usa la tabella rinominata "clienti".
     protected $table = 'clienti';
     protected $fillable = ['struttura_id','numero_cliente','group','subgroup', 'subgroup1', 'sex','type_housed','type','name', 'surname', 
     'country','city', 'region','province','cap','typeaway','address','number','email','phone','fax',

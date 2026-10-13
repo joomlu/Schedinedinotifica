@@ -75,17 +75,21 @@ export function initCustomerGroupCascade(root = document) {
         const { group, subgroup, subgroup1 } = getNodes(wrapper);
         if (!group || !subgroup || !subgroup1 || !window.jQuery) return;
 
+        const initialGroup = group.value;
+        const initialSubgroup = subgroup.value;
         const subgroupOptions = Array.from(subgroup.options).map((option) => ({
             value: option.value,
             text: option.textContent,
             groupId: option.dataset.groupId || '',
             parentId: option.dataset.parentId || '',
+            legacy: option.dataset.legacy === '1',
         }));
 
         const subgroup1Options = Array.from(subgroup1.options).map((option) => ({
             value: option.value,
             text: option.textContent,
             parentId: option.dataset.parentId || '',
+            legacy: option.dataset.legacy === '1',
         }));
 
         const applySubgroup1Filter = () => {
@@ -95,6 +99,7 @@ export function initCustomerGroupCascade(root = document) {
 
             const filtered = subgroup1Options.filter((item) => {
                 if (item.value === '') return true;
+                if (item.legacy) return group.value === initialGroup && subgroup.value === initialSubgroup;
                 return selectedSubgroupId !== '' && item.parentId === selectedSubgroupId;
             });
 
@@ -103,6 +108,7 @@ export function initCustomerGroupCascade(root = document) {
                 option.value = item.value;
                 option.textContent = item.text;
                 if (item.parentId) option.dataset.parentId = item.parentId;
+                if (item.legacy) option.dataset.legacy = '1';
                 return option;
             });
         };
@@ -114,6 +120,7 @@ export function initCustomerGroupCascade(root = document) {
 
             const filtered = subgroupOptions.filter((item) => {
                 if (item.value === '') return true;
+                if (item.legacy) return group.value === initialGroup;
                 return selectedGroupId !== '' && item.parentId === selectedGroupId;
             });
 
@@ -123,6 +130,7 @@ export function initCustomerGroupCascade(root = document) {
                 option.textContent = item.text;
                 if (item.groupId) option.dataset.groupId = item.groupId;
                 if (item.parentId) option.dataset.parentId = item.parentId;
+                if (item.legacy) option.dataset.legacy = '1';
                 return option;
             });
 

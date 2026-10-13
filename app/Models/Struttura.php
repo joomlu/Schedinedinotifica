@@ -13,6 +13,15 @@ class Struttura extends Model
 
     protected $table = 'struttura';
 
+    protected static function booted(): void
+    {
+        static::created(function (self $struttura) {
+            if (\Illuminate\Support\Facades\Schema::hasColumn('struttura', 'gruppi_inizializzati_at')) {
+                app(\App\Services\GruppiStrutturaService::class)->initialize((int) $struttura->id);
+            }
+        });
+    }
+
     protected $fillable = [
         'proprietario_id',
         'logo',

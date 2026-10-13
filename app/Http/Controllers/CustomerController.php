@@ -774,40 +774,15 @@ class CustomerController extends Controller
 
     private function validateGruppiCascade($validator, Request $request): void
     {
-        if (!Schema::hasTable('gruppi')) {
-            return;
-        }
-
-        $group = trim((string) $request->input('group', ''));
-        $subgroup = trim((string) $request->input('subgroup', ''));
-        $subgroup1 = trim((string) $request->input('subgroup1', ''));
-
-        if ($group === '' && $subgroup !== '') {
-            $validator->errors()->add('subgroup', 'Seleziona prima un gruppo principale.');
-            return;
-        }
-
-        if ($group !== '' && $subgroup !== '') {
-            $parent = Gruppo::query()->where('livello', 1)->where('nome', $group)->first();
-            $child = Gruppo::query()->where('livello', 2)->where('nome', $subgroup)->first();
-
-            if (!$parent || !$child || (int) $child->parent_id !== (int) $parent->id) {
-                $validator->errors()->add('subgroup', 'Il gruppo II non appartiene al gruppo I selezionato.');
-            }
-        }
-
-        if ($subgroup === '' && $subgroup1 !== '') {
-            $validator->errors()->add('subgroup1', 'Seleziona prima un gruppo di secondo livello.');
-            return;
-        }
-
-        if ($subgroup !== '' && $subgroup1 !== '') {
-            $parent = Gruppo::query()->where('livello', 2)->where('nome', $subgroup)->first();
-            $child = Gruppo::query()->where('livello', 3)->where('nome', $subgroup1)->first();
-
-            if (!$parent || !$child || (int) $child->parent_id !== (int) $parent->id) {
-                $validator->errors()->add('subgroup1', 'Il gruppo III non appartiene al gruppo II selezionato.');
-            }
+        $old = $request->route('id') ? Customers::find($request->route('id')) : null;
+        try {
+            app(\App\Services\GruppiStrutturaService::class)->validateSelection(
+                $request->only(['group', 'subgroup', 'subgroup1']),
+                (int) (StrutturaCorrente::getId() ?? auth()->user()?->struttura_id),
+                $old?->only(['group', 'subgroup', 'subgroup1']) ?? []
+            );
+        } catch (\Illuminate\Validation\ValidationException $error) {
+            foreach ($error->errors() as $field => $messages) foreach ($messages as $message) $validator->errors()->add($field, $message);
         }
     }
 
