@@ -154,6 +154,12 @@ Route::middleware(['auth'])->group(function () {
 
     // SuperAdmin area
     Route::prefix('superadmin')->middleware(['ruolo:super_admin'])->group(function () {
+        Route::get('/tassa/configurazione', [\App\Http\Controllers\Superadmin\ConfigurazioneTassaController::class, 'index'])->name('superadmin.tassa.configurazione');
+        Route::post('/tassa/configurazione/conferma', [\App\Http\Controllers\Superadmin\ConfigurazioneTassaController::class, 'conferma'])->name('superadmin.tassa.conferma');
+        Route::post('/tassa/configurazione/verifica', [\App\Http\Controllers\Superadmin\ConfigurazioneTassaController::class, 'verifica'])->middleware('throttle:10,1')->name('superadmin.tassa.verifica');
+        Route::post('/tassa/configurazione/documento', [\App\Http\Controllers\Superadmin\ConfigurazioneTassaController::class, 'documento'])->middleware('throttle:10,1')->name('superadmin.tassa.documento');
+        Route::get('/tassa/configurazione/documenti/{id}', [\App\Http\Controllers\Superadmin\ConfigurazioneTassaController::class, 'download'])->where('id', '[a-f0-9]{64}')->name('superadmin.tassa.download');
+
         Route::get('/amministratori', [AmministratoriController::class, 'index'])->name('superadmin.amministratori.index');
         Route::get('/amministratori/create', [AmministratoriController::class, 'create'])->name('superadmin.amministratori.create');
         Route::post('/amministratori', [AmministratoriController::class, 'store'])->name('superadmin.amministratori.store');

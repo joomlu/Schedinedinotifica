@@ -57,6 +57,7 @@
                         </a>
                         <div class="collapse menu-dropdown {{ $openSuperAdmin ? 'show' : '' }}" id="sidebarSuperadmin">
                             <ul class="nav nav-sm flex-column">
+                                <li class="nav-item"><a href="{{ route('superadmin.tassa.configurazione') }}" class="nav-link {{ $isRoute('superadmin.tassa.*') ? 'active' : '' }}">Configurazione Tassa di soggiorno</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.amministratori.index') }}" class="nav-link {{ $isRoute('superadmin.amministratori.*') ? 'active' : '' }}">Amministratori</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.proprietari.index') }}" class="nav-link {{ $isRoute('superadmin.proprietari.*') ? 'active' : '' }}">Proprietari</a></li>
                                 <li class="nav-item"><a href="{{ route('superadmin.strutture.index') }}" class="nav-link {{ $isRoute('superadmin.strutture.*') ? 'active' : '' }}">Strutture</a></li>

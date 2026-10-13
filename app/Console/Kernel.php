@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('tassa:verifica-profili')->weeklyOn(1, '04:15')->withoutOverlapping();
     }
 
     /**

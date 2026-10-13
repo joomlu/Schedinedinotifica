@@ -1,0 +1,4 @@
+# Solo controllo Tassa: CLI esistente, privilegi applicativi e lock C5 originale.
+SHELL=/bin/sh
+PATH=/usr/bin:/bin
+* * * * * root umask 077; test ! -f /var/lib/schedine-release/barrier/closed && test -f /home/tanggosoftware/repos/schedinedinotifica/scripts/deployment/controllo-profili-tassa.sh && /usr/bin/flock -s -n /var/lib/schedine-release/control/operation.lock /usr/bin/setpriv --reuid=1002 --regid=1003 --clear-groups /usr/bin/env -i HOME=/home/tanggosoftware LANG=C.UTF-8 PATH=/usr/bin:/bin /bin/sh /home/tanggosoftware/repos/schedinedinotifica/scripts/deployment/controllo-profili-tassa.sh >> /var/log/schedine-tassa-profili.log 2>&1

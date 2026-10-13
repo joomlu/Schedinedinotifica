@@ -66,19 +66,22 @@ class TassaDiSoggiornoService
 
     protected function profiliFiscaliBellaria(): array
     {
-        return [[
-            'valida_dal' => '2026-01-01', 'valida_al' => '2026-12-31',
-            'regola_versione' => 'bellaria-alberghi-2026-v1',
-            'regola_fonte' => 'GC184/2025, regolamento CC29/2026 e specifica importazione StayTour Bellaria',
-            'tariffe' => [1 => '1.00', 2 => '1.00', 3 => '1.50', 4 => '2.50', 5 => '2.50'],
-            'giorni_massimo' => 6, 'inizio' => '2026-06-01', 'fine' => '2026-09-30',
-            'max_age_children' => 17, 'min_age_adult' => 18,
-        ]];
+        return app(\App\Services\TassaConfig\ProfiloTassaRepository::class)->profiliBellaria();
     }
 
     public function profiloFiscaleBellaria(Struttura $struttura, int $anno): ?array
     {
-        return $this->risolviProfiloFiscale($struttura, Carbon::create($anno, 1, 1));
+        try {
+            return $this->risolviProfiloFiscale($struttura, Carbon::create($anno, 1, 1));
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            if (!isset($exception->errors()['regola_non_disponibile'])) { throw $exception; }
+            // Un profilo nuovo può entrare in vigore dopo gennaio: mostrarne la
+            // decorrenza effettiva, senza applicarlo a notti precedenti.
+            $archivio = app(\App\Services\TassaConfig\ProfiloTassaRepository::class);
+            $nuovo = collect($this->profiliFiscaliBellaria())->filter(fn ($p) => substr($p['valida_dal'], 0, 4) == $anno && $archivio->gestito($p['regola_versione']))->sortBy('valida_dal')->first();
+            if (!$nuovo) { throw $exception; }
+            return $this->risolviProfiloFiscale($struttura, Carbon::parse($nuovo['valida_dal']));
+        }
     }
 
     public function risolviProfiloFiscale(Struttura $struttura, Carbon $data): ?array
@@ -163,7 +166,9 @@ class TassaDiSoggiornoService
         // Nessun riallineamento persistente o salvataggio.
         $campi = ['tassa_soggiorno', 'giorni_massimo', 'max_age_children', 'min_age_adult'];
         $haValori = $legacy && collect($campi)->contains(fn ($campo) => $legacy->{$campo} !== null);
-        if ($haValori) {
+        // Le versioni nuove gestite sono autonome dal record legacy non annuale.
+        // Le validazioni preesistenti restano identiche per i profili precedenti.
+        if ($haValori && ! app(\App\Services\TassaConfig\ProfiloTassaRepository::class)->gestito($profilo['regola_versione'])) {
             try {
                 $this->validaConfigurazioneBellaria($struttura, $legacy, $data);
                 if (($legacy->max_age_children !== null && $legacy->max_age_children !== 17) || ($legacy->min_age_adult !== null && $legacy->min_age_adult !== 18)) {
