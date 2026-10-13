@@ -58,7 +58,7 @@ class GruppiMigrationRecoveryTest extends TestCase
             $table->dropColumn('struttura_id');
         });
         Schema::table('struttura', fn ($t) => $t->dropColumn('gruppi_inizializzati_at'));
-        DB::table('migrations')->where('migration', '2026_10_13_210000_isolate_gruppi_per_struttura')->delete();
+        DB::table('migrations')->whereIn('migration', ['2026_10_13_210000_isolate_gruppi_per_struttura', '2026_10_13_210100_recover_gruppi_archivi_import'])->delete();
         $beforeClients = DB::table('clienti')->orderBy('id')->get()->toJson();
         $beforeSheets = DB::table('schedina')->orderBy('id')->get()->toJson();
         $sourceGroups = DB::table('gruppi')->orderBy('id')->get()->toJson();
@@ -68,6 +68,8 @@ class GruppiMigrationRecoveryTest extends TestCase
         $beforeHash = hash_file('sha256', $snapshot);
         $migration = require base_path('database/migrations/2026_10_13_210000_isolate_gruppi_per_struttura.php');
         $migration->up();
+        $relations = require base_path('database/migrations/2026_10_13_210100_recover_gruppi_archivi_import.php');
+        $relations->up();
         $this->assertTrue(Schema::hasColumn('gruppi', 'struttura_id'));
         foreach ([$a, $b] as $s) {
             $this->assertSame(137, DB::table('gruppi')->where('struttura_id', $s->id)->count());

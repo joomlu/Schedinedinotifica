@@ -213,6 +213,7 @@ class CustomerImportService
         $imported = 0;
 
         DB::transaction(function () use ($batch, &$imported) {
+            DB::table('struttura')->where('id', $batch->struttura_id)->lockForUpdate()->first();
             $rows = $batch->rows()
                 ->where('status', self::STATUS_VALID)
                 ->whereNull('imported_customer_id')
@@ -238,6 +239,8 @@ class CustomerImportService
     public function confirmImportedRow(CustomerImportRow $row, bool $refreshCounters = true, ?Customers $selectedCustomer = null): Customers
     {
         return DB::transaction(function () use ($row, $refreshCounters, $selectedCustomer) {
+            $sid = $row->batch()->value('struttura_id');
+            DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
             $row = CustomerImportRow::query()->lockForUpdate()->findOrFail($row->id);
             $row->load('batch.struttura');
             if ($row->imported_customer_id) {
@@ -287,6 +290,8 @@ class CustomerImportService
     public function completeFromSchedina(CustomerImportRow $row, Schedina $schedina): Customers
     {
         return DB::transaction(function () use ($row, $schedina) {
+            $sid = $row->batch()->value('struttura_id');
+            DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
             $row = CustomerImportRow::query()->with('batch')->lockForUpdate()->findOrFail($row->id);
             if (!$schedina->exists || (int) $schedina->struttura_id !== (int) $row->batch->struttura_id) {
                 throw \Illuminate\Validation\ValidationException::withMessages([
@@ -353,14 +358,22 @@ class CustomerImportService
 
     public function updateRowPayload(CustomerImportRow $row, array $input): CustomerImportRow
     {
-        $batch = $row->batch()->with('struttura')->firstOrFail();
-        $normalized = $this->normalizePayload(array_replace($row->normalized_payload ?? [], $input), $batch->struttura);
+        return DB::transaction(function () use ($row, $input) {
+            $batch = $row->batch()->with('struttura')->firstOrFail();
+            DB::table('struttura')->where('id', $batch->struttura_id)->lockForUpdate()->first();
+            $row->refresh();
+            $normalized = $this->normalizePayload(array_replace($row->normalized_payload ?? [], $input), $batch->struttura);
+            app(GruppiStrutturaService::class)->validateSelection([
+                'group' => $normalized['gruppo'] ?? null, 'subgroup' => $normalized['subgroup'] ?? null,
+                'subgroup1' => $normalized['subgroup1'] ?? null,
+            ], (int) $batch->struttura_id, [
+                'group' => $row->normalized_payload['gruppo'] ?? null, 'subgroup' => $row->normalized_payload['subgroup'] ?? null,
+                'subgroup1' => $row->normalized_payload['subgroup1'] ?? null,
+            ]);
+            $row->update(['normalized_payload' => $normalized]);
 
-        $row->update([
-            'normalized_payload' => $normalized,
-        ]);
-
-        return $this->recomputeRow($row);
+            return $this->recomputeRow($row);
+        });
     }
 
     private function parseCsv(string $path): array

@@ -44,7 +44,7 @@ class CestinoService
 
     public function archiveModel(Model $model, array $meta = []): CestinoItem
     {
-        if (in_array(get_class($model), [Gruppo::class, Customers::class, Schedina::class], true)) {
+        if (in_array(get_class($model), [Gruppo::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true)) {
             if (DB::transactionLevel() === 0) {
                 return DB::transaction(fn () => $this->archiveModel($model, $meta));
             }
@@ -141,7 +141,7 @@ class CestinoService
     public function restoreItem(CestinoItem $item): Model
     {
         return DB::transaction(function () use ($item) {
-            if (in_array($item->entity_class, [Gruppo::class, Customers::class, Schedina::class], true) && $item->struttura_id) {
+            if (in_array($item->entity_class, [Gruppo::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true) && $item->struttura_id) {
                 DB::table('struttura')->where('id', $item->struttura_id)->lockForUpdate()->first();
                 $item->refresh();
             }

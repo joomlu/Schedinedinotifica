@@ -63,14 +63,20 @@ class GruppiStrutturaService
                 return true;
             }
         }
-        foreach ([\App\Models\Customers::class => '', \App\Models\Schedina::class => 'customer_'] as $class => $prefix) {
-            $query = DB::table('cestino_items')->where('struttura_id', $group->struttura_id)->where('entity_class', $class);
+        foreach ($this->archivedQueries((int) $group->struttura_id) as [$query, $prefix]) {
             foreach ($this->path($group) as $column => $name) {
                 $query->where('payload->'.$prefix.$column, $name);
             }
             if ($query->exists()) {
                 return true;
             }
+        }
+        $imports = $this->importQuery((int) $group->struttura_id)->whereNull('imported_customer_id');
+        foreach ($this->path($group) as $column => $name) {
+            $imports->where('normalized_payload->'.($column === 'group' ? 'gruppo' : $column), $name);
+        }
+        if ($imports->exists()) {
+            return true;
         }
         foreach ($group->children as $child) {
             if ($this->references($child)) {
@@ -94,12 +100,88 @@ class GruppiStrutturaService
             }
             $query->update([$prefix.$field => $name]);
         }
-        foreach ([\App\Models\Customers::class => '', \App\Models\Schedina::class => 'customer_'] as $class => $prefix) {
-            $query = DB::table('cestino_items')->where('struttura_id', $group->struttura_id)->where('entity_class', $class);
+        foreach ($this->archivedQueries((int) $group->struttura_id) as [$query, $prefix]) {
             foreach ($path as $column => $value) {
                 $query->where('payload->'.$prefix.$column, $value);
             }
             $query->update(['payload->'.$prefix.$field => $name]);
+        }
+        $imports = $this->importQuery((int) $group->struttura_id);
+        foreach ($path as $column => $value) {
+            $imports->where('normalized_payload->'.($column === 'group' ? 'gruppo' : $column), $value);
+        }
+        $imports->update(['normalized_payload->'.($field === 'group' ? 'gruppo' : $field) => $name]);
+    }
+
+    private function archivedQueries(int $sid): array
+    {
+        return array_map(fn ($relation) => [DB::table('cestino_items')->where('struttura_id', $sid)
+            ->where('entity_class', $relation[0]), $relation[1]], [
+                [\App\Models\Customers::class, ''],
+                [\App\Models\Schedina::class, 'customer_'],
+                [\App\Models\WebCheckinRichiesta::class, 'schedina->customer_'],
+            ]);
+    }
+
+    private function importQuery(int $sid): \Illuminate\Database\Query\Builder
+    {
+        return DB::table('customer_import_rows')->whereIn('batch_id',
+            DB::table('customer_import_batches')->where('struttura_id', $sid)->select('id'));
+    }
+
+    // Solo ricostruzioni univoche; originali e riferimenti non vengono riscritti.
+    public function recoverLegacyReferences(): void
+    {
+        $legacy = DB::table('gruppi')->whereNull('struttura_id')->get();
+        foreach (DB::table('struttura')->pluck('id') as $sid) {
+            $paths = DB::table('clienti')->where('struttura_id', $sid)->get(['group', 'subgroup', 'subgroup1'])
+                ->merge(DB::table('schedina')->where('struttura_id', $sid)
+                    ->selectRaw('customer_group AS `group`, customer_subgroup AS subgroup, customer_subgroup1 AS subgroup1')->get())
+                ->map(fn ($row) => (array) $row)->all();
+            foreach (DB::table('cestino_items')->where('struttura_id', $sid)->get(['entity_class', 'payload']) as $item) {
+                $payload = json_decode($item->payload, true);
+                if ($item->entity_class === \App\Models\WebCheckinRichiesta::class) {
+                    $payload = $payload['schedina'] ?? [];
+                    $prefix = 'customer_';
+                } elseif ($item->entity_class === \App\Models\Schedina::class) {
+                    $prefix = 'customer_';
+                } elseif ($item->entity_class === \App\Models\Customers::class) {
+                    $prefix = '';
+                } else {
+                    continue;
+                }
+                $paths[] = array_combine(['group', 'subgroup', 'subgroup1'], array_map(
+                    fn ($field) => $payload[$prefix.$field] ?? null, ['group', 'subgroup', 'subgroup1']));
+            }
+            foreach ($this->importQuery((int) $sid)->pluck('normalized_payload') as $json) {
+                $payload = json_decode($json, true);
+                $paths[] = ['group' => $payload['gruppo'] ?? null, 'subgroup' => $payload['subgroup'] ?? null, 'subgroup1' => $payload['subgroup1'] ?? null];
+            }
+            foreach ($paths as $path) {
+                $sourceParent = $targetParent = null;
+                foreach ([1 => 'group', 2 => 'subgroup', 3 => 'subgroup1'] as $level => $field) {
+                    $name = $path[$field] ?? null;
+                    if (! is_string($name) || $name === '') {
+                        break;
+                    }
+                    $matches = $legacy->filter(fn ($g) => $g->nome === $name && (int) $g->livello === $level && $g->parent_id == $sourceParent);
+                    if ($matches->count() !== 1) {
+                        break;
+                    }
+                    $source = $matches->first();
+                    $targets = DB::table('gruppi')->where('struttura_id', $sid)->where('livello', $level)
+                        ->where('nome', $name)->where('parent_id', $targetParent)->pluck('id');
+                    if ($targets->count() > 1) {
+                        break;
+                    }
+                    $targetParent = $targets->first() ?? DB::table('gruppi')->insertGetId([
+                        'struttura_id' => $sid, 'nome' => $source->nome, 'descrizione' => $source->descrizione,
+                        'tipo' => $source->tipo, 'livello' => $level, 'parent_id' => $targetParent,
+                        'created_at' => $source->created_at, 'updated_at' => $source->updated_at,
+                    ]);
+                    $sourceParent = $source->id;
+                }
+            }
         }
     }
 

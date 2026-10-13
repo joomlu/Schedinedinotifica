@@ -211,4 +211,78 @@ class GruppiTenantTest extends TestCase
         }
         $this->assertDatabaseMissing('gruppi', ['nome' => 'Tentativo cross tenant']);
     }
+    public function test_web_archiviato_import_pendente_rinomina_vincoli_e_conferma_reale(): void
+    {
+        [$a] = $this->context();
+        $b = $this->structureFor(null);
+        $g = Gruppo::create(['nome' => 'Archivio import', 'livello' => 1, 'tipo' => 'Gruppi I']);
+        $item = \App\Models\CestinoItem::forceCreate([
+            'struttura_id' => $a->id, 'entity_type' => 'Web Check-in', 'entity_class' => \App\Models\WebCheckinRichiesta::class,
+            'original_id' => 999999, 'deleted_at' => now(), 'payload' => ['schedina' => ['struttura_id' => $a->id, 'customer_group' => 'Archivio import']],
+        ]);
+        $batch = \App\Models\CustomerImportBatch::forceCreate(['struttura_id' => $a->id, 'user_id' => 1, 'stored_path' => 'fixture.csv', 'original_name' => 'sintetico.csv', 'status' => 'draft']);
+        $payload = ['nome' => 'Import Gruppi', 'cognome' => 'Sintetico', 'gruppo' => 'Archivio import'];
+        $row = \App\Models\CustomerImportRow::forceCreate(['batch_id' => $batch->id, 'row_number' => 1, 'status' => 'valid', 'raw_payload' => $payload, 'normalized_payload' => $payload]);
+        $otherBatch = \App\Models\CustomerImportBatch::forceCreate(['struttura_id' => $b->id, 'user_id' => 1, 'stored_path' => 'fixture.csv', 'original_name' => 'altro.csv', 'status' => 'draft']);
+        $otherRow = \App\Models\CustomerImportRow::forceCreate(['batch_id' => $otherBatch->id, 'row_number' => 1, 'status' => 'valid', 'raw_payload' => [], 'normalized_payload' => $payload]);
+        $this->delete('/gruppi/'.$g->id)->assertSessionHasErrors('gruppo');
+        $this->put('/gruppi/'.$g->id, ['nome' => 'Archivio import personale', 'livello' => 1])->assertSessionHasNoErrors();
+        $this->assertSame('Archivio import personale', $item->fresh()->payload['schedina']['customer_group']);
+        $this->assertSame('Archivio import personale', $row->fresh()->normalized_payload['gruppo']);
+        $this->assertSame($payload, $row->fresh()->raw_payload);
+        $this->assertSame($payload, $otherRow->fresh()->normalized_payload);
+        $item->delete();
+        $this->delete('/gruppi/'.$g->id)->assertSessionHasErrors('gruppo');
+        $service = app(\App\Services\CustomerImportService::class);
+        $row = $service->updateRowPayload($row->fresh(), []);
+        $customer = $service->confirmImportedRow($row);
+        $this->assertSame('Archivio import personale', $customer->group);
+        $this->assertSame($a->id, $customer->struttura_id);
+        $this->assertSame($customer->id, $row->fresh()->imported_customer_id);
+    }
+
+    public function test_recupero_legacy_cestino_import_e_nome_zero_preserva_payload(): void
+    {
+        [$a] = $this->context();
+        foreach (['Solo archivio', 'Solo import', '0'] as $name) {
+            DB::table('gruppi')->insert(['nome' => $name, 'livello' => 1, 'tipo' => 'Gruppi I']);
+        }
+        $item = \App\Models\CestinoItem::forceCreate(['struttura_id' => $a->id, 'entity_type' => 'Web Check-in',
+            'entity_class' => \App\Models\WebCheckinRichiesta::class, 'original_id' => 999999, 'deleted_at' => now(),
+            'payload' => ['schedina' => ['struttura_id' => $a->id, 'customer_group' => 'Solo archivio']]]);
+        $batch = \App\Models\CustomerImportBatch::forceCreate(['struttura_id' => $a->id, 'user_id' => 1, 'stored_path' => 'fixture.csv', 'original_name' => 'sintetico.csv', 'status' => 'draft']);
+        $row = \App\Models\CustomerImportRow::forceCreate(['batch_id' => $batch->id, 'row_number' => 1, 'status' => 'valid', 'raw_payload' => [], 'normalized_payload' => ['gruppo' => 'Solo import']]);
+        $zero = Customers::forceCreate(['struttura_id' => $a->id, 'name' => 'Zero sintetico', 'group' => '0']);
+        $before = [$item->fresh()->getAttributes(), $row->fresh()->getAttributes(), $zero->fresh()->getAttributes()];
+        $migration = require base_path('database/migrations/2026_10_13_210100_recover_gruppi_archivi_import.php');
+        $migration->up();
+        foreach (['Solo archivio', 'Solo import', '0'] as $name) {
+            $this->assertDatabaseHas('gruppi', ['nome' => $name, 'struttura_id' => $a->id]);
+        }
+        $this->assertSame($before, [$item->fresh()->getAttributes(), $row->fresh()->getAttributes(), $zero->fresh()->getAttributes()]);
+    }
+
+    public function test_ripristino_reale_web_checkin_preserva_classificazione_rinominata_e_componenti(): void
+    {
+        [$a] = $this->context();
+        $g = $this->root($a->id);
+        $sheet = Schedina::forceCreate(['struttura_id' => $a->id, 'name' => 'Web sintetico', 'customer_group' => 'Business']);
+        $part = \App\Models\Componenti::forceCreate(['struttura_id' => $a->id, 'schedina_id' => $sheet->id, 'name' => 'Componente sintetico']);
+        $web = \App\Models\WebCheckinRichiesta::forceCreate(['struttura_id' => $a->id, 'schedina_id' => $sheet->id,
+            'codice' => 'GRUPPI-SINTETICO', 'numero_prenotazione' => 'SINTETICA', 'email' => 'fixture@example.invalid',
+            'nome_referente' => 'Sintetico', 'arrivo' => '2026-11-10', 'partenza' => '2026-11-12',
+            'quantita_persone' => 2, 'token' => bin2hex(random_bytes(32)), 'stato' => 'da_inviare']);
+        $item = app(\App\Services\CestinoService::class)->archiveModel($web);
+        $web->delete();
+        $part->delete();
+        $sheet->delete();
+        $this->put('/gruppi/'.$g->id, ['nome' => 'Business web archivio', 'livello' => 1])->assertSessionHasNoErrors();
+        $this->post('/cestino/'.$item->id.'/ripristina')->assertSessionHasNoErrors();
+        $restored = \App\Models\WebCheckinRichiesta::withoutGlobalScopes()->where('numero_prenotazione', 'SINTETICA')->firstOrFail();
+        $this->assertSame('Business web archivio', Schedina::withoutGlobalScopes()->findOrFail($restored->schedina_id)->customer_group);
+        $this->assertDatabaseHas('componenti', ['name' => 'Componente sintetico', 'schedina_id' => $restored->schedina_id, 'struttura_id' => $a->id]);
+        $this->assertNotNull($restored->link_revoked_at);
+        $this->assertDatabaseMissing('cestino_items', ['id' => $item->id]);
+    }
+
 }
