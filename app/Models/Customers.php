@@ -25,6 +25,7 @@ class Customers extends Model
         static::saving(function (self $record) {
             if (app()->runningInConsole()) return;
             $sid = (int) ($record->struttura_id ?: (\App\Support\StrutturaCorrente::getId() ?? auth()->user()?->struttura_id));
+            app(\App\Services\TitoliStrutturaService::class)->validateSelection($record->type, $sid, $record->exists ? $record->getRawOriginal('type') : null);
             $values = []; $old = [];
             foreach (['group', 'subgroup', 'subgroup1'] as $field) {
                 $values[$field] = $record->getAttribute($field);

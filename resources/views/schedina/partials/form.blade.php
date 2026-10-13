@@ -341,6 +341,9 @@
                                         @foreach($titoli as $title)
                                             <option value="{{ $title->name }}" {{ $valueOf('type') === $title->name ? 'selected' : '' }}>{{ $title->name }}</option>
                                         @endforeach
+                                        @if($valueOf('type') && !$titoli->contains('name', $valueOf('type')))
+                                            <option value="{{ $valueOf('type') }}" selected>{{ $valueOf('type') }} (valore storico conservato)</option>
+                                        @endif
                                     </x-ui.select>
                                 </div>
                                 <div class="col-lg-4">

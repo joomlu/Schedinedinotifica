@@ -137,6 +137,7 @@ class CustomerController extends Controller
 
     private function buildSchedaClienteData(): array
     {
+        app(\App\Services\TitoliStrutturaService::class)->initialize((int) \App\Support\StrutturaCorrente::getId());
         $groups = Schema::hasTable('gruppi')
             ? Gruppo::query()->orderBy('livello')->orderBy('nome')->get(['id', 'nome', 'livello', 'parent_id'])
             : collect();

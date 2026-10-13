@@ -421,7 +421,10 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
     //Titolo (RESTful, nomi legacy)
+    Route::post('titolo/recupera-base', [TitleController::class, 'recover'])
+        ->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('titolo.recover');
     Route::resource('titolo', TitleController::class)
+        ->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)
         ->only(['index', 'store', 'update', 'destroy'])
         ->names([
             'index' => 'titolo.index',

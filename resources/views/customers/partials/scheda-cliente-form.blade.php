@@ -169,6 +169,9 @@
                                                                     {{ $titolo->nome }}
                                                                 </option>
                                                             @endforeach
+                                                            @if($fieldValue('type') && !$titoli->contains('nome', $fieldValue('type')))
+                                                                <option value="{{ $fieldValue('type') }}" selected>{{ $fieldValue('type') }} (valore storico conservato)</option>
+                                                            @endif
                                                         </x-ui.select>
                                                     </div>
                                                     <div class="col-lg-4">

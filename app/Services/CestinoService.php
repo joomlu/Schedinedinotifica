@@ -32,19 +32,19 @@ class CestinoService
 {
     // La natura dell'entità dipende dalla classe, non dall'etichetta o dal solo NULL.
     public const TENANT_CLASSES = [
-        Customers::class, Schedina::class, Componenti::class, WebCheckinRichiesta::class, Gruppo::class,
+        Customers::class, Schedina::class, Componenti::class, WebCheckinRichiesta::class, Gruppo::class, Titolo::class,
         TassaEsenzione::class, LicenzaAssegnazione::class,
     ];
 
     public const GLOBAL_CLASSES = [
         User::class, Proprietario::class, Struttura::class, LicenzaArticolo::class,
-        Titolo::class, TipoCliente::class, TipoVia::class,
+        TipoCliente::class, TipoVia::class,
         TipoDocumento::class, RilasciatoDa::class,
     ];
 
     public function archiveModel(Model $model, array $meta = []): CestinoItem
     {
-        if (in_array(get_class($model), [Gruppo::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true)) {
+        if (in_array(get_class($model), [Gruppo::class, Titolo::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true)) {
             if (DB::transactionLevel() === 0) {
                 return DB::transaction(fn () => $this->archiveModel($model, $meta));
             }
@@ -141,7 +141,7 @@ class CestinoService
     public function restoreItem(CestinoItem $item): Model
     {
         return DB::transaction(function () use ($item) {
-            if (in_array($item->entity_class, [Gruppo::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true) && $item->struttura_id) {
+            if (in_array($item->entity_class, [Gruppo::class, Titolo::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true) && $item->struttura_id) {
                 DB::table('struttura')->where('id', $item->struttura_id)->lockForUpdate()->first();
                 $item->refresh();
             }
@@ -152,7 +152,7 @@ class CestinoService
                 Customers::class => $this->restoreSimpleModel(Customers::class, $payload),
                 Componenti::class => $this->restoreComponente($payload),
                 Gruppo::class => $this->restoreGruppo($payload),
-                Titolo::class => $this->restoreSimpleModel(Titolo::class, $payload),
+                Titolo::class => $this->restoreTitolo($payload),
                 TipoCliente::class => $this->restoreSimpleModel(TipoCliente::class, $payload),
                 TipoVia::class => $this->restoreSimpleModel(TipoVia::class, $payload),
                 TipoDocumento::class => $this->restoreSimpleModel(TipoDocumento::class, $payload),
@@ -535,6 +535,23 @@ class CestinoService
         }
 
         return $this->restoreSimpleModel($class, $payload);
+    }
+
+    private function restoreTitolo(array $payload): Model
+    {
+        $sid = (int) ($payload['struttura_id'] ?? 0);
+        if (! $sid || ! \App\Support\StrutturaAccess::query(auth()->user(), true)->whereKey($sid)->exists()
+            || \App\Support\StrutturaCorrente::getId() !== $sid) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['titolo' => 'Il titolo storico non ha una struttura autorizzata: originale conservato senza attribuzione.']);
+        }
+        DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
+        if (DB::table('titolo')->where('struttura_id', $sid)->where(function ($q) use ($payload) {
+            $q->where('nome', $payload['nome']);
+            if (!empty($payload['base_nome'])) $q->orWhere('base_nome', $payload['base_nome']);
+        })->exists()) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['titolo' => 'Il titolo o la sua copia di base esiste già nella struttura. Nessun dato è stato sovrascritto.']);
+        }
+        return $this->restoreSimpleModel(Titolo::class, $payload);
     }
 
     private function restoreGruppo(array $payload): Model

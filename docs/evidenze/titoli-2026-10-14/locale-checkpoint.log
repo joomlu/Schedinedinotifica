@@ -1,0 +1,2 @@
+{"esito": "PASS_CHECKPOINT_LOCALE", "custodia": "/home/collaudo.guest/custodia-titoli-1791934104541995899", "tabelle": 64, "record_precedenti": 23708, "cifrati_riletti": true, "MySQL_Herd_originale_non_usato": true}
+{"esito": "PASS_MIGRAZIONE_LOCALE", "custodia": "/home/collaudo.guest/custodia-titoli-1791934104541995899", "migrazioni": 152, "originali_tutte_colonne_identici": true, "tabelle_confrontate": 64, "titoli_privati": 560, "globali_preservati": 82, "MySQL_Herd_originale_non_usato": true}

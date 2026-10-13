@@ -60,3 +60,7 @@ Sono supportate e verificate le suite indicate sopra. Le vecchie suite che presu
 ## Verifica Gruppi del 13 ottobre 2026
 
 Il parametro `--include` può includere esplicitamente anche i soli `database/seeders/GruppiSeeder.php` e `database/seeders/GruppoSeeder.php`. Restano esclusi tutti i seed impliciti e gli altri seed; non è un avvio automatico del DatabaseSeeder. Consente di provare realmente l’idempotenza delle personalizzazioni nel DB effimero. Protezioni originali intatte,15 guardie PASS. La selezione Gruppi e i relativi limiti sono nel [consuntivo](VERIFICA-GRUPPI-2026-10-13.md).
+
+## Verifica Titoli del 14 ottobre 2026
+
+Inclusione facoltativa esplicita anche di `database/seeders/TitoloSeeder.php` e `resources/views/titolo/modal.blade.php`, senza seed impliciti o ampliamento delle origini/rete/database ammessi. Permette di collaudare il seeder effettivo e la nuova modale prima del commit.15guardie e23override PASS; selezione e diagnostici nel [consuntivo Titoli](CORREZIONE-TITOLI-2026-10-14.md). Il template dell’avviatore VM segue la stessa allowlist.
