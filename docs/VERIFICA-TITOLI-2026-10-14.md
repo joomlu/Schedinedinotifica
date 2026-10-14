@@ -1,5 +1,7 @@
 # Verifica formulario Titoli — 14 ottobre 2026
 
+> Rapporto storico dell’audit iniziale, precedente all’autorizzazione alle correzioni. I difetti riprodotti e il verdetto di allora sono conservati; la verifica corrente e il rilascio sono nel [consuntivo definitivo Titoli](CORREZIONE-TITOLI-2026-10-14.md).
+
 **STATO: PARZIALE, formulario NON CONFERMATO. BASELINE IN AUDIT.**
 
 Obiettivo: audit di `/titolo`, numero/origine, abbreviazioni, descrizioni, stato, azioni, ricerca/paginazione e isolamento della struttura. Nessuna correzione applicativa autorizzata. Rischio medio: prove mutanti soltanto su fixture sintetiche effimere nella VM ufficiale; browser online soltanto letture e apertura/chiusura modali senza invio. Il prompt precedente richiamato dall’utente non è disponibile nella conversazione corrente: richiesto tramite domanda asincrona, nessuna conferma completa sostitutiva.

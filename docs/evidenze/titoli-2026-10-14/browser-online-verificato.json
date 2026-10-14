@@ -1,0 +1,43 @@
+{
+  "esito": "PASS_VERIFICA_BROWSER_TITOLI",
+  "sha_applicativo": "230ec2e29d5520296f6674f2d515e1d63b10b580",
+  "elenco_iniziale": {
+    "record_distinti": 82,
+    "pagine": 9,
+    "corrispondenti_base_seeder": 80,
+    "extra_globali_preservati": [
+      "Sig.s",
+      "Sigg."
+    ]
+  },
+  "elenco_privato_GIOIELLA": {
+    "record_distinti": 80,
+    "pagine": 8,
+    "righe_per_pagina": 10
+  },
+  "seconda_struttura_Dream": {
+    "record": 80,
+    "ID_privati_distinti": true,
+    "ricerca_ID_596_Gioiella_con_page_2": 0
+  },
+  "ricerca_Dott_ssa": {
+    "record": 1,
+    "descrizione": "Dottoressa"
+  },
+  "conferme_dopo_correzione": {
+    "contesto_effettivo": "Hotel Amalfi",
+    "recupero_base_conferma_presente": true,
+    "modifica_inattiva_conferma_presente": true,
+    "creazione_inattiva_conferma_presente": true,
+    "tutte_annullate_prima_del_salvataggio": true,
+    "azioni_form_relative": 22
+  },
+  "salvataggi_reali_fittizi": false,
+  "recupero_precedente_diretto": {
+    "POST_effettivo": true,
+    "titoli_aggiunti": 0,
+    "dati_precedenti_identici": true
+  },
+  "salvataggi_inattivi_CRUD_e_404_mutanti": "Verificati esclusivamente nel laboratorio isolato con37test403asserzioni e2flussi Chromium definitivi",
+  "limite_archiviati": "Nessuna struttura archiviata riattivata; riferimenti verificati in SQL e flussi equivalenti isolati"
+}

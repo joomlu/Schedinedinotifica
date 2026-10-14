@@ -1,0 +1,9 @@
+{
+  "esito": "PASS_SHA_APPLICATIVO_ALLINEATO",
+  "locale": "230ec2e29d5520296f6674f2d515e1d63b10b580",
+  "GitHub": "230ec2e29d5520296f6674f2d515e1d63b10b580",
+  "produzione": "230ec2e29d5520296f6674f2d515e1d63b10b580",
+  "prova_GitHub": "git ls-remote origin refs/heads/main",
+  "prova_produzione": "rilascio-conferme-verificato.json",
+  "successivo_commit_solo_documentale": true
+}
