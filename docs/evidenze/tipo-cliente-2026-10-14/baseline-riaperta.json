@@ -1,0 +1,14 @@
+{
+  "esito": "PASS_BASELINE_RIAPERTA_VERIFICATA",
+  "sha": "dd847206254ce34480174d161b9a217cf118de75",
+  "decision": "BASELINE_NON_MODIFICATA",
+  "migrazioni": 152,
+  "tabelle": 64,
+  "catalogo3_ID_originali_attivi": true,
+  "Git_pulito": true,
+  "env_originale_key_coerente_provider_mail_FPM_TLS_9": true,
+  "nessuna_barriera": true,
+  "guardiano_concluso_inattivo_disabilitato": true,
+  "nessun_codice_o_migrazione_applicati": true,
+  "rilascio_candidato": "NON_CONFERMATO"
+}
