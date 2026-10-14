@@ -63,6 +63,10 @@ return new class extends Migration
         }
 
         if (Schema::hasColumn('classificazioni', 'tipologia_struttura_id')) {
+            // MariaDB richiede la rimozione dell'indice composto prima della colonna.
+            Schema::table('classificazioni', function (Blueprint $table) {
+                $table->dropUnique('classificazioni_tipologia_struttura_id_nome_unique');
+            });
             Schema::table('classificazioni', function (Blueprint $table) {
                 $table->dropColumn('tipologia_struttura_id');
             });

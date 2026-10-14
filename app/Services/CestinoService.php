@@ -44,6 +44,7 @@ class CestinoService
 
     public function archiveModel(Model $model, array $meta = []): CestinoItem
     {
+        abort_if($model instanceof TipoCliente, 403, 'Classificazioni predefinite del sistema, non modificabili.');
         if (in_array(get_class($model), [Gruppo::class, Titolo::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true)) {
             if (DB::transactionLevel() === 0) {
                 return DB::transaction(fn () => $this->archiveModel($model, $meta));
@@ -140,6 +141,7 @@ class CestinoService
 
     public function restoreItem(CestinoItem $item): Model
     {
+        abort_if($item->entity_class === TipoCliente::class, 403, 'Classificazioni predefinite del sistema, non modificabili.');
         return DB::transaction(function () use ($item) {
             if (in_array($item->entity_class, [Gruppo::class, Titolo::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true) && $item->struttura_id) {
                 DB::table('struttura')->where('id', $item->struttura_id)->lockForUpdate()->first();

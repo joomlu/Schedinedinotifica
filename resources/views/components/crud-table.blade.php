@@ -3,8 +3,8 @@
     'subtitle' => null,
     'searchPlaceholder' => '',
     'searchId',
-    'createText',
-    'createTarget',
+    'createText' => null,
+    'createTarget' => null,
     'createHref' => null,
     'tableId',
     'paginator',
@@ -75,6 +75,7 @@
                     @endisset
                 </div>
 
+                @if($createText)
                 @if($createDisabled)
                     <span class="d-inline-block flex-shrink-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{{ $createTooltip }}">
                         <button type="button" class="btn btn-primary" disabled aria-disabled="true">
@@ -100,6 +101,7 @@
                         <i class="ri-add-line align-middle me-1"></i>
                         {{ $createText }}
                     </button>
+                @endif
                 @endif
             </div>
         </div>

@@ -113,6 +113,7 @@ Route::middleware(['auth'])->group(function () {
     // Configurazioni base
     Route::resource('tipo_alloggiato', TipoAlloggiatoController::class)->names('tipo_alloggiato');
     Route::resource('tipo_cliente', TipoClienteController::class)
+        ->where(['tipo_cliente' => '[0-9]+'])
         ->only(['index', 'store', 'update', 'destroy'])
         ->names('tipo_cliente');
     Route::resource('tipo_documento', TipoDocumentoController::class)->names('tipo_documento');

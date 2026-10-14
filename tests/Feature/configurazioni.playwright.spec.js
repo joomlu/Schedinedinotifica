@@ -23,7 +23,7 @@ test('smoke configurazioni modules', async ({ page }) => {
   const cases = [
     { path: '/gruppi', title: 'Gruppi', createButton: /Nuovo Gruppo/i, modalTitle: /Nuovo Gruppo/i },
     { path: '/titolo', title: 'Titoli', createButton: /Nuovo Titolo/i, modalTitle: /Nuovo Titolo/i },
-    { path: '/tipo_cliente', title: 'Tipo Cliente', createButton: /Nuovo Tipo Cliente/i, modalTitle: /Nuovo Tipo Cliente/i },
+    { path: '/tipo_cliente', title: 'Tipo Cliente', systemReadonly: true },
     { path: '/tipo_alloggiato', title: 'Tipo Alloggiato', readonly: true },
     { path: '/tipo_documento', title: 'Tipo Documento', readonly: true },
     { path: '/rilasciato', title: 'Rilasciato da', createButton: /Nuovo Rilasciato da/i, modalTitle: /Nuovo Rilasciato da/i },
@@ -38,6 +38,12 @@ test('smoke configurazioni modules', async ({ page }) => {
     await expect(page.locator('body')).not.toContainText('Illuminate\\');
     await expect(page.locator('body')).not.toContainText('ErrorException');
     await expect(page.locator('body')).not.toContainText('QueryException');
+
+    if (item.systemReadonly) {
+      await expect(page.getByText('Classificazioni predefinite del sistema, non modificabili.', { exact: true })).toBeVisible();
+      await expect(page.locator('[data-bs-target^="#modalTipoCliente"]')).toHaveCount(0);
+      continue;
+    }
 
     if (item.readonly) {
       await expect(page.locator('button[disabled]').first()).toBeVisible();

@@ -635,7 +635,7 @@ class SchedinaController extends Controller
 
         return [
             'titoli' => Titolo::query()->where('attivo', true)->orderBy('nome')->get(['id', 'nome as name']),
-            'tipiCliente' => TipoCliente::query()
+            'tipiCliente' => TipoCliente::query()->diSistema()
                 ->when(Schema::hasColumn('tipo_cliente', 'attivo'), fn ($query) => $query->where('attivo', true))
                 ->orderBy('descrizione')
                 ->get(['id', 'codice', 'descrizione as nome']),

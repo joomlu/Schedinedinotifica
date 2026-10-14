@@ -33,7 +33,7 @@ class CustomerExportController extends Controller
 
         return view('customers.export', [
             'customers' => $customers,
-            'tipiClienti' => TipoCliente::query()
+            'tipiClienti' => TipoCliente::query()->diSistema()
                 ->when(method_exists(TipoCliente::query()->getModel(), 'getTable'), fn ($query) => $query)
                 ->orderBy('descrizione')
                 ->get(['descrizione']),

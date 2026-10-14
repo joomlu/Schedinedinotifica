@@ -114,7 +114,7 @@ class CustomerController extends Controller
             return $customer;
         });
 
-        $tipiClienteDisponibili = TipoCliente::query()
+        $tipiClienteDisponibili = TipoCliente::query()->diSistema()
             ->where('attivo', true)
             ->orderBy('id')
             ->pluck('descrizione')
@@ -145,7 +145,7 @@ class CustomerController extends Controller
         $gruppiLivello2 = $groups->where('livello', 2)->values();
         $gruppiLivello3 = $groups->where('livello', 3)->values();
         $tipiClienti = Schema::hasTable('tipo_cliente')
-            ? TipoCliente::query()
+            ? TipoCliente::query()->diSistema()
                 ->where('attivo', true)
                 ->orderBy('id')
                 ->get(['id', 'codice', 'descrizione'])
@@ -640,13 +640,13 @@ class CustomerController extends Controller
         ];
 
         if ($tipo === 'Richiesta') {
-            return $this->withAziendaRules($base + [
+            return $this->withAziendaRules(array_replace($base, [
                 'email' => ['nullable', 'email', 'max:191'],
                 'phone' => ['nullable', 'string', 'max:191', 'regex:/^[0-9\+\(\)\s\-\/]*$/'],
-            ]);
+            ]));
         }
 
-        return $this->withAziendaRules($base + [
+        return $this->withAziendaRules(array_replace($base, [
             'sex' => ['required', Rule::in(['M', 'F'])],
             'country' => ['required', 'string', 'max:191'],
             'region' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:191'],
@@ -680,7 +680,7 @@ class CustomerController extends Controller
                 'string',
                 'max:191',
             ],
-        ]);
+        ]));
     }
 
     private function validateSchedinaTransferMode($validator, Request $request): void

@@ -1,0 +1,81 @@
+{
+  "esito": "PASS_VERIFICA_ISOLATA_TIPO_CLIENTE",
+  "baseline_Git_prima_commit": "dd847206254ce34480174d161b9a217cf118de75",
+  "ambiente": "VM ufficiale, namespace senza rete, processi/DB/checkout effimeri attestati",
+  "PHPUnit": {
+    "test": 49,
+    "asserzioni": 330,
+    "RefreshDatabase_originale": true,
+    "installazione_fresca": true,
+    "seed_ripetuti": true
+  },
+  "guardie": 15,
+  "override_rifiutati": 23,
+  "build_GEO": "PASS",
+  "Chromium": {
+    "flussi": 2,
+    "secondi": 38.4,
+    "dati_solo_sintetici": true,
+    "extra_preservato_fuori_opzioni_ufficiali": true
+  },
+  "ruoli": [
+    "super_admin",
+    "admin",
+    "proprietario",
+    "struttura_user"
+  ],
+  "catalogo_produzione_baseline": {
+    "ID": [
+      1,
+      2,
+      3
+    ],
+    "codici": [
+      "OSPITE",
+      "COMPONENTE",
+      "RICHIESTA"
+    ],
+    "stato": "tutti attivi",
+    "extra_duplicati_cestino_FK": 0
+  },
+  "conteggi_clienti_baseline": {
+    "Ospite": 11,
+    "Componente": 1,
+    "Richiesta": 1,
+    "vuoto_preservato": 1
+  },
+  "nessun_test_Laravel_o_DML_di_prova_su_produzione": true,
+  "revisione_automatica": {
+    "conversione_RefreshDatabase_respinta": true,
+    "proposta_non_eseguita": true,
+    "alternativa": "Correzione reale ordine indice/colonna; regressioni originali PASS"
+  },
+  "sorgenti_sha256": {
+    "app/Http/Controllers/CustomerController.php": "7592f9db0f7de93a8c3776d1b8c302b967e23c2e97c97aa716b17cafc6847569",
+    "app/Http/Controllers/TipoClienteController.php": "fffadd7cb2c493bf07f604ef30095ea6d0089d48364f1d14869a397673e9024e",
+    "app/Models/TipoCliente.php": "1ab5f0ae47535b5a9752a8f575a035ac067d4a31ee3c2f616a28cbb0514f2cda",
+    "app/Services/CestinoService.php": "9b2f12b59ce9eaba4a9c1a551ee7ae5bacc4e2446231ac31052119ca4f547167",
+    "app/Services/TipoClienteSistemaService.php": "b5b9097776f8a30efaae57c02967ba1dfd9cfc4f25f7512710f445dea38bdae3",
+    "database/migrations/2026_02_28_000001_normalize_classificazioni.php": "8e9408ec9ed3cb7e94eadbe428c323ae5720d502cf14f0fdb1d7debc3be5b9f3",
+    "database/migrations/2026_10_14_030000_initialize_tipo_cliente_sistema.php": "db961201570d0e1adf5718d17554792cff0d602612d9c1d11ad9fff1f106cf93",
+    "database/seeders/TipoClienteSeeder.php": "9d4b66882ed1b1221decb120bb42f4dc799bfa81ef4e473b21394b8dc9c5851c",
+    "resources/views/components/crud-table.blade.php": "ac5dbe3cfab9a1da49702269706bf66408ffd54d45f9bd61c3189a78bfe5c3a6",
+    "resources/views/tipo_cliente/index.blade.php": "d9d43397ad39af8909b09fb7509dd3b9402ad0f7ddca1fe75b6e6efe5e0e2f40",
+    "routes/web.php": "e3c3d2f10e68b6dd3adda53bee9c389839708e9b82ca0587fee1d84a61e5b998",
+    "tests/Feature/TipoClienteSistemaTest.php": "ae62bd669f497df775ad3c127c3a3e290d717f1733766800b873c5ea8d8cc72d",
+    "tests/Feature/tipo-cliente.playwright.spec.js": "8fbb75316b3e2c757449899279912bd3f62f03a77bbf3f74f2f28cc2a90ed532",
+    "tests/Feature/configurazioni.playwright.spec.js": "9d54c04add7a26a455f70e227e8bab70df72f5fec3f95b3703e7abcb6e921355",
+    "tests/Isolation/run.py": "5829ebcbdec2e8770a163113f21a05ece8babff04cece2ee81e5f2b1f9b612bf",
+    "tests/Isolation/seed-tipo-cliente.php": "78255dd76fd1c527ff07f3606ae274a7103838b4383ae4460855e0149c7817e0",
+    "tests/Diagnostics/TipoClienteRefreshDiagnosticTest.php": "826f151680caf06f52feab8aad573787acb0dcef9eb760f7bf89d740618e32d0",
+    "app/Http/Controllers/SchedinaController.php": "5bcc051b3df7b6d6a32321b8be497f8978f8819a7942b0e566751bc3c1b76028",
+    "app/Http/Controllers/CustomerImportController.php": "961ac30aae865c498231d64c692fd49c4f91266cdcea56b1419071523e48f04b",
+    "app/Http/Controllers/CustomerExportController.php": "11132b06f5d03553c440aa7e0f38169f0ff19fd2daa5fad3f28b58957d0863fd"
+  },
+  "log_sha256": {
+    "test-finale.log": "5bb8083954414434c236f9f8a1ed4730e740b0ac17f28059ea63fec00930e79b",
+    "guardie.log": "536c011937bfc07d0b93265a981d9b6ffbc3a5d0a1983ff60688aae25407b35f",
+    "browser-finale.log": "9602facfa26878f083195fb8491048e35a2427d16a79032cceed75e003ca2765"
+  },
+  "rilascio": "PENDENTE"
+}

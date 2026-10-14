@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\TipoCliente;
-use App\Services\CestinoService;
 use Illuminate\Http\Request;
 
 class TipoClienteController extends Controller
@@ -13,7 +12,7 @@ class TipoClienteController extends Controller
         $qRaw = trim((string) request('q', ''));
         $q = mb_strtolower($qRaw);
         $terms = $this->normalizedTerms($qRaw);
-        $query = TipoCliente::query();
+        $query = TipoCliente::query()->diSistema();
 
         if ($q !== '') {
             $query->where(function ($inner) use ($q, $terms) {
@@ -36,42 +35,17 @@ class TipoClienteController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'codice' => 'required|string|max:50|unique:tipo_cliente,codice',
-            'descrizione' => 'required|string|max:191',
-            'attivo' => 'nullable|boolean',
-        ]);
-
-        $data['attivo'] = $request->has('attivo') ? $request->boolean('attivo') : true;
-
-        TipoCliente::create($data);
-
-        return redirect()->back()->with('success', 'Tipo cliente creato con successo.');
+        abort(403, 'Classificazioni predefinite del sistema, non modificabili.');
     }
 
     public function update(Request $request, TipoCliente $tipo_cliente)
     {
-        $data = $request->validate([
-            'codice' => 'required|string|max:50|unique:tipo_cliente,codice,' . $tipo_cliente->id,
-            'descrizione' => 'required|string|max:191',
-            'attivo' => 'nullable|boolean',
-        ]);
-
-        $data['attivo'] = $request->has('attivo') ? $request->boolean('attivo') : ($tipo_cliente->attivo ?? true);
-
-        $tipo_cliente->fill($data)->save();
-
-        return redirect()->back()->with('success', 'Tipo cliente aggiornato con successo.');
+        abort(403, 'Classificazioni predefinite del sistema, non modificabili.');
     }
 
     public function destroy(TipoCliente $tipo_cliente)
     {
-        app(CestinoService::class)->archiveModel($tipo_cliente, [
-            'source' => 'Tipo Cliente',
-        ]);
-        $tipo_cliente->delete();
-
-        return redirect()->back()->with('success', 'Tipo cliente spostato nel cestino.');
+        abort(403, 'Classificazioni predefinite del sistema, non modificabili.');
     }
 
     private function normalizedTerms(string $value): array

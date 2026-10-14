@@ -547,7 +547,7 @@ class CustomerImportController extends Controller
             'gruppiLivello1' => $groups->where('livello', 1)->values(),
             'gruppiLivello2' => $groups->where('livello', 2)->values(),
             'gruppiLivello3' => $groups->where('livello', 3)->values(),
-            'tipiClienti' => TipoCliente::query()->where('attivo', true)->orderBy('id')->get(['id', 'codice', 'descrizione']),
+            'tipiClienti' => TipoCliente::query()->diSistema()->where('attivo', true)->orderBy('id')->get(['id', 'codice', 'descrizione']),
             'titoli' => Titolo::query()->when(\Illuminate\Support\Facades\Schema::hasColumn('titolo', 'attivo'), fn ($query) => $query->where('attivo', true))->orderBy('nome')->get(['id', 'nome']),
             'tipiVia' => TipoVia::query()->orderBy('nome')->get(['id', 'nome as name']),
             'tipiDocumento' => TipoDocumento::query()->orderBy('descrizione')->get(['id', 'descrizione as name']),
