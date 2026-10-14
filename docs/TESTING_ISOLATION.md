@@ -64,3 +64,7 @@ Il parametro `--include` può includere esplicitamente anche i soli `database/se
 ## Verifica Titoli del 14 ottobre 2026
 
 Inclusione facoltativa esplicita anche di `database/seeders/TitoloSeeder.php` e `resources/views/titolo/modal.blade.php`, senza seed impliciti o ampliamento delle origini/rete/database ammessi. Permette di collaudare il seeder effettivo e la nuova modale prima del commit.15guardie e23override PASS; selezione e diagnostici nel [consuntivo Titoli](CORREZIONE-TITOLI-2026-10-14.md). Il template dell’avviatore VM segue la stessa allowlist.
+
+## Verifica cataloghi Questura del 14 ottobre 2026
+
+L'allowlist cumulativa consente ora l'inclusione esplicita anche di `database/seeders/TipoAlloggiatoSeeder.php` e `database/seeders/TipoDocumentoSeeder.php`. Nessun DatabaseSeeder o seed implicito; nessun ampliamento delle origini, della rete o dei database ammessi. La fixture `seed-cataloghi-questura.php` resta esclusivamente nel checkout effimero. Avviatore versionato e template operativo VM concordano sulle due inclusioni; le voci autorizzate precedentemente restano preservate. Prove e selezione esatta nel [consuntivo](VERIFICA-CATALOGHI-QUESTURA-2026-10-14.md): 76 test/1.005 asserzioni, due prove Chromium,15 guardie e23 rifiuti di override PASS.

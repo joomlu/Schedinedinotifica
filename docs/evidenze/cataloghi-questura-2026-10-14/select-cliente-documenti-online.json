@@ -1,0 +1,386 @@
+[
+  {
+    "text": "Seleziona tipo documento",
+    "value": ""
+  },
+  {
+    "text": "CARTA DI IDENTITA'",
+    "value": "CARTA DI IDENTITA'"
+  },
+  {
+    "text": "CARTA ID. DIPLOMATICA",
+    "value": "CARTA ID. DIPLOMATICA"
+  },
+  {
+    "text": "CARTA IDENTITA' ELETTRONICA",
+    "value": "CARTA IDENTITA' ELETTRONICA"
+  },
+  {
+    "text": "CERTIFICATO D'IDENTITA'",
+    "value": "CERTIFICATO D'IDENTITA'"
+  },
+  {
+    "text": "PASSAPORTO DI SERVIZIO",
+    "value": "PASSAPORTO DI SERVIZIO"
+  },
+  {
+    "text": "PASSAPORTO DIPLOMATICO",
+    "value": "PASSAPORTO DIPLOMATICO"
+  },
+  {
+    "text": "PASSAPORTO ORDINARIO",
+    "value": "PASSAPORTO ORDINARIO"
+  },
+  {
+    "text": "PATENTE DI GUIDA",
+    "value": "PATENTE DI GUIDA"
+  },
+  {
+    "text": "PATENTE NAUTICA",
+    "value": "PATENTE NAUTICA"
+  },
+  {
+    "text": "PORTO D'ARMI GUARDIE GIUR",
+    "value": "PORTO D'ARMI GUARDIE GIUR"
+  },
+  {
+    "text": "PORTO D'ARMI USO SPORTIVO",
+    "value": "PORTO D'ARMI USO SPORTIVO"
+  },
+  {
+    "text": "PORTO FUCILE DIF. PERSON.",
+    "value": "PORTO FUCILE DIF. PERSON."
+  },
+  {
+    "text": "PORTO FUCILE USO CACCIA",
+    "value": "PORTO FUCILE USO CACCIA"
+  },
+  {
+    "text": "PORTO PISTOLA DIF. PERSON",
+    "value": "PORTO PISTOLA DIF. PERSON"
+  },
+  {
+    "text": "TES. ENTE NAZ. ASSIS.VOLO",
+    "value": "TES. ENTE NAZ. ASSIS.VOLO"
+  },
+  {
+    "text": "TES. FERROV. EX DEPUTATI",
+    "value": "TES. FERROV. EX DEPUTATI"
+  },
+  {
+    "text": "TES. FERROVIARIA DEPUTATI",
+    "value": "TES. FERROVIARIA DEPUTATI"
+  },
+  {
+    "text": "TES. POSTE E TELECOMUNIC.",
+    "value": "TES. POSTE E TELECOMUNIC."
+  },
+  {
+    "text": "TES. UNICO PER LA CAMERA",
+    "value": "TES. UNICO PER LA CAMERA"
+  },
+  {
+    "text": "TES.DOGANALE RIL.MIN.FIN.",
+    "value": "TES.DOGANALE RIL.MIN.FIN."
+  },
+  {
+    "text": "TESS. AG. E AG.SC. C.F.S.",
+    "value": "TESS. AG. E AG.SC. C.F.S."
+  },
+  {
+    "text": "TESS. AGENTI/ASS.TI P.P.",
+    "value": "TESS. AGENTI/ASS.TI P.P."
+  },
+  {
+    "text": "TESS. AGENTI/ASS.TI P.S.",
+    "value": "TESS. AGENTI/ASS.TI P.S."
+  },
+  {
+    "text": "TESS. APP.TO AG.CUSTODIA",
+    "value": "TESS. APP.TO AG.CUSTODIA"
+  },
+  {
+    "text": "TESS. APP.TO CARABINIERI",
+    "value": "TESS. APP.TO CARABINIERI"
+  },
+  {
+    "text": "TESS. APP.TO FINANZIERE",
+    "value": "TESS. APP.TO FINANZIERE"
+  },
+  {
+    "text": "TESS. APP.TO/VIG. URBANO",
+    "value": "TESS. APP.TO/VIG. URBANO"
+  },
+  {
+    "text": "TESS. APP.TO/VIG. VV.FF.",
+    "value": "TESS. APP.TO/VIG. VV.FF."
+  },
+  {
+    "text": "TESS. CONSIGLIO DI STATO",
+    "value": "TESS. CONSIGLIO DI STATO"
+  },
+  {
+    "text": "TESS. CORTE D'APPELLO",
+    "value": "TESS. CORTE D'APPELLO"
+  },
+  {
+    "text": "TESS. CORTE DEI CONTI",
+    "value": "TESS. CORTE DEI CONTI"
+  },
+  {
+    "text": "TESS. FERROV. SENATO",
+    "value": "TESS. FERROV. SENATO"
+  },
+  {
+    "text": "TESS. FUNZIONARI P.S.",
+    "value": "TESS. FUNZIONARI P.S."
+  },
+  {
+    "text": "TESS. IDENTIF.TELECOM IT.",
+    "value": "TESS. IDENTIF.TELECOM IT."
+  },
+  {
+    "text": "TESS. ISCR. ALBO MED/CHI.",
+    "value": "TESS. ISCR. ALBO MED/CHI."
+  },
+  {
+    "text": "TESS. ISCRIZ. ALBO ODONT.",
+    "value": "TESS. ISCRIZ. ALBO ODONT."
+  },
+  {
+    "text": "TESS. ISPETTORI P.P.",
+    "value": "TESS. ISPETTORI P.P."
+  },
+  {
+    "text": "TESS. ISPETTORI P.S.",
+    "value": "TESS. ISPETTORI P.S."
+  },
+  {
+    "text": "TESS. MEMBRO EQUIP. AEREO",
+    "value": "TESS. MEMBRO EQUIP. AEREO"
+  },
+  {
+    "text": "TESS. MILIT. M.M.",
+    "value": "TESS. MILIT. M.M."
+  },
+  {
+    "text": "TESS. MILIT. TRUPPA SISMI",
+    "value": "TESS. MILIT. TRUPPA SISMI"
+  },
+  {
+    "text": "TESS. MILITARE E.I.",
+    "value": "TESS. MILITARE E.I."
+  },
+  {
+    "text": "TESS. MILITARE NATO",
+    "value": "TESS. MILITARE NATO"
+  },
+  {
+    "text": "TESS. MILITARE TRUPPA A.M",
+    "value": "TESS. MILITARE TRUPPA A.M"
+  },
+  {
+    "text": "TESS. MIN. AFFARI ESTERI",
+    "value": "TESS. MIN. AFFARI ESTERI"
+  },
+  {
+    "text": "TESS. MIN.BEN.E ATT.CULT.",
+    "value": "TESS. MIN.BEN.E ATT.CULT."
+  },
+  {
+    "text": "TESS. MIN.PUBB.ISTRUZIONE",
+    "value": "TESS. MIN.PUBB.ISTRUZIONE"
+  },
+  {
+    "text": "TESS. MINIST. TRASP/NAVIG",
+    "value": "TESS. MINIST. TRASP/NAVIG"
+  },
+  {
+    "text": "TESS. MINISTERO DIFESA",
+    "value": "TESS. MINISTERO DIFESA"
+  },
+  {
+    "text": "TESS. MINISTERO FINANZE",
+    "value": "TESS. MINISTERO FINANZE"
+  },
+  {
+    "text": "TESS. MINISTERO GIUSTIZIA",
+    "value": "TESS. MINISTERO GIUSTIZIA"
+  },
+  {
+    "text": "TESS. MINISTERO INTERNO",
+    "value": "TESS. MINISTERO INTERNO"
+  },
+  {
+    "text": "TESS. MINISTERO LAVORI PU",
+    "value": "TESS. MINISTERO LAVORI PU"
+  },
+  {
+    "text": "TESS. MINISTERO SANITA'",
+    "value": "TESS. MINISTERO SANITA'"
+  },
+  {
+    "text": "TESS. MINISTERO TESORO",
+    "value": "TESS. MINISTERO TESORO"
+  },
+  {
+    "text": "TESS. ORDINE GIORNALISTI",
+    "value": "TESS. ORDINE GIORNALISTI"
+  },
+  {
+    "text": "TESS. PARLAMENTARI",
+    "value": "TESS. PARLAMENTARI"
+  },
+  {
+    "text": "TESS. PERS. MAGISTRATI",
+    "value": "TESS. PERS. MAGISTRATI"
+  },
+  {
+    "text": "TESS. POL. TRIB. G.D.F.",
+    "value": "TESS. POL. TRIB. G.D.F."
+  },
+  {
+    "text": "TESS. POLIZIA FEMMINILE",
+    "value": "TESS. POLIZIA FEMMINILE"
+  },
+  {
+    "text": "TESS. PRES.ZA CONS. MIN.",
+    "value": "TESS. PRES.ZA CONS. MIN."
+  },
+  {
+    "text": "TESS. PUBBLICA ISTRUZIONE",
+    "value": "TESS. PUBBLICA ISTRUZIONE"
+  },
+  {
+    "text": "TESS. S.I.S.D.E.",
+    "value": "TESS. S.I.S.D.E."
+  },
+  {
+    "text": "TESS. SOTT.LI AG.CUSTODIA",
+    "value": "TESS. SOTT.LI AG.CUSTODIA"
+  },
+  {
+    "text": "TESS. SOTT.LI G.D.F.",
+    "value": "TESS. SOTT.LI G.D.F."
+  },
+  {
+    "text": "TESS. SOTT.LI VIG. URBANI",
+    "value": "TESS. SOTT.LI VIG. URBANI"
+  },
+  {
+    "text": "TESS. SOTTUFF.LI VV.FF.",
+    "value": "TESS. SOTTUFF.LI VV.FF."
+  },
+  {
+    "text": "TESS. SOTTUFFICIALI A.M.",
+    "value": "TESS. SOTTUFFICIALI A.M."
+  },
+  {
+    "text": "TESS. SOTTUFFICIALI CC",
+    "value": "TESS. SOTTUFFICIALI CC"
+  },
+  {
+    "text": "TESS. SOTTUFFICIALI E.I.",
+    "value": "TESS. SOTTUFFICIALI E.I."
+  },
+  {
+    "text": "TESS. SOTTUFFICIALI SISMI",
+    "value": "TESS. SOTTUFFICIALI SISMI"
+  },
+  {
+    "text": "TESS. SOTTUFICIALI C.F.S.",
+    "value": "TESS. SOTTUFICIALI C.F.S."
+  },
+  {
+    "text": "TESS. SOTTUFICIALI M.M.",
+    "value": "TESS. SOTTUFICIALI M.M."
+  },
+  {
+    "text": "TESS. SOVRINTENDENTI P.P.",
+    "value": "TESS. SOVRINTENDENTI P.P."
+  },
+  {
+    "text": "TESS. SOVRINTENDENTI P.S.",
+    "value": "TESS. SOVRINTENDENTI P.S."
+  },
+  {
+    "text": "TESS. UFF.LI AG.CUSTODIA",
+    "value": "TESS. UFF.LI AG.CUSTODIA"
+  },
+  {
+    "text": "TESS. UFF.LI VIG.URBANI",
+    "value": "TESS. UFF.LI VIG.URBANI"
+  },
+  {
+    "text": "TESS. UFFICIALE",
+    "value": "TESS. UFFICIALE"
+  },
+  {
+    "text": "TESS. UFFICIALI A.M.",
+    "value": "TESS. UFFICIALI A.M."
+  },
+  {
+    "text": "TESS. UFFICIALI C.F.S.",
+    "value": "TESS. UFFICIALI C.F.S."
+  },
+  {
+    "text": "TESS. UFFICIALI E.I.",
+    "value": "TESS. UFFICIALI E.I."
+  },
+  {
+    "text": "TESS. UFFICIALI G.D.F.",
+    "value": "TESS. UFFICIALI G.D.F."
+  },
+  {
+    "text": "TESS. UFFICIALI M.M.",
+    "value": "TESS. UFFICIALI M.M."
+  },
+  {
+    "text": "TESS. UFFICIALI P.P.",
+    "value": "TESS. UFFICIALI P.P."
+  },
+  {
+    "text": "TESS. UFFICIALI P.S.",
+    "value": "TESS. UFFICIALI P.S."
+  },
+  {
+    "text": "TESS. UFFICIALI SISMI",
+    "value": "TESS. UFFICIALI SISMI"
+  },
+  {
+    "text": "TESS. UFFICIALI VV.FF.",
+    "value": "TESS. UFFICIALI VV.FF."
+  },
+  {
+    "text": "TESS.ISCR. ALBO INGEGNERI",
+    "value": "TESS.ISCR. ALBO INGEGNERI"
+  },
+  {
+    "text": "TESS.ISCR.ALBO ARCHITETTI",
+    "value": "TESS.ISCR.ALBO ARCHITETTI"
+  },
+  {
+    "text": "TESS.MIN.POLIT.AGRIC.FOR.",
+    "value": "TESS.MIN.POLIT.AGRIC.FOR."
+  },
+  {
+    "text": "TESSERA DELL'ORDINE NOTAI",
+    "value": "TESSERA DELL'ORDINE NOTAI"
+  },
+  {
+    "text": "TESSERA ISCR. ALBO AVVOC.",
+    "value": "TESSERA ISCR. ALBO AVVOC."
+  },
+  {
+    "text": "TESSERA RICONOSC. D.I.A.",
+    "value": "TESSERA RICONOSC. D.I.A."
+  },
+  {
+    "text": "TESSERA U.N.U.C.I.",
+    "value": "TESSERA U.N.U.C.I."
+  },
+  {
+    "text": "TITOLO VIAGGIO RIF.POLIT.",
+    "value": "TITOLO VIAGGIO RIF.POLIT."
+  }
+]

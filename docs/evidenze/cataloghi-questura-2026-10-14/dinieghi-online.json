@@ -1,0 +1,52 @@
+[
+  {
+    "path": "tipo_alloggiato/create",
+    "esito": "403 visibile",
+    "testo": "403\nCATALOGO UFFICIALE: CREAZIONE NON CONSENTITA."
+  },
+  {
+    "path": "tipo_alloggiato/1/edit",
+    "esito": "403 visibile",
+    "testo": "403\nRECORD BLOCCATO DALLA QUESTURA E NON MODIFICABILE."
+  },
+  {
+    "path": "tipo_alloggiato/1",
+    "esito": "403 visibile",
+    "testo": "403\nRECORD BLOCCATO DALLA QUESTURA E NON MODIFICABILE."
+  },
+  {
+    "path": "tipo_documento/create",
+    "esito": "403 visibile",
+    "testo": "403\nCATALOGO UFFICIALE: CREAZIONE NON CONSENTITA."
+  },
+  {
+    "path": "tipo_documento/1/edit",
+    "esito": "403 visibile",
+    "testo": "403\nRECORD BLOCCATO DALLA QUESTURA E NON MODIFICABILE."
+  },
+  {
+    "path": "tipo_documento/1",
+    "esito": "403 visibile",
+    "testo": "403\nCATALOGO UFFICIALE: CONSULTAZIONE DETTAGLIO NON CONSENTITA."
+  },
+  {
+    "path": "tipo_alloggiato?q[]=forgiato",
+    "esito": "400 visibile",
+    "testo": "Oops! An Error Occurred\nThe server returned a \"400 Bad Request\".\n\nSomething is broken. Please let us know what you were doing when this error occurred. We will fix it as soon as possible. Sorry for any inconvenience caused."
+  },
+  {
+    "path": "tipo_documento?q[]=forgiato",
+    "esito": "400 visibile",
+    "testo": "Oops! An Error Occurred\nThe server returned a \"400 Bad Request\".\n\nSomething is broken. Please let us know what you were doing when this error occurred. We will fix it as soon as possible. Sorry for any inconvenience caused."
+  },
+  {
+    "path": "tipo_alloggiato/999999/edit",
+    "esito": "404 visibile",
+    "testo": "404\nNOT FOUND"
+  },
+  {
+    "path": "tipo_documento/999999/edit",
+    "esito": "404 visibile",
+    "testo": "404\nNOT FOUND"
+  }
+]
