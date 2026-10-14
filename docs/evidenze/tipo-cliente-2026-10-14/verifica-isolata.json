@@ -56,7 +56,7 @@
     "app/Models/TipoCliente.php": "1ab5f0ae47535b5a9752a8f575a035ac067d4a31ee3c2f616a28cbb0514f2cda",
     "app/Services/CestinoService.php": "9b2f12b59ce9eaba4a9c1a551ee7ae5bacc4e2446231ac31052119ca4f547167",
     "app/Services/TipoClienteSistemaService.php": "b5b9097776f8a30efaae57c02967ba1dfd9cfc4f25f7512710f445dea38bdae3",
-    "database/migrations/2026_02_28_000001_normalize_classificazioni.php": "8e9408ec9ed3cb7e94eadbe428c323ae5720d502cf14f0fdb1d7debc3be5b9f3",
+    "database/migrations/2026_02_28_000001_normalize_classificazioni.php": "5edb8dfd6002901a90d79ec8b287142ed8b7678d5c25409278c26941de065fd6",
     "database/migrations/2026_10_14_030000_initialize_tipo_cliente_sistema.php": "db961201570d0e1adf5718d17554792cff0d602612d9c1d11ad9fff1f106cf93",
     "database/seeders/TipoClienteSeeder.php": "9d4b66882ed1b1221decb120bb42f4dc799bfa81ef4e473b21394b8dc9c5851c",
     "resources/views/components/crud-table.blade.php": "ac5dbe3cfab9a1da49702269706bf66408ffd54d45f9bd61c3189a78bfe5c3a6",
@@ -70,12 +70,19 @@
     "tests/Diagnostics/TipoClienteRefreshDiagnosticTest.php": "826f151680caf06f52feab8aad573787acb0dcef9eb760f7bf89d740618e32d0",
     "app/Http/Controllers/SchedinaController.php": "5bcc051b3df7b6d6a32321b8be497f8978f8819a7942b0e566751bc3c1b76028",
     "app/Http/Controllers/CustomerImportController.php": "961ac30aae865c498231d64c692fd49c4f91266cdcea56b1419071523e48f04b",
-    "app/Http/Controllers/CustomerExportController.php": "11132b06f5d03553c440aa7e0f38169f0ff19fd2daa5fad3f28b58957d0863fd"
+    "app/Http/Controllers/CustomerExportController.php": "11132b06f5d03553c440aa7e0f38169f0ff19fd2daa5fad3f28b58957d0863fd",
+    "database/migrations/2026_02_28_000000_prepare_classificazioni_index_for_normalize.php": "818cd966eb55fc75539a197857882078d0e79c5fb2266d594dec6b87919aadfe"
   },
   "log_sha256": {
     "test-finale.log": "5bb8083954414434c236f9f8a1ed4730e740b0ac17f28059ea63fec00930e79b",
     "guardie.log": "536c011937bfc07d0b93265a981d9b6ffbc3a5d0a1983ff60688aae25407b35f",
-    "browser-finale.log": "9602facfa26878f083195fb8491048e35a2427d16a79032cceed75e003ca2765"
+    "browser-finale.log": "9602facfa26878f083195fb8491048e35a2427d16a79032cceed75e003ca2765",
+    "test-migrazione-additiva-03.log": "96fd14aa02607aa8f81bf53326f521bed7522788e3e7d5318643051e1a696b65"
   },
-  "rilascio": "PENDENTE"
+  "rilascio": "RUN1 recuperato DD, candidato additivo PENDENTE",
+  "migrazione_originale_immutabile_DD": true,
+  "nuove_migrazioni": [
+    "database/migrations/2026_02_28_000000_prepare_classificazioni_index_for_normalize.php",
+    "database/migrations/2026_10_14_030000_initialize_tipo_cliente_sistema.php"
+  ]
 }
