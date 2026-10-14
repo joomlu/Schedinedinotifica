@@ -130,5 +130,20 @@
     "secondi": 917.9212884521112,
     "campioni": 31,
     "sonde_HTTP_TLS_CSS": 279
+  },
+  "allineamento_documentale_precedente": {
+    "sha": "b81f0d3feca45016c5c014a4bae7ff0f9f005d4a",
+    "PREPARE": "PASS",
+    "RUN": "STOP_VERIFICATORE_PRIMA_ATTESTAZIONE_S0",
+    "decisione": "BASELINE_NON_MODIFICATA",
+    "baseline": "23a4de8c2de7834cbbe9ec26a9ea2617f30e0e80",
+    "nessun_execute_o_DDL": true,
+    "guardiano": "PASS_GUARDIANO",
+    "rientro_secondi": 117.36871218681335,
+    "recupero_secondi": 2.9893043518532068,
+    "tutte_sonde_e_salute": true,
+    "byte_recuperati_soli_derivati_propri_verificati": 2024419328,
+    "inizializzazione_DB_sintetico_dopo_spazio": "PASS",
+    "originali_SQL_cifrati_chiavi_preservati": true
   }
 }
