@@ -58,7 +58,3 @@ Originali globali ID1 `Sig.s`/Signore e ID4 `Sigg.`/Signori: assenti dalla base8
 ## Tipo cliente — valore cliente legacy del 14 ottobre 2026
 
 Ricognizione readonly sulla baseline dd847206: catalogo esattamente3codici ufficiali attivi, senza extra o riferimenti FK. In clienti.type_housed un valore vuoto preesistente, conservato; altre classificazioni11Ospite/1Componente/1Richiesta. Nessuna evidenza autorizza a dedurre la classificazione mancante: eventuale completamento del singolo cliente richiede i suoi dati e il flusso ordinario, fuori dall'immutabilità del catalogo. Nessuna riclassificazione automatica o dato personale pubblicato; limite non equivale a errore del nuovo catalogo. [Consuntivo](CORREZIONE-TIPO-CLIENTE-2026-10-14.md).
-
-## Tipo cliente — rilascio in attesa di autorizzazione capacità VM
-
-Candidatoadditivo1dc918e/test49-330/Chromium2PASS; produzioneDDbaseline integra riaperta, nuovo codice nononline. Riceventeufficiale16GiB senza margine stabile; auto-review harespinto aumento16→24GiB/stop-start non specificamente autorizzati. Proposta noneseguita néaggirata, approvazioneesplicita richiesta. Restano PREPARE/RUNfresco, browser/monitoronline eSHAallineato dopo soluzione autorizzata della capacità. [Consuntivo eproposta](CORREZIONE-TIPO-CLIENTE-2026-10-14.md#rilascio-additivo-e-blocco-infrastrutturale). TIPOCLIENTE NONCONFERMATO, BASELINE IN AUDIT.

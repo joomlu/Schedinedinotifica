@@ -1,0 +1,22 @@
+{
+  "esito": "PASS_AMPLIAMENTO_AUTORIZZATO",
+  "VM": "schedine-sviluppo-interno",
+  "disco_prima_GiB": 16,
+  "disco_dopo_GiB": 24,
+  "backup_originale": "Copia APFS CoW privata nella directory della VM, FileVault attivo",
+  "SHA256_originale_16GiB": "fc4d044be64b4b66e61b19a658c3880e057ac8a71f36cb3d23c6fa2c56d55fe5",
+  "byte_originale": 17179869184,
+  "SHA_originale_copia_identici": true,
+  "CPU": 2,
+  "RAM_GiB": 2,
+  "UUID_root_conservato": "adbc700e-905a-4aa3-90a2-084cd25fcc12",
+  "SELinux": "Enforcing",
+  "guardie_dopo_riavvio": {
+    "test": 17,
+    "esito": "PASS",
+    "log_sha256": "4ad4340e402f47bb2567f01fc21f59fa1f2abe6b6e2294a94332b6faa23db014"
+  },
+  "autorizzazione": "S\u00ec, autorizzo ampliamento e riavvio",
+  "nessuna_eliminazione_storico": true,
+  "diagnostico_PATH_incompleto_conservato": true
+}

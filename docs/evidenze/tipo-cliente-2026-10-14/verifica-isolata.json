@@ -79,10 +79,11 @@
     "browser-finale.log": "9602facfa26878f083195fb8491048e35a2427d16a79032cceed75e003ca2765",
     "test-migrazione-additiva-03.log": "96fd14aa02607aa8f81bf53326f521bed7522788e3e7d5318643051e1a696b65"
   },
-  "rilascio": "RUN1 recuperato DD, candidato additivo PENDENTE",
+  "rilascio": "C5 RUN3 PASS, codice8ebf420 online; ultimo consuntivo da allineare con C5 prima risposta finale",
   "migrazione_originale_immutabile_DD": true,
   "nuove_migrazioni": [
     "database/migrations/2026_02_28_000000_prepare_classificazioni_index_for_normalize.php",
     "database/migrations/2026_10_14_030000_initialize_tipo_cliente_sistema.php"
-  ]
+  ],
+  "guardie_dopo_riavvio": 17
 }
