@@ -68,4 +68,28 @@ class GeoLogoAtomicitaTest extends TestCase
         $this->assertSame('storage/'.$old, $comune->fresh()->logo_citta);
         $this->assertSame([$old], Storage::disk('public')->allFiles());
     }
+
+    public function test_due_percorsi_legacy_distinti_non_lasciano_file_orfani(): void
+    {
+        Storage::fake('public');
+        $this->actingAs(Fixture::user('admin'));
+        $comune = Fixture::comune();
+        $a = Fixture::existingLogo($comune);
+        $b = 'geo_comuni/logo/'.$comune->id.'-secondo-legacy.png';
+        Storage::disk('public')->put($b, Fixture::image());
+        $comune->update(['logo' => 'storage/'.$b]);
+        try {
+            $this->post('/geo/comuni/'.$comune->id.'/logo', ['logo' => Fixture::upload('nuovo.png')])->assertSessionHasNoErrors();
+        } finally {
+            Fixture::releaseUploads();
+        }
+        Storage::disk('public')->assertMissing($a);
+        Storage::disk('public')->assertMissing($b);
+        $new = substr($comune->fresh()->logo_citta, strlen('storage/'));
+        $this->assertSame([$new], Storage::disk('public')->allFiles());
+        Storage::disk('public')->put($b, Fixture::image());
+        $comune->refresh()->update(['logo' => 'storage/'.$b]);
+        $this->delete('/geo/comuni/'.$comune->id.'/logo')->assertSessionHasNoErrors();
+        $this->assertSame([], Storage::disk('public')->allFiles());
+    }
 }

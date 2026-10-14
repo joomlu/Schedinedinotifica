@@ -49,9 +49,9 @@ class GeoComuneLogoController extends Controller
             if (!$storedPath) {
                 throw new \RuntimeException('Scrittura del logo non riuscita.');
             }
-            $oldLogo = \Illuminate\Support\Facades\DB::transaction(function () use ($id, $storedPath) {
+            $oldLogos = \Illuminate\Support\Facades\DB::transaction(function () use ($id, $storedPath) {
                 $comune = GeoComune::whereKey($id)->lockForUpdate()->firstOrFail();
-                $old = $comune->logo_citta ?? $comune->logo;
+                $old = array_filter([$comune->logo_citta, $comune->logo]);
                 $comune->update(['logo_citta' => 'storage/'.$storedPath, 'logo' => null]);
                 return $old;
             });
@@ -60,7 +60,7 @@ class GeoComuneLogoController extends Controller
             report($error);
             throw \Illuminate\Validation\ValidationException::withMessages(['logo' => 'Caricamento non riuscito. Il logo precedente è stato conservato.']);
         }
-        $this->deleteOldLogo($oldLogo);
+        foreach (array_unique($oldLogos) as $oldLogo) $this->deleteOldLogo($oldLogo);
         return redirect()->route('geo.comuni.logo', ['q' => $request->input('q')])->with('success', 'Logo caricato correttamente.');
     }
 
@@ -69,11 +69,11 @@ class GeoComuneLogoController extends Controller
         $request->validate(['q' => ['nullable', 'string', 'max:191']]);
         $old = \Illuminate\Support\Facades\DB::transaction(function () use ($id) {
             $comune = GeoComune::whereKey($id)->lockForUpdate()->firstOrFail();
-            $old = $comune->logo_citta ?? $comune->logo;
+            $old = array_filter([$comune->logo_citta, $comune->logo]);
             $comune->update(['logo_citta' => null, 'logo' => null]);
             return $old;
         });
-        $this->deleteOldLogo($old);
+        foreach (array_unique($old) as $path) $this->deleteOldLogo($path);
         return redirect()->route('geo.comuni.logo', ['q' => $request->input('q')])->with('success', 'Logo rimosso.');
     }
 

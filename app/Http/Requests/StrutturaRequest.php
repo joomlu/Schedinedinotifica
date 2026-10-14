@@ -16,6 +16,9 @@ class StrutturaRequest extends FormRequest
     public function authorize(): bool
     {
         \App\Support\StrutturaAccess::authorized($this);
+        if ($this->hasFile('logo_citta') || $this->hasFile('logo_citta_upload')) {
+            return $this->user()->isAdmin() || $this->user()->isSuperAdmin();
+        }
         return true;
     }
 
@@ -97,7 +100,8 @@ class StrutturaRequest extends FormRequest
             'cir' => ['nullable', 'string', 'max:50', 'regex:/^[A-Z0-9\\-\\/]+$/'],
             'data_apertura' => 'nullable|date',
             'data_chiusura' => 'nullable|date',
-            'logo_citta' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
+            'logo_citta' => 'nullable|file|image|mimes:jpg,jpeg,png,webp|max:2048|dimensions:max_width=4096,max_height=4096',
+            'logo_citta_upload' => 'nullable|file|image|mimes:jpg,jpeg,png,webp|max:4096|dimensions:max_width=4096,max_height=4096',
             'zona' => ['nullable', 'string', 'max:100', "regex:/^[\\pL\\pN\\s\\-\\.']+$/u"],
             'localita' => ['nullable', 'string', 'max:150', "regex:/^[\\pL\\pN\\s\\-\\.']+$/u"],
             'numero_civico' => ['nullable', 'string', 'max:20', 'regex:/^[\\pL\\pN\\s\\-\\/]+$/u'],

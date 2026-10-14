@@ -13,9 +13,10 @@
     "reference/questura/tipi.csv": "3cf46914cf9806e9b0d2307c27bfcf67f849de1432c65ff7e8603cd74b69f4cd"
   },
   "sorgenti_verificati_sha256": {
-    "app/Http/Controllers/GeoComuneLogoController.php": "4641a6153290c54c79c3ea868a321dc33ec2f6144b6b4b4aa4fe5496d36aa397",
+    "app/Http/Controllers/GeoComuneLogoController.php": "92f7bbc302d1711437c299af294e11d55dad7ad3fa6cfe9f3857ee4a33992e66",
     "app/Http/Controllers/RilasciatoDaController.php": "0c8a8320c16f6ed6075f43005b640a8fcf130ec1705855aa952a69207944d3d3",
     "app/Http/Controllers/TipoViaController.php": "dd15872f25aefa8f517357da843b59a3dee52f92880f206af32c3cb47c8f7fd6",
+    "app/Http/Requests/StrutturaRequest.php": "6752c19795dd7a0082f2475fc7dd7c905883c4c6e588d729d536e022a91890b6",
     "app/Models/RilasciatoDa.php": "4a83503945fc595399ec21865bb5a1616bcb62cdccc92586106710afcbb61125",
     "app/Models/Struttura.php": "bd0ab4827be067b6953f4c174afd799b20066865e8cc460c0ab83e67f27e7187",
     "app/Models/TipoVia.php": "61e66a9593b4a70f87219f14fb5def326100edfe2e3545c8c22c3df865d68751",
@@ -37,8 +38,9 @@
     "tests/Feature/CataloghiIndirizziAuditTest.php": "c02cb5cf32cd6da37200216895b78e6f0e0aebc627b8dec44d6c9a3cd5cb4aeb",
     "tests/Feature/CataloghiIndirizziTenantTest.php": "0c36150bb263bbd7cce2269388d6c06933cf0582794a6e9a871bf66cf0566768",
     "tests/Feature/GeoComuneLogoTest.php": "2e988be49abd107161f44a3a4cd594982119a98e5f20880be760e6673e1eafaa",
-    "tests/Feature/GeoLogoAtomicitaTest.php": "2bbadc9d3c47467d8ea1e3aba7a77f878a5440fa787d0156d5fe7b138f6ded04",
-    "tests/Feature/tre-configurazioni.playwright.spec.js": "517cb191ecb71bae269b9e4f106d5b3866b4de72e1de77535f183bd4e651c7bd",
+    "tests/Feature/GeoLogoAtomicitaTest.php": "2327eef46a57e523ec2bcb462f8a2c0724b47f169e1f3ccb71afe52b6b8f0c5a",
+    "tests/Feature/GeoLogoIngressoAlternativoTest.php": "a1092b3820e4744cddc6ae7eab022597d11a3b604e6731ba7452227d62e15104",
+    "tests/Feature/tre-configurazioni.playwright.spec.js": "a0ba84d26f2f112cc2397ebadbf4c4bddf11ecf57e421519b3d411b36e2101ab",
     "tests/Isolation/run.py": "aecb88c1009d6f90974a0706b3c57aff4f53fa92458ee08d6c78e470134c2b8e",
     "tests/Isolation/seed-tre-configurazioni.php": "eef6e3d08bd245dede71f1ee22b8c637bdb79b2603867ac7433b7a9dc3739ee8"
   }

@@ -10,16 +10,19 @@ await page.locator('[name="login"]').fill(`fixture-${role}`);
 await page.locator('[name="password"]').fill('Password-fixture-123!');
 await page.getByRole('button',{name:'Entra',exact:true}).click();
 await expect(page).not.toHaveURL(/\/login$/);
+await page.waitForLoadState('networkidle');
 };
 
 const finish=async(page,label)=>{await page.getByRole('button',{name:label,exact:true}).click();
 await Promise.all([page.waitForNavigation(),page.getByRole('button',{name:'OK',exact:true}).click()]);
 const ok=page.getByRole('button',{name:'OK',exact:true});
 if(await ok.isVisible())await ok.click();
+await page.waitForLoadState('networkidle');
 };
 
 const search=async(page,id,value)=>{await page.locator(id).fill(value);
 await Promise.all([page.waitForNavigation(),page.locator(id).press('Enter')]);
+await page.waitForLoadState('networkidle');
 };
 
 
@@ -34,13 +37,15 @@ await login(page,'super_admin');
   await page.goto(BASE_URL+c.url);
 await expect(page.locator(c.table+' tr[data-id]')).toHaveCount(10);
 
-  await page.locator('.pagination a').filter({hasText:'2'}).click();
+  await Promise.all([page.waitForNavigation({waitUntil:'load'}),page.locator('.pagination a').filter({hasText:'2'}).click()]);
+await page.waitForLoadState('networkidle');
 await expect(page).toHaveURL(/page=2/);
 await expect(page.locator(c.table+' tr[data-id]')).toHaveCount(10);
 
   await page.locator(`[data-bs-target="#modal${c.modal}Create"]`).click();
 const modal=page.locator(`#modal${c.modal}Create`);
 await modal.locator(`[name="${c.key}"]`).fill('Annullato');
+await expect(modal.locator('.modal-dialog')).toHaveCSS('transform','none');
 await modal.getByRole('button',{name:'Chiudi',exact:true}).click();
 await expect(modal).not.toBeVisible();
 
@@ -60,7 +65,8 @@ if(c.key==='abbr')await expect(page.locator(c.table)).toContainText('Disattivo')
   await modal.locator(`[name="${c.key}"]`).fill('PrivataBrowser');
   await modal.getByRole('button',{name:'Salva',exact:true}).click();await finish(page,'Sì, salva');
   await expect(modal).toBeVisible();await expect(modal.locator(`[name="${c.key}"]`)).toHaveValue('PrivataBrowser');
-  await modal.getByRole('button',{name:'Chiudi',exact:true}).click();await expect(modal).not.toBeVisible();
+  await expect(modal.locator('.modal-dialog')).toHaveCSS('transform','none');
+await modal.getByRole('button',{name:'Chiudi',exact:true}).click();await expect(modal).not.toBeVisible();
   const id=await page.locator(c.table+' tr[data-id]').getAttribute('data-id');
 records.push({...c,id});
 
