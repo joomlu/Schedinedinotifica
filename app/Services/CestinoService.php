@@ -33,21 +33,21 @@ class CestinoService
 {
     // La natura dell'entità dipende dalla classe, non dall'etichetta o dal solo NULL.
     public const TENANT_CLASSES = [
-        Customers::class, Schedina::class, Componenti::class, WebCheckinRichiesta::class, Gruppo::class, Titolo::class,
+        Customers::class, Schedina::class, Componenti::class, WebCheckinRichiesta::class, Gruppo::class, Titolo::class, TipoVia::class, RilasciatoDa::class,
         TassaEsenzione::class, LicenzaAssegnazione::class,
     ];
 
     public const GLOBAL_CLASSES = [
         User::class, Proprietario::class, Struttura::class, LicenzaArticolo::class,
-        TipoCliente::class, TipoVia::class,
-        TipoDocumento::class, RilasciatoDa::class,
+        TipoCliente::class,
+        TipoDocumento::class,
     ];
 
     public function archiveModel(Model $model, array $meta = []): CestinoItem
     {
         abort_if($model instanceof TipoAlloggiato || $model instanceof TipoDocumento, 403, 'Catalogo ufficiale Questura: non modificabile.');
         abort_if($model instanceof TipoCliente, 403, 'Classificazioni predefinite del sistema, non modificabili.');
-        if (in_array(get_class($model), [Gruppo::class, Titolo::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true)) {
+        if (in_array(get_class($model), [Gruppo::class, Titolo::class, TipoVia::class, RilasciatoDa::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true)) {
             if (DB::transactionLevel() === 0) {
                 return DB::transaction(fn () => $this->archiveModel($model, $meta));
             }
@@ -146,7 +146,7 @@ class CestinoService
         abort_if(in_array($item->entity_class, [TipoAlloggiato::class, TipoDocumento::class], true), 403, 'Catalogo ufficiale Questura: non modificabile.');
         abort_if($item->entity_class === TipoCliente::class, 403, 'Classificazioni predefinite del sistema, non modificabili.');
         return DB::transaction(function () use ($item) {
-            if (in_array($item->entity_class, [Gruppo::class, Titolo::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true) && $item->struttura_id) {
+            if (in_array($item->entity_class, [Gruppo::class, Titolo::class, TipoVia::class, RilasciatoDa::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true) && $item->struttura_id) {
                 DB::table('struttura')->where('id', $item->struttura_id)->lockForUpdate()->first();
                 $item->refresh();
             }
@@ -159,9 +159,9 @@ class CestinoService
                 Gruppo::class => $this->restoreGruppo($payload),
                 Titolo::class => $this->restoreTitolo($payload),
                 TipoCliente::class => $this->restoreSimpleModel(TipoCliente::class, $payload),
-                TipoVia::class => $this->restoreSimpleModel(TipoVia::class, $payload),
+                TipoVia::class => $this->restoreCatalogoIndirizzi(TipoVia::class, $payload),
                 TipoDocumento::class => $this->restoreSimpleModel(TipoDocumento::class, $payload),
-                RilasciatoDa::class => $this->restoreSimpleModel(RilasciatoDa::class, $payload),
+                RilasciatoDa::class => $this->restoreCatalogoIndirizzi(RilasciatoDa::class, $payload),
                 TassaEsenzione::class => $this->restoreSimpleModel(TassaEsenzione::class, $payload),
                 User::class => $this->restoreAmministratore($payload),
                 Proprietario::class => $this->restoreProprietario($payload),
@@ -539,6 +539,21 @@ class CestinoService
             }
         }
 
+        return $this->restoreSimpleModel($class, $payload);
+    }
+
+    private function restoreCatalogoIndirizzi(string $class, array $payload): Model
+    {
+        $sid = (int) ($payload['struttura_id'] ?? 0);
+        if (!$sid || !\App\Support\StrutturaAccess::query(auth()->user(), true)->whereKey($sid)->exists()
+            || \App\Support\StrutturaCorrente::getId() !== $sid) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['catalogo' => 'Il record storico non ha una struttura autorizzata: originale conservato senza attribuzione.']);
+        }
+        DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
+        $field = $class === TipoVia::class ? 'abbr' : 'name';
+        if (DB::table((new $class)->getTable())->where('struttura_id', $sid)->where($field, $payload[$field])->exists()) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['catalogo' => 'Il record esiste già nella struttura. Nessun dato è stato sovrascritto.']);
+        }
         return $this->restoreSimpleModel($class, $payload);
     }
 

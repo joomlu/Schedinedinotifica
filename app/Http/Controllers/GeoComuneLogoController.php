@@ -11,6 +11,8 @@ class GeoComuneLogoController extends Controller
 {
     public function index(Request $request)
     {
+        abort_if(is_array($request->query('q')), 400);
+        $request->validate(['q' => ['nullable', 'string', 'max:191']]);
         $q = trim((string) $request->input('q', ''));
 
         $comuni = GeoComune::query()
@@ -35,35 +37,43 @@ class GeoComuneLogoController extends Controller
         $comune = GeoComune::findOrFail($id);
 
         $data = $request->validate([
-            'logo' => ['required', 'file', 'image', 'mimes:png,jpg,jpeg,webp', 'max:4096'],
+            'q' => ['nullable', 'string', 'max:191'],
+            'logo' => ['required', 'file', 'image', 'mimes:png,jpg,jpeg,webp', 'max:4096', 'dimensions:min_width=1,min_height=1,max_width=4096,max_height=4096'],
         ]);
 
         $file = $data['logo'];
-        $slug = Str::slug($comune->nome) ?: 'comune';
-        $filename = $comune->id . '-' . $slug . '.' . $file->extension();
-        Storage::disk('public')->makeDirectory('geo_comuni/logo');
-        $storedPath = $file->storeAs('geo_comuni/logo', $filename, 'public');
-        $publicPath = 'storage/' . $storedPath;
-
-        $oldLogo = $comune->logo_citta ?? $comune->logo;
-        if ($oldLogo !== $publicPath) {
-            $this->deleteOldLogo($oldLogo);
+        $filename = $comune->id.'-'.Str::uuid().'.'.$file->extension();
+        $storedPath = null;
+        try {
+            $storedPath = $file->storeAs('geo_comuni/logo', $filename, 'public');
+            if (!$storedPath) {
+                throw new \RuntimeException('Scrittura del logo non riuscita.');
+            }
+            $oldLogo = \Illuminate\Support\Facades\DB::transaction(function () use ($id, $storedPath) {
+                $comune = GeoComune::whereKey($id)->lockForUpdate()->firstOrFail();
+                $old = $comune->logo_citta ?? $comune->logo;
+                $comune->update(['logo_citta' => 'storage/'.$storedPath, 'logo' => null]);
+                return $old;
+            });
+        } catch (\Throwable $error) {
+            Storage::disk('public')->delete('geo_comuni/logo/'.$filename);
+            report($error);
+            throw \Illuminate\Validation\ValidationException::withMessages(['logo' => 'Caricamento non riuscito. Il logo precedente è stato conservato.']);
         }
-
-        $comune->update([
-            'logo_citta' => $publicPath,
-        ]);
-
+        $this->deleteOldLogo($oldLogo);
         return redirect()->route('geo.comuni.logo', ['q' => $request->input('q')])->with('success', 'Logo caricato correttamente.');
     }
 
     public function destroy(Request $request, int $id)
     {
-        $comune = GeoComune::findOrFail($id);
-
-        $this->deleteOldLogo($comune->logo_citta ?? $comune->logo);
-        $comune->update(['logo_citta' => null, 'logo' => null]);
-
+        $request->validate(['q' => ['nullable', 'string', 'max:191']]);
+        $old = \Illuminate\Support\Facades\DB::transaction(function () use ($id) {
+            $comune = GeoComune::whereKey($id)->lockForUpdate()->firstOrFail();
+            $old = $comune->logo_citta ?? $comune->logo;
+            $comune->update(['logo_citta' => null, 'logo' => null]);
+            return $old;
+        });
+        $this->deleteOldLogo($old);
         return redirect()->route('geo.comuni.logo', ['q' => $request->input('q')])->with('success', 'Logo rimosso.');
     }
 
@@ -75,6 +85,13 @@ class GeoComuneLogoController extends Controller
 
         if (!str_starts_with($path, 'storage/geo_comuni/logo/')) {
             return;
+        }
+
+        // I consumatori storici possono conservare questo percorso: non romperne i riferimenti.
+        if (GeoComune::where('logo_citta', $path)->orWhere('logo', $path)->exists()) return;
+        foreach (['logo_citta', 'logo_città'] as $column) {
+            if (\Illuminate\Support\Facades\Schema::hasColumn('struttura', $column)
+                && \Illuminate\Support\Facades\DB::table('struttura')->where($column, $path)->exists()) return;
         }
 
         $relative = substr($path, strlen('storage/'));

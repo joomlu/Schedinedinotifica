@@ -1,5 +1,9 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Attività corrente — Rilasciato da, Tipo Via e Geo Comuni
+
+[Consuntivo corrente](../VERIFICA-TRE-CONFIGURAZIONI-2026-10-14.md). Richiesta autorizzata di verifica/correzione/commit/push/C5 dei soli tre formulari, conservando dati e file. Baseline1510a681; lettura produttiva86autorità/198tipivia, riferimenti testuali e nessunaFK verso i due cataloghi. Difetti IDestraneo/ricercanonscalare riprodotti; adattamento al modello Gruppi e loghi con sostituzione separata/recuperabile in verifica isolata. Guardie15PASS, suite82test/921asserzioniPASS, recupero1test/25asserzioni/ridumpidenticoPASS e Chromiumdefinitivo2PASS/54,7s; pubblicazione ancora in corso. Caso JSONimport emerso nella migrazione quotidiana corretto con alias esplicito e nuova regressione; ripresa idempotente senza restore cieco,64tabelle/24.269record precedenti identici. VM152→153: due migrazioni pregresse Tipo cliente non applicate, differenza documentata fuori scope. Valori legacy senza corrispondenza conservati, nessuna attribuzione arbitraria. **NON CONFERMATI fino alle prove e al rilascio; BASELINE IN AUDIT invariata.** Modifiche estranee preservate.
+
 ## Aggiornamento corrente — Tipo alloggiato e Tipo documento verificati e pubblicati
 
 [Consuntivo definitivo](../VERIFICA-CATALOGHI-QUESTURA-2026-10-14.md). Tipo alloggiato: cinque codici/descrizioni; Tipo documento:95. Confronto integrale con download ufficiali Alloggiati Web del14ottobre2026, DB/CSV effettivi: identici, nessun extra/mancante/duplicato. Manuali alberghi pp.31–34 e WS Rev.01 del24/01/2022 pp.19–20 consultati. Nessun codice, mapping, logica Questura, relazione o migrazione modificati. Cataloghi comuni immutabili dai formulari, non personalizzabili per struttura.

@@ -1,0 +1,13 @@
+{
+  "esito": "PASS_MIGRAZIONE_LOCALE_RIPRESA",
+  "custodia": "/home/collaudo.guest/custodia-indirizzi-1792011166025668659",
+  "migrazioni": 153,
+  "baseline_precedente": 152,
+  "differenza_pregressa_produzione": 2,
+  "tabelle": 64,
+  "record_precedenti": 24269,
+  "originali_tutte_colonne_identici_checkpoint_iniziale": true,
+  "checkpoint_iniziale_e_parziale_preservati": true,
+  "nessun_restore_cieco": true,
+  "MySQL_Herd_non_usato": true
+}

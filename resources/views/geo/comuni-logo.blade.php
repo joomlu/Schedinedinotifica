@@ -62,14 +62,14 @@
                                                 @endif
                                             </td>
                                             <td class="text-end">
-                                                <form method="POST" action="{{ route('geo.comuni.logo.store', $comune->id) }}" enctype="multipart/form-data" class="d-inline-flex align-items-center gap-2">
+                                                <form method="POST" action="{{ route('geo.comuni.logo.store', $comune->id, false) }}" enctype="multipart/form-data" class="d-inline-flex align-items-center gap-2">
                                                     @csrf
                                                     <input type="hidden" name="q" value="{{ $q }}">
-                                                    <input type="file" name="logo" accept="image/png,image/jpeg,image/webp" class="form-control form-control-sm" required>
+                                                    <input type="file" name="logo" accept="image/png,image/jpeg,image/webp" class="form-control form-control-sm" title="PNG, JPEG o WebP; massimo 4 MB e 4096 × 4096 pixel" required>
                                                     <button type="submit" class="btn btn-primary btn-sm">Carica</button>
                                                 </form>
                                                 @if($logoComune)
-                                                    <form method="POST" action="{{ route('geo.comuni.logo.destroy', $comune->id) }}" class="d-inline" data-confirm-label="{{ 'il logo del comune di ' . $comune->nome }}">
+                                                    <form method="POST" action="{{ route('geo.comuni.logo.destroy', $comune->id, false) }}" class="d-inline" data-confirm-label="{{ 'il logo del comune di ' . $comune->nome }}">
                                                         @csrf
                                                         <input type="hidden" name="q" value="{{ $q }}">
                                                         @method('DELETE')
@@ -153,6 +153,7 @@
                 hidden.value = nextHidden.value;
             }
 
+            if (window.UI && typeof window.UI.init === 'function') window.UI.init(resultsPanel);
             preserveFocus();
         };
 

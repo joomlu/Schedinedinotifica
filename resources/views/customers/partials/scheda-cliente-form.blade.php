@@ -237,6 +237,9 @@
                                                                 @foreach($tipiVia as $typestreet)
                                                                     <option value="{{ $typestreet->name }}" @selected($fieldValue('typeaway') === $typestreet->name)>{{ $typestreet->name }}</option>
                                                                 @endforeach
+                                                                @if($fieldValue('typeaway') && !$tipiVia->pluck('name')->contains($fieldValue('typeaway')))
+                                                                    <option value="{{ $fieldValue('typeaway') }}" selected>{{ $fieldValue('typeaway') }}</option>
+                                                                @endif
                                                             </x-ui.select>
                                                         </div>
                                                     </div>

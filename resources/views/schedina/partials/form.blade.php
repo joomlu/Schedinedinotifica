@@ -663,6 +663,9 @@
                                             @foreach($tipiVia as $typestreet)
                                                 <option value="{{ $typestreet->name }}" {{ $valueOf('or_typeaway') === $typestreet->name ? 'selected' : '' }}>{{ $typestreet->name }}</option>
                                             @endforeach
+                                            @if($valueOf('or_typeaway') && !$tipiVia->pluck('name')->contains($valueOf('or_typeaway')))
+                                                <option value="{{ $valueOf('or_typeaway') }}" selected>{{ $valueOf('or_typeaway') }}</option>
+                                            @endif
                                         </x-ui.select>
                                     </div>
                                 </div>
@@ -1142,6 +1145,9 @@
                                                                         @foreach($tipiVia as $typestreet)
                                                                             <option value="{{ $typestreet->name }}" {{ $rowVal('typeaway') === $typestreet->name ? 'selected' : '' }}>{{ $typestreet->name }}</option>
                                                                         @endforeach
+                                                                        @if($rowVal('typeaway') && !$tipiVia->pluck('name')->contains($rowVal('typeaway')))
+                                                                            <option value="{{ $rowVal('typeaway') }}" selected>{{ $rowVal('typeaway') }}</option>
+                                                                        @endif
                                                                     </x-ui.select>
                                                                 </div>
                                                                 <div class="col-lg-5">

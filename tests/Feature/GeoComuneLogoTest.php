@@ -81,7 +81,8 @@ class GeoComuneLogoTest extends TestCase
         Storage::disk('public')->assertExists($path);
         Storage::disk('public')->assertMissing($old);
         $this->post($url, ['logo' => Fixture::upload('secondo.png')])->assertSessionHasNoErrors()->assertRedirect();
-        $this->assertSame('storage/'.$path, $comune->fresh()->logo_citta);
+        Storage::disk('public')->assertMissing($path);
+        $path = substr($comune->fresh()->logo_citta, strlen('storage/'));
         Storage::disk('public')->assertExists($path);
         $this->get('/geo/comuni/logo')->assertOk()->assertSee(asset('storage/'.$path), false);
         $this->delete($url)->assertRedirect();

@@ -2,7 +2,7 @@
 @extends('layouts.master')
 @section('title', 'Tipo Via')
 @section('content')
-<div class="row config-page">
+<div class="row config-page catalogo-indirizzi">
     <div class="col-lg-12">
 
         <x-crud-table
@@ -48,7 +48,7 @@
                                     <i class="ri-edit-line fs-16 align-middle"></i>
                                 </button>
 
-                                <form method="POST" action="{{ route('tipovia.update', $via->id) }}" data-confirm-label="{{ 'il tipo via ' . $via->descrizione }}">
+                                <form method="POST" action="{{ route('tipovia.update', $via->id, false) }}" data-confirm-label="{{ 'il tipo via ' . $via->descrizione }}">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="abbr" value="{{ $via->abbr }}">
@@ -59,7 +59,7 @@
                                     </button>
                                 </form>
 
-                                <form action="{{ route('tipovia.destroy', $via->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il tipo via ' . $via->descrizione }}">
+                                <form action="{{ route('tipovia.destroy', $via->id, false) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il tipo via ' . $via->descrizione }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-soft-danger btn-sm" title="Elimina">
@@ -71,6 +71,12 @@
                     </tr>
 
                     <!-- Modal Modifica -->
+                @endforeach
+            </x-slot>
+
+        </x-crud-table>
+
+        @foreach($tipovia as $via)
                     <div id="modalTipoviaEdit{{ $via->id }}" class="modal fade" tabindex="-1" aria-labelledby="tipoviaEditLabel{{ $via->id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -78,9 +84,10 @@
                                     <h5 class="modal-title" id="tipoviaEditLabel{{ $via->id }}">Modifica Tipo Via</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form method="POST" action="{{ route('tipovia.update', $via->id) }}" data-confirm-label="{{ 'il tipo via ' . $via->descrizione }}">
+                                <form method="POST" action="{{ route('tipovia.update', $via->id, false) }}" data-confirm-label="{{ 'il tipo via ' . $via->descrizione }}">
                                     @csrf
                                     @method('PUT')
+                                    <input type="hidden" name="_catalogo_modal" value="modalTipoviaEdit{{ $via->id }}">
                                     <div class="modal-body">
                                         <div class="mb-3">
                                             <label for="abbrInputEdit{{ $via->id }}" class="form-label">Abbr</label>
@@ -91,6 +98,7 @@
                                             <input type="text" name="descrizione" value="{{ $via->descrizione }}" class="form-control" id="descrizioneInputEdit{{ $via->id }}" maxlength="191">
                                         </div>
                                         <div class="form-check form-switch">
+                                            <input type="hidden" name="attivo" value="0">
                                             <input class="form-check-input" type="checkbox" role="switch" name="attivo" id="attivoEdit{{ $via->id }}" value="1" {{ $via->attivo ? 'checked' : '' }}>
                                             <label class="form-check-label" for="attivoEdit{{ $via->id }}">Attivo</label>
                                         </div>
@@ -103,10 +111,7 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
-            </x-slot>
-
-        </x-crud-table>
+        @endforeach
 
     </div>
 </div>
@@ -119,7 +124,8 @@
                 <h5 class="modal-title" id="tipoviaCreateLabel">Nuovo Tipo Via</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="{{ route('tipovia.store') }}">
+            <form method="POST" action="{{ route('tipovia.store', [], false) }}">
+                <input type="hidden" name="_catalogo_modal" value="modalTipoviaCreate">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -131,6 +137,7 @@
                         <input type="text" name="descrizione" class="form-control" id="descrizioneInput" maxlength="191">
                     </div>
                     <div class="form-check form-switch">
+                                            <input type="hidden" name="attivo" value="0">
                         <input class="form-check-input" type="checkbox" role="switch" name="attivo" id="attivoCreate" value="1" checked>
                         <label class="form-check-label" for="attivoCreate">Attivo</label>
                     </div>
@@ -145,3 +152,35 @@
 </div>
 
 @endsection
+
+@section('script')
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    @if($errors->any() && old('_catalogo_modal'))
+    const target = document.getElementById(@json(old('_catalogo_modal')));
+    if (target) {
+        const values = {{ \Illuminate\Support\Js::from(old()) }};
+        target.querySelectorAll('input[name]').forEach(input => {
+            if (!Object.hasOwn(values, input.name) || input.name.startsWith('_')) return;
+            if (input.type === 'checkbox') input.checked = String(values[input.name]) === '1';
+            else input.value = typeof values[input.name] === 'string' ? values[input.name] : '';
+        });
+        bootstrap.Modal.getOrCreateInstance(target).show();
+    }
+    @endif
+});
+document.addEventListener('hidden.bs.modal', event => {
+    if (event.target.id.startsWith('modalTipovia')) {
+        event.target.querySelectorAll('form').forEach(form => form.reset());
+    }
+});
+</script>
+@endsection
+
+@push('css')
+<style>
+@media (max-width: 575.98px) {
+    .catalogo-indirizzi .card-header .flex-grow-1 { min-width: 0; max-width: 100%; }
+}
+</style>
+@endpush

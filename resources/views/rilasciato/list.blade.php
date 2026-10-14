@@ -6,7 +6,7 @@
     @slot('title') Rilasciato da @endslot
 @endcomponent
 
-<div class="row config-page">
+<div class="row config-page catalogo-indirizzi">
     <div class="col-lg-12">
         <x-crud-table
             title="Rilasciato da"
@@ -35,7 +35,7 @@
                                     <i class="ri-edit-line fs-16 align-middle"></i>
                                 </button>
 
-                                <form action="{{ route('rilasciato.destroy', $item->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il rilascio documento ' . $item->name }}">
+                                <form action="{{ route('rilasciato.destroy', $item->id, false) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il rilascio documento ' . $item->name }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-soft-danger btn-sm">
@@ -46,6 +46,12 @@
                         </td>
                     </tr>
 
+                @endforeach
+            </x-slot>
+
+        </x-crud-table>
+
+        @foreach($rilasciati as $item)
                     <div id="modalRilasciatoEdit{{ $item->id }}" class="modal fade" tabindex="-1" aria-labelledby="rilasciatoEditLabel{{ $item->id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -53,9 +59,10 @@
                                     <h5 class="modal-title" id="rilasciatoEditLabel{{ $item->id }}">Modifica Rilasciato da</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form method="POST" action="{{ route('rilasciato.update', $item->id) }}" data-confirm-label="{{ 'il rilascio documento ' . $item->name }}">
+                                <form method="POST" action="{{ route('rilasciato.update', $item->id, false) }}" data-confirm-label="{{ 'il rilascio documento ' . $item->name }}">
                                     @csrf
                                     @method('PUT')
+                                    <input type="hidden" name="_catalogo_modal" value="modalRilasciatoEdit{{ $item->id }}">
                                     <div class="modal-body">
                                         <div class="mb-3">
                                             <label for="rilasciatoNameEdit{{ $item->id }}" class="form-label">Nome</label>
@@ -70,10 +77,7 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
-            </x-slot>
-
-        </x-crud-table>
+        @endforeach
     </div>
 </div>
 
@@ -84,7 +88,8 @@
                 <h5 class="modal-title" id="rilasciatoCreateLabel">Nuovo Rilasciato da</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="{{ route('rilasciato.store') }}">
+            <form method="POST" action="{{ route('rilasciato.store', [], false) }}">
+                <input type="hidden" name="_catalogo_modal" value="modalRilasciatoCreate">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -101,3 +106,35 @@
     </div>
 </div>
 @endsection
+
+@section('script')
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    @if($errors->any() && old('_catalogo_modal'))
+    const target = document.getElementById(@json(old('_catalogo_modal')));
+    if (target) {
+        const values = {{ \Illuminate\Support\Js::from(old()) }};
+        target.querySelectorAll('input[name]').forEach(input => {
+            if (!Object.hasOwn(values, input.name) || input.name.startsWith('_')) return;
+            if (input.type === 'checkbox') input.checked = String(values[input.name]) === '1';
+            else input.value = typeof values[input.name] === 'string' ? values[input.name] : '';
+        });
+        bootstrap.Modal.getOrCreateInstance(target).show();
+    }
+    @endif
+});
+document.addEventListener('hidden.bs.modal', event => {
+    if (event.target.id.startsWith('modalRilasciato')) {
+        event.target.querySelectorAll('form').forEach(form => form.reset());
+    }
+});
+</script>
+@endsection
+
+@push('css')
+<style>
+@media (max-width: 575.98px) {
+    .catalogo-indirizzi .card-header .flex-grow-1 { min-width: 0; max-width: 100%; }
+}
+</style>
+@endpush

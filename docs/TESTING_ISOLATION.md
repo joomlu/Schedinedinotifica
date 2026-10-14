@@ -68,3 +68,7 @@ Inclusione facoltativa esplicita anche di `database/seeders/TitoloSeeder.php` e 
 ## Verifica cataloghi Questura del 14 ottobre 2026
 
 L'allowlist cumulativa consente ora l'inclusione esplicita anche di `database/seeders/TipoAlloggiatoSeeder.php` e `database/seeders/TipoDocumentoSeeder.php`. Nessun DatabaseSeeder o seed implicito; nessun ampliamento delle origini, della rete o dei database ammessi. La fixture `seed-cataloghi-questura.php` resta esclusivamente nel checkout effimero. Avviatore versionato e template operativo VM concordano sulle due inclusioni; le voci autorizzate precedentemente restano preservate. Prove e selezione esatta nel [consuntivo](VERIFICA-CATALOGHI-QUESTURA-2026-10-14.md): 76 test/1.005 asserzioni, due prove Chromium,15 guardie e23 rifiuti di override PASS.
+
+## Tre formulari Configurazioni — 14 ottobre 2026
+
+Le inclusioni esplicite ammettono anche `database/seeders/RilasciatoDaSeeder.php` e `database/seeders/TipoViaSeeder.php`, per verificare l'idempotenza dei cataloghi privati senza staging dei nuovi sorgenti. Nessun seeder implicito, percorso generico o allentamento dei controlli di runtime. La selezione congiunta e il recupero della migrazione sono descritti nel [consuntivo dei tre formulari](VERIFICA-TRE-CONFIGURAZIONI-2026-10-14.md).

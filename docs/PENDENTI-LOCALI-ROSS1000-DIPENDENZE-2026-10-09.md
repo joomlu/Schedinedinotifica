@@ -58,3 +58,7 @@ Originali globali ID1 `Sig.s`/Signore e ID4 `Sigg.`/Signori: assenti dalla base8
 ## Tipo cliente — valore cliente legacy del 14 ottobre 2026
 
 Ricognizione readonly sulla baseline dd847206: catalogo esattamente3codici ufficiali attivi, senza extra o riferimenti FK. In clienti.type_housed un valore vuoto preesistente, conservato; altre classificazioni11Ospite/1Componente/1Richiesta. Nessuna evidenza autorizza a dedurre la classificazione mancante: eventuale completamento del singolo cliente richiede i suoi dati e il flusso ordinario, fuori dall'immutabilità del catalogo. Nessuna riclassificazione automatica o dato personale pubblicato; limite non equivale a errore del nuovo catalogo. [Consuntivo](CORREZIONE-TIPO-CLIENTE-2026-10-14.md).
+
+### Ambiente quotidiano — differenza pregressa rilevata il 14 ottobre durante i tre formulari
+
+La VM quotidiana era a152migrazioni, produzione a154: non risultavano applicate le due migrazioni pregresse Tipo cliente del14ottobre. La sola migrazione autorizzata Rilasciato da/Tipo Via porta il quotidiano a153 e il candidato produttivo a155; i dati precedenti sono conservati. Non attribuire questa differenza ai tre formulari né eseguire migrazioni di altri moduli per azzerarla implicitamente. Chiusura: riallineamento delle due migrazioni nel pertinente scope Tipo cliente, con checkpoint e confronto conservativo; fino ad allora distinguere SHA del codice allineabile dalla differenza preesistente del DB quotidiano. [Evidenze e consuntivo](VERIFICA-TRE-CONFIGURAZIONI-2026-10-14.md).

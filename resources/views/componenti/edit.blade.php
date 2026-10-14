@@ -137,6 +137,9 @@
                                             @foreach($typeaway as $typestreet)
                                             <option value="{{$typestreet->name}}" {{ $componenti->typeaway === $typestreet->name ? 'selected' : '' }}>{{$typestreet->name}}</option>
                                             @endforeach
+                                            @if($componenti->typeaway && !$typeaway->pluck('name')->contains($componenti->typeaway))
+                                            <option value="{{ $componenti->typeaway }}" selected>{{ $componenti->typeaway }}</option>
+                                            @endif
                                         </x-ui.select>
                                         
                                     </div>

@@ -16,6 +16,9 @@ class Struttura extends Model
     protected static function booted(): void
     {
         static::created(function (self $struttura) {
+            if (\Illuminate\Support\Facades\Schema::hasColumn('struttura', 'indirizzi_inizializzati_at')) {
+                app(\App\Services\CataloghiIndirizziStrutturaService::class)->initialize((int) $struttura->id);
+            }
             if (\Illuminate\Support\Facades\Schema::hasColumn('struttura', 'titoli_inizializzati_at')) {
                 app(\App\Services\TitoliStrutturaService::class)->initialize((int) $struttura->id);
             }

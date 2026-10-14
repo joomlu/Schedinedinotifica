@@ -151,6 +151,7 @@ Route::middleware(['auth'])->group(function () {
     // Rilasciato da CRUD
     Route::resource('rilasciato', RilasciatoDaController::class)
         ->only(['index', 'store', 'update', 'destroy'])
+        ->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)
         ->names('rilasciato');
 
     // SuperAdmin area
@@ -438,10 +439,10 @@ Route::middleware(['auth'])->group(function () {
     require __DIR__.'/typedoc.php';
 
     //tipovia
-    Route::get('/tipovia', [TipoViaController::class, 'index'])->name('tipovia');
-    Route::post('/tipovia_store', [TipoViaController::class, 'store'])->name('tipovia.store');
-    Route::put('/tipovia_update/{id}', [TipoViaController::class, 'update'])->name('tipovia.update');
-    Route::delete('/tipovia/{id}', [TipoViaController::class, 'destroy'])->name('tipovia.destroy');
+    Route::get('/tipovia', [TipoViaController::class, 'index'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('tipovia');
+    Route::post('/tipovia_store', [TipoViaController::class, 'store'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('tipovia.store');
+    Route::put('/tipovia_update/{id}', [TipoViaController::class, 'update'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('tipovia.update');
+    Route::delete('/tipovia/{id}', [TipoViaController::class, 'destroy'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('tipovia.destroy');
 
     // Arrivi
     Route::get('/arrivi', [ArrivalsController::class, 'index'])->name('arrivals');

@@ -9,13 +9,17 @@ use App\Services\CestinoService;
 
 class TipoViaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        abort_if(is_array($request->query('q')), 400);
+        $request->validate(['q' => ['nullable', 'string', 'max:191']]);
+        app(\App\Services\CataloghiIndirizziStrutturaService::class)->initialize((int) \App\Support\StrutturaCorrente::getId());
         $qRaw = trim((string) request('q', ''));
         $q = mb_strtolower($qRaw);
         $terms = $this->normalizedTerms($qRaw);
         $query = TipoVia::query();
 
+        if ($q !== '' && $terms === []) $query->whereRaw('1 = 0');
         if ($q !== '') {
             $query->where(function ($inner) use ($q, $terms) {
                 if (ctype_digit($q)) {
@@ -37,55 +41,62 @@ class TipoViaController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'abbr' => ['required', 'string', 'max:20', Rule::unique('tipo_via', 'abbr')],
-            'descrizione' => ['nullable', 'string', 'max:191'],
-            'attivo' => ['nullable', 'boolean'],
-        ]);
-
-        $abbr = $data['abbr'];
-        $descrizione = $data['descrizione'] ?? $abbr;
-        $attivo = $request->boolean('attivo', true);
-
-        TipoVia::create([
-            'abbr' => $abbr,
-            'nome' => $abbr,
-            'descrizione' => $descrizione,
-            'attivo' => $attivo,
-        ]);
-        return redirect()->back()->with('success', 'Tipo via creato con successo.');
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($request) {
+            $this->lockCatalog();
+            TipoVia::create($this->validated($request));
+            return redirect()->back()->with('success', 'Record creato nella struttura corrente.');
+        });
     }
 
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
-            'abbr' => ['required', 'string', 'max:20', Rule::unique('tipo_via', 'abbr')->ignore($id)],
-            'descrizione' => ['nullable', 'string', 'max:191'],
-            'attivo' => ['nullable', 'boolean'],
-        ]);
-
-        $tipovia = TipoVia::findOrFail($id);
-        $abbr = $data['abbr'];
-        $descrizione = $data['descrizione'] ?? $abbr;
-
-        $tipovia->abbr = $abbr;
-        $tipovia->nome = $abbr;
-        $tipovia->descrizione = $descrizione;
-        $tipovia->attivo = array_key_exists('attivo', $data)
-            ? $request->boolean('attivo')
-            : $tipovia->attivo;
-        $tipovia->save();
-        return redirect()->back()->with('success', 'Tipo via aggiornato con successo.');
+        abort_unless(preg_match('/^[1-9][0-9]*$/D', (string) $id), 404);
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($request, $id) {
+            $this->lockCatalog();
+            $record = TipoVia::findOrFail($id);
+            $data = $this->validated($request, $record);
+            if ($record->abbr !== $data['abbr'] && app(\App\Services\CataloghiIndirizziStrutturaService::class)->references($record)) {
+                throw \Illuminate\Validation\ValidationException::withMessages(['abbr' => 'Il record è utilizzato: conserva il valore per non alterare i riferimenti esistenti.']);
+            }
+            $record->update($data);
+            return redirect()->back()->with('success', 'Record aggiornato nella struttura corrente.');
+        });
     }
 
     public function destroy($id)
     {
-        $tipovia = TipoVia::findOrFail($id);
-        app(CestinoService::class)->archiveModel($tipovia, [
-            'source' => 'Tipo Via',
+        abort_unless(preg_match('/^[1-9][0-9]*$/D', (string) $id), 404);
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($id) {
+            $this->lockCatalog();
+            $record = TipoVia::findOrFail($id);
+            if (app(\App\Services\CataloghiIndirizziStrutturaService::class)->references($record)) {
+                throw \Illuminate\Validation\ValidationException::withMessages(['abbr' => 'Il record è utilizzato e non può essere eliminato.']);
+            }
+            app(CestinoService::class)->archiveModel($record);
+            $record->delete();
+            return redirect()->back()->with('success', 'Record spostato nel cestino della struttura corrente.');
+        });
+    }
+
+    private function lockCatalog(): void
+    {
+        \Illuminate\Support\Facades\DB::table('struttura')->where('id', \App\Support\StrutturaCorrente::getId())->lockForUpdate()->first();
+        app(\App\Services\CataloghiIndirizziStrutturaService::class)->initialize((int) \App\Support\StrutturaCorrente::getId());
+    }
+
+    private function validated(Request $request, ?TipoVia $record = null): array
+    {
+        $sid = \App\Support\StrutturaCorrente::getId();
+        $id = $record?->id;
+        $data = $request->validate([
+            'abbr' => ['required', 'string', 'max:20', Rule::unique('tipo_via', 'abbr')->where('struttura_id', $sid)->ignore($id)],
+            'descrizione' => ['nullable', 'string', 'max:191'],
+            'attivo' => ['nullable', 'boolean'],
         ]);
-        $tipovia->delete();
-        return redirect()->back()->with('success', 'Tipo via spostato nel cestino.');
+        $data['nome'] = $record && $record->abbr === $data['abbr'] ? $record->nome : $data['abbr'];
+        $data['descrizione'] = $data['descrizione'] ?? $data['abbr'];
+        $data['attivo'] = $request->boolean('attivo');
+        return $data;
     }
 
     private function normalizedTerms(string $value): array
