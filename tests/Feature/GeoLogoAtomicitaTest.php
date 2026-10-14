@@ -92,4 +92,27 @@ class GeoLogoAtomicitaTest extends TestCase
         $this->delete('/geo/comuni/'.$comune->id.'/logo')->assertSessionHasNoErrors();
         $this->assertSame([], Storage::disk('public')->allFiles());
     }
+    public function test_rimozione_esplicita_non_riattiva_file_legacy_ancora_condiviso(): void
+    {
+        Storage::fake('public');
+        $this->actingAs(Fixture::user('admin'));
+        $comune = Fixture::comune('Comune Fixture Logo');
+        $path = 'geo_comuni/logo/'.$comune->id.'-comune-fixture-logo.png';
+        Storage::disk('public')->put($path, Fixture::image());
+        $comune->update(['logo_citta' => 'storage/'.$path]);
+        $other = GeoComune::create(['geo_provincia_id' => $comune->geo_provincia_id, 'nome' => 'Altro Comune', 'codice_istat' => '990003', 'logo_citta' => 'storage/'.$path]);
+        $this->delete('/geo/comuni/'.$comune->id.'/logo')->assertSessionHasNoErrors();
+        $comune->refresh();
+        Storage::disk('public')->assertExists($path);
+        $this->assertSame('storage/'.$path, $other->fresh()->logo_citta);
+        foreach ([\App\Http\Controllers\GeoController::class, \App\Http\Controllers\Admin\StruttureController::class, \App\Http\Controllers\Superadmin\StruttureController::class] as $class) {
+            $method = new \ReflectionMethod($class, 'resolveComuneLogoPath');
+            $this->assertNull($method->invoke(app($class), $comune));
+            // I record legacy mai rimossi mantengono il recupero del file storico.
+            $comune->logo_citta = null;
+            $this->assertSame('storage/'.$path, $method->invoke(app($class), $comune));
+            $comune->logo_citta = '';
+        }
+    }
+
 }

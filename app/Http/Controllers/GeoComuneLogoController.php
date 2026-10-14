@@ -70,7 +70,8 @@ class GeoComuneLogoController extends Controller
         $old = \Illuminate\Support\Facades\DB::transaction(function () use ($id) {
             $comune = GeoComune::whereKey($id)->lockForUpdate()->firstOrFail();
             $old = array_filter([$comune->logo_citta, $comune->logo]);
-            $comune->update(['logo_citta' => null, 'logo' => null]);
+            // Stringa vuota: rimozione esplicita, distinta dal NULL storico recuperabile.
+            $comune->update(['logo_citta' => '', 'logo' => null]);
             return $old;
         });
         foreach (array_unique($old) as $path) $this->deleteOldLogo($path);

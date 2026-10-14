@@ -87,7 +87,7 @@ class GeoComuneLogoTest extends TestCase
         $this->get('/geo/comuni/logo')->assertOk()->assertSee(asset('storage/'.$path), false);
         $this->delete($url)->assertRedirect();
         Storage::disk('public')->assertMissing($path);
-        $this->assertNull($comune->fresh()->logo_citta);
+        $this->assertSame('', $comune->fresh()->logo_citta);
         $this->assertSame($master, $comune->fresh()->only(array_keys($master)));
         $this->assertSame(1, GeoComune::count());
     }
@@ -138,7 +138,7 @@ class GeoComuneLogoTest extends TestCase
         $this->post($url, ['logo' => Fixture::upload('logo.png', Fixture::image().str_repeat('x', 4097 * 1024))])->assertSessionHasErrors('logo');
         $this->delete($url)->assertRedirect();
         $this->assertNull($comune->fresh()->logo);
-        $this->assertNull($comune->fresh()->logo_citta);
+        $this->assertSame('', $comune->fresh()->logo_citta);
         Storage::disk('public')->assertMissing($old);
     }
 

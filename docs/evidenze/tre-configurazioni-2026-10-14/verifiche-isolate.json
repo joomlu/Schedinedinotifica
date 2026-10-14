@@ -2,8 +2,8 @@
   "stato": "PASS_VERIFICHE_ISOLATE",
   "ambiente": "VM ufficiale, namespace senza rete esterna, DB/processi/storage effimeri, PHP8.3.33 e MariaDB11.8.9",
   "suite": {
-    "test": 107,
-    "asserzioni": 1019,
+    "test": 108,
+    "asserzioni": 1028,
     "esito": "PASS"
   },
   "recupero": {
@@ -18,7 +18,7 @@
     "desktop_mobile": true,
     "modale_duplicato": true,
     "logout_cambio_struttura_logo": true,
-    "durata_riportata": "1.7m (output Playwright arrotondato)"
+    "durata_riportata": "2.1m (output Playwright arrotondato)"
   },
   "guardie": {
     "test": 15,
@@ -26,16 +26,18 @@
   },
   "rifiuti_override": 23,
   "build_geo": "PASS",
-  "sorgenti_inventariati": 30,
+  "sorgenti_inventariati": 33,
   "protetti_invariati": 10,
   "nessun_test_su_dati_operativi": true,
   "log_sha256": {
     "regressioni-definitive-json.log": "c7988973785303b586e29a49e17333b701a1b3e36f56334327a195fb7e137471",
     "migrazione-recupero-json.log": "638de4913df990368f04bfe7e92f899af5ae5d3e3304bc59e1e0e7ff90e07cdd",
     "guardie.log": "05354c182401aa7bf64badd5ae1b964c7efaa464515591640a2a14ca8511d33c",
-    "verifiche-finali-107-02.log": "ea1948adab2fd88837fa54446afb91192899ca3607e3fbb72f1992adcb62a3aa"
+    "verifiche-finali-107-02.log": "ea1948adab2fd88837fa54446afb91192899ca3607e3fbb72f1992adcb62a3aa",
+    "verifiche-finali-108.log": "c7202c74aa4fd11e9037b2c7d969b6660bf6719dc1a64eb9085442f2488c5ebd"
   },
   "recupero_json_import_archivio": "PASS",
   "ingresso_alternativo_Geo": "PASS_permessi_e_validazione_alias",
-  "doppio_logo_legacy_senza_orfani": "PASS"
+  "doppio_logo_legacy_senza_orfani": "PASS",
+  "rimozione_esplicita_file_condiviso_tre_consumatori": "PASS"
 }

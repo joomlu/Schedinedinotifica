@@ -581,6 +581,11 @@ class StruttureController extends Controller
 
     private function resolveComuneLogoPath(GeoComune $comune): ?string
     {
+        // Un file storico ancora condiviso non deve annullare una rimozione esplicita.
+        if ($comune->logo_citta === '' && $comune->logo === null) {
+            return null;
+        }
+
         foreach ([$comune->logo_citta, $comune->logo] as $candidate) {
             $normalized = $this->normalizeLogoPath($candidate);
             if ($normalized) {

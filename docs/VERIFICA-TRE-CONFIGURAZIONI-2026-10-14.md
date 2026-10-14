@@ -40,7 +40,7 @@ La migrazione quotidiana ha fermato un nuovo caso prima della pubblicazione: plu
 
 VM quotidiana osservata a152migrazioni, con le due Tipo cliente pregresse non applicate: non ampliare lo scope per eliminarne la differenza. Prima prova arrestata dal controllo154 prima delle mutazioni. Seconda: checkpoint cifrato riletto, poi DDL additive/base privata applicate e stop sul recupero JSON. Dopo correzione verificata: confronto HMAC con checkpoint iniziale PASS prima della ripresa, ulteriore dump/cifrato/rilettura dello stato parziale, ripresa idempotente della sola migrazione e153migrazioni;64tabelle/24.269record precedenti identici su tutte le colonne originali. Nessun restore cieco, reset o seeder generale. Checkpoint iniziale, parziale, chiavi e diagnostici custoditi; MySQL/Herd originale non usato. Differenza locale/produttiva pregressa di due migrazioni documentata, codice da allineare alla medesima release.
 
-Inventario SHA256 di30sorgenti e10protetti invariati, lint PHP e sintassi JS PASS. Evidenze non sensibili sotto docs/evidenze/tre-configurazioni-2026-10-14; log completi privati sotto output. BASELINE IN AUDIT invariata.
+Inventario SHA256 di33sorgenti e10protetti invariati, lint PHP e sintassi JS PASS. Evidenze non sensibili sotto docs/evidenze/tre-configurazioni-2026-10-14; log completi privati sotto output. BASELINE IN AUDIT invariata.
 
 ## Controllo aggiuntivo degli ingressi al logo comunale prima del RUN
 
@@ -51,3 +51,9 @@ Pulizia di entrambi i percorsi gestiti logo_citta/logo quando distinti, con cons
 ## Criteri di chiusura ancora da attestare
 
 Revisione diff/staging, commit/push e CI se presente (nessun workflow GitHub nel repository). Nuova C5 con PREPARE indipendente, S0 fresco, guardiano e budget vigenti; confronto di tutte le colonne/righe preesistenti e file persistenti, acceptance online e monitor15minuti. Nessuna pubblicazione di modifiche non verificate. Aggiornare questo consuntivo e il Maestro con gli esiti effettivi e allinearli tramite C5 documentale; ricevuta esterna finale per evitare autoriferimento al commit.
+
+## Rimozione esplicita e recupero dei file condivisi
+
+Prima del RUN, individuato un ulteriore caso limite: il recupero dal nome storico del file poteva riattivare un logo rimosso dal Comune quando il file era correttamente conservato perché condiviso. La rimozione esplicita usa ora il valore vuoto di logo_citta, distinto dal NULL storico: i tre risolutori esistenti rispettano questa indicazione, mantenendo il recupero dei record legacy mai rimossi. Nessuna migrazione o modifica geografica ulteriore. Regressione dedicata: file condiviso e riferimento dell'altra entità conservati, logo rimosso assente in tutti e tre i consumatori e recupero legacy ancora disponibile. Il candidato a785e4e ha completato PREPARE ma non RUN; i suoi originali e diagnostici restano custoditi. Nuova verifica e nuova catena C5 prima della pubblicazione.
+
+Suite conclusiva del15ottobre dopo questa correzione:108test/1.028asserzioniPASS;15guardie, build/GEO e23overridePASS. Chromium2PASS/2,1minuti (durata arrotondata dal runner), nessun errore pagina; entrambe le prove completate prima del commit. DelPREPAREa785chiusi soltanto i tre derivati verificati:20.436record/metadati eHMAC/ridumpPASS,1.219.366.912byte recuperati; tutti originali e chiavi conservati.
