@@ -9,7 +9,9 @@ class TipoDocumentoController extends Controller
 {
     public function index()
     {
-        $qRaw = trim((string) request('q', ''));
+        $queryValue = request('q', '');
+        abort_if(!is_scalar($queryValue) && $queryValue !== null, 400, 'Ricerca non valida.');
+        $qRaw = trim((string) $queryValue);
         $q = mb_strtolower($qRaw);
         $terms = $this->normalizedTerms($qRaw);
         $query = TipoDocumento::query();
@@ -36,6 +38,11 @@ class TipoDocumentoController extends Controller
     public function create()
     {
         abort(403, 'Catalogo ufficiale: creazione non consentita.');
+    }
+
+    public function show(TipoDocumento $tipo_documento)
+    {
+        abort(403, 'Catalogo ufficiale: consultazione dettaglio non consentita.');
     }
 
     public function store(TipoDocumentoRequest $request)

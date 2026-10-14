@@ -15,6 +15,7 @@ use App\Models\Schedina;
 use App\Models\SchedinaCamera;
 use App\Models\Struttura;
 use App\Models\TassaEsenzione;
+use App\Models\TipoAlloggiato;
 use App\Models\TipoCliente;
 use App\Models\TipoDocumento;
 use App\Models\TipoVia;
@@ -44,6 +45,7 @@ class CestinoService
 
     public function archiveModel(Model $model, array $meta = []): CestinoItem
     {
+        abort_if($model instanceof TipoAlloggiato || $model instanceof TipoDocumento, 403, 'Catalogo ufficiale Questura: non modificabile.');
         abort_if($model instanceof TipoCliente, 403, 'Classificazioni predefinite del sistema, non modificabili.');
         if (in_array(get_class($model), [Gruppo::class, Titolo::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true)) {
             if (DB::transactionLevel() === 0) {
@@ -141,6 +143,7 @@ class CestinoService
 
     public function restoreItem(CestinoItem $item): Model
     {
+        abort_if(in_array($item->entity_class, [TipoAlloggiato::class, TipoDocumento::class], true), 403, 'Catalogo ufficiale Questura: non modificabile.');
         abort_if($item->entity_class === TipoCliente::class, 403, 'Classificazioni predefinite del sistema, non modificabili.');
         return DB::transaction(function () use ($item) {
             if (in_array($item->entity_class, [Gruppo::class, Titolo::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true) && $item->struttura_id) {

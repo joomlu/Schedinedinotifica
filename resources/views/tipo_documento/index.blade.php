@@ -2,7 +2,7 @@
 @extends('layouts.master')
 @section('title', 'Tipo Documento')
 @section('content')
-<div class="row config-page">
+<div class="row config-page questura-catalogo">
     <div class="col-lg-12">
         <x-crud-table
             title="Tipo Documento"
@@ -56,3 +56,14 @@
     </div>
 </div>
 @endsection
+
+@push('css')
+<style>
+    @media (max-width: 575.98px) {
+        .questura-catalogo .card-header .flex-grow-1 {
+            min-width: 0;
+            max-width: 100%;
+        }
+    }
+</style>
+@endpush

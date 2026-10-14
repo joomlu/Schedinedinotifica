@@ -47,7 +47,7 @@ def main():
         parser.error('Le opzioni PHPUnit richiedono una suite')
     for name in args.include:
         path = Path(name)
-        if path.is_absolute() or '..' in path.parts or (not name.startswith(('app/', 'config/', 'database/migrations/', 'reference/questura/')) and name not in ('database/seeders/GruppiSeeder.php', 'database/seeders/GruppoSeeder.php', 'database/seeders/TitoloSeeder.php', 'database/seeders/TipoClienteSeeder.php', 'resources/views/titolo/modal.blade.php')) or not (ROOT/path).is_file() or (ROOT/path).is_symlink() or not (ROOT/path).resolve().is_relative_to(ROOT):
+        if path.is_absolute() or '..' in path.parts or (not name.startswith(('app/', 'config/', 'database/migrations/', 'reference/questura/')) and name not in ('database/seeders/GruppiSeeder.php', 'database/seeders/GruppoSeeder.php', 'database/seeders/TitoloSeeder.php', 'database/seeders/TipoClienteSeeder.php', 'database/seeders/TipoAlloggiatoSeeder.php', 'database/seeders/TipoDocumentoSeeder.php', 'resources/views/titolo/modal.blade.php')) or not (ROOT/path).is_file() or (ROOT/path).is_symlink() or not (ROOT/path).resolve().is_relative_to(ROOT):
             parser.error('Inclusione limitata a sorgenti applicativi, configurazioni, migration e riferimenti Questura')
     if args.playwright == []:
         parser.error('--playwright richiede almeno uno spec esplicito')

@@ -1,5 +1,13 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Aggiornamento corrente — cataloghi Questura ufficiali, correzioni minime e prove isolate PASS
+
+[Consuntivo](../VERIFICA-CATALOGHI-QUESTURA-2026-10-14.md). Tipo alloggiato: cinque codici/descrizioni; Tipo documento: 95. Confronto integrale con download ufficiali Alloggiati Web acquisiti il 14 ottobre 2026, DB produttivo e CSV effettivi dei seeders: identici, nessun extra/mancante/duplicato. Manuali ufficiali alberghi pp.31–34 e WS Rev.01 del24/01/2022 pp.19–20 consultati; nessun codice, mapping, logica Questura, relazione o migrazione modificati. Cataloghi comuni bloccati, non personalizzabili per struttura.
+
+Difetti riprodotti e corretti: validazione Tipo documento prima del diniego, dettaglio diretto500, ripristino cataloghi tramite Cestino, q non scalare500 e overflow ricerca mobile401su390. Sole protezioni controller/request/Cestino e CSS nelle due viste. Snapshot conservati; nessun dato produttivo modificato. Prove definitive VM ufficiale senza rete/DB effimero: 76 test/1.005 asserzioni, Chromium due prove con 32 dinieghi mutativi dei quattro ruoli e tutte100voci/10pagine documenti, desktop1440/mobile390, selettori e ricerca/vuoto/reset PASS. Seed ripetuti conservano ID/metadati/extra/relazioni; TXT esaustivo95codici e descrizioni e cinque ruoli alloggiato PASS. Guardie15/build/GEO/23override PASS; nessun SOAP reale o invio enti.
+
+Baseline c9d8427 effettivamente allineata locale/GitHub/produzione dalla ricevuta della precedente task. Questa richiesta autorizza nuova C5, zero DDL/DML, backup e recupero indipendenti, verifiche online e successivo allineamento del consuntivo. **Dati e prove locali VERIFICATI per entrambi; rilascio e conferma finale PENDENTI. BASELINE IN AUDIT generale invariata.** Modifiche estranee preservate e staging selettivo del Maestro.
+
 ## Aggiornamento corrente — Tipo cliente immutabile, rilascio e prove verificati
 
 [Consuntivo](../CORREZIONE-TIPO-CLIENTE-2026-10-14.md). Catalogo comune immutabile OSPITE/COMPONENTE/RICHIESTA, con sola consultazione e blocco CRUD, modello e Cestino anche per Superadmin. Inizializzazione automatica e idempotente; ID, extra e relazioni conservati. Validazioni già previste per Ospite/Componente ripristinate; Richiesta incompleta e passaggio a schedina controllato, senza equiparare Ospite a capofamiglia/capogruppo. Questura invariata. Due nuove migrazioni additive; originale byte-identica alla baseline, zero DDL sullo schema produttivo già normalizzato. Prove isolate PASS: 49 test/330 asserzioni, Chromium 2 flussi/38,4 s, 15 guardie, build/GEO e 23 rifiuti di override. I 21 sorgenti verificati coincidono con quelli distribuiti. Cliente legacy con classificazione vuota conservato nei Pendenti.

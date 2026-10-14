@@ -1,0 +1,40 @@
+{
+  "data_consultazione": "2026-10-14T16:27:13.686779+00:00",
+  "baseline_SHA": "c9d8427a83c53dfb44e3ed0134bdbfaa15540b2e",
+  "cataloghi": {
+    "tipo_alloggiato": {
+      "ufficiali": 5,
+      "DB": 5,
+      "seeder": 5,
+      "duplicati_ufficiali": 0,
+      "duplicati_DB": 0,
+      "duplicati_seed": 0,
+      "DB_identico_ufficiale": true,
+      "seed_identico_ufficiale": true,
+      "mancanti_DB": [],
+      "extra_DB": [],
+      "descrizioni_diverse_DB": {},
+      "SHA256_download": "3cf46914cf9806e9b0d2307c27bfcf67f849de1432c65ff7e8603cd74b69f4cd",
+      "versione_esplicita": null,
+      "snapshot_06ottobre_byte_identico": true,
+      "locked_tutti": true
+    },
+    "tipo_documento": {
+      "ufficiali": 95,
+      "DB": 95,
+      "seeder": 95,
+      "duplicati_ufficiali": 0,
+      "duplicati_DB": 0,
+      "duplicati_seed": 0,
+      "DB_identico_ufficiale": true,
+      "seed_identico_ufficiale": true,
+      "mancanti_DB": [],
+      "extra_DB": [],
+      "descrizioni_diverse_DB": {},
+      "SHA256_download": "b411088e0c5baf01c16cd64ca32c427258dde74eb9cdf13455dff904e1a00663",
+      "versione_esplicita": null,
+      "snapshot_06ottobre_byte_identico": true,
+      "locked_tutti": true
+    }
+  }
+}

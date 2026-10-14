@@ -1,0 +1,31 @@
+{
+  "baseline": "c9d8427a83c53dfb44e3ed0134bdbfaa15540b2e",
+  "sorgenti_modificati_sha256": {
+    "app/Http/Controllers/TipoDocumentoController.php": "b3033dca17d776f18024339cdd06af30c01942db3f9babf6c0d1dfc935522a3a",
+    "app/Http/Requests/TipoDocumentoRequest.php": "163cd75951ff03539d4b378d59e3ff48378845973640a204f4d37d53ea4a649b",
+    "app/Services/CestinoService.php": "c6a8d1748597a84aaa3597385c8cd5429b64d6eb98f97edd937c8e465b0e836e",
+    "app/Http/Controllers/CestinoController.php": "5b4ab1ac87c7f2bfd800a57159f3ebf242e182cc3f6d6642da1bf24330ccff06",
+    "resources/views/tipo_alloggiato/index.blade.php": "898df8e59d6334da8d72994226c71eb855f9ed07514feb21a4d57270e301918c",
+    "resources/views/tipo_documento/index.blade.php": "f5348e2b13747c1dca21e8ca5817f3097651e8d07139b1a75c418b7929a264f2",
+    "tests/Feature/CataloghiQuesturaReadOnlyTest.php": "feec17c195f5728c9673dcdb5b34a712031eba35d98cf8a6eb2a1d4c74618458",
+    "tests/Feature/CataloghiQuesturaTxtTest.php": "7c05e178a5f894c49f8b395b894cd7d52bcee743b23666a2735f5cc019ea7978",
+    "tests/Feature/cataloghi-questura.playwright.spec.js": "8bb4ced4eaf0658eea6227afa5f4ace83fbb1be06b785b7b1204919073860f02",
+    "tests/Isolation/seed-cataloghi-questura.php": "6486acbb818a3a1d1fa3cc4b99bd44d1c4479c89966d9d8b9c63085e98cd2b26",
+    "tests/Isolation/run.py": "144b965f40382525607e693149e5df24964525dd90cfd09a4d30b9245d1ef184",
+    "app/Http/Controllers/TipoAlloggiatoController.php": "eeb5f72fe5573d203a8b43f12709bda1065fef327cd132675f82f3b343e89027",
+    "tests/Diagnostics/CataloghiQuesturaRicercaManipolataTest.php": "37d27aa3d75e375b906c952330e667e2c03f353e3a80bb178a0e06a3696fb5ff"
+  },
+  "protetti_immutati_sha256": {
+    "app/Services/QuesturaTxtExportService.php": "3b77fba530e628ed71c6e23e0db4e293f1535c6dcfad5acfce14dc3a0a663d92",
+    "app/Services/QuesturaWebService.php": "9f93ee43fdd4984f74a3a07067135796457a01370d834b3a8f44202403f9113b",
+    "app/Support/Questura/Catalogo.php": "8a53343f6ab0487d259f9ee30a48f2db62c39cc44caf60f4f3cc3f99657838c7",
+    "app/Support/Componenti/TipoAlloggiatoCatalogo.php": "fb225b1ce69520d0d4e66671543666e5413450ab2f773c6fc171611c4cd9d755",
+    "database/seeders/TipoAlloggiatoSeeder.php": "72f1ce2a93805444a84649da358daafbee30ae44da6c597249855bebc215b799",
+    "database/seeders/TipoDocumentoSeeder.php": "f518c82d928700d9a173b3234f4148f353819bb3532fed6c474ceca5d5e5f6fb",
+    "reference/questura/tipi.csv": "3cf46914cf9806e9b0d2307c27bfcf67f849de1432c65ff7e8603cd74b69f4cd",
+    "reference/questura/documenti.csv": "b411088e0c5baf01c16cd64ca32c427258dde74eb9cdf13455dff904e1a00663",
+    "reference/libreria/tipo_alloggiato.csv": "b86f65bb19ddd9cd2122db5b77f1b0f06f0f8f201b1728435a58e14ffdd3280a",
+    "reference/libreria/documenti.csv": "1d5adde6220f729a7cd959c19f24040175de7b66ad7c1e16bb3e910d8748f872"
+  },
+  "nessuna_migrazione_o_codice_o_mapping_o_logica_Questura_modificati": true
+}

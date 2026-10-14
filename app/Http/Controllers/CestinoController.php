@@ -139,7 +139,9 @@ class CestinoController extends Controller
 
     private function canMutate(CestinoItem $item): bool
     {
-        return auth()->check() && !(auth()->user()->isAdmin()
+        return auth()->check()
+            && !in_array($item->entity_class, [\App\Models\TipoAlloggiato::class, \App\Models\TipoDocumento::class], true)
+            && !(auth()->user()->isAdmin()
             && $item->entity_class === \App\Models\LicenzaAssegnazione::class);
     }
 
