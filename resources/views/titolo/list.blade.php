@@ -20,7 +20,7 @@
                     <td><span class="badge {{ $titolo->attivo ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger' }}">{{ $titolo->attivo ? 'Attivo' : 'Disattivo' }}</span></td>
                     <td class="text-end">
                         <button type="button" class="btn btn-soft-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalTitoloEdit{{ $titolo->id }}">Modifica</button>
-                        <form action="{{ route('titolo.destroy', $titolo->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il titolo ' . $titolo->nome }}">
+                        <form action="{{ route('titolo.destroy', [$titolo->id], false) }}" method="POST" class="d-inline" data-confirm-label="{{ 'il titolo ' . $titolo->nome }}">
                             @csrf @method('DELETE')
                             <button type="submit" class="btn btn-soft-danger btn-sm">Elimina</button>
                         </form>
@@ -37,7 +37,7 @@
 <div id="modalTitoloBase" class="modal fade" tabindex="-1" aria-labelledby="modalTitoloBaseLabel" aria-hidden="true" data-titolo-modal>
     <div class="modal-dialog"><div class="modal-content">
         <div class="modal-header"><h5 class="modal-title" id="modalTitoloBaseLabel">Recupera base originale</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button></div>
-        <form method="POST" action="{{ route('titolo.recover') }}" data-confirm-title="Conferma recupero della base" data-confirm-text="Aggiungere i titoli mancanti della base originale alla struttura corrente? Personalizzazioni, stato e relazioni saranno conservati." data-confirm-button="Sì, recupera">
+        <form method="POST" action="{{ route('titolo.recover', [], false) }}" data-confirm-title="Conferma recupero della base" data-confirm-text="Aggiungere i titoli mancanti della base originale alla struttura corrente? Personalizzazioni, stato e relazioni saranno conservati." data-confirm-button="Sì, recupera">
             @csrf <input type="hidden" name="conferma" value="1">
             <div class="modal-body">
                 <p>La base originale contiene 80 titoli. Il recupero aggiunge soltanto quelli mancanti nella struttura corrente.</p>

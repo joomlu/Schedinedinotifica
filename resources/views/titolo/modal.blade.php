@@ -8,7 +8,7 @@
     data-nome="{{ $nome }}" data-descrizione="{{ $descrizione }}" data-attivo="{{ $attivo ? '1' : '0' }}">
     <div class="modal-dialog"><div class="modal-content">
         <div class="modal-header"><h5 class="modal-title" id="{{ $modalId }}Label">{{ $record ? 'Modifica Titolo' : 'Nuovo Titolo' }}</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button></div>
-        <form method="POST" action="{{ $record ? route('titolo.update', $record->id) : route('titolo.store') }}" data-confirm-label="{{ $record ? 'il titolo '.$nome : 'il nuovo titolo' }}">
+        <form method="POST" action="{{ $record ? route('titolo.update', [$record->id], false) : route('titolo.store', [], false) }}" data-confirm-label="{{ $record ? 'il titolo '.$nome : 'il nuovo titolo' }}">
             @csrf @if($record) @method('PUT') @endif
             <input type="hidden" name="_titolo_form" value="{{ $formKey }}">
             <div class="modal-body">

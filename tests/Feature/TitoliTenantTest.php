@@ -25,6 +25,19 @@ class TitoliTenantTest extends TestCase
         return Titolo::withoutGlobalScopes()->where('struttura_id', $sid)->where('nome', $name)->sole();
     }
 
+    public function test_azioni_relative_non_confondono_dominio_e_percorso_schedine(): void
+    {
+        $this->context();
+        $html = $this->get('/titolo?q=Sig.')->assertOk()->getContent();
+        preg_match_all('/<form[^>]+action="([^"]+)"/', $html, $matches);
+        $actions = array_filter($matches[1], fn ($action) => str_contains($action, '/titolo'));
+        $this->assertNotEmpty($actions);
+        foreach ($actions as $action) {
+            $this->assertStringStartsWith('/titolo', $action);
+            $this->assertStringNotContainsString('/schedine', $action);
+        }
+    }
+
     public function test_base_80_protetta_seed_ripetuti_e_nuove_strutture(): void
     {
         [$a] = $this->context(); $b = $this->structureFor(null);
