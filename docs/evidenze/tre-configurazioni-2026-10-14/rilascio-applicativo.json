@@ -1,0 +1,134 @@
+{
+  "esito": "PASS_RILASCIO_ONLINE_SERVER",
+  "HEAD": "23a4de8c2de7834cbbe9ec26a9ea2617f30e0e80",
+  "Laravel": "12.69.3",
+  "migrazioni": 155,
+  "tabelle": 64,
+  "cataloghi": {
+    "rilasciato_da": {
+      "globali": 86,
+      "conteggi_privati": [
+        [
+          1,
+          74
+        ],
+        [
+          7,
+          73
+        ],
+        [
+          8,
+          73
+        ],
+        [
+          9,
+          73
+        ],
+        [
+          10,
+          73
+        ],
+        [
+          11,
+          73
+        ],
+        [
+          12,
+          73
+        ]
+      ]
+    },
+    "tipo_via": {
+      "globali": 198,
+      "conteggi_privati": [
+        [
+          1,
+          157
+        ],
+        [
+          7,
+          156
+        ],
+        [
+          8,
+          156
+        ],
+        [
+          9,
+          156
+        ],
+        [
+          10,
+          156
+        ],
+        [
+          11,
+          156
+        ],
+        [
+          12,
+          156
+        ]
+      ]
+    }
+  },
+  "geo_comuni": 7896,
+  "env_key_upload_loghi_identici_S0": true,
+  "persistenti": 74,
+  "sorgenti_e_protetti_identici_ai_digest": true,
+  "provider_false_mail_array": true,
+  "Git_pulito": true,
+  "sonde9": {
+    "mail.schedinedinotifica.tanggo.software/": true,
+    "mail.schedinedinotifica.tanggo.software/login": true,
+    "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+    "schedinedinotifica.tanggo.software/": true,
+    "schedinedinotifica.tanggo.software/login": true,
+    "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+    "www.schedinedinotifica.tanggo.software/": true,
+    "www.schedinedinotifica.tanggo.software/login": true,
+    "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+  },
+  "S0_secondi": 161.547,
+  "rilascio_secondi": 279.758,
+  "monitor_campioni": 621,
+  "DDL_eseguite": true,
+  "nessun_invio_enti": true,
+  "conservazione": {
+    "esito": "PASS_CONSERVAZIONE_TUTTI_DATI_PRECEDENTI",
+    "tabelle": 64,
+    "righe_precedenti": 37023,
+    "S0_fresco_autenticato": true
+  },
+  "guardiano": {
+    "esito": "PASS_GUARDIANO_CONCLUSO",
+    "guardiano": "PASS_GUARDIANO_DISARMATO",
+    "servizio_concluso_inattivo_disabilitato": true,
+    "presidi_originali_preservati": true
+  },
+  "log": {
+    "esito": "PASS_LOG_APPLICATIVI",
+    "segreti_o_contenuti_log_esportati": false,
+    "log": [
+      {
+        "file": "laravel-2026-09-29.log",
+        "byte_successivi": 0,
+        "prefisso_precedente_conservato": true,
+        "errori_nuovi": 0
+      },
+      {
+        "file": "laravel.log",
+        "byte_successivi": 0,
+        "prefisso_precedente_conservato": true,
+        "errori_nuovi": 0
+      }
+    ]
+  },
+  "data_rilascio": "2026-10-15 Europe/Rome",
+  "monitor": {
+    "esito": "PASS_MONITOR_ONLINE",
+    "secondi": 917.9212884521112,
+    "campioni": 31,
+    "sonde_HTTP_TLS_CSS": 279
+  }
+}

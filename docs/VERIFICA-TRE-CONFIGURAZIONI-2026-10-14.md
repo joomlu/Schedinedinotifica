@@ -1,6 +1,6 @@
 # Rilasciato da, Tipo Via e Geo Comuni — verifica del 14 ottobre 2026
 
-**Stato: verifiche isolate completate; pubblicazione e acceptance produttiva non ancora confermate. BASELINE IN AUDIT generale invariata.** La richiesta allegata autorizza correzioni circoscritte, test isolati, commit, push e pubblicazione C5 con conservazione di dati, personalizzazioni e file persistenti. Non autorizza invii agli enti, reinizializzazione operativa o modifiche di mapping Questura/ISTAT.
+**Rilasciato da: CONFERMATO. Tipo Via: CONFERMATO. Geo Comuni: CONFERMATO. Rilascio applicativo, conservazione e monitoraggio completati; consuntivo da allineare con C5 documentale e ricevuta esterna finale. BASELINE IN AUDIT generale invariata.** La richiesta allegata autorizza correzioni circoscritte, test isolati, commit, push e pubblicazione C5 con conservazione di dati, personalizzazioni e file persistenti. Non autorizza invii agli enti, reinizializzazione operativa o modifiche di mapping Questura/ISTAT.
 
 ## Baseline e conservazione
 
@@ -48,7 +48,7 @@ Commit206320e pubblicato suGitHub; PREPARE C5 indipendentePASS ma nessunRUN, can
 
 Pulizia di entrambi i percorsi gestiti logo_citta/logo quando distinti, con conservazione dei file ancora referenziati; regressione dedicata sui file orfani. Verifica conclusiva:107test/1.019asserzioniPASS, compresa la rilettura corretta del modello nella fixture di rimozione; nessuna asserzione eliminata. Chromium conclusivoPASS su entrambi i percorsi dopo attesa del caricamento completo e dello stato visivo stabile. Nuovo candidato da pubblicare. Nessuna modifica o test mutante produttivo. DelPREPARE206chiusi solo extracted, archivio decodificato e dbdata, dopoSHA/HMAC/20.447metadati/ridump/processi/mountPASS;1.224.036.352byte immediati recuperati. Originali server, cifrati Mac/VM, SQL, chiavi e diagnostici conservati; piano superato non riutilizzato perRUN.
 
-## Criteri di chiusura ancora da attestare
+## Criteri di chiusura previsti prima del rilascio
 
 Revisione diff/staging, commit/push e CI se presente (nessun workflow GitHub nel repository). Nuova C5 con PREPARE indipendente, S0 fresco, guardiano e budget vigenti; confronto di tutte le colonne/righe preesistenti e file persistenti, acceptance online e monitor15minuti. Nessuna pubblicazione di modifiche non verificate. Aggiornare questo consuntivo e il Maestro con gli esiti effettivi e allinearli tramite C5 documentale; ricevuta esterna finale per evitare autoriferimento al commit.
 
@@ -57,3 +57,29 @@ Revisione diff/staging, commit/push e CI se presente (nessun workflow GitHub nel
 Prima del RUN, individuato un ulteriore caso limite: il recupero dal nome storico del file poteva riattivare un logo rimosso dal Comune quando il file era correttamente conservato perché condiviso. La rimozione esplicita usa ora il valore vuoto di logo_citta, distinto dal NULL storico: i tre risolutori esistenti rispettano questa indicazione, mantenendo il recupero dei record legacy mai rimossi. Nessuna migrazione o modifica geografica ulteriore. Regressione dedicata: file condiviso e riferimento dell'altra entità conservati, logo rimosso assente in tutti e tre i consumatori e recupero legacy ancora disponibile. Il candidato a785e4e ha completato PREPARE ma non RUN; i suoi originali e diagnostici restano custoditi. Nuova verifica e nuova catena C5 prima della pubblicazione.
 
 Suite conclusiva del15ottobre dopo questa correzione:108test/1.028asserzioniPASS;15guardie, build/GEO e23overridePASS. Chromium2PASS/2,1minuti (durata arrotondata dal runner), nessun errore pagina; entrambe le prove completate prima del commit. DelPREPAREa785chiusi soltanto i tre derivati verificati:20.436record/metadati eHMAC/ridumpPASS,1.219.366.912byte recuperati; tutti originali e chiavi conservati.
+
+## Rilascio applicativo del 15 ottobre 2026
+
+Commit applicativi pubblicati su main: `206320eca00b829f0a3be33076289e86f7b039eb`, `a785e4e51fe36ccaee21196f0883f1f5a282a78e`, `23a4de8c2de7834cbbe9ec26a9ea2617f30e0e80`. Soltanto l'ultimo è stato attivato; i primi due hanno completato PREPARE senza RUN. Nessuna CI GitHub presente; controlli nella VM ufficiale. Revisione del delta cumulativo:40file pertinenti, nessuna modifica estranea inclusa. Le sezioni preesistenti del Maestro sono integralmente conservate.
+
+C5 sul candidato23a4de8: PREPARE indipendente e S0 fresco PASS; piano `f14519dbc30b0779f38925851337ad1be44828c88989d360a81cada0e9a32ef0`, kit `d337cea55409fffacb786c5fcc7cb769abd1e2c0974b50a7b20a7bdbb090f3f3`. S0 verificato in161,547secondi, apertura e accettazione in279,758secondi,621campioni interni. Applicata soltanto la migrazione di isolamento del14ottobre; produzione155migrazioni/64tabelle, Laravel12.69.3, Gitpulito e33sorgenti/10protetti conformi ai digest. Guardiano disarmato, inattivo e disabilitato; flag assenti, provider Questura/ISTATfalse, mailarray, nove sonde HTTP/TLS/CSS PASS.
+
+Conservazione: tutte le colonne originali di37.023righe nelle64tabelle identiche allo S0 autenticato mediante HMAC; confronto ripetuto dopo il browser PASS. Esclusi soltanto nuove colonne, copie private e registrazione della migrazione. Originali globali86autorità/198tipi via intatti; privati512/1093 in7strutture, senza duplicati od orfani, marcatori inizializzati. Una voce storica aggiuntiva per ciascun catalogo recuperata per la sola struttura1 dal suo riferimento univoco. Geo7896 invariati; tutti74elementi persistenti confrontati, inclusi.env/upload/loghi, metadati e chiave conservati.
+
+Primi due confronti offline interrotti dall'esaurimento dello spazio durante l'ordinamento SQL della tabella JSON customer_import_rows: nessuna perdita o intervento produttivo. Dopo verifica integrale e chiusura dei soli derivati del proprio PREPARE concluso, confronto eseguito ordinando in memoria gli stessi record esadecimali su entrambe le parti. Tutte le colonne e righe, compresi duplicati, restano nel confronto. Errori e diagnostici preservati, senza esportare dati personali o credenziali. Nessun allentamento delle guardie C5.
+
+Browser online Superadmin, Hotel Amalfi/Hotel Dream: Rilasciato73eTipoVia156 per ciascun contesto, ID diversi(autorità336/482, via811/1123), ricerca dell'ID estraneo senza risultati. RicercaAmbasciata3eViale8, reset, pagina2 e modali aperti/annullati PASS. Geo7896, ricerca/reset/pagina2, Bellaria-Igea Marina/RN/099001 e logo1660×1806 allo stesso percorso produttivo della baseline, leggibile dopo ricarica e cambio struttura. Conferma Rimuovi dopo ricerca AJAX mostrata e annullata prima dell'operazione. Mobile390: corpo/documento379 in tutti e tre i formulari, verifica visiva PASS; viewport e HotelAmalfi iniziali ripristinati. Console errori vuota, nessun nuovo errore applicativo nei log e prefissi precedenti intatti.
+
+CRUD effettivo, ruoli negativi, upload/sostituzione/eliminazione/logout e nuova struttura sono stati provati in isolamento sullo stesso codice distribuito, come attestato dai digest. Online sole letture e conferme annullate: nessun record fittizio produttivo né modifica di loghi reali; nessun invio enti. Evidenza browser non sensibile allegata in docs/evidenze; log completi e backup cifrati custoditi in output e VM/server. Monitoraggio esterno completato:917,921secondi,31campioni e279sondeHTTP/TLS/CSS tuttiPASS; chiave/provider/FPM/flag verificati a ogni campione.
+
+## Chiusura dei tre formulari e allineamento conclusivo
+
+| Formulario | Esito | Evidenze principali |
+| --- | --- | --- |
+| Rilasciato da | CONFERMATO | Base automatica e idempotente, CRUD privato, ruoli/ID manipolati, riferimenti e Cestino; due strutture più una nuova in isolamento, due contesti online. |
+| Tipo Via | CONFERMATO | Stessi controlli privati, stato inattivo persistente, valori storici conservati, ricerca/modali/mobile e consumatori esistenti. |
+| Geo Comuni | CONFERMATO | Permessi amministrativi, contenuto/peso/dimensioni, sostituzione recuperabile, rimozione esplicita e file condivisi; persistenza isolata e logo reale conservato al rilascio. |
+
+Nessun blocco funzionale residuo in questi tre formulari. Rimane soltanto il pendente locale preesistente delle due migrazioni Tipo cliente, già registrato nel documento Pendenti esistente con motivo e condizione di chiusura. Nessuna estensione della conferma agli altri formulari Configurazioni o al progetto generale: BASELINE IN AUDIT.
+
+Questo consuntivo, il Maestro e le due nuove evidenze browser/rilascio formano il commit conclusivo, da pubblicare tramite nuova C5 con PREPARE indipendente, S0 fresco e zero DDL. Il protocollo richiede verifica finale del DB byte-identico allo S0 documentale, persistenza dei loghi, sorgenti invariati, guardiano concluso, sonde e monitor documentale di almeno60secondi. Nessuna autoreferenza al proprio commit: gli SHA effettivi locale/GitHub/produzione/VM e gli esiti conclusivi sono nella ricevuta esterna `output/verifica-tre-configurazioni-2026-10-14/allineamento-finale/verifica-allineamento.json`; soltanto il suo PASS attesta l'allineamento definitivo. Nessun ulteriore commit dopo tale ricevuta. Log e backup custoditi, lavoro estraneo preservato.
