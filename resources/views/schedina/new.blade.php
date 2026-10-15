@@ -44,3 +44,9 @@
 @section('script')
     @include('schedina.partials.scripts')
 @endsection
+
+@if(session('customer_saved_draft_key'))
+@push('scripts')
+<script>localStorage.removeItem(@json(session('customer_saved_draft_key')));</script>
+@endpush
+@endif

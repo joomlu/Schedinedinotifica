@@ -171,6 +171,9 @@
 
 @push('scripts')
 <script>
+    @if(session('customer_saved_draft_key'))
+    localStorage.removeItem(@json(session('customer_saved_draft_key')));
+    @endif
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.js-customer-print').forEach((link) => {
             link.addEventListener('click', function (event) {

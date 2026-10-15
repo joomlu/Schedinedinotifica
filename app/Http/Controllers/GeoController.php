@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Storage;
 
 class GeoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function (Request $request, $next) {
+            $rules = [];
+            foreach (['q', 'cap', 'codice_istat', 'sigla_provincia'] as $field) $rules[$field] = ['nullable', 'string', 'max:191'];
+            foreach (['page', 'per_page', 'geo_nazione_id', 'geo_regione_id', 'geo_provincia_id', 'geo_comune_id'] as $field) $rules[$field] = ['nullable', 'integer', 'min:1'];
+            $rules['is_italia'] = ['nullable', 'boolean'];
+            $request->validate($rules);
+            return $next($request);
+        });
+    }
+
     private function perPage(Request $request, int $default = 20): int
     {
         $perPage = (int) $request->input('per_page', $default);

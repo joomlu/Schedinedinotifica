@@ -80,8 +80,12 @@ class TipoClienteSistemaTest extends TestCase
     public function test_creazione_modifica_classificazione_e_obbligatori_esistenti(string $type): void
     {
         [$s] = $this->context();
+        \App\Models\GeoNazione::firstOrCreate(['nome' => 'Francia'], ['codice_iso2' => 'FR', 'cittadinanza' => 'Francese', 'is_italia' => false]);
+        \App\Models\TipoDocumento::firstOrCreate(['codice' => 'PASOR'], ['descrizione' => 'PASSAPORTO']);
+        \App\Models\TipoVia::firstOrCreate(['struttura_id' => $s->id, 'nome' => 'Via'], ['abbr' => 'VIA', 'attivo' => true]);
+        \App\Models\RilasciatoDa::firstOrCreate(['struttura_id' => $s->id, 'name' => 'Autorità'], ['attivo' => true]);
         $data = ['type_cliente' => $type, 'name' => 'Persona', 'surname' => 'Sintetica', 'privacy_consent' => 1,
-            'sex' => 'M', 'country' => 'Francia', 'region' => 'Regione', 'province' => 'Provincia', 'city' => 'Parigi',
+            'email' => 'persona@example.test', 'sex' => 'M', 'country' => 'Francia', 'region' => 'Regione', 'province' => 'Provincia', 'city' => 'Parigi',
             'typeaway' => 'Via', 'address' => 'Via Sintetica', 'number' => '1',
             'country_reg' => 'Francia', 'region_reg' => 'Regione', 'prov_reg' => 'Provincia', 'city_reg' => 'Parigi',
             'ciudadania_reg' => 'Francese', 'nac_reg' => '1980-01-01', 'type_doc_reg' => 'PASSAPORTO',
@@ -96,10 +100,10 @@ class TipoClienteSistemaTest extends TestCase
         $this->assertSame($type, $c->fresh()->type_housed);
         unset($data['sex'], $data['num_doc_reg']);
         if ($type !== 'Richiesta') {
-            $this->post('/clienti', $data)->assertSessionHasErrors(['sex', 'num_doc_reg']);
-            $this->put('/clienti/'.$c->id, $data)->assertSessionHasErrors(['sex', 'num_doc_reg']);
+            $this->post('/clienti', $data)->assertSessionHasErrors($type === 'Ospite' ? ['sex', 'num_doc_reg'] : ['sex']);
+            $this->put('/clienti/'.$c->id, $data)->assertSessionHasErrors($type === 'Ospite' ? ['sex', 'num_doc_reg'] : ['sex']);
         } else {
-            $minimal = ['type_cliente' => 'Richiesta', 'name' => 'Richiesta', 'surname' => 'Incompleta', 'privacy_consent' => 1];
+            $minimal = ['type_cliente' => 'Richiesta', 'name' => 'Richiesta', 'surname' => 'Incompleta', 'privacy_consent' => 1, 'email' => 'persona@example.test'];
             $this->put('/clienti/'.$c->id, $minimal)->assertSessionHasNoErrors();
             $this->put('/clienti/'.$c->id, $minimal + ['save_mode' => 'to_schedina'])->assertSessionHasErrors('type_cliente');
             $this->assertSame('Richiesta', $c->fresh()->type_housed);

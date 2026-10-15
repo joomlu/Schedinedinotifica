@@ -32,13 +32,27 @@ test('Clienti: creazione e modifica delle tre classificazioni, bozza e annullame
  await login(page,'super_admin');
  await page.goto(`${BASE_URL}/clienti/nuovo`);
  await page.waitForLoadState('networkidle');
+ if(await page.getByRole('button',{name:/Struttura: Hotel Browser(?! B)/}).count()===0){
  await page.getByRole('button',{name:/Struttura:/}).click();
  await page.getByRole('button',{name:'Hotel Browser',exact:true}).click();
+ const selectionConfirm=page.getByRole('button',{name:'Sì, salva',exact:true});
+ if(await selectionConfirm.isVisible()){
+  await selectionConfirm.click();
+  await page.getByRole('button',{name:'OK',exact:true}).click();
+  await page.waitForLoadState('networkidle');
+  const selectionOk=page.getByRole('button',{name:'OK',exact:true});if(await selectionOk.isVisible())await selectionOk.click();
+ }
+ }
  for(const type of ['Ospite','Componente','Richiesta']){
   await page.goto(`${BASE_URL}/clienti/nuovo`);
   await page.locator('select[name="type_cliente"]').first().selectOption(type);
   await page.locator('input[name="name"]').first().fill('Persona');
   await page.locator('input[name="surname"]').first().fill('Sintetica');
+  if(type==='Richiesta'){
+   await page.locator('#steparrow-contact-info-tab').click();
+   await page.locator('[name="email"]').fill('persona@example.test');
+   await page.locator('#steparrow-gen-info-tab').click();
+  }
   await page.getByRole('button',{name:/Salva a bozza/}).first().click();
   await expect(page.getByRole('button',{name:'Sì, salva bozza',exact:true})).toBeVisible();
   await page.getByRole('button',{name:'Annulla',exact:true}).click();
@@ -47,6 +61,7 @@ test('Clienti: creazione e modifica delle tre classificazioni, bozza e annullame
   await page.getByRole('button',{name:/Salva a bozza/}).first().click();
   await page.getByRole('button',{name:'Sì, salva bozza',exact:true}).click();
   await Promise.all([page.waitForNavigation(),page.getByRole('button',{name:'OK',exact:true}).click()]);
+  console.log('Esito bozza sintetica',type,page.url(),await page.locator('[data-server-alert="error"]').allTextContents());
   await expect(page).toHaveURL(/\/clienti\/\d+\/modifica/);
   const ok=page.getByRole('button',{name:'OK',exact:true});if(await ok.isVisible())await ok.click();
   await expect(page.locator('select[name="type_cliente"]').first()).toHaveValue(type);

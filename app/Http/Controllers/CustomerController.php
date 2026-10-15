@@ -22,11 +22,18 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class);
+    }
+
     public function index()
     {
+        request()->validate(['q' => ['nullable', 'string', 'max:191'], 'tipo_cliente' => ['nullable', 'string', 'max:191'], 'stato' => ['nullable', 'string', 'max:191']]);
         $q = trim((string) request('q', ''));
         $tipoCliente = trim((string) request('tipo_cliente', ''));
         $stato = trim((string) request('stato', ''));
@@ -35,51 +42,34 @@ class CustomerController extends Controller
             ->when($tipoCliente !== '', function ($query) use ($tipoCliente) {
                 $query->where('type_housed', $tipoCliente);
             })
-            ->when($stato !== '', function ($query) use ($stato) {
-                if ($stato === 'bozza') {
-                    $query->where(function ($inner) {
-                        $inner->whereNull('name')
-                            ->orWhere('name', '')
-                            ->orWhereNull('surname')
-                            ->orWhere('surname', '')
-                            ->orWhereNull('type_housed')
-                            ->orWhere('type_housed', '')
-                            ->orWhere(function ($docMissing) {
-                                $docMissing
-                                    ->whereIn('type_housed', ['Ospite', 'Componente'])
-                                    ->where(function ($required) {
-                                        $required->whereNull('nac_reg')
-                                            ->orWhere('nac_reg', '')
-                                            ->orWhereNull('type_doc_reg')
-                                            ->orWhere('type_doc_reg', '')
-                                            ->orWhereNull('num_doc_reg')
-                                            ->orWhere('num_doc_reg', '');
-                                    });
+            ->when(in_array($stato, ['bozza', 'completo'], true), function ($query) use ($stato) {
+                $ready = function ($q) {
+                    foreach (['name', 'surname', 'type_housed'] as $field) $q->whereNotNull($field)->whereRaw("TRIM(`{$field}`) <> ''");
+                    $q->where(function ($types) {
+                        $types->where(function ($request) {
+                            $request->where('type_housed', 'Richiesta')->where(function ($contacts) {
+                                foreach (['email', 'phone', 'cellphone'] as $field) $contacts->orWhereRaw("TRIM(COALESCE(`{$field}`, '')) <> ''");
                             });
-                    });
-                    return;
-                }
-
-                if ($stato === 'completo') {
-                    $query->whereNotNull('name')
-                        ->where('name', '<>', '')
-                        ->whereNotNull('surname')
-                        ->where('surname', '<>', '')
-                        ->whereNotNull('type_housed')
-                        ->where('type_housed', '<>', '')
-                        ->where(function ($complete) {
-                            $complete->whereNotIn('type_housed', ['Ospite', 'Componente'])
-                                ->orWhere(function ($docReady) {
-                                    $docReady->whereIn('type_housed', ['Ospite', 'Componente'])
-                                        ->whereNotNull('nac_reg')
-                                        ->where('nac_reg', '<>', '')
-                                        ->whereNotNull('type_doc_reg')
-                                        ->where('type_doc_reg', '<>', '')
-                                        ->whereNotNull('num_doc_reg')
-                                        ->where('num_doc_reg', '<>', '');
+                        })->orWhere(function ($guest) {
+                            $guest->whereIn('type_housed', ['Ospite', 'Componente']);
+                            foreach (['sex', 'country_reg', 'ciudadania_reg', 'nac_reg'] as $field) $guest->whereNotNull($field)->whereRaw("TRIM(`{$field}`) <> ''");
+                            $guest->where(function ($birth) {
+                                $birth->where('country_reg', '<>', 'Italia')->orWhere(function ($italia) {
+                                    $italia->whereRaw("TRIM(COALESCE(city_reg, '')) <> ''")->whereRaw("TRIM(COALESCE(prov_reg, '')) <> ''");
                                 });
+                            });
+                            $guest->where(function ($document) {
+                                $document->where('type_housed', 'Componente')->orWhere(function ($principal) {
+                                    foreach (['type_doc_reg', 'num_doc_reg', 'country_doc_reg'] as $field) $principal->whereNotNull($field)->whereRaw("TRIM(`{$field}`) <> ''");
+                                    $principal->where(function ($place) {
+                                        $place->where('country_doc_reg', '<>', 'Italia')->orWhereRaw("TRIM(COALESCE(city_doc_reg, '')) <> ''");
+                                    });
+                                });
+                            });
                         });
-                }
+                    });
+                };
+                $stato === 'completo' ? $query->where($ready) : $query->whereNot($ready);
             })
             ->when($q !== '', function ($query) use ($q) {
                 $like = '%' . $q . '%';
@@ -103,11 +93,19 @@ class CustomerController extends Controller
             ->withQueryString();
 
         $customers->getCollection()->transform(function (Customers $customer) {
-            $requiredBaseMissing = empty($customer->name) || empty($customer->surname) || empty($customer->type_housed);
-            $requiredDocMissing = in_array(trim((string) $customer->type_housed), ['Ospite', 'Componente'], true)
-                && (empty($customer->nac_reg) || empty($customer->type_doc_reg) || empty($customer->num_doc_reg));
-
-            $customer->setAttribute('is_bozza_incompleta', $requiredBaseMissing || $requiredDocMissing);
+            $required = ['name', 'surname', 'type_housed'];
+            if (in_array($customer->type_housed, ['Ospite', 'Componente'], true)) {
+                array_push($required, 'sex', 'country_reg', 'ciudadania_reg', 'nac_reg');
+                if ($customer->country_reg === 'Italia') array_push($required, 'city_reg', 'prov_reg');
+                if ($customer->type_housed === 'Ospite') {
+                    array_push($required, 'type_doc_reg', 'num_doc_reg', 'country_doc_reg');
+                    if ($customer->country_doc_reg === 'Italia') $required[] = 'city_doc_reg';
+                }
+            }
+            $missing = collect($required)->contains(fn ($field) => trim((string) $customer->$field) === '');
+            $missing = $missing || ! in_array($customer->type_housed, ['Richiesta', 'Ospite', 'Componente'], true);
+            if ($customer->type_housed === 'Richiesta') $missing = $missing || collect(['email', 'phone', 'cellphone'])->every(fn ($field) => trim((string) $customer->$field) === '');
+            $customer->setAttribute('is_bozza_incompleta', $missing);
             $customer->setAttribute('display_country', $this->resolveGeoLabel($customer->country, 'country'));
             $customer->setAttribute('display_city', $this->resolveGeoLabel($customer->city, 'city'));
 
@@ -137,6 +135,7 @@ class CustomerController extends Controller
 
     private function buildSchedaClienteData(): array
     {
+        request()->validate(['tab' => ['nullable', 'string', Rule::in(['steparrow-gen-info', 'steparrow-description-info', 'steparrow-azienda-info', 'steparrow-contact-info'])]]);
         app(\App\Services\TitoliStrutturaService::class)->initialize((int) \App\Support\StrutturaCorrente::getId());
         $groups = Schema::hasTable('gruppi')
             ? Gruppo::query()->orderBy('livello')->orderBy('nome')->get(['id', 'nome', 'livello', 'parent_id'])
@@ -156,7 +155,7 @@ class CustomerController extends Controller
                 ->orderBy('nome')
                 ->get(['id', 'nome'])
             : collect();
-        $tipiVia = TipoVia::query()->orderBy('nome')->get(['id', 'nome as name']);
+        $tipiVia = TipoVia::query()->where('attivo', true)->orderBy('nome')->get(['id', 'nome as name']);
         $tipiDocumento = TipoDocumento::query()->orderBy('descrizione')->get(['id', 'descrizione as name']);
         $nations     = GeoNazione::query()->orderBy('nome')->get(['id', 'nome', 'cittadinanza', 'codice_iso2']);
         $regions     = GeoRegione::query()->orderBy('nome')->get(['id', 'nome']);
@@ -206,47 +205,55 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
+        $this->validateInputShape($request);
         $this->normalizeCustomerRequest($request);
+        app(\App\Services\CustomerWizardValidation::class)->validate($request);
         $this->normalizeGeoLabels($request);
         $saveMode = (string) $request->input('save_mode', $request->input('save_mode_intent', 'final'));
         $isDraft = $saveMode === 'draft';
         $tipoCliente = $this->normalizeTipoCliente($request->input('type_cliente', $request->input('type_housed')));
         $request->merge(['type_cliente' => $tipoCliente]);
-        if (! $isDraft) {
-            $this->validateByTipoCliente($request, $saveMode);
-        }
+        $this->validateByTipoCliente($request, $saveMode);
 
-        $hasAzienda = $request->input('has_azienda') === '1';
+        $hasAzienda = $request->boolean('has_azienda');
         [$countryReg, $cittadinanzaReg] = $this->resolveNationAndCittadinanza(
             $request->input('country_reg'),
-            $request->input('ciudadania_reg'),
-            $request->input('country_reg_fallback')
+            $request->input('ciudadania_reg')
         );
         $aziendaData = $this->collectAziendaData($request, $hasAzienda);
 
-        $customer = Customers::query()->create($this->buildCustomerPayload(
-            $request,
-            $tipoCliente,
-            $countryReg,
-            $cittadinanzaReg,
-            $aziendaData
-        ));
-        $this->ensureNumeroCliente($customer, $tipoCliente);
-        $customer->save();
+        $customer = DB::transaction(function () use ($request, $tipoCliente, $countryReg, $cittadinanzaReg, $aziendaData) {
+            DB::table('struttura')->where('id', StrutturaCorrente::getId())->lockForUpdate()->first();
+            $payload = $this->buildCustomerPayload($request, $tipoCliente, $countryReg, $cittadinanzaReg, $aziendaData);
+            $submission = $this->submissionKey($request, $payload);
+            $existing = Customers::query()->where('wizard_submission_key', $submission['key'])->first();
+            if ($existing) {
+                if (! hash_equals($existing->wizard_submission_digest, $submission['digest'])) {
+                    throw \Illuminate\Validation\ValidationException::withMessages(['submission_id' => 'Questa scheda è già stata salvata. Riapri il cliente dall’elenco per modificarlo.']);
+                }
+                return $existing;
+            }
+            $customer = Customers::query()->create($payload);
+            $customer->wizard_submission_key = $submission['key'];
+            $customer->wizard_submission_digest = $submission['digest'];
+            $this->ensureNumeroCliente($customer, $tipoCliente);
+            $customer->save();
+            return $customer;
+        });
 
         if ($isDraft) {
             return redirect()
                 ->route('customer.edit', ['id' => $customer->id, 'tab' => $request->input('active_tab')])
-                ->with('warning', 'Bozza cliente salvata: dati non completi. Stato cliente: Bozza/Incompleto.');
+                ->with('warning', 'Cliente salvato a bozza. Puoi riaprire la scheda e completare i dati.')->with('customer_saved_draft_key', 'clienti.nuovo.draft.v1');
         }
 
         if ($saveMode === 'to_schedina') {
             return redirect()
                 ->route('newschedina', ['customer_id' => $customer->id])
-                ->with('success', 'Cliente salvato. La schedina nuova è pronta con i dati precompilati.');
+                ->with('success', 'Cliente salvato. La schedina nuova è pronta con i dati precompilati.')->with('customer_saved_id', $customer->id)->with('customer_saved_draft_key', 'clienti.nuovo.draft.v1');
         }
 
-        return redirect('/clienti')->with('success', 'Cliente salvato con successo.');
+        return redirect('/clienti')->with('success', 'Cliente salvato con successo.')->with('customer_saved_id', $customer->id)->with('customer_saved_draft_key', 'clienti.nuovo.draft.v1');
     }
 
     public function edit($id)
@@ -287,54 +294,47 @@ class CustomerController extends Controller
     }
 
     public function update(Request $request, int $id)
-        {
-                $this->normalizeCustomerRequest($request);
-                $this->normalizeGeoLabels($request);
-                $saveMode = (string) $request->input('save_mode', $request->input('save_mode_intent', 'final'));
-                $isDraft = $saveMode === 'draft';
-                $tipoCliente = $this->normalizeTipoCliente($request->input('type_cliente', $request->input('type_housed')));
-                $request->merge(['type_cliente' => $tipoCliente]);
-                if (! $isDraft) {
-                    $this->validateByTipoCliente($request, $saveMode);
-                }
+    {
+        $existing = Customers::query()->findOrFail($id);
+        $this->validateInputShape($request);
+        $this->normalizeCustomerRequest($request);
+        app(\App\Services\CustomerWizardValidation::class)->validate($request, $existing);
+        $this->normalizeGeoLabels($request);
+        $saveMode = (string) $request->input('save_mode', $request->input('save_mode_intent', 'final'));
+        $isDraft = $saveMode === 'draft';
+        $tipoCliente = $this->normalizeTipoCliente($request->input('type_cliente', $request->input('type_housed')));
+        $request->merge(['type_cliente' => $tipoCliente]);
+        $this->validateByTipoCliente($request, $saveMode);
 
-                $hasAzienda = $request->input('has_azienda') === '1';
-                [$countryReg, $cittadinanzaReg] = $this->resolveNationAndCittadinanza(
-                    $request->input('country_reg'),
-                    $request->input('ciudadania_reg'),
-                    $request->input('country_reg_fallback')
-                );
-                $aziendaData = $this->collectAziendaData($request, $hasAzienda);
-  
-                $customer = Customers::query()->findOrFail($id);
-                $customer->fill($this->buildCustomerPayload(
-                    $request,
-                    $tipoCliente,
-                    $countryReg,
-                    $cittadinanzaReg,
-                    $aziendaData
-                ));
-                $this->ensureNumeroCliente($customer, $tipoCliente);
-                $customer->save();
+        $hasAzienda = $request->boolean('has_azienda');
+        [$countryReg, $cittadinanzaReg] = $this->resolveNationAndCittadinanza(
+            $request->input('country_reg'),
+            $request->input('ciudadania_reg')
+        );
+        $aziendaData = $this->collectAziendaData($request, $hasAzienda);
+        $customer = DB::transaction(function () use ($request, $id, $tipoCliente, $countryReg, $cittadinanzaReg, $aziendaData) {
+            DB::table('struttura')->where('id', StrutturaCorrente::getId())->lockForUpdate()->first();
+            $customer = Customers::query()->lockForUpdate()->findOrFail($id);
+            $customer->fill($this->buildCustomerPayload(
+                $request, $tipoCliente, $countryReg, $cittadinanzaReg, $aziendaData, $customer
+            ));
+            $this->ensureNumeroCliente($customer, $tipoCliente);
+            $customer->save();
+            return $customer;
+        });
 
-            if ($isDraft) {
-                return redirect()
-                    ->route('customer.edit', ['id' => $customer->id, 'tab' => $request->input('active_tab')])
-                    ->with('warning', 'Bozza cliente aggiornata: dati non completi. Stato cliente: Bozza/Incompleto.');
-            }
-
-            if ($saveMode === 'to_schedina') {
-                return redirect()
-                    ->route('newschedina', ['customer_id' => $customer->id])
-                    ->with('success', 'Cliente aggiornato. La schedina nuova è pronta con i dati precompilati.');
-            }
-
+        if ($isDraft) {
             return redirect()
                 ->route('customer.edit', ['id' => $customer->id, 'tab' => $request->input('active_tab')])
-                ->with('success', 'Cliente aggiornato con successo.');
+                ->with('warning', 'Bozza cliente aggiornata. Puoi continuare a completare i dati.')->with('customer_saved_draft_key', 'clienti.edit.'.$customer->id.'.draft.v1');
         }
-
-
+        if ($saveMode === 'to_schedina') {
+            return redirect()
+                ->route('newschedina', ['customer_id' => $customer->id])
+                ->with('success', 'Cliente aggiornato. La schedina nuova è pronta con i dati precompilati.')->with('customer_saved_id', $customer->id)->with('customer_saved_draft_key', 'clienti.edit.'.$customer->id.'.draft.v1');
+        }
+        return redirect('/clienti')->with('success', 'Cliente aggiornato con successo.')->with('customer_saved_id', $customer->id)->with('customer_saved_draft_key', 'clienti.edit.'.$customer->id.'.draft.v1');
+    }
 
     public function destroy($id)
     { 
@@ -347,21 +347,10 @@ class CustomerController extends Controller
 
     }
 
-    private function resolveNationAndCittadinanza($countryRegInput, $cittadinanzaInput, $countryRegFallback = null): array
+    private function resolveNationAndCittadinanza($countryRegInput, $cittadinanzaInput): array
     {
         $countryReg = is_string($countryRegInput) ? trim($countryRegInput) : $countryRegInput;
         $cittadinanzaReg = is_string($cittadinanzaInput) ? trim($cittadinanzaInput) : $cittadinanzaInput;
-        $countryRegFallback = is_string($countryRegFallback) ? trim($countryRegFallback) : $countryRegFallback;
-
-        if (empty($countryReg) && !empty($countryRegFallback)) {
-            $countryReg = $countryRegFallback;
-        }
-
-        // Fallback finale: non perdere mai la nazione in estero.
-        if (empty($countryReg) && !empty($cittadinanzaReg)) {
-            $countryReg = $cittadinanzaReg;
-        }
-
         if (empty($countryReg)) {
             return [$countryReg, $cittadinanzaReg];
         }
@@ -382,9 +371,6 @@ class CustomerController extends Controller
         }
 
         $countryReg = $nazione->nome;
-        if (empty($cittadinanzaReg)) {
-            $cittadinanzaReg = $nazione->cittadinanza ?: $nazione->nome;
-        }
 
         return [$countryReg, $cittadinanzaReg];
     }
@@ -421,6 +407,30 @@ class CustomerController extends Controller
         return $data;
     }
 
+    private function submissionKey(Request $request, array $payload): array
+    {
+        $data = $payload;
+        foreach (['privacy_consent_at', 'marketing_consent_at', 'communication_consent_at'] as $field) unset($data[$field]);
+        ksort($data);
+        $digest = hash('sha256', json_encode($data));
+        $identity = implode('|', [StrutturaCorrente::getId(), auth()->id(), $request->input('submission_id', $digest)]);
+        return ['key' => hash('sha256', $identity), 'digest' => $digest];
+    }
+
+    private function validateInputShape(Request $request): void
+    {
+        $rules = [];
+        // Il GEO ufficiale invia anche gruppi annidati di campi accessori non persistiti.
+        $scalarFields = array_merge((new Customers)->getFillable(), ['type_cliente', 'save_mode', 'save_mode_intent', 'has_azienda', 'active_tab', 'submission_id', 'country_reg_fallback', 'released_reg', 'grupo', 'geo_manual', 'geo_manual_reg', 'geo_manual_az', '_token', '_method']);
+        foreach ($scalarFields as $field) {
+            $rules[$field] = ['nullable', function ($attribute, $value, $fail) {
+                if (! is_scalar($value)) $fail('Il campo deve contenere un valore singolo.');
+            }];
+        }
+        foreach (['privacy_consent', 'marketing_consent', 'communication_consent', 'has_azienda'] as $field) $rules[$field] = ['nullable', 'boolean'];
+        Validator::make($request->all(), $rules)->validate();
+    }
+
     private function normalizeCustomerRequest(Request $request): void
     {
         $merge = [];
@@ -453,7 +463,7 @@ class CustomerController extends Controller
         foreach (['name', 'surname'] as $field) {
             $value = trim((string) $request->input($field, ''));
             if ($value !== '') {
-                $merge[$field] = preg_replace('/\s+/', ' ', preg_replace('/[0-9]+/', '', $value));
+                $merge[$field] = preg_replace('/\s+/', ' ', $value);
             }
         }
 
@@ -488,12 +498,19 @@ class CustomerController extends Controller
 
     private function normalizeGeoLabels(Request $request): void
     {
+        foreach (['typeaway' => [TipoVia::class, 'nome'], 'typeaway_az' => [TipoVia::class, 'nome'], 'rilasciato_reg' => [RilasciatoDa::class, 'name'], 'type_doc_reg' => [TipoDocumento::class, 'descrizione']] as $field => [$model, $column]) {
+            if (ctype_digit((string) $request->input($field, ''))) {
+                $record = $model::query()->find($request->input($field));
+                if ($record) $request->merge([$field => $record->$column]);
+            }
+        }
         $request->merge($this->resolveGeoLabelsFromInput([
             'country' => $request->input('country'),
             'region' => $request->input('region'),
             'province' => $request->input('province'),
             'city' => $request->input('city'),
             'country_reg' => $request->input('country_reg'),
+            'country_doc_reg' => $request->input('country_doc_reg'),
             'region_reg' => $request->input('region_reg'),
             'prov_reg' => $request->input('prov_reg'),
             'city_reg' => $request->input('city_reg'),
@@ -506,19 +523,13 @@ class CustomerController extends Controller
 
     private function resolveGeoLabelsFromInput(array $data): array
     {
-        foreach ([
-            'country',
-            'country_reg',
-            'country_az',
-        ] as $field) {
-            if (!array_key_exists($field, $data) || !is_numeric($data[$field])) {
-                continue;
-            }
-
-            $nazione = GeoNazione::query()->find((int) $data[$field], ['nome']);
-            if ($nazione) {
-                $data[$field] = $nazione->nome;
-            }
+        foreach (['country', 'country_reg', 'country_az', 'country_doc_reg'] as $field) {
+            if (! isset($data[$field]) || $data[$field] === '') continue;
+            $value = $data[$field];
+            $nazione = is_numeric($value)
+                ? GeoNazione::query()->find((int) $value)
+                : GeoNazione::query()->where('nome', $value)->orWhere('codice_iso2', $value)->first();
+            if ($nazione) $data[$field] = $nazione->nome;
         }
 
         foreach ([
@@ -555,6 +566,7 @@ class CustomerController extends Controller
             'city',
             'city_reg',
             'city_az',
+            'city_doc_reg',
         ] as $field) {
             if (!array_key_exists($field, $data) || !is_numeric($data[$field])) {
                 continue;
@@ -605,14 +617,18 @@ class CustomerController extends Controller
     private function rulesByTipoCliente(?string $tipoCliente, string $saveMode = 'final'): array
     {
         $tipo = $this->normalizeTipoCliente($tipoCliente);
-        $strictClienteMode = in_array($saveMode, ['final', 'to_schedina'], true);
         $nameRule = ['required', 'string', 'max:191', 'regex:/^[\pL\s\'\-\.]+$/u'];
-        $phoneRule = ['nullable', 'string', 'max:191', 'regex:/^[0-9\+\(\)\s\-\/]*$/'];
+        $phoneRule = ['nullable', 'string', 'max:191', 'regex:/^[0-9\+\(\)\s\-\/]*$/', 'regex:/[0-9]/'];
         $emailRule = ['nullable', 'email', 'max:191'];
         $websiteRule = ['nullable', 'url', 'max:191'];
 
         $base = [
-            'type_cliente' => ['required', Rule::in(['Ospite', 'Componente', 'Richiesta'])],
+            'submission_id' => ['nullable', 'uuid'],
+            'active_tab' => ['nullable', Rule::in(['steparrow-gen-info', 'steparrow-description-info', 'steparrow-azienda-info', 'steparrow-contact-info'])],
+            'has_azienda' => ['nullable', 'boolean'],
+            'save_mode' => ['nullable', Rule::in(['draft', 'final', 'to_schedina'])],
+            'save_mode_intent' => ['nullable', Rule::in(['draft', 'final', 'to_schedina'])],
+            'type_cliente' => ['required', Rule::in(TipoCliente::query()->diSistema()->where('attivo', true)->pluck('descrizione')->all())],
             'name' => $nameRule,
             'surname' => $nameRule,
             'group' => ['nullable', 'string', 'max:191'],
@@ -623,7 +639,7 @@ class CustomerController extends Controller
             'fax' => $phoneRule,
             'cellphone' => $phoneRule,
             'sex' => ['nullable', Rule::in(['M', 'F'])],
-            'privacy_consent' => [$strictClienteMode ? 'required' : 'nullable', 'boolean'],
+            'privacy_consent' => ['nullable', 'boolean'],
             'marketing_consent' => ['nullable', 'boolean'],
             'communication_consent' => ['nullable', 'boolean'],
             'website' => $websiteRule,
@@ -639,48 +655,44 @@ class CustomerController extends Controller
             'city_az' => ['nullable', 'string', 'max:191'],
         ];
 
+        foreach (['country', 'region', 'province', 'city', 'cap', 'typeaway', 'address', 'number', 'country_reg', 'region_reg', 'prov_reg', 'city_reg', 'cap_reg', 'ciudadania_reg', 'type_doc_reg', 'rilasciato_reg', 'country_doc_reg', 'city_doc_reg', 'azienda', 'region_az', 'province_az', 'cap_az', 'typeaway_az', 'address_az', 'number_az', 'observation', 'observation_reg', 'desc_az', 'nota'] as $field) {
+            $base[$field] ??= ['nullable', 'string', 'max:191'];
+        }
+        foreach (['cap_reg', 'cap_az', 'number_az'] as $field) $base[$field] = ['nullable', 'string', 'max:20'];
+        foreach (['desc_az', 'nota'] as $field) $base[$field] = ['nullable', 'string', function ($attribute, $value, $fail) {
+            if (strlen($value) > 65535) $fail('Il testo supera la capacità del campo.');
+        }];
+        $base['nac_reg'] = ['nullable', 'date_format:Y-m-d', 'before_or_equal:today'];
+        $base['date_pub_reg'] = ['nullable', 'date_format:Y-m-d', 'before_or_equal:today'];
+        $base['expire_reg'] = array_filter(['nullable', 'date_format:Y-m-d', request()->filled('date_pub_reg') ? 'after_or_equal:date_pub_reg' : null]);
+
         if ($tipo === 'Richiesta') {
-            return $this->withAziendaRules(array_replace($base, [
-                'email' => ['nullable', 'email', 'max:191'],
-                'phone' => ['nullable', 'string', 'max:191', 'regex:/^[0-9\+\(\)\s\-\/]*$/'],
-            ]));
+            return array_replace($base, [
+                'email' => ['required_without_all:phone,cellphone', 'nullable', 'email', 'max:191'],
+                'phone' => $phoneRule,
+            ]);
         }
 
-        return $this->withAziendaRules(array_replace($base, [
-            'sex' => ['required', Rule::in(['M', 'F'])],
-            'country' => ['required', 'string', 'max:191'],
-            'region' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:191'],
-            'province' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:191'],
-            'city' => ['required', 'string', 'max:191'],
-            'typeaway' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:191'],
-            'address' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:191'],
-            'number' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:50'],
-            'email' => ['nullable', 'email', 'max:191'],
-            'phone' => ['nullable', 'string', 'max:191', 'regex:/^[0-9\+\(\)\s\-\/]*$/'],
-            'country_reg' => ['required', 'string', 'max:191'],
-            'region_reg' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:191'],
-            'prov_reg' => [$strictClienteMode ? 'required' : 'nullable', 'string', 'max:191'],
-            'city_reg' => ['required', 'string', 'max:191'],
-            'cap_reg' => ['nullable', 'string', 'max:50'],
-            'ciudadania_reg' => ['required', 'string', 'max:191'],
-            'nac_reg' => ['required', 'string', 'max:50'],
-            'type_doc_reg' => ['required', 'string', 'max:191'],
-            'num_doc_reg' => ['required', 'string', 'max:191', 'regex:/^[A-Za-z0-9\/\-\s]+$/'],
-            'date_pub_reg' => ['required', 'string', 'max:191'],
-            'expire_reg' => ['required', 'string', 'max:50'],
-            'rilasciato_reg' => ['required', 'string', 'max:191'],
-            'country_doc_reg' => ['required', 'string', 'max:191'],
-            'city_doc_reg' => [
-                Rule::requiredIf(function () {
-                    $country = trim((string) request()->input('country_doc_reg', ''));
-                    $normalized = \Illuminate\Support\Str::of($country)->ascii()->lower()->value();
-                    return $normalized === 'italia' || str_contains($normalized, 'italia');
-                }),
-                'nullable',
-                'string',
-                'max:191',
-            ],
-        ]));
+        if ($saveMode === 'draft') {
+            return $base;
+        }
+
+        $required = ['sex', 'country_reg', 'ciudadania_reg', 'nac_reg'];
+        $country = GeoNazione::query()->where('nome', request('country_reg'))->first();
+        if ($country?->is_italia) {
+            $required[] = 'city_reg';
+            $required[] = 'prov_reg';
+        }
+        if ($tipo === 'Ospite') {
+            array_push($required, 'type_doc_reg', 'num_doc_reg', 'country_doc_reg');
+            $documentCountry = GeoNazione::query()->where('nome', request('country_doc_reg'))->first();
+            if ($documentCountry?->is_italia) $required[] = 'city_doc_reg';
+        }
+        foreach ($required as $field) {
+            $base[$field] = array_values(array_filter($base[$field], fn ($rule) => $rule !== 'nullable'));
+            array_unshift($base[$field], 'required');
+        }
+        return $base;
     }
 
     private function validateSchedinaTransferMode($validator, Request $request): void
@@ -694,22 +706,6 @@ class CustomerController extends Controller
         if ($tipoCliente !== 'Ospite') {
             $validator->errors()->add('type_cliente', 'Per salvare in schedina il cliente deve essere di tipo Ospite.');
         }
-    }
-
-    private function withAziendaRules(array $rules): array
-    {
-        $requiredWhenEnabled = Rule::requiredIf(fn () => request()->input('has_azienda') === '1');
-
-        $rules['azienda'] = [$requiredWhenEnabled, 'nullable', 'string', 'max:191'];
-        $rules['cf_az'] = [$requiredWhenEnabled, 'nullable', 'string', 'max:16', 'regex:/^[A-Za-z0-9]+$/'];
-        $rules['sdi_az'] = [$requiredWhenEnabled, 'nullable', 'size:7', 'regex:/^[A-Z0-9]+$/'];
-        $rules['email_az'] = [$requiredWhenEnabled, 'nullable', 'email', 'max:191'];
-        $rules['phone_az'] = [$requiredWhenEnabled, 'nullable', 'string', 'max:191', 'regex:/^[0-9\+\(\)\s\-\/]*$/'];
-        $rules['country_az'] = [$requiredWhenEnabled, 'nullable', 'string', 'max:191'];
-        $rules['city_az'] = [$requiredWhenEnabled, 'nullable', 'string', 'max:191'];
-        $rules['website'] = ['nullable', 'url', 'max:191'];
-
-        return $rules;
     }
 
     private function validationAttributes(): array
@@ -761,6 +757,8 @@ class CustomerController extends Controller
     {
         return [
             'required' => 'Completa il campo :attribute.',
+            'max.string' => 'Il campo :attribute non può superare :max caratteri.',
+            'email.required_without_all' => 'Inserisci almeno un contatto del cliente: email, telefono o cellulare.',
             'email' => 'Inserisci un indirizzo email valido per :attribute.',
             'url' => 'Inserisci un sito web valido per :attribute.',
             'digits' => 'Il campo :attribute deve contenere esattamente :digits numeri.',
@@ -821,18 +819,15 @@ class CustomerController extends Controller
     {
         $pattern = "{$prefix}-{$yearTwoDigits}-%";
 
-        $lastCode = Customers::query()
+        $lastSerial = Customers::query()
             ->withoutGlobalScopes()
-            ->when($strutturaId, fn($query) => $query->where('struttura_id', $strutturaId))
+            ->where('struttura_id', $strutturaId)
             ->where('numero_cliente', 'like', $pattern)
-            ->orderByDesc('numero_cliente')
-            ->value('numero_cliente');
+            ->whereRaw('numero_cliente REGEXP ?', ['^'.$prefix.'-'.$yearTwoDigits.'-[0-9]+$'])
+            ->max(DB::raw("CAST(SUBSTRING_INDEX(numero_cliente, '-', -1) AS UNSIGNED)"));
 
-        if (!$lastCode || !preg_match('/-(\d{4})$/', $lastCode, $matches)) {
-            return 1;
-        }
+        return ((int) $lastSerial) + 1;
 
-        return ((int) $matches[1]) + 1;
     }
 
     private function resolveGeoLabel($value, string $field): string
@@ -938,10 +933,10 @@ class CustomerController extends Controller
         string $tipoCliente,
         $countryReg,
         $cittadinanzaReg,
-        array $aziendaData
+        array $aziendaData,
+        ?Customers $existing = null
     ): array {
         $payload = [
-            'numero_cliente' => $request->input('numero_cliente'),
             'group' => $request->input('group'),
             'subgroup' => $request->input('subgroup'),
             'subgroup1' => $request->input('subgroup1'),
@@ -964,11 +959,11 @@ class CustomerController extends Controller
             'cellphone' => $request->input('cellphone'),
             'observation' => $request->input('observation'),
             'privacy_consent' => $request->boolean('privacy_consent'),
-            'privacy_consent_at' => $request->boolean('privacy_consent') ? ($request->input('privacy_consent_at') ?: now()) : null,
+            'privacy_consent_at' => $request->boolean('privacy_consent') ? (($existing?->privacy_consent ? $existing?->privacy_consent_at : null) ?: now()) : null,
             'marketing_consent' => $request->boolean('marketing_consent'),
-            'marketing_consent_at' => $request->boolean('marketing_consent') ? ($request->input('marketing_consent_at') ?: now()) : null,
+            'marketing_consent_at' => $request->boolean('marketing_consent') ? (($existing?->marketing_consent ? $existing?->marketing_consent_at : null) ?: now()) : null,
             'communication_consent' => $request->boolean('communication_consent'),
-            'communication_consent_at' => $request->boolean('communication_consent') ? ($request->input('communication_consent_at') ?: now()) : null,
+            'communication_consent_at' => $request->boolean('communication_consent') ? (($existing?->communication_consent ? $existing?->communication_consent_at : null) ?: now()) : null,
             'country_reg' => $countryReg,
             'region_reg' => $request->input('region_reg'),
             'city_reg' => $request->input('city_reg'),

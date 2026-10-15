@@ -20,6 +20,25 @@
     const saveModeIntentInput = document.getElementById('customer_save_mode_intent');
     const draftKey = customerForm?.dataset?.draftKey || 'clienti.nuovo.draft.v1';
 
+    @if(session('customer_saved_draft_key'))
+    localStorage.removeItem(@json(session('customer_saved_draft_key')));
+    @endif
+    const serverErrors = @json($errors->messages());
+    if (customerForm) {
+        for (const [name, messages] of Object.entries(serverErrors)) {
+            const field = Array.from(customerForm.elements).find(element => element.name === name && element.type !== 'hidden');
+            if (!field) continue;
+            const feedback = document.createElement('div');
+            feedback.className = 'invalid-feedback d-block';
+            feedback.textContent = messages[0];
+            feedback.id = `customer-error-${name}`;
+            field.classList.add('is-invalid');
+            field.setAttribute('aria-invalid', 'true');
+            field.setAttribute('aria-describedby', feedback.id);
+            field.parentElement.appendChild(feedback);
+        }
+    }
+
     const cssEscape = (value) => {
         if (window.CSS && typeof window.CSS.escape === 'function') {
             return window.CSS.escape(value);
@@ -32,7 +51,7 @@
         const fields = form.querySelectorAll('input[name], select[name], textarea[name]');
         fields.forEach((field) => {
             const name = field.getAttribute('name');
-            if (!name || name === '_token' || name === '_method') {
+            if (!name || ['_token', '_method', 'save_mode_intent'].includes(name)) {
                 return;
             }
             if (field.type === 'file') {
@@ -59,7 +78,7 @@
         const fields = form.querySelectorAll('input[name], select[name], textarea[name]');
         return Array.from(fields).some((field) => {
             const name = field.getAttribute('name');
-            if (!name || name === '_token' || name === '_method') {
+            if (!name || ['_token', '_method', 'save_mode_intent'].includes(name)) {
                 return false;
             }
             if (field.type === 'checkbox' || field.type === 'radio') {
@@ -80,7 +99,7 @@
 
     const restoreDraft = () => {
         if (!customerForm) return;
-        if (hasNonEmptyValue(customerForm)) return;
+        if (customerMode !== 'create' || customerForm.dataset.hasErrors === '1' || ['name', 'surname', 'email', 'phone', 'cellphone'].some(name => customerForm.querySelector(`[name="${name}"]`)?.value.trim())) return;
 
         const raw = localStorage.getItem(draftKey);
         if (!raw) return;
@@ -147,7 +166,7 @@
 
         customerForm.addEventListener('input', queueSave);
         customerForm.addEventListener('change', queueSave);
-        customerForm.addEventListener('submit', clearDraft);
+        customerForm.addEventListener('submit', saveDraft);
 
         document.querySelectorAll('.nexttab, [data-bs-toggle="pill"]').forEach((el) => {
             el.addEventListener('click', saveDraft);
@@ -207,9 +226,7 @@
     const birthGeo = document.querySelector('[data-ui="geo-italia"][data-prefix="birth"]');
     const birthCountryField = birthGeo ? birthGeo.querySelector('[name="country_reg"]') : null;
     const birthCountryFallback = document.getElementById('country_reg_fallback');
-    const cittadinanzaInput = document.getElementById('customer-ciudadania-reg');
     let birthNationSelected = { id: '', label: '', cittadinanza: '' };
-    let lastAutoCittadinanza = '';
     const geoNazioniMap = Array.isArray(window.__geoNazioniMap) ? window.__geoNazioniMap : [];
 
     const ensureSelectValue = (selectEl, value, label) => {
@@ -221,50 +238,6 @@
             selectEl.appendChild(option);
         }
         selectEl.value = normalized;
-    };
-
-    const resolveCountryMapping = () => {
-        if (!birthCountryField || !cittadinanzaInput) return;
-        const selected = birthCountryField.options[birthCountryField.selectedIndex] || null;
-        const selectedValue = selected ? String(selected.value || '').trim() : '';
-        const label = selected ? (selected.text || '').trim() : '';
-        const norm = (v) => String(v || '').trim().toLowerCase();
-        return geoNazioniMap.find((row) => {
-            return norm(row.id) === norm(selectedValue)
-                || norm(row.nome) === norm(label)
-                || norm(row.codice_iso2) === norm(selectedValue);
-        });
-    };
-
-    const applyCittadinanzaValue = (value) => {
-        const autoCit = String(value || '').trim();
-        if (!cittadinanzaInput || !autoCit) return;
-
-        const currentCit = String(cittadinanzaInput.value || '').trim();
-        const canOverride = !currentCit || !lastAutoCittadinanza || currentCit.toLowerCase() === lastAutoCittadinanza.toLowerCase();
-
-        if (!canOverride) {
-            return;
-        }
-
-        ensureSelectValue(cittadinanzaInput, autoCit, autoCit);
-        lastAutoCittadinanza = autoCit;
-
-        if (window.jQuery) {
-            window.jQuery(cittadinanzaInput).trigger('change');
-        } else {
-            cittadinanzaInput.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-    };
-
-    const syncCittadinanzaFromCountry = () => {
-        if (!birthCountryField || !cittadinanzaInput) return;
-        const selected = birthCountryField.options[birthCountryField.selectedIndex] || null;
-        const label = selected ? (selected.text || '').trim() : '';
-        const mapped = resolveCountryMapping();
-        const fallbackLabel = birthNationSelected.cittadinanza || birthNationSelected.label || label;
-        const autoCit = (mapped && mapped.cittadinanza) ? mapped.cittadinanza : fallbackLabel;
-        applyCittadinanzaValue(autoCit);
     };
 
     if (birthCountryField && window.jQuery) {
@@ -279,14 +252,9 @@
                 birthCountryFallback.value = birthNationSelected.id || birthNationSelected.label || '';
             }
 
-            applyCittadinanzaValue(birthNationSelected.cittadinanza || birthNationSelected.label);
-            syncCittadinanzaFromCountry();
         });
     }
 
-    if (birthCountryField) {
-        birthCountryField.addEventListener('change', syncCittadinanzaFromCountry);
-    }
 
     if (birthGeo) {
         birthGeo.addEventListener('geoselect:change', (event) => {
@@ -308,38 +276,7 @@
                 birthCountryFallback.value = birthNationSelected.id || birthNationSelected.label || '';
             }
 
-            applyCittadinanzaValue(birthNationSelected.cittadinanza);
         });
-    }
-
-    if (cittadinanzaInput) {
-        cittadinanzaInput.addEventListener('change', () => {
-            const currentCit = String(cittadinanzaInput.value || '').trim();
-            if (!currentCit) {
-                lastAutoCittadinanza = '';
-                return;
-            }
-
-            if (lastAutoCittadinanza && currentCit.toLowerCase() !== lastAutoCittadinanza.toLowerCase()) {
-                lastAutoCittadinanza = '';
-            }
-        });
-    }
-
-    if (birthCountryField && cittadinanzaInput) {
-        window.setTimeout(() => {
-            const currentCit = String(cittadinanzaInput.value || '').trim();
-            if (!currentCit) {
-                syncCittadinanzaFromCountry();
-                return;
-            }
-
-            const mapped = resolveCountryMapping();
-            const autoCit = mapped?.cittadinanza || '';
-            if (autoCit && currentCit.toLowerCase() === autoCit.toLowerCase()) {
-                syncCittadinanzaFromCountry();
-            }
-        }, 0);
     }
 
     if (customerForm && birthCountryField) {
@@ -410,9 +347,7 @@
             scope.querySelectorAll('input, select, textarea, button').forEach((field) => {
                 if (field.id === 'has_azienda_switch' || field.id === 'has_azienda_hidden' || field.name === 'has_azienda') return;
                 field.disabled = !enabled;
-                if (!enabled) {
-                    clearAziendaField(field);
-                }
+                // Conserva i valori durante disattivazione e riattivazione del pannello.
             });
 
             // Blocca anche elementi cliccabili non-form (es. controlli custom nel componente GEO).
@@ -571,49 +506,78 @@
             } else {
                 field.removeAttribute('required');
             }
+            if (field._flatpickr?.altInput) field._flatpickr.altInput.required = required;
+            const label = field.parentElement.querySelector('label');
+            if (label) {
+                label.querySelector('[data-required-marker]')?.remove();
+                if (required) {
+                    const marker = document.createElement('span');
+                    marker.dataset.requiredMarker = '1';
+                    marker.className = 'text-danger';
+                    marker.textContent = ' *';
+                    label.appendChild(marker);
+                }
+            }
         };
 
+        const draft = saveModeIntentInput?.value === 'draft';
+        setRequired('type_cliente', true);
         setRequired('name', true);
         setRequired('surname', true);
-        setRequired('sex', isClienteCompleto);
-        setRequired('country', isImportMode ? false : isClienteCompleto);
-        setRequired('region', isImportMode ? false : isClienteCompleto);
-        setRequired('province', isImportMode ? false : isClienteCompleto);
-        setRequired('city', isImportMode ? false : isClienteCompleto);
-        setRequired('typeaway', isImportMode ? false : isClienteCompleto);
-        setRequired('address', isImportMode ? false : isClienteCompleto);
-        setRequired('number', isImportMode ? false : isClienteCompleto);
-
-        setRequired('country_reg', isClienteCompleto);
-        setRequired('region_reg', false);
-        setRequired('prov_reg', false);
-        setRequired('city_reg', isClienteCompleto);
-        setRequired('ciudadania_reg', isClienteCompleto);
-        setRequired('nac_reg', isClienteCompleto);
-
-        setRequired('type_doc_reg', isClienteCompleto);
-        setRequired('num_doc_reg', isClienteCompleto);
-        setRequired('date_pub_reg', isImportMode ? false : isClienteCompleto);
-        setRequired('expire_reg', isImportMode ? false : isClienteCompleto);
-        setRequired('rilasciato_reg', isImportMode ? false : isClienteCompleto);
-        setRequired('country_doc_reg', isImportMode ? false : isClienteCompleto);
-
+        setRequired('sex', isClienteCompleto && !draft);
+        for (const name of ['country', 'region', 'province', 'city', 'typeaway', 'address', 'number', 'region_reg', 'date_pub_reg', 'expire_reg', 'rilasciato_reg']) {
+            setRequired(name, false);
+        }
+        setRequired('country_reg', isClienteCompleto && !draft);
+        setRequired('ciudadania_reg', isClienteCompleto && !draft);
+        setRequired('nac_reg', isClienteCompleto && !draft);
+        const birth = customerForm?.querySelector('[data-prefix="birth"]');
+        const birthValue = birth?.querySelector('[data-role="nazione"]')?.value;
+        const birthItalia = geoNazioniMap.some(nation => String(nation.id) === String(birthValue) && nation.is_italia) || birth?.querySelector('[data-action="italia"]')?.classList.contains('active') ||
+            birth?.querySelector('[data-role="nazione"] option:checked')?.textContent.trim().toLowerCase() === 'italia';
+        setRequired('city_reg', isClienteCompleto && !draft && birthItalia);
+        setRequired('prov_reg', isClienteCompleto && !draft && birthItalia);
+        for (const name of ['type_doc_reg', 'num_doc_reg', 'country_doc_reg']) setRequired(name, isOspite && !draft);
         const countryDocValue = String(customerForm?.querySelector('[name="country_doc_reg"]')?.value || '').trim().toLowerCase();
-        const countryDocItalia = countryDocValue.normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes('italia');
-        setRequired('city_doc_reg', isImportMode ? false : (isClienteCompleto && countryDocItalia));
+        setRequired('city_doc_reg', isOspite && !draft && countryDocValue === 'italia');
+        for (const name of ['azienda', 'cf_az', 'sdi_az', 'email_az', 'phone_az', 'country_az', 'city_az', 'email', 'phone']) setRequired(name, false);
+        const contacts = ['email', 'phone', 'cellphone'].map(name => customerForm?.querySelector(`[name="${name}"]`));
+        customerForm?.querySelector('[data-customer-contact-rule]')?.classList.toggle('d-none', !isRichiesta);
+        const missingContact = isRichiesta && !contacts.some(field => String(field?.value || '').trim());
+        const email = String(contacts[0]?.value || '').trim();
+        contacts[0]?.setCustomValidity(missingContact ? 'Inserisci almeno un contatto del cliente: email, telefono o cellulare.' :
+            (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'Inserisci un indirizzo email valido.' : ''));
+        for (const field of contacts.slice(1)) {
+            if (!field) continue;
+            const value = String(field.value || '').trim();
+            field.setCustomValidity(value && (!/^[0-9+()\s/\-]+$/.test(value) || !/[0-9]/.test(value)) ? 'Inserisci un telefono valido contenente almeno una cifra.' : '');
+        }
 
-        setRequired('email', false);
-        setRequired('phone', false);
 
-        const aziendaEnabled = !!hasAziendaSwitch?.checked;
-        setRequired('azienda', aziendaEnabled);
-        setRequired('cf_az', aziendaEnabled);
-        setRequired('sdi_az', aziendaEnabled);
-        setRequired('email_az', aziendaEnabled);
-        setRequired('phone_az', aziendaEnabled);
-        setRequired('country_az', aziendaEnabled);
-        setRequired('city_az', aziendaEnabled);
     };
+
+    customerForm?.addEventListener('input', applyTipoClienteRules);
+    customerForm?.addEventListener('change', applyTipoClienteRules);
+    customerForm?.addEventListener('click', event => {
+        const button = event.target.closest('button[name="save_mode"]');
+        if (!button) return;
+        if (saveModeIntentInput) saveModeIntentInput.value = button.value;
+        applyTipoClienteRules();
+    }, true);
+    customerForm?.addEventListener('submit', event => {
+        applyTipoClienteRules();
+        if (!customerForm.checkValidity()) {
+            if (event.submitter?.value === 'draft') {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
+            customerForm.classList.add('was-validated');
+            const invalid = customerForm.querySelector(':invalid');
+            const pane = invalid?.closest('.tab-pane');
+            if (pane) activateTabById(pane.id);
+            window.setTimeout(() => invalid?.focus(), 200);
+        }
+    }, true);
 
     if (tipoClienteSelect) {
         tipoClienteSelect.addEventListener('change', applyTipoClienteRules);
@@ -635,13 +599,14 @@
     phoneInputs.forEach(input => {
         input.addEventListener('input', function (e) {
             // Permitir solo números, espacios, paréntesis, guiones
-            input.value = input.value.replace(/[^0-9\-\(\)\s\+\/]/g, '');
+            const value = input.value.trim();
+            input.setCustomValidity(value && (!/^[0-9+()\s/\-]+$/.test(value) || !/[0-9]/.test(value)) ? 'Inserisci un telefono valido contenente almeno una cifra.' : '');
         });
     });
 
     textOnlyInputs.forEach((input) => {
         input.addEventListener('input', () => {
-            input.value = input.value.replace(/[0-9]/g, '');
+            input.setCustomValidity(input.value && !/^[\p{L}\s'\-.]+$/u.test(input.value) ? 'Usa lettere, spazi, apostrofi, punti o trattini.' : '');
         });
     });
 

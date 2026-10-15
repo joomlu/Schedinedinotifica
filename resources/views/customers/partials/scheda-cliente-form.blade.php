@@ -11,6 +11,7 @@
         $fieldValue = function (string $field, $default = null) use ($entity) {
             return old($field, data_get($entity, $field, $default));
         };
+        $geoValue = fn (array $value) => app(\App\Services\CustomerWizardValidation::class)->initial($value, $isEdit);
         $toDateInput = function ($value) {
             if (empty($value)) {
                 return '';
@@ -47,11 +48,13 @@
                         autocomplete="off"
                         data-draft-key="{{ $draftKey }}"
                         data-mode="{{ $effectiveMode }}"
+                        data-has-errors="{{ $errors->any() ? 1 : 0 }}"
                     >
                     @csrf 
                         @if($formMethod !== 'POST')
                             @method($formMethod)
                         @endif
+                        <input type="hidden" name="submission_id" value="{{ old('submission_id', (string) \Illuminate\Support\Str::uuid()) }}">
                         <input type="hidden" name="save_mode_intent" id="customer_save_mode_intent" value="{{ old('save_mode_intent', '') }}">
                         <input type="hidden" name="country_reg_fallback" id="country_reg_fallback" value="{{ $fieldValue('country_reg_fallback', data_get($entity, 'country_reg')) }}">
                         <input type="hidden" name="active_tab" id="customer_active_tab" value="{{ $initialTab }}">
@@ -198,15 +201,15 @@
                                     <div class="col-12">
                                         <x-geo.italia
                                             title="Geo residenza"
-                                            :value="[
-                                                'nazione_text' => $fieldValue('country'),
+                                            :value="$geoValue([
+                                                'nazione' => $fieldValue('country'),
                                                 'regione_text' => $fieldValue('region'),
                                                 'provincia_text' => $fieldValue('province'),
                                                 'comune_text' => $fieldValue('city'),
                                                 'cap' => $fieldValue('cap'),
                                                 'cap_text' => $fieldValue('cap'),
                                                 'manual' => (bool) $fieldValue('geo_manual', false),
-                                            ]"
+                                            ])"
                                             :names="[
                                                 'nazione_id' => 'country',
                                                 'regione_id' => 'region',
@@ -234,6 +237,7 @@
                                                         <div class="mb-3">
                                                             <label class="form-label">Tipo via</label>
                                                             <x-ui.select name="typeaway">
+                                                                <option value="">Seleziona tipo via</option>
                                                                 @foreach($tipiVia as $typestreet)
                                                                     <option value="{{ $typestreet->name }}" @selected($fieldValue('typeaway') === $typestreet->name)>{{ $typestreet->name }}</option>
                                                                 @endforeach
@@ -260,7 +264,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-start justify-content-end gap-3 mt-4">
+                                <div class="d-flex flex-wrap align-items-start justify-content-end gap-3 mt-4">
                                     @if(($submitLayout ?? 'customer') === 'import')
                                         <button type="submit" class="btn btn-success btn-label right">
                                             <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
@@ -317,15 +321,15 @@
                                                                 'cap_text' => 'cap_reg',
                                                                 'manual_flag' => 'geo_manual_reg',
                                                             ]"
-                                                            :value="[
-                                                                'nazione_text' => $fieldValue('country_reg'),
+                                                            :value="$geoValue([
+                                                                'nazione' => $fieldValue('country_reg'),
                                                                 'regione_text' => $fieldValue('region_reg'),
                                                                 'provincia_text' => $fieldValue('prov_reg'),
                                                                 'comune_text' => $fieldValue('city_reg'),
                                                                 'cap' => $fieldValue('cap_reg'),
                                                                 'cap_text' => $fieldValue('cap_reg'),
                                                                 'manual' => (bool) $fieldValue('geo_manual_reg', false),
-                                                            ]"
+                                                            ])"
                                                         />
                                                     </div>
                                                     <div class="col-12">
@@ -386,6 +390,9 @@
                                                                 @foreach($tipiDocumento as $tipoDocumento)
                                                                     <option value="{{ $tipoDocumento->name }}" @selected($fieldValue('type_doc_reg') === $tipoDocumento->name)>{{ $tipoDocumento->name }}</option>
                                                                 @endforeach
+                                                                @if($fieldValue('type_doc_reg') && !$tipiDocumento->pluck('name')->contains($fieldValue('type_doc_reg')))
+                                                                    <option value="{{ $fieldValue('type_doc_reg') }}" selected>{{ $fieldValue('type_doc_reg') }} (valore storico conservato)</option>
+                                                                @endif
                                                             </x-ui.select>
                                                         </div>
                                                     </div>
@@ -501,7 +508,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-start justify-content-end gap-3 mt-4">
+                                <div class="d-flex flex-wrap align-items-start justify-content-end gap-3 mt-4">
                                     @if(($submitLayout ?? 'customer') === 'import')
                                         <button type="submit" class="btn btn-success btn-label right">
                                             <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
@@ -586,7 +593,7 @@
                                                         <input type="text" class="form-control phone" name="phone_az" value="{{ $fieldValue('phone_az') }}" data-azienda-field>
                                                     </div>
                                                     <div class="col-lg-3">
-                                                        <label class="form-label">Celular</label>
+                                                        <label class="form-label">Cellulare</label>
                                                         <input type="text" class="form-control phone" name="cellphone_az" value="{{ $fieldValue('cellphone_az') }}" data-azienda-field>
                                                     </div>
                                                     <div class="col-lg-3">
@@ -617,18 +624,42 @@
                                     </div>
 
                                     <div class="col-12" data-azienda-scope>
+                                        <div class="row g-3">
+                                            <div class="col-lg-3">
+                                                <label class="form-label">Tipo via azienda</label>
+                                                <x-ui.select name="typeaway_az">
+                                                    <option value="">Seleziona tipo via</option>
+                                                    @foreach($tipiVia as $via)
+                                                        <option value="{{ $via->name }}" @selected($fieldValue('typeaway_az') === $via->name)>{{ $via->name }}</option>
+                                                    @endforeach
+                                                    @if($fieldValue('typeaway_az') && !$tipiVia->pluck('name')->contains($fieldValue('typeaway_az')))
+                                                        <option value="{{ $fieldValue('typeaway_az') }}" selected>{{ $fieldValue('typeaway_az') }} (valore storico conservato)</option>
+                                                    @endif
+                                                </x-ui.select>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="form-label">Indirizzo azienda</label>
+                                                <input class="form-control" name="address_az" value="{{ $fieldValue('address_az') }}">
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label class="form-label">Numero civico azienda</label>
+                                                <input class="form-control" name="number_az" maxlength="20" value="{{ $fieldValue('number_az') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" data-azienda-scope>
                                         <x-geo.italia
                                             title="Geo azienda"
                                             prefix="az"
-                                            :value="[
-                                                'nazione_text' => $fieldValue('country_az'),
+                                            :value="$geoValue([
+                                                'nazione' => $fieldValue('country_az'),
                                                 'regione_text' => $fieldValue('region_az'),
                                                 'provincia_text' => $fieldValue('province_az'),
                                                 'comune_text' => $fieldValue('city_az'),
                                                 'cap' => $fieldValue('cap_az'),
                                                 'cap_text' => $fieldValue('cap_az'),
                                                 'manual' => (bool) $fieldValue('geo_manual_az', false),
-                                            ]"
+                                            ])"
                                             :names="[
                                                 'nazione_id' => 'country_az',
                                                 'regione_id' => 'region_az',
@@ -644,7 +675,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-start justify-content-end gap-3 mt-4">
+                                <div class="d-flex flex-wrap align-items-start justify-content-end gap-3 mt-4">
                                     @if(($submitLayout ?? 'customer') === 'import')
                                         <button type="submit" class="btn btn-success btn-label right">
                                             <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
@@ -681,6 +712,7 @@
                                             <div class="card-header bg-light-subtle border-0 d-flex align-items-center">
                                                 <i class="ri-contacts-book-2-line me-2 text-primary"></i>
                                                 <h5 class="card-title mb-0">Contatti cliente</h5>
+                                                <span class="small ms-2" data-customer-contact-rule>Per Richiesta: almeno email, telefono o cellulare del cliente.</span>
                                             </div>
                                             <div class="card-body">
                                                 <div class="row g-3">
@@ -689,12 +721,12 @@
                                                         <input type="text" class="form-control phone" name="phone" value="{{ $fieldValue('phone') }}">
                                                     </div>
                                                     <div class="col-lg-3">
-                                                        <label class="form-label">Celular</label>
+                                                        <label class="form-label">Cellulare</label>
                                                         <input type="text" class="form-control phone" name="cellphone" value="{{ $fieldValue('cellphone') }}">
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <label class="form-label">Email</label>
-                                                        <input type="text" class="form-control email" name="email" value="{{ $fieldValue('email') }}" required>
+                                                        <input type="text" class="form-control email" name="email" value="{{ $fieldValue('email') }}">
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <label class="form-label">Fax</label>
@@ -718,7 +750,7 @@
                                                 <div class="row g-3">
                                                     <div class="col-lg-4">
                                                         <input type="hidden" name="privacy_consent" value="0">
-                                                        <input type="hidden" name="privacy_consent_at" value="{{ old('privacy_consent_at', optional($fieldValue('privacy_consent_at') ? \Carbon\Carbon::parse($fieldValue('privacy_consent_at')) : null)->toDateTimeString()) }}">
+                                                        <input type="hidden" name="privacy_consent_at" value="{{ data_get($entity, 'privacy_consent_at', '') }}">
                                                         <div class="border rounded-3 p-3 h-100 bg-light-subtle">
                                                             <div class="d-flex align-items-center justify-content-between gap-3">
                                                                 <div>
@@ -733,7 +765,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <input type="hidden" name="marketing_consent" value="0">
-                                                        <input type="hidden" name="marketing_consent_at" value="{{ old('marketing_consent_at', optional($fieldValue('marketing_consent_at') ? \Carbon\Carbon::parse($fieldValue('marketing_consent_at')) : null)->toDateTimeString()) }}">
+                                                        <input type="hidden" name="marketing_consent_at" value="{{ data_get($entity, 'marketing_consent_at', '') }}">
                                                         <div class="border rounded-3 p-3 h-100 bg-light-subtle">
                                                             <div class="d-flex align-items-center justify-content-between gap-3">
                                                                 <div>
@@ -748,7 +780,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <input type="hidden" name="communication_consent" value="0">
-                                                        <input type="hidden" name="communication_consent_at" value="{{ old('communication_consent_at', optional($fieldValue('communication_consent_at') ? \Carbon\Carbon::parse($fieldValue('communication_consent_at')) : null)->toDateTimeString()) }}">
+                                                        <input type="hidden" name="communication_consent_at" value="{{ data_get($entity, 'communication_consent_at', '') }}">
                                                         <div class="border rounded-3 p-3 h-100 bg-light-subtle">
                                                             <div class="d-flex align-items-center justify-content-between gap-3">
                                                                 <div>
@@ -786,7 +818,7 @@
                                                         <input type="text" class="form-control phone" name="fax_az" value="{{ $fieldValue('fax_az') }}">
                                                     </div>
                                                     <div class="col-lg-3">
-                                                        <label class="form-label">Celular</label>
+                                                        <label class="form-label">Cellulare</label>
                                                         <input type="text" class="form-control phone" name="cellphone_az" value="{{ $fieldValue('cellphone_az') }}">
                                                     </div>
                                                 </div>
@@ -794,7 +826,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-start justify-content-end gap-3 mt-4">
+                                <div class="d-flex flex-wrap align-items-start justify-content-end gap-3 mt-4">
                                     @if(($submitLayout ?? 'customer') === 'import')
                                         <button type="submit" class="btn btn-success btn-label right">
                                             <i class="ri-check-line label-icon align-middle fs-16 ms-2"></i>
