@@ -1,5 +1,5 @@
 {
-  "stato": "PARZIALE_RILASCIO_PENDENTE",
+  "stato": "RILASCIO_APPLICATIVO_VERIFICATO_BROWSER_AUTENTICATO_PENDENTE",
   "baseline_in_audit": true,
   "baseline_iniziale": "7312f84d028872bc228c2c26e6f9d1256e1b4beb",
   "ambiente_prove": "VM ufficiale, namespace senza rete esterna, database e filesystem effimeri, dati sintetici",
@@ -69,10 +69,36 @@
     "schema": "due colonne nullable e indice univoco",
     "backfill": false,
     "test_aggiornamento_e_ripetizione_isolati": "PASS",
-    "VM_quotidiana": "NON_ESEGUITA_RIFIUTO_REVISIONE_AUTOMATICA_APPROVAZIONE_PENDENTE",
-    "produzione": "NON_ESEGUITA"
+    "VM_quotidiana": "PASS_156_AUTORIZZAZIONE_UMANA_16_OTTOBRE",
+    "produzione": "PASS_156_C5_R3"
   },
-  "C5": "PENDENTE",
+  "C5": {
+    "esito": "PASS_APPLICATIVO",
+    "candidato": "9ecc94583026808079883bc42e18abd00b8b9c30",
+    "S0_secondi": 129.151,
+    "riapertura_secondi": 209.406,
+    "tabelle": 64,
+    "righe_precedenti_identiche": 38629,
+    "persistenti_conservati": 74,
+    "guardiano": "DISARMATO_INATTIVO_DISABILITATO",
+    "monitor": {
+      "esito": "PASS_MONITOR_ONLINE",
+      "secondi": 917.2637318158522,
+      "campioni": 31,
+      "sonde": 279
+    },
+    "browser_autenticato": "ACCESSO_SCADUTO_ALLA_RICARICA_RICHIESTO_NUOVAMENTE"
+  },
   "invii_enti": false,
-  "dati_produttivi_sintetici": false
+  "dati_produttivi_sintetici": false,
+  "VM_conservazione": {
+    "tabelle": 64,
+    "righe_originali": 25877,
+    "tutte_colonne_originali_identiche": true,
+    "checkpoint_cifrato_riletto": true,
+    "ripetizione_senza_modifiche": true,
+    "servizio_web_attivo": true
+  },
+  "conservazione_dopo_navigazione_browser": "PASS_38629_RIGHE_64_TABELLE",
+  "allineamento_finale": "Attestazione esterna output/verifica-wizard-cliente-2026-10-15/ricevuta-conclusiva.json"
 }
