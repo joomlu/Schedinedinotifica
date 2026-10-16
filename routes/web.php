@@ -316,6 +316,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/clienti/nuovo', [CustomerController::class, 'new'])->name('newcustomer');
     Route::post('/clienti', [CustomerController::class, 'store'])->name('customer.store');
     Route::get('/clienti/{id}/modifica', [CustomerController::class, 'edit'])->name('customer.edit');
+    Route::get('/clienti/{id}/visualizza', [CustomerController::class, 'show'])->whereNumber('id')->name('customer.show');
     Route::get('/clienti/{id}/stampa', [CustomerController::class, 'print'])->name('customer.print');
     Route::get('/clienti/{id}/storico', [CustomerController::class, 'storico'])->name('customer.storico');
     Route::put('/clienti/{id}', [CustomerController::class, 'update'])->name('customer.update');

@@ -30,12 +30,28 @@ for (const width of [1440, 390]) test(`Gestione cliente, tassa e stampa a ${widt
  await page.locator('#clientiSearch').fill('Sintetico');
  await page.locator('#clientiSearch').press('Enter');
  await expect.poll(()=>new URL(page.url()).searchParams.get('q')).toBe('Sintetico');
- await expect(page.getByRole('link',{name:'Apri scheda cliente',exact:true})).toHaveCount(1);
+ await expect(page.getByRole('link',{name:'Modifica cliente',exact:true})).toHaveCount(1);
  await expect(page.locator('#clientiTable tbody')).toContainText('Sintetico');
+ await page.locator('#clientiTipoFiltro').selectOption('Richiesta');
+ await expect(page).toHaveURL(/tipo_cliente=Richiesta/);
+ await page.locator('#clientiStatoFiltro').selectOption('completo');
+ await expect(page).toHaveURL(/stato=completo/);
+ await expect(page.locator('#clientiTable tbody')).toContainText('Sintetico');
+ await page.locator('#clientiStatoFiltro').selectOption('bozza');
+ await expect(page).toHaveURL(/stato=bozza/);
+ await expect(page.getByRole('link',{name:'Visualizza cliente',exact:true})).toHaveCount(0);
+ await page.getByRole('link',{name:'Rimuovi filtri',exact:true}).click();
+ await expect.poll(()=>new URL(page.url()).searchParams.get('tipo_cliente')).toBeNull();
+ await expect.poll(()=>new URL(page.url()).searchParams.get('stato')).toBeNull();
+ await expect(page.getByRole('link',{name:'Visualizza cliente',exact:true})).toHaveCount(1);
  await page.locator('#clientiOrdine').selectOption('cognome');
  await expect(page).toHaveURL(/ordine=cognome/);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBeTruthy();
- await page.getByRole('link',{name:'Apri scheda cliente',exact:true}).click();
+ await page.getByRole('link',{name:'Visualizza cliente',exact:true}).click();
+ await expect(page.getByText('Visualizza cliente — sola lettura',{exact:true})).toBeVisible();
+ await expect(page.locator('input, select, textarea')).toHaveCount(0);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBeTruthy();
+ await page.getByRole('link',{name:'Modifica cliente',exact:true}).click();
  await expect(page.locator('[name="name"]')).toHaveValue(/^Cliente/);
  await page.waitForLoadState('networkidle');
  await expect(page.locator('[name="type_cliente"]')).toHaveValue('Richiesta');
@@ -45,16 +61,18 @@ for (const width of [1440, 390]) test(`Gestione cliente, tassa e stampa a ${widt
  await expect(page.getByRole('button',{name:'Sì, modifica',exact:true})).toBeVisible({timeout:10000});
  await page.getByRole('button',{name:'Sì, modifica',exact:true}).click();
  await page.getByRole('button',{name:'OK',exact:true}).click();
- await expect(page).toHaveURL(/\/clienti$/);
+ await expect(page).toHaveURL(/\/clienti\?/);
+ await expect.poll(()=>new URL(page.url()).searchParams.get('q')).toBe('Sintetico');
+ await expect.poll(()=>new URL(page.url()).searchParams.get('ordine')).toBe('cognome');
  await page.waitForLoadState('networkidle');
  const avviso=page.getByRole('button',{name:'OK',exact:true});
  if(await avviso.isVisible()) await avviso.click();
  await page.locator('#clientiSearch').fill(nomeAggiornato);
  await page.locator('#clientiSearch').press('Enter');
  await expect.poll(()=>new URL(page.url()).searchParams.get('q')).toBe(nomeAggiornato);
- await expect(page.getByRole('link',{name:'Apri scheda cliente',exact:true})).toHaveCount(1);
+ await expect(page.getByRole('link',{name:'Modifica cliente',exact:true})).toHaveCount(1);
  await expect(page.locator('#clientiTable tbody')).toContainText(nomeAggiornato);
- await page.getByRole('link',{name:'Apri scheda cliente',exact:true}).click();
+ await page.getByRole('link',{name:'Modifica cliente',exact:true}).click();
  await expect(page.locator('[name="name"]')).toHaveValue(nomeAggiornato);
  const popupEvent=page.waitForEvent('popup');
  await page.getByRole('link',{name:'Stampa scheda completa',exact:true}).click();
@@ -83,4 +101,23 @@ for(const role of ['admin','proprietario']) test(`Navigazione e dinieghi browser
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBeTruthy();
  const denied=await page.goto(`${BASE_URL}/superadmin/tassa/configurazione`);
  expect(denied.status()).toBe(403);
+});
+
+test('Utente struttura: dinieghi diretti e cliente esterno non enumerabile',async({page})=>{
+ await page.goto(`${BASE_URL}/login`);
+ await page.locator('[name="login"]').fill('fixture-struttura_user');
+ await page.locator('[name="password"]').fill('Password-fixture-123!');
+ await page.getByRole('button',{name:'Entra',exact:true}).click();
+ await expect(page).not.toHaveURL(/\/login$/);
+ const ids=await(await page.request.get(`${BASE_URL}/tipo-cliente-fixture-ids.json`)).json();
+ await page.goto(`${BASE_URL}/clienti`);
+ await expect(page.locator('#clientiTable')).not.toContainText('Sintetico');
+ for(const action of ['visualizza','modifica','stampa']) {
+  const denied=await page.request.get(`${BASE_URL}/clienti/${ids.cliente}/${action}`);
+  expect(denied.status()).toBe(404);
+ }
+ await page.goto(`${BASE_URL}/clienti/nuovo`);
+ const token=await page.locator('form.form-steps input[name="_token"]').inputValue();
+ const denied=await page.request.put(`${BASE_URL}/clienti/${ids.cliente}`,{headers:{'X-CSRF-TOKEN':token},data:{name:'Alterata'}});
+ expect(denied.status()).toBe(404);
 });

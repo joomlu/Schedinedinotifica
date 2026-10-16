@@ -1,5 +1,13 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Aggiornamento corrente — completamento clienti e requisito Anagrafica
+
+[Consuntivo e matrice corrente](../COMPLETAMENTO-CLIENTI-E-SUPERADMIN-2026-10-16.md). Ripresa da9e0efd6: rimosso il solo pulsante Anagrafica accanto ai salvataggi e il contenitore vuoto, schede e campi conservati. Consultazione completa distinta dalla modifica, struttura esplicita e consensi non equiparati a firma. Ritorno all’elenco con contesto validato per struttura; nuova guardia nel solo controller clienti esclude per l’amministratore le strutture non assegnate, prevalendo sull’eccezione operativa legacy degli altri moduli. Nessuna migrazione, modifica di clienti reali o invio enti.
+
+VM ufficiale isolata:136test/1.159asserzioni PASS;5test/154asserzioni mirati PASS;12browser distinti positivi fra R4/R6,15guardie,23override,build/GEO PASS. Due PDF di4pagine A4 ciascuno, tutte8ispezionate, nota80 e11soggiorni integri. Errori di fixture/attese R1–R4 distinti dai PASS. **Nuovo cliente PARZIALE:** esito intermittente Anagrafica mobile in R5, non riprodotto nella R6 identica, causa non determinata e pendente; una ripetizione verde non chiude il problema. Elenco/consultazione/modifica/stampa e Superadmin verificati soltanto nello scope isolato descritto.
+
+C5 ancora BLOCCATA per capienza, preflight finale e quattro SHA nella ricevuta esterna; produzione baseline5e3d58b, nessun PREPARE/RUN/manutenzione, nuova acceptance online o monitor post-rilascio. Backup/SQL/chiavi/cifrati/diagnostici e lavoro estraneo preservati; nessuna rimozione o crescita risorse implicita. Due soli residui nello stesso registro: intermittenza mobile e capienza/C5/acceptance. **BASELINE IN AUDIT generale invariata.**
+
 ## Aggiornamento corrente — riordino Superadmin e percorso cliente
 
 [Consuntivo, prove e ricevuta](../RIORDINO-SUPERADMIN-E-CLIENTI-2026-10-16.md). Baseline effettiva locale/GitHub/produzione5e3d58b. Blocco QA rimosso dalla navigazione, diagnostici e presidi conservati; tassa suddivisa per contesto/profilo/fonti/documenti/esenzioni, azioni e stati vuoti amministrativi adattabili. Clienti: ordinamento consentito e stabile, cellulare ricercabile, filtri mobile, ritorno e stampa dalla scheda. Stampa completa con azienda/classificazione/consensi e tutti i soggiorni; testi lunghi scorrevoli e intestazioni ripetute. Nessuna migrazione o logica di calcolo modificata.

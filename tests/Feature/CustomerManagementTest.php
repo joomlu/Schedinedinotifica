@@ -24,9 +24,10 @@ class CustomerManagementTest extends TestCase
             $this->get('/clienti?q=PersonaUnica')->assertOk()->assertSee('PersonaUnica')->assertDontSee('ClienteSegreto');
             $this->get('/clienti?stato=completo&tipo_cliente=Richiesta')->assertOk()->assertSee('PersonaUnica');
             $this->get('/clienti?stato=bozza')->assertOk()->assertDontSee('PersonaUnica');
+            $this->get('/clienti/'.$customer->id.'/visualizza')->assertOk()->assertSee('Visualizza cliente — sola lettura')->assertSee('Azienda completa')->assertDontSee('name="save_mode"', false);
             $this->get('/clienti/'.$customer->id.'/modifica')->assertOk()->assertSee('Stampa scheda completa');
             $this->get('/clienti/'.$customer->id.'/stampa')->assertOk()->assertSee('Azienda completa')->assertSee('Nota lunga')->assertSee('Classificazione e anagrafica')->assertSee('Storico soggiorni completo')->assertSee('SOGGIORNO-1')->assertSee('SOGGIORNO-9');
-            foreach (['modifica', 'stampa', 'storico'] as $action) $this->get('/clienti/'.$foreign->id.'/'.$action)->assertNotFound();
+            foreach (['visualizza', 'modifica', 'stampa', 'storico'] as $action) $this->get('/clienti/'.$foreign->id.'/'.$action)->assertNotFound();
             $this->put('/clienti/'.$foreign->id, ['name' => 'Violazione'])->assertNotFound();
             $this->assertSame('ClienteSegreto', $foreign->fresh()->name);
         }
@@ -56,5 +57,38 @@ class CustomerManagementTest extends TestCase
             if ($role === 'super_admin') $response->assertOk()->assertSee('Contesto territoriale')->assertSee('Verifiche delle fonti')->assertSee('documentazione-tassa');
             else $response->assertForbidden();
         }
+    }
+
+    public function test_contesto_elenco_conservato_per_struttura_e_reset(): void
+    {
+        $s = $this->structureFor(null);
+        $other = $this->structureFor(null);
+        $this->actingAs($this->actor('super_admin'))->withSession(['struttura_corrente_id' => $s->id]);
+        $customer = Customers::forceCreate(['struttura_id' => $s->id, 'name' => 'Persona', 'surname' => 'Sintetica', 'type_housed' => 'Richiesta', 'email' => 'persona@example.test']);
+        $query = ['q' => 'Sintetica', 'tipo_cliente' => 'Richiesta', 'stato' => 'completo', 'ordine' => 'nome', 'page' => 2];
+        $this->get('/clienti?'.http_build_query($query))->assertOk();
+        $this->get('/clienti/'.$customer->id.'/visualizza')->assertOk()->assertSee('page=2')->assertSee('ordine=nome');
+        $this->put('/clienti/'.$customer->id, ['type_cliente' => 'Richiesta', 'name' => 'Aggiornata', 'surname' => 'Sintetica', 'email' => 'persona@example.test'])
+            ->assertSessionHasNoErrors()->assertRedirect(route('customers', $query));
+        $this->assertSame(1, Customers::count());
+        $this->withSession(['struttura_corrente_id' => $other->id])->get('/clienti')->assertOk()->assertDontSee('Aggiornata');
+        $this->withSession(['struttura_corrente_id' => $s->id])->get('/clienti')->assertOk();
+        $this->get('/clienti/'.$customer->id.'/visualizza')->assertOk()->assertDontSee('page=2');
+        $this->getJson('/clienti?stato=alterato')->assertUnprocessable();
+        $this->getJson('/clienti?page=-1')->assertUnprocessable();
+    }
+
+    public function test_amministratore_non_accede_ai_clienti_di_strutture_non_assegnate(): void
+    {
+        $admin = $this->actor('admin');
+        $legacy = $this->structureFor(null);
+        $customer = Customers::forceCreate(['struttura_id' => $legacy->id, 'name' => 'Riservata', 'surname' => 'Legacy']);
+        $this->actingAs($admin)->withSession(['struttura_corrente_id' => $legacy->id]);
+        foreach (['/clienti', '/clienti/nuovo', '/clienti/'.$customer->id.'/visualizza', '/clienti/'.$customer->id.'/modifica', '/clienti/'.$customer->id.'/stampa'] as $url) {
+            $this->get($url)->assertForbidden();
+        }
+        $this->post('/clienti', ['type_cliente' => 'Richiesta', 'name' => 'Tentativo'])->assertForbidden();
+        $this->put('/clienti/'.$customer->id, ['name' => 'Alterata'])->assertForbidden();
+        $this->assertSame('Riservata', $customer->fresh()->name);
     }
 }

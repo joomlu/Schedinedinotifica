@@ -143,6 +143,9 @@
                         <td class="align-middle">{{ $customer->group ?: '-' }}</td>
                         <td class="text-end align-middle">
                             <div class="d-inline-flex gap-1">
+                                <a href="{{ route('customer.show', $customer->id) }}" class="btn btn-soft-primary btn-sm" title="Visualizza cliente" aria-label="Visualizza cliente">
+                                    <i class="ri-eye-line fs-16 align-middle"></i>
+                                </a>
                                 <a href="{{ route('customer.storico', $customer->id) }}" class="btn btn-soft-dark btn-sm" title="Storico cliente">
                                     <i class="ri-history-line fs-16 align-middle"></i>
                                 </a>
@@ -152,7 +155,7 @@
                                 <a href="{{ route('newschedina', ['customer_id' => $customer->id]) }}" class="btn btn-soft-primary btn-sm" title="Apri schedina">
                                     <i class="ri-file-add-line fs-16 align-middle"></i>
                                 </a>
-                                <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-soft-info btn-sm" title="Apri scheda cliente" aria-label="Apri scheda cliente">
+                                <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-soft-info btn-sm" title="Modifica cliente" aria-label="Modifica cliente">
                                     <i class="ri-edit-line fs-16 align-middle"></i>
                                 </a>
                                 <form

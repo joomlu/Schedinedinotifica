@@ -29,11 +29,17 @@ class CustomerController extends Controller
     public function __construct()
     {
         $this->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class);
+        $this->middleware(function (Request $request, $next) {
+            $struttura = \App\Support\StrutturaAccess::authorized($request);
+            abort_unless(\App\Support\StrutturaAccess::query($request->user())->whereKey($struttura->id)->exists(), 403);
+            return $next($request);
+        });
     }
 
     public function index()
     {
-        request()->validate(['q' => ['nullable', 'string', 'max:191'], 'tipo_cliente' => ['nullable', 'string', 'max:191'], 'stato' => ['nullable', 'string', 'max:191'], 'ordine' => ['nullable', Rule::in(['recenti', 'nome', 'cognome', 'codice'])]]);
+        request()->validate(['q' => ['nullable', 'string', 'max:191'], 'tipo_cliente' => ['nullable', 'string', 'max:191'], 'stato' => ['nullable', Rule::in(['bozza', 'completo'])], 'ordine' => ['nullable', Rule::in(['recenti', 'nome', 'cognome', 'codice'])], 'page' => ['nullable', 'integer', 'min:1']]);
+        session()->put('clienti_elenco.'.StrutturaCorrente::getId(), request()->only(['q', 'tipo_cliente', 'stato', 'ordine', 'page']));
         $q = trim((string) request('q', ''));
         $tipoCliente = trim((string) request('tipo_cliente', ''));
         $stato = trim((string) request('stato', ''));
@@ -270,6 +276,11 @@ class CustomerController extends Controller
         return view('customers.edit', $formData);
     }
 
+    public function show(int $id)
+    {
+        return $this->print($id)->with('consultazione', true);
+    }
+
     public function print(int $id)
     {
         /** @var Customers $customer */
@@ -347,7 +358,7 @@ class CustomerController extends Controller
                 ->route('newschedina', ['customer_id' => $customer->id])
                 ->with('success', 'Cliente aggiornato. La schedina nuova è pronta con i dati precompilati.')->with('customer_saved_id', $customer->id)->with('customer_saved_draft_key', 'clienti.edit.'.$customer->id.'.draft.v1');
         }
-        return redirect('/clienti')->with('success', 'Cliente aggiornato con successo.')->with('customer_saved_id', $customer->id)->with('customer_saved_draft_key', 'clienti.edit.'.$customer->id.'.draft.v1');
+        return redirect(route('customers', session('clienti_elenco.'.StrutturaCorrente::getId(), [])))->with('success', 'Cliente aggiornato con successo.')->with('customer_saved_id', $customer->id)->with('customer_saved_draft_key', 'clienti.edit.'.$customer->id.'.draft.v1');
     }
 
     public function destroy($id)

@@ -58,8 +58,6 @@
                         <input type="hidden" name="save_mode_intent" id="customer_save_mode_intent" value="{{ old('save_mode_intent', '') }}">
                         <input type="hidden" name="country_reg_fallback" id="country_reg_fallback" value="{{ $fieldValue('country_reg_fallback', data_get($entity, 'country_reg')) }}">
                         <input type="hidden" name="active_tab" id="customer_active_tab" value="{{ $initialTab }}">
-                        <div class="text-center pt-3 pb-4 mb-1 d-flex justify-content-center">
-                        </div>
                         <div class="step-arrow-nav mb-4">
                             <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -284,12 +282,6 @@
                                             Salva a schedina
                                         </button>
                                     @endif
-                                    @unless($isEdit)
-                                    <button type="button" class="btn btn-soft-success btn-label right nexttab" data-nexttab="steparrow-description-info">
-                                        <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
-                                        Anagrafica
-                                    </button>
-                                    @endunless
                                 </div>
                             </div>
 

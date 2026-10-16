@@ -36,6 +36,16 @@
             margin: 0 auto 10px;
             display: flex;
             justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .print-actions a { color: var(--tango-dark); padding: 9px; }
+        @media screen and (max-width: 600px) {
+            body { padding: 8px; }
+            .sheet { padding: 12px; }
+            .two-col, .history-table { table-layout: fixed; width: 100%; }
+            td, th { overflow-wrap: anywhere; }
         }
 
         .print-actions button {
@@ -207,11 +217,19 @@
 </head>
 <body>
     <div class="print-actions">
-        <button type="button" onclick="window.print()">Stampa / Salva PDF</button>
+        @if($consultazione ?? false)
+            <a href="{{ route('customers', session('clienti_elenco.'.\App\Support\StrutturaCorrente::getId(), [])) }}">Torna all’elenco clienti</a>
+            <a href="{{ route('customer.edit', $customer->id) }}">Modifica cliente</a>
+            <a href="{{ route('customer.print', $customer->id) }}" target="_blank" rel="noopener">Stampa scheda completa</a>
+        @else
+            <button type="button" onclick="window.print()">Stampa / Salva PDF</button>
+        @endif
     </div>
 
     <div class="sheet">
-        <div class="sheet-title">Scheda cliente</div>
+        <div class="sheet-title">{{ ($consultazione ?? false) ? 'Visualizza cliente — sola lettura' : 'Scheda cliente' }}</div>
+        <p>Struttura: {{ $customer->struttura?->nome_struttura ?: 'ID '.$customer->struttura_id }}</p>
+        <p class="muted">I consensi riportati sono registrazioni del gestionale e non costituiscono una firma.</p>
 
         <div class="section">
             <div class="section-title">Cliente residenza</div>
