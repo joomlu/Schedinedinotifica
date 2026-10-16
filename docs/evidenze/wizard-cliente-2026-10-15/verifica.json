@@ -1,5 +1,5 @@
 {
-  "stato": "RILASCIO_APPLICATIVO_VERIFICATO_BROWSER_AUTENTICATO_PENDENTE",
+  "stato": "RILASCIO_APPLICATIVO_E_BROWSER_AUTENTICATO_VERIFICATI",
   "baseline_in_audit": true,
   "baseline_iniziale": "7312f84d028872bc228c2c26e6f9d1256e1b4beb",
   "ambiente_prove": "VM ufficiale, namespace senza rete esterna, database e filesystem effimeri, dati sintetici",
@@ -87,7 +87,7 @@
       "campioni": 31,
       "sonde": 279
     },
-    "browser_autenticato": "ACCESSO_SCADUTO_ALLA_RICARICA_RICHIESTO_NUOVAMENTE"
+    "browser_autenticato": "PASS_CONSULTAZIONE_DESKTOP_MOBILE_16_OTTOBRE"
   },
   "invii_enti": false,
   "dati_produttivi_sintetici": false,
@@ -100,5 +100,37 @@
     "servizio_web_attivo": true
   },
   "conservazione_dopo_navigazione_browser": "PASS_38629_RIGHE_64_TABELLE",
-  "allineamento_finale": "Attestazione esterna output/verifica-wizard-cliente-2026-10-15/ricevuta-conclusiva.json"
+  "allineamento_finale": "Attestazione esterna output/verifica-wizard-cliente-2026-10-15/ricevuta-conclusiva.json",
+  "browser_produttivo": {
+    "esito": "PASS_BROWSER_AUTENTICATO_CONSULTAZIONE",
+    "data_UTC": "2026-10-16T10:08:15.216236+00:00",
+    "SHA_pubblicato": "7233eb625a5f338c72c0b9737683053ba7d449d3",
+    "ruolo": "Superadmin",
+    "struttura": "Hotel Amalfi",
+    "percorso": "/clienti/nuovo",
+    "schede": [
+      "Cliente Residenza",
+      "Anagrafica",
+      "Azienda",
+      "Contatti"
+    ],
+    "pulsanti": [
+      "Salva a bozza",
+      "Salva a cliente",
+      "Salva a schedina"
+    ],
+    "Anagrafica_in_basso": "Campi minimi mancanti: resta nella prima scheda e porta il focus su Nome; nessun salvataggio",
+    "mobile": {
+      "viewport": 390,
+      "corpo": 379,
+      "documento": 379,
+      "schede_verificate": 4
+    },
+    "errori_console": 0,
+    "bozza_locale_preesistente": "Ripristinata automaticamente; dati e selezioni non modificati né cancellati",
+    "salvataggi_produttivi": 0,
+    "invii_enti": 0,
+    "limiti": "Mutazioni, GEO con selezioni nuove e quattro ruoli attestati nelle prove isolate sullo stesso sorgente, non rieseguiti su record produttivi",
+    "screenshot_privato": "output/verifica-wizard-cliente-2026-10-15/browser-autenticato-2026-10-16.png"
+  }
 }
