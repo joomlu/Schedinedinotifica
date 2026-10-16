@@ -1,0 +1,85 @@
+{
+  "pulizia": {
+    "free_before": 1213435904,
+    "free_after_unlink": 3042902016,
+    "recovered_unlink": 1829466112,
+    "free_after": 4126203904,
+    "recovered_real": 2912768000,
+    "count": 105024,
+    "allocated_nominal": 1806782464,
+    "cow_nominal": 1083301888,
+    "protetti_non_candidati": [
+      "DB",
+      "SQL",
+      "chiavi",
+      "cifrati originali",
+      "upload",
+      "loghi",
+      "diagnostici",
+      "sorgenti e documenti"
+    ],
+    "nessun_processo_mount": true,
+    "categorie": {
+      "vendor": {
+        "file": 81600,
+        "byte_allocati": 658419712
+      },
+      "public/build": {
+        "file": 23424,
+        "byte_allocati": 1148362752
+      }
+    },
+    "repliche_Git_CoW": 31,
+    "inventario_sha256": "433d9cea4a1df14f96d509fdf4a52885e1cf4db5e09c497f52a6beb517f2bed8",
+    "cifrati_autenticati": 13,
+    "dettaglio": "output/pubblicazione-liste-2026-10-16/eliminazione.json",
+    "primo_df_libero": 1274081280,
+    "liberi_dopo_scrittura_inventari": 4041920512,
+    "saldo_intera_pulizia_e_audit": 2767839232
+  },
+  "capienza": {
+    "recupero_precedente_allocato": 681992192,
+    "componenti": {
+      "decoded": 29061120,
+      "extracted": 423358464,
+      "archivio-base-verificato.json": 4096,
+      "dbdata": 206282752,
+      "db-tmp": 0,
+      "db-private.log": 4096,
+      "ridump.sql": 23244800,
+      "custody": 4096,
+      "sign.pub": 4096,
+      "private.php": 4096,
+      "pool.conf": 4096,
+      "fpm.log": 4096,
+      "fpm-console.log": 0,
+      "web": 4096,
+      "closed": 4096,
+      "apache.conf": 4096,
+      "apache-console.log": 0,
+      "apache.log": 4096
+    },
+    "cifrati_base_allocati": 362008576,
+    "liberi_VM": 4041920512,
+    "data_UTC": "2026-10-16T22:04:40.315646+00:00",
+    "margine_prudenziale": 1073741824,
+    "liberi_Mac": 15123824640,
+    "nessuna_rimozione": false,
+    "nessuna_manutenzione": true,
+    "nessun_PREPARE": true,
+    "recupero_storico_completo_prima_pulizia": 939229184,
+    "riserva_nuovo_candidato_per_recupero": 16777216,
+    "fabbisogno_stimato": 3709771776,
+    "limite": "Stima da recupero completo prima della pulizia, mai abbassata per i derivati rimossi;16MiB aggiuntivi per ognuno dei due nuovi recuperi PREPARE/S0, rollback coperto dal checkpoint e monitor nella riserva: non è una misura del picco del nuovo candidato. Nessun riuso dello S0 precedente.",
+    "esito": "PASS_STIMA_CAPIENZA"
+  },
+  "prove_correnti": {
+    "PHPUnit": "20/331 PASS",
+    "browser": "3 PASS 1440/768/390",
+    "override": 23,
+    "build_GEO": "PASS",
+    "log_sha256": "d5f74723314b726c4b45e57a88f85436eab6cb95ebeddcfa5f48a11e4c873cf9"
+  },
+  "nessun_cambiamento_applicativo": "Sorgenti identici a0a4ac360a75c72494859002871c10bc6eb20ef7d, già su GitHub/VM; nuova chiusura documentale nello stesso candidato da pubblicare.",
+  "autorizzazione": "Richiesta corrente di pulizia mirata e pubblicazione C5, controlli online e monitor completo; nessuna nuova DDL o invio."
+}

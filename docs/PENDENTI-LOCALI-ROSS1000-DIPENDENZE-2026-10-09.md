@@ -1,5 +1,12 @@
 # Pendenti locali: Ross1000 e dipendenze - 9 ottobre 2026
 
+## Ripresa C5 liste/import/export — 17 ottobre
+
+Capienza VM sbloccata con soli derivati inattivi verificati e packGitCoW: [consuntivo](LISTE-IMPORT-EXPORT-2026-10-16.md#ripresa-autorizzata--pubblicazione-del-17-ottobre). Nuove20prove/331asserzioni e3browser PASS; nessun cambio applicativo/DDL. Pubblicazione, online, monitor e allineamento conclusivo si chiudono soltanto con la nuova ricevuta esterna PASS indicata dal consuntivo; altrimentiPARZIALE con fase/arresto espliciti. Le precedenti misure STOP restano storico, non verifica corrente.
+
+Le due lacune import restano pendenti: validazione completa wizard non condivisa e normalizzazione autonoma via/civico assente. Nessuna loro soluzione attribuita al rilascio.
+
+
 ## Area liste/import/export — pendenze correnti del 16 ottobre
 
 Riordino verificato in isolamento:20test/331asserzioni,3browser desktop/tablet/mobile,15guardie/build/GEO PASS. [Consuntivo](LISTE-IMPORT-EXPORT-2026-10-16.md). **PARZIALE:** pubblicazione C5 ferma prima PREPARE per capienza (1338986496<3676217344byte,1GiB margine); nuova acceptance online, monitor e allineamento produzione pendenti. Nessun ampliamento o cancellazione impliciti.

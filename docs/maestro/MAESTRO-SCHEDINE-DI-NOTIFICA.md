@@ -1,5 +1,12 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Aggiornamento corrente — ripresa della pubblicazione Liste, import ed export
+
+[Consuntivo e ricevuta conclusiva della ripresa](../LISTE-IMPORT-EXPORT-2026-10-16.md#ripresa-autorizzata--pubblicazione-del-17-ottobre). Stato0a4locale/GitHub/VM e cf1produzione riletto. Pulizia di soli105.024derivati vendor/build di recuperi chiusi e consolidazioneCoW31packGit identici, file e contenuti preservati.13custodieSHA/HMAC, nessun processo/mount; SQL/DB/chiavi/cifrati/upload/loghi/diagnostici esclusi. Recupero netto puntuale2912768000byte; dopo inventari4041920512liberi contro3709771776stimati con1GiBmargine invariato:PASScapienza, nessuna crescitaVM. Nuove20prove/331asserzioni e3browser1440/768/390,23override/build/GEO PASS in isolamento sintetico.
+
+C5 con nuovi PREPARE/checkpoint/S0/guardiano e zeroDDL; nessun vecchioT0 riutilizzato o gate modificato. Esito operativo/online/monitor900secondi, conservazione e quattroSHA soltanto nella nuova ricevuta esterna del consuntivo: precedenteSTOP superato esclusivamente da talePASS, nessuna pubblicazione anticipata. Le due lacune import preesistenti restanoPARZIALI. Lavoro estraneo preservato/escluso; **BASELINE IN AUDIT invariata.**
+
+
 ## Aggiornamento corrente — area Liste, import ed export
 
 [Consuntivo e prove](../LISTE-IMPORT-EXPORT-2026-10-16.md). Unico ingresso Clienti, due schede con URL esistenti; contatori import su tutto lo storico, filtri export/consensi/anteprima e ritorni per struttura, staging e modello conservati. Protezioni rigorose sui due controller e duplicati di catena limitati alle strutture autorizzate. Nessuna migrazione.20test/331asserzioni,3browser1440/768/390,15guardie,23override e build/GEO PASS in isolamento sintetico. Lacune preesistenti dichiarate: import non condivide validazione completa wizard; indirizzo conservato, nessuna normalizzazione autonoma via/civico.
