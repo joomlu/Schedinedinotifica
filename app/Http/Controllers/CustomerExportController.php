@@ -16,9 +16,26 @@ use Illuminate\Support\Collection;
 
 class CustomerExportController extends Controller
 {
+    public function __construct()
+    {
+        $this->guardArea();
+    }
+
+    private function guardArea(): void
+    {
+        $this->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class);
+        $this->middleware(function (Request $request, $next) {
+            $struttura = \App\Support\StrutturaAccess::authorized($request);
+            abort_unless(\App\Support\StrutturaAccess::query($request->user())->whereKey($struttura->id)->exists(), 403);
+            return $next($request);
+        });
+    }
+
     public function index(Request $request)
     {
         $query = $this->buildFilteredQuery($request);
+        session()->put('clienti_origine.'.StrutturaCorrente::getId(), 'export');
+        session()->put('clienti_export.'.StrutturaCorrente::getId(), $request->only(['q', 'tipo_cliente', 'group', 'subgroup', 'subgroup1', 'country', 'city', 'stato', 'privacy_consent', 'marketing_consent', 'communication_consent', 'channel', 'has_soggiorni', 'page']));
         $summary = $this->buildSummaryMetrics($query);
 
         $customers = $query
@@ -118,6 +135,12 @@ class CustomerExportController extends Controller
 
     private function buildFilteredQuery(Request $request): Builder
     {
+        $rules = [];
+        foreach (['q', 'tipo_cliente', 'group', 'subgroup', 'subgroup1', 'country', 'city', 'stato', 'privacy_consent', 'marketing_consent', 'communication_consent', 'channel', 'has_soggiorni'] as $field) {
+            $rules[$field] = ['nullable', 'string', 'max:191'];
+        }
+        $rules['page'] = ['nullable', 'integer', 'min:1'];
+        $request->validate($rules);
         $q = trim((string) $request->input('q', ''));
         $tipo = trim((string) $request->input('tipo_cliente', ''));
         $group = trim((string) $request->input('group', ''));

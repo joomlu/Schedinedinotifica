@@ -130,8 +130,7 @@
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item"><a href="{{ route('newcustomer') }}" class="nav-link {{ $isRoute('newcustomer') ? 'active' : '' }}">Nuovo</a></li>
                                 <li class="nav-item"><a href="{{ route('customers') }}" class="nav-link {{ $isRoute('customers', 'customer.store', 'customer.edit', 'customer.update', 'customer.print', 'customer.storico', 'customer.destroy') ? 'active' : '' }}">Lista</a></li>
-                                <li class="nav-item"><a href="{{ route('customer.import.index') }}" class="nav-link {{ $isRoute('customer.import.*') ? 'active' : '' }}">Import clienti</a></li>
-                                <li class="nav-item"><a href="{{ route('customer.export.index') }}" class="nav-link {{ $isRoute('customer.export.*') ? 'active' : '' }}">Liste e export</a></li>
+                                <li class="nav-item"><a href="{{ route('customer.export.index') }}" class="nav-link {{ $isRoute('customer.export.*', 'customer.import.*', 'customer.imported.*') ? 'active' : '' }}">Liste, import ed export</a></li>
                             </ul>
                         </div>
                     </li>

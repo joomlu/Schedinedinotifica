@@ -11,6 +11,8 @@
     @endslot
 @endcomponent
 
+@include('customers.area-tabs')
+
 <div class="row g-4">
     <div class="col-12">
         <div class="card border-0 shadow-sm">

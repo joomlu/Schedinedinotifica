@@ -12,6 +12,7 @@
     @endslot
 @endcomponent
 
+<div class="mb-3"><a href="{{ \App\Support\CustomerListReturn::url() }}" class="btn btn-light">Torna all’elenco clienti</a></div>
 <div class="row g-4">
     <div class="col-12">
         <div class="card shadow-sm">

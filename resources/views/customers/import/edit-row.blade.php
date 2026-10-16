@@ -11,6 +11,8 @@
         @endslot
     @endcomponent
 
+@include('customers.area-tabs')
+
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
         <div>
             <h4 class="mb-1">Cliente {{ $row->row_number - 1 }}</h4>

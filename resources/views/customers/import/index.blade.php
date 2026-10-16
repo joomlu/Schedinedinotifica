@@ -11,13 +11,7 @@
     @endslot
 @endcomponent
 
-@php
-    $batchItems = $batches->items();
-    $totaleImportazioni = count($batchItems);
-    $totaleRighe = collect($batchItems)->sum(fn ($batch) => (int) ($batch->total_rows ?? 0));
-    $totaleValide = collect($batchItems)->sum(fn ($batch) => (int) ($batch->valid_rows ?? 0));
-    $totaleDaCompletare = collect($batchItems)->sum(fn ($batch) => (int) ($batch->needs_review_rows ?? 0));
-@endphp
+@include('customers.area-tabs')
 
 <div class="row g-4">
     <div class="col-12">
@@ -33,25 +27,25 @@
             </div>
             <div class="card-body">
                 <div class="row g-3 mb-4">
-                    <div class="col-md-3">
+                    <div class="col-6 col-lg-3">
                         <div class="border rounded-3 p-3 h-100 bg-light-subtle">
                             <div class="text-muted small">File importati</div>
                             <div class="fw-semibold fs-4">{{ $totaleImportazioni }}</div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-6 col-lg-3">
                         <div class="border rounded-3 p-3 h-100 bg-light-subtle">
                             <div class="text-muted small">Righe totali</div>
                             <div class="fw-semibold fs-4">{{ $totaleRighe }}</div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-6 col-lg-3">
                         <div class="border rounded-3 p-3 h-100 bg-light-subtle">
                             <div class="text-muted small">Valide</div>
                             <div class="fw-semibold fs-4 text-success">{{ $totaleValide }}</div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-6 col-lg-3">
                         <div class="border rounded-3 p-3 h-100 bg-light-subtle">
                             <div class="text-muted small">Da completare</div>
                             <div class="fw-semibold fs-4 text-warning">{{ $totaleDaCompletare }}</div>
@@ -60,7 +54,7 @@
                 </div>
 
                 <div class="row g-4 align-items-stretch">
-                    <div class="col-xl-7">
+                    <div class="col-12">
                         <div class="border rounded-3 p-3 p-xl-4 bg-light-subtle h-100">
                             <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
                                 <div>
@@ -73,8 +67,8 @@
                             <form method="POST" action="{{ route('customer.import.store') }}" enctype="multipart/form-data" class="row g-3">
                                 @csrf
                                 <div class="col-12">
-                                    <label class="form-label">File clienti</label>
-                                    <input type="file" name="file_import" class="form-control @error('file_import') is-invalid @enderror" accept=".csv,.txt" required>
+                                    <label for="file-import" class="form-label">File clienti</label>
+                                    <input type="file" id="file-import" name="file_import" class="form-control @error('file_import') is-invalid @enderror" accept=".csv,.txt" required>
                                     @error('file_import')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -94,23 +88,24 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-5">
-                        <div class="border rounded-3 p-3 p-xl-4 h-100">
+                    <div class="col-12">
+                        <details class="border rounded-3 p-3 p-xl-4">
+                            <summary class="fw-semibold mb-3">Modello e regole</summary>
                             <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
                                 <div>
-                                    <div class="fw-semibold">Modello e regole</div>
+                                    <a href="{{ route('customer.import.template') }}">Scarica modello CSV</a>
                                     <div class="small text-muted">Checklist operativa</div>
                                 </div>
-                                <span class="badge bg-success-subtle text-success">Pronto</span>
+
                             </div>
 
                             <ul class="list-unstyled small text-muted mb-3">
-                                <li class="mb-2"><i class="ri-check-line text-success me-2"></i>Normalizza CAP e indirizzo quando il GEO è incompleto.</li>
-                                <li class="mb-2"><i class="ri-check-line text-success me-2"></i>Rileva duplicati nel file, nell'hotel e nella catena.</li>
-                                <li class="mb-2"><i class="ri-check-line text-success me-2"></i>Usa la stessa verifica di correzione del cliente prima di salvare.</li>
+                                <li class="mb-2"><i class="ri-check-line text-success me-2"></i>Ripulisce il CAP e completa Comune e Provincia solo con una corrispondenza GEO univoca. L’indirizzo viene conservato.</li>
+                                <li class="mb-2"><i class="ri-check-line text-success me-2"></i>Segnala possibili duplicati nel file, nella struttura e nelle strutture della stessa proprietà.</li>
+                                <li class="mb-2"><i class="ri-alert-line text-warning me-2"></i>La conferma richiede nome e cognome. La validazione completa del wizard cliente non è ancora condivisa: controlla i dati prima di confermare.</li>
                                 <li><i class="ri-check-line text-success me-2"></i>Le righe non valide restano in staging e possono essere scartate.</li>
                             </ul>
-                        </div>
+                        </details>
                     </div>
                 </div>
             </div>
@@ -152,7 +147,7 @@
                                             <div class="text-muted small">{{ optional($batch->created_at)->format('d/m/Y H:i') }}</div>
                                         </td>
                                         <td>
-                                            <span class="badge bg-light text-dark text-uppercase">{{ str_replace('_', ' ', $batch->status) }}</span>
+                                            <span class="badge bg-light text-dark text-uppercase">{{ $statusLabels[$batch->status] ?? 'Stato non riconosciuto' }}</span>
                                         </td>
                                         <td>{{ $batch->total_rows }}</td>
                                         <td>{{ $batch->valid_rows }}</td>

@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Liste e export clienti')
+@section('title', 'Liste ed export clienti')
 
 @section('content')
 @component('components.breadcrumb')
@@ -7,27 +7,13 @@
         Clienti
     @endslot
     @slot('title')
-        Liste e export
+        Liste ed export
     @endslot
 @endcomponent
 
-@php
-    $hasActiveFilters = collect([
-        request('q'),
-        request('tipo_cliente'),
-        request('country'),
-        request('city'),
-        request('group'),
-        request('subgroup'),
-        request('subgroup1'),
-        request('stato'),
-        request('privacy_consent'),
-        request('marketing_consent'),
-        request('communication_consent'),
-        request('channel'),
-        request('has_soggiorni'),
-    ])->filter(fn ($value) => $value !== null && $value !== '')->isNotEmpty();
-@endphp
+@include('customers.area-tabs')
+
+
 
 <div class="row g-4">
     <style>
@@ -44,41 +30,49 @@
         <div class="card border-0 shadow-sm">
             <div class="card-header border-0 bg-light-subtle d-flex align-items-center justify-content-between gap-3 flex-wrap">
                 <div>
-                    <h4 class="card-title mb-1">Liste e export clienti</h4>
+                    <h4 class="card-title mb-1">Liste ed export clienti</h4>
                     <p class="text-muted mb-0">Filtra i clienti, controlla chi puoi contattare ed esporta i dati in modo semplice.</p>
                 </div>
-                <div class="d-flex gap-2 flex-wrap justify-content-end">
-                    <button
-                        type="button"
-                        class="btn btn-light btn-sm"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#customerExportFilters"
-                        aria-expanded="{{ $hasActiveFilters ? 'true' : 'false' }}"
-                        aria-controls="customerExportFilters"
-                    >
-                        <i class="ri-equalizer-line align-middle fs-16 me-1"></i>
-                        Filtri
-                    </button>
-                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'general'])) }}" class="btn btn-primary btn-sm">
-                        <i class="ri-file-excel-2-line align-middle fs-16 me-1"></i>
-                        CSV completo
-                    </a>
-                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'email'])) }}" class="btn btn-success btn-sm">
-                        <i class="ri-mail-send-line align-middle fs-16 me-1"></i>
-                        Email
-                    </a>
-                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'whatsapp'])) }}" class="btn btn-info btn-sm text-white">
-                        <i class="ri-whatsapp-line align-middle fs-16 me-1"></i>
-                        WhatsApp
-                    </a>
-                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'postal'])) }}" class="btn btn-dark btn-sm">
-                        <i class="ri-map-pin-line align-middle fs-16 me-1"></i>
-                        Postale
-                    </a>
-                </div>
+
             </div>
 
-            <div id="customerExportFilters" class="collapse {{ $hasActiveFilters ? 'show' : '' }}">
+
+        </div>
+    </div>
+
+    <div id="customer-export-results" class="col-12">
+        <div class="col-12">
+            <div class="row g-3">
+                <div class="col-6 col-lg-3">
+                    <div class="border rounded-3 p-3 h-100 bg-light-subtle">
+                        <div class="text-muted small">Clienti filtrati</div>
+                        <div class="fw-semibold fs-4">{{ $totaleFiltrati }}</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="border rounded-3 p-3 h-100 bg-light-subtle">
+                        <div class="text-muted small">Con email</div>
+                        <div class="fw-semibold fs-4">{{ $totaleConEmail }}</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="border rounded-3 p-3 h-100 bg-light-subtle">
+                        <div class="text-muted small">Con cellulare</div>
+                        <div class="fw-semibold fs-4">{{ $totaleConCellulare }}</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="border rounded-3 p-3 h-100 bg-light-subtle">
+                        <div class="text-muted small">Con consenso marketing</div>
+                        <div class="fw-semibold fs-4">{{ $totaleMarketing }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 my-4">
+            <div class="card border-0 shadow-sm">
+            <div id="customerExportFilters">
                 <div class="card-body border-top">
                     <form method="GET" action="{{ route('customer.export.index') }}" class="row g-3" id="customer-export-search-form">
                         <div class="col-12">
@@ -86,7 +80,7 @@
                                 <div class="fw-semibold mb-3">Filtri</div>
                                 <div class="row g-3 align-items-end">
                                     <div class="col-lg-9">
-                                        <label class="form-label">Ricerca</label>
+                                        <label for="customer-export-search" class="form-label">Ricerca</label>
                                         <div class="input-group">
                                             <span class="input-group-text bg-white border-end-0">
                                                 <i class="ri-search-line"></i>
@@ -111,7 +105,43 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 d-flex justify-content-end gap-2">
+                                    @foreach([
+                                        'tipo_cliente' => ['Tipo cliente', $tipiClienti->pluck('descrizione')->all()],
+                                        'country' => ['Nazione', $nazioni->pluck('nome')->all()],
+                                        'city' => ['Comune', $citta->pluck('nome')->all()],
+                                        'group' => ['Gruppo I', $gruppiLivello1->pluck('nome')->all()],
+                                        'subgroup' => ['Gruppo II', $gruppiLivello2->pluck('nome')->all()],
+                                        'subgroup1' => ['Gruppo III', $gruppiLivello3->pluck('nome')->all()],
+                                    ] as $field => [$label, $options])
+                                        <div class="col-md-6 col-lg-4">
+                                            <label for="filter-{{ $field }}" class="form-label">{{ $label }}</label>
+                                            <select name="{{ $field }}" id="filter-{{ $field }}" class="form-select">
+                                                <option value="">Tutti</option>
+                                                @foreach($options as $option)
+                                                    <option value="{{ $option }}" @selected(request($field) === $option)>{{ $option }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endforeach
+                                    @foreach([
+                                        'stato' => ['Stato', ['bozza' => 'Bozza', 'completo' => 'Completo']],
+                                        'privacy_consent' => ['Consenso privacy', ['1' => 'Sì', '0' => 'No']],
+                                        'marketing_consent' => ['Consenso marketing', ['1' => 'Sì', '0' => 'No']],
+                                        'communication_consent' => ['Consenso comunicazioni', ['1' => 'Sì', '0' => 'No']],
+                                        'channel' => ['Contattabile tramite', ['email' => 'Email', 'whatsapp' => 'WhatsApp', 'postal' => 'Postale']],
+                                        'has_soggiorni' => ['Soggiorni', ['yes' => 'Presenti', 'no' => 'Assenti']],
+                                    ] as $field => [$label, $options])
+                                        <div class="col-md-6 col-lg-4">
+                                            <label for="filter-{{ $field }}" class="form-label">{{ $label }}</label>
+                                            <select name="{{ $field }}" id="filter-{{ $field }}" class="form-select">
+                                                <option value="">Tutti</option>
+                                                @foreach($options as $value => $option)
+                                                    <option value="{{ $value }}" @selected((string) request($field) === (string) $value)>{{ $option }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endforeach
+                                    <div class="col-12 d-flex flex-wrap justify-content-end gap-2">
                                         <a href="{{ route('customer.export.index') }}" class="btn btn-light btn-label">
                                             <i class="ri-close-line label-icon align-middle fs-16 me-2"></i>
                                             Pulisci
@@ -127,42 +157,29 @@
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
+<div class="card-body border-top"><h5>Esporta risultati filtrati</h5><p class="small text-muted">La presenza di un contatto non costituisce consenso. Email e WhatsApp rispettano i consensi previsti.</p>                <div class="d-flex gap-2 flex-wrap justify-content-end">
 
-    <div id="customer-export-results">
-        <div class="col-12">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                        <div class="text-muted small">Clienti filtrati</div>
-                        <div class="fw-semibold fs-4">{{ $totaleFiltrati }}</div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                        <div class="text-muted small">Con email</div>
-                        <div class="fw-semibold fs-4">{{ $totaleConEmail }}</div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                        <div class="text-muted small">Con cellulare</div>
-                        <div class="fw-semibold fs-4">{{ $totaleConCellulare }}</div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="border rounded-3 p-3 h-100 bg-light-subtle">
-                        <div class="text-muted small">Con consenso marketing</div>
-                        <div class="fw-semibold fs-4">{{ $totaleMarketing }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'general'])) }}" class="btn btn-primary btn-sm">
+                        <i class="ri-file-excel-2-line align-middle fs-16 me-1"></i>
+                        CSV completo
+                    </a>
+                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'email'])) }}" class="btn btn-success btn-sm">
+                        <i class="ri-mail-send-line align-middle fs-16 me-1"></i>
+                        Email
+                    </a>
+                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'whatsapp'])) }}" class="btn btn-info btn-sm text-white">
+                        <i class="ri-whatsapp-line align-middle fs-16 me-1"></i>
+                        WhatsApp
+                    </a>
+                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'postal'])) }}" class="btn btn-dark btn-sm">
+                        <i class="ri-map-pin-line align-middle fs-16 me-1"></i>
+                        Postale
+                    </a>
+                </div></div></div></div>
 
         <div class="col-12">
             <div class="card border-0 shadow-sm">
-                <div class="card-header border-0 bg-light-subtle d-flex align-items-center justify-content-between">
+                <div class="card-header border-0 bg-light-subtle d-flex align-items-center justify-content-between flex-wrap gap-2">
                     <h5 class="card-title mb-0">Anteprima clienti filtrati</h5>
                     <span class="text-muted small">La tabella mostra un'anteprima. Gli export usano tutti i risultati filtrati.</span>
                 </div>
@@ -187,13 +204,13 @@
                                     <tr class="customer-export-row" data-href="{{ route('customer.edit', $customer->id) }}" title="Apri cliente">
                                         <td>
                                             <div class="d-inline-flex gap-1">
-                                                <a href="{{ route('customer.print', $customer->id) }}" class="btn btn-soft-secondary btn-sm js-customer-print" title="Stampa scheda cliente" data-popup-title="Scheda cliente">
+                                                <a href="{{ route('customer.print', $customer->id) }}" class="btn btn-soft-secondary btn-sm js-customer-print" title="Stampa scheda cliente" aria-label="Stampa scheda cliente" data-popup-title="Scheda cliente">
                                                     <i class="ri-printer-line fs-16 align-middle"></i>
                                                 </a>
-                                                <a href="{{ route('customer.storico', $customer->id) }}" class="btn btn-soft-dark btn-sm" title="Storico cliente">
+                                                <a href="{{ route('customer.storico', $customer->id) }}" class="btn btn-soft-dark btn-sm" title="Storico cliente" aria-label="Storico cliente">
                                                     <i class="ri-history-line fs-16 align-middle"></i>
                                                 </a>
-                                                <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-soft-info btn-sm" title="Apri cliente">
+                                                <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-soft-info btn-sm" title="Apri cliente" aria-label="Apri cliente">
                                                     <i class="ri-eye-line fs-16 align-middle"></i>
                                                 </a>
                                                 <form method="POST" action="{{ route('customer.export.destroy', array_merge(request()->except(['page', 'id']), ['id' => $customer->id])) }}" class="m-0"
@@ -244,7 +261,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="text-center text-muted py-4">Nessun cliente trovato con i filtri selezionati.</td>
+                                        <td colspan="9" class="text-center text-muted py-4">Nessun cliente trovato con i filtri selezionati.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -304,111 +321,11 @@
     document.addEventListener('DOMContentLoaded', function () {
         bindCustomerExportInteractions();
 
-        const input = document.getElementById('customer-export-search');
-        const clearBtn = document.getElementById('customer-export-search-clear');
-        const form = document.getElementById('customer-export-search-form');
-        const results = document.getElementById('customer-export-results');
-
-        if (!input || !results || !form) {
-            return;
-        }
-
-        const updateClearButtonState = () => {
-            if (!clearBtn) return;
-            clearBtn.style.display = input.value.trim() ? '' : 'none';
-        };
-
-        const preserveFocus = () => {
-            if (document.activeElement !== input) {
-                input.focus();
-            }
-            const cursorPosition = input.value.length;
-            input.setSelectionRange(cursorPosition, cursorPosition);
-        };
-
-        let debounceTimer = null;
-        let latestRequestId = 0;
-
-        const applyResults = (html) => {
-            const parser = new DOMParser();
-            const parsed = parser.parseFromString(html, 'text/html');
-            const nextResults = parsed.getElementById('customer-export-results');
-            if (!nextResults) {
-                return;
-            }
-
-            results.innerHTML = nextResults.innerHTML;
-            bindCustomerExportInteractions();
-            preserveFocus();
-        };
-
-        const submitSearch = function () {
-            const url = new URL(window.location.href);
-            const q = (input.value || '').trim();
-
-            if (q !== '') {
-                url.searchParams.set('q', q);
-            } else {
-                url.searchParams.delete('q');
-            }
-
-            url.searchParams.delete('page');
-            history.replaceState({}, '', url.toString());
-
-            const currentRequestId = ++latestRequestId;
-            fetch(url.toString(), {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'text/html',
-                },
-                credentials: 'same-origin',
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch customer export results');
-                    }
-
-                    return response.text();
-                })
-                .then((html) => {
-                    if (currentRequestId !== latestRequestId) {
-                        return;
-                    }
-                    applyResults(html);
-                })
-                .catch(() => {
-                    console.warn('Customer export search refresh failed.');
-                });
-        };
-
-        input.addEventListener('input', function () {
-            updateClearButtonState();
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(submitSearch, 350);
+        const clear = document.getElementById('customer-export-search-clear');
+        if (clear) clear.addEventListener('click', () => {
+            document.getElementById('customer-export-search').value = '';
+            document.getElementById('customer-export-search-form').requestSubmit();
         });
-
-        input.addEventListener('keydown', function (event) {
-            if (event.key !== 'Enter') {
-                return;
-            }
-
-            event.preventDefault();
-            clearTimeout(debounceTimer);
-            submitSearch();
-        });
-
-        if (clearBtn) {
-            clearBtn.addEventListener('click', function () {
-                input.value = '';
-                updateClearButtonState();
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(submitSearch, 350);
-                preserveFocus();
-            });
-        }
-
-        updateClearButtonState();
-        preserveFocus();
     });
 </script>
 @endpush

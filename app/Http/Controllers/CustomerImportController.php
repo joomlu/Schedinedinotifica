@@ -28,19 +28,35 @@ class CustomerImportController extends Controller
 {
     public function __construct(private readonly CustomerImportService $service)
     {
+        $this->guardArea();
+    }
+
+    private function guardArea(): void
+    {
+        $this->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class);
+        $this->middleware(function (Request $request, $next) {
+            $struttura = \App\Support\StrutturaAccess::authorized($request);
+            abort_unless(\App\Support\StrutturaAccess::query($request->user())->whereKey($struttura->id)->exists(), 403);
+            return $next($request);
+        });
     }
 
     public function index()
     {
         $struttura = $this->currentStruttura();
-        $batches = CustomerImportBatch::query()
-            ->where('struttura_id', $struttura->id)
-            ->latest()
+        $query = CustomerImportBatch::query()->where('struttura_id', $struttura->id);
+        $totals = (clone $query)->selectRaw('COUNT(*) as files, COALESCE(SUM(total_rows), 0) as rows_total, COALESCE(SUM(valid_rows), 0) as valid, COALESCE(SUM(needs_review_rows), 0) as review')->first();
+        $batches = $query->latest()
             ->paginate(10);
 
         return view('customers.import.index', [
             'struttura' => $struttura,
             'batches' => $batches,
+            'statusLabels' => $this->statusLabels(),
+            'totaleImportazioni' => (int) $totals->files,
+            'totaleRighe' => (int) $totals->rows_total,
+            'totaleValide' => (int) $totals->valid,
+            'totaleDaCompletare' => (int) $totals->review,
         ]);
     }
 

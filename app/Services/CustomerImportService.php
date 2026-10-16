@@ -156,7 +156,8 @@ class CustomerImportService
                 [$status, $notes, $duplicateId, $duplicateScope] = $this->evaluatePayload(
                     $entry['normalized_payload'],
                     $struttura,
-                    $fileSignatureCounts
+                    $fileSignatureCounts,
+                    $user
                 );
 
                 CustomerImportRow::query()->create([
@@ -193,7 +194,8 @@ class CustomerImportService
         [$status, $notes, $duplicateId, $duplicateScope] = $this->evaluatePayload(
             $row->normalized_payload ?? [],
             $batch->struttura,
-            $fileSignatureCounts
+            $fileSignatureCounts,
+            auth()->user()
         );
 
         $row->update([
@@ -584,7 +586,7 @@ class CustomerImportService
         return $counts;
     }
 
-    private function evaluatePayload(array $payload, Struttura $struttura, array $fileSignatureCounts): array
+    private function evaluatePayload(array $payload, Struttura $struttura, array $fileSignatureCounts, ?User $user = null): array
     {
         $notes = [];
         $duplicateId = null;
@@ -614,7 +616,7 @@ class CustomerImportService
             }
         }
 
-        [$duplicateId, $duplicateScope] = $this->findPotentialDuplicate($payload, $struttura);
+        [$duplicateId, $duplicateScope] = $this->findPotentialDuplicate($payload, $struttura, $user);
 
         if (!empty($missingRequired)) {
             return [self::STATUS_NEEDS_REVIEW, $notes, $duplicateId, $duplicateScope];
@@ -704,11 +706,11 @@ class CustomerImportService
         return null;
     }
 
-    private function findPotentialDuplicate(array $payload, Struttura $struttura): array
+    private function findPotentialDuplicate(array $payload, Struttura $struttura, ?User $user): array
     {
         $query = Customers::query()->withoutGlobalScopes()->with('struttura:id,nome_struttura')->orderByDesc('id');
         $currentStructureId = (int) $struttura->id;
-        $sameChainIds = Struttura::query()
+        $sameChainIds = ($user ? \App\Support\StrutturaAccess::query($user) : Struttura::query()->whereKey($currentStructureId))
             ->when($struttura->proprietario_id,
                 fn ($q) => $q->where('proprietario_id', $struttura->proprietario_id),
                 fn ($q) => $q->whereKey($currentStructureId))

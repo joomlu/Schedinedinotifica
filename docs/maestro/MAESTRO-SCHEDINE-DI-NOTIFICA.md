@@ -1,5 +1,12 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Aggiornamento corrente — area Liste, import ed export
+
+[Consuntivo e prove](../LISTE-IMPORT-EXPORT-2026-10-16.md). Unico ingresso Clienti, due schede con URL esistenti; contatori import su tutto lo storico, filtri export/consensi/anteprima e ritorni per struttura, staging e modello conservati. Protezioni rigorose sui due controller e duplicati di catena limitati alle strutture autorizzate. Nessuna migrazione.20test/331asserzioni,3browser1440/768/390,15guardie,23override e build/GEO PASS in isolamento sintetico. Lacune preesistenti dichiarate: import non condivide validazione completa wizard; indirizzo conservato, nessuna normalizzazione autonoma via/civico.
+
+C5 PARZIALE: 1338986496byte liberi contro3676217344stimati, margine1GiB invariato; STOP prima PREPARE/manutenzione/S0/RUN, nessuna cancellazione/crescitaVM. Produzione cf1deef9 ancora aperta, nuovaarea non pubblicata; online e monitor nuovi pendenti. SHA conclusivi soltanto nella ricevuta esterna del consuntivo. Lavoro estraneo preservato/escluso; **BASELINE IN AUDIT invariata.**
+
+
 ## Aggiornamento corrente — pulizia VM e correzione dell’intermittenza mobile
 
 [Consuntivo aggiornato, inventari e controprove](../COMPLETAMENTO-CLIENTI-E-SUPERADMIN-2026-10-16.md#ripresa--pulizia-mirata-e-diagnosi-mobile-del-16-ottobre). Rimossi soltanto 25.817 derivati inattivi/verificati: quattro tar intermedi, cachePython, sorgenti duplicate di staging e soli asset compilati di quattro recuperi conclusi.2.418.200.576 byte nominali; incremento netto nei due intervalli 2.411.950.080 byte, con runtime concorrenti esplicitamente distinti. Database/SQL/chiavi/cifrati originali/upload/diagnostici preservati; otto custodie autenticate,247 file env/upload/immagini conformi e dieci SQL conservati. Nessuna crescita VM/RAM o cancellazione indiscriminata di /tmp.

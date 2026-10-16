@@ -218,7 +218,7 @@
 <body>
     <div class="print-actions">
         @if($consultazione ?? false)
-            <a href="{{ route('customers', session('clienti_elenco.'.\App\Support\StrutturaCorrente::getId(), [])) }}">Torna all’elenco clienti</a>
+            <a href="{{ \App\Support\CustomerListReturn::url() }}">Torna all’elenco clienti</a>
             <a href="{{ route('customer.edit', $customer->id) }}">Modifica cliente</a>
             <a href="{{ route('customer.print', $customer->id) }}" target="_blank" rel="noopener">Stampa scheda completa</a>
         @else

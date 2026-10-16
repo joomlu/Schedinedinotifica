@@ -11,6 +11,8 @@
     @endslot
 @endcomponent
 
+@include('customers.area-tabs')
+
 @php
     $hasFilters = $selectedStatus !== '' || $selectedTipoCliente !== '' || $selectedTipoAlloggiato !== '' || $selectedDataNascita !== '' || $selectedBatchId > 0 || $selectedImportedFrom !== '' || $selectedImportedTo !== '' || $selectedComune !== '' || $selectedProvincia !== '' || $selectedNazione !== '' || $selectedGruppo !== '' || $soloDuplicati;
 @endphp

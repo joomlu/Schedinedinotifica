@@ -1,5 +1,12 @@
 # Pendenti locali: Ross1000 e dipendenze - 9 ottobre 2026
 
+## Area liste/import/export — pendenze correnti del 16 ottobre
+
+Riordino verificato in isolamento:20test/331asserzioni,3browser desktop/tablet/mobile,15guardie/build/GEO PASS. [Consuntivo](LISTE-IMPORT-EXPORT-2026-10-16.md). **PARZIALE:** pubblicazione C5 ferma prima PREPARE per capienza (1338986496<3676217344byte,1GiB margine); nuova acceptance online, monitor e allineamento produzione pendenti. Nessun ampliamento o cancellazione impliciti.
+
+**PARZIALE funzionale preesistente:** importazione non condivide CustomerWizardValidation, missingRequiredFields ha mappa vuota e la conferma richiede soltanto nome/cognome; righe valide non equivalgono alla validazione completa wizard. Non implementata normalizzazione geografica autonoma via/civico: indirizzo originale conservato. Interfaccia descrive i limiti reali; nessuna modifica tacita di regole o dati storici.
+
+
 **Accettazione locale positiva preservata; nessuna modifica applicativa o dei lock. BASELINE IN AUDIT — NON VALIDATA. Nessuna validazione produttiva.**
 
 ## Ross1000
