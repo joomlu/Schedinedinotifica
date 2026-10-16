@@ -7,7 +7,7 @@
         @slot('title') Amministratori @endslot
     @endcomponent
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
         <h4 class="mb-0">Amministratori</h4>
         <a href="{{ route('superadmin.amministratori.create') }}" class="btn btn-primary">Nuovo amministratore</a>
     </div>
@@ -83,11 +83,11 @@
                             <th>Servizi</th>
                             <th>Fatture</th>
                             <th>Stato</th>
-                            <th class="text-end"></th>
+                            <th class="text-end">Azioni</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($admins as $admin)
+                        @forelse($admins as $admin)
                             <tr>
                                 <td>{{ $admin->name }}</td>
                                 <td>{{ $admin->username ?: '—' }}</td>
@@ -97,7 +97,7 @@
                                 <td>{{ $admin->servizi_count ?? 0 }}</td>
                                 <td>{{ $admin->fatture_count ?? 0 }}</td>
                                 <td>{{ $admin->attivo ? 'Attivo' : 'Disattivo' }}</td>
-                                <td class="text-end">
+                                <td class="text-end"><div class="d-flex flex-wrap justify-content-end gap-2">
                                     <a href="{{ route('superadmin.amministratori.edit', ['id' => $admin->id, 'tab' => 'profilo']) }}" class="btn btn-sm btn-outline-secondary">Apri scheda</a>
                                     <form action="{{ route('superadmin.amministratori.disable', $admin->id) }}" method="POST" class="d-inline">
                                         @csrf
@@ -108,9 +108,11 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">Cestino</button>
                                     </form>
-                                </td>
+                                </div></td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr><td colspan="9" class="text-center text-muted py-4">Nessun risultato disponibile nel tuo ambito di gestione.</td></tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

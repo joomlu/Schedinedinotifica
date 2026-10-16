@@ -16,7 +16,7 @@
         <x-crud-table
             title="Clienti"
             subtitle="Elenco clienti della struttura"
-            searchPlaceholder="Cerca per codice, nome, cognome, tipo, stato, nazione, città o gruppo..."
+            searchPlaceholder="Cerca per codice, nome, cognome, contatti, nazione, città o gruppo..."
             searchId="clientiSearch"
             createText="Nuovo Cliente"
             createHref="{{ route('newcustomer') }}"
@@ -25,11 +25,11 @@
             :paginator="$customers"
         >
             <x-slot name="topbarLeft">
-                <form method="GET" action="{{ route('customers') }}" class="d-flex align-items-center gap-2">
+                <form method="GET" action="{{ route('customers') }}" class="d-flex flex-wrap align-items-center gap-2 clienti-filtri">
                     @if(request()->filled('q'))
                         <input type="hidden" name="q" value="{{ request('q') }}">
                     @endif
-                    <div style="min-width: 250px;">
+                    <div class="clienti-filtro">
                         <x-ui.select
                             name="tipo_cliente"
                             id="clientiTipoFiltro"
@@ -43,7 +43,7 @@
                             @endforeach
                         </x-ui.select>
                     </div>
-                    <div style="min-width: 220px;">
+                    <div class="clienti-filtro">
                         <x-ui.select
                             name="stato"
                             id="clientiStatoFiltro"
@@ -56,8 +56,16 @@
                             <option value="bozza" @selected(($statoSelezionato ?? '') === 'bozza')>Bozze / incompleti</option>
                         </x-ui.select>
                     </div>
+                    <div class="clienti-filtro">
+                        <label for="clientiOrdine" class="visually-hidden">Ordina clienti</label>
+                        <select name="ordine" id="clientiOrdine" class="form-select" onchange="this.form.submit()">
+                            @foreach(['recenti' => 'Più recenti', 'cognome' => 'Cognome A–Z', 'nome' => 'Nome A–Z', 'codice' => 'Codice A–Z'] as $valore => $etichetta)
+                                <option value="{{ $valore }}" @selected(request('ordine', 'recenti') === $valore)>{{ $etichetta }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     @if($tipoClienteSelezionato !== '' || ($statoSelezionato ?? '') !== '')
-                        <a href="{{ route('customers', request()->except('tipo_cliente', 'stato', 'page')) }}" class="btn btn-light btn-sm">
+                        <a href="{{ route('customers', request()->except('tipo_cliente', 'stato', 'page')) }}" class="btn btn-light btn-sm" aria-label="Rimuovi filtri">
                             <i class="ri-close-line align-middle"></i>
                         </a>
                     @endif
@@ -144,7 +152,7 @@
                                 <a href="{{ route('newschedina', ['customer_id' => $customer->id]) }}" class="btn btn-soft-primary btn-sm" title="Apri schedina">
                                     <i class="ri-file-add-line fs-16 align-middle"></i>
                                 </a>
-                                <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-soft-info btn-sm">
+                                <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-soft-info btn-sm" title="Apri scheda cliente" aria-label="Apri scheda cliente">
                                     <i class="ri-edit-line fs-16 align-middle"></i>
                                 </a>
                                 <form
@@ -155,7 +163,7 @@
                                 >
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-soft-danger btn-sm">
+                                    <button type="submit" class="btn btn-soft-danger btn-sm" aria-label="Elimina cliente">
                                         <i class="ri-delete-bin-line fs-16 align-middle"></i>
                                     </button>
                                 </form>
@@ -193,9 +201,19 @@
 
                 if (popup) {
                     popup.focus();
+                } else {
+                    window.location.assign(href);
                 }
             });
         });
     });
 </script>
+@endpush
+
+@push('styles')
+<style>
+.clienti-filtri { max-width: 100%; min-width: 0; }
+.clienti-filtro { width: 220px; max-width: 100%; min-width: 0; }
+@media (max-width: 575.98px) { .clienti-filtri, .clienti-filtro { width: 100%; } }
+</style>
 @endpush

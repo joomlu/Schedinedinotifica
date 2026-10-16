@@ -11,10 +11,11 @@
         <div class="alert alert-success">{{ session('status') }}</div>
     @endif
 
-    <div class="row">
+    <p class="text-muted">Seleziona la struttura da gestire. La struttura corrente è evidenziata in verde.</p>
+    <div class="row g-3">
         @forelse($strutture as $struttura)
             <div class="col-lg-4 col-md-6">
-                <div class="card {{ $currentId === $struttura->id ? 'border-success' : '' }}">
+                <div class="card h-100 mb-0 {{ $currentId === $struttura->id ? 'border-success' : '' }}">
                     <div class="card-body">
                         <h5 class="card-title mb-1">{{ $struttura->nome_struttura }}</h5>
                         <p class="text-muted mb-2">{{ $struttura->citta }} @if($struttura->provincia) ({{ $struttura->provincia }}) @endif</p>

@@ -14,16 +14,20 @@ $documenti = array_reverse($scheda['documenti']);
 $haPropostaCompleta = collect($documenti)->contains(fn ($d) => $d['ufficiale'] && !$d['analisi']['problemi']);
 $stato = isset($scheda['applicazione']) ? 'Completo' : ($haPropostaCompleta ? 'Aggiornamento disponibile' : 'In attesa di informazioni');
 @endphp
-<div class="card"><div class="card-body">
-<h4>Configurazione Tassa di soggiorno</h4>
+<div class="card tassa-configurazione"><div class="card-body">
+<h4>Configurazione tassa di soggiorno</h4>
+<p class="text-muted">Profili comunali per anno e categoria. Il contesto territoriale qui selezionato è indipendente dalla struttura nel menu superiore.</p>
+<h5>Contesto territoriale</h5>
 <form method="GET" action="{{ route('superadmin.tassa.configurazione') }}" class="row g-3 mb-4">
 <div class="col-md-5"><label for="comune" class="form-label">Comune</label><input id="comune" name="comune" class="form-control" list="comuni-tassa" value="{{ $comune }}" required maxlength="120"><datalist id="comuni-tassa">@foreach($comuni as $nome)<option value="{{ $nome }}">@endforeach</datalist></div>
 <div class="col-md-2"><label for="anno" class="form-label">Anno fiscale</label><input id="anno" name="anno" class="form-control" type="number" min="2015" max="2100" required value="{{ $anno }}"></div>
 <div class="col-md-3"><label for="categoria" class="form-label">Categoria del profilo disponibile</label><select id="categoria" name="categoria" class="form-select">@foreach(range(1,5) as $c)<option value="{{ $c }}" @selected($c === $categoria)>Alberghi {{ $c }} stelle</option>@endforeach</select></div>
-<div class="col-md-2 align-self-end"><button class="btn btn-light">Apri scheda</button></div>
+<div class="col-md-2 align-self-end d-grid"><button class="btn btn-light">Apri scheda</button></div>
 </form>
-<h5>{{ $comune }} — {{ $anno }} — Alberghi {{ $categoria }} stelle</h5>
-<p><strong>Stato:</strong> {{ $stato }}<br><strong>Ultima verifica:</strong> {{ $scheda['ultima_verifica'] ?? 'Non ancora eseguita' }}</p>
+<div class="alert alert-light border text-body" role="status"><h5>{{ $comune }} — {{ $anno }} — Alberghi {{ $categoria }} stelle</h5>
+<p><strong>Stato:</strong> {{ $stato }}<br><strong>Ultima verifica:</strong> {{ $scheda['ultima_verifica'] ?? 'Non ancora eseguita' }}</p></div>
+<nav class="d-flex flex-wrap gap-2 mb-4" aria-label="Sezioni configurazione tassa"><a class="btn btn-outline-primary" href="#profilo-territoriale">Profilo territoriale</a><a class="btn btn-outline-primary" href="#verifiche-fonti">Verifiche delle fonti</a><a class="btn btn-outline-primary" href="#documentazione-tassa">Documentazione</a><a class="btn btn-outline-primary" href="#note-esenzioni">Note sulle esenzioni</a></nav>
+<section id="profilo-territoriale" class="border rounded p-3 mb-4" aria-labelledby="titolo-profilo"><h5 id="titolo-profilo">Profilo territoriale applicabile</h5>
 @if($profilo)
 <dl class="row">
 <dt class="col-sm-5">Tariffa per notte</dt><dd class="col-sm-7">€ {{ number_format((float)$profilo['tariffe'][$categoria], 2, ',', '.') }}</dd>
@@ -34,11 +38,14 @@ $stato = isset($scheda['applicazione']) ? 'Completo' : ($haPropostaCompleta ? 'A
 <div class="alert alert-warning">Non è disponibile un profilo comunale certificato per questo anno e categoria. Non vengono copiati importi o periodi dagli anni precedenti. La continuità richiede evidenza della vigenza: una disposizione limitata a un anno non viene prolungata.</div>
 @endif
 @if($comune !== 'Bellaria-Igea Marina')<p class="text-warning">Il motore attuale usa configurazioni legacy per struttura in questo Comune. La documentazione può essere conservata, ma l’applicazione di un nuovo profilo comunale richiede un’estensione del calcolo fuori da questo intervento.</p>@endif
+</section>
+<section id="verifiche-fonti" class="border rounded p-3 mb-4" aria-labelledby="titolo-verifiche"><h5 id="titolo-verifiche">Verifiche delle fonti</h5>
 <form method="POST" action="{{ route('superadmin.tassa.verifica') }}" class="mb-3">@csrf @foreach($contesto as $campo => $v)<input type="hidden" name="{{ $campo }}" value="{{ $v }}">@endforeach<button class="btn btn-primary">Verifica aggiornamenti</button></form>
 @foreach($scheda['verifica'] ?? [] as $avviso)<p class="text-warning">{{ $avviso }}</p>@endforeach
 <p class="text-muted">Controllo automatico settimanale delle fonti note per anno corrente e successivo. L’esito distingue documenti trovati, dati mancanti ed errori; una ricerca negativa non prova l’assenza di nuove regole.</p>
 @if($inCoda)<div class="alert alert-info" id="verifica-in-coda">Verifica in coda o in corso. I risultati appariranno in questa scheda appena disponibili.</div>@endif
-<h5>Documentazione di supporto</h5>
+</section>
+<section id="documentazione-tassa" class="border rounded p-3 mb-4" aria-labelledby="titolo-documentazione"><h5 id="titolo-documentazione">Documentazione di supporto</h5>
 <form method="POST" action="{{ route('superadmin.tassa.documento') }}" enctype="multipart/form-data" class="mb-4">@csrf @foreach($contesto as $campo => $v)<input type="hidden" name="{{ $campo }}" value="{{ $v }}">@endforeach
 <label for="fonte" class="form-label">Collegamento ufficiale</label><input id="fonte" name="fonte" type="url" class="form-control mb-2" value="{{ old('fonte') }}" placeholder="https://…">
 <label for="pdf" class="form-label">Documento PDF (massimo 8 MB)</label><input id="pdf" name="pdf" type="file" accept="application/pdf" class="form-control mb-2">
@@ -69,15 +76,34 @@ $stato = isset($scheda['applicazione']) ? 'Completo' : ($haPropostaCompleta ? 'A
 @endif
 </details>
 @endforeach
+</section>
+<section id="note-esenzioni" class="border rounded p-3 mb-4" aria-label="Note sulle esenzioni">
 @if($comune === 'Bellaria-Igea Marina')
 <h5>Familiari del gestore se anagraficamente conviventi</h5>
 <p>La voce è stata inserita dal seeder Bellaria come codice 450. Se il record è attivo e selezionato, il calcolo attuale lo riconosce come esenzione; non viene applicata automaticamente in base alla parentela. L’etichetta «Legacy — non certificato» indica che la voce non appartiene al catalogo certificato incorporato, non che sia assente dalla normativa. La specifica StayTour fornita in precedenza elenca i codici 400–440 e non il 450: il raccordo del codice locale con le esportazioni resta non certificato.</p>
 <p>Il regolamento comunale del 2025 pubblicato e collegato dal sito istituzionale contiene questa disposizione nell’articolo 5, comma 1, lettera i), pagine 4–5. L’audit documentale del 7/10/2026 aveva recuperato il coordinato CC29/2026: l’articolo 5 risultava invariato. Nella nuova consultazione del 13/10/2026 la pagina comunale richiama ancora gli atti del 2025 e alcuni allegati dell’albo non sono accessibili. Occorre verificare il coordinato vigente e la sua efficacia per l’anno {{ $anno }}. Non vengono certificati, eliminati o modificati record o calcoli. Eventuali rettifiche del calcolo restano fuori ambito.</p>
 <a href="https://www.comune.bellaria-igea-marina.rn.it/it/documenti_pubblici/regolamento-imposta-di-soggiorno-ids" rel="noopener" target="_blank">Fonte comunale consultata il 13/10/2026</a>
+@else
+<p class="mb-0 text-muted">Nessuna nota territoriale aggiuntiva presente per il Comune selezionato.</p>
 @endif
+</section>
 </div></div>
 @endsection
 
+@push('styles')
+<style>
+.tassa-configurazione { min-width: 0; }
+.tassa-configurazione section { scroll-margin-top: 100px; overflow-wrap: anywhere; }
+.tassa-configurazione summary { cursor: pointer; padding: .75rem 0; overflow-wrap: anywhere; }
+.tassa-configurazione label.form-label { width: 100%; }
+.tassa-configurazione dd { overflow-wrap: anywhere; }
+@media (max-width: 575.98px) {
+    .tassa-configurazione nav .btn { flex: 1 1 100%; white-space: normal; }
+    .tassa-configurazione form > .btn { width: 100%; }
+    .tassa-configurazione section { padding: .75rem !important; }
+}
+</style>
+@endpush
 @section('script')
 @if($inCoda)
 <script>

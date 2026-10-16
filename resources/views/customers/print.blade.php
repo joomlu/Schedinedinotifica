@@ -99,6 +99,7 @@
         }
 
         table {
+            table-layout: fixed;
             width: 100%;
             border-collapse: collapse;
         }
@@ -107,7 +108,9 @@
             border-right: 1px solid rgba(207, 189, 168, 0.85);
             border-bottom: 1px solid rgba(207, 189, 168, 0.85);
             padding: 7px 9px;
-            vertical-align: middle;
+            vertical-align: top;
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
             font-size: 14px;
         }
 
@@ -149,6 +152,8 @@
             font-style: italic;
         }
 
+        .long-text { padding: 7px 9px; white-space: pre-wrap; overflow-wrap: anywhere; }
+
         .compact-note {
             min-height: 34px;
         }
@@ -182,6 +187,11 @@
                 box-shadow: none;
             }
 
+            .section { overflow: visible; border-radius: 0; }
+            .section-title { break-after: avoid; }
+            tr { break-inside: avoid; }
+            .history-table tr { break-inside: auto; }
+            thead { display: table-header-group; }
             .section,
             .section-title,
             .history-table th {
@@ -222,10 +232,8 @@
                     <td><span class="label">Città:</span>{{ $customer->display_city ?: '—' }}</td>
                     <td><span class="label">Strada:</span>{{ trim(collect([$customer->typeaway, $customer->address, $customer->number])->filter()->implode(' ')) ?: '—' }}</td>
                 </tr>
-                <tr>
-                    <td colspan="2" class="compact-note"><span class="label">Osservazione:</span>{{ $customer->observation ?: '—' }}</td>
-                </tr>
             </table>
+            <div class="long-text"><span class="label">Osservazione:</span> {{ $customer->observation ?: '—' }}</div>
         </div>
 
         <div class="section">
@@ -251,10 +259,8 @@
                     <td><span class="label">Rilasciato da:</span>{{ $customer->rilasciato_reg ?: '—' }}</td>
                     <td><span class="label">Paese / città rilascio:</span>{{ trim(collect([$customer->display_country_doc_reg, $customer->display_city_doc_reg])->filter()->implode(' / ')) ?: '—' }}</td>
                 </tr>
-                <tr>
-                    <td colspan="2" class="compact-note"><span class="label">Osservazione:</span>{{ $customer->observation_reg ?: '—' }}</td>
-                </tr>
             </table>
+            <div class="long-text"><span class="label">Osservazione:</span> {{ $customer->observation_reg ?: '—' }}</div>
         </div>
 
         <div class="section">
@@ -283,9 +289,30 @@
             </table>
         </div>
 
+        @php
+        $sezioniAggiuntive = [
+            'Classificazione e anagrafica' => ['type_housed' => 'Tipo cliente', 'type' => 'Titolo', 'sex' => 'Sesso', 'group' => 'Gruppo', 'subgroup' => 'Sottogruppo', 'subgroup1' => 'Secondo sottogruppo', 'region_reg' => 'Regione di nascita', 'cap_reg' => 'CAP di nascita', 'privacy_consent_at' => 'Privacy: registrata il', 'marketing_consent_at' => 'Marketing: registrato il', 'communication_consent_at' => 'Comunicazioni: registrate il'],
+            'Azienda' => ['azienda' => 'Ragione sociale', 'cf_az' => 'Codice fiscale', 'pi_az' => 'Partita IVA', 'sdi_az' => 'Codice SDI', 'country_az' => 'Nazione', 'region_az' => 'Regione', 'province_az' => 'Provincia', 'city_az' => 'Città', 'cap_az' => 'CAP', 'typeaway_az' => 'Tipo via', 'address_az' => 'Indirizzo', 'number_az' => 'Civico', 'email_az' => 'Email', 'phone_az' => 'Telefono', 'cellphone_az' => 'Cellulare', 'fax_az' => 'Fax', 'website' => 'Sito web', 'desc_az' => 'Descrizione', 'nota' => 'Nota azienda'],
+        ];
+        @endphp
+        @foreach($sezioniAggiuntive as $titoloSezione => $campi)
         <div class="section">
-            <div class="section-title">Storico sintetico</div>
-            <div class="summary">Ultimi {{ $storicoSintetico->count() }} soggiorni su {{ $storicoTotale }} registrati</div>
+            <div class="section-title">{{ $titoloSezione }}</div>
+            <table class="two-col"><tbody>
+            @foreach($campi as $campo => $etichetta)
+                @unless(in_array($campo, ['desc_az', 'nota'], true))
+                <tr><td><span class="label">{{ $etichetta }}</span></td><td>{{ trim((string) $customer->$campo) !== '' ? $customer->$campo : '—' }}</td></tr>
+                @endunless
+            @endforeach
+            </tbody></table>
+            @foreach(array_intersect_key($campi, array_flip(['desc_az', 'nota'])) as $campo => $etichetta)
+            <div class="long-text"><span class="label">{{ $etichetta }}:</span> {{ trim((string) $customer->$campo) !== '' ? $customer->$campo : '—' }}</div>
+            @endforeach
+        </div>
+        @endforeach
+        <div class="section">
+            <div class="section-title">Storico soggiorni completo</div>
+            <div class="summary">{{ $storicoTotale }} soggiorni registrati</div>
             <table class="history-table">
                 <thead>
                     <tr>
@@ -299,7 +326,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($storicoSintetico as $riga)
+                    @forelse($storicoCompleto as $riga)
                         <tr>
                             <td>{{ $riga['scheda'] }}</td>
                             <td>{{ $riga['arrivo']?->format('d/m/Y') ?: '—' }}</td>

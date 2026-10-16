@@ -15,7 +15,7 @@
 
         @include('shared.proprietari.form-panels')
 
-        <div class="d-flex justify-content-end mt-4">
+        <div class="d-flex flex-wrap gap-2 justify-content-end mt-4">
             <a href="{{ route('superadmin.proprietari.index') }}" class="btn btn-light me-2">Annulla</a>
             <button type="submit" class="btn btn-success">Salva proprietario</button>
         </div>

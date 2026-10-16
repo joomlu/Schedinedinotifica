@@ -67,3 +67,11 @@ La VM quotidiana era a152migrazioni, produzione a154: non risultavano applicate 
 
 
 **Riconciliazione del 15 ottobre 2026 — due pendenze database RISOLTE individualmente:** `2026_02_28_000000_prepare_classificazioni_index_for_normalize` e `2026_10_14_030000_initialize_tipo_cliente_sistema` già registrate in produzione (batch65), eseguite singolarmente tramite Laravel nella VM con checkpoint cifrato riletto. VM153→155; schema e tutte le colonne delle25.875righe precedenti identici, solo due registrazioni aggiunte. Nessuna modifica applicativa o riclassificazione del cliente vuoto. Allineamento del commit conclusivo distinto e attestabile soltanto dalla ricevuta esterna C5. [Consuntivo e posizione della ricevuta](RICONCILIAZIONE-MIGRAZIONI-TIPO-CLIENTE-2026-10-15.md). Il precedente paragrafo conserva la causa e lo stato storico, senza una seconda lista di pendenti.
+
+## Superadmin e percorso cliente — 16 ottobre 2026
+
+[Consuntivo unico](RIORDINO-SUPERADMIN-E-CLIENTI-2026-10-16.md): correzioni implementate e verificate in isolamento;134test/1.116asserzioni,3test/111asserzioni sul layout finale,9browser distinti,15guardie e23override PASS. Stampa completa desktop/mobile, otto pagine A4 ispezionate, undici soggiorni e nota lunga conservati. QA non esposto nel gestionale; diagnostici, autorizzazioni e tenancy mantenuti.
+
+**PENDENTE pubblicazione C5 e acceptance online:** preflight a test chiusi circa2,33GiB liberi contro3,42GiB prudenzialmente stimati per due recuperi/ingressi nuovi e margine1GiB. Nessun PREPARE/RUN/manutenzione/DDL, nessun ampliamento o rimozione. Commit/push/VM e baseline produttiva5e3d58b da leggere nella ricevuta esterna del consuntivo; nessun falso allineamento dei quattro SHA. Rendere sufficiente il ricevente, quindi nuovi sigilli/PREPARE/S0/C5, monitor e prove online. Autorizzazione al rilascio corrente conservata; risorse aggiuntive o rimozioni specifiche non eseguite implicitamente.
+
+Fuori dalla selezione definitiva rimangono distinti il test preesistente del testo «Configurazione legacy conservata», assente anche nella vista di baseline, e il caso immagini saltato per GD assente. Nessuna riscrittura delle attese o del calcolo per occultarli. Pendenze generali e stato BASELINE IN AUDIT invariati.

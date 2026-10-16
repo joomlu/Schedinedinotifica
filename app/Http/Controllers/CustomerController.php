@@ -33,10 +33,13 @@ class CustomerController extends Controller
 
     public function index()
     {
-        request()->validate(['q' => ['nullable', 'string', 'max:191'], 'tipo_cliente' => ['nullable', 'string', 'max:191'], 'stato' => ['nullable', 'string', 'max:191']]);
+        request()->validate(['q' => ['nullable', 'string', 'max:191'], 'tipo_cliente' => ['nullable', 'string', 'max:191'], 'stato' => ['nullable', 'string', 'max:191'], 'ordine' => ['nullable', Rule::in(['recenti', 'nome', 'cognome', 'codice'])]]);
         $q = trim((string) request('q', ''));
         $tipoCliente = trim((string) request('tipo_cliente', ''));
         $stato = trim((string) request('stato', ''));
+
+        $ordine = request('ordine', 'recenti');
+        $colonnaOrdine = ['recenti' => 'id', 'nome' => 'name', 'cognome' => 'surname', 'codice' => 'numero_cliente'][$ordine ?: 'recenti'];
 
         $customers = Customers::query()
             ->when($tipoCliente !== '', function ($query) use ($tipoCliente) {
@@ -85,9 +88,11 @@ class CustomerController extends Controller
                         ->orWhere('subgroup', 'like', $like)
                         ->orWhere('subgroup1', 'like', $like)
                         ->orWhere('email', 'like', $like)
-                        ->orWhere('phone', 'like', $like);
+                        ->orWhere('phone', 'like', $like)
+                        ->orWhere('cellphone', 'like', $like);
                 });
             })
+            ->orderBy($colonnaOrdine, $colonnaOrdine === 'id' ? 'desc' : 'asc')
             ->orderByDesc('id')
             ->paginate(10)
             ->withQueryString();
@@ -271,9 +276,18 @@ class CustomerController extends Controller
         $customer = Customers::query()->findOrFail($id);
         [$customer, $storicoSchedine, $storicoSintetico, $storicoSummary] = $this->buildCustomerHistoryContext($customer);
 
+        foreach (['country_az' => 'country', 'city_az' => 'city'] as $field => $kind) {
+            $customer->setAttribute($field, $this->resolveGeoLabel($customer->$field, $kind));
+        }
+
         return view('customers.print', [
             'customer' => $customer,
-            'storicoSintetico' => $storicoSintetico,
+            'storicoCompleto' => $storicoSchedine->map(fn (Schedina $schedina) => [
+                'scheda' => $schedina->storico_label, 'arrivo' => $schedina->arrivo_date,
+                'partenza' => $schedina->partenza_date, 'giorni' => $schedina->giorni_soggiorno,
+                'componenti' => $schedina->componenti_totali, 'registrata_il' => $schedina->created_at,
+                'osservazione' => $schedina->storico_note,
+            ]),
             'storicoSummary' => $storicoSummary,
             'storicoTotale' => $storicoSchedine->count(),
         ]);

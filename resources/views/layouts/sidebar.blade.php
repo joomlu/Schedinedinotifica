@@ -12,7 +12,6 @@
     $openCalendario = $isRoute('calendario.*');
     $openAdmin = $isRoute('admin.*');
     $openSuperAdmin = $isRoute('superadmin.*');
-    $openQa = $isRoute('qa.*');
     $proprietarioSenzaStrutture = $ruoloSidebar === 'proprietario'
         && !\App\Support\StrutturaCorrente::getId()
         && $utenteSidebar?->proprietario_id
@@ -70,19 +69,6 @@
                         </div>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link menu-link {{ $openQa ? '' : 'collapsed' }}" href="#sidebarQa" data-bs-toggle="collapse" role="button" aria-expanded="{{ $openQa ? 'true' : 'false' }}" aria-controls="sidebarQa">
-                            <i data-feather="check-square" class="icon-dual"></i> <span>QA</span>
-                        </a>
-                        <div class="collapse menu-dropdown {{ $openQa ? 'show' : '' }}" id="sidebarQa">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item"><a href="{{ route('qa.index') }}" class="nav-link {{ $isRoute('qa.index') ? 'active' : '' }}">Dashboard QA</a></li>
-                                <li class="nav-item"><a href="{{ route('qa.session') }}" class="nav-link {{ $isRoute('qa.session') ? 'active' : '' }}">Sessione</a></li>
-                                <li class="nav-item"><a href="{{ route('qa.accesso') }}" class="nav-link {{ $isRoute('qa.accesso') ? 'active' : '' }}">Accesso</a></li>
-                                <li class="nav-item"><a href="{{ route('qa.tenancy') }}" class="nav-link {{ $isRoute('qa.tenancy') ? 'active' : '' }}">Tenancy</a></li>
-                            </ul>
-                        </div>
-                    </li>
                 @endif
 
                 @if($ruoloSidebar === 'admin')

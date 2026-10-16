@@ -1,5 +1,13 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Aggiornamento corrente — riordino Superadmin e percorso cliente
+
+[Consuntivo, prove e ricevuta](../RIORDINO-SUPERADMIN-E-CLIENTI-2026-10-16.md). Baseline effettiva locale/GitHub/produzione5e3d58b. Blocco QA rimosso dalla navigazione, diagnostici e presidi conservati; tassa suddivisa per contesto/profilo/fonti/documenti/esenzioni, azioni e stati vuoti amministrativi adattabili. Clienti: ordinamento consentito e stabile, cellulare ricercabile, filtri mobile, ritorno e stampa dalla scheda. Stampa completa con azienda/classificazione/consensi e tutti i soggiorni; testi lunghi scorrevoli e intestazioni ripetute. Nessuna migrazione o logica di calcolo modificata.
+
+VM ufficiale senza rete esterna, fixture effimere:134test/1.116asserzioni PASS; dopo il controllo visivo correttivo della stampa,3test/111asserzioni e4browser PASS, più5regressioni wizard/layout PASS sul medesimo codice pertinente:9prove browser distinte.15guardie,23override,build/GEO PASS. Due PDF sintetici4pagine A4 ciascuno, otto pagine ispezionate, nota lunga e11soggiorni completi. Tentativi con fixture/attese errate, prima stampa con pagina interna quasi vuota e test legacy del testo/GD conservati e distinti dai PASS. Nessun cliente reale modificato o invio enti.
+
+Capienza C5 insufficiente al preflight prima PREPARE: circa2,33GiB liberi contro3,42GiB stimati per due nuovi recuperi/ingressi e1GiB margine; stima esplicita, non picco nuovo attestato. Nessuna manutenzione/RUN/DDL, rimozione o crescita VM. Produzione ancora5e3d58b pulita/aperta, FPM e9sonde PASS. Commit/push selettivi e VM nella ricevuta esterna; quattro SHA non allineati, nessuna acceptance online delle nuove schermate dichiarata. Residui nel registro esistente: capienza, C5 e verifica online. Lavoro estraneo preservato, inclusa la parte preesistente del Maestro. **BASELINE IN AUDIT generale invariata.**
+
 ## Aggiornamento corrente — verifica della procedura guidata Cliente
 
 [Consuntivo, matrice e limiti](../VERIFICA-WIZARD-CLIENTE-2026-10-15.md). Scope autorizzato: verifica/correzioni, prove isolate VM e Chromium, documentazione, commit/push e C5. «Salva voce» chiarito come «Salva a bozza»; Anagrafica naviga senza persistenza. Contatto proprio alternativo Richiesta, minimi Ospite/Componente distinti, opzionali e GEO coerenti, cataloghi privati, transazioni/numerazione, reinvio durevole e ritorno all’elenco. Consensi indipendenti; nessuna riscrittura legale o riclassificazione legacy. Due colonne nullable e indice univoco, senza backfill.

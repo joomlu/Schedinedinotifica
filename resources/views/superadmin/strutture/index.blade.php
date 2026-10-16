@@ -7,7 +7,7 @@
         @slot('title') Strutture @endslot
     @endcomponent
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
         <h4 class="mb-0">Strutture</h4>
         <a href="{{ route('superadmin.strutture.create') }}" class="btn btn-primary">Nuova struttura</a>
     </div>
@@ -31,11 +31,11 @@
                             <th>Piano</th>
                             <th>Pagamento</th>
                             <th>Avviso</th>
-                            <th></th>
+                            <th>Azioni</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($strutture as $struttura)
+                        @forelse($strutture as $struttura)
                             <tr>
                                 <td>{{ $struttura->nome_struttura }}</td>
                                 <td>{{ $struttura->citta }}</td>
@@ -46,16 +46,18 @@
                                 <td>{{ $struttura->piano }}</td>
                                 <td>{{ $struttura->stato_pagamento }}</td>
                                 <td>{{ $struttura->avviso ?: 'attivo' }}</td>
-                                <td class="text-end">
+                                <td class="text-end"><div class="d-flex flex-wrap justify-content-end gap-2">
                                     <a href="{{ route('superadmin.strutture.edit', $struttura->id) }}" class="btn btn-sm btn-outline-secondary">Modifica</a>
                                     <form action="{{ route('superadmin.strutture.destroy', $struttura->id) }}" method="POST" class="d-inline" data-confirm-label="{{ 'la struttura ' . $struttura->nome_struttura }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">Cestino</button>
                                     </form>
-                                </td>
+                                </div></td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr><td colspan="10" class="text-center text-muted py-4">Nessun risultato disponibile nel tuo ambito di gestione.</td></tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
