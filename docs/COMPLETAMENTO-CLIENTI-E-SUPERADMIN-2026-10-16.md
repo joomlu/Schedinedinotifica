@@ -1,5 +1,7 @@
 # Completamento clienti e Superadmin — 16 ottobre 2026
 
+**Stato più recente:** vedere la sezione «Ripresa — pulizia mirata e diagnosi mobile del 16 ottobre» in fondo; le prove e i blocchi precedenti sono conservati come storico.
+
 **BASELINE IN AUDIT.** Ripresa dalla richiesta allegata completa, con baseline locale/GitHub `9e0efd6a15c3d4006aac92ed7c89ed802957cb5d`. Le correzioni Superadmin, elenco e stampa di quel commit restano descritte nel [consuntivo precedente](RIORDINO-SUPERADMIN-E-CLIENTI-2026-10-16.md). Il loro stato non equivale a pubblicazione: produzione riletta separatamente a `5e3d58b5d8b89995a011e5a166f8bb771c1d4607`, Git pulito, FPM attivo, barriera assente e nove sonde positive.
 
 ## Differenze riscontrate e corrette
@@ -55,3 +57,50 @@ R6: **sei browser PASS**, senza modificare codice o attese rispetto a R5, inclus
 | Pubblicazione | BLOCCATO | Capienza insufficiente prima PREPARE |
 
 Capienza finale a test chiusi: 2387283968 byte liberi, fabbisogno stimato 3676217344 byte. Dettaglio e istante nella ricevuta esterna. [Digest ed esiti versionati](evidenze/completamento-clienti-2026-10-16/verifica.json). Maestro e pendenze aggiornati; lavoro estraneo preservato. CODICE MODIFICATO SI; TEST MODIFICATI SI; DOCUMENTAZIONE MODIFICATA SI; CONFIGURAZIONE MODIFICATA NO; SCHEMA/DATI REALI MODIFICATI NO; TEST ESEGUITI SI; COMMIT/PUSH da attestare nella ricevuta esterna; DEPLOY NO; TRASMISSIONI ESTERNE NO.
+
+
+## Ripresa — pulizia mirata e diagnosi mobile del 16 ottobre
+
+Questa sezione aggiorna gli stati precedenti senza sostituire gli esiti storici. Deposito privato delle prove: `output/spazio-mobile-2026-10-16/`; nuova ricevuta conclusiva `ricevuta-finale.json` nello stesso deposito. La ricevuta del primo completamento rimane invariata. Stato generale **BASELINE IN AUDIT**.
+
+### Pulizia eseguita e conservazione
+
+Inventari prima della cancellazione: percorso, SHA256, inode/dispositivo, dimensione, blocchi e mtime. Controllati processi (cwd, exe, fd, ambiente, comandi e mappe) e mount nei namespace dei processi; esclusa una cache ancora aperta. Tar e build intermedi ricostruibili autenticando SHA/HMAC dei cifrati conservati e la chiave nella VM, senza esportare la chiave. Sorgenti dello staging abbandonato confrontati byte per byte con il checkout. Nessuna cancellazione indiscriminata di `/tmp`.
+
+| Derivati eliminati | File | Byte allocati nominali |
+|---|---:|---:|
+| Tar intermedi base nei quattro recuperi conclusi `ej3zxuj4`, `lnolc6b7`, `563x2ps9`, `2pjffbpx` | 4 | 1.317.568.512 |
+| Sole cache Python `.pyc` inattive | 6.015 | 159.637.504 |
+| Sole sorgenti duplicate dello staging `schedine-sync-NOi2fZop` | 4.182 | 175.419.392 |
+| Soli asset compilati `public/build` nei medesimi quattro recuperi | 15.616 | 765.575.168 |
+| Totale | 25.817 | 2.418.200.576 |
+
+Inventari completi `eliminazione.json` e `eliminazione-build.json`, anche in `/var/tmp/schedine-spazio-mobile-20261016/` della VM. Incrementi del libero nei due intervalli misurati: **1.638.723.584 + 773.226.496 = 2.411.950.080 byte**. Le prove sintetiche erano concorrenti: è il recupero netto osservato nei due intervalli, non una misura esclusiva per file né la differenza fra libero iniziale e finale dell'intera attività. Prima lettura generale 2.322.227.200 byte; il consumo transitorio dei runtime è distinto.
+
+Dopo la rimozione: otto directory di cifrati base/delta nuovamente autenticate, 247 file env/upload/immagini conformi ai digest e dieci SQL conservati/non vuoti. Database, chiavi, originali cifrati, upload, diagnostici, inventari e recupero campione `q8xyuhj0` preservati. Nessun cambiamento dei dati operativi o crescita del disco/RAM. Non viene dichiarato un confronto delle righe dei database operativi da questa sola verifica dei file.
+
+### Diagnosi mobile e limite dell'evidenza
+
+Nuovo osservatore esclusivamente nei test, mantenendo contesto, proxy e guardie ufficiali. Conserva trace con sorgenti/snapshot, console e `pageerror`, eventi del puntatore/focus/tab, DOM prima e dopo il clic, stato finale e schermata. La versione conclusiva scrive i documenti su file progressivamente e non modifica `Event.prototype` né forza letture geometriche durante gli eventi. Tutti i test impiegano fixture effimere senza rete esterna, timeout originali e zero retry.
+
+Prime sei riproduzioni positive, poi dodici cicli indipendenti positivi del flusso originale (tre contatti, validazione e riapertura per ciclo). Non dimostrano la risoluzione del difetto R5. La prima navigazione intensiva è stata interrotta: due casi positivi, un crash e un caso interrotto; quattro non eseguiti. Alle 21:38:01 il kernel documenta `Out of memory: Killed process 201788 (headless_shell)`, coerente con `page.goto: Page crashed` e la raccolta `Target crashed`. **Causa accertata del solo crash nuovo: esaurimento RAM durante due runtime diagnostici concorrenti.** Correzione operativa: esecuzioni successive sequenziali, senza aumentare risorse, timeout o retry; diagnostica meno invasiva e conservazione progressiva dei documenti. Il registro kernel nell'intervallo storico R5 non contiene OOM: non si attribuisce retroattivamente a questa causa l'intermittenza Anagrafica.
+
+**Causa accertata nella nuova riproduzione: interazione applicativa fra focus e scorrimento fluido globale ereditato da Bootstrap.** Otto fallimenti sul codice precedente conservati: pressione su Anagrafica, movimento verticale fra pressione e rilascio (sette volte 124→243px, una 106→8px), rilascio fuori dalla scheda e clic al contenitore; nessun `show.bs.tab`, nessun `pageerror`. La pressione controllata di 80 ms rende stabile lo stesso sintomo intermittente. Non è un'attesa errata di visibilità né un gestore Bootstrap annullato. Le prime ripetizioni verdi non sono state usate come prova di correzione.
+
+Correzione minima in `resources/scss/custom.scss`: `scroll-behavior:auto` soltanto sotto 768 px e soltanto quando è presente il formulario cliente con chiave bozza. Gestori, campi, validazioni e salvataggi invariati; desktop e altri formulari conservano lo stile esistente. Il doppio caricamento Bootstrap non è stato modificato in assenza di un nesso causale provato.
+
+Controprove alternate sul medesimo runtime/fixture: l'unica variabile modificata è `scroll-behavior`. La versione definitiva esegue cinque tentativi in ciascuno dei quattro casi, senza `test.fail`: i casi smooth devono osservare realmente almeno un clic perso e verificarne bersaglio diverso al rilascio, spostamento maggiore di 20 px e assenza di show; i casi auto richiedono tutti i clic riusciti. Nessun timeout o retry aumentato. I conteggi reali sono nei digest sottostanti. Ricostruzione puntuale del singolo episodio storico R5 **PARZIALE**, perché la sua trace non era stata acquisita; il meccanismo della nuova riproduzione e la correzione sono **VERIFICATI nello scope isolato**. Non viene inventata una trace retroattiva.
+
+Console e trace complete preservate: immagini mancanti delle fixture e blocco dei font esterni distinti dai `pageerror`, assenti nelle venti sessioni osservate positive della verifica finale/controprove. Gli errori di raccolta del crash OOM restano nel diagnostico originale.
+
+### Risultati conclusivi e pubblicazione condizionata
+
+Runtime ufficiale: **136 test/1.159 asserzioni PASS**; **26 scenari browser funzionali PASS**, inclusi otto cicli mobile con 80 aperture/560 cambi scheda,160 pressioni da 80 ms, frecce/Home/End e regressione Enter/Esc, validazioni e due ripetizioni dei tre percorsi di salvataggio. Quattro controprove strutturali definitive PASS, ciascuna di cinque tentativi: smooth-prima: 5/5 clic persi, auto-prima: 0/5 clic persi, smooth-seconda: 5/5 clic persi, auto-seconda: 0/5 clic persi. Le controprove negative misurano il difetto forzando lo stile precedente e non certificano quel comportamento come corretto. Prima versione sperimentale con due negativi attesi conservata separatamente.15 guardie,23 override rifiutati, build/GEO e build asset della VM quotidiana PASS. Prove nuove solo su fixture effimere; nessuna scrittura di test sui dati operativi.
+
+Capienza riletta a runtime chiusi: **3836583936 byte liberi**, fabbisogno prudenziale **3676217344 byte**, incluso1 GiB di margine invariato. Stima da consumo storico nuovamente misurato, non attestazione anticipata del picco del candidato. Esito: `PASS_STIMA_CAPIENZA`. Nuovi kit/piani/sigilli/PREPARE e S0 sono necessari per C5; vecchi piani, T0, scadenze o checkpoint non vengono riusati.
+
+Misura distinta di occupazione successiva (2026-10-16T20:15:22.548222+00:00): root 24856993792 byte occupati su 28700348416, 3843354624 liberi; `/tmp` 19526815744 byte. Rispetto ai 2322227200 byte liberi iniziali, il saldo dell'intera attività prima di C5 è +1521127424 byte, già comprensivo delle nuove evidenze/cache. Non coincide con il saldo dei soli intervalli di rimozione. La misura operativa immediatamente precedente C5 viene conservata nella sua custodia.
+
+[Digest, misure e controprove versionati](evidenze/spazio-mobile-2026-10-16/verifica.json), [inventari di pulizia e limiti](evidenze/spazio-mobile-2026-10-16/pulizia.json). Tracce/console/DOM/schermate custoditi anche nell'archivio Mac indicato dai digest, originali VM conservati. Esito effettivo della pubblicazione, verifica online, monitor di almeno 900 secondi e SHA locale/GitHub/VM/produzione sono registrati **soltanto nella nuova ricevuta esterna** `output/spazio-mobile-2026-10-16/ricevuta-finale.json`: questa sezione non anticipa un PASS C5 e rimane coerente anche con uno STOP. Stato generale **BASELINE IN AUDIT**.
+
+Nella ripresa: CODICE MODIFICATO SI (solo CSS); TEST MODIFICATI SI; DOCUMENTAZIONE MODIFICATA SI; CONFIGURAZIONE APPLICATIVA MODIFICATA NO; SCHEMA/DATI OPERATIVI MODIFICATI NO; TEST ESEGUITI SI. Commit, push, C5 e monitor attestati dalla ricevuta; nessun invio enti/mail. Lavoro estraneo, inclusa la porzione preesistente del Maestro, preservato ed escluso dallo staging.

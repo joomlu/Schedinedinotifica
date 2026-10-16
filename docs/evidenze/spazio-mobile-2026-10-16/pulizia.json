@@ -1,0 +1,50 @@
+{
+  "stato": "VERIFICATO_NEI_LIMITI_DESCRITTI",
+  "rimozioni": [
+    {
+      "inventario_privato": "output/spazio-mobile-2026-10-16/eliminazione.json",
+      "SHA256": "b84b85a8120cb9d6c8e15ad21a7b4521fcc03345677151a216b4715affc8e4a6",
+      "categorie": {
+        "tar_intermedio_base": {
+          "file": 4,
+          "byte_allocati": 1317568512
+        },
+        "cache_python": {
+          "file": 6015,
+          "byte_allocati": 159637504
+        },
+        "staging_sorgenti_duplicati": {
+          "file": 4182,
+          "byte_allocati": 175419392
+        }
+      },
+      "liberi_prima": 1740685312,
+      "liberi_dopo": 3379408896,
+      "incremento_netto_misurato": 1638723584
+    },
+    {
+      "inventario_privato": "output/spazio-mobile-2026-10-16/eliminazione-build.json",
+      "SHA256": "330afc6f1bfff9236a620daa1c80dfda257c978857440b28b5661762751bbcce",
+      "categorie": {
+        "build_in_recupero_concluso": {
+          "file": 15616,
+          "byte_allocati": 765575168
+        }
+      },
+      "liberi_prima": 3364458496,
+      "liberi_dopo": 4137684992,
+      "incremento_netto_misurato": 773226496
+    }
+  ],
+  "file_rimossi": 25817,
+  "byte_nominali": 2418200576,
+  "incremento_netto_due_intervalli": 2411950080,
+  "limite_misura": "Runtime sintetici concorrenti durante gli intervalli; non attribuire incremento netto a ciascun file.",
+  "preservazione": {
+    "cifrati_autenticati_directory": 8,
+    "env_upload_immagini_sha_conformi": 247,
+    "SQL_conservati": 10,
+    "processi_mount_controllati": true,
+    "originali_chiavi_diagnostici_conservati": true
+  }
+}

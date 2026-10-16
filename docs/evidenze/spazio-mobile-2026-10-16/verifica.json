@@ -1,0 +1,411 @@
+{
+  "data_UTC": "2026-10-16T20:14:00.267770+00:00",
+  "base_locale_GitHub_VM": "3f26358b5f428465ff530e51307e234fd9c46ec2",
+  "base_produzione": "5e3d58b5d8b89995a011e5a166f8bb771c1d4607",
+  "intermittenza_mobile": "VERIFICATO_NELLO_SCOPE_ISOLATO",
+  "causa": "Scorrimento fluido del documento durante il focus: pressione su Anagrafica, rilascio su altro elemento; clic al contenitore e nessun show.bs.tab.",
+  "correzione": "scroll-behavior:auto sul solo wizard cliente sotto768px; nessuna modifica ai gestori o alle validazioni.",
+  "storico_R5": "Ricostruzione diretta del singolo evento PARZIALE: trace storico assente. Nuovo meccanismo riprodotto, discriminato e corretto; nessuna causa dedotta dalle sole ripetizioni verdi.",
+  "PHPUnit": {
+    "test": 136,
+    "asserzioni": 1159,
+    "esito": "PASS"
+  },
+  "browser_funzionali": {
+    "scenari": 26,
+    "esito": "PASS",
+    "navigazione_mobile": {
+      "cicli": 8,
+      "aperture": 80,
+      "cambi_scheda": 560,
+      "clic_pressione80ms": 160,
+      "tastiera": "ArrowRight/Home/End; Enter/Esc nella regressione layout"
+    },
+    "salvataggi": "Due ripetizioni di contatti/validazione, Componente/Ospite e nuova bozza/nuovo Ospite verso schedina; riapertura e persistenza"
+  },
+  "controprove_strutturali": [
+    {
+      "mode": "smooth-prima",
+      "tentativi": 5,
+      "clic_persi": 5,
+      "osservazioni": [
+        {
+          "active": false,
+          "scrollDown": 124,
+          "scrollUp": 243,
+          "showAfterDown": 0
+        },
+        {
+          "active": false,
+          "scrollDown": 124,
+          "scrollUp": 243,
+          "showAfterDown": 0
+        },
+        {
+          "active": false,
+          "scrollDown": 127,
+          "scrollUp": 256,
+          "showAfterDown": 0
+        },
+        {
+          "active": false,
+          "scrollDown": 124,
+          "scrollUp": 243,
+          "showAfterDown": 0
+        },
+        {
+          "active": false,
+          "scrollDown": 124,
+          "scrollUp": 243,
+          "showAfterDown": 0
+        }
+      ]
+    },
+    {
+      "mode": "auto-prima",
+      "tentativi": 5,
+      "clic_persi": 0,
+      "osservazioni": [
+        {
+          "active": true,
+          "scrollDown": 124,
+          "scrollUp": 124,
+          "showAfterDown": 1
+        },
+        {
+          "active": true,
+          "scrollDown": 124,
+          "scrollUp": 124,
+          "showAfterDown": 1
+        },
+        {
+          "active": true,
+          "scrollDown": 124,
+          "scrollUp": 124,
+          "showAfterDown": 1
+        },
+        {
+          "active": true,
+          "scrollDown": 124,
+          "scrollUp": 124,
+          "showAfterDown": 1
+        },
+        {
+          "active": true,
+          "scrollDown": 124,
+          "scrollUp": 124,
+          "showAfterDown": 1
+        }
+      ]
+    },
+    {
+      "mode": "smooth-seconda",
+      "tentativi": 5,
+      "clic_persi": 5,
+      "osservazioni": [
+        {
+          "active": false,
+          "scrollDown": 124,
+          "scrollUp": 243,
+          "showAfterDown": 0
+        },
+        {
+          "active": false,
+          "scrollDown": 124,
+          "scrollUp": 243,
+          "showAfterDown": 0
+        },
+        {
+          "active": false,
+          "scrollDown": 127,
+          "scrollUp": 256,
+          "showAfterDown": 0
+        },
+        {
+          "active": false,
+          "scrollDown": 124,
+          "scrollUp": 243,
+          "showAfterDown": 0
+        },
+        {
+          "active": false,
+          "scrollDown": 124,
+          "scrollUp": 243,
+          "showAfterDown": 0
+        }
+      ]
+    },
+    {
+      "mode": "auto-seconda",
+      "tentativi": 5,
+      "clic_persi": 0,
+      "osservazioni": [
+        {
+          "active": true,
+          "scrollDown": 124,
+          "scrollUp": 124,
+          "showAfterDown": 1
+        },
+        {
+          "active": true,
+          "scrollDown": 124,
+          "scrollUp": 124,
+          "showAfterDown": 1
+        },
+        {
+          "active": true,
+          "scrollDown": 124,
+          "scrollUp": 124,
+          "showAfterDown": 1
+        },
+        {
+          "active": true,
+          "scrollDown": 124,
+          "scrollUp": 124,
+          "showAfterDown": 1
+        },
+        {
+          "active": true,
+          "scrollDown": 124,
+          "scrollUp": 124,
+          "showAfterDown": 1
+        }
+      ]
+    }
+  ],
+  "controprove_precedenti": "regressioni-finali.log: 2 negativi attesi smooth e 2 auto positivi; versione definitiva successiva senza test.fail, con controllo esplicito dei bersagli e dello spostamento.",
+  "regressioni_precedenti": "R1/R2:18 cicli originali positivi; R3:8 clic persi conservati; crash OOM distinto e tentativo di controprova con bozza ripristinata interrotto, non promossi a PASS.",
+  "pageerror_nelle_20_sessioni_osservate_positive": 0,
+  "guardie": 15,
+  "override_rifiutati": 23,
+  "build_GEO": "PASS nel runtime e nella VM quotidiana",
+  "capienza": {
+    "recupero_precedente_allocato": 939229184,
+    "componenti": {
+      "decoded": 29061120,
+      "extracted": 680595456,
+      "archivio-base-verificato.json": 4096,
+      "dbdata": 206282752,
+      "db-tmp": 0,
+      "db-private.log": 4096,
+      "ridump.sql": 23244800,
+      "custody": 4096,
+      "sign.pub": 4096,
+      "private.php": 4096,
+      "pool.conf": 4096,
+      "fpm.log": 4096,
+      "fpm-console.log": 0,
+      "web": 4096,
+      "closed": 4096,
+      "apache.conf": 4096,
+      "apache-console.log": 0,
+      "apache.log": 4096
+    },
+    "cifrati_base_allocati": 362008576,
+    "liberi_VM": 3836583936,
+    "data_UTC": "2026-10-16T20:13:57.358321+00:00",
+    "margine_prudenziale": 1073741824,
+    "liberi_Mac": 19198828544,
+    "nessuna_rimozione": false,
+    "nessuna_manutenzione": true,
+    "nessun_PREPARE": true,
+    "fabbisogno_stimato": 3676217344,
+    "limite": "Stima prudenziale da consumo storico misurato: non è una misura del picco del nuovo candidato. Nessun riuso dello S0 precedente.",
+    "esito": "PASS_STIMA_CAPIENZA"
+  },
+  "pulizia": {
+    "stato": "VERIFICATO_NEI_LIMITI_DESCRITTI",
+    "rimozioni": [
+      {
+        "inventario_privato": "output/spazio-mobile-2026-10-16/eliminazione.json",
+        "SHA256": "b84b85a8120cb9d6c8e15ad21a7b4521fcc03345677151a216b4715affc8e4a6",
+        "categorie": {
+          "tar_intermedio_base": {
+            "file": 4,
+            "byte_allocati": 1317568512
+          },
+          "cache_python": {
+            "file": 6015,
+            "byte_allocati": 159637504
+          },
+          "staging_sorgenti_duplicati": {
+            "file": 4182,
+            "byte_allocati": 175419392
+          }
+        },
+        "liberi_prima": 1740685312,
+        "liberi_dopo": 3379408896,
+        "incremento_netto_misurato": 1638723584
+      },
+      {
+        "inventario_privato": "output/spazio-mobile-2026-10-16/eliminazione-build.json",
+        "SHA256": "330afc6f1bfff9236a620daa1c80dfda257c978857440b28b5661762751bbcce",
+        "categorie": {
+          "build_in_recupero_concluso": {
+            "file": 15616,
+            "byte_allocati": 765575168
+          }
+        },
+        "liberi_prima": 3364458496,
+        "liberi_dopo": 4137684992,
+        "incremento_netto_misurato": 773226496
+      }
+    ],
+    "file_rimossi": 25817,
+    "byte_nominali": 2418200576,
+    "incremento_netto_due_intervalli": 2411950080,
+    "limite_misura": "Runtime sintetici concorrenti durante gli intervalli; non attribuire incremento netto a ciascun file.",
+    "preservazione": {
+      "cifrati_autenticati_directory": 8,
+      "env_upload_immagini_sha_conformi": 247,
+      "SQL_conservati": 10,
+      "processi_mount_controllati": true,
+      "originali_chiavi_diagnostici_conservati": true
+    }
+  },
+  "custodia": {
+    "data_UTC": "2026-10-16T20:13:21.210652+00:00",
+    "directory_VM_preservate": [
+      "schedine-mobile-diagnosi-0EUlQm",
+      "schedine-mobile-diagnosi-1Wbkoo",
+      "schedine-mobile-diagnosi-2susDl",
+      "schedine-mobile-diagnosi-3krFjv",
+      "schedine-mobile-diagnosi-4hGszM",
+      "schedine-mobile-diagnosi-6jxa95",
+      "schedine-mobile-diagnosi-7KjUaN",
+      "schedine-mobile-diagnosi-7ht3Oe",
+      "schedine-mobile-diagnosi-8MfVUH",
+      "schedine-mobile-diagnosi-9DHrIN",
+      "schedine-mobile-diagnosi-9VDxob",
+      "schedine-mobile-diagnosi-AqAkWl",
+      "schedine-mobile-diagnosi-B9Wkev",
+      "schedine-mobile-diagnosi-CRGIJb",
+      "schedine-mobile-diagnosi-EBZEjH",
+      "schedine-mobile-diagnosi-EFqnrx",
+      "schedine-mobile-diagnosi-FdcToL",
+      "schedine-mobile-diagnosi-I0ShDs",
+      "schedine-mobile-diagnosi-Jl81S6",
+      "schedine-mobile-diagnosi-MTZgFo",
+      "schedine-mobile-diagnosi-Ma7egZ",
+      "schedine-mobile-diagnosi-NOLrxi",
+      "schedine-mobile-diagnosi-NQ6yRk",
+      "schedine-mobile-diagnosi-O6GaWz",
+      "schedine-mobile-diagnosi-Otm0sC",
+      "schedine-mobile-diagnosi-QPqJe1",
+      "schedine-mobile-diagnosi-QzjuTk",
+      "schedine-mobile-diagnosi-S1nxXt",
+      "schedine-mobile-diagnosi-TILGfW",
+      "schedine-mobile-diagnosi-UKp43I",
+      "schedine-mobile-diagnosi-UwVHYt",
+      "schedine-mobile-diagnosi-VFIOzS",
+      "schedine-mobile-diagnosi-VuJPck",
+      "schedine-mobile-diagnosi-WGiVwt",
+      "schedine-mobile-diagnosi-WSNl5m",
+      "schedine-mobile-diagnosi-WeXdSR",
+      "schedine-mobile-diagnosi-XqvzlC",
+      "schedine-mobile-diagnosi-crKQc3",
+      "schedine-mobile-diagnosi-e58aqT",
+      "schedine-mobile-diagnosi-eDrlDp",
+      "schedine-mobile-diagnosi-feSsMi",
+      "schedine-mobile-diagnosi-gP3H82",
+      "schedine-mobile-diagnosi-gRlT7d",
+      "schedine-mobile-diagnosi-gfPudg",
+      "schedine-mobile-diagnosi-hLL50I",
+      "schedine-mobile-diagnosi-hxktvH",
+      "schedine-mobile-diagnosi-i1nqan",
+      "schedine-mobile-diagnosi-iialkP",
+      "schedine-mobile-diagnosi-jqA20i",
+      "schedine-mobile-diagnosi-lPEuFh",
+      "schedine-mobile-diagnosi-mCnUg6",
+      "schedine-mobile-diagnosi-mFt2i6",
+      "schedine-mobile-diagnosi-pJpUxu",
+      "schedine-mobile-diagnosi-rrqz5q",
+      "schedine-mobile-diagnosi-uy6Kum",
+      "schedine-mobile-diagnosi-v2zqOn",
+      "schedine-mobile-diagnosi-ve391n",
+      "schedine-mobile-diagnosi-wiN6kE",
+      "schedine-mobile-diagnosi-xDXnZo",
+      "schedine-mobile-diagnosi-xObnZe"
+    ],
+    "archivio_Mac": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/spazio-mobile-2026-10-16/custodia-diagnostici-completa.tar",
+    "bytes": 894228480,
+    "SHA256": "47584931901fb6a581d009b153dbaabf8e65ced2c8219c379842ff1743b587a3",
+    "nessun_diagnostico_rimosso": true
+  },
+  "protetti_sha256": {
+    "app/Models/Customers.php": "6541f29bb76255d470016815092dcd3f8153f1fe0ee1f827c292abf8e2f86c08",
+    "app/Models/Concerns/AppartieneAStruttura.php": "e8b077d54c5e3f094ca68590f46616088bd4341fcaab3c57aeafc741b3d3b7da",
+    "app/Http/Middleware/RequireAuthorizedStruttura.php": "7f237bc63b8e718601bc7300ae3742905ae8fdfb06cc9ca15e00cef25447f7d3",
+    "app/Services/CustomerWizardValidation.php": "d5be0432abe27be6e32dcab1a424a7c1f5013a4e649af63d7481c83f3d5ac6f7",
+    "app/Services/TassaDiSoggiornoService.php": "7dac31ad449660aa8072b2b745107a29d536519cff854a14fd62c6dfa7007913",
+    "config/tassa_profili.php": "79de91ae3464b69526c2a1ca43c8a94e2f7322f6f6d344f423c11d75bdc4be6c",
+    "resources/views/customers/partials/scheda-cliente-scripts.blade.php": "6e7aa02c258f23e71dc3c8e3c6b9b4b1861ad86d6c87254bdea411b874a2c4f0",
+    "tests/Isolation/run.py": "aecb88c1009d6f90974a0706b3c57aff4f53fa92458ee08d6c78e470134c2b8e",
+    "composer.lock": "857bc7f6eb12f80852e49cfa3c46b04db064585175427a17fb176f5c06bef3e4",
+    "package-lock.json": "34873f00e2deeef212b21720a6b93644ce52b9c082eb3b2aab38800776bbc08c",
+    "app/Services/TassaConfig/GestioneProfiliTassa.php": "6fbdd38495dd4931051d5c5fcf1de3793e852e38e2bcafccd5a5ca67a41d62a1",
+    "app/Services/TassaConfig/ProfiloTassaRepository.php": "036e88a7255c30a7632ef84fd78df78b7db44c5e572821a028898d10a36d7235"
+  },
+  "sorgenti_sha256": {
+    "app/Http/Controllers/CustomerController.php": "8693f5df6a514679da976224634a1818449ccb59c3ed0dec12efcc80053f8838",
+    "resources/scss/custom.scss": "9a6d026e1c8a04c5cd69dab06558e57d1dc8f71e2c03f2421b98c1bca48a9d05",
+    "resources/views/admin/proprietari/form.blade.php": "8b9719b3479e28e91fab6c7f1e543a227e1ab3a7a600e2f35586a94001dcd052",
+    "resources/views/admin/proprietari/index.blade.php": "4a4439e528843f87d0070c5fdd30319e4e15d394d666550117eaf1dbf1b2e612",
+    "resources/views/admin/strutture/index.blade.php": "da9684724db6f29e8219d3d179ae660e856ca9664a48da14a06cbfe96f12f88a",
+    "resources/views/customers/edit.blade.php": "ffa7c59882ca61e791e21e6785a2caced88a6a7d952c7ad9bad168a090b23a77",
+    "resources/views/customers/list.blade.php": "a92b16db66afc3e10a2de112a66c630e23e1b61ac022a8ec314fc6923c88c9c9",
+    "resources/views/customers/partials/scheda-cliente-form.blade.php": "5fd29ef92c42f7833c0dd862ae04e98961267dac718a04e5d59a3a6c399e9ba0",
+    "resources/views/customers/print.blade.php": "41a1015e54037002d6da5077b41927806ab8b211fae37a73222110c96bc4a73d",
+    "resources/views/layouts/sidebar.blade.php": "0153b1fe6625e7f904d287e29490ff2e1324b6966e96d6b8a6d79cec74d2cbde",
+    "resources/views/proprietario/strutture/index.blade.php": "6957ed6a98502cf774480b922509acd375ebbaa9a2c8469afc1f91f248df4996",
+    "resources/views/superadmin/amministratori/form.blade.php": "b2b005936d29aca91f996afdedcd183aa9447c133dffd60f7b078640b958b51f",
+    "resources/views/superadmin/amministratori/index.blade.php": "8fe47fa1a02248f5aebe9a941e2281fbd582c32492b200a055ade227150ed286",
+    "resources/views/superadmin/proprietari/form.blade.php": "9d3d3d9281be9a2924f41c5c22fc9323da259fdf032622e312cd1e2f8cad8354",
+    "resources/views/superadmin/proprietari/index.blade.php": "b1f9c31209a0aa7817d58519d85e31cd1b9feb90bcddc410f5a5049f68a590c6",
+    "resources/views/superadmin/strutture/index.blade.php": "e09dd6a42c958fb2dd5d59b57a989ab787891624f823a80f38d2ad06889f7526",
+    "resources/views/superadmin/tassa/configurazione.blade.php": "ed4c98846510c2c616bacaa06ccb5ad5fbd2c7f28cee36e1f35fa499842409dd",
+    "routes/web.php": "86792b0a407b715b03b80e69c79cb15649c45272e38eed45d693a5a3245a61e1",
+    "tests/Feature/CustomerManagementTest.php": "5f4afc3c60360a060375c111d3a6a0abfec749f994c63e0fb2c3236411f218d8",
+    "tests/Feature/customer-management.playwright.spec.js": "41e09c8cccad7ebeca1877aa8bf6ab5f45c3cff6803ded2d1f4924172c40f7ce",
+    "tests/Feature/customer-mobile-diagnostic.playwright.spec.js": "f07506505341da4fbca26fec83738e114fb216448be4ca075e2adef8a9d78ebc",
+    "tests/Feature/customer-mobile-navigation.playwright.spec.js": "6453cf6f81cc40004835941fbb01f1252f37eec1a970fd2f06b04846fec22b38",
+    "tests/Feature/customer-mobile-saves.playwright.spec.js": "4ac850d427b35d6cf2bea767e58e1583c14cf9490ce14edaa211d29c325227f5",
+    "tests/Feature/customer-mobile-scroll-cause.playwright.spec.js": "e05102b9be6d0aad481ab60ebffa7c0adcdb56eafe2c3da072447c634f496cce",
+    "tests/Feature/customer-wizard.playwright.spec.js": "0274cdd6c411681d99e98f470635bb2dfe4b19c70136b23e45a2238322865d07",
+    "tests/Support/customer-observation.js": "07866eba01ee5687a8453d3f03eb10aa098d36b871c5b3b1939213bc010fcacb"
+  },
+  "log_sha256": {
+    "riproduzione.log": "04d3e401df6055daf487f68dad6705cc76232c9ae3a22b07f3fce586ca320508",
+    "riproduzione-r2.log": "213a0bd805148875bdaf49580c22e451b2cd275c0e535bc32cfb5027aa98de12",
+    "navigazione.log": "1d4f2d03b9e68903baa7a46aac75ba28988c7f947e7f8e95cc0d97c4654683c8",
+    "regressioni-sequenziali.log": "4f15236d1b8904fb26bc9815874077f7fa34bea1617c5ac512738295c3b001be",
+    "causalita.log": "89c3f0fcb0355d1a46829106724624c8c029684b57c42a52791d98bc6154d0d1",
+    "regressioni-finali.log": "019ca020d3742deac6b148c13569fae9382fc44c355c78f70b5a3240a4f91bf6",
+    "controlli-strutturali.log": "010753d1f3ae316c242adee8d02a2248013aa0923eefc20b46ba4c27e6e736f1",
+    "kernel-oom.log": "e4b501ee1fdd6453826611a803b9358616bfd9d8195da772816883db93c26207",
+    "kernel-intervallo-storico.log": "19c4e28b2f54ea8f217db4e622b0a5c758efa7b77ce2dc0394b6d159568c0b2e",
+    "build-VM.log": "16f58f855f7223af72ff02cee800318ddcbd7f0eca9c51d1f7af9562634dd1f4",
+    "guardie-precommit.log": "59de99d552df6b9bf5ea0ee74b285a36d01b1e07fd614ac017a4b15653fbaa57",
+    "inventario-diagnostici.json": "bea7247c33539eda78d7e852e8258103ea69331a6f4b51e2aebd1c105f31a7bc",
+    "clic-perso-otto-riproduzioni.json": "53e21d43830a79e6d749ff01bf81be71e6ca9e7e1a2d575673063b946732bdb4"
+  },
+  "configurazione_applicativa_modificata": false,
+  "schema_dati_operativi_modificati": false,
+  "trasmissioni_enti_mail": false,
+  "C5": "Esito esecutivo, online, monitor e quattro SHA attestati esclusivamente nella ricevuta esterna della ripresa, dopo i gate nuovi; nessun PASS anticipato.",
+  "BASELINE_IN_AUDIT": true,
+  "occupazione_prima_C5": {
+    "data_UTC": "2026-10-16T20:15:22.548222+00:00",
+    "root_totale": 28700348416,
+    "root_occupati": 24856993792,
+    "root_liberi": 3843354624,
+    "occupazione_directory": [
+      "19526815744\t/tmp",
+      "2727374848\t/home/collaudo.guest",
+      "471764992\t/opt",
+      "615489536\t/var"
+    ]
+  },
+  "incremento_libero_intera_attivita_prima_C5": 1521127424,
+  "limite_incremento_intera_attivita": "Comprende nuove evidenze/cache/build e risorse effimere dei test; distinto dai due intervalli della pulizia."
+}
