@@ -11,7 +11,8 @@ class CustomerAddressNormalization
     {
         $data = [];
         foreach (['typeaway', 'address', 'number'] as $field) {
-            $data[$field] = preg_replace('/\s+/u', ' ', trim((string) ($input[$field] ?? ''))) ?: null;
+            $normalized = preg_replace('/\s+/u', ' ', trim((string) ($input[$field] ?? '')));
+            $data[$field] = $normalized === '' ? null : $normalized;
         }
         $errors = [];
         $types = TipoVia::withoutGlobalScopes()->where('struttura_id', $sid)->where('attivo', true)->get();

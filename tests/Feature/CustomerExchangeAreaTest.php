@@ -131,6 +131,13 @@ class CustomerExchangeAreaTest extends TestCase
         $this->assertSame('14', $conflict['data']['number']);
         $unknown = app(\App\Services\CustomerAddressNormalization::class)->normalize(['address' => 'PercorsoX non catalogato 45'], $other->id);
         $this->assertSame('PercorsoX non catalogato 45', $unknown['data']['address']);
+        $zero = app(\App\Services\CustomerAddressNormalization::class)->normalize(['address' => 'Via Roma 0'], $s->id);
+        $this->assertSame('0', $zero['data']['number']);
+        $this->actingAs($actor)->withSession(['struttura_corrente_id' => $s->id]);
+        $service->updateRowPayload($rows[2]->fresh(), ['indirizzo_residenza' => 'Via Roma 0', 'numero_civico_residenza' => '0']);
+        $customerZero = $service->confirmImportedRow($rows[2]->fresh());
+        $this->assertSame('0', $customerZero->number);
+        $this->assertSame('Nazione Sintetica', $customerZero->country_doc_reg);
     }
 
     public function test_upload_sintetico_staging_duplicati_e_file_non_valido(): void

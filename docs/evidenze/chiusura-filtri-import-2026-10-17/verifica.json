@@ -2,12 +2,12 @@
   "stato": "Implementazione filtri194017d e chiusura delle due lacune import VERIFICATE in isolamento; C5/online/monitor nella ricevuta esterna",
   "PHPUnit": {
     "test": 94,
-    "asserzioni": 793,
+    "asserzioni": 796,
     "esito": "PASS"
   },
   "browser": {
     "prove": 3,
-    "secondi": 42.0,
+    "secondi": 51.6,
     "larghezze": [
       1440,
       768,
@@ -33,8 +33,8 @@
     "app/Http/Controllers/CustomerController.php": "cc4305122233a73a431bb9e2de8d0714fd3860abcd32a09f9dcb118e734c0303",
     "app/Http/Controllers/CustomerExportController.php": "ab983f7848c6fbdded70b2b111fe030bf90c0699e0b3be0b75694e917afff45a",
     "app/Http/Controllers/CustomerImportController.php": "dde210526c3a5275da23948cf11a3e684810c39ba612e31573be61288e32ca34",
-    "app/Services/CustomerAddressNormalization.php": "f0c41cd35c7264b9957ae3160bd4e5e14f3a4e6648b82685a6985470bc5fea8b",
-    "app/Services/CustomerImportService.php": "5ad59a29ae9f00f98e3765565f34f969545eb05e52b4eb3266d1e2107ff52008",
+    "app/Services/CustomerAddressNormalization.php": "97791726982caa16dd284d3639b229b1b071b5c7c1719a1533e3f96682be088b",
+    "app/Services/CustomerImportService.php": "9192e686a7b058d50fad65efaf96d7c27872d72cae4f6625d685348f7cbe6d44",
     "app/Services/CustomerInputValidation.php": "5cb2c06823bcb4b3f8edb977d867790ac06d418c4b25d1fba191281dd51a385c",
     "app/Services/CustomerWizardValidation.php": "d89336300571606a17d858e1692dd56a205f1bdc94c774d010db61c30aa14ec1",
     "app/Support/CustomerListReturn.php": "4e71d4bd1e4f17f86f797575e8ecbfa0bb4c1ef99290f1ec684d29a535590604",
@@ -48,7 +48,7 @@
     "resources/views/customers/print.blade.php": "295b2aa693c89b86f0ec39adc296ebfa4c39bfe3c912e5eb9e262cce23fa03dc",
     "resources/views/customers/storico.blade.php": "a077d4dcb5b1a0b8b3eccd820e4bc76428f809b393e6091b652de1d087143401",
     "resources/views/layouts/sidebar.blade.php": "2b8da1c691fc78a85fc0f13e3e0412a0979c7c58fa7ce4126c8c5b897cee1ebb",
-    "tests/Feature/CustomerExchangeAreaTest.php": "cd4deb6706aa89ca3819b5f555a43479dab10a86cfa70bb8d0ebf8fee0879240",
+    "tests/Feature/CustomerExchangeAreaTest.php": "4b10a46f7050bd1e8260e76e2db086fe1d59ce6c7ccf3cfdc8725fb599ff1025",
     "tests/Feature/CustomerWizardTest.php": "e12454d435dd1db769b25e3d02c49f590475c78a4ad70b6216c6a66883d9fbf2",
     "tests/Feature/customer-exchange-area.playwright.spec.js": "94d14efc2de1440cdc283a04be6faf8ba4e09db58613b259cc828b65337b6b4d",
     "tests/Isolation/seed-customer-management.php": "2edf061a4598e47a420193375118381e059d80a36cdceb219d303cffafb1e1c1",
@@ -143,6 +143,9 @@
     "regressione-R3.log": "c7c3f0fd43f7ca5cca81084fd22435d6ebd3eefcbbcfabd9d19445cda5e1c3c5",
     "regressione-R2.log": "82844b0478bb7d76b518004d2309db340b5fc6119d0e55b95296974b8e2c9cea",
     "regressione-R1.log": "731f94975eb5620ecc1ed020d545d31595106170d5f7d003400ce4b48abb15ca",
-    "regressione-R4.log": "ddccf1517fb64a86ebd52c3ae9a27ef896d27ff78c439addc9b68eead0ba9d11"
-  }
+    "regressione-R4.log": "ddccf1517fb64a86ebd52c3ae9a27ef896d27ff78c439addc9b68eead0ba9d11",
+    "regressione-R5.log": "f87ce2b6bd7ada855b0e8fddfc0e034b00176f0855ec608237c3c11d288c3348",
+    "regressione-R5-binding-STOP.log": "8aa9d09a09403f2cc81d26b959ed2caaec9445d624ffced34dc89007f64aed50"
+  },
+  "caso_limite_civico_zero": "PASS: normalizzazione e valore persistito mantengono la stringa0, senza considerarla vuota"
 }

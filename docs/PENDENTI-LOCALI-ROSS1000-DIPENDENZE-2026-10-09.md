@@ -2,7 +2,7 @@
 
 ## Chiusura corrente filtri/importatore — 17 ottobre
 
-[Consuntivo corrente](CHIUSURA-FILTRI-E-IMPORTATORE-2026-10-17.md). Capienza sbloccata con derivati verificati e CoW conservativo; nessuna perdita diDB/SQL/chiavi/cifrati/upload/evidenze.94test/793asserzioni,3browser e17guardiePASS: validazione completa per tipo condivisa con wizard e normalizzazione via/civico unica chiuse nell’implementazione verificata, non più due mancanze funzionali. Filtri194017d inclusi nello stesso candidato senzaDDL. Pubblicazione/acceptance/monitor eSHA conclusivi soltanto nella nuova ricevuta esterna, senza attribuirePASSstorici al candidato. Fino al nuovoPASS restano fasiPARZIALI. SeChrome mantieneERR_BLOCKED_BY_CLIENT dopofiltrozero, resta il solo download/header effettivo manuale, senza disabilitare protezioni. Nessuna validazione generale oltreBASELINE IN AUDIT.
+[Consuntivo corrente](CHIUSURA-FILTRI-E-IMPORTATORE-2026-10-17.md). Capienza sbloccata con derivati verificati e CoW conservativo; nessuna perdita diDB/SQL/chiavi/cifrati/upload/evidenze.94test/796asserzioni,3browser e17guardiePASS: validazione completa per tipo condivisa con wizard e normalizzazione via/civico unica chiuse nell’implementazione verificata, non più due mancanze funzionali. Filtri194017d inclusi nello stesso candidato senzaDDL. Pubblicazione/acceptance/monitor eSHA conclusivi soltanto nella nuova ricevuta esterna, senza attribuirePASSstorici al candidato. Fino al nuovoPASS restano fasiPARZIALI. SeChrome mantieneERR_BLOCKED_BY_CLIENT dopofiltrozero, resta il solo download/header effettivo manuale, senza disabilitare protezioni. Nessuna validazione generale oltreBASELINE IN AUDIT.
 
 
 ## Filtri liste — correzione del 17 ottobre
