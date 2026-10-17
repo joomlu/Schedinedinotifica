@@ -13,6 +13,9 @@ Pubblicazione ora autorizzata dall'utente; nuovo preflight C5:1.509.302.272byte 
 
 
 
+
+Ripresa autorizzata: commit applicativo `adb874c5` presente su GitHub main (push confermato). Pulizia di24.128soli derivati vendor/build in recuperi chiusi, SHA/HMAC delle copie cifrate verificati, nessun processo/mount; DB/SQL/env/chiavi/upload/backup/diagnostici e lavori in corso esclusi. Recupero netto517.505.024byte; preflight successivo1.999.900.672liberi contro3.709.771.776richiesti: mancano1.709.871.104byte. **STOP prima PREPARE/manutenzione**, nessuna ulteriore eliminazione o ampliamento; proposta VM28→32GiB con backup/verifiche, da autorizzare. Primo inventario fermato da deposito cifrato incompleto, nessuna cancellazione; seconda verifica solo con custodie complete/autenticatePASS. [Evidenza](../evidenze/navigazione-clienti-2026-10-17/pulizia-e-preflight.json). BASELINE IN AUDIT invariata.
+
 ## Esito corrente verificato — filtri e importatore
 
 Pubblicato il candidato applicativo **692cb292c0631b736798870a4ebcd40d5652e784**, discendente dei filtri194017d, con chiusura delle due lacune importatore. PREPARE indipendentePASS; checkpointS0 fisico verificato in211,055secondi, RUN concluso in293,008secondi, candidato accettato, nessunaDDL. Guardiano disarmato/inattivo/disabilitato dopo decisione. ServizioFPM attivo eGit produttivo pulito. Database byte-identico al nuovoS0 anche dopo le prove browser,74persistenti e.env/APP_KEY/upload/loghi preservati;156migrazioni/64tabelle invariati.
