@@ -1,0 +1,260 @@
+{
+  "esito": "PUBBLICATO E VERIFICATO nello scope logo e pastello",
+  "data_UTC": "2026-10-17T18:54:03.190621+00:00",
+  "SHA_applicazione": {
+    "locale": "ed6121f546e1588398823e278a574d6127af0a44",
+    "GitHub": "ed6121f546e1588398823e278a574d6127af0a44",
+    "VM": "ed6121f546e1588398823e278a574d6127af0a44",
+    "produzione": "ed6121f546e1588398823e278a574d6127af0a44"
+  },
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "S0_secondi": 143.62,
+    "RUN_secondi": 223.207,
+    "DDL": false,
+    "decisione": "CANDIDATO_ACCETTATO"
+  },
+  "monitor": {
+    "secondi": 918.4723112503998,
+    "campioni": 31,
+    "sonde_HTTP_TLS_CSS": 279,
+    "esito": "PASS"
+  },
+  "errori": {
+    "inizio_locale": "2026-10-17T19:59:22.843052",
+    "nuovi_errori_applicativi": {
+      "laravel-2026-09-29.log": 0,
+      "laravel.log": 0
+    },
+    "totale_errori": 0,
+    "FPM_errori_journal": 0,
+    "nessun_contenuto_log_personale_esportato": true
+  },
+  "integrita": {
+    "db_byte_identico_S0": true,
+    "custom_css_HTTP_sha256": "9d11a9ecc9c9df1a5fd0876a7bba78dc6064a4a46b1c7941c04f49ef6827e67b",
+    "regola_mobile_in_css_pubblico": true,
+    "esito": "PASS_RILASCIO_ONLINE_SERVER",
+    "HEAD": "ed6121f546e1588398823e278a574d6127af0a44",
+    "Laravel": "12.69.3",
+    "migrazioni": 156,
+    "tabelle": 64,
+    "cataloghi": {
+      "rilasciato_da": {
+        "globali": 86,
+        "conteggi_privati": [
+          [
+            1,
+            74
+          ],
+          [
+            7,
+            73
+          ],
+          [
+            8,
+            73
+          ],
+          [
+            9,
+            73
+          ],
+          [
+            10,
+            73
+          ],
+          [
+            11,
+            73
+          ],
+          [
+            12,
+            73
+          ]
+        ]
+      },
+      "tipo_via": {
+        "globali": 198,
+        "conteggi_privati": [
+          [
+            1,
+            157
+          ],
+          [
+            7,
+            156
+          ],
+          [
+            8,
+            156
+          ],
+          [
+            9,
+            156
+          ],
+          [
+            10,
+            156
+          ],
+          [
+            11,
+            156
+          ],
+          [
+            12,
+            156
+          ]
+        ]
+      }
+    },
+    "geo_comuni": 7896,
+    "env_key_upload_loghi_identici_S0": true,
+    "persistenti": 74,
+    "sorgenti_e_protetti_identici_ai_digest": true,
+    "provider_false_mail_array": true,
+    "Git_pulito": true,
+    "sonde9": {
+      "mail.schedinedinotifica.tanggo.software/": true,
+      "mail.schedinedinotifica.tanggo.software/login": true,
+      "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "schedinedinotifica.tanggo.software/": true,
+      "schedinedinotifica.tanggo.software/login": true,
+      "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "www.schedinedinotifica.tanggo.software/": true,
+      "www.schedinedinotifica.tanggo.software/login": true,
+      "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+    },
+    "S0_secondi": 143.62,
+    "rilascio_secondi": 223.207,
+    "monitor_campioni": 380,
+    "nonce": "4fc2b26ba49ca749a001d2be063dd3f1ab05d3e5b72e243b",
+    "DDL_eseguite": false,
+    "nessun_invio_enti": true
+  },
+  "VM": {
+    "SHA": "ed6121f546e1588398823e278a574d6127af0a44",
+    "disco_byte": 34359738368,
+    "liberi_byte": 1435287552,
+    "sorgenti_conformi": true,
+    "servizio_interno": "ATTIVO",
+    "nessuna_modifica_DB_env_upload": true,
+    "documenti_pregressi_preservati": true,
+    "Git_VM_pulito_non_attestato": "Documenti pregessi e template runtime conservati; allineamento selettivo dei sorgenti."
+  },
+  "prove_isolate": {
+    "test_PHP": 21,
+    "asserzioni": 178,
+    "browser": 12,
+    "formati": [
+      "PNG",
+      "WebP",
+      "JPG",
+      "JPEG"
+    ],
+    "HTTP_POST": 302,
+    "errori_visibili_e_logo_precedente_conservato": true,
+    "guardie": 15,
+    "override_rifiutati": 23,
+    "build_GEO": "PASS"
+  },
+  "pastello_online": [
+    {
+      "colore": "rgb(116, 24, 38)",
+      "coloreSidebar": "rgb(116, 24, 38)",
+      "controlli": [
+        {
+          "altezza": 60.25,
+          "destra": 843.2734375
+        },
+        {
+          "altezza": 60.25,
+          "destra": 1405
+        }
+      ],
+      "scheda": "Nuovo",
+      "sfondo": "linear-gradient(90deg, rgba(140, 29, 44, 0.12), rgba(140, 29, 44, 0.04))",
+      "sfondoSidebar": "linear-gradient(90deg, rgba(140, 29, 44, 0.12), rgba(140, 29, 44, 0.04))",
+      "viewport": 1440
+    },
+    {
+      "colore": "rgb(116, 24, 38)",
+      "coloreSidebar": "rgb(116, 24, 38)",
+      "controlli": [
+        {
+          "altezza": 60.25,
+          "destra": 507.2734375
+        },
+        {
+          "altezza": 60.25,
+          "destra": 733
+        }
+      ],
+      "scheda": "Nuovo",
+      "sfondo": "linear-gradient(90deg, rgba(140, 29, 44, 0.12), rgba(140, 29, 44, 0.04))",
+      "sfondoSidebar": "linear-gradient(90deg, rgba(140, 29, 44, 0.12), rgba(140, 29, 44, 0.04))",
+      "viewport": 768
+    },
+    {
+      "colore": "rgb(116, 24, 38)",
+      "coloreSidebar": "rgb(116, 24, 38)",
+      "controlli": [
+        {
+          "altezza": 60.25,
+          "destra": 193.2734375
+        },
+        {
+          "altezza": 60.25,
+          "destra": 355
+        }
+      ],
+      "scheda": "Nuovo",
+      "sfondo": "linear-gradient(90deg, rgba(140, 29, 44, 0.12), rgba(140, 29, 44, 0.04))",
+      "sfondoSidebar": "linear-gradient(90deg, rgba(140, 29, 44, 0.12), rgba(140, 29, 44, 0.04))",
+      "viewport": 390
+    }
+  ],
+  "Lista_online": {
+    "attiva": "Lista",
+    "sfondo": "linear-gradient(90deg, rgba(140, 29, 44, 0.12), rgba(140, 29, 44, 0.04))",
+    "sidebar": "linear-gradient(90deg, rgba(140, 29, 44, 0.12), rgba(140, 29, 44, 0.04))",
+    "url": "https://schedinedinotifica.tanggo.software/clienti?q=VERIFICA-NAV-181650c-ZERO2&tipo_cliente=Richiesta&stato=bozza&ordine=cognome"
+  },
+  "Rimini_online": {
+    "verifica": {
+      "formati": "image/png,image/jpeg,image/webp",
+      "metodo": "post",
+      "multipart": "multipart/form-data",
+      "ricerca": "Rimin",
+      "righe": [
+        "Rimini RN 099014 Nessun logo Carica"
+      ],
+      "ritorno": "<redacted>",
+      "url": "https://schedinedinotifica.tanggo.software/geo/comuni/logo?q=Rimini"
+    },
+    "nessunPOSTeseguito": true,
+    "logoRealeNonSostituito": true
+  },
+  "limiti": [
+    "Gli upload completi e gli errori sono verificati nel runtime isolato su Rimini sintetico. In produzione Rimini resta senza logo: nessun file reale era stato fornito e nessun logo fittizio è stato memorizzato.",
+    "La causa riprodotta è coerente con il sintomo riferito; non prova che sia stata l’unica causa di tutti i tentativi storici.",
+    "Un commit successivo contiene soltanto il consuntivo documentale, distinto dal candidato pubblicato."
+  ],
+  "stato_generale": "BASELINE IN AUDIT",
+  "evidenze_sha256": {
+    "verifica-finale.log": "00206d27bceb806ab82b68d5048d1cb39b1fa29e581c08074927743a3d040911",
+    "guardie.log": "d5c758979aee032b4f04f62fc748e2f3486d5b4206116a4aa31813b74b9a18f1",
+    "diagnosi-isolata-r4.log": "0d5ab6dc47d9cf8ecdf05db4ab6666fda24f2fa4a14af11c93808be5381cc32e",
+    "c5/prepare.log": "9782139889dacfb709e473cd4950838fbae1e2d05de89bc93b0e8343735b1e59",
+    "c5/run.log": "1289fcab8baa6205e946666fd7f9e51a6456935bccf9d2e2886a6276c1d448bb",
+    "c5/monitor.log": "1b99a1fa735e97d05e9baf10097d1684037e6be0828f71f8945e7b23f065421f",
+    "c5/verifica-dopo-browser.log": "0326242f95d075f00ab3a990097cc0c4ae265c1b226187ed373675010fc82df2",
+    "c5/guardiano.log": "43ffb56503dc3850e0aec5d4ea7049d27a88d6bfa63ce9758d98896b101e09fc",
+    "c5/errori-finali.log": "c14cc83c21dd25155b5293bd7bd074d207098d2ea4e38c693e7af213f49942d4",
+    "rimini-online.json": "2e1d8501478eb2d9de8f98f20c6395af293519485df7e81104b13f8033af00da",
+    "pastello-online.json": "1d873f6de443554c0d8dc4ca6d0f0213fd2ff9be1e75fd9f1a1774da8ae04fe0",
+    "pastello-lista-online.json": "335aa28d42bc1d0e3ee1be828f8378415138d1dcbb08d47a6c8f3bbd3d3eea87",
+    "monitor-ricevuta-server.json": "cef5975167bbaf5fc973573ba989c644fcb8c0794148525fabb4bb8af1de8cbe",
+    "c5/verifica-conclusiva.log": "0326242f95d075f00ab3a990097cc0c4ae265c1b226187ed373675010fc82df2"
+  },
+  "nota_monitor_locale": "Il flusso locale del monitor è rimasto parziale al quattordicesimo campione; la ricevuta conclusiva è stata verificata direttamente sul server: 918,472 secondi, 31 campioni e 279 sonde PASS. Nessuna causa del mancato aggiornamento locale è attribuita senza prova. La verifica server conclusiva, successiva al monitor, riconferma DB/S0, persistenti, SHA, FPM e sonde."
+}

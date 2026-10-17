@@ -1,5 +1,18 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Esito corrente — logo Rimini e pastello Clienti pubblicati, 17 ottobre 2026
+
+Pubblicato il candidato **ed6121f546e1588398823e278a574d6127af0a44** con i soli interventi autorizzati. Il focus o la selezione del file invalida le risposte di ricerca ancora pendenti, preservando modulo e ricerca di ritorno; Nuovo / Lista usa il gradiente pastello della sidebar. Controller, validazioni, permessi, storage e database invariati. [Consuntivo](../LOGO-RIMINI-E-PASTELLO-CLIENTI-2026-10-17.md) ed [evidenze](../evidenze/logo-rimini-pastello-2026-10-17/rilascio.json).
+
+Nuovo PREPARE indipendente PASS; S0 fresco recuperato e verificato in 143.62 secondi; RUN concluso in 223.207 secondi, CANDIDATO_ACCETTATO e zero DDL. Guardiano disarmato, inattivo e disabilitato. Database produttivo identico byte per byte al nuovo S0 anche dopo il browser; 74 persistenti, .env, APP_KEY, upload e loghi originali conservati. Nessuna ulteriore pulizia o crescita VM; capienza finale 1435287552 byte.
+
+21 test PHP / 178 asserzioni, 12 browser, 15 guardie, 23 rifiuti di override e build/GEO PASS. Upload completi PNG/WebP/JPG/JPEG a 1440/390 px con POST e HTTP 302 osservati, immagine caricata; errore di validazione visibile e logo precedente conservato. Errore di scrittura simulato nel test PHP con messaggio e conservazione. Online: Rimini RN 099014, form multipart e formati corretti; ricerca e ingresso nel campo file; nessuna scrittura di prova sul Comune reale. Rimini resta senza logo, non essendo stato fornito un file reale. Pastello di Nuovo a 1440/768/390 px e Lista verificato con confronto dei colori effettivi con la sidebar; nessun errore browser osservato.
+
+Monitor reale di **918.472 secondi, 31 campioni e 279 sonde HTTP/TLS/CSS PASS**. Zero nuovi errori applicativi o FPM dal T0; Git produttivo pulito, FPM attivo e barriere assenti. SHA applicativo locale/GitHub/VM/produzione allineato al candidato prima del consuntivo; commit conclusivo soltanto documentale, SHA finali nella ricevuta esterna `output/logo-rimini-pastello-2026-10-17/ricevuta-finale.json`. Prove, riproduzioni negative e limiti conservati. Modifiche estranee preservate ed escluse. **BASELINE IN AUDIT invariata**.
+
+
+Il flusso locale del monitor è rimasto parziale al quattordicesimo campione; la ricevuta conclusiva è stata verificata direttamente sul server: 918,472 secondi, 31 campioni e 279 sonde PASS. Nessuna causa del mancato aggiornamento locale è attribuita senza prova. La verifica server conclusiva, successiva al monitor, riconferma DB/S0, persistenti, SHA, FPM e sonde.
+
 ## Correzione corrente — logo Rimini e pastello Clienti, 17 ottobre 2026
 
 [Consuntivo](../LOGO-RIMINI-E-PASTELLO-CLIENTI-2026-10-17.md) ed [evidenze](../evidenze/logo-rimini-pastello-2026-10-17/verifica.json). Riprodotta in isolamento la risposta di ricerca tardiva che stacca il modulo con il file selezionato durante le conferme, impedendo il POST. Sola vista GEO: invalidazione delle risposte pendenti all’ingresso/selezione del campo file, ricerca di ritorno conservata. Nuovo / Lista: sola classe dedicata e gradiente pastello corrispondente alla sidebar. Controller, validazioni, permessi, storage e database invariati.
