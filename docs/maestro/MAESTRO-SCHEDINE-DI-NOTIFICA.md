@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Verifica corrente — download CSV del 17 ottobre
+
+[Consuntivo e passaggio manuale](../VERIFICA-DOWNLOAD-CSV-2026-10-17.md). Produzione7991511d riletta pulita/attiva; C5 e monitor precedenti conservati e non ripetuti. Dall’interfaccia, filtro sintetico e quattro contatori zero verificati; clicCSV filtrato riproduceChrome ERR_BLOCKED_BY_CLIENT. Download online PARZIALE e header HTTP online non osservabili: nessun aggiramento/protezione disabilitata/export personale. Contratto export vuoto consentito, sola riga17intestazioni; nuova prova isolata20test/337asserzioni PASS per HTTP200, tipo/disposizione/nome/contenuto esatto, filtri/tenant/consensi. Evidenze browser isolate e SHA nella ricevuta esterna; non equivalgono al download produttivo. Necessario clic manuale suCSV completo mantenendo filtrozero e conferma del file. Due lacune import preesistenti ancora aperte; nessun fix applicativo/deploy necessario. Lavoro estraneo preservato, **BASELINE IN AUDIT invariata**.
+
+
 ## Aggiornamento corrente — ripresa della pubblicazione Liste, import ed export
 
 [Consuntivo e ricevuta conclusiva della ripresa](../LISTE-IMPORT-EXPORT-2026-10-16.md#ripresa-autorizzata--pubblicazione-del-17-ottobre). Stato0a4locale/GitHub/VM e cf1produzione riletto. Pulizia di soli105.024derivati vendor/build di recuperi chiusi e consolidazioneCoW31packGit identici, file e contenuti preservati.13custodieSHA/HMAC, nessun processo/mount; SQL/DB/chiavi/cifrati/upload/loghi/diagnostici esclusi. Recupero netto puntuale2912768000byte; dopo inventari4041920512liberi contro3709771776stimati con1GiBmargine invariato:PASScapienza, nessuna crescitaVM. Nuove20prove/331asserzioni e3browser1440/768/390,23override/build/GEO PASS in isolamento sintetico.

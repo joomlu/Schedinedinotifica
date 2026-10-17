@@ -30,6 +30,10 @@ class CustomerExchangeAreaTest extends TestCase
         $emails = $this->get('/clienti/liste-export/csv?q=Scambio&mode=email')->assertOk()->getContent();
         $this->assertCount(3, explode("\n", $emails));
         $this->get('/clienti/liste-export?q=Assente')->assertOk()->assertViewHas('totaleFiltrati', 0)->assertSee('Nessun cliente trovato');
+        $empty = $this->get('/clienti/liste-export/csv?q=VerificaCsvZeroAssente&mode=general')->assertOk()
+            ->assertHeader('Content-Type', 'text/csv; charset=UTF-8')
+            ->assertHeader('Content-Disposition', 'attachment; filename="clienti_export_generale.csv"');
+        $this->assertSame('"Codice","Nome","Cognome","Tipo cliente","Nazione","Citta","Gruppo I","Gruppo II","Gruppo III","Email","Telefono","Cellulare","Privacy","Marketing","Comunicazioni","Soggiorni","Ultimo arrivo"', $empty->getContent());
         $this->getJson('/clienti/liste-export?q[]=x')->assertUnprocessable();
     }
 

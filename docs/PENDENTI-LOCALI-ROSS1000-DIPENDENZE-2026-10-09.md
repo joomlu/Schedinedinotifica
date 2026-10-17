@@ -1,5 +1,10 @@
 # Pendenti locali: Ross1000 e dipendenze - 9 ottobre 2026
 
+## Download CSV — verifica del 17 ottobre
+
+**PARZIALE:** [prova e istruzioni manuali](VERIFICA-DOWNLOAD-CSV-2026-10-17.md). Versione7991511d online, C5/monitor conclusi e non ripetuti. Filtrozero verificato, clicCSV bloccato daChrome ERR_BLOCKED_BY_CLIENT; nessun download produttivo o headerHTTP effettivo attestato. Contratto CSVvuoto200/intestazioni verificato con nuova prova isolata20test/337asserzioni PASS. Occorre conferma manuale del file dalla normale interfaccia con filtrozero, senza disabilitare protezioni. Distinzione online/isolato nella ricevuta aggiornata. Validazione completa wizard non condivisa e normalizzazione autonoma via/civico rimangono aperte.
+
+
 ## Ripresa C5 liste/import/export — 17 ottobre
 
 Capienza VM sbloccata con soli derivati inattivi verificati e packGitCoW: [consuntivo](LISTE-IMPORT-EXPORT-2026-10-16.md#ripresa-autorizzata--pubblicazione-del-17-ottobre). Nuove20prove/331asserzioni e3browser PASS; nessun cambio applicativo/DDL. Pubblicazione, online, monitor e allineamento conclusivo si chiudono soltanto con la nuova ricevuta esterna PASS indicata dal consuntivo; altrimentiPARZIALE con fase/arresto espliciti. Le precedenti misure STOP restano storico, non verifica corrente.
