@@ -1,5 +1,14 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Schedine pubblicato e verificato — 18 ottobre 2026
+
+[Consuntivo](../NAVIGAZIONE-SCHEDINE-2026-10-17.md#pubblicazione-effettiva--18-ottobre-2026) e [prove](../evidenze/navigazione-schedine-2026-10-17/rilascio.json). Pubblicato **dbee3028494eca70b99c5b77f06d07c95688689b**: cinque sole viste, stile Clienti riutilizzato, tre sezioni e recupero etichettato; controller, funzioni, route, validazioni e schema invariati. 39 test / 206 asserzioni, tre prove browser, 17 guardie, 23 rifiuti di override e build/GEO PASS.
+
+PREPARE indipendente PASS. Primo RUN fermato dal controllo del socket precedente a 21,515 s, baseline e DB invariati e riaperti. Dopo 55 campioni quieti, base PREPARE immutata verificata e nuovo T0/S0: secondo S0 241.809 s e RUN 320.228 s PASS, CANDIDATO_ACCETTATO, zero DDL. Entrambi i guardiani inattivi e disabilitati; budget e gate invariati. Online: tre sezioni a 1440/768/390 px, controlli di circa 60 px, pastello, scheda attiva, tastiera e ritorni q/page positivi. Filtri a zero risultati rimossi alla fine; operazioni che scrivono e dinieghi provati soltanto in isolamento.
+
+Monitor di 917.672 s, 31 campioni e 279 sonde PASS; zero nuovi errori registrati. DB byte-identico al nuovo S0 dopo il browser; 75 persistenti, env, chiave, upload, logo Rimini e delta FPM preservati, 156 migrazioni / 64 tabelle invariati. Rimossi 72.384 soli derivati autenticati e conservati 9.689 file identici mediante CoW, protetti esclusi, nessuna crescita VM; spazio conclusivo 1599782912 byte. Modifiche estranee preservate. Consuntivo finale soltanto documentale e SHA nella ricevuta esterna, senza altro deploy. **BASELINE IN AUDIT generale invariata.**
+
+
 ## Riordino visivo Schedine — 17 ottobre 2026
 
 [Consuntivo](../NAVIGAZIONE-SCHEDINE-2026-10-17.md) e [prove](../evidenze/navigazione-schedine-2026-10-17/verifica.json). Cinque sole viste: ingresso unico Nuova / Elenco / Bozze, barra con stileClienti riutilizzato, route/moduli/contenuti intatti, active/aria-current e recupero «Riprendi compilazione»; contesto q/page perlista/struttura in sessione di presentazione. Nessun controller/servizio/query/validazione/schema/counter nuovo.39test/206asserzioni,3browser1440/768/390 con confronto stileClienti,5guardie/23override/build/GEO PASS; timeouttablet e primo PATHNode non valido distinti e superati con controlli invariati. Derivati autenticati48.256rimossi e6.479file identici conservatiCoW, protetti esclusi; preflight3.746.631.680contro3.709.771.776PASS, margine1GiB invariato. Pubblicazione autorizzata ma nuovoPREPARE/S0/monitor ancora pendenti; deltaFPM/logoRimini da conservare. Modifiche estranee preservate. BASELINE IN AUDIT invariata.

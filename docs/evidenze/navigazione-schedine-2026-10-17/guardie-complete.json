@@ -1,0 +1,7 @@
+{
+  "esito": "PASS",
+  "controlli": 17,
+  "comando": "python3 -B -m unittest discover -s tests/Isolation -p test_*.py",
+  "ambiente": "VM, runtime previsto nel PATH; nessun bootstrap Laravel o DB quotidiano",
+  "log": "output/navigazione-schedine-2026-10-17/guardie-complete.log"
+}

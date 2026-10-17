@@ -1,11 +1,39 @@
-# Navigazione Schedine — 17 ottobre 2026
+# Navigazione Schedine — 17–18 ottobre 2026
 
-Sola presentazione e navigazione: voce laterale unica Nuova / Elenco / Bozze sotto Schedine, preservato l'accesso Arrivi. Barra condivisa su nuova schedina, elenco, bozze e modifica, con le stesse classi e lo stesso pastello di Clienti. Tre link grandi alle route esistenti, active/aria-current coerenti anche nella ripresa bozza. Nessun annidamento o duplicazione del modulo; breadcrumb e contenuti riutilizzati integri. Recupero esistente etichettato «Riprendi compilazione». Nessun contatore nuovo.
+**Pubblicato e verificato:** `dbee3028494eca70b99c5b77f06d07c95688689b`. Il consuntivo finale aggiunge soltanto documentazione; non richiede un nuovo deploy applicativo.
 
-Memoria dei soli link ricerca q/pagina in sessione per struttura e per elenco/bozze, dentro il parziale di presentazione; nessun cambiamento a query, controller, servizi, validazioni, schema o stato delle schedine. Stili Clienti riutilizzati senza modificare SCSS; componenti/form/scripts e route invariati. Diff applicativo limitato a cinque viste.
+## Modifica visiva
 
-Runtime ufficiale isolato nella copia CoW separata:39testPHP/206asserzioni PASS (nuova navigazione, SchedinaStoreTest e SchedinaCustomerReferenceSecurityTest). Creazione/modifica, salvataggio incompleto e ripresa, riferimenti cliente e dinieghi fra strutture provati con fixture sintetiche. Tre prove browser1440/768/390 PASS: ingresso diretto, contenuti, ritorni q/page, tastieraTab/Invio, active/aria-current, collegamenti≥44px entroviewport, ripresa bozza, zero scritture di navigazione; confronto stili effettivi con Clienti PASS.5metodi guardie e23rifiuti override/build/GEO PASS. Primo avvio guardie privo di Node nelPATH, corretto usando il runtime prescritto. Primo confronto stile:tablet timeout30s durante altre operazioni; nuovo run completo3/3PASS senza aumentare timeout/retry o cambiare applicazione. Due BrokenPipe del proxy dopo i PASS del primo run conservati nei diagnostici; runtime ripuliti dal launcher.
+Cinque sole viste modificate: voce laterale unificata «Nuova / Elenco / Bozze» sotto Schedine e barra condivisa sopra nuova schedina, elenco, bozze e modifica. Riutilizzate le classi e il pastello reali di Clienti, senza modificare SCSS. La scheda attiva usa `aria-current`; il recupero esistente ha etichetta e nome accessibile «Riprendi compilazione». Conservato l'accesso Arrivi. Nessun contatore nuovo, modulo duplicato o pagina annidata.
 
-PreflightC5 inizialmente sotto soglia. Rimossi soltanto48.256derivati vendor/build di quattro recuperi chiusi, custodieSHA/HMAC e inattività verificate: recupero puntuale1.046.564.864byte. Conservati tutti i file mediante CoW di1.321+5.158oggettiGit/documenti/riferimenti/risorse identici, hash/metadati/xattr invariati, nessunhardlink: recuperi puntuali1.321.299.968 e133.832.704byte. DB/SQL/backup/chiavi/env/upload/loghi/diagnostici esclusi. Nessuna crescitaVM. Nuovo preflight3.746.631.680liberi contro3.709.771.776richiesti, margine1GiB invariato:PASS. Evidenze e limiti in [verifica](evidenze/navigazione-schedine-2026-10-17/verifica.json); log/audit in output/navigazione-schedine-2026-10-17/ e nel deposito privatoVM.
+Il parziale di presentazione ricorda i soli link con ricerca `q` e pagina, separatamente per elenco, bozze e struttura. Controller, servizi, query, calcoli, validazioni, stati, route, moduli, pulsanti di salvataggio e script esistenti sono invariati. Nessuna migrazione.
 
-Pubblicazione autorizzata, ancora da eseguire con nuovoPREPARE/S0/guardiano e monitor≥900secondi. Conservare il deltaFPM upload già applicato e il logo realeRimini nel nuovoS0. Nessun dato reale da creare/modificare/eliminare nelle prove online. Lavori estranei preservati; stato generale BASELINE IN AUDIT invariato.
+## Collaudo isolato
+
+Runtime ufficiale in copia CoW separata, con fixture sintetiche: **39 test PHP / 206 asserzioni PASS**. Coperti creazione e modifica, salvataggio incompleto, ripresa della bozza, riferimenti cliente e dinieghi tra strutture.
+
+**Tre prove browser a 1440, 768 e 390 px PASS:** contenuti, collegamenti diretti, ritorni con ricerca/pagina, tastiera Tab/Invio, scheda attiva, controlli di almeno 44 px entro il viewport e zero scritture al cambio sezione. Confronto degli stili effettivi con Clienti positivo. Build, GEO immutabile e 23 rifiuti di override PASS. Guardie infrastrutturali complete: **17 controlli PASS**.
+
+Diagnostici conservati: primo avvio guardie senza Node nel PATH, poi ripetuto col runtime previsto; timeout della prova tablet nel primo confronto degli stili, seguito da un run completo positivo senza aumentare timeout/retry o modificare l'applicazione. Due BrokenPipe del proxy durante la chiusura del primo run, dopo i PASS. Runtime ripuliti dal launcher. [Prove iniziali](evidenze/navigazione-schedine-2026-10-17/verifica.json) e [guardie complete](evidenze/navigazione-schedine-2026-10-17/guardie-complete.json).
+
+## Capienza e conservazione
+
+Preflight inizialmente insufficiente. In questa task sono stati rimossi soltanto **72.384 derivati vendor/build** di recuperi conclusi, dopo verifica SHA/HMAC e assenza di processi o mount. Altri **9.689 file identici** Git/documenti/riferimenti/risorse sono stati conservati mediante CoW, con hash, metadati e attributi verificati e senza hardlink. DB, SQL, backup, env, chiavi, upload, loghi e diagnostici esclusi; nessuna crescita VM.
+
+Preflight prima di PREPARE: **3.746.631.680 byte disponibili contro 3.709.771.776 richiesti**. Prima del secondo RUN: **2.650.288.128 contro 2.385.014.784**. Margine di 1 GiB e soglie invariati, anche dopo le pulizie. Spazio VM conclusivo: **1599782912 byte**. Inventari e incrementi puntuali in `output/navigazione-schedine-2026-10-17/` e nel deposito privato VM; non equivalgono al saldo complessivo durante i nuovi recuperi.
+
+## Pubblicazione effettiva — 18 ottobre 2026
+
+Nuovo PREPARE indipendente PASS. Primo RUN fermato a 21,515 secondi da «Nuovo ingresso nel pool precedente: STOP», prima di esecuzione e DDL. Il guardiano ha riaperto la baseline; database byte-identico allo snapshot e login HTTP 200. Il controllo conservativo può rilevare altri siti sul socket condiviso: non è stato attenuato e nessuna richiesta altrui è stata interrotta.
+
+Successiva osservazione: 55 campioni quieti su 55. Base PREPARE verificata e invariata; ripresa con nuovo piano/hash, T0, nonce e S0, senza riutilizzare il checkpoint fallito. **Secondo RUN PASS / CANDIDATO_ACCETTATO:** S0 cifrato, trasferito, riletto e recuperato indipendentemente in **241.809 s**; RUN concluso in **320.228 s**, zero DDL. Guardiani di entrambi i tentativi conclusi, inattivi e disabilitati; la prima unità è stata disabilitata esplicitamente nel controllo di chiusura. Budget 1800/600/1379/421 e gate invariati.
+
+## Verifica online e monitor
+
+Con Superadmin, verificate tutte e tre le sezioni a 1440/768/390 px: un solo modulo su Nuova, scheda attiva corretta, controlli alti circa 60 px entro il viewport, pastello, leggibilità, tastiera e ritorni con ricerca/pagina. Elenco e Bozze verificati con filtro a zero risultati; filtri sintetici rimossi al termine. Nessun dato reale creato, modificato o eliminato per il collaudo. Creazione/modifica, recupero della bozza e dinieghi sono provati soltanto in isolamento; nessuna nuova prova online di salvataggio, stampa o invio dichiarata.
+
+**Monitor: 917.672 secondi reali, 31 campioni e 279 sonde HTTP/TLS/CSS PASS.** Zero nuovi errori applicativi o journal FPM registrati dal T0. Il logging PHP resta quello originale: non si garantisce l'assenza di errori non registrati.
+
+Database byte-identico al nuovo S0 anche dopo il browser; 75 persistenti, env/APP_KEY, upload e loghi preservati; 156 migrazioni e 64 tabelle invariati. Conservati il delta FPM upload attivo e il PNG originale di Rimini. [Ricevuta di rilascio](evidenze/navigazione-schedine-2026-10-17/rilascio.json).
+
+Sorgenti locale/GitHub/VM/produzione allineati al candidato prima del consuntivo. La VM conserva documenti pregressi e binding del runtime: non è attestato un Git VM pulito. SHA conclusivi, compreso il commit soltanto documentale, nella ricevuta esterna `output/navigazione-schedine-2026-10-17/ricevuta-finale.json`. Modifiche estranee preservate ed escluse; **BASELINE IN AUDIT generale invariata**.
