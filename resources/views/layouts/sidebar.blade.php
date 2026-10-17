@@ -128,8 +128,7 @@
                         </a>
                         <div class="collapse menu-dropdown {{ $openClienti ? 'show' : '' }}" id="sidebarCustomers">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item"><a href="{{ route('newcustomer') }}" class="nav-link {{ $isRoute('newcustomer') ? 'active' : '' }}">Nuovo</a></li>
-                                <li class="nav-item"><a href="{{ route('customers') }}" class="nav-link {{ $isRoute('customers', 'customer.store', 'customer.edit', 'customer.update', 'customer.print', 'customer.storico', 'customer.destroy') ? 'active' : '' }}">Lista</a></li>
+                                <li class="nav-item"><a href="{{ route('newcustomer') }}" class="nav-link {{ $isRoute('newcustomer', 'customers', 'customer.store', 'customer.edit', 'customer.update', 'customer.print', 'customer.storico', 'customer.destroy') ? 'active' : '' }}">Nuovo / Lista</a></li>
                                 <li class="nav-item"><a href="{{ route('customer.export.index') }}" class="nav-link {{ $isRoute('customer.export.*', 'customer.import.*', 'customer.imported.*') ? 'active' : '' }}">Liste, import ed export</a></li>
                             </ul>
                         </div>

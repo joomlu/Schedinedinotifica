@@ -13,6 +13,8 @@
         @endslot
     @endcomponent
 
+@include('customers.area-tabs')
+
     <x-xx.scheda-cliente
         :tipiClienti="$tipiClienti"
         :gruppiLivello1="$gruppiLivello1"

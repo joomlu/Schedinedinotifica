@@ -11,6 +11,8 @@
     @endslot
 @endcomponent
 
+@include('customers.area-tabs')
+
 <div class="row">
     <div class="col-lg-12">
         <x-crud-table

@@ -1,0 +1,40 @@
+import {test, expect, BASE_URL} from '../Support/playwright.js';
+test.use({headless:true});
+for (const width of [1440,768,390]) test(`Navigazione Nuovo / Lista a ${width} pixel`, async ({page}) => {
+ await page.setViewportSize({width,height:900});
+ await page.goto(`${BASE_URL}/login`);
+ await page.locator('[name="login"]').fill('fixture-super_admin');
+ await page.locator('[name="password"]').fill('Password-fixture-123!');
+ await page.getByRole('button',{name:'Entra',exact:true}).click();
+ await expect(page).not.toHaveURL(/\/login$/);
+ let writes=0;
+ page.on('request',r=>{if(['POST','PUT','PATCH','DELETE'].includes(r.method()) && new URL(r.url()).pathname.startsWith('/clienti')) writes++;});
+ await page.goto(`${BASE_URL}/clienti?q=NavigazioneSintetica&ordine=cognome&page=1`);
+ const nav=page.getByRole('navigation',{name:'Nuovo / Lista clienti'});
+ await expect(nav.locator('[aria-current="page"]')).toHaveText('Lista');
+ await expect(page.locator('#sidebarCustomers').getByRole('link',{name:'Nuovo / Lista',exact:true})).toHaveCount(1);
+ await expect(page.locator('#clientiTable')).toBeAttached();
+ await nav.getByRole('link',{name:'Nuovo',exact:true}).focus();
+ await page.keyboard.press('Enter');
+ await expect(page).toHaveURL(/\/clienti\/nuovo$/);
+ await page.waitForLoadState('networkidle');
+ await expect(nav.locator('[aria-current="page"]')).toHaveText('Nuovo');
+ await expect(page.locator('form[data-mode="create"]')).toBeAttached();
+ await page.locator('[name="name"]').first().fill(`Bozza Navigazione ${width}`);
+ for(const link of await nav.getByRole('link').all()) {
+  const box=await link.boundingBox();expect(box.height).toBeGreaterThanOrEqual(44);
+  expect(box.x).toBeGreaterThanOrEqual(0);expect(box.x+box.width).toBeLessThanOrEqual(width);
+ }
+ await nav.getByRole('link',{name:'Nuovo',exact:true}).focus();
+ await page.keyboard.press('Tab');
+ await expect(nav.getByRole('link',{name:'Lista',exact:true})).toBeFocused();
+ await page.keyboard.press('Enter');
+ await expect(page).toHaveURL(/q=NavigazioneSintetica/);
+ await expect(page).toHaveURL(/ordine=cognome/);
+ await expect(nav.locator('[aria-current="page"]')).toHaveText('Lista');
+ await nav.getByRole('link',{name:'Nuovo',exact:true}).click();
+ await page.waitForLoadState('networkidle');
+ await expect(page.locator('[name="name"]').first()).toHaveValue(`Bozza Navigazione ${width}`);
+ expect(writes).toBe(0);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+});

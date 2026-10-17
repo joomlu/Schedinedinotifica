@@ -1,5 +1,18 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Riordino visivo corrente — Nuovo / Lista Clienti, 17 ottobre 2026
+
+Sola presentazione autorizzata: ingresso laterale unico «Nuovo / Lista», barra condivisa sopra nuovo cliente ed elenco, due collegamenti grandi con scheda attiva e aria-current. Riutilizzate le viste e le route esistenti; ritorno Lista con contesto di sessione per struttura (ricerca, tipo, stato, ordine, pagina). Nessuna modifica a controller, servizi, query, validazioni, permessi, stati, salvataggi, stampa, import/export o database; moduli e pulsanti interni integri. Protezione bozze preesistente conservata senza nuovi salvataggi applicativi al cambio scheda.
+
+Verifica nella copia CoW separata `/home/collaudo.guest/navigazione-clienti-lPUDA6Sr`, runtime ufficiale isolato: **36 test PHPUnit / 356 asserzioni, 11 prove browser esistenti e 3 nuove prove navigazione PASS**. Creazione, lista, consultazione, modifica, stampa, bozze e dinieghi coperti dalle suite gestione/wizard; navigazione dedicata a1440/768/390 verifica tastiera Tab/Invio, scheda attiva, area pulsabile almeno44px, assenza overflow, filtri/ordine conservati, bozza recuperata e zero richieste di scrittura al cambio. Build/GEO e23rifiuti override PASS; git diff --check PASS. Confronto1835file tra sorgenti locali e copia collaudata: unica differenza metadato Finder `.DS_Store`, nessuna differenza applicativa.
+
+Sincronizzazione standard fermata dalla guardia per discrepanza commit/inventarioVM, nessun aggiramento o sovrascrittura della copia quotidiana: usata copia separata della base692cb292 con le sole quattro viste aggiornate. Primo test nuovo:1PASS/2FAIL sul recupero bozza perché compilava prima dell'inizializzazione degli script; aggiunta attesa networkidle nel solo test, nuova esecuzione3/3PASS senza modifiche applicative o aumento timeout/retry. Log e confronto in `output/navigazione-clienti-2026-10-17/` (`verifica.log`, `navigazione.log`, `navigazione-r2.log`, `confronto-sorgenti.json`). Risorse effimere dei tre run fermate e rimosse dal launcher; copia CoW diagnostica conservata. Nessun deploy, commit/push o verifica produttiva. Modifiche estranee preservate. **BASELINE IN AUDIT invariata**.
+
+
+Pubblicazione ora autorizzata dall'utente; nuovo preflight C5:1.509.302.272byte liberi contro3.709.771.776richiesti, margine1GiB invariato. **STOP prima PREPARE per capienza**, nessuna manutenzione/S0/RUN eseguita. [Consuntivo](../NAVIGAZIONE-CLIENTI-2026-10-17.md) e [prove](../evidenze/navigazione-clienti-2026-10-17/verifica.json). Commit/push selettivi autorizzati; stato effettivo Git da confermare nella ricevuta esterna, nessun allineamento produttivo anticipato.
+
+
+
 ## Esito corrente verificato — filtri e importatore
 
 Pubblicato il candidato applicativo **692cb292c0631b736798870a4ebcd40d5652e784**, discendente dei filtri194017d, con chiusura delle due lacune importatore. PREPARE indipendentePASS; checkpointS0 fisico verificato in211,055secondi, RUN concluso in293,008secondi, candidato accettato, nessunaDDL. Guardiano disarmato/inattivo/disabilitato dopo decisione. ServizioFPM attivo eGit produttivo pulito. Database byte-identico al nuovoS0 anche dopo le prove browser,74persistenti e.env/APP_KEY/upload/loghi preservati;156migrazioni/64tabelle invariati.
