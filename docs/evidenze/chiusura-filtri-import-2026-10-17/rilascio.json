@@ -1,0 +1,109 @@
+{
+  "esito": "PUBBLICAZIONE_C5_MONITOR_PASS_CSV_BROWSER_PARZIALE",
+  "candidato": "692cb292c0631b736798870a4ebcd40d5652e784",
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "produzione_toccata": true,
+    "T0_produttivo": true,
+    "S0_produttivo": true,
+    "execute": true,
+    "ddl_started": false,
+    "decision": "CANDIDATO_ACCETTATO",
+    "stopped": true,
+    "S0_verified": true,
+    "budget": {
+      "finestra": 1800,
+      "cutoff": 1379,
+      "riserva": 421,
+      "S0_limite": 600,
+      "S0_secondi": 211.055
+    },
+    "nonce": "9640085542f8e9b9a170714477f9e6cd0cf1d8d59989d6d1",
+    "T0": 2294436.477309317,
+    "secondi_T0": 293.008,
+    "monitor_campioni": 344
+  },
+  "monitor": {
+    "esito": "PASS_MONITOR_ONLINE",
+    "secondi": 918.2012981842272,
+    "campioni": 31,
+    "sonde": 279
+  },
+  "errori": {
+    "inizio_locale": "2026-10-17T14:02:40.943232",
+    "nuovi_errori_applicativi": {
+      "laravel-2026-09-29.log": 0,
+      "laravel.log": 0
+    },
+    "totale_errori": 0,
+    "FPM_errori_journal": 0,
+    "nessun_contenuto_log_personale_esportato": true
+  },
+  "spazio": {
+    "iniziale": 1578217472,
+    "dopo_consolidazione_principale": 4826664960,
+    "dopo_ultima_pulizia": 3825045504,
+    "prima_PREPARE": 3817164800,
+    "prima_RUN": 2509123584,
+    "finale": 1529511936,
+    "recuperi_netti_puntuali": 3664351232,
+    "fabbisogno_PREPARE_invariato": 3709771776,
+    "margine_byte": 1073741824,
+    "nota": "Somma di incrementi misurati negli intervalli di pulizia/CoW; il saldo complessivo include i nuovi recuperi e le evidenze C5 conservate."
+  },
+  "prove_isolate": {
+    "PHPUnit": {
+      "test": 94,
+      "asserzioni": 796,
+      "esito": "PASS"
+    },
+    "browser": {
+      "prove": 3,
+      "secondi": 51.6,
+      "larghezze": [
+        1440,
+        768,
+        390
+      ],
+      "esito": "PASS"
+    },
+    "guardie": 17,
+    "CSV_vuoto": {
+      "HTTP": 200,
+      "Content-Type": "text/csv; charset=UTF-8",
+      "Content-Disposition": "attachment; filename=\"clienti_export_generale.csv\"",
+      "intestazioni": 17,
+      "righe_dati": 0
+    },
+    "copertura": "Ricerca nome/cognome/email/telefono, tipo, legacy ignorati, reset, paginazione e tutti risultati export, consensi, ruoli/tenant, anteprima/conferma/errori import, civico0 persistito"
+  },
+  "importatore": {
+    "validazione_completa_condivisa_per_tipo": "CHIUSA, verificata nel runtime ufficiale e codice effettivamente online",
+    "normalizzazione_via_civico": "CHIUSA nello scope conservativo: unico servizio wizard/import, catalogo attivo tenant, conflitti in revisione, originali intatti",
+    "nessuna_riclassificazione_massiva_produzione": true
+  },
+  "CSV": {
+    "stato": "PARZIALE",
+    "errore": "ERR_BLOCKED_BY_CLIENT",
+    "contatore_prima": 0,
+    "ricerca": "VERIFICA-C5-692cb292-ZERO-20261017",
+    "download_osservato": false,
+    "header_online_verificati": false,
+    "nessun_aggiramento": true
+  },
+  "pendenti": [
+    "Download CSV completo filtrato a zero e intestazioni effettive nel browser ordinario: non osservati per ERR_BLOCKED_BY_CLIENT"
+  ],
+  "evidenze_sha256": {
+    "risultati-server.json": "e1c22e12f50be2ad6f29696297d090c70067c999ada4e49713bc82a990fd37aa",
+    "verifica-browser-online.json": "147e023825cb4bdc44bea1652d5e91013a6175b60fb66bd77ce90933312b7d15",
+    "eliminazione-prepare-superato.json": "c7b1c30e9b73cd9104d710674145107ac7f53f7621ab779f9bb8f6d9af862343",
+    "regressione-R5.log": "f87ce2b6bd7ada855b0e8fddfc0e034b00176f0855ec608237c3c11d288c3348",
+    "c5-definitivo/verifica-kit.json": "560b6528469a0fcb982de37da0317d5431f38aece65cc7741ec89f6e18db9f1d",
+    "c5-definitivo/registro-base.json": "2bb53b7e6d2e7c16cce23f3b4d1abe17bf51f3559732f773b586c3114683feaf",
+    "c5-definitivo/stato-finale.log": "767a49215f04fa010d69329dfbe73746cb0aad22f8e793718ce65245d3e7395b"
+  },
+  "ricevuta_sha256": "06e9b2208c07cba83951ceb3ec6496f8dedafc13b5961e6705a725fa360baa72",
+  "ricevuta_snapshot_pre_commit_documentale": true,
+  "ricevuta_snapshot_path": "output/chiusura-filtri-import-2026-10-17/ricevuta-finale-prima-commit-documentale.json"
+}
