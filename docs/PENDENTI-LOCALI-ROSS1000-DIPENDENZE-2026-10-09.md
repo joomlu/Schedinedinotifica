@@ -1,5 +1,10 @@
 # Pendenti locali: Ross1000 e dipendenze - 9 ottobre 2026
 
+## Filtri liste — correzione del 17 ottobre
+
+[Consuntivo corrente](SEMPLIFICAZIONE-FILTRI-LISTE-2026-10-17.md). Solo ricerca/tipo, vecchi filtri ignorati anche da query/sessione/ritorni; controlli tenant/consensi conservati.21test/385asserzioni e3browser PASS; rifinitura finale layout eSHA nella ricevuta esterna. **Pubblicazione PARZIALE**: preflight C5 STOP per capienza1578352640byte contro fabbisogno3709771776byte con1GiB margine invariato, arresto primaPREPARE, nessuna nuova manutenzione/DDL. Produzione ancora7991511d finché non distribuita. CSVonlinefiltrozero riproduceChromeERR_BLOCKED_BY_CLIENT, download/header reali pendenti e nuova versione online non verificata. Revisione import conferma validazioni autonome anziché complete del wizard e nessuna normalizzazione autonoma via/civico: due lacune ancora aperte, nessuna riscrittura.
+
+
 ## Download CSV — verifica del 17 ottobre
 
 **PARZIALE:** [prova e istruzioni manuali](VERIFICA-DOWNLOAD-CSV-2026-10-17.md). Versione7991511d online, C5/monitor conclusi e non ripetuti. Filtrozero verificato, clicCSV bloccato daChrome ERR_BLOCKED_BY_CLIENT; nessun download produttivo o headerHTTP effettivo attestato. Contratto CSVvuoto200/intestazioni verificato con nuova prova isolata20test/337asserzioni PASS. Occorre conferma manuale del file dalla normale interfaccia con filtrozero, senza disabilitare protezioni. Distinzione online/isolato nella ricevuta aggiornata. Validazione completa wizard non condivisa e normalizzazione autonoma via/civico rimangono aperte.

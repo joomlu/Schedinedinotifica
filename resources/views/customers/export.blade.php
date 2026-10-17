@@ -1,6 +1,15 @@
 @extends('layouts.master')
 @section('title', 'Liste ed export clienti')
 
+@section('css')
+<style>
+    #customer-export-search-form .customer-export-secondary { padding-top: 0; }
+    @media (min-width: 992px) {
+        #customer-export-search-form .customer-export-secondary { padding-top: calc(1.5em + .5rem); }
+    }
+</style>
+@endsection
+
 @section('content')
 @component('components.breadcrumb')
     @slot('li_1')
@@ -72,106 +81,46 @@
 
         <div class="col-12 my-4">
             <div class="card border-0 shadow-sm">
-            <div id="customerExportFilters">
-                <div class="card-body border-top">
-                    <form method="GET" action="{{ route('customer.export.index') }}" class="row g-3" id="customer-export-search-form">
-                        <div class="col-12">
-                            <div class="border rounded-3 p-3 bg-light-subtle">
-                                <div class="fw-semibold mb-3">Filtri</div>
-                                <div class="row g-3 align-items-end">
-                                    <div class="col-lg-9">
-                                        <label for="customer-export-search" class="form-label">Ricerca</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-white border-end-0">
-                                                <i class="ri-search-line"></i>
-                                            </span>
-                                            <input
-                                                type="text"
-                                                id="customer-export-search"
-                                                name="q"
-                                                class="form-control border-start-0"
-                                                value="{{ request('q') }}"
-                                                placeholder="Nome, cognome, email, telefono..."
-                                                autocomplete="off"
-                                            >
-                                            <button
-                                                type="button"
-                                                class="btn btn-light border"
-                                                id="customer-export-search-clear"
-                                                aria-label="Pulisci ricerca"
-                                                style="{{ request('q') ? '' : 'display:none;' }}"
-                                            >
-                                                <i class="ri-close-line"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    @foreach([
-                                        'tipo_cliente' => ['Tipo cliente', $tipiClienti->pluck('descrizione')->all()],
-                                        'country' => ['Nazione', $nazioni->pluck('nome')->all()],
-                                        'city' => ['Comune', $citta->pluck('nome')->all()],
-                                        'group' => ['Gruppo I', $gruppiLivello1->pluck('nome')->all()],
-                                        'subgroup' => ['Gruppo II', $gruppiLivello2->pluck('nome')->all()],
-                                        'subgroup1' => ['Gruppo III', $gruppiLivello3->pluck('nome')->all()],
-                                    ] as $field => [$label, $options])
-                                        <div class="col-md-6 col-lg-4">
-                                            <label for="filter-{{ $field }}" class="form-label">{{ $label }}</label>
-                                            <select name="{{ $field }}" id="filter-{{ $field }}" class="form-select">
-                                                <option value="">Tutti</option>
-                                                @foreach($options as $option)
-                                                    <option value="{{ $option }}" @selected(request($field) === $option)>{{ $option }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    @endforeach
-                                    @foreach([
-                                        'stato' => ['Stato', ['bozza' => 'Bozza', 'completo' => 'Completo']],
-                                        'privacy_consent' => ['Consenso privacy', ['1' => 'Sì', '0' => 'No']],
-                                        'marketing_consent' => ['Consenso marketing', ['1' => 'Sì', '0' => 'No']],
-                                        'communication_consent' => ['Consenso comunicazioni', ['1' => 'Sì', '0' => 'No']],
-                                        'channel' => ['Contattabile tramite', ['email' => 'Email', 'whatsapp' => 'WhatsApp', 'postal' => 'Postale']],
-                                        'has_soggiorni' => ['Soggiorni', ['yes' => 'Presenti', 'no' => 'Assenti']],
-                                    ] as $field => [$label, $options])
-                                        <div class="col-md-6 col-lg-4">
-                                            <label for="filter-{{ $field }}" class="form-label">{{ $label }}</label>
-                                            <select name="{{ $field }}" id="filter-{{ $field }}" class="form-select">
-                                                <option value="">Tutti</option>
-                                                @foreach($options as $value => $option)
-                                                    <option value="{{ $value }}" @selected((string) request($field) === (string) $value)>{{ $option }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    @endforeach
-                                    <div class="col-12 d-flex flex-wrap justify-content-end gap-2">
-                                        <a href="{{ route('customer.export.index') }}" class="btn btn-light btn-label">
-                                            <i class="ri-close-line label-icon align-middle fs-16 me-2"></i>
-                                            Pulisci
-                                        </a>
-                                        <button type="submit" class="btn btn-primary btn-label right">
-                                            <i class="ri-filter-3-line label-icon align-middle fs-16 ms-2"></i>
-                                            Applica filtri
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+            <div class="card-body" id="customerExportFilters">
+                <form method="GET" action="{{ route('customer.export.index') }}" class="row g-3 align-items-start" id="customer-export-search-form">
+                    <div class="col-12 col-lg">
+                        <label for="customer-export-search" class="form-label">Ricerca</label>
+                        <input type="search" id="customer-export-search" name="q" class="form-control"
+                            value="{{ request('q') }}" placeholder="Nome, cognome, email, telefono…" autocomplete="off">
+                    </div>
+                    <div class="col-12 col-sm-auto customer-export-secondary">
+                        <details id="customer-export-type-filter">
+                            <summary class="fw-semibold py-2">Filtri</summary>
+                            <label for="filter-tipo_cliente" class="form-label">Tipo cliente</label>
+                            <select name="tipo_cliente" id="filter-tipo_cliente" class="form-select">
+                                <option value="">Tutti</option>
+                                @foreach($tipiClienti as $tipo)
+                                    <option value="{{ $tipo->descrizione }}" @selected(request('tipo_cliente') === $tipo->descrizione)>{{ $tipo->descrizione }}</option>
+                                @endforeach
+                            </select>
+                        </details>
+                    </div>
+                    <div class="col-12 col-sm-auto d-flex gap-2 customer-export-secondary">
+                        <button type="submit" class="btn btn-primary">Applica</button>
+                        <a href="{{ route('customer.export.index') }}" class="btn btn-light">Azzera</a>
+                    </div>
+                </form>
             </div>
 <div class="card-body border-top"><h5>Esporta risultati filtrati</h5><p class="small text-muted">La presenza di un contatto non costituisce consenso. Email e WhatsApp rispettano i consensi previsti.</p>                <div class="d-flex gap-2 flex-wrap justify-content-end">
 
-                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'general'])) }}" class="btn btn-primary btn-sm">
+                    <a href="{{ route('customer.export.csv', array_merge(request()->only(['q', 'tipo_cliente']), ['mode' => 'general'])) }}" class="btn btn-primary btn-sm">
                         <i class="ri-file-excel-2-line align-middle fs-16 me-1"></i>
                         CSV completo
                     </a>
-                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'email'])) }}" class="btn btn-success btn-sm">
+                    <a href="{{ route('customer.export.csv', array_merge(request()->only(['q', 'tipo_cliente']), ['mode' => 'email'])) }}" class="btn btn-success btn-sm">
                         <i class="ri-mail-send-line align-middle fs-16 me-1"></i>
                         Email
                     </a>
-                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'whatsapp'])) }}" class="btn btn-info btn-sm text-white">
+                    <a href="{{ route('customer.export.csv', array_merge(request()->only(['q', 'tipo_cliente']), ['mode' => 'whatsapp'])) }}" class="btn btn-info btn-sm text-white">
                         <i class="ri-whatsapp-line align-middle fs-16 me-1"></i>
                         WhatsApp
                     </a>
-                    <a href="{{ route('customer.export.csv', array_merge(request()->query(), ['mode' => 'postal'])) }}" class="btn btn-dark btn-sm">
+                    <a href="{{ route('customer.export.csv', array_merge(request()->only(['q', 'tipo_cliente']), ['mode' => 'postal'])) }}" class="btn btn-dark btn-sm">
                         <i class="ri-map-pin-line align-middle fs-16 me-1"></i>
                         Postale
                     </a>
@@ -213,7 +162,7 @@
                                                 <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-soft-info btn-sm" title="Apri cliente" aria-label="Apri cliente">
                                                     <i class="ri-eye-line fs-16 align-middle"></i>
                                                 </a>
-                                                <form method="POST" action="{{ route('customer.export.destroy', array_merge(request()->except(['page', 'id']), ['id' => $customer->id])) }}" class="m-0"
+                                                <form method="POST" action="{{ route('customer.export.destroy', array_merge(request()->only(['q', 'tipo_cliente']), ['id' => $customer->id])) }}" class="m-0"
                                                     data-confirm-text="{{ 'Sei sicuro di voler eliminare ' . (trim($customer->name . ' ' . $customer->surname) ?: 'questo cliente') . '?' }}"
                                                     onsubmit="return window.confirm(this.dataset.confirmText);">
                                                     @csrf

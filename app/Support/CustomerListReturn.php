@@ -8,7 +8,8 @@ final class CustomerListReturn
     {
         $sid = StrutturaCorrente::getId();
         $export = session('clienti_origine.'.$sid) === 'export';
-        return route($export ? 'customer.export.index' : 'customers',
-            session(($export ? 'clienti_export.' : 'clienti_elenco.').$sid, []));
+        $filters = session(($export ? 'clienti_export.' : 'clienti_elenco.').$sid, []);
+        if ($export) $filters = array_intersect_key($filters, array_flip(['q', 'tipo_cliente', 'page']));
+        return route($export ? 'customer.export.index' : 'customers', $filters);
     }
 }

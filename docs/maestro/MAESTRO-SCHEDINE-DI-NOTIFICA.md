@@ -1,5 +1,12 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Correzione corrente — filtri Liste, import ed export
+
+[Consuntivo e limiti](../SEMPLIFICAZIONE-FILTRI-LISTE-2026-10-17.md). Solo Ricerca sempre visibile e Tipo cliente del catalogo in piccolo Filtri nativo inizialmente chiuso, clic/Invio/Spazio; Applica/Azzera responsive. Eliminati filtri legacy dalla query condivisa lista/contatori/export e dalla propagazione URL/sessione/ritorni/schede; guardie tenant/ruoli e consensi specifici degli export preservati. Nessuna modifica dati/schema/importatore.21test/385asserzioni e3browser1440/768/390 PASS in isolamento; rifinitura finale stabilità layout, preflight eSHA conclusivi nella nuova ricevuta esterna del consuntivo. R1 fallimento del nuovo test fuori contestoHTTP, corretto nel solo test e conservato.
+
+C5 STOP primaPREPARE:1578352640byte disponibili contro3709771776byte richiesti con1GiB margine invariato; nessun vecchioPASS attribuito a questa correzione. Produzione7991511d riletto: CSVfiltrozero ancora ERR_BLOCKED_BY_CLIENT, download/header online PARZIALI; correzione online non attestata finché non distribuita. Nessuna protezione disabilitata o export personale. Import: validazioni proprie non condivise conWizardValidation e conservazione via/civico senza normalizzazione autonoma confermate, entrambi pendenti. Lavoro estraneo preservato; **BASELINE IN AUDIT invariata**.
+
+
 ## Verifica corrente — download CSV del 17 ottobre
 
 [Consuntivo e passaggio manuale](../VERIFICA-DOWNLOAD-CSV-2026-10-17.md). Produzione7991511d riletta pulita/attiva; C5 e monitor precedenti conservati e non ripetuti. Dall’interfaccia, filtro sintetico e quattro contatori zero verificati; clicCSV filtrato riproduceChrome ERR_BLOCKED_BY_CLIENT. Download online PARZIALE e header HTTP online non osservabili: nessun aggiramento/protezione disabilitata/export personale. Contratto export vuoto consentito, sola riga17intestazioni; nuova prova isolata20test/337asserzioni PASS per HTTP200, tipo/disposizione/nome/contenuto esatto, filtri/tenant/consensi. Evidenze browser isolate e SHA nella ricevuta esterna; non equivalgono al download produttivo. Necessario clic manuale suCSV completo mantenendo filtrozero e conferma del file. Due lacune import preesistenti ancora aperte; nessun fix applicativo/deploy necessario. Lavoro estraneo preservato, **BASELINE IN AUDIT invariata**.

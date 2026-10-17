@@ -37,6 +37,36 @@ class CustomerExchangeAreaTest extends TestCase
         $this->getJson('/clienti/liste-export?q[]=x')->assertUnprocessable();
     }
 
+    public function test_solo_filtri_visibili_ricerca_tipo_e_stato_legacy_ignorato(): void
+    {
+        $s = $this->structureFor(null);
+        $other = $this->structureFor(null);
+        $this->actingAs($this->actor('super_admin'))->withSession(['struttura_corrente_id' => $s->id]);
+        foreach (['Ospite', 'Componente', 'Richiesta'] as $type) {
+            Customers::forceCreate(['struttura_id' => $s->id, 'name' => 'RicercaNome', 'surname' => 'RicercaCognome', 'email' => 'ricerca@example.test', 'phone' => '051987654', 'cellphone' => '339876543', 'type_housed' => $type]);
+        }
+        Customers::forceCreate(['struttura_id' => $other->id, 'name' => 'RicercaNome', 'surname' => 'Estraneo', 'type_housed' => 'Ospite']);
+        foreach (['RicercaNome', 'RicercaCognome', 'ricerca@example.test', '051987654', '339876543'] as $q) {
+            $filters = ['q' => $q, 'tipo_cliente' => 'Ospite'];
+            $this->get('/clienti/liste-export?'.http_build_query($filters))->assertOk()->assertViewHas('totaleFiltrati', 1)->assertViewHas('totaleConEmail', 1)->assertDontSee('Estraneo');
+            $csv = $this->get('/clienti/liste-export/csv?'.http_build_query($filters))->assertOk()->getContent();
+            $this->assertCount(2, explode("\n", $csv));
+            $this->assertStringNotContainsString('Estraneo', $csv);
+        }
+        $legacy = ['country' => 'INESISTENTE', 'city' => 'INESISTENTE', 'group' => 'INESISTENTE', 'subgroup' => 'INESISTENTE', 'subgroup1' => 'INESISTENTE', 'stato' => 'completo', 'privacy_consent' => '1', 'marketing_consent' => '1', 'communication_consent' => '1', 'channel' => 'email', 'has_soggiorni' => 'yes'];
+        $this->withSession(['clienti_export.'.$s->id => $legacy + ['q' => 'RicercaNome']]);
+        $this->get('/clienti/liste-export?'.http_build_query($legacy + ['q' => 'RicercaNome']))->assertOk()->assertViewHas('totaleFiltrati', 3)->assertDontSee('name="country"', false);
+        $this->assertSame(['q' => 'RicercaNome'], session('clienti_export.'.$s->id));
+        $csv = $this->get('/clienti/liste-export/csv?'.http_build_query($legacy + ['q' => 'RicercaNome']))->assertOk()->getContent();
+        $this->assertCount(4, explode("\n", $csv));
+        $this->withSession(['clienti_origine.'.$s->id => 'export', 'clienti_export.'.$s->id => $legacy + ['q' => 'RicercaNome', 'page' => '2']]);
+        $id = Customers::where('struttura_id', $s->id)->firstOrFail()->id;
+        $this->get('/clienti/'.$id.'/modifica')->assertOk()->assertSee('/clienti/liste-export?q=RicercaNome&amp;page=2', false)->assertDontSee('country=INESISTENTE', false);
+        $this->get('/clienti/liste-export')->assertOk()->assertViewHas('totaleFiltrati', 3);
+        $this->assertSame([], session('clienti_export.'.$s->id));
+        $this->getJson('/clienti/liste-export?tipo_cliente=Inventato')->assertUnprocessable();
+    }
+
     public function test_contatori_import_non_limitati_alla_pagina_e_isolamento_quattro_ruoli(): void
     {
         $admin = $this->actor('admin');

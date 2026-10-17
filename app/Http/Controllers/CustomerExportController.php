@@ -8,7 +8,6 @@ use App\Support\StrutturaCorrente;
 use Illuminate\Support\Facades\DB;
 use App\Models\GeoComune;
 use App\Models\GeoNazione;
-use App\Models\Gruppo;
 use App\Models\TipoCliente;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -35,7 +34,7 @@ class CustomerExportController extends Controller
     {
         $query = $this->buildFilteredQuery($request);
         session()->put('clienti_origine.'.StrutturaCorrente::getId(), 'export');
-        session()->put('clienti_export.'.StrutturaCorrente::getId(), $request->only(['q', 'tipo_cliente', 'group', 'subgroup', 'subgroup1', 'country', 'city', 'stato', 'privacy_consent', 'marketing_consent', 'communication_consent', 'channel', 'has_soggiorni', 'page']));
+        session()->put('clienti_export.'.StrutturaCorrente::getId(), $request->only(['q', 'tipo_cliente', 'page']));
         $summary = $this->buildSummaryMetrics($query);
 
         $customers = $query
@@ -44,21 +43,13 @@ class CustomerExportController extends Controller
             ->orderBy('surname')
             ->orderBy('name')
             ->paginate(15)
-            ->withQueryString();
+            ->appends($request->only(['q', 'tipo_cliente']));
 
         $customers->getCollection()->transform(fn (Customers $customer) => $this->decorateCustomer($customer));
 
         return view('customers.export', [
             'customers' => $customers,
-            'tipiClienti' => TipoCliente::query()->diSistema()
-                ->when(method_exists(TipoCliente::query()->getModel(), 'getTable'), fn ($query) => $query)
-                ->orderBy('descrizione')
-                ->get(['descrizione']),
-            'gruppiLivello1' => Gruppo::query()->where('livello', 1)->orderBy('nome')->get(['nome']),
-            'gruppiLivello2' => Gruppo::query()->where('livello', 2)->orderBy('nome')->get(['nome']),
-            'gruppiLivello3' => Gruppo::query()->where('livello', 3)->orderBy('nome')->get(['nome']),
-            'nazioni' => GeoNazione::query()->orderBy('nome')->get(['nome']),
-            'citta' => GeoComune::query()->orderBy('nome')->get(['nome']),
+            'tipiClienti' => TipoCliente::query()->diSistema()->orderBy('id')->get(['descrizione']),
             'totaleFiltrati' => $summary['totaleFiltrati'],
             'totaleConEmail' => $summary['totaleConEmail'],
             'totaleConCellulare' => $summary['totaleConCellulare'],
@@ -95,11 +86,7 @@ class CustomerExportController extends Controller
             return true;
         });
 
-        $filters = $request->only([
-            'q', 'tipo_cliente', 'group', 'subgroup', 'subgroup1', 'country', 'city',
-            'stato', 'privacy_consent', 'marketing_consent', 'communication_consent',
-            'channel', 'has_soggiorni',
-        ]);
+        $filters = $request->only(['q', 'tipo_cliente']);
 
         return redirect()->route('customer.export.index', $filters)
             ->with($deleted ? 'success' : 'warning', $deleted
@@ -135,76 +122,31 @@ class CustomerExportController extends Controller
 
     private function buildFilteredQuery(Request $request): Builder
     {
-        $rules = [];
-        foreach (['q', 'tipo_cliente', 'group', 'subgroup', 'subgroup1', 'country', 'city', 'stato', 'privacy_consent', 'marketing_consent', 'communication_consent', 'channel', 'has_soggiorni'] as $field) {
-            $rules[$field] = ['nullable', 'string', 'max:191'];
+        // I vecchi parametri non devono influire né propagarsi come filtri nascosti.
+        foreach (['group', 'subgroup', 'subgroup1', 'country', 'city', 'stato', 'privacy_consent', 'marketing_consent', 'communication_consent', 'channel', 'has_soggiorni'] as $field) {
+            $request->query->remove($field);
+            $request->request->remove($field);
         }
-        $rules['page'] = ['nullable', 'integer', 'min:1'];
-        $request->validate($rules);
+        $request->validate([
+            'q' => ['nullable', 'string', 'max:191'],
+            'tipo_cliente' => ['nullable', 'string', \Illuminate\Validation\Rule::in(TipoCliente::query()->diSistema()->pluck('descrizione')->all())],
+            'page' => ['nullable', 'integer', 'min:1'],
+        ]);
         $q = trim((string) $request->input('q', ''));
         $tipo = trim((string) $request->input('tipo_cliente', ''));
-        $group = trim((string) $request->input('group', ''));
-        $subgroup = trim((string) $request->input('subgroup', ''));
-        $subgroup1 = trim((string) $request->input('subgroup1', ''));
-        $country = trim((string) $request->input('country', ''));
-        $city = trim((string) $request->input('city', ''));
-        $stato = trim((string) $request->input('stato', ''));
-        $privacy = $request->input('privacy_consent', '');
-        $marketing = $request->input('marketing_consent', '');
-        $communication = $request->input('communication_consent', '');
-        $channel = trim((string) $request->input('channel', ''));
-        $hasSoggiorni = trim((string) $request->input('has_soggiorni', ''));
 
-        $query = Customers::query()
+        return Customers::query()
             ->when($tipo !== '', fn (Builder $query) => $query->where('type_housed', $tipo))
-            ->when($group !== '', fn (Builder $query) => $query->where('group', $group))
-            ->when($subgroup !== '', fn (Builder $query) => $query->where('subgroup', $subgroup))
-            ->when($subgroup1 !== '', fn (Builder $query) => $query->where('subgroup1', $subgroup1))
             ->when($q !== '', function (Builder $query) use ($q) {
                 $like = '%' . $q . '%';
                 $query->where(function (Builder $inner) use ($like) {
-                    $inner->where('numero_cliente', 'like', $like)
-                        ->orWhere('name', 'like', $like)
+                    $inner->where('name', 'like', $like)
                         ->orWhere('surname', 'like', $like)
                         ->orWhere('email', 'like', $like)
                         ->orWhere('cellphone', 'like', $like)
                         ->orWhere('phone', 'like', $like);
                 });
             });
-
-        if ($country !== '') {
-            $this->applyGeoFilter($query, 'country', $country, GeoNazione::query(), 'nome');
-        }
-
-        if ($city !== '') {
-            $this->applyGeoFilter($query, 'city', $city, GeoComune::query(), 'nome');
-        }
-
-        $this->applyStateFilter($query, $stato);
-        $this->applyConsentFilter($query, 'privacy_consent', $privacy);
-        $this->applyConsentFilter($query, 'marketing_consent', $marketing);
-        $this->applyConsentFilter($query, 'communication_consent', $communication);
-
-        if ($channel === 'email') {
-            $query->where('marketing_consent', true)->whereNotNull('email')->where('email', '<>', '');
-        }
-        if ($channel === 'whatsapp') {
-            $query->where('communication_consent', true)->whereNotNull('cellphone')->where('cellphone', '<>', '');
-        }
-        if ($channel === 'postal') {
-            $query->where('privacy_consent', true)
-                ->whereNotNull('address')->where('address', '<>', '')
-                ->whereNotNull('city')->where('city', '<>', '');
-        }
-
-        if ($hasSoggiorni === 'yes') {
-            $query->has('schedine');
-        }
-        if ($hasSoggiorni === 'no') {
-            $query->doesntHave('schedine');
-        }
-
-        return $query;
     }
 
     private function buildSummaryMetrics(Builder $query): array
@@ -215,92 +157,6 @@ class CustomerExportController extends Controller
             'totaleConCellulare' => (clone $query)->whereNotNull('cellphone')->where('cellphone', '<>', '')->count(),
             'totaleMarketing' => (clone $query)->where('marketing_consent', true)->count(),
         ];
-    }
-
-    private function applyGeoFilter(Builder $query, string $column, string $value, Builder $sourceQuery, string $labelColumn): void
-    {
-        $raw = trim($value);
-        if ($raw === '') {
-            return;
-        }
-
-        $variants = collect([$raw]);
-
-        if (ctype_digit($raw)) {
-            $variants->push((string) ((int) $raw));
-        }
-
-        $record = (clone $sourceQuery)
-            ->where(function (Builder $inner) use ($labelColumn, $raw) {
-                $inner->where($labelColumn, $raw);
-                if (is_numeric($raw)) {
-                    $inner->orWhereKey((int) $raw);
-                }
-            })
-            ->first(['id', $labelColumn]);
-
-        if ($record) {
-            $variants->push((string) $record->{$labelColumn});
-            $variants->push((string) $record->getKey());
-        }
-
-        $query->whereIn($column, $variants->filter()->unique()->values()->all());
-    }
-
-    private function applyStateFilter(Builder $query, string $stato): void
-    {
-        if ($stato === 'bozza') {
-            $query->where(function (Builder $inner) {
-                $inner->whereNull('name')
-                    ->orWhere('name', '')
-                    ->orWhereNull('surname')
-                    ->orWhere('surname', '')
-                    ->orWhereNull('type_housed')
-                    ->orWhere('type_housed', '')
-                    ->orWhere(function (Builder $docMissing) {
-                        $docMissing
-                            ->whereIn('type_housed', ['Ospite', 'Componente'])
-                            ->where(function (Builder $required) {
-                                $required->whereNull('nac_reg')
-                                    ->orWhere('nac_reg', '')
-                                    ->orWhereNull('type_doc_reg')
-                                    ->orWhere('type_doc_reg', '')
-                                    ->orWhereNull('num_doc_reg')
-                                    ->orWhere('num_doc_reg', '');
-                            });
-                    });
-            });
-        }
-
-        if ($stato === 'completo') {
-            $query->whereNotNull('name')
-                ->where('name', '<>', '')
-                ->whereNotNull('surname')
-                ->where('surname', '<>', '')
-                ->whereNotNull('type_housed')
-                ->where('type_housed', '<>', '')
-                ->where(function (Builder $complete) {
-                    $complete->whereNotIn('type_housed', ['Ospite', 'Componente'])
-                        ->orWhere(function (Builder $docReady) {
-                            $docReady->whereIn('type_housed', ['Ospite', 'Componente'])
-                                ->whereNotNull('nac_reg')
-                                ->where('nac_reg', '<>', '')
-                                ->whereNotNull('type_doc_reg')
-                                ->where('type_doc_reg', '<>', '')
-                                ->whereNotNull('num_doc_reg')
-                                ->where('num_doc_reg', '<>', '');
-                        });
-                });
-        }
-    }
-
-    private function applyConsentFilter(Builder $query, string $column, mixed $value): void
-    {
-        if ($value === '' || $value === null) {
-            return;
-        }
-
-        $query->where($column, in_array((string) $value, ['1', 'yes'], true));
     }
 
     private function decorateCustomer(Customers $customer): Customers
