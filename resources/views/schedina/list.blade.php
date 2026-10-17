@@ -11,6 +11,8 @@
     @endslot
 @endcomponent
 
+@include('schedina.partials.area-tabs')
+
 @php
     $pageTitle = $pageTitle ?? 'Schedine';
     $pageSubtitle = $pageSubtitle ?? 'Elenco schedine della struttura';
@@ -106,7 +108,7 @@
                                 <a href="{{ route('schedina.tassa.anteprima', ['id' => $schedina->id]) }}" class="btn btn-soft-secondary btn-sm" title="Anteprima ricevuta" aria-label="Anteprima ricevuta" target="_blank" rel="noopener">
                                     <i class="ri-printer-line fs-16 align-middle"></i>
                                 </a>
-                                <a href="{{ route('schedina.edit', ['id' => $schedina->id]) }}" class="btn btn-soft-info btn-sm" title="Modifica">
+                                <a href="{{ route('schedina.edit', ['id' => $schedina->id]) }}" class="btn btn-soft-info btn-sm" title="{{ request()->routeIs('schedina.bozze') ? 'Riprendi compilazione' : 'Modifica' }}" aria-label="{{ request()->routeIs('schedina.bozze') ? 'Riprendi compilazione' : 'Modifica' }}">
                                     <i class="ri-edit-line fs-16 align-middle"></i>
                                 </a>
                                 <form

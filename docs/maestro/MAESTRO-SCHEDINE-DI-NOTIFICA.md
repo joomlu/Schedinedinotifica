@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Riordino visivo Schedine — 17 ottobre 2026
+
+[Consuntivo](../NAVIGAZIONE-SCHEDINE-2026-10-17.md) e [prove](../evidenze/navigazione-schedine-2026-10-17/verifica.json). Cinque sole viste: ingresso unico Nuova / Elenco / Bozze, barra con stileClienti riutilizzato, route/moduli/contenuti intatti, active/aria-current e recupero «Riprendi compilazione»; contesto q/page perlista/struttura in sessione di presentazione. Nessun controller/servizio/query/validazione/schema/counter nuovo.39test/206asserzioni,3browser1440/768/390 con confronto stileClienti,5guardie/23override/build/GEO PASS; timeouttablet e primo PATHNode non valido distinti e superati con controlli invariati. Derivati autenticati48.256rimossi e6.479file identici conservatiCoW, protetti esclusi; preflight3.746.631.680contro3.709.771.776PASS, margine1GiB invariato. Pubblicazione autorizzata ma nuovoPREPARE/S0/monitor ancora pendenti; deltaFPM/logoRimini da conservare. Modifiche estranee preservate. BASELINE IN AUDIT invariata.
+
+
 ## Esito corrente — logo Rimini e pastello Clienti pubblicati, 17 ottobre 2026
 
 Pubblicato il candidato **ed6121f546e1588398823e278a574d6127af0a44** con i soli interventi autorizzati. Il focus o la selezione del file invalida le risposte di ricerca ancora pendenti, preservando modulo e ricerca di ritorno; Nuovo / Lista usa il gradiente pastello della sidebar. Controller, validazioni, permessi, storage e database invariati. [Consuntivo](../LOGO-RIMINI-E-PASTELLO-CLIENTI-2026-10-17.md) ed [evidenze](../evidenze/logo-rimini-pastello-2026-10-17/rilascio.json).
