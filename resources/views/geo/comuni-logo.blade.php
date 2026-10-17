@@ -136,6 +136,16 @@
         let debounceTimer = null;
         let requestId = 0;
 
+        const preserveUploadSelection = (event) => {
+            if (!event.target.matches('input[type="file"][name="logo"]')) return;
+            clearTimeout(debounceTimer);
+            ++requestId;
+            const returnQuery = event.target.form?.querySelector('input[name="q"]');
+            if (returnQuery) returnQuery.value = input.value.trim();
+        };
+        resultsPanel.addEventListener('focusin', preserveUploadSelection);
+        resultsPanel.addEventListener('change', preserveUploadSelection);
+
         const applyHtml = (html) => {
             const parser = new DOMParser();
             const parsed = parser.parseFromString(html, 'text/html');

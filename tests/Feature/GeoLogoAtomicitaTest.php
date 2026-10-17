@@ -12,6 +12,32 @@ class GeoLogoAtomicitaTest extends TestCase
 {
     use DatabaseTransactions;
 
+    public function test_errore_scrittura_mostra_messaggio_e_conserva_logo_precedente(): void
+    {
+        Storage::fake('public');
+        $this->actingAs(Fixture::user('admin'));
+        $comune = Fixture::comune('Rimini', '099014');
+        $old = Fixture::existingLogo($comune);
+        $disk = Storage::disk('public');
+        $failedDisk = \Mockery::mock(\Illuminate\Filesystem\FilesystemAdapter::class);
+        $failedDisk->shouldReceive('putFileAs')->once()->andThrow(new \RuntimeException('Errore sintetico di scrittura'));
+        $failedDisk->shouldReceive('delete')->once()->andReturn(false);
+        Storage::shouldReceive('disk')->with('public')->andReturn($failedDisk);
+        try {
+            $this->from('/geo/comuni/logo?q=Rimini')->post('/geo/comuni/'.$comune->id.'/logo', [
+                'q' => 'Rimini', 'logo' => Fixture::upload('rimini.png'),
+            ])->assertRedirect('/geo/comuni/logo?q=Rimini')->assertSessionHasErrors([
+                'logo' => 'Caricamento non riuscito. Il logo precedente è stato conservato.',
+            ]);
+            $this->get('/geo/comuni/logo?q=Rimini')->assertOk()
+                ->assertSee('Caricamento non riuscito. Il logo precedente è stato conservato.');
+            $this->assertSame('storage/'.$old, $comune->fresh()->logo_citta);
+            $this->assertTrue($disk->exists($old));
+        } finally {
+            Fixture::releaseUploads();
+        }
+    }
+
     public function test_errore_database_conserva_logo_precedente_e_non_lascia_orfani(): void
     {
         Storage::fake('public');

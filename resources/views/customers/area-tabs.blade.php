@@ -6,7 +6,7 @@
         array_flip(['q', 'tipo_cliente', 'stato', 'ordine', 'page'])
     );
 @endphp
-<nav class="nav nav-pills nav-fill gap-2 mb-4" aria-label="Nuovo / Lista clienti">
+<nav class="nav nav-pills nav-fill gap-2 mb-4 customer-entry-nav" aria-label="Nuovo / Lista clienti">
     <a href="{{ route('newcustomer') }}"
        class="nav-link border fs-5 fw-semibold py-3 {{ $isNewCustomer ? 'active' : 'bg-body-tertiary' }}"
        @if($isNewCustomer) aria-current="page" @endif>Nuovo</a>

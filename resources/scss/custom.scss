@@ -159,6 +159,17 @@ html[data-sidebar="light"] .navbar-menu .navbar-nav .nav-link.active {
     color: #741826;
 }
 
+.nav-pills.customer-entry-nav .nav-link.active {
+    background: linear-gradient(90deg, rgba(140, 29, 44, 0.12), rgba(140, 29, 44, 0.04));
+    color: #741826;
+    border-color: rgba(140, 29, 44, 0.10) !important;
+    box-shadow: inset 0 0 0 1px rgba(140, 29, 44, 0.10);
+}
+
+html[data-sidebar="dark"] .nav-pills.customer-entry-nav .nav-link.active {
+    background: linear-gradient(90deg, rgba(140, 29, 44, 0.22), rgba(140, 29, 44, 0.08));
+}
+
 html[data-sidebar="dark"] .navbar-menu .navbar-nav .menu-title span {
     color: #8c867f;
     letter-spacing: .08em;

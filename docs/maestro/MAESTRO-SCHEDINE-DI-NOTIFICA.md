@@ -1,5 +1,12 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Correzione corrente — logo Rimini e pastello Clienti, 17 ottobre 2026
+
+[Consuntivo](../LOGO-RIMINI-E-PASTELLO-CLIENTI-2026-10-17.md) ed [evidenze](../evidenze/logo-rimini-pastello-2026-10-17/verifica.json). Riprodotta in isolamento la risposta di ricerca tardiva che stacca il modulo con il file selezionato durante le conferme, impedendo il POST. Sola vista GEO: invalidazione delle risposte pendenti all’ingresso/selezione del campo file, ricerca di ritorno conservata. Nuovo / Lista: sola classe dedicata e gradiente pastello corrispondente alla sidebar. Controller, validazioni, permessi, storage e database invariati.
+
+21 test PHP / 178 asserzioni, 12 prove browser, 15 guardie, 23 rifiuti di override e build/GEO PASS. Upload PNG/WebP/JPG/JPEG completi a 1440/390 px con POST 302 e immagine caricata; errori visibili e logo precedente conservato; pastello verificato a 1440/768/390 px. Prove soltanto con fixture sintetiche; Rimini produttivo osservato senza logo, nessun file reale sostituito. Preflight dopo chiusura runtime: 3.815.899.136 byte liberi contro 3.709.771.776 richiesti, margine invariato. Pubblicazione autorizzata ma ancora pendente: nuovo PREPARE/S0/guardiano e monitor di almeno 900 secondi obbligatori. Precedenti tentativi e limiti nel consuntivo. Modifiche estranee preservate. **BASELINE IN AUDIT invariata**.
+
+
 ## Esito corrente — Clienti pubblicato dopo ampliamento VM, 17 ottobre 2026
 
 Pubblicato il candidato **181650c049f686f91a925706d8692c4a32b0de70** con il solo riordino visivo Nuovo / Lista. La VM è passata da 28 a 32 GiB. Prima della crescita, a VM ferma, è stato verificato un backup integrale CoW del disco, della configurazione, dell’identità e di EFI; i digest SHA sono stati riletti anche dopo il riavvio. FileVault attivo. Partizione e XFS sono cresciuti al boot, conservando UUID, CPU, RAM e rete. Ultimo preflight precedente: 1.999.900.672 byte liberi; dopo la crescita: 6.211.952.640. Nuovo preflight C5: 6.212.009.984 byte liberi contro 3.709.771.776 richiesti, PASS con soglie e margine di 1 GiB invariati. Nel DB quotidiano sono rimasti identici 64 tabelle, 25.878 righe e 156 migrazioni, schema, file protetti, env, chiave, upload e loghi. Identità e SELinux conservati, servizio interno attivo. Nessuna ulteriore pulizia o formattazione.
