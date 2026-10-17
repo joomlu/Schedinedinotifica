@@ -1,5 +1,22 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Completamento Nuova schedina — 18 ottobre 2026
+
+**PARZIALE: candidato verificato in isolamento, rilascio fermo alla capienza.** [Inventario e consuntivo](../COMPLETAMENTO-NUOVA-SCHEDINA-2026-10-18.md), [prove e hash](../evidenze/completamento-nuova-schedina-2026-10-18/verifica.json). OBIETTIVO: ingresso, validazioni, componenti, persistenza e preparazione comunicazioni, ricerca clienti e ingresso dall’elenco. RISCHIO ALTO per anagrafica, tenancy e regole di soggiorno. Modificati controller Schedina e sola preparazione import, due adattatori/controlli mirati, contesto del modulo, tre viste, una route e test/documenti. Calcoli fiscali, trasporti, credenziali e dati reali non modificati. Solo intervallo attuale per scelta esplicita dell’utente: nessuna migrazione o archivio multiperiodo.
+
+Piano verificabile e stato delle fasi:
+1. Ricognizione e inventario delle sei schede eseguiti; fonti ufficiali consultate e limiti distinti dalle prove interne. Locale/GitHub iniziali9eb8396, VM/produzione dbee302 riletti; lavoro estraneo preservato.
+2. Controlli di soggiorno/apertura, GEO/documenti, gruppi, tipi e componenti implementati e collaudati. Bozza incompleta ammessa con limiti dei campi; date consenso storiche e campi svuotati esplicitamente conservati.
+3. Ricerca da Nome/Cognome nella struttura attiva, selezione esplicita, omonimi, risposte obsolete, cambio/rimozione e «Crea schedina» verificati. Nessun rinnovo implicito del consenso o modifica del master cliente nel nuovo flusso.
+4. R15: **190 test / 2.525 asserzioni, sei browser a1440/768/390 PASS**. R17 import:89 test/353 asserzioni PASS, suite sovrapposte non sommate.17 guardie,23 rifiuti override, build/GEO PASS. Coperti bozza/ripresa, definitivo/modifica, doppio clic, errori e input, ruoli/tenant, rollback e output senza invii reali. Avviso PHPUnit preesistente e diagnostici intermedi nel rapporto.
+5. Revisione diff e documentazione eseguite; SHA e stato commit/push nella ricevuta esterna del rapporto. **C5 bloccata prima PREPARE:** 1663713280 byte liberi contro 3709771776 richiesti, deficit 2046058496 byte, riserva1GiB invariata. Mac 1142054912 byte liberi. Nessun nuovo S0, manutenzione, RUN, deploy, accettazione online o monitor del candidato.
+
+Difetto di contesto riprodotto R14: un modulo aperto inA creava una bozza inB dopo cambio della sessione in un’altra scheda. Corretto con SchedinaFormContext condiviso su salvataggio, ricerca e preparazione import: HTTP422 e zero scritture sul cambio; contesti corretti e chiamanti legacy compatibili. Solo fixture effimere, nessuna riga reale creata dal caso. R16 esponeva un resolver Unit legato al contenitore Feature già chiuso: ripetute tutte le suite pure prima delle Feature, senza salti, modifiche applicative estranee o guardie allentate.
+
+Pulizia autorizzata:12.064 derivati autenticati rimossi e79 pack identici conservatiCoW; incrementi netti puntuali258.883.584 e259.686.400 byte, distinti dal saldo durante i nuovi collaudi. SQL, database, backup, cifrati, env, chiavi, upload, loghi ed evidenze preservati; nessuna espansione. Produzione riletta dbee302 pulita, FPMattivo, login200/TLS0, deltaFPM2004732c invariato: prova della baseline rimasta online, non del candidato. Caffeinate dedicato PID12102 avviato persistente e verificato; stato e arresto del solo processo proprio in output/flusso-nuova-schedina-2026-10-18/caffeinate.json.
+
+**Ripresa:** risolvere la capienza con intervento autorizzato, rileggere Git/produzione, nuovi preflight e kitC5/PREPARE/S0/recupero, pubblicazione, verifica online non distruttiva e monitor. Nessun vecchio checkpoint o gate ridotto. Lavoro estraneo preservato, BASELINE IN AUDIT generale invariata.
+
 ## Schedine pubblicato e verificato — 18 ottobre 2026
 
 [Consuntivo](../NAVIGAZIONE-SCHEDINE-2026-10-17.md#pubblicazione-effettiva--18-ottobre-2026) e [prove](../evidenze/navigazione-schedine-2026-10-17/rilascio.json). Pubblicato **dbee3028494eca70b99c5b77f06d07c95688689b**: cinque sole viste, stile Clienti riutilizzato, tre sezioni e recupero etichettato; controller, funzioni, route, validazioni e schema invariati. 39 test / 206 asserzioni, tre prove browser, 17 guardie, 23 rifiuti di override e build/GEO PASS.

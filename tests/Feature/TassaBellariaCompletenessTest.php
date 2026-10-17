@@ -16,11 +16,12 @@ use Tests\TestCase;
 
 class TassaBellariaCompletenessTest extends TestCase
 {
-    use DatabaseTransactions, StrutturaFixtures;
+    use DatabaseTransactions, StrutturaFixtures, \Tests\Support\SchedinaCataloghiFixtures;
 
     private function contesto(): Struttura
     {
         $a = $this->structureFor(null);
+        $this->cataloghiSchedina($a->id);
         $a->update(['citta' => 'Bellaria-Igea Marina', 'tipologia_struttura' => 'Albergo', 'classificazione' => '3 stelle', 'scadenza_servizio' => '2099-12-31']);
         $this->actingAs($this->actor('struttura_user', null, $a->id));
         TassaDiSoggiorno::create(['struttura_id' => $a->id, 'tassa_soggiorno' => '1.50', 'giorni_massimo' => 6,

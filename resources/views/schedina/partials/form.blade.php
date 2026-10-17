@@ -149,6 +149,18 @@
             <input type="hidden" name="component_id" id="component-id" value="{{ old('component_id', '') }}">
             <input type="hidden" name="active_tab" id="active-tab" value="{{ old('active_tab', request()->query('active_tab', session('active_tab', 'schedina-step-base'))) }}">
 
+            @if(request()->routeIs('newschedina', 'schedina.edit'))
+            <input type="hidden" name="schedina_struttura_id" value="{{ old('schedina_struttura_id', $strutturaInfo?->id) }}">
+            <div class="mb-4" id="schedina-customer-picker" data-struttura="{{ old('schedina_struttura_id', $strutturaInfo?->id) }}" data-endpoint="{{ route('schedina.clienti.ricerca') }}">
+                <label for="search" class="form-label">Cerca un cliente esistente per nome o cognome</label>
+                <input id="search" type="search" class="form-control" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="results" aria-expanded="false" aria-describedby="customer-selection-status" placeholder="Almeno due caratteri; puoi anche compilare un cliente nuovo">
+                <ul id="results" class="list-group mt-1" role="listbox" aria-label="Clienti corrispondenti" hidden></ul>
+                <div id="customer-selection-status" class="form-text" role="status" aria-live="polite">{{ $selectedCustomerId ? 'Cliente collegato. I dati del soggiorno restano indipendenti.' : 'Nessun cliente collegato: puoi continuare con un cliente nuovo.' }}</div>
+                <button type="button" class="btn btn-soft-secondary mt-2" id="clear-customer-selection" @if(!$selectedCustomerId) hidden @endif>Continua con un cliente nuovo (mantieni i dati inseriti)</button>
+            </div>
+
+            @endif
+
             <div class="step-arrow-nav mb-4">
                 <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -174,6 +186,18 @@
 
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="schedina-step-base-pane" role="tabpanel" aria-labelledby="schedina-step-base">
+                    @if(request()->routeIs('newschedina', 'schedina.edit'))
+                    <div class="alert alert-info" id="soggiorno-apertura" data-tipo="{{ $strutturaInfo?->tipo_apertura }}" data-dal="{{ $strutturaInfo?->data_apertura?->format('Y-m-d') }}" data-al="{{ $strutturaInfo?->data_chiusura?->format('Y-m-d') }}">
+                        @if($strutturaInfo?->tipo_apertura === 'Annuale')
+                            Apertura annuale. La partenza deve essere successiva all’arrivo.
+                        @else
+                            Apertura: {{ $strutturaInfo?->data_apertura?->format('d/m/Y') ?? 'da configurare' }} – {{ $strutturaInfo?->data_chiusura?->format('d/m/Y') ?? 'da configurare' }}.
+                            La chiusura è l’ultimo giorno aperto; il giorno del check-out non conta come notte.
+                            <a href="{{ route('struttura.edit') }}">Configura apertura</a>
+                        @endif
+                        <div id="soggiorno-date-feedback" class="text-danger mt-1" role="status" aria-live="polite"></div>
+                    </div>
+                    @endif
                     <div class="card border-0 shadow-sm mb-3">
                         <div class="card-header border-0 bg-light-subtle d-flex align-items-center">
                             <i class="ri-hotel-bed-line me-2 text-primary"></i>
@@ -564,7 +588,7 @@
                                             'manual' => (bool) old('oa_geo_manual', false),
                                         ]"
                                     />
-                                    <div class="form-text mt-2">Per salvare la schedina sono obbligatori: nazione, regione, provincia e città dell anagrafica.</div>
+                                    <div class="form-text mt-2">Indica nazione e località di nascita. Per l’Italia seleziona anche regione e provincia coerenti con il comune.</div>
                                 </div>
                             </div>
                         </div>

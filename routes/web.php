@@ -381,6 +381,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/schedine', [SchedinaController::class, 'index'])->name('schedina');
     Route::get('/schedine/bozze', [SchedinaController::class, 'bozze'])->name('schedina.bozze');
     Route::get('/schedine/nuova', [SchedinaController::class, 'new'])->name('newschedina');
+    Route::get('/schedine/clienti/ricerca', [SchedinaController::class, 'searchCustomers'])->name('schedina.clienti.ricerca');
 
     // Flusso HTTP canonico Nuova schedina:
     // GET pagina import -> POST preview -> POST conferma -> GET download template -> GET ritorno alla schedina.

@@ -43,7 +43,8 @@ class ComponentiImportController extends Controller
 
     public function newPrepare(Request $request)
     {
-        $this->currentStruttura();
+        $struttura = $this->currentStruttura();
+        \App\Support\SchedinaFormContext::validate($request, (int) $struttura->id);
 
         session()->put($this->newDraftStateKey(), $request->except(['_token', '_method', 'id', 'schedina_id', 'schedina']));
         session()->put('active_tab', 'schedina-step-comp');

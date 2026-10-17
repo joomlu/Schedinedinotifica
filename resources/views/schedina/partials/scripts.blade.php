@@ -1,4 +1,5 @@
 @php
+    $schedinaServerErrors = request()->routeIs('newschedina', 'schedina.edit') ? $errors->getBag('default')->getMessages() : [];
     $geoNazioniMap = collect($nations ?? [])->map(function ($n) {
         $id = is_array($n) ? ($n['id'] ?? '') : ($n->id ?? '');
         $nome = is_array($n) ? ($n['nome'] ?? '') : ($n->nome ?? '');
@@ -62,6 +63,12 @@
             if (value === null || value === undefined || value === '') return;
             const fields = document.querySelectorAll(`[name="${name}"]`);
             fields.forEach((field) => {
+                if (field.dataset.ui === 'calendario') {
+                    const date = String(value).slice(0,10);
+                    if (field._flatpickr) field._flatpickr.setDate(date, true, 'Y-m-d');
+                    else field.value = date;
+                    return;
+                }
                 if (field.tagName === 'SELECT') {
                     let option = Array.from(field.options).find((opt) => opt.value === String(value));
                     if (!option) {
@@ -103,80 +110,6 @@
                     field.dispatchEvent(new Event('change', { bubbles: true }));
                 });
             }
-        };
-
-        const applyCustomerDataToSchedina = (customer) => {
-            const mapping = {
-                customer_id: customer.id,
-                customer_type_housed: customer.type_housed,
-                customer_group: customer.group,
-                customer_subgroup: customer.subgroup,
-                customer_subgroup1: customer.subgroup1,
-                customer_email: customer.email,
-                customer_phone: customer.phone,
-                customer_cellphone: customer.cellphone,
-                customer_fax: customer.fax,
-                customer_observation: customer.observation,
-                customer_anag_observation: customer.observation_reg,
-                type: customer.type,
-                name: customer.name,
-                surname: customer.surname,
-                sex: customer.sex,
-                oa_country: customer.country_reg,
-                oa_city: customer.city_reg,
-                oa_region: customer.region_reg || customer.region,
-                oa_prov: customer.prov_reg,
-                oa_cap: customer.cap_reg,
-                oa_city_nac: customer.ciudadania_reg,
-                oa_date_nac: customer.nac_reg,
-                or_country: customer.country,
-                or_city: customer.city,
-                or_region: customer.region,
-                or_prov: customer.province,
-                or_cap: customer.cap,
-                or_typeaway: customer.typeaway,
-                or_address: customer.address,
-                or_num: customer.number,
-                or_doc: customer.num_doc_reg,
-                or_doctype: customer.type_doc_reg,
-                or_published_date: customer.date_pub_reg,
-                or_expire: customer.expire_reg,
-                or_published: customer.rilasciato_reg,
-                or_published_country: customer.country_doc_reg || customer.country_reg,
-                or_published_city: customer.city_doc_reg || customer.city_reg,
-            };
-
-            Object.entries(mapping).forEach(([name, value]) => setFieldValue(name, value));
-            setConsentField('customer_privacy_consent', customer.privacy_consent, 'customer_privacy_consent_at', customer.privacy_consent_at);
-            setConsentField('customer_marketing_consent', customer.marketing_consent, 'customer_marketing_consent_at', customer.marketing_consent_at);
-            setConsentField('customer_communication_consent', customer.communication_consent, 'customer_communication_consent_at', customer.communication_consent_at);
-
-            if (searchInput) {
-                const fullName = `${customer.surname || ''} ${customer.name || ''}`.trim();
-                searchInput.value = fullName;
-            }
-            if (surnameInput) {
-                surnameInput.value = customer.surname || '';
-            }
-            if (customerIdInput) {
-                customerIdInput.value = customer.id || '';
-            }
-            if (customerNumeroInput) {
-                customerNumeroInput.value = customer.numero_cliente || '';
-            }
-            if (customerTypeHousedInput) {
-                customerTypeHousedInput.value = customer.type_housed || '';
-            }
-
-            const peopleInput = document.querySelector('[name="cant_people"]');
-            if (peopleInput && (!peopleInput.value || Number(peopleInput.value) < 1)) {
-                peopleInput.value = '1';
-            }
-
-            window.setTimeout(() => {
-                syncCittadinanzaFromCountry();
-                togglePublishedCity();
-            }, 0);
         };
 
         const ensureSelectValue = (selectEl, value, label) => {
@@ -411,7 +344,8 @@
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase();
-            const isItalia = country === 'italia' || country.includes('italia');
+            const mapped = geoNazioniMap.find(item => String(item.id) === countryRaw || String(item.codice_iso2 || '').toLowerCase() === country || String(item.nome || '').toLowerCase() === country);
+            const isItalia = mapped ? String(mapped.codice_iso2 || '').toUpperCase() === 'IT' : country === 'italia';
 
             publishedCityWrap.classList.toggle('d-none', !isItalia);
             if (!isItalia && publishedCitySelect) {
@@ -462,56 +396,118 @@
         }
 
         if (searchInput && resultsContainer) {
-            let debounceTimer = null;
-
-            searchInput.addEventListener('input', function () {
-                const query = (searchInput.value || '').trim();
-                if (query.length <= 1) {
-                    resultsContainer.style.display = 'none';
-                    resultsContainer.innerHTML = '';
-                    return;
+            const picker = document.getElementById('schedina-customer-picker');
+            const status = document.getElementById('customer-selection-status');
+            const clear = document.getElementById('clear-customer-selection');
+            const nameInput = document.querySelector('[name="name"]');
+            let timer, controller, revision = 0, active = -1, activeInput = searchInput;
+            const close = () => {
+                resultsContainer.hidden = true;
+                [searchInput, nameInput, surnameInput].filter(Boolean).forEach(input => {
+                    input.setAttribute('aria-expanded', 'false'); input.removeAttribute('aria-activedescendant');
+                });
+                active = -1;
+            };
+            const invalidate = () => { clearTimeout(timer); controller?.abort(); revision++; close(); };
+            const select = async (item) => {
+                invalidate();
+                const current = revision;
+                // La selezione sostituisce soltanto l'anagrafica, con consenso esplicito.
+                if (!window.confirm(`Usare ${item.surname || ''} ${item.name || ''}? I campi anagrafici e i consensi saranno sostituiti con quelli del cliente. Date, camere e componenti resteranno invariati.`)) return;
+                controller = new AbortController();
+                try {
+                    const url = new URL(picker.dataset.endpoint, window.location.origin);
+                    url.searchParams.set('selected', item.id);
+                    url.searchParams.set('schedina_struttura_id', picker.dataset.struttura);
+                    const response = await fetch(url, {signal: controller.signal, headers: {'Accept': 'application/json'}});
+                    if (!response.ok) throw new Error('Cliente non disponibile');
+                    const data = await response.json();
+                    if (current !== revision) return;
+                    Object.entries(data).forEach(([name, value]) => {
+                        if (name.endsWith('_consent') || name.endsWith('_consent_at') || name === 'numero_cliente') return;
+                        const field = document.querySelector(`[name="${name}"]`);
+                        if (!field) return;
+                        // Svuota i dati del cliente precedente anche quando il nuovo non li possiede.
+                        if (field._flatpickr) field._flatpickr.clear();
+                        field.value = '';
+                        setFieldValue(name, value);
+                        if (value === null || value === '') field.dispatchEvent(new Event('change', {bubbles:true}));
+                    });
+                    ['privacy','marketing','communication'].forEach(key => setConsentField(`customer_${key}_consent`, data[`customer_${key}_consent`], `customer_${key}_consent_at`, data[`customer_${key}_consent_at`]));
+                    clear.hidden = false;
+                    status.textContent = `Cliente collegato: ${data.surname || ''} ${data.name || ''}. La scheda cliente originale non sarà modificata.`;
+                    searchInput.value = `${data.surname || ''} ${data.name || ''}`.trim();
+                } catch (error) {
+                    if (error.name !== 'AbortError' && current === revision) status.textContent = 'Impossibile selezionare il cliente. Riprova; i dati precedenti sono conservati.';
                 }
-
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(() => {
-                    fetch(`/search_customers?query=${encodeURIComponent(query)}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            resultsContainer.innerHTML = '';
-                            if (Array.isArray(data) && data.length > 0) {
-                                resultsContainer.style.display = 'block';
-                                data.forEach(item => {
-                                    const li = document.createElement('li');
-                                    li.classList.add('list-group-item', 'list-group-item-action');
-                                    const labelCode = item.numero_cliente ? `${item.numero_cliente} - ` : '';
-                                    const fullName = `${labelCode}${item.surname || ''} ${item.name || ''}`.trim();
-                                    const sourceLabel = item.shared_from_chain && item.struttura_nome
-                                        ? ` · ${item.struttura_nome}`
-                                        : '';
-                                    li.textContent = `${fullName}${sourceLabel}`.trim();
-                                    li.addEventListener('mousedown', () => {
-                                        applyCustomerDataToSchedina(item);
-                                        resultsContainer.style.display = 'none';
-                                    });
-                                    resultsContainer.appendChild(li);
-                                });
-                            } else {
-                                resultsContainer.style.display = 'none';
-                            }
-                        })
-                        .catch(error => console.error('Errore durante la ricerca clienti:', error));
-                }, 180);
+            };
+            const search = (input) => {
+                invalidate();
+                activeInput = input;
+                input.after(resultsContainer); resultsContainer.after(status);
+                input.setAttribute('role','combobox'); input.setAttribute('aria-autocomplete','list'); input.setAttribute('aria-controls','results');
+                if (input === nameInput) input.setAttribute('aria-label','Nome');
+                if (input === surnameInput) input.setAttribute('aria-label','Cognome');
+                const current = revision, query = input.value.trim();
+                if (query.length < 2) return;
+                timer = setTimeout(async () => {
+                    controller = new AbortController();
+                    try {
+                        const url = new URL(picker.dataset.endpoint, window.location.origin);
+                        url.searchParams.set('query', query);
+                        url.searchParams.set('schedina_struttura_id', picker.dataset.struttura);
+                        const response = await fetch(url, {signal:controller.signal, headers:{'Accept':'application/json'}});
+                        if (!response.ok) throw new Error('Ricerca non disponibile');
+                        const data = await response.json();
+                        if (current !== revision) return;
+                        resultsContainer.replaceChildren();
+                        searchInput.setAttribute('aria-controls', 'results');
+                        const showBase = document.getElementById('schedina-step-base');
+                        // I risultati restano accanto alla ricerca, senza cambiare scheda o campi.
+                        if (!showBase.closest('form').contains(input)) return;
+                        data.forEach((item, index) => {
+                            const li = document.createElement('li');
+                            li.className = 'list-group-item p-0'; li.setAttribute('role', 'presentation');
+                            const button = document.createElement('button');
+                            button.type = 'button'; button.id = `customer-match-${index}`;
+                            button.className = 'btn text-start w-100 py-3'; button.setAttribute('role','option');
+                            button.setAttribute('aria-selected','false');
+                            const birth = item.nac_reg ? String(item.nac_reg).slice(0,10).split('-').reverse().join('/') : 'nascita non disponibile';
+                            button.textContent = `${item.surname || ''} ${item.name || ''} · ${birth} · ${item.city || item.city_reg || 'località non disponibile'}`;
+                            button.addEventListener('click', () => select(item)); li.appendChild(button); resultsContainer.appendChild(li);
+                        });
+                        resultsContainer.hidden = !data.length;
+                        activeInput.setAttribute('aria-expanded', data.length ? 'true' : 'false');
+                        status.textContent = data.length ? `${data.length} corrispondenze. Seleziona esplicitamente un cliente oppure continua a compilare.` : 'Nessuna corrispondenza. Puoi continuare con un cliente nuovo.';
+                    } catch(error) {
+                        if (error.name !== 'AbortError' && current === revision) status.textContent = 'Ricerca non disponibile. Puoi riprovare o continuare senza selezionare un cliente.';
+                    }
+                }, 250);
+            };
+            [searchInput, nameInput, surnameInput].filter(Boolean).forEach(input => {
+                input.addEventListener('input', event => {
+                    if (!event.isTrusted) return; // Non ricercare sulle precompilazioni.
+                    if (input !== searchInput) { searchInput.value = input.value; }
+                    search(input);
+                });
             });
-
-            searchInput.addEventListener('blur', function () {
-                setTimeout(() => {
-                    resultsContainer.style.display = 'none';
-                }, 120);
+            [searchInput, nameInput, surnameInput].filter(Boolean).forEach(input => input.addEventListener('keydown', event => {
+                const options = [...resultsContainer.querySelectorAll('[role="option"]')];
+                if (event.key === 'Escape') { invalidate(); return; }
+                if (event.key === 'Enter' && input === searchInput) event.preventDefault();
+                if (resultsContainer.hidden || !options.length) return;
+                if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                    event.preventDefault(); active = (active + (event.key === 'ArrowDown' ? 1 : -1) + options.length) % options.length;
+                    options.forEach((button,index) => {button.classList.toggle('bg-primary-subtle', index === active); button.setAttribute('aria-selected', index === active ? 'true':'false');});
+                    activeInput.setAttribute('aria-activedescendant', options[active].id);
+                } else if (event.key === 'Enter' && active >= 0) {event.preventDefault(); options[active].click();}
+            }));
+            clear.addEventListener('click', () => {
+                invalidate(); customerIdInput.value = ''; clear.hidden = true;
+                status.textContent = 'Nessun cliente collegato. I dati inseriti sono conservati; i consensi non vengono rinnovati.';
+                searchInput.value = ''; searchInput.focus();
             });
-
-            resultsContainer.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-            });
+            document.addEventListener('click', event => {if (!picker.contains(event.target) && !resultsContainer.contains(event.target) && ![nameInput,surnameInput].includes(event.target)) close();});
         }
 
         const camereContainer = document.getElementById('camere-container');
@@ -1145,7 +1141,52 @@
         Array.from((componentiContainer || document).querySelectorAll('.componente-row')).forEach(updateComponenteSummary);
         refreshAddComponenteVisibility();
 
-        if (activeTabInput && activeTabInput.value && activeTabInput.value !== 'schedina-step-base') {
+        const dateBanner = document.getElementById('soggiorno-apertura');
+        const arrival = document.querySelector('[name="arrive"]');
+        const departure = document.querySelector('[name="departure"]');
+        const dateFeedback = document.getElementById('soggiorno-date-feedback');
+        const checkDates = () => {
+            if (!dateBanner || !arrival || !departure) return;
+            let message = '';
+            const a = arrival.value, d = departure.value;
+            if (a && d && d <= a) message = 'La partenza deve essere successiva all’arrivo.';
+            else if (dateBanner.dataset.tipo !== 'Annuale') {
+                const from = dateBanner.dataset.dal, to = dateBanner.dataset.al;
+                if (!from || !to || to < from) message = 'Configura il periodo di apertura prima del salvataggio definitivo; puoi conservare una bozza.';
+                else if (a && (a < from || a > to)) message = 'L’arrivo non rientra nell’apertura configurata.';
+                else if (d) {
+                    const lastNight = new Date(`${d}T00:00:00Z`);
+                    lastNight.setUTCDate(lastNight.getUTCDate() - 1);
+                    if (!Number.isNaN(lastNight.getTime()) && lastNight.toISOString().slice(0,10) > to) message = 'Il soggiorno comprende notti fuori dall’apertura configurata.';
+                }
+            }
+            dateFeedback.textContent = message;
+        };
+        [arrival, departure].filter(Boolean).forEach(input => input.addEventListener('change', checkDates));
+        checkDates();
+
+        // I messaggi del server restano vicini ai campi e aprono la prima scheda errata.
+        const serverErrors = @json($schedinaServerErrors);
+        let firstErrorTab = null;
+        Object.entries(serverErrors).forEach(([key, messages], index) => {
+            const name = key.replace(/\.([^.]*)/g, '[$1]');
+            const field = Array.from(document.querySelectorAll('[name]')).find(element => element.name === name);
+            if (!field) return;
+            field.classList.add('is-invalid'); field.setAttribute('aria-invalid','true');
+            const feedback = document.createElement('div'); feedback.id = `schedina-field-error-${index}`;
+            feedback.className = 'invalid-feedback d-block'; feedback.textContent = messages.join(' ');
+            field.parentElement.appendChild(feedback);
+            field.setAttribute('aria-describedby', [field.getAttribute('aria-describedby'),feedback.id].filter(Boolean).join(' '));
+            const pane = field.closest('.tab-pane');
+            if (pane) {
+                const trigger = document.getElementById(pane.getAttribute('aria-labelledby'));
+                if (trigger) {trigger.classList.add('text-danger'); trigger.setAttribute('title','Contiene errori da correggere');}
+                if (!firstErrorTab) firstErrorTab = pane.getAttribute('aria-labelledby');
+            }
+        });
+        if (firstErrorTab) {
+            activateTab(firstErrorTab);
+        } else         if (activeTabInput && activeTabInput.value && activeTabInput.value !== 'schedina-step-base') {
             activateTab(activeTabInput.value);
         }
     });

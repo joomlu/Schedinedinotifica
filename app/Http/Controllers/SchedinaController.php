@@ -196,10 +196,12 @@ class SchedinaController extends Controller
             $componenti = collect($mergedInput['componenti'] ?? []);
         }
 
-        $customerId = (int) $request->query('customer_id', 0);
+        $request->validate(['customer_id' => ['nullable', 'integer', 'min:1']]);
+        $customerId = $request->query('customer_id');
         $customerImportRowId = (int) $request->old('customer_import_row_id', $request->query('customer_import_row_id', 0));
         $customerImportRow = null;
-        $prefilledCustomer = $customerId > 0 ? Customers::query()->find($customerId) : null;
+        $prefilledCustomer = $customerId ? Customers::withoutGlobalScopes()
+            ->where('struttura_id', $currentId)->findOrFail($customerId) : null;
 
         if ($customerImportRowId > 0) {
             $customerImportRow = CustomerImportRow::query()
@@ -235,6 +237,28 @@ class SchedinaController extends Controller
         ));
     }
 
+    public function searchCustomers(Request $request)
+    {
+        $request->validate(['query' => ['nullable', 'string', 'max:100'], 'selected' => ['nullable', 'integer', 'min:1']]);
+        $currentId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
+        abort_unless($currentId, 403);
+        \App\Support\SchedinaFormContext::validate($request, (int) $currentId);
+        $customers = Customers::withoutGlobalScopes()->where('struttura_id', $currentId);
+        if ($request->filled('selected')) {
+            $customer = $customers->findOrFail($request->input('selected'));
+            return response()->json(array_merge($this->customerToSchedinaDefaults($customer), [
+                'customer_id' => $customer->id, 'numero_cliente' => $customer->numero_cliente,
+            ]))->header('Cache-Control', 'no-store');
+        }
+        $query = trim((string) $request->input('query', ''));
+        if (mb_strlen($query) < 2) return response()->json([]);
+        $results = $customers->where(function ($q) use ($query) {
+            $q->where('name', 'like', '%'.$query.'%')->orWhere('surname', 'like', '%'.$query.'%');
+        })->orderBy('surname')->orderBy('name')->orderBy('id')->limit(10)
+            ->get(['id', 'name', 'surname', 'nac_reg', 'city', 'city_reg']);
+        return response()->json($results)->header('Cache-Control', 'no-store');
+    }
+
     public function store(Request $request)
     {
         $currentId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
@@ -242,8 +266,10 @@ class SchedinaController extends Controller
             return back()->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.'])->withInput();
         }
 
+        \App\Support\SchedinaFormContext::validate($request, (int) (StrutturaCorrente::getId() ?? $request->user()?->struttura_id));
         $this->authorizedCustomerReference($request);
         $saveMode = $this->resolveSaveMode($request);
+        if (in_array($saveMode, ['draft', 'to_arrivi'], true)) $this->validateSchedinaRequest($request, false);
         if ($saveMode === 'component') {
             return $this->handleSingleComponentSave($request, null, false);
         }
@@ -389,8 +415,10 @@ class SchedinaController extends Controller
     {
         $schedina = Schedina::query()->findOrFail($id);
         $previousCircuit = $this->normalizeSchedaCircuit($schedina);
+        \App\Support\SchedinaFormContext::validate($request, (int) (StrutturaCorrente::getId() ?? $request->user()?->struttura_id));
         $this->authorizedCustomerReference($request);
         $saveMode = $this->resolveSaveMode($request);
+        if (in_array($saveMode, ['draft', 'to_arrivi'], true)) $this->validateSchedinaRequest($request, false);
 
         if ($saveMode === 'component') {
             return $this->handleSingleComponentSave($request, $schedina, true);
@@ -422,6 +450,13 @@ class SchedinaController extends Controller
             \App\Models\WebCheckinRichiesta::where('schedina_id', $schedina->id)->where('struttura_id', $schedina->struttura_id)->lockForUpdate()->get();
             $customer = $this->resolveCustomerFromRequest($request);
             $defaults = $customer ? $this->customerToSchedinaDefaults($customer) : [];
+            if ((int) $schedina->customer_id === (int) $customer?->id) {
+                foreach (['privacy', 'marketing', 'communication'] as $consent) {
+                    $field = 'customer_'.$consent.'_consent';
+                    $defaults[$field] = $schedina->$field;
+                    $defaults[$field.'_at'] = $schedina->{$field.'_at'};
+                }
+            }
 
             $payload = $this->buildSchedinaPayload($request, $defaults);
             $payload['customer_id'] = $customer?->id;
@@ -686,9 +721,20 @@ class SchedinaController extends Controller
         return [$tassaConfig, $esenzioni];
     }
 
-    protected function validateSchedinaRequest(Request $request): void
+    protected function validateSchedinaRequest(Request $request, bool $complete = true): void
     {
-        $request->validate([
+        $existing = $request->route('id') ? Schedina::query()->find($request->route('id')) : null;
+        $titleValues = Titolo::query()->where('attivo', true)->pluck('nome')->all();
+        if ($existing?->type) $titleValues[] = $existing->type;
+        $istatRule = function (string $field, array $options) use ($existing) {
+            $values = array_keys($options);
+            if ($existing && filled($existing->$field)) $values[] = $existing->$field;
+            return Rule::in($values);
+        };
+        $byteText = function ($attribute, $value, $fail) {
+            if (is_string($value) && strlen($value) > 65535) $fail('Il testo è troppo lungo per questo campo: riducilo prima di salvare.');
+        };
+        $rules = [
             'customer_id' => ['nullable', 'integer'],
             'customer_type_housed' => ['nullable', 'string', 'max:100'],
             'customer_group' => ['nullable', 'string', 'max:191'],
@@ -698,49 +744,45 @@ class SchedinaController extends Controller
             'customer_phone' => ['nullable', 'string', 'max:50'],
             'customer_cellphone' => ['nullable', 'string', 'max:50'],
             'customer_fax' => ['nullable', 'string', 'max:50'],
-            'customer_observation' => ['nullable', 'string'],
-            'customer_anag_observation' => ['nullable', 'string'],
+            'customer_observation' => ['nullable', 'string', $byteText],
+            'customer_anag_observation' => ['nullable', 'string', $byteText],
             'customer_privacy_consent' => ['required', 'boolean'],
             'customer_marketing_consent' => ['nullable', 'boolean'],
             'customer_communication_consent' => ['nullable', 'boolean'],
-            'type' => ['nullable', 'string', 'max:50'],
+            'type' => ['nullable', 'string', 'max:50', Rule::in($titleValues)],
             'name' => ['required', 'string', 'max:100'],
             'surname' => ['required', 'string', 'max:100'],
             'sex' => ['required', 'in:M,F'],
             'relationship' => ['nullable', 'string', 'max:50'],
             'exent' => ['nullable', 'string', 'max:191', Rule::notIn(['777'])],
             'arrive' => ['required', 'date'],
-            'departure' => ['required', 'date', 'after_or_equal:arrive'],
+            'departure' => ['required', 'date', 'after:arrive'],
             'cant_people' => ['required', 'integer', 'min:1', 'max:999'],
             'room' => ['required', 'integer', 'min:1', 'max:999'],
             'beds' => ['required', 'integer', 'min:1', 'max:999'],
-            'observation' => ['nullable', 'string'],
+            'observation' => ['nullable', 'string', $byteText],
             'oa_country' => ['required', 'string', 'max:100'],
             'oa_city' => ['required', 'string', 'max:150'],
-            'oa_region' => ['required', 'string', 'max:150'],
-            'oa_prov' => ['required', 'string', 'max:150'],
+            'oa_region' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('oa_country'))), 'nullable', 'string', 'max:150'],
+            'oa_prov' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('oa_country'))), 'nullable', 'string', 'max:150'],
             'oa_city_nac' => ['required', 'string', 'max:150'],
-            'oa_date_nac' => ['required', 'date'],
+            'oa_date_nac' => ['required', 'date', 'before_or_equal:today', 'before_or_equal:arrive'],
             'or_country' => ['required', 'string', 'max:100'],
             'or_city' => ['required', 'string', 'max:150'],
-            'or_region' => ['required', 'string', 'max:150'],
-            'or_prov' => ['required', 'string', 'max:150'],
+            'or_region' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:150'],
+            'or_prov' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:150'],
             'or_cap' => ['nullable', 'string', 'max:20'],
             'or_typeaway' => ['required', 'string', 'max:100'],
             'or_address' => ['required', 'string', 'max:150'],
             'or_num' => ['required', 'string', 'max:20'],
             'or_doc' => ['required', 'string', 'max:150'],
             'or_doctype' => ['required', 'string', 'max:100'],
-            'or_published_date' => ['required', 'date'],
+            'or_published_date' => ['required', 'date', 'before_or_equal:today', 'before_or_equal:or_expire', 'after_or_equal:oa_date_nac'],
             'or_expire' => ['required', 'date'],
             'or_published' => ['required', 'string', 'max:150'],
             'or_published_country' => ['required', 'string', 'max:150'],
             'or_published_city' => [
-                Rule::requiredIf(function () use ($request) {
-                    $country = Str::of((string) $request->input('or_published_country', ''))->ascii()->lower()->value();
-
-                    return $country === 'italia' || str_contains($country, 'italia');
-                }),
+                Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_published_country'))),
                 'nullable',
                 'string',
                 'max:150',
@@ -773,13 +815,43 @@ class SchedinaController extends Controller
             'camere.*.camera_esterna_id' => ['nullable', 'string', 'max:100'],
             'fonte_prenotazione' => ['nullable', 'string', 'max:30'],
             'id_prenotazione_esterna' => ['nullable', 'string', 'max:100'],
-            'istat_tipo_turismo' => ['nullable', 'string', 'max:30'],
-            'istat_mezzo_trasporto' => ['nullable', 'string', 'max:30'],
-            'istat_canale_prenotazione' => ['nullable', 'string', 'max:30'],
-            'istat_titolo_studio' => ['nullable', 'string', 'max:30'],
+            'istat_tipo_turismo' => ['nullable', 'string', 'max:30', $istatRule('istat_tipo_turismo', \App\Services\IstatTabellaAService::TIPO_TURISMO)],
+            'istat_mezzo_trasporto' => ['nullable', 'string', 'max:30', $istatRule('istat_mezzo_trasporto', \App\Services\IstatTabellaAService::MEZZO_TRASPORTO)],
+            'istat_canale_prenotazione' => ['nullable', 'string', 'max:30', $istatRule('istat_canale_prenotazione', \App\Services\IstatTabellaAService::CANALE_PRENOTAZIONE)],
+            'istat_titolo_studio' => ['nullable', 'string', 'max:30', $istatRule('istat_titolo_studio', \App\Services\IstatTabellaAService::TITOLO_STUDIO)],
             'istat_professione' => ['nullable', 'string', 'max:120'],
             'istat_non_turista' => ['nullable', 'boolean'],
-        ], [], $this->schedinaValidationAttributes());
+        ];
+        if (!$complete) {
+            // La bozza ammette dati mancanti, ma non valori che causerebbero errori SQL.
+            foreach ($rules as $field=>$constraints) {
+                $rules[$field] = array_merge(['nullable'], array_values(array_filter($constraints, function ($rule) {
+                    if ($rule instanceof \Closure) return true;
+                    return is_string($rule) && !str_starts_with($rule, 'required')
+                        && !str_starts_with($rule, 'after') && !str_starts_with($rule, 'before');
+                })));
+            }
+        }
+        $request->validate($rules, [], $this->schedinaValidationAttributes());
+        if (!$complete) return;
+        $currentId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
+        app(\App\Services\SchedinaAnagraficaValidation::class)->validate($request, (int) $currentId);
+        app(\App\Services\SchedinaSoggiornoValidation::class)->validate(
+            Struttura::query()->findOrFail($currentId), $request->input('arrive'), $request->input('departure')
+        );
+        app(\App\Services\GruppiStrutturaService::class)->validateSelection([
+            'group' => $request->input('customer_group'), 'subgroup' => $request->input('customer_subgroup'),
+            'subgroup1' => $request->input('customer_subgroup1'),
+        ], (int) $currentId, $existing ? ['group'=>$existing->customer_group, 'subgroup'=>$existing->customer_subgroup, 'subgroup1'=>$existing->customer_subgroup1] : [], 'customer_');
+    }
+
+    private function isItalianCountry($value): bool
+    {
+        if (! is_scalar($value)) return false;
+        return GeoNazione::query()->where('is_italia', true)->where(function ($q) use ($value) {
+            $q->where('nome', $value)->orWhere('codice_iso2', $value);
+            if (ctype_digit((string) $value)) $q->orWhere('id', $value);
+        })->exists();
     }
 
     private function validateArriviModeRequest(Request $request): void
@@ -931,12 +1003,14 @@ class SchedinaController extends Controller
     protected function buildSchedinaPayload(Request $request, array $defaults = []): array
     {
         $inputOr = function (string $key, $default = null) use ($request) {
-            $value = $request->input($key);
-            if ($value === null || $value === '') {
-                return $default;
-            }
+            // Un campo inviato vuoto è una scelta esplicita, non un invito a ricopiarlo dal cliente.
+            return $request->exists($key) ? $request->input($key) : $default;
+        };
 
-            return $value;
+        $consentDate = function (string $field) use ($request, $defaults) {
+            if (!$request->boolean($field, (bool) ($defaults[$field] ?? false))) return null;
+            // Un consenso già presente non viene rinnovato, neppure se manca la data storica.
+            return !empty($defaults[$field]) ? ($defaults[$field.'_at'] ?? null) : now();
         };
 
         return $this->resolveGeoLabelsFromInput([
@@ -951,17 +1025,11 @@ class SchedinaController extends Controller
             'customer_observation' => $inputOr('customer_observation', $defaults['customer_observation'] ?? null),
             'customer_anag_observation' => $inputOr('customer_anag_observation', $defaults['customer_anag_observation'] ?? null),
             'customer_privacy_consent' => (bool) $request->boolean('customer_privacy_consent', (bool) ($defaults['customer_privacy_consent'] ?? false)),
-            'customer_privacy_consent_at' => $request->boolean('customer_privacy_consent', (bool) ($defaults['customer_privacy_consent'] ?? false))
-                ? ($inputOr('customer_privacy_consent_at', $defaults['customer_privacy_consent_at'] ?? now()))
-                : null,
+            'customer_privacy_consent_at' => $consentDate('customer_privacy_consent'),
             'customer_marketing_consent' => (bool) $request->boolean('customer_marketing_consent', (bool) ($defaults['customer_marketing_consent'] ?? false)),
-            'customer_marketing_consent_at' => $request->boolean('customer_marketing_consent', (bool) ($defaults['customer_marketing_consent'] ?? false))
-                ? ($inputOr('customer_marketing_consent_at', $defaults['customer_marketing_consent_at'] ?? now()))
-                : null,
+            'customer_marketing_consent_at' => $consentDate('customer_marketing_consent'),
             'customer_communication_consent' => (bool) $request->boolean('customer_communication_consent', (bool) ($defaults['customer_communication_consent'] ?? false)),
-            'customer_communication_consent_at' => $request->boolean('customer_communication_consent', (bool) ($defaults['customer_communication_consent'] ?? false))
-                ? ($inputOr('customer_communication_consent_at', $defaults['customer_communication_consent_at'] ?? now()))
-                : null,
+            'customer_communication_consent_at' => $consentDate('customer_communication_consent'),
             'type' => $inputOr('type', $defaults['type'] ?? null),
             'name' => $inputOr('name', $defaults['name'] ?? null),
             'surname' => $inputOr('surname', $defaults['surname'] ?? null),
@@ -1053,7 +1121,7 @@ class SchedinaController extends Controller
             return [$currentStrutturaId];
         }
 
-        $ids = Struttura::query()
+        $ids = \App\Support\StrutturaAccess::query(auth()->user())
             ->where('proprietario_id', $struttura->proprietario_id)
             ->pluck('id')
             ->all();
@@ -1401,6 +1469,35 @@ class SchedinaController extends Controller
         $totalPeople = (int) $request->input('cant_people', 0);
         if ($totalPeople <= 0) {
             return;
+        }
+
+        if ($request->routeIs('schedina.store', 'schedina.update')) {
+            $head = collect(TipoAlloggiatoCatalogo::opzioniCapoSchedina())->first(
+                fn ($option) => TipoAlloggiatoCatalogo::valoreCompatibileConOpzione($request->input('relationship'), $option)
+            );
+            if (!$head) throw ValidationException::withMessages(['relationship'=>'Seleziona il tipo alloggiato dal catalogo ufficiale.']);
+            $headCode = (int) $head['codice'];
+            if (($headCode === 16 && $totalPeople !== 1) || ($headCode !== 16 && $totalPeople < 2)) {
+                throw ValidationException::withMessages(['cant_people'=>'Ospite singolo richiede una persona; famiglia e gruppo richiedono il titolare e almeno un componente.']);
+            }
+            $seen = [];
+            $identity = fn ($name,$surname,$birth) => mb_strtolower(trim((string) $name)).'|'.mb_strtolower(trim((string) $surname)).'|'.substr((string) $birth,0,10);
+            $seen[$identity($request->input('name'),$request->input('surname'),$request->input('oa_date_nac'))] = true;
+            foreach ($this->normalizedComponentiRows($request) as $index=>$row) {
+                $option = collect(TipoAlloggiatoCatalogo::opzioniComponente())->first(
+                    fn ($option) => TipoAlloggiatoCatalogo::valoreCompatibileConOpzione($row['relationship'] ?? null, $option)
+                );
+                if (!$option || (int) $option['codice'] !== ($headCode === 17 ? 19 : 20)) {
+                    throw ValidationException::withMessages(["componenti.$index.relationship"=>'Il tipo del componente deve essere coerente con famiglia o gruppo del titolare.']);
+                }
+                $key=$identity($row['name'] ?? null,$row['surname'] ?? null,$row['date_nac'] ?? null);
+                if (isset($seen[$key])) throw ValidationException::withMessages(["componenti.$index.name"=>'La stessa persona è già presente come titolare o componente.']);
+                $seen[$key]=true;
+                if (!empty($row['date_nac']) && Carbon::parse($row['date_nac'])->gt(Carbon::parse($request->input('arrive')))) {
+                    throw ValidationException::withMessages(["componenti.$index.date_nac"=>'La nascita non può essere successiva all’arrivo.']);
+                }
+            }
+
         }
 
         $componentiCount = count($this->normalizedComponentiRows($request));

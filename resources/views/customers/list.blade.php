@@ -154,8 +154,8 @@
                                 <a href="{{ route('customer.print', $customer->id) }}" class="btn btn-soft-secondary btn-sm js-customer-print" title="Stampa scheda cliente" data-popup-title="Scheda cliente">
                                     <i class="ri-printer-line fs-16 align-middle"></i>
                                 </a>
-                                <a href="{{ route('newschedina', ['customer_id' => $customer->id]) }}" class="btn btn-soft-primary btn-sm" title="Apri schedina">
-                                    <i class="ri-file-add-line fs-16 align-middle"></i>
+                                <a href="{{ route('newschedina', ['customer_id' => $customer->id]) }}" class="btn btn-soft-primary btn-sm" title="Crea schedina" aria-label="Crea schedina">
+                                    <i class="ri-file-add-line fs-16 align-middle"></i><span class="ms-1">Crea schedina</span>
                                 </a>
                                 <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-soft-info btn-sm" title="Modifica cliente" aria-label="Modifica cliente">
                                     <i class="ri-edit-line fs-16 align-middle"></i>
