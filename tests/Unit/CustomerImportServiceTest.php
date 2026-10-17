@@ -4,29 +4,19 @@ namespace Tests\Unit;
 
 use App\Models\Struttura;
 use App\Services\CustomerImportService;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class CustomerImportServiceTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        // Lookup vuoti in memoria: nessuna connessione al database di sviluppo.
-        $connection = new class extends \Illuminate\Database\Connection {
-            public function __construct() { parent::__construct(null); }
-            public function select($query, $bindings = [], $useReadPdo = true) { return []; }
-        };
-        $resolver = new \Illuminate\Database\ConnectionResolver(['fixture' => $connection]);
-        $resolver->setDefaultConnection('fixture');
-        \Illuminate\Database\Eloquent\Model::setConnectionResolver($resolver);
-    }
+    use \Illuminate\Foundation\Testing\DatabaseTransactions;
 
     protected function tearDown(): void
     {
-        \Illuminate\Database\Eloquent\Model::unsetConnectionResolver();
         \Carbon\Carbon::setTestNow();
+        parent::tearDown();
     }
 
-    public function test_rows_with_only_name_and_surname_are_importable(): void
+    public function test_rows_with_only_name_and_surname_require_full_wizard_review(): void
     {
         $service = new CustomerImportService();
         $payload = [
@@ -62,7 +52,7 @@ class CustomerImportServiceTest extends TestCase
 
         $status = $this->callEvaluatePayload($service, $payload);
 
-        $this->assertSame(CustomerImportService::STATUS_VALID, $status);
+        $this->assertSame(CustomerImportService::STATUS_NEEDS_REVIEW, $status);
     }
 
     public function test_rows_without_name_or_surname_are_marked_non_importabile(): void

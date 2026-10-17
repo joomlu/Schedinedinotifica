@@ -102,7 +102,7 @@
                             <ul class="list-unstyled small text-muted mb-3">
                                 <li class="mb-2"><i class="ri-check-line text-success me-2"></i>Ripulisce il CAP e completa Comune e Provincia solo con una corrispondenza GEO univoca. L’indirizzo viene conservato.</li>
                                 <li class="mb-2"><i class="ri-check-line text-success me-2"></i>Segnala possibili duplicati nel file, nella struttura e nelle strutture della stessa proprietà.</li>
-                                <li class="mb-2"><i class="ri-alert-line text-warning me-2"></i>La conferma richiede nome e cognome. La validazione completa del wizard cliente non è ancora condivisa: controlla i dati prima di confermare.</li>
+                                <li class="mb-2"><i class="ri-alert-line text-warning me-2"></i>La conferma usa le stesse regole complete del wizard per Ospite, Componente e Richiesta. Correggi le righe segnalate prima di confermare.</li>
                                 <li><i class="ri-check-line text-success me-2"></i>Le righe non valide restano in staging e possono essere scartate.</li>
                             </ul>
                         </details>

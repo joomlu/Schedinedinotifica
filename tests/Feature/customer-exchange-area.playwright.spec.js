@@ -46,14 +46,14 @@ for (const width of [1440, 768, 390]) test(`Area liste import export a ${width}`
  await expect(page.getByRole('navigation',{name:'Liste, import ed export'}).locator('[aria-current="page"]')).toHaveText('Import clienti');
  await expect(page.getByLabel('File clienti',{exact:true})).toBeVisible();
  await page.locator('summary').click();
- await expect(page.getByText('La conferma richiede nome e cognome.',{exact:false})).toBeVisible();
+ await expect(page.getByText('La conferma usa le stesse regole complete del wizard' ,{exact:false})).toBeVisible();
  await page.getByLabel('File clienti',{exact:true}).setInputFiles({name:'non-valido.pdf',mimeType:'application/pdf',buffer:Buffer.from('%PDF-1.4\n1 0 obj\n<< /Type /Catalog >>\nendobj\n%%EOF')});
  await page.getByRole('button',{name:'Carica e prepara verifica'}).click();
  await page.getByRole('button',{name:'Sì, salva',exact:true}).click();
  await page.getByRole('button',{name:'OK',exact:true}).click();
  await expect(page.locator('.invalid-feedback')).toContainText('Il file deve essere un CSV o TXT separato da punto e virgola.');
  await page.getByRole('button',{name:'OK',exact:true}).click();
- await page.getByLabel('File clienti',{exact:true}).setInputFiles({name:'sintetico.csv',mimeType:'text/csv',buffer:Buffer.from('nome;cognome;email\nPersona;BrowserImport;browser@example.test\n;Incompleto;\n')});
+ await page.getByLabel('File clienti',{exact:true}).setInputFiles({name:'sintetico.csv',mimeType:'text/csv',buffer:Buffer.from('nome;cognome;email;tipo_cliente\nPersona;BrowserImport;browser@example.test;Richiesta\n;Incompleto;;Richiesta\n')});
  await page.getByRole('button',{name:'Carica e prepara verifica'}).click();
  await page.getByRole('button',{name:'Sì, salva',exact:true}).click();
  await page.getByRole('button',{name:'OK',exact:true}).click();

@@ -61,6 +61,8 @@ class CustomerImportService
             'data_rilascio',
             'data_scadenza',
             'rilasciato_da',
+            'nazione_rilascio_documento',
+            'comune_rilascio_documento',
             'nome_gruppo',
             'gruppo',
             'subgroup',
@@ -99,6 +101,8 @@ class CustomerImportService
             '2021-05-20',
             '2031-05-20',
             'Comune di Bellaria-Igea Marina',
+            'Italia',
+            'Bellaria-Igea Marina',
             'Gruppo Primavera',
             '',
             '',
@@ -181,6 +185,8 @@ class CustomerImportService
     public function recomputeRow(CustomerImportRow $row): CustomerImportRow
     {
         $batch = $row->batch()->with('struttura')->firstOrFail();
+        $normalized = $this->normalizePayload($row->normalized_payload ?? [], $batch->struttura);
+        $row->update(['normalized_payload' => $normalized]);
         $allRows = $batch->rows()->get(['id', 'normalized_payload']);
 
         $entries = $allRows->map(function (CustomerImportRow $item) {
@@ -192,7 +198,7 @@ class CustomerImportService
 
         $fileSignatureCounts = $this->buildFileSignatureCounts($entries);
         [$status, $notes, $duplicateId, $duplicateScope] = $this->evaluatePayload(
-            $row->normalized_payload ?? [],
+            $normalized,
             $batch->struttura,
             $fileSignatureCounts,
             auth()->user()
@@ -222,6 +228,12 @@ class CustomerImportService
                 ->get();
 
             foreach ($rows as $row) {
+                $normalized = $this->normalizePayload($row->normalized_payload ?? [], $batch->struttura);
+                $errors = $this->validationErrors($normalized, $batch->struttura);
+                if ($errors) {
+                    $row->update(['normalized_payload' => $normalized, 'status' => self::STATUS_NEEDS_REVIEW, 'notes' => $errors]);
+                    continue;
+                }
                 $this->confirmImportedRow($row, false);
                 $imported++;
             }
@@ -261,6 +273,11 @@ class CustomerImportService
                     'cliente' => 'Nome e cognome sono necessari per confermare il cliente.',
                 ]);
             }
+
+            $payload = $this->normalizePayload($payload, $struttura);
+            $errors = $this->validationErrors($payload, $struttura);
+            if ($errors) throw \Illuminate\Validation\ValidationException::withMessages(['cliente' => $errors]);
+            $row->normalized_payload = $payload;
 
             if ($selectedCustomer && (int) $selectedCustomer->struttura_id !== (int) $struttura->id) {
                 throw \Illuminate\Validation\ValidationException::withMessages(['customer_id' => 'Cliente non disponibile nella struttura corrente.']);
@@ -338,6 +355,7 @@ class CustomerImportService
     private function importPayloadFromSchedina(Schedina $schedina): array
     {
         $fields = [
+            'nazione_rilascio_documento' => 'or_published_country', 'comune_rilascio_documento' => 'or_published_city',
             'nome' => 'name', 'cognome' => 'surname', 'sesso' => 'sex',
             'tipo_cliente' => 'customer_type_housed', 'tipo_alloggiato' => 'relationship',
             'gruppo' => 'customer_group', 'subgroup' => 'customer_subgroup', 'subgroup1' => 'customer_subgroup1',
@@ -463,6 +481,10 @@ class CustomerImportService
             'numero_civico_residenza' => 'numero_civico_residenza',
             'numero residenza' => 'numero_civico_residenza',
             'tipo_via_strada' => 'tipo_via_strada',
+            'nazione_rilascio_documento' => 'nazione_rilascio_documento',
+            'country_doc_reg' => 'nazione_rilascio_documento',
+            'comune_rilascio_documento' => 'comune_rilascio_documento',
+            'city_doc_reg' => 'comune_rilascio_documento',
             'nazione_residenza' => 'nazione_residenza',
             'nazione' => 'nazione_residenza',
             'data_nascita' => 'data_nascita',
@@ -553,15 +575,18 @@ class CustomerImportService
         $payload['fax'] = $this->normalizePhone($payload['fax']);
         $payload['tipo_via_strada'] = trim((string) $payload['tipo_via_strada']);
         $payload['email'] = Str::lower($payload['email']);
-        $payload['data_nascita'] = $this->normalizeDate($payload['data_nascita']);
-        $payload['data_rilascio'] = $this->normalizeDate($payload['data_rilascio']);
-        $payload['data_scadenza'] = $this->normalizeDate($payload['data_scadenza'], true);
+        foreach (['data_nascita', 'data_rilascio', 'data_scadenza'] as $field) {
+            $normalized = $this->normalizeDate($payload[$field], $field === 'data_scadenza');
+            $payload[$field] = $normalized !== '' ? $normalized : $payload[$field];
+        }
         $payload['cap_residenza'] = preg_replace('/\D+/', '', $payload['cap_residenza']) ?: '';
         $payload['numero_documento'] = strtoupper(preg_replace('/\s+/', '', $payload['numero_documento']));
 
         $payload['cittadinanza'] = $this->normalizeCittadinanzaValue($payload['cittadinanza']);
         $payload['nazione_residenza'] = $this->normalizeCountryNameValue($payload['nazione_residenza']);
         $payload['nazione_nascita'] = $this->normalizeCountryNameValue($payload['nazione_nascita']);
+        $payload['nazione_rilascio_documento'] = $this->normalizeCountryNameValue($payload['nazione_rilascio_documento']);
+        $payload['comune_rilascio_documento'] = $this->normalizeComuneName($payload['comune_rilascio_documento']);
         $payload['tipo_documento'] = $this->normalizeTipoDocumento($payload['tipo_documento']);
         $payload['rilasciato_da'] = $this->normalizeRilasciatoDa($payload['rilasciato_da']);
 
@@ -569,6 +594,11 @@ class CustomerImportService
         $payload['comune_nascita'] = $this->normalizeComuneName($payload['comune_nascita']);
         $payload['provincia_nascita'] = $this->normalizeProvinciaValue($payload['provincia_nascita']);
 
+        $address = app(CustomerAddressNormalization::class)->normalize([
+            'typeaway' => $payload['tipo_via_strada'], 'address' => $payload['indirizzo_residenza'], 'number' => $payload['numero_civico_residenza'],
+        ], (int) $struttura->id);
+        foreach (['typeaway' => 'tipo_via_strada', 'address' => 'indirizzo_residenza', 'number' => 'numero_civico_residenza'] as $field => $key) $payload[$key] = $address['data'][$field] ?? '';
+        if ($address['errors']) $payload['_address_errors'] = $address['errors'];
         return $payload;
     }
 
@@ -596,7 +626,7 @@ class CustomerImportService
             return [self::STATUS_NON_IMPORTABLE, ['Riga non importabile: Nome e Cognome sono obbligatori per identificare il cliente.'], null, null];
         }
 
-        $missingRequired = $this->missingRequiredFields($payload);
+        $missingRequired = $this->validationErrors($payload, $struttura);
         if (!empty($missingRequired)) {
             $notes[] = 'Dati da completare: ' . implode(', ', $missingRequired) . '.';
         }
@@ -644,17 +674,24 @@ class CustomerImportService
         return [self::STATUS_VALID, $notes, null, null];
     }
 
-    private function missingRequiredFields(array $payload): array
+    private function validationErrors(array $payload, Struttura $struttura): array
     {
-        $labels = [];
-
-        foreach ($labels as $field => $label) {
-            if (trim((string) ($payload[$field] ?? '')) === '') {
-                $missing[] = $label;
+        $payload = array_replace(array_fill_keys($this->templateHeaders(), ''), $payload);
+        $errors = array_values($payload['_address_errors'] ?? []);
+        $data = $this->buildCustomerPayloadForImport($payload, (int) $struttura->id);
+        $data['type_cliente'] = $data['type_housed'];
+        $data['save_mode'] = 'final';
+        $request = \Illuminate\Http\Request::create('/clienti/import', 'POST', $data);
+        foreach ([CustomerInputValidation::class, CustomerWizardValidation::class] as $service) {
+            try {
+                $service === CustomerInputValidation::class
+                    ? app($service)->validate($request, 'final', (int) $struttura->id)
+                    : app($service)->validate($request, null, (int) $struttura->id);
+            } catch (\Illuminate\Validation\ValidationException $error) {
+                foreach ($error->errors() as $messages) foreach ($messages as $message) $errors[] = $message;
             }
         }
-
-        return $missing ?? [];
+        return array_values(array_unique($errors));
     }
 
     private function findExistingCustomerForPayload(array $payload, Struttura $struttura): ?Customers
@@ -905,6 +942,8 @@ class CustomerImportService
             'cellphone' => $payload['cellulare'] ?: null,
             'observation' => $observation !== '' ? $observation : null,
             'country_reg' => $payload['nazione_nascita'] ?: null,
+            'country_doc_reg' => $payload['nazione_rilascio_documento'] ?? null,
+            'city_doc_reg' => $payload['comune_rilascio_documento'] ?? null,
             'city_reg' => $payload['comune_nascita'] ?: null,
             'prov_reg' => $payload['provincia_nascita'] ?: null,
             'ciudadania_reg' => $payload['cittadinanza'] ?: null,
@@ -958,13 +997,7 @@ class CustomerImportService
 
     private function normalizeTipoCliente(string $value): string
     {
-        $key = Str::of($value)->lower()->ascii()->trim()->value();
-
-        return match ($key) {
-            'richiesta' => 'Richiesta',
-            'ospite' => 'Ospite',
-            default => 'Componente',
-        };
+        return app(CustomerInputValidation::class)->normalizeTipoCliente($value);
     }
 
     private function normalizeDate(?string $value, bool $allowFuture = false): string
@@ -1004,6 +1037,7 @@ class CustomerImportService
             return '';
         }
 
+        if (preg_match('/[^0-9+()\s\-\/]/', $value)) return $value;
         $clean = preg_replace('/[^\d\+]/', '', $value) ?: '';
         if ($clean !== '' && !str_starts_with($clean, '+') && str_starts_with($value, '+')) {
             $clean = '+' . $clean;
@@ -1071,6 +1105,7 @@ class CustomerImportService
 
         $nazione = GeoNazione::query()
             ->whereRaw('LOWER(nome) = ?', [Str::lower($value)])
+            ->orWhereRaw('LOWER(codice_iso2) = ?', [Str::lower($value)])
             ->orWhereRaw('LOWER(cittadinanza) = ?', [Str::lower($value)])
             ->first();
 

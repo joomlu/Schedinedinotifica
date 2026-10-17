@@ -1,0 +1,148 @@
+{
+  "stato": "Implementazione filtri194017d e chiusura delle due lacune import VERIFICATE in isolamento; C5/online/monitor nella ricevuta esterna",
+  "PHPUnit": {
+    "test": 94,
+    "asserzioni": 793,
+    "esito": "PASS"
+  },
+  "browser": {
+    "prove": 3,
+    "secondi": 42.0,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "esito": "PASS"
+  },
+  "guardie": {
+    "test": 17,
+    "esito": "PASS"
+  },
+  "override_rifiutati": 23,
+  "build_GEO": "PASS",
+  "schema_modificato": false,
+  "dati_operativi_modificati": false,
+  "invii_enti_mail": false,
+  "validazione": "Regole complete uniche CustomerInputValidation estratte dal wizard e CustomerWizardValidation riutilizzato anche per import con cataloghi per struttura; anteprima e conferma rivalidate",
+  "indirizzo": "Servizio condiviso basato su TipoVia corrente, separazione conservativa e conflitti in revisione; originali conservati",
+  "protetti_modificati_autorizzati": {
+    "app/Services/CustomerWizardValidation.php": "Solo parametro struttura esplicito per lookupTipoVia/RilasciatoDa import; nessuna rimozione di controllo"
+  },
+  "sorgenti_sha256": {
+    "app/Http/Controllers/CustomerController.php": "cc4305122233a73a431bb9e2de8d0714fd3860abcd32a09f9dcb118e734c0303",
+    "app/Http/Controllers/CustomerExportController.php": "ab983f7848c6fbdded70b2b111fe030bf90c0699e0b3be0b75694e917afff45a",
+    "app/Http/Controllers/CustomerImportController.php": "dde210526c3a5275da23948cf11a3e684810c39ba612e31573be61288e32ca34",
+    "app/Services/CustomerAddressNormalization.php": "f0c41cd35c7264b9957ae3160bd4e5e14f3a4e6648b82685a6985470bc5fea8b",
+    "app/Services/CustomerImportService.php": "5ad59a29ae9f00f98e3765565f34f969545eb05e52b4eb3266d1e2107ff52008",
+    "app/Services/CustomerInputValidation.php": "5cb2c06823bcb4b3f8edb977d867790ac06d418c4b25d1fba191281dd51a385c",
+    "app/Services/CustomerWizardValidation.php": "d89336300571606a17d858e1692dd56a205f1bdc94c774d010db61c30aa14ec1",
+    "app/Support/CustomerListReturn.php": "4e71d4bd1e4f17f86f797575e8ecbfa0bb4c1ef99290f1ec684d29a535590604",
+    "resources/views/customers/area-tabs.blade.php": "34d9296c91e6013f88a56820f3e954254cc57c6993bfa0510252be1bfd167d29",
+    "resources/views/customers/edit.blade.php": "e38eb91fc0a177e3b133ee9b0622ecb90f82f7740d333fb57360adc334fcf18e",
+    "resources/views/customers/export.blade.php": "2bf2490095027c43183a0875312d54c11504296d6790851c85a87c1b783b6cd6",
+    "resources/views/customers/import/edit-row.blade.php": "f5a1fdfd336ba8376ebf3481d68ae5d96b0b0b54fb43ee7b9032227ec0fb87c2",
+    "resources/views/customers/import/index.blade.php": "b53d18dc6e212b9027fa91ae18cf2ddd428d54e535705a153e23b59ab204d07a",
+    "resources/views/customers/import/show.blade.php": "d9ed6ad7e47cccff5e4430ca3e583787a509c85512bbaae1a65d8e1e3a1f651e",
+    "resources/views/customers/imported/index.blade.php": "98c854c2516f994615c5c39ed5a2aad6288eaadb8aa2e6a4cfe46faa8c603397",
+    "resources/views/customers/print.blade.php": "295b2aa693c89b86f0ec39adc296ebfa4c39bfe3c912e5eb9e262cce23fa03dc",
+    "resources/views/customers/storico.blade.php": "a077d4dcb5b1a0b8b3eccd820e4bc76428f809b393e6091b652de1d087143401",
+    "resources/views/layouts/sidebar.blade.php": "2b8da1c691fc78a85fc0f13e3e0412a0979c7c58fa7ce4126c8c5b897cee1ebb",
+    "tests/Feature/CustomerExchangeAreaTest.php": "cd4deb6706aa89ca3819b5f555a43479dab10a86cfa70bb8d0ebf8fee0879240",
+    "tests/Feature/CustomerWizardTest.php": "e12454d435dd1db769b25e3d02c49f590475c78a4ad70b6216c6a66883d9fbf2",
+    "tests/Feature/customer-exchange-area.playwright.spec.js": "94d14efc2de1440cdc283a04be6faf8ba4e09db58613b259cc828b65337b6b4d",
+    "tests/Isolation/seed-customer-management.php": "2edf061a4598e47a420193375118381e059d80a36cdceb219d303cffafb1e1c1",
+    "tests/Unit/CustomerImportServiceTest.php": "b32708a640ce571bd5b9f7e3b8f1e8ed94c0f5c81fc1388fd76d10d9190e0ff9"
+  },
+  "protetti_sha256": {
+    "app/Models/Customers.php": "6541f29bb76255d470016815092dcd3f8153f1fe0ee1f827c292abf8e2f86c08",
+    "app/Models/Concerns/AppartieneAStruttura.php": "e8b077d54c5e3f094ca68590f46616088bd4341fcaab3c57aeafc741b3d3b7da",
+    "app/Http/Middleware/RequireAuthorizedStruttura.php": "7f237bc63b8e718601bc7300ae3742905ae8fdfb06cc9ca15e00cef25447f7d3",
+    "app/Services/CustomerWizardValidation.php": "d89336300571606a17d858e1692dd56a205f1bdc94c774d010db61c30aa14ec1",
+    "app/Services/TassaDiSoggiornoService.php": "7dac31ad449660aa8072b2b745107a29d536519cff854a14fd62c6dfa7007913",
+    "config/tassa_profili.php": "79de91ae3464b69526c2a1ca43c8a94e2f7322f6f6d344f423c11d75bdc4be6c",
+    "resources/views/customers/partials/scheda-cliente-scripts.blade.php": "6e7aa02c258f23e71dc3c8e3c6b9b4b1861ad86d6c87254bdea411b874a2c4f0",
+    "tests/Isolation/run.py": "aecb88c1009d6f90974a0706b3c57aff4f53fa92458ee08d6c78e470134c2b8e",
+    "composer.lock": "857bc7f6eb12f80852e49cfa3c46b04db064585175427a17fb176f5c06bef3e4",
+    "package-lock.json": "34873f00e2deeef212b21720a6b93644ce52b9c082eb3b2aab38800776bbc08c",
+    "app/Services/TassaConfig/GestioneProfiliTassa.php": "6fbdd38495dd4931051d5c5fcf1de3793e852e38e2bcafccd5a5ca67a41d62a1",
+    "app/Services/TassaConfig/ProfiloTassaRepository.php": "036e88a7255c30a7632ef84fd78df78b7db44c5e572821a028898d10a36d7235"
+  },
+  "pulizia": {
+    "inventario.json": {
+      "free_before": 1562910720,
+      "count": 24128,
+      "sha256": "cdec73519f9fe0d12591322d03ed0c26ef515f7c9044c31f1006410f58026dd1"
+    },
+    "eliminazione.json": {
+      "free_before": 1562910720,
+      "free_after": 2321367040,
+      "recovered_real": 758456320,
+      "count": 24128,
+      "deleted": true,
+      "sha256": "a22ad66357a7fc9665e017030d9dd0bdd8fe6f7d5e0d813870dc9836745b27fd"
+    },
+    "cow-esito.json": {
+      "free_before": 2306129920,
+      "free_after": 3014664192,
+      "recovered_real": 708534272,
+      "count": 4410,
+      "sha256": "631eebbb96a762b18cef868a5e3014d2765a26c94b7e9f5506d7b1209bad3a72"
+    },
+    "cow-documenti-esito.json": {
+      "free_before": 3008688128,
+      "free_after": 4826664960,
+      "recovered_real": 1817976832,
+      "count": 7164,
+      "applied": 7164,
+      "sha256": "9a5e557b0a8632c107f687bdf2d55791545fa8e85ae59ab0f88bc2f90eced119"
+    }
+  },
+  "cow_postverifica": {
+    "esito": "PASS_COW_CONTENUTI_METADATI",
+    "file": 11574,
+    "nessun_file_eliminato": true
+  },
+  "capienza": {
+    "recupero_precedente_allocato": 681992192,
+    "componenti": {
+      "decoded": 29061120,
+      "extracted": 423358464,
+      "archivio-base-verificato.json": 4096,
+      "dbdata": 206282752,
+      "db-tmp": 0,
+      "db-private.log": 4096,
+      "ridump.sql": 23244800,
+      "custody": 4096,
+      "sign.pub": 4096,
+      "private.php": 4096,
+      "pool.conf": 4096,
+      "fpm.log": 4096,
+      "fpm-console.log": 0,
+      "web": 4096,
+      "closed": 4096,
+      "apache.conf": 4096,
+      "apache-console.log": 0,
+      "apache.log": 4096
+    },
+    "cifrati_base_allocati": 362008576,
+    "liberi_VM": 4821041152,
+    "data_UTC": "2026-10-17T10:33:45.029943+00:00",
+    "margine_prudenziale": 1073741824,
+    "liberi_Mac": 14356172800,
+    "nessuna_rimozione": true,
+    "nessuna_manutenzione": true,
+    "nessun_PREPARE": true,
+    "recupero_storico_completo_prima_pulizia": 939229184,
+    "riserva_nuovo_candidato_per_recupero": 16777216,
+    "fabbisogno_stimato": 3709771776,
+    "limite": "Stima da recupero completo prima della pulizia, mai abbassata per i derivati rimossi;16MiB aggiuntivi per ognuno dei due nuovi recuperi PREPARE/S0, rollback coperto dal checkpoint e monitor nella riserva: non è una misura del picco del nuovo candidato. Nessun riuso dello S0 precedente.",
+    "esito": "PASS_STIMA_CAPIENZA"
+  },
+  "log_sha256": {
+    "regressione-R3.log": "c7c3f0fd43f7ca5cca81084fd22435d6ebd3eefcbbcfabd9d19445cda5e1c3c5",
+    "regressione-R2.log": "82844b0478bb7d76b518004d2309db340b5fc6119d0e55b95296974b8e2c9cea",
+    "regressione-R1.log": "731f94975eb5620ecc1ed020d545d31595106170d5f7d003400ce4b48abb15ca",
+    "regressione-R4.log": "ddccf1517fb64a86ebd52c3ae9a27ef896d27ff78c439addc9b68eead0ba9d11"
+  }
+}

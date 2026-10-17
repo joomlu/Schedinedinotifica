@@ -12,6 +12,13 @@ class CustomerExchangeAreaTest extends TestCase
 {
     use DatabaseTransactions, \Tests\Support\StrutturaFixtures;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        \App\Models\GeoNazione::firstOrCreate(['codice_iso2' => 'IT'], ['nome' => 'Italia', 'cittadinanza' => 'Italiana', 'is_italia' => true]);
+    }
+
+
     public function test_filtri_contatori_export_completo_consensi_e_ritorno(): void
     {
         $s = $this->structureFor(null);
@@ -87,13 +94,52 @@ class CustomerExchangeAreaTest extends TestCase
         foreach (['/clienti/import', '/clienti/import/template', '/clienti/liste-export', '/clienti/liste-export/csv'] as $url) $this->get($url.'?sid='.$other->id)->assertForbidden();
         $this->assertDatabaseHas('customer_import_batches', ['id' => $foreign->id]);
     }
+    public function test_import_condivide_regole_complete_normalizza_indirizzo_e_rivalida_conferma(): void
+    {
+        \Illuminate\Support\Facades\Storage::fake('local');
+        $s = $this->structureFor(null);
+        $other = $this->structureFor(null);
+        $actor = $this->actor('super_admin');
+        $this->actingAs($actor)->withSession(['struttura_corrente_id' => $s->id]);
+        \App\Models\TipoVia::withoutGlobalScopes()->firstOrCreate(['struttura_id' => $s->id, 'nome' => 'Via'], ['abbr' => 'V.', 'attivo' => true]);
+        \App\Models\GeoNazione::firstOrCreate(['codice_iso2' => 'FX'], ['nome' => 'Nazione Sintetica', 'cittadinanza' => 'Sintetica', 'is_italia' => false]);
+        $doc = \App\Models\TipoDocumento::firstOrCreate(['codice' => 'FX'], ['descrizione' => 'Documento Sintetico']);
+        $service = app(\App\Services\CustomerImportService::class);
+        $csv = "nome;cognome;tipo_cliente;email;sesso;data_nascita;nazione_nascita;cittadinanza;indirizzo_residenza\nPersona;Richiesta;Richiesta;persona@example.test;;;;;Via Roma 12/A\nPersona;Componente;Componente;;M;1986-09-12;Nazione Sintetica;Sintetica;\nPersona;Ospite;Ospite;;M;1986-09-12;Nazione Sintetica;Sintetica;\nPersona;Errata;Richiesta;non-email;;;;;Via Roma 22\n";
+        $batch = $service->createBatchFromUploadedCsv(\Illuminate\Http\UploadedFile::fake()->createWithContent('completo.csv', $csv), $s, $actor);
+        $rows = $batch->rows()->orderBy('id')->get();
+        $this->assertSame(['valid', 'valid', 'needs_review', 'needs_review'], $rows->pluck('status')->all(), json_encode($rows->pluck('notes')->all()));
+        $this->assertSame('Via', $rows[0]->normalized_payload['tipo_via_strada']);
+        $this->assertSame('Roma', $rows[0]->normalized_payload['indirizzo_residenza']);
+        $this->assertSame('12/A', $rows[0]->normalized_payload['numero_civico_residenza']);
+        $this->assertSame('Via Roma 12/A', $rows[0]->raw_payload['indirizzo_residenza']);
+        $this->postJson('/clienti/importati/'.$rows[3]->id.'/conferma')->assertUnprocessable();
+        $this->assertNull($rows[3]->fresh()->imported_customer_id);
+        $service->updateRowPayload($rows[2], ['tipo_documento' => $doc->descrizione, 'numero_documento' => 'FX123', 'nazione_rilascio_documento' => 'FX']);
+        $this->assertSame('valid', $rows[2]->fresh()->status);
+        $customer = $service->confirmImportedRow($rows[0]);
+        $this->assertSame('Roma', $customer->address);
+        $this->assertSame('12/A', $customer->number);
+        $this->assertSame('Via', $customer->typeaway);
+        $rows[1]->update(['normalized_payload' => array_replace($rows[1]->normalized_payload, ['sesso' => ''])]);
+        $this->postJson('/clienti/importati/'.$rows[1]->id.'/conferma')->assertUnprocessable();
+        $this->assertNull($rows[1]->fresh()->imported_customer_id);
+        $this->actingAs($this->actor('struttura_user', null, $other->id))->withSession(['struttura_corrente_id' => $other->id]);
+        $this->postJson('/clienti/importati/'.$rows[2]->id.'/conferma')->assertNotFound();
+        $conflict = app(\App\Services\CustomerAddressNormalization::class)->normalize(['address' => 'Via Roma 12', 'number' => '14'], $s->id);
+        $this->assertArrayHasKey('number', $conflict['errors']);
+        $this->assertSame('14', $conflict['data']['number']);
+        $unknown = app(\App\Services\CustomerAddressNormalization::class)->normalize(['address' => 'PercorsoX non catalogato 45'], $other->id);
+        $this->assertSame('PercorsoX non catalogato 45', $unknown['data']['address']);
+    }
+
     public function test_upload_sintetico_staging_duplicati_e_file_non_valido(): void
     {
         \Illuminate\Support\Facades\Storage::fake('local');
         $s = $this->structureFor(null);
         $this->actingAs($this->actor('super_admin'))->withSession(['struttura_corrente_id' => $s->id]);
         $before = Customers::withoutGlobalScopes()->count();
-        $file = \Illuminate\Http\UploadedFile::fake()->createWithContent('sintetico.csv', "nome;cognome;email\nMario;Sintetico;mario@example.test\nMario;Sintetico;mario@example.test\n;Incompleto;\nLucia;Unica;lucia@example.test\n");
+        $file = \Illuminate\Http\UploadedFile::fake()->createWithContent('sintetico.csv', "nome;cognome;email;tipo_cliente\nMario;Sintetico;mario@example.test;Richiesta\nMario;Sintetico;mario@example.test;Richiesta\n;Incompleto;;Richiesta\nLucia;Unica;lucia@example.test;Richiesta\n");
         $this->post('/clienti/import', ['file_import' => $file])->assertRedirect();
         $batch = CustomerImportBatch::where('struttura_id', $s->id)->firstOrFail();
         $this->assertSame(4, $batch->rows()->count());
@@ -120,7 +166,7 @@ class CustomerExchangeAreaTest extends TestCase
         Customers::forceCreate(['struttura_id' => $s->id, 'name' => 'Locale', 'surname' => 'Sintetico', 'email' => 'hotel@example.test']);
         $restricted = $this->actor('struttura_user', null, $s->id);
         $service = app(\App\Services\CustomerImportService::class);
-        $csv = "nome;cognome;email\nPersona;Sintetica;catena@example.test\nLocale;Sintetico;hotel@example.test\n";
+        $csv = "nome;cognome;email;tipo_cliente\nPersona;Sintetica;catena@example.test;Richiesta\nLocale;Sintetico;hotel@example.test;Richiesta\n";
         foreach ([[$restricted, false], [$admin, true]] as [$actor, $visible]) {
             $this->actingAs($actor)->withSession(['struttura_corrente_id' => $s->id]);
             $batch = $service->createBatchFromUploadedCsv(\Illuminate\Http\UploadedFile::fake()->createWithContent('catena.csv', $csv), $s, $actor);
@@ -146,7 +192,8 @@ class CustomerExchangeAreaTest extends TestCase
         $this->assertSame('99991', $rows[0]->normalized_payload['cap_residenza']);
         $this->assertSame($city->nome, $rows[0]->normalized_payload['comune_residenza']);
         $this->assertSame('ZZ', $rows[0]->normalized_payload['provincia_residenza']);
-        $this->assertSame('Via conservata', $rows[0]->normalized_payload['indirizzo_residenza']);
+        $this->assertSame('conservata', $rows[0]->normalized_payload['indirizzo_residenza']);
+        $this->assertSame('Via', $rows[0]->normalized_payload['tipo_via_strada']);
         $this->assertSame('Comune Inventato', $rows[1]->normalized_payload['comune_residenza']);
         $this->assertSame('needs_review', $rows[1]->status);
     }

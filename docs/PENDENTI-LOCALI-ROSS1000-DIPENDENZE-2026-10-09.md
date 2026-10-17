@@ -1,5 +1,10 @@
 # Pendenti locali: Ross1000 e dipendenze - 9 ottobre 2026
 
+## Chiusura corrente filtri/importatore — 17 ottobre
+
+[Consuntivo corrente](CHIUSURA-FILTRI-E-IMPORTATORE-2026-10-17.md). Capienza sbloccata con derivati verificati e CoW conservativo; nessuna perdita diDB/SQL/chiavi/cifrati/upload/evidenze.94test/793asserzioni,3browser e17guardiePASS: validazione completa per tipo condivisa con wizard e normalizzazione via/civico unica chiuse nell’implementazione verificata, non più due mancanze funzionali. Filtri194017d inclusi nello stesso candidato senzaDDL. Pubblicazione/acceptance/monitor eSHA conclusivi soltanto nella nuova ricevuta esterna, senza attribuirePASSstorici al candidato. Fino al nuovoPASS restano fasiPARZIALI. SeChrome mantieneERR_BLOCKED_BY_CLIENT dopofiltrozero, resta il solo download/header effettivo manuale, senza disabilitare protezioni. Nessuna validazione generale oltreBASELINE IN AUDIT.
+
+
 ## Filtri liste — correzione del 17 ottobre
 
 [Consuntivo corrente](SEMPLIFICAZIONE-FILTRI-LISTE-2026-10-17.md). Solo ricerca/tipo, vecchi filtri ignorati anche da query/sessione/ritorni; controlli tenant/consensi conservati.21test/385asserzioni e3browser PASS; rifinitura finale layout eSHA nella ricevuta esterna. **Pubblicazione PARZIALE**: preflight C5 STOP per capienza1578352640byte contro fabbisogno3709771776byte con1GiB margine invariato, arresto primaPREPARE, nessuna nuova manutenzione/DDL. Produzione ancora7991511d finché non distribuita. CSVonlinefiltrozero riproduceChromeERR_BLOCKED_BY_CLIENT, download/header reali pendenti e nuova versione online non verificata. Revisione import conferma validazioni autonome anziché complete del wizard e nessuna normalizzazione autonoma via/civico: due lacune ancora aperte, nessuna riscrittura.

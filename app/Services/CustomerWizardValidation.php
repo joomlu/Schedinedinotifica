@@ -41,14 +41,17 @@ class CustomerWizardValidation
         return $value;
     }
 
-    public function validate(Request $request, ?Customers $old = null): void
+    public function validate(Request $request, ?Customers $old = null, ?int $strutturaId = null): void
     {
         $errors = [];
         $strictTransfer = $request->input('save_mode', $request->input('save_mode_intent')) === 'to_schedina';
-        $lookup = function (string $field, string $model, array $columns, bool $active = false) use ($request, $old, $strictTransfer, &$errors) {
+        $lookup = function (string $field, string $model, array $columns, bool $active = false) use ($request, $old, $strictTransfer, $strutturaId, &$errors) {
             $value = $request->input($field);
             if ($value === null || $value === '') return null;
             $query = $model::query();
+            if ($strutturaId !== null && in_array($model, [TipoVia::class, RilasciatoDa::class], true)) {
+                $query = $model::withoutGlobalScopes()->where('struttura_id', $strutturaId);
+            }
             $query->where(function ($q) use ($value, $columns) {
                 if (ctype_digit((string) $value)) $q->where('id', $value);
                 else foreach ($columns as $column) $q->orWhere($column, $value);

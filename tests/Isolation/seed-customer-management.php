@@ -1,5 +1,6 @@
 <?php
 require __DIR__.'/seed-customer-wizard.php';
+\App\Models\GeoNazione::firstOrCreate(['codice_iso2' => 'IT'], ['nome' => 'Italia', 'cittadinanza' => 'Italiana', 'is_italia' => true]);
 $admin = \Tests\Support\GeoLogoFixtures::user('admin');
 $owner = \App\Models\Proprietario::create(['admin_id' => $admin->id, 'nome' => 'Proprietario Browser', 'attivo' => true]);
 $s->update(['proprietario_id' => $owner->id]);

@@ -248,8 +248,10 @@ class CustomerWizardTest extends TestCase
         $marketing = Customers::create($base + ['surname' => 'Marketing', 'marketing_consent' => true, 'communication_consent' => false]);
         $communication = Customers::create($base + ['surname' => 'Comunicazioni', 'marketing_consent' => false, 'communication_consent' => true]);
         Customers::create($base + ['surname' => 'Nessuno', 'marketing_consent' => false, 'communication_consent' => false]);
-        $this->get('/clienti/liste-export?channel=email')->assertOk()->assertViewHas('customers', fn ($p) => $p->total() === 1 && $p->first()->id === $marketing->id);
-        $this->get('/clienti/liste-export?channel=whatsapp')->assertOk()->assertViewHas('customers', fn ($p) => $p->total() === 1 && $p->first()->id === $communication->id);
+        $this->get('/clienti/liste-export?channel=email')->assertOk()->assertViewHas('customers', fn ($p) => $p->total() === 3);
+        $this->get('/clienti/liste-export?channel=whatsapp')->assertOk()->assertViewHas('customers', fn ($p) => $p->total() === 3);
+        $this->get('/clienti/liste-export/csv?mode=email')->assertOk()->assertSee('Marketing')->assertDontSee('Comunicazioni')->assertDontSee('Nessuno');
+        $this->get('/clienti/liste-export/csv?mode=whatsapp')->assertOk()->assertSee('Comunicazioni')->assertDontSee('Marketing')->assertDontSee('Nessuno');
     }
 
     public function test_limiti_database_campi_opzionali_rifiutati_senza_record_parziali(): void
