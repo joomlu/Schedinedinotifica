@@ -17,6 +17,10 @@ Pulizia autorizzata:12.064 derivati autenticati rimossi e79 pack identici conser
 
 **Ripresa:** risolvere la capienza con intervento autorizzato, rileggere Git/produzione, nuovi preflight e kitC5/PREPARE/S0/recupero, pubblicazione, verifica online non distruttiva e monitor. Nessun vecchio checkpoint o gate ridotto. Lavoro estraneo preservato, BASELINE IN AUDIT generale invariata.
 
+
+**Ripresa ore08:31 del18/10:** candidato945ef553 locale/GitHub confermato, produzione dbee302 pulita/FPMattivo/login200/TLS0 e deltaFPM invariato. Rimossi soltanto18 file cacheDNF ricostruibili dopo assenza utilizzatori verificata; Mac/cache condivise, copieCoW e tutti i protetti preservati. Nuovo controllo preliminare1.735.938.048 contro3.709.771.776 byte: deficit1.973.833.728, STOP prima del preflight integrale/PREPARE/S0/RUN/monitor; nessun nuovo deploy/test Laravel. Misure finali VM1.735.966.720/Mac1.409.339.392 byte, servizio interno attivo, XFS/SELinuxEnforcing. [Rapporto aggiornato](../COMPLETAMENTO-NUOVA-SCHEDINA-2026-10-18.md#ripresa-della-chiusura--18-ottobre-2026-ore-0831-italiane): proposta non eseguita32→36GiB, prima almeno8GiB fisici liberiMac (deficit7.180.595.200) e backup cifrato verificabile su destinazione con40GiB liberi; nessuna destinazione esterna montata osservata. Nessun ampliamento/backup nuovo dichiarato, soglieC5 invariate. **PARZIALE per capienza, baseline produttiva preservata.**
+
+
 ## Schedine pubblicato e verificato — 18 ottobre 2026
 
 [Consuntivo](../NAVIGAZIONE-SCHEDINE-2026-10-17.md#pubblicazione-effettiva--18-ottobre-2026) e [prove](../evidenze/navigazione-schedine-2026-10-17/rilascio.json). Pubblicato **dbee3028494eca70b99c5b77f06d07c95688689b**: cinque sole viste, stile Clienti riutilizzato, tre sezioni e recupero etichettato; controller, funzioni, route, validazioni e schema invariati. 39 test / 206 asserzioni, tre prove browser, 17 guardie, 23 rifiuti di override e build/GEO PASS.

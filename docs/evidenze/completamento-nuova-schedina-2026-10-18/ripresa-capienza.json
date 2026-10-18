@@ -1,0 +1,30 @@
+{
+  "data_UTC": "2026-10-18T06:31:29+00:00",
+  "candidato": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+  "produzione": "dbee3028494eca70b99c5b77f06d07c95688689b",
+  "produzione_pulita": true,
+  "FPM": "active",
+  "login_HTTP": 200,
+  "TLS": 0,
+  "VM_iniziale": 1663598592,
+  "Mac_iniziale": 1215889408,
+  "VM_finale": 1735966720,
+  "Mac_finale": 1409339392,
+  "C5_richiesti": 3709771776,
+  "C5_liberi_al_controllo": 1735938048,
+  "deficit": 1973833728,
+  "pulizia": "dnf clean all:18 file, nessun utilizzatore cache osservato",
+  "PREPARE": false,
+  "S0": false,
+  "deploy": false,
+  "monitor_candidato": false,
+  "ampliamento": false,
+  "backup_nuovo": false,
+  "esito": "STOP_CAPIENZA_PRIMA_PREPARE",
+  "proposta_VM_GiB": [
+    32,
+    36
+  ],
+  "proposta_Mac_liberi": 8589934592,
+  "proposta_backup_esterno_liberi": 42949672960
+}
