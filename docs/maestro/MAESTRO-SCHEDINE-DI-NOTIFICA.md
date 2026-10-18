@@ -17,6 +17,9 @@ C5 finale PREPARE/recupero indipendentePASS, S0fresco**210.631 s**, RUN**288.339
 Monitor dopo pulizia**917.694 s/31campioni/279 sonde PASS**, zero nuovi erroriLaravel dalT0finale e journalFPM, log storici conservati. SHA263274f/Gitpulito/FPM attivo / barriere assenti riconfermati. Capacità finale Mac7860310016/VM1460969472/Extra689573548032byte; VM36GiB/XFS37290283008/SELinuxEnforcing, riserva1GiB e40GiBExtra conformi. Nessun pendente Arrivi; audit generale non dichiarato chiuso.
 
 
+SHA documentale delle evidenze complete: **`14e92767ea58f679b03904753b31f316cab979c0`** ([GitHub](https://github.com/joomlu/Schedinedinotifica/commit/14e92767ea58f679b03904753b31f316cab979c0)); applicativo online **`263274f48614e9215acec91da697c384e9600dfc`**. Questo aggiornamento successivo registra soltanto il riferimento alla chiusura documentale, senza modifiche applicative.
+
+
 ## Pubblicazione con Extra — 18 ottobre 2026
 
 **Candidato `945ef553aab29ac437ff194f7cfad081fb7ab7c7` pubblicato e verificato online; monitor conclusivo PASS. BASELINE IN AUDIT generale invariata.** [Rapporto](../PUBBLICAZIONE-EXTRA-2026-10-18.md), [ricevuta C5](../evidenze/pubblicazione-extra-2026-10-18/rilascio.json). Questa esecuzione supera lo STOP per capacità descritto nella sezione storica successiva. Autorizzazione esplicita corrente per backup/Extra/capacità/VM32→36GiB, C5 e prove sintetiche; nessun invio enti/email.
