@@ -166,6 +166,17 @@ class ArriviLifecycleTest extends TestCase
         $this->post(route('arrivals.destroy',$restored->id))->assertNotFound();$this->assertTrue(Schedina::effettive()->whereKey($restored->id)->exists());
     }
 
+    public function test_elenco_arrivi_scaduti_non_inserisce_html_negli_attributi_dati(): void
+    {
+        [$s,$p]=$this->context();$r=$this->arrival(array_replace($p,['departure'=>'2026-03-14']));
+        $response=$this->get(route('arrivals',['q'=>$r->surname]));$response->assertOk()->assertSee('Partenza da correggere');
+        $dom=new \DOMDocument();$prior=libxml_use_internal_errors(true);$dom->loadHTML($response->getContent());libxml_clear_errors();libxml_use_internal_errors($prior);
+        $xpath=new \DOMXPath($dom);$rows=$xpath->query('//tr[@data-partenza]');$this->assertSame(1,$rows->length);
+        $this->assertSame('14/3/26',$rows->item(0)->getAttribute('data-partenza'));
+        $search=$xpath->query('//div[contains(@class,"crud-table-search-wrap")]')->item(0);
+        $this->assertStringContainsString('width: 100%; max-width: 360px;',$search->getAttribute('style'));
+    }
+
     public function test_ripristino_con_indicatori_discordanti_preserva_arrivi(): void
     {
         [$s,$p]=$this->context();$r=$this->arrival($p);

@@ -78,7 +78,7 @@
                             data-nome="{{ $arrival->name }}"
                             data-cognome="{{ $arrival->surname }}"
                             data-arrivo="{{ $formatShortDate($arrival->arrive) }}"
-                            data-partenza="{{ $formatShortDate($arrival->departure) }} @if($arrival->departure && $arrival->departure <= \App\Support\ArriviDay::today())<span class="badge bg-warning text-dark">Partenza da correggere</span>@endif"
+                            data-partenza="{{ $formatShortDate($arrival->departure) }}"
                             data-nazione="{{ $arrival->oa_country }}"
                             data-citta="{{ $arrival->oa_city }}"
                             data-persone="{{ $arrival->cant_people }}"

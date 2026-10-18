@@ -1,6 +1,6 @@
 # Schedine Arrivi — 18 ottobre 2026
 
-**Implementazione e collaudo isolato PASS; pubblicazione non ancora eseguita. BASELINE IN AUDIT generale invariata.** Ambito autorizzato: completare Arrivi, verificarlo, fare commit/push e pubblicarlo mediante C5; soltanto dati sintetici per le scritture di prova, nessun invio agli enti o email.
+**Arrivi pubblicato nella revisione intermedia0e0c33c; correzione responsive finale collaudata, nuova pubblicazione e monitor ancora da completare. BASELINE IN AUDIT generale invariata.** Ambito autorizzato: completare Arrivi, verificarlo, fare commit/push e pubblicarlo mediante C5; soltanto dati sintetici per le scritture di prova, nessun invio agli enti o email.
 
 ## Stato iniziale riletto
 
@@ -51,3 +51,9 @@ Conservati182pack Git identici in recuperi conclusi mediante CoW, dopo digest/ma
 Preflight di capacità superato; C5 previsto con nuovo kit riferito al candidato corrente, logica diagnostica già pubblicata invariata, nuovo PREPARE e recupero indipendente, S0 fresco, guardiano, rollback coordinato e monitor completo. Nessuna DDL prevista. Il backup cifrato offline su Extra della pubblicazione precedente è conservato; non viene presentato come nuovo S0 produttivo. Backup, capacità definitiva, pubblicazione, accettazione online e monitor di questa attività sono ancora pendenti.
 
 Ultimo controllo prima PREPARE: il ripristino dal cestino riconosce Arrivi anche con flag/circuito discordanti, senza promozione implicita. Regressione isolata R15 PASS25test/233asserzioni; sola modifica applicativa rispetto a8a, suite precedenti non sommate.
+
+## Verifica online intermedia e correzione responsive
+
+C5 intermedio0e0c33c accettato: S0152,130s, RUN232,652s, zeroDDL, DB identicoS0 prima fixture,75persistenti/chiave/env/upload/loghi preservati,156migrazioni/64tabelle e9sondePASS. Primo RUN recuperato primaexecute: causa precisa singolo log Laravel uid0/gid0; ripristinata sola proprietà1002/489 con SHA/inode/mtime/mode invariati. Guardiani entrambi inattivi/disabilitati, storia conservata. Nessuna soglia abbassata. Catena9cifrati/426296560byte copiata suExtra e riletta, chiave separata nella custodiaVM.
+
+Online: parcheggio con partenza scaduta, annullamento senzaPOST, esclusioni effettive dai servizi Questura/ISTAT/Presenze e Tassa zero, conversione esplicita con stessoID/componente/cliente, retry e scheda vecchia409 verificati. QA390px rileva ricerca dell’elenco più larga11px: corretti min-width del contenitore flessibile e dimensioni della ricerca nel componente CRUD condiviso, senza logica nuova; rimosso HTML improprio dall’attributo data-partenza della sola vistaArrivi. Backend26test/241asserzioni e11browser PASS sulla soluzione finale, inclusi elenco filtrato scaduto ed Elenco/Bozze a1440/768/390. Diagnostici del selettore cliente non confermato e del testo alert errato nello script conservati. Fixture intermedie rimosse con HMAC di tutte le righe preesistenti identici; nessunrestore. Nuovo candidato soltanto Blade/test; controller/modelli/servizi/route invariati rispetto0e.

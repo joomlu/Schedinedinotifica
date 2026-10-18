@@ -26,12 +26,13 @@
   },
   "browser_finale": {
     "esito": "PASS",
-    "test": 10,
+    "test": 11,
     "viewport": [
       1440,
       768,
       390
-    ]
+    ],
+    "nuova_regressione": "Elenco Arrivi filtrato con partenza scaduta, attributo DOM privo di HTML e ricerca senza overflow anche in Elenco/Bozze"
   },
   "guardie": 17,
   "override_respinti": 23,
@@ -57,15 +58,16 @@
     "app/Services/QuesturaTxtExportService.php": "fe7bb7e26e1769b901cb66b90e7bdf8b8aa0b1a52ff81c337095979d95cd923d",
     "app/Services/TassaDiSoggiornoService.php": "a1f3857a56ddd5f123c190e6f32ca306994503dcf56c1a677ada564ed440dac4",
     "app/Support/ArriviDay.php": "02870a4cccf11fcb59dd1e8d632c829dbda7e2ec535aebc5be7445fba7b8205f",
-    "resources/views/arrivals/list.blade.php": "44a32c390b09fd9190716558910df28cd45be8b0bd788d26f0091cb3160df070",
+    "resources/views/arrivals/list.blade.php": "5c179bca0a7a2db5ab72ff3cea270624879b2803508bdd15c05b076f2a8f56e6",
+    "resources/views/components/crud-table.blade.php": "74ce8e0d61de8b3580f7efe89fa28008348e01f13a7ab0973de15b8516072f0f",
     "resources/views/schedina/partials/arrivi-clock.blade.php": "8a7715fd7e2d2d6932a6d2b352aba76996e86c51713354052c7e23f7a35f2b5a",
     "resources/views/schedina/partials/form.blade.php": "498d26ecc38729d8a3bdc19caadce289aed1a4886959218f3afadfeccfcf5026",
     "resources/views/schedina/partials/save-actions.blade.php": "cd4cd64900a1bdfcc94e80e322365766428b6fcf205737f736a393071d8ac029",
     "resources/views/schedina/partials/scripts.blade.php": "6d511e8c178650a73d700daddeb749125baf85ef37e471ea8fef6c0bd5920df7",
     "routes/web.php": "1f206f531e0d86fbda1a40eb0ed5b123a2a1f3ef5af30e5e929dd025fe7a9abb",
     "tests/Feature/ArriviEsenzioniTest.php": "d685d9ac0fec82b9abf8c62e64f5d3d23cbd886656bd2497cd4a83c87fab6f63",
-    "tests/Feature/ArriviLifecycleTest.php": "526b98b696ea179bd0706b60ed9397a7f2544a6bb30a9a668f5f4444a703936c",
-    "tests/Feature/arrivi-lifecycle.playwright.spec.js": "dc4fcf318b4994d9d7072891e25bb4e188582043de5835e2839e6bde90e7ff2f"
+    "tests/Feature/ArriviLifecycleTest.php": "a62eac4cbe2da352c6937ceacfdc22bd0ca4f91c3aa700c569758d21100d2755",
+    "tests/Feature/arrivi-lifecycle.playwright.spec.js": "e7c979254bc7604d3f4a6f2241e238a61ab00c621b362ff1d20dd031e7512b7c"
   },
   "protetti_sha256": {
     "composer.json": "01f998ab9b65ad9cf210f574b77940c2d5684a295a84fe0c7cf7cd1c41783c56",
@@ -92,7 +94,10 @@
     "prova-R14.log": "22f8ecebf74938f7c4f9984e18489657155f636de7607549a15544f0eb4192ac",
     "prova-R9.log": "73357128cd9a645ca8d3163e19c67efd48e8c16ba5a74a941da63d591f0311db",
     "prova-R8.log": "50b5b130a966e7dc666f7f88cb36391b176864abeb563fb1ad8d6026fbed869f",
-    "prova-R15.log": "464d992f1d988c9192a080d8ca7d8cf18a763273a35eaa5408f27c1b4c2e1d2a"
+    "prova-R15.log": "464d992f1d988c9192a080d8ca7d8cf18a763273a35eaa5408f27c1b4c2e1d2a",
+    "prova-R16.log": "854d40ca49357fb9756ed98ff1ee582e903645693eaf8ce7f941a583da4d43d8",
+    "prova-R17.log": "207c27f247830917c96e08daedb236b4c5d18b438a69eda9880e42ced8fb8333",
+    "prova-R18.log": "711629d9e3c3c656afd56905a1622574da9d6ac3bd18f44cb65cbcdbe61c2ce0"
   },
   "PHP_finale_messaggi": {
     "esito": "PASS",
@@ -106,5 +111,17 @@
     "asserzioni": 233,
     "suite_non_sommate": true,
     "ambito": "Ultima sola modifica CestinoService: flag Arrivi prevalente nel ripristino, anche circuito discordante; nuova regressione. Nessun altro sorgente applicativo cambiato rispetto alla revisione8a."
+  },
+  "PHP_finale_responsive": {
+    "esito": "PASS",
+    "test": 26,
+    "asserzioni": 241,
+    "suite_non_sommate": true
+  },
+  "pubblicazione_intermedia": {
+    "SHA": "0e0c33cad30a7620180b1d045e65cfd0e52083d5",
+    "C5": "PASS",
+    "monitor_finale": "non ancora eseguito: difetto mobile emerso nella QA, corretto prima della chiusura",
+    "fixture_pulizia": "PASS, HMAC righe preesistenti identici"
   }
 }

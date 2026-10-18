@@ -33,12 +33,12 @@
             </div>
 
             <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
-                <div class="d-flex flex-wrap align-items-start gap-2 flex-grow-1">
+                <div class="d-flex flex-wrap align-items-start gap-2 flex-grow-1" style="min-width: 0;">
                     @isset($topbarLeft)
                         <div class="d-flex align-items-center">{{ $topbarLeft }}</div>
                     @endisset
 
-                    <div class="crud-table-search-wrap" style="width: 360px; max-width: 100%;">
+                    <div class="crud-table-search-wrap" style="width: 100%; max-width: 360px;">
                         <div class="input-group position-relative">
                             <span class="input-group-text bg-light border-end-0">
                                 <i class="ri-search-line"></i>

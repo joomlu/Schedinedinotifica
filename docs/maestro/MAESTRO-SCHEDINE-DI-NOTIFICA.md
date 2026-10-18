@@ -17,6 +17,8 @@ Extra realmente /Volumes/extra/APFS/UUID488ACB8D-6B99-49AE-8A3C-175FD66F5466, sc
 
 Ripristino con indicatori discordanti verificato: flag Arrivi prevalente anche nel cestino, nessuna promozione implicita; R15 isolato25test/233asserzioniPASS, unica modifica applicativa successiva.
 
+Pubblicazione intermedia0e0c33c C5PASS (S0152,130/RUN232,652s, zeroDDL), integrità onlinePASS; primoSTOP primaexecute per proprietà di un solo log, corretto senza perdita, recupero e guardiani conclusi. QA390px ha rilevato11px di overflow nella ricerca: geometria del componente CRUD corretta e attributo data-partenza solo testo. Soli Blade/test modificati,26test/241asserzioni+11browserPASS; fixture intermedie rimosse/HMAC preesistenti identici. Nuovo C5 e monitor finale ancora pendenti.
+
 
 ## Pubblicazione con Extra — 18 ottobre 2026
 
