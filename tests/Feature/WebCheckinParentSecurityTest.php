@@ -12,6 +12,7 @@ use Tests\TestCase;
 
 class WebCheckinParentSecurityTest extends TestCase
 {
+    use \Tests\Support\WebCheckinPublicInput;
     use RefreshDatabase, StrutturaFixtures;
 
     protected function setUp(): void
@@ -107,13 +108,14 @@ class WebCheckinParentSecurityTest extends TestCase
         $a = $this->structureFor(null);
         $this->actingAs($this->actor('struttura_user', null, $a->id));
         $data = ['numero_prenotazione' => 'SINTETICA', 'email' => 'test@example.invalid', 'nome_referente' => 'Sintetico', 'arrivo' => '2026-06-01', 'partenza' => '2026-06-02', 'quantita_persone' => 1];
-        $this->post('/web-checkin', $data)->assertSessionHasNoErrors()->assertRedirect();
+        $this->postWeb('/web-checkin', $data)->assertSessionHasNoErrors()->assertRedirect();
         $r = WebCheckinRichiesta::sole();
         $p = Schedina::findOrFail($r->schedina_id);
         $this->assertSame($a->id, (int) $p->struttura_id);
         $this->get('/web-checkin/'.$r->id.'/modifica')->assertOk();
         $data['nome_referente'] = 'Sintetico aggiornato';
-        $this->put('/web-checkin/'.$r->id, $data)->assertSessionHasNoErrors()->assertRedirect();
-        $this->assertSame('Sintetico aggiornato', $p->fresh()->name);
+        $this->putWeb('/web-checkin/'.$r->id, $data)->assertSessionHasNoErrors()->assertRedirect();
+        $this->assertSame('Sintetico aggiornato', $r->fresh()->nome_referente);
+        $this->assertNull($p->fresh()->name);
     }
 }

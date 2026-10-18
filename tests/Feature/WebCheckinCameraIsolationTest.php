@@ -13,6 +13,7 @@ use Tests\TestCase;
 
 class WebCheckinCameraIsolationTest extends TestCase
 {
+    use \Tests\Support\WebCheckinPublicInput;
     use RefreshDatabase, StrutturaFixtures;
 
     protected function setUp(): void
@@ -66,7 +67,7 @@ class WebCheckinCameraIsolationTest extends TestCase
         }
         $url = $mode === 'completo' ? '/checkin/'.$r->token : '/w/'.$r->codice.'-'.substr($r->token, 0, 8);
         foreach (['12', '12', '13'] as $numero) {
-            $this->post($url, $this->payload([['numero_camera' => $numero, 'posti_letto' => 1]]))->assertOk();
+            $this->postWeb($url, $this->payload([['numero_camera' => $numero, 'posti_letto' => 1]]))->assertOk();
             $this->assertSame([$numero], DB::table('schedina_camere')->where('schedina_id', $p->id)->pluck('numero_camera')->all());
             $this->get('/checkin/'.$r->token)->assertOk()->assertViewHas('schedina', fn ($v) => $v->camere->count() === 1 && $v->camere->first()->numero_camera === $numero);
         }
@@ -76,9 +77,9 @@ class WebCheckinCameraIsolationTest extends TestCase
     {
         [$s, $p, $r] = $this->prenotazione('MULTIPLE');
         $this->camera($p, '11');
-        $this->post('/checkin/'.$r->token, $this->payload([['numero_camera' => '12'], ['numero_camera' => '13']]))->assertOk();
+        $this->postWeb('/checkin/'.$r->token, $this->payload([['numero_camera' => '12'], ['numero_camera' => '13']]))->assertOk();
         $this->assertSame(['12', '13'], DB::table('schedina_camere')->where('schedina_id', $p->id)->orderBy('id')->pluck('numero_camera')->all());
-        $this->post('/checkin/'.$r->token, $this->payload())->assertOk();
+        $this->postWeb('/checkin/'.$r->token, $this->payload())->assertOk();
         $this->assertSame(0, DB::table('schedina_camere')->where('schedina_id', $p->id)->count());
     }
 
@@ -93,7 +94,7 @@ class WebCheckinCameraIsolationTest extends TestCase
         $other = DB::table('schedina_camere')->where('schedina_id', '!=', $p->id)->orderBy('id')->get()->toJson();
         $this->actingAs($this->actor('struttura_user', null, $b->id));
         $this->get('/checkin/'.$r->token)->assertOk()->assertViewHas('schedina', fn ($v) => $v->camere->pluck('numero_camera')->all() === ['11'])->assertDontSee('SEGRETA-B')->assertDontSee('ALTRA-A');
-        $this->post('/checkin/'.$r->token, $this->payload([['id' => 999, 'schedina_id' => $pb->id, 'struttura_id' => $b->id, 'numero_camera' => '12']]))->assertOk();
+        $this->postWeb('/checkin/'.$r->token, $this->payload([['id' => 999, 'schedina_id' => $pb->id, 'struttura_id' => $b->id, 'numero_camera' => '12']]))->assertOk();
         $row = DB::table('schedina_camere')->where('schedina_id', $p->id)->first();
         $this->assertSame((int) $a->id, (int) $row->struttura_id);
         $this->assertSame('12', $row->numero_camera);
@@ -108,7 +109,7 @@ class WebCheckinCameraIsolationTest extends TestCase
         DB::table('schedina_camere')->insert(['struttura_id' => $b->id, 'schedina_id' => $p->id, 'numero_camera' => 'ESTERNA']);
         $before = DB::table('schedina_camere')->where('struttura_id', $b->id)->get()->toJson();
         $this->get('/checkin/'.$r->token)->assertOk()->assertViewHas('schedina', fn ($v) => $v->camere->isEmpty());
-        $this->post('/checkin/'.$r->token, $this->payload([['numero_camera' => '12']]))->assertOk();
+        $this->postWeb('/checkin/'.$r->token, $this->payload([['numero_camera' => '12']]))->assertOk();
         $this->assertSame($before, DB::table('schedina_camere')->where('struttura_id', $b->id)->get()->toJson());
         $this->assertSame(1, DB::table('schedina_camere')->where('struttura_id', $a->id)->where('schedina_id', $p->id)->count());
     }
@@ -122,7 +123,7 @@ class WebCheckinCameraIsolationTest extends TestCase
         Event::listen($event, fn () => throw new \RuntimeException('ERRORE-SINTETICO-A11'));
         $this->withoutExceptionHandling();
         try {
-            $this->post('/checkin/'.$r->token, $this->payload([['numero_camera' => '12']]));
+            $this->postWeb('/checkin/'.$r->token, $this->payload([['numero_camera' => '12']]));
             $this->fail('Errore non propagato');
         } catch (\RuntimeException $e) {
             $this->assertSame('ERRORE-SINTETICO-A11', $e->getMessage());
@@ -139,9 +140,9 @@ class WebCheckinCameraIsolationTest extends TestCase
         $before = $this->stato();
         $payload = $this->payload([['numero_camera' => '12']]);
         $payload['componenti'] = [['id' => 999999, 'name' => 'Sintetico', 'surname' => 'Audit', 'sex' => 'F', 'date_nac' => '1980-01-01', 'relationship' => 'FAMILIARE']];
-        $this->postJson('/checkin/'.$r->token, $payload)->assertUnprocessable();
+        $this->postJsonWeb('/checkin/'.$r->token, $payload)->assertUnprocessable();
         $this->assertSame($before, $this->stato());
-        $this->post('/checkin/token-inesistente', $this->payload())->assertNotFound();
+        $this->postWeb('/checkin/token-inesistente', $this->payload())->assertNotFound();
         $this->assertSame($before, $this->stato());
     }
 }

@@ -14,6 +14,7 @@ use Tests\TestCase;
 
 class WebCheckinGroupAtomicityTest extends TestCase
 {
+    use \Tests\Support\WebCheckinPublicInput;
     use RefreshDatabase, StrutturaFixtures;
 
     protected function setUp(): void
@@ -64,7 +65,7 @@ class WebCheckinGroupAtomicityTest extends TestCase
     public function test_salvataggio_e_riapertura_componenti_senza_duplicati(string $mode): void
     {
         [$s, $p, $c, $r] = $this->gruppo('GRUPPOA');
-        $this->post($this->url($r, $mode), $this->payload($c))->assertOk()->assertViewHas('componentiCount', 1);
+        $this->postWeb($this->url($r, $mode), $this->payload($c))->assertOk()->assertViewHas('componentiCount', 1);
         $this->assertSame('Principale aggiornato', DB::table('schedina')->where('id', $p->id)->value('name'));
         $this->assertSame('Componente aggiornato', DB::table('componenti')->where('id', $c->id)->value('name'));
         $this->assertSame(1, DB::table('componenti')->where('schedina_id', $p->id)->count());
@@ -78,7 +79,7 @@ class WebCheckinGroupAtomicityTest extends TestCase
         [$a, $p, $c, $r] = $this->gruppo('GRUPPOA');
         [$b, $pb, $cb, $rb] = $this->gruppo('GRUPPOB');
         $before = $this->stato();
-        $this->postJson($this->url($r, $mode), $this->payload($cb))->assertUnprocessable()->assertJsonValidationErrors('componenti.0.id');
+        $this->postJsonWeb($this->url($r, $mode), $this->payload($cb))->assertUnprocessable()->assertJsonValidationErrors('componenti.0.id');
         $this->assertSame($before, $this->stato());
     }
 
@@ -89,7 +90,7 @@ class WebCheckinGroupAtomicityTest extends TestCase
         $other = DB::table('componenti')->where('id', $cb->id)->first();
         $this->actingAs($this->actor('struttura_user', null, $b->id));
         $this->get('/checkin/'.$r->token)->assertOk()->assertSee('Componente GRUPPOA')->assertDontSee('Componente GRUPPOB');
-        $this->post('/checkin/'.$r->token, $this->payload($c))->assertOk();
+        $this->postWeb('/checkin/'.$r->token, $this->payload($c))->assertOk();
         $this->assertEquals($other, DB::table('componenti')->where('id', $cb->id)->first());
     }
 
@@ -101,7 +102,7 @@ class WebCheckinGroupAtomicityTest extends TestCase
         Event::listen($event, fn () => throw new \RuntimeException('ERRORE-SINTETICO-PERSISTENZA'));
         $this->withoutExceptionHandling();
         try {
-            $this->post('/checkin/'.$r->token, $this->payload($c));
+            $this->postWeb('/checkin/'.$r->token, $this->payload($c));
             $this->fail('Errore sintetico non propagato');
         } catch (\RuntimeException $e) {
             $this->assertSame('ERRORE-SINTETICO-PERSISTENZA', $e->getMessage());
@@ -116,7 +117,7 @@ class WebCheckinGroupAtomicityTest extends TestCase
         [$s, $p, $c, $r] = $this->gruppo('GRUPPOA');
         $r->update(['stato' => 'convertito']);
         $before = $this->stato();
-        $this->post('/checkin/'.$r->token, $this->payload($c))->assertOk()->assertContent('Check-in recibido');
+        $this->postWeb('/checkin/'.$r->token, $this->payload($c))->assertOk()->assertContent('Check-in recibido');
         $this->assertSame($before, $this->stato());
     }
 }

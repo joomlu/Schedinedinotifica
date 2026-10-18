@@ -13,6 +13,7 @@ use Tests\TestCase;
 
 class WebCheckinShortLinkTest extends TestCase
 {
+    use \Tests\Support\WebCheckinPublicInput;
     use RefreshDatabase, StrutturaFixtures;
 
     protected function setUp(): void
@@ -65,16 +66,16 @@ class WebCheckinShortLinkTest extends TestCase
     {
         $r = $this->richiesta(stato: 'da_inviare');
         $before = $this->stato();
-        $this->post($this->link($r), ['_token' => 'ERRATO'])->assertStatus(419);
+        $this->postWeb($this->link($r), ['_token' => 'ERRATO'])->assertStatus(419);
         $this->assertSame($before, $this->stato());
         $data = ['name' => 'Sintetico aggiornato', 'surname' => 'Link', 'arrive' => '2026-06-01', 'departure' => '2026-06-02', 'cant_people' => 1, 'customer_email' => 'synthetic@example.invalid'];
-        $this->post($this->link($r), $data)->assertOk()->assertSee('Sintetico aggiornato');
+        $this->postWeb($this->link($r), $data)->assertOk()->assertSee('Sintetico aggiornato');
         $this->assertSame('Sintetico aggiornato', Schedina::withoutGlobalScopes()->findOrFail($r->schedina_id)->name);
         $this->assertSame($r->struttura_id, (int) Schedina::withoutGlobalScopes()->findOrFail($r->schedina_id)->struttura_id);
         $this->assertSame('in_compilazione', $r->fresh()->stato);
         $this->get($this->link($r).'/completato')->assertOk();
         $data['name'] = 'Sintetico completo';
-        $this->post('/checkin/'.$r->token, $data)->assertOk()->assertSee('Sintetico completo');
+        $this->postWeb('/checkin/'.$r->token, $data)->assertOk()->assertSee('Sintetico completo');
     }
 
     public function test_token_completo_legacy_con_formato_diverso_restato_compatibile(): void
@@ -84,7 +85,7 @@ class WebCheckinShortLinkTest extends TestCase
             $r->update(['token' => $token]);
             $this->get('/checkin/'.$token)->assertOk()->assertContent('Check-in recibido');
             $this->get('/w/'.$token)->assertOk()->assertContent('Check-in recibido');
-            $this->post('/w/'.$token)->assertOk();
+            $this->postWeb('/w/'.$token)->assertOk();
             $this->get('/w/'.$token.'/completato')->assertOk();
         }
     }
@@ -138,13 +139,13 @@ class WebCheckinShortLinkTest extends TestCase
         $oldFull = $r->token;
         $r->update(['token' => str_repeat('Z', 64)]);
         $this->get($old)->assertNotFound();
-        $this->post($old)->assertNotFound();
+        $this->postWeb($old)->assertNotFound();
         $this->get('/checkin/'.$oldFull)->assertNotFound();
         $new = $this->link($r);
         $this->get($new)->assertOk();
         $r->delete();
         $this->get($new)->assertNotFound();
-        $this->post($new)->assertNotFound();
+        $this->postWeb($new)->assertNotFound();
         $this->get('/checkin/'.str_repeat('Z', 64))->assertNotFound();
     }
 
@@ -183,7 +184,7 @@ class WebCheckinShortLinkTest extends TestCase
         $r->update(['schedina_id' => 999999]);
         $before = $this->stato();
         $this->get($this->link($r))->assertNotFound();
-        $this->post($this->link($r))->assertNotFound();
+        $this->postWeb($this->link($r))->assertNotFound();
         $this->assertSame($before, $this->stato());
     }
 }

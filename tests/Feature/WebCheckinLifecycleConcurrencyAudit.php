@@ -39,6 +39,7 @@ class WebCheckinLifecycleConcurrencyAudit extends TestCase
     {
         $r = $this->richiesta();
         $u = $this->actor('struttura_user', null, $r->struttura_id);
+        $version = app(\App\Services\WebCheckinVersione::class)->of($r);
         $dir = storage_path('framework/testing/race-'.bin2hex(random_bytes(4)));
         mkdir($dir, 0700, true);
         DB::disconnect();
@@ -47,6 +48,7 @@ class WebCheckinLifecycleConcurrencyAudit extends TestCase
         if ($pid === 0) {
             try {
                 DB::purge();
+                $this->withoutExceptionHandling([\Symfony\Component\HttpKernel\Exception\HttpException::class]);
                 while (! file_exists($dir.'/go')) {
                     usleep(10000);
                 }DB::listen(function ($q) use ($dir) {
@@ -54,10 +56,10 @@ class WebCheckinLifecycleConcurrencyAudit extends TestCase
                         file_put_contents($dir.'/resolved', '1');
                     }
                 });
-                $response = $this->post('/checkin/'.$r->token, ['name' => 'SCRITTURA-TARDIVA', 'surname' => 'Sintetico', 'arrive' => now()->toDateString(), 'departure' => now()->addDays(3)->toDateString(), 'cant_people' => 1]);
+                $response = $this->post('/checkin/'.$r->token, ['web_versione' => $version, 'name' => 'SCRITTURA-TARDIVA', 'surname' => 'Sintetico', 'arrive' => now()->toDateString(), 'departure' => now()->addDays(3)->toDateString(), 'cant_people' => 1]);
                 file_put_contents($dir.'/result', json_encode(['status' => $response->status(), 'body' => $response->getContent()]));
             } catch (\Throwable $e) {
-                file_put_contents($dir.'/result', json_encode(['error' => $e->getMessage()]));
+                file_put_contents($dir.'/result', json_encode(['error' => $e->getMessage(), 'tipo' => get_class($e)]));
             }exit(0);
         }
         DB::purge();
@@ -70,7 +72,7 @@ class WebCheckinLifecycleConcurrencyAudit extends TestCase
         }$this->assertFileExists($dir.'/resolved');
         $this->actingAs($u);
         if ($operation === 'conversione') {
-            $this->put('/schedine/'.$r->schedina_id, ['save_mode' => 'to_arrivi', 'name' => 'ORIGINALE', 'surname' => 'Sintetico', 'arrive' => now()->toDateString(), 'departure' => now()->addDays(3)->toDateString(), 'cant_people' => 1, 'room' => 1, 'beds' => 1])->assertRedirect();
+            $this->put('/schedine/'.$r->schedina_id, ['web_versione_gestione' => app(\App\Services\WebCheckinVersione::class)->of($r), 'save_mode' => 'to_arrivi', 'name' => 'ORIGINALE', 'surname' => 'Sintetico', 'arrive' => now()->toDateString(), 'departure' => now()->addDays(3)->toDateString(), 'cant_people' => 1, 'room' => 1, 'beds' => 1])->assertRedirect();
         } else {
             $this->post('/web-checkin/'.$r->id.'/'.$operation)->assertRedirect();
         }

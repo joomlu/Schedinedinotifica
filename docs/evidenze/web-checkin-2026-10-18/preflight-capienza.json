@@ -1,0 +1,19 @@
+{
+  "liberi_VM": 9986514944,
+  "disco_byte": 38654705664,
+  "filesystem_byte": 37290283008,
+  "SELinux": "Enforcing",
+  "recupero_storico_massimo_completo": 949936128,
+  "cifrati_base_storici_massimi": 367357952,
+  "riserva_candidato_per_recupero": 16777216,
+  "margine_invariato": 1073741824,
+  "liberi_Mac": 12872445952,
+  "liberi_Extra": 685355188224,
+  "data_UTC": "2026-10-18T12:18:40.513576+00:00",
+  "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+  "Extra_formato": "apfs",
+  "Extra_scrivibile": true,
+  "fabbisogno_stimato": 3741884416,
+  "esito": "PASS_STIMA_CAPIENZA",
+  "limite": "Due recuperi nuovi e due ingressi cifrati, massimi completi misurati prima delle pulizie,16MiB aggiuntivi ciascuno e margine1GiB invariati; mai ridotti usando il consumo dei derivati rimossi."
+}

@@ -105,7 +105,7 @@
     <div class="col-lg-12">
         <x-crud-table
             title="Web Check-in"
-            subtitle="Richieste cliente, compilazione online e importazione nel circuito arrivi"
+            subtitle="Richieste, dati ricevuti e revisione in reception prima di Bozza o Schedina"
             searchPlaceholder="Cerca per codice, referente, arrivo, partenza, persone o stato..."
             searchId="webCheckinSearch"
             createText="Nuovo Web Check-in"
@@ -187,13 +187,12 @@
                         <td class="align-middle text-nowrap">{{ $contatto }}</td>
                         <td class="align-middle text-nowrap">
                             <div class="d-flex flex-column gap-1">
-                                <span class="badge {{ $statoClass }}">{{ str_replace('_', ' ', $richiesta->stato) }}</span>
-                                @if($richiesta->schedina && $richiesta->stato !== 'convertito')
-                                    <span class="badge bg-success-subtle text-success">Compilata nel web</span>
-                                @endif
+                                <span class="badge {{ $statoClass }}">{{ match($richiesta->stato) { 'da_inviare', 'inviato' => 'Non ancora aperta', 'in_compilazione' => 'Dati da completare', 'compilato' => 'Da verificare in reception', 'convertito' => 'Presa in carico', default => $richiesta->stato } }}</span>
+                                <span class="small">Accesso {{ app(\App\Services\WebCheckinLink::class)->valid($richiesta) && $richiesta->schedina?->circuito === 'web' ? 'valido' : 'chiuso' }}</span>
+                                <span class="small">Scade {{ ($richiesta->link_expires_at ?? app(\App\Services\WebCheckinLink::class)->deadline($richiesta))?->timezone('Europe/Rome')->format('d/m/Y H:i T') ?: '—' }}</span>
                             </div>
                         </td>
-                        <td class="align-middle text-nowrap">{{ $richiesta->schedina->scheda ?? '-' }}</td>
+                        <td class="align-middle text-nowrap">{{ $richiesta->schedina->scheda ?? '-' }}<br><small>{{ match($richiesta->schedina?->circuito) { 'bozza' => 'Bozza', 'schedina' => 'Schedina', 'arrivi' => 'Arrivi', default => 'Web: da verificare' } }}</small></td>
                         <td class="text-end align-middle">
                             <div class="d-inline-flex gap-1">
                                 <a href="{{ route('web_checkin.edit', ['id' => $richiesta->id]) }}" class="btn btn-soft-info btn-sm" title="Gestione richiesta">
@@ -202,11 +201,8 @@
                                 <a href="{{ $publicUrl }}" class="btn btn-soft-primary btn-sm" title="Apri pagina cliente" target="_blank">
                                     <i class="ri-links-line fs-16 align-middle"></i>
                                 </a>
-                                <a href="{{ $hasEmail ? $mailToUrl : '#' }}" class="btn btn-soft-success btn-sm js-webcheckin-email" title="Apri email nel programma di posta" data-has-email="{{ $hasEmail ? '1' : '0' }}">
+                                <a href="{{ route('web_checkin.comunicazioni', $richiesta->id) }}" class="btn btn-soft-success btn-sm" title="Personalizza e prepara comunicazione">
                                     <i class="ri-mail-send-line fs-16 align-middle"></i>
-                                </a>
-                                <a href="{{ $whatsAppUrl ?: '#' }}" class="btn btn-soft-success btn-sm js-webcheckin-whatsapp" title="Apri WhatsApp esterno" target="_blank" rel="noopener" data-has-whatsapp="{{ $whatsAppUrl ? '1' : '0' }}">
-                                    <i class="ri-whatsapp-line fs-16 align-middle"></i>
                                 </a>
                                 <button type="button" class="btn btn-soft-dark btn-sm js-copy-webcheckin-link" data-link="{{ $publicUrl }}" title="Copia link breve">
                                     <i class="ri-file-copy-line fs-16 align-middle"></i>

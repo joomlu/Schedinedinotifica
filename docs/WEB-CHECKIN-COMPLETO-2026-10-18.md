@@ -1,0 +1,59 @@
+# Web Check-in — circuito completo — 18 ottobre 2026
+
+**Implementazione e collaudo isolato conclusi; pubblicazione ancora da eseguire. BASELINE IN AUDIT generale invariata.** Autorizzazione umana corrente: codice, test isolati, commit/push, C5, Extra e QA sintetica; nessun invio a ospiti reali o enti.
+
+## Obiettivo, ambito e stato iniziale
+
+Completare creazione richiesta, invito personalizzato, compilazione parziale/conclusiva, revisione e presa in carico come Bozza o Schedina. Rischio ALTO per dati personali, tenancy, concorrenza e una migrazione additiva. File applicativi: controller Web/Schedina/comunicazioni, due servizi e due modelli nuovi, middleware intestazioni, normalizzatore componenti opzionale, viste condivise/Web, cinque route e una migrazione. Test mirati e regressioni; nessuna sostituzione dei servizi fiscali o di trasmissione.
+
+Produzione iniziale riletta `263274f48614e9215acec91da697c384e9600dfc`, Git pulito e FPM dedicato attivo; GitHub main `f9ea35ec30b3afcd04c6fc6144795f7724736f67`. Ramo `codex/web-checkin-completo-2026-10-18`. Documenti e materiale preesistenti inventariati e preservati; inclusione selettiva, senza operazioni Git distruttive.
+
+## Uso e stati distinti
+
+Da Web Check-in, Nuovo: compilare prenotazione, referente, contatti, arrivo/partenza, persone e note interne. La richiesta può precedere il soggiorno; non si inventano nome dell’ospite, tipo alloggiato, camera o letti. Il referente della prenotazione resta distinto dal titolare effettivo.
+
+Gestione separata in Richiesta, Accesso e stato, Comunicazioni. Accesso valido/scaduto/revocato, compilazione aperta/parziale/conclusa, comunicazione preparata/apertura richiesta e risultato Web/Bozza/Schedina sono concetti distinti. I controlli pendenti derivano dalle validazioni canoniche. Dopo la presa in carico si gestiscono ospiti e soggiorno nella scheda collegata; sulla richiesta restano aggiornabili le note interne.
+
+Nel modulo pubblico “Salva” conserva anche informazioni incomplete e componenti parziali; i valori presenti devono essere validi. La successiva apertura riprende i dati. “Concludi compilazione” richiede tutte le verifiche canoniche, quantità persone e figure singolo/famiglia/gruppo coerenti. Concludere non crea un soggiorno effettivo e non trasmette dati.
+
+La reception apre la scheda Web, integra o corregge e sceglie Bozza oppure salvataggio definitivo. La Bozza può essere ripresa e finalizzata sullo stesso ID. Lock della struttura/riga, transazione e confronto obbligatorio di versione impediscono aggiornamenti da moduli obsoleti (409), duplicazioni e scritture pubbliche dopo la presa in carico. Un modulo senza versione va riaperto. I valori omessi non cancellano dati ricevuti, riferimenti, contatti o note; lo svuotamento esplicito segue le regole ordinarie.
+
+Web e Bozze restano esclusi dai dataset effettivi Questura, ISTAT, Presenze, calendario, dashboard e rapporto Tassa. L’anteprima informativa della tassa resta prevista e separata dalla contabilizzazione; la stampa corrente della ricevuta esclude Web e Bozze, senza impedire la consultazione di archivi storici. Conversione senza invio automatico.
+
+## Scadenza e sicurezza
+
+Contratto vigente già approvato: accesso fino alla fine del giorno successivo all’arrivo previsto; istante esclusivo **00:00 Europe/Rome di arrivo + 2 giorni**. Esempio arrivo10 novembre: termine12 novembre00:00CET. Non si usa la data mobile di Arrivi. La riprogrammazione di un link ancora attivo ne aggiorna il termine; un link già scaduto non si riattiva automaticamente. Revoca e nuova emissione sono esplicite; nessuna cancellazione dati o conversione alla scadenza.
+
+Controlli ripetuti al salvataggio, anche per pagine aperte prima della scadenza. Token e limiti preesistenti conservati, dati pubblici senza note interne, cache disabilitata e Referrer-Policy no-referrer. Cataloghi pubblici risolti dalla struttura del link, anche con sessione gestionale di un’altra struttura. Vecchi input/feedback di sessioni estranee esclusi tramite contesto firmato. I valori pubblici sono sottoposti a validazioni GEO e cataloghi canoniche.
+
+## Modelli e canali
+
+Tre modelli iniziali italiani singolo/famiglia/gruppo, installati alla prima apertura di Comunicazioni per la sola struttura con lock e chiave univoca; accessi successivi non duplicano né sovrascrivono personalizzazioni. Il modello non assegna classificazioni legali.
+
+Selezionare il modello, modificare oggetto/corpo e preparare l’anteprima. L’override riguarda il singolo messaggio; Nuovo modello, Duplica e Aggiorna sono azioni esplicite. Aggiornamento con versione e conflitto409. Variabili visibili per struttura, referente, prenotazione, date, persone, link, scadenza e contatti pubblici; sconosciute, malformate o dati essenziali assenti rifiutati. Sostituzione solo testuale, nessuna esecuzione Blade/PHP; output escapato.
+
+Testo copiabile, programma di posta e WhatsApp esterni sono i canali effettivi. Lo storico registra “preparato” e “apertura richiesta”, senza attestare apertura dell’applicazione, invio accettato o consegna. Non esiste un trasporto server configurato da certificare. Contenuto finale e destinatario cifrati con APP_KEY; idempotenza per richiesta/UUID e impronta dei dati d’invito impediscono duplicazioni involontarie e aperture con dati/link superati. Un nuovo messaggio volontario è una preparazione esplicita.
+
+## Database e conservazione
+
+Unica nuova migrazione: `2026_10_18_180000_create_web_checkin_comunicazioni`; crea soltanto `web_checkin_modelli` e `web_checkin_comunicazioni`. Attesi156→157 migrazioni e64→66 tabelle. Nessuna riscrittura delle righe operative preesistenti. Prima delle fixture, confronto integrale dump S0: tutte le64 tabelle esistenti identiche, eccetto la singola registrazione della migrazione e il suo contatore; nuove tabelle vuote. Il comparatore è verificato con un caso positivo e otto delta illeciti rifiutati. Il recupero prima della riapertura usa S0 fresco; nessun ripristino obsoleto dopo nuove scritture online.
+
+## Capacità e custodia
+
+Extra reale `/Volumes/extra`, APFS USB PSSD T7, UUID488ACB8D-6B99-49AE-8A3C-175FD66F5466; scrittura/rilettura e capacità verificate, cartella esclusiva `Schedinedinotifica-Web-Checkin-20261018`. Nessuna formattazione o cancellazione di contenuti esistenti.
+
+Recuperati521228288byte eliminando esclusivamente24128derivati vendor/build da recuperi conclusi autenticati e senza utilizzatori. Trasferite138copie cifrate storiche Mac dopo nuova verificaSHA/HMAC e decifratura integrale dei63cifrati distinti: Mac4560404480→14743003136byte liberi nel relativo intervallo. Verificati successivamente tutti237cifrati storici daExtra con decifratura integrale inVM e chiave separata. Ritirate soltanto copie VM corrispondenti dopo rilettura Extra, hash/metadati e assenza utilizzatori; ultimo lotto159copie/8512796688byte nominali, VM2170621952→10677538816byte. SQL/DB/env/upload/chiavi e catene correnti preservati. Non sono237nuove prove d’avvio: il nuovo C5 deve effettuare il proprio recupero indipendente completo.
+
+Discard dei soli blocchi XFS già liberi previsto dal progetto: disco36GiB invariato, filesystem37290283008byte; Mac13178277888→13984231424byte nel relativo intervallo. Ampliamento32→36GiB già concluso e documentato nell’attività precedente, non ripetuto. BackupVM precedente cifrato e smontato, chiave Mac separata0700/0600; trasporto C5 root0700/0600 separato inVM, valori mai pubblicati.
+
+Preflight12:18:40UTC: Mac12872445952, VM9986514944, Extra685355188224byte liberi; fabbisogno prudenziale3741884416byte, riservaVM1GiB, Mac8GiB edExtra40GiB invariati. Non sostituisce la misura successiva al nuovo PREPARE e quella prima del RUN.
+
+## Prove e diagnostici
+
+[Evidenza finale isolata](evidenze/web-checkin-2026-10-18/verifica.json), sorgenti e hash dei log associati. Esecuzione soltanto su clone CoW Lima qualificato con namespace, DB/HTTP isolati, guardie e limiti invariati; VM giornaliera945ef553 preservata. Suite sovrapposte non sommate. Backend finale R18:138test/1466asserzioniPASS. R19:14browser operativiPASS a1440/768/390, R6token:8browserPASS, prova autonoma300/60s:1PASS con301richieste massime in43,9secondi.17guardie e23override rifiutati, build/GEO PASS; sorgenti identiche fra backend e browser salvo la sola separazione/sincronizzazione degli spec token, con hash espliciti.
+
+Diagnostici intermedi conservati: guardiaSHA rifiutò overlay iniziale degli strumenti; fixture corrette senza indebolire le asserzioni di sicurezza; compilazioneBlade e pulsante di azione corretti; lock struttura spostato prima delle letture transazionali dopo erroreMariaDB1020 concorrente; misura mobile attende caricamento completo e font (606px durante loading,390px a complete). Test fiscale legacy riallineato al contratto documentato del12ottobre; anteprima informativa preservata. Nuovo controllo ricevuta distingue circuito Bozza dal normalizzatore storico senza cambiarne il comportamento condiviso. Nella regressione autonoma dei token aggiunta la nazione francese mancante nella fixture che già utilizzava componenti francesi, senza attenuare le validazioni; sincronizzazione DOM per i passaggi di logout/conferma. R18 browser e prime ripetizioni token non accettati: kernelVM ha registrato due uccisioni OOM di Chromium durante matrici concorrenti. Ripetizione finale in sequenza, risorse e soglie applicative/C5 invariati; la sola prova di301richieste HTTP ha budget90secondi invece di30, dopo8/9PASS e timeout alla richiesta196: nessuna riduzione di richieste, limiti o asserzioni. Il successivoR5 ha mostrato che la finestra60secondi, iniziata dagli altri casi, scadeva durante le301richieste: prova spostata in runtime effimero dedicato, contatori naturalmente nuovi senza azzeramenti, richieste JSON allo stesso middleware; gli altri8scenari sono qualificati separatamente; i risultati falliti non vengono cancellati né sommati ai successivi.
+
+## Pubblicazione e pendenti
+
+Ancora da verificare: revisione delta/commit/push, nuovo PREPARE/S0/recupero indipendente, C5 con guardiano e unica migrazione, QA online sintetica e pulizia con HMAC righe preesistenti, monitor almeno900secondi, SHA applicativo online e documentale. Nessuna nuova manutenzione o pubblicazione eseguita in questa attività finora. Budget1800/S0600/cutoff1379/riserva421 invariati.

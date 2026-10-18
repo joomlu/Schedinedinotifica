@@ -88,8 +88,9 @@ class WebCheckinController extends SchedinaController
 
     public function store(Request $request)
     {
-        return DB::transaction(function () use ($request) {
-            $strutturaId = \App\Support\StrutturaAccess::resolve($request)->id;
+        $strutturaId = \App\Support\StrutturaAccess::resolve($request)->id;
+
+        return DB::transaction(function () use ($request, $strutturaId) {
             if (! $strutturaId) {
                 return back()->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.'])->withInput();
             }
@@ -104,8 +105,6 @@ class WebCheckinController extends SchedinaController
                 'arrive' => $data['arrivo'],
                 'departure' => $data['partenza'],
                 'cant_people' => $data['quantita_persone'],
-                'room' => 1,
-                'beds' => $data['quantita_persone'],
                 'customer_email' => $data['email'],
                 'customer_cellphone' => $data['whatsapp'] ?? null,
                 'fonte_prenotazione' => 'WEB CHECK-IN',
@@ -132,10 +131,6 @@ class WebCheckinController extends SchedinaController
 
             app(\App\Services\WebCheckinLink::class)->issue($richiesta);
 
-            $schedina->update([
-                'name' => $richiesta->nome_referente,
-            ]);
-
             return redirect()
                 ->route('web_checkin.edit', ['id' => $richiesta->id])
                 ->with('success', 'Web Check-in creato. Link e testo email pronti per l\'invio.');
@@ -156,18 +151,29 @@ class WebCheckinController extends SchedinaController
             'mailToUrl' => $this->mailToUrl($richiesta),
             'whatsappBody' => $this->whatsappBody($richiesta),
             'whatsAppUrl' => $this->whatsAppUrl($richiesta),
+            'datiPendenti' => $this->pendingData($richiesta),
         ]);
     }
 
     public function update(Request $request, int $id)
     {
-        return DB::transaction(function () use ($request, $id) {
-            $richiesta = $this->findOwnedRichiesta($id);
-            Struttura::withoutGlobalScopes()->whereKey($richiesta->struttura_id)->lockForUpdate()->firstOrFail();
-            $richiesta = WebCheckinRichiesta::whereKey($richiesta->id)->lockForUpdate()->firstOrFail();
+        $known = $this->findOwnedRichiesta($id);
+
+        return DB::transaction(function () use ($request, $id, $known) {
+            Struttura::withoutGlobalScopes()->whereKey($known->struttura_id)->lockForUpdate()->firstOrFail();
+            $richiesta = WebCheckinRichiesta::where('struttura_id', $known->struttura_id)->whereKey($known->id)->lockForUpdate()->firstOrFail();
+            $request->validate(['web_versione_richiesta' => ['required', 'string', 'size:64']], ['web_versione_richiesta.required' => 'Riapri la richiesta prima di aggiornarla.']);
+            abort_unless(hash_equals(app(\App\Services\WebCheckinVersione::class)->of($richiesta), $request->input('web_versione_richiesta')), 409, 'I dati sono cambiati. Riapri la richiesta prima di aggiornarla.');
+            if ($richiesta->stato === 'convertito' || $richiesta->schedina?->circuito !== 'web') {
+                $data = $request->validate(['note' => $this->noteRules()]);
+                $richiesta->update(['note' => array_key_exists('note', $data) ? $data['note'] : $richiesta->note]);
+
+                return redirect()->route('web_checkin.edit', $id)->with('success', 'Note interne aggiornate. Per gli altri dati apri la scheda collegata.');
+            }
             $links = app(\App\Services\WebCheckinLink::class);
             $active = $links->valid($richiesta);
             $recipient = [$richiesta->email, $richiesta->whatsapp, $richiesta->nome_referente];
+            $previous = $richiesta->getAttributes();
             $data = $this->validateRichiesta($request);
             $richiesta->fill($data);
             if (! $active || $recipient !== [$richiesta->email, $richiesta->whatsapp, $richiesta->nome_referente]) {
@@ -178,18 +184,17 @@ class WebCheckinController extends SchedinaController
             $richiesta->save();
 
             if ($richiesta->schedina) {
-                $richiesta->schedina->fill([
-                    'arrive' => $data['arrivo'],
-                    'departure' => $data['partenza'],
-                    'cant_people' => $data['quantita_persone'],
-                    'room' => $richiesta->schedina->room ?: 1,
-                    'beds' => $richiesta->schedina->beds ?: $data['quantita_persone'],
-                    'fonte_prenotazione' => 'WEB CHECK-IN',
-                    'id_prenotazione_esterna' => $data['numero_prenotazione'],
-                    'name' => $data['nome_referente'],
-                    'customer_email' => $data['email'],
-                    'customer_cellphone' => $data['whatsapp'] ?? null,
-                ])->save();
+                $linked = $this->linkedSchedinaForRichiesta($richiesta);
+                $sync = [];
+                foreach (['arrivo' => 'arrive', 'partenza' => 'departure', 'quantita_persone' => 'cant_people', 'numero_prenotazione' => 'id_prenotazione_esterna'] as $source => $target) {
+                    if ((string) $data[$source] !== (string) ($previous[$source] ?? '')) $sync[$target] = $data[$source];
+                }
+                // Referente dell’invito e titolare ricevuto sono informazioni distinte.
+                foreach (['email' => 'customer_email', 'whatsapp' => 'customer_cellphone'] as $source => $target) {
+                    if ((string) ($data[$source] ?? '') !== (string) ($previous[$source] ?? '')
+                        && (blank($linked->{$target}) || (string) $linked->{$target} === (string) ($previous[$source] ?? ''))) $sync[$target] = $data[$source] ?? null;
+                }
+                if ($sync) $linked->fill($sync)->save();
             }
 
             return redirect()
@@ -200,10 +205,11 @@ class WebCheckinController extends SchedinaController
 
     public function destroy(int $id)
     {
-        return DB::transaction(function () use ($id) {
-            $richiesta = $this->findOwnedRichiesta($id);
-            Struttura::withoutGlobalScopes()->whereKey($richiesta->struttura_id)->lockForUpdate()->firstOrFail();
-            $richiesta = WebCheckinRichiesta::whereKey($richiesta->id)->lockForUpdate()->firstOrFail();
+        $known = $this->findOwnedRichiesta($id);
+
+        return DB::transaction(function () use ($known) {
+            Struttura::withoutGlobalScopes()->whereKey($known->struttura_id)->lockForUpdate()->firstOrFail();
+            $richiesta = WebCheckinRichiesta::where('struttura_id', $known->struttura_id)->whereKey($known->id)->lockForUpdate()->firstOrFail();
             $richiesta->setRelation('schedina', $this->linkedSchedinaForRichiesta($richiesta));
             $schedina = $richiesta->schedina;
             $schedinaCircuit = $this->normalizeSchedaCircuit($schedina);
@@ -244,21 +250,24 @@ class WebCheckinController extends SchedinaController
 
     public function publicShow(string $token)
     {
-        return DB::transaction(function () use ($token) {
-            $richiesta = $this->findPublicRichiesta($token);
-            abort_if(! $richiesta, 404, 'Link Web Check-in non valido o non più disponibile.');
-            $richiesta = $this->ensureLinkedSchedina($richiesta);
-            $schedina = $richiesta->schedina;
-            abort_if(! $schedina, 404);
+        $known = $this->findPublicRichiesta($token);
+        abort_unless($known, 404);
 
-            Struttura::withoutGlobalScopes()->whereKey($richiesta->struttura_id)->lockForUpdate()->firstOrFail();
-            $richiesta = WebCheckinRichiesta::whereKey($richiesta->id)->lockForUpdate()->firstOrFail();
+        return DB::transaction(function () use ($token, $known) {
+            Struttura::withoutGlobalScopes()->whereKey($known->struttura_id)->lockForUpdate()->firstOrFail();
+            $richiesta = WebCheckinRichiesta::where('struttura_id', $known->struttura_id)->whereKey($known->id)->lockForUpdate()->firstOrFail();
             abort_unless(app(\App\Services\WebCheckinLink::class)->valid($richiesta) && hash_equals((string) $richiesta->token, $token), 404);
             $schedina = $this->linkedSchedinaForRichiesta($richiesta);
             $richiesta->load('struttura');
-            if ($richiesta->stato === 'convertito') {
+            if ($richiesta->stato === 'convertito' || $schedina->circuito !== 'web') {
                 return $this->received();
             }
+
+            $oldContext = session()->getOldInput('web_checkin_context');
+            $ownInput = is_string($oldContext) && hash_equals(app(\App\Services\WebCheckinVersione::class)->contesto($richiesta), $oldContext);
+            if (! $ownInput) session()->forget(['_old_input', 'errors', 'success', 'warning', 'error']);
+            $publicErrors = $ownInput ? session('errors', new \Illuminate\Support\ViewErrorBag) : new \Illuminate\Support\ViewErrorBag;
+            view()->share('errors', $publicErrors);
 
             $richiesta->forceFill([
                 'ultimo_accesso_at' => now(),
@@ -271,7 +280,7 @@ class WebCheckinController extends SchedinaController
             $tassaDettaglio = $this->tassaService->dettaglioSchedina($schedina, $componenti, $tassaConfig, $esenzioni, $richiesta->struttura);
 
             return view('web-checkin.public', array_merge(
-                $this->commonFormData(),
+                $this->commonFormData((int) $richiesta->struttura_id),
                 [
                     'schedina' => $schedina,
                     'strutturaInfo' => $richiesta->struttura,
@@ -290,6 +299,8 @@ class WebCheckinController extends SchedinaController
                     'showPrintTassa' => false,
                     'geoEndpointBase' => '/geo-public',
                     'webCheckinRichiesta' => $richiesta,
+                    'webVersione' => app(\App\Services\WebCheckinVersione::class)->of($richiesta),
+                    'errors' => $publicErrors,
                 ]
             ));
         });
@@ -306,18 +317,10 @@ class WebCheckinController extends SchedinaController
 
     public function publicInvite(string $token)
     {
-        $richiesta = $this->findPublicRichiesta($token);
-        abort_if(! $richiesta, 404, 'Link Web Check-in non valido o non più disponibile.');
-        $richiesta = $this->ensureLinkedSchedina($richiesta);
-        if ($richiesta->stato === 'convertito') {
-            return $this->received();
-        }
-
-        return response()->view('web-checkin.invite', [
-            'richiesta' => $richiesta,
-            'strutturaInfo' => $richiesta->struttura,
+        return $this->publicRead($token, fn ($richiesta) => response()->view('web-checkin.invite', [
+            'richiesta' => $richiesta, 'strutturaInfo' => $richiesta->struttura,
             'checkinUrl' => route('web_checkin.public.show', ['token' => $richiesta->token]),
-        ]);
+        ]));
     }
 
     public function publicStoreShort(Request $request, string $access)
@@ -338,15 +341,12 @@ class WebCheckinController extends SchedinaController
 
     public function publicStore(Request $request, string $token)
     {
-        return DB::transaction(function () use ($request, $token) {
-            $richiesta = $this->findPublicRichiesta($token);
-            abort_if(! $richiesta, 404, 'Link Web Check-in non valido o non più disponibile.');
-            $richiesta = $this->ensureLinkedSchedina($richiesta);
-            $schedina = $richiesta->schedina;
-            abort_if(! $schedina, 404);
+        $known = $this->findPublicRichiesta($token);
+        abort_unless($known, 404);
 
-            Struttura::withoutGlobalScopes()->whereKey($richiesta->struttura_id)->lockForUpdate()->firstOrFail();
-            $richiesta = WebCheckinRichiesta::whereKey($richiesta->id)->lockForUpdate()->firstOrFail();
+        return DB::transaction(function () use ($request, $token, $known) {
+            Struttura::withoutGlobalScopes()->whereKey($known->struttura_id)->lockForUpdate()->firstOrFail();
+            $richiesta = WebCheckinRichiesta::where('struttura_id', $known->struttura_id)->whereKey($known->id)->lockForUpdate()->firstOrFail();
             $schedina = $this->linkedSchedinaForRichiesta($richiesta);
             $richiesta->setRelation('schedina', $schedina);
             $richiesta->load('struttura');
@@ -355,24 +355,47 @@ class WebCheckinController extends SchedinaController
                 return $this->received();
             }
 
-            $payload = $this->buildSchedinaPayload($request, []);
+            abort_unless($schedina->circuito === 'web', 409, 'La reception ha già preso in carico i dati. Contatta la struttura per correggerli.');
+            $request->merge(['web_checkin_context' => app(\App\Services\WebCheckinVersione::class)->contesto($richiesta)]);
+            $request->validate(['web_versione' => ['required', 'string', 'size:64'], 'save_mode' => ['nullable', 'in:web,web_complete']], ['web_versione.required' => 'Riapri il link per aggiornare il modulo prima di salvare.', 'web_versione.size' => 'Versione del modulo non valida. Riapri il link.']);
+            abort_unless(hash_equals(app(\App\Services\WebCheckinVersione::class)->of($richiesta), $request->input('web_versione')), 409, 'I dati sono cambiati. Riapri il link prima di salvare.');
+            $complete = $request->input('save_mode') === 'web_complete';
+            $request->validate([
+                'componenti' => ['nullable', 'array', 'max:49'],
+                'componenti.*.id' => ['nullable', 'integer', 'min:1'],
+                'componenti.*.date_nac' => ['nullable', 'date', 'before_or_equal:today'],
+                'camere' => ['nullable', 'array', 'max:50'],
+                'oa_date_nac' => ['nullable', 'date', 'before_or_equal:today'],
+            ]);
+            // Il soggiorno previsto e i riferimenti interni sono gestiti dalla reception.
+            $request->merge(['arrive' => $richiesta->arrivo->toDateString(), 'departure' => $richiesta->partenza->toDateString()]);
+            $this->validateSchedinaRequest($request, $complete, (int) $richiesta->struttura_id, $schedina);
+            if (! $complete) app(\App\Services\SchedinaAnagraficaValidation::class)->validate($request, (int) $richiesta->struttura_id);
+            $this->validateProvidedComponenti($request, (int) $richiesta->struttura_id);
+            if ($complete) {
+                $request->validate(['cant_people' => ['required', 'integer', 'in:'.$richiesta->quantita_persone]], ['cant_people.in' => 'Il numero degli ospiti deve corrispondere alla richiesta. Contatta la reception per modificarlo.']);
+                if (! $request->exists('componenti')) $request->merge(['componenti' => $this->componentiForSchedina($schedina)->get()->map->getAttributes()->all()]);
+                $this->validateComponentiRows($request);
+                $this->validatePeopleConsistency($request);
+            }
+            $payload = $this->buildSchedinaPayload($request, $schedina->getAttributes());
+            $internal = ['struttura_id', 'customer_id', 'fonte_prenotazione', 'id_prenotazione_esterna', 'agganciata_il', 'agganciata_da'];
+            foreach (array_keys($payload) as $field) {
+                if (in_array($field, $internal, true) || (! $request->exists($field) && ! in_array($field, ['arrive', 'departure'], true))) unset($payload[$field]);
+            }
             $payload['circuito'] = 'web';
             $payload['scheda'] = $schedina->scheda ?: $this->nextSchedaCode((int) $schedina->struttura_id, 'web');
             $payload['struttura_id'] = $schedina->struttura_id;
             $payload['is_arrive'] = 0;
 
             $schedina->fill($payload)->save();
-            $this->syncCamere($schedina, $request);
-            $this->syncComponenti($schedina, $request);
+            if ($request->exists('camere')) $this->syncCamere($schedina, $request);
+            if ($request->exists('componenti')) $this->syncComponenti($schedina, $request);
 
             $richiesta->forceFill([
-                'stato' => 'in_compilazione',
-                'compilato_at' => null,
+                'stato' => $complete ? 'compilato' : 'in_compilazione',
+                'compilato_at' => $complete ? now() : null,
                 'ultimo_accesso_at' => now(),
-                'quantita_persone' => $schedina->cant_people,
-                'email' => $schedina->customer_email ?: $richiesta->email,
-                'whatsapp' => $schedina->customer_cellphone ?: $richiesta->whatsapp,
-                'nome_referente' => trim(($schedina->name ?? '').' '.($schedina->surname ?? '')) ?: ($schedina->name ?: $richiesta->nome_referente),
             ])->save();
 
             return $this->renderCompletedView($richiesta);
@@ -381,13 +404,60 @@ class WebCheckinController extends SchedinaController
 
     public function publicCompleted(string $token)
     {
-        $richiesta = $this->findPublicRichiesta($token);
-        abort_if(! $richiesta, 404, 'Link Web Check-in non valido o non più disponibile.');
-        $richiesta = $this->ensureLinkedSchedina($richiesta);
-        $schedina = $richiesta->schedina;
-        abort_if(! $schedina, 404);
+        return $this->publicRead($token, fn ($richiesta) => $this->renderCompletedView($richiesta));
+    }
 
-        return $this->renderCompletedView($richiesta);
+    private function publicRead(string $access, \Closure $render)
+    {
+        $known = $this->findPublicRichiesta($access);
+        abort_unless($known, 404);
+
+        return DB::transaction(function () use ($access, $render, $known) {
+            Struttura::withoutGlobalScopes()->whereKey($known->struttura_id)->lockForUpdate()->firstOrFail();
+            $r = WebCheckinRichiesta::where('struttura_id', $known->struttura_id)->whereKey($known->id)->lockForUpdate()->firstOrFail();
+            $current = app(\App\Services\WebCheckinLink::class)->resolve($access);
+            abort_unless($current && $current->id === $r->id, 404);
+            $r->setRelation('schedina', $this->linkedSchedinaForRichiesta($r));
+            $r->load('struttura');
+            if ($r->stato === 'convertito' || $r->schedina?->circuito !== 'web') return $this->received();
+
+            return $render($r);
+        });
+    }
+
+    private function validateProvidedComponenti(Request $request, int $sid): void
+    {
+        $map = ['country_nac' => 'country_reg', 'regione_nac' => 'region_reg', 'province_nac' => 'prov_reg', 'comune_nac' => 'city_reg', 'cap_nac' => 'cap_reg', 'city_nac' => 'ciudadania_reg', 'country' => 'country', 'regione' => 'region', 'province' => 'province', 'city' => 'city', 'cap' => 'cap', 'typeaway' => 'typeaway'];
+        foreach ((array) $request->input('componenti', []) as $index => $row) {
+            $values = ['save_mode' => 'to_schedina'];
+            foreach ($map as $source => $target) $values[$target] = $row[$source] ?? null;
+            try {
+                app(\App\Services\CustomerWizardValidation::class)->validate(new Request($values), null, $sid);
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                $reverse = array_flip($map); $errors = [];
+                foreach ($e->errors() as $field => $messages) $errors['componenti.'.$index.'.'.($reverse[$field] ?? $field)] = $messages;
+                throw \Illuminate\Validation\ValidationException::withMessages($errors);
+            }
+        }
+    }
+
+    private function pendingData(WebCheckinRichiesta $r): array
+    {
+        $sheet = $this->linkedSchedinaForRichiesta($r);
+        if (! $sheet || ! in_array($sheet->circuito, ['web', 'bozza'], true)) return [];
+        $values = $sheet->getAttributes();
+        $values['componenti'] = $this->componentiForSchedina($sheet)->get()->map->getAttributes()->all();
+        $form = Request::create('/checkin/SINTETICO', 'POST', $values);
+        $route = new \Illuminate\Routing\Route(['POST'], '/checkin/{token}', []);
+        $route->name('web_checkin.public.store')->bind($form);
+        $form->setRouteResolver(fn () => $route);
+        $errors = [];
+        foreach ([fn () => $this->validateSchedinaRequest($form, true, (int) $r->struttura_id, $sheet), fn () => $this->validateComponentiRows($form), fn () => $this->validatePeopleConsistency($form)] as $check) {
+            try { $check(); }
+            catch (\Illuminate\Validation\ValidationException $e) { $errors = array_merge($errors, $e->errors()); }
+        }
+
+        return array_values(array_unique(collect($errors)->flatten()->all()));
     }
 
     public function toSchedina(Request $request, int $id)
@@ -421,12 +491,14 @@ class WebCheckinController extends SchedinaController
 
     private function changeLink(int $id, bool $issue)
     {
-        return DB::transaction(function () use ($id, $issue) {
-            $owned = $this->findOwnedRichiesta($id);
+        $owned = $this->findOwnedRichiesta($id);
+
+        return DB::transaction(function () use ($id, $issue, $owned) {
             Struttura::withoutGlobalScopes()->whereKey($owned->struttura_id)->lockForUpdate()->firstOrFail();
-            $r = WebCheckinRichiesta::whereKey($owned->id)->lockForUpdate()->firstOrFail();
+            $r = WebCheckinRichiesta::where('struttura_id', $owned->struttura_id)->whereKey($owned->id)->lockForUpdate()->firstOrFail();
             $links = app(\App\Services\WebCheckinLink::class);
             if ($issue) {
+                abort_if($r->stato === 'convertito' || $this->linkedSchedinaForRichiesta($r)?->circuito !== 'web', 409, 'La richiesta è già stata presa in carico: il link non può essere riaperto.');
                 $links->issue($r);
             } else {
                 $links->revoke($r);
@@ -466,7 +538,7 @@ class WebCheckinController extends SchedinaController
             'arrivo' => ['required', 'date'],
             'partenza' => ['required', 'date', 'after_or_equal:arrivo'],
             'quantita_persone' => ['required', 'integer', 'min:1', 'max:50'],
-            'note' => ['nullable', 'string'],
+            'note' => $this->noteRules(),
         ], [
             'required' => 'Campo obbligatorio.',
             'email' => 'Inserisci un indirizzo email valido.',
@@ -478,6 +550,13 @@ class WebCheckinController extends SchedinaController
             'nome_referente' => 'Referente',
             'quantita_persone' => 'Quantità persone',
         ]);
+    }
+
+    private function noteRules(): array
+    {
+        return ['nullable', 'string', static function ($attribute, $value, $fail) {
+            if (is_string($value) && strlen($value) > 65535) $fail('Le note interne superano la capacità del campo. Riduci il testo prima di salvare.');
+        }];
     }
 
     private function findOwnedRichiesta(int $id): WebCheckinRichiesta
@@ -514,13 +593,10 @@ class WebCheckinController extends SchedinaController
             'arrive' => optional($richiesta->arrivo)->toDateString(),
             'departure' => optional($richiesta->partenza)->toDateString(),
             'cant_people' => (int) ($richiesta->quantita_persone ?: 1),
-            'room' => 1,
-            'beds' => (int) ($richiesta->quantita_persone ?: 1),
             'customer_email' => $richiesta->email,
             'customer_cellphone' => $richiesta->whatsapp,
             'fonte_prenotazione' => 'WEB CHECK-IN',
             'id_prenotazione_esterna' => $richiesta->numero_prenotazione,
-            'name' => $richiesta->nome_referente,
             'is_arrive' => 0,
         ]);
 

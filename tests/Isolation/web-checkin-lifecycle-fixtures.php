@@ -1,5 +1,7 @@
 <?php
 require __DIR__.'/web-checkin-camera-fixtures.php';
+// Il gruppo preesistente usa dati francesi: rendere disponibile il relativo catalogo anche nella suite token autonoma.
+\App\Models\GeoNazione::firstOrCreate(['nome' => 'FRANCIA'], ['cittadinanza' => 'FRANCESE', 'codice_iso2' => 'FR', 'is_italia' => false]);
 $base=json_decode(file_get_contents(public_path('baseline-final-ids.json')), true);
 $r=\App\Models\WebCheckinRichiesta::where('token',$base['full'])->firstOrFail();
 $r->update(['arrivo'=>now()->toDateString(),'partenza'=>now()->addDays(3)->toDateString()]);

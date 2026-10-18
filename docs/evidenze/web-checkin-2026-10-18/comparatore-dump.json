@@ -1,0 +1,7 @@
+{
+  "esito": "PASS_CONFRONTO_DUMP",
+  "positivo": 1,
+  "delta_non_autorizzati_respinti": 8,
+  "dati": "solo stringhe sintetiche in memoria",
+  "nessun_DB_o_Laravel_avviato": true
+}

@@ -378,10 +378,14 @@ class SchedinaController extends Controller
         $tassaDettaglio = $this->dettaglioTassaPerGestione($schedina, $componenti, $tassaConfig, $esenzioni, $strutturaInfo);
         $prefilledCustomer = $schedina->customer_id ? Customers::query()->find($schedina->customer_id) : null;
 
+        $webGestione = \App\Models\WebCheckinRichiesta::where('struttura_id', $schedina->struttura_id)->where('schedina_id', $schedina->id)->first();
+
         return view('schedina.edit', array_merge(
             $this->commonFormData(),
             [
                 'schedina' => $schedina,
+                'webGestione' => $webGestione,
+                'webVersioneGestione' => $webGestione ? app(\App\Services\WebCheckinVersione::class)->of($webGestione) : null,
                 'strutturaInfo' => $strutturaInfo,
                 'tassaConfig' => $tassaConfig,
                 'esenzioni' => $esenzioni,
@@ -424,6 +428,11 @@ class SchedinaController extends Controller
             $previousCircuit = $this->normalizeSchedaCircuit($schedina);
             $this->authorizedCustomerReference($request);
             $saveMode = $this->resolveSaveMode($request);
+            $webGestione = \App\Models\WebCheckinRichiesta::where('struttura_id', $sid)->where('schedina_id', $schedina->id)->lockForUpdate()->first();
+            if ($webGestione) {
+                $request->validate(['web_versione_gestione' => ['required', 'string', 'size:64']], ['web_versione_gestione.required' => 'Riapri la scheda Web Check-in prima di salvarla.']);
+                abort_unless(hash_equals(app(\App\Services\WebCheckinVersione::class)->of($webGestione), $request->input('web_versione_gestione')), 409, 'I dati Web Check-in sono cambiati o sono già stati convertiti. Riapri la scheda prima di salvare.');
+            }
             if ($saveMode === 'convert_arrivi' && !$schedina->isInArrivi()) {
                 abort_unless($schedina->circuito === 'schedina' && !$schedina->is_arrive, 409);
                 return redirect()->route('schedina.edit', ['id' => $id])->with('success', 'Passaggio a schedina già completato: nessun duplicato creato.');
@@ -476,6 +485,11 @@ class SchedinaController extends Controller
             }
 
             $payload = $this->buildSchedinaPayload($request, $defaults);
+            if ($webGestione) {
+                foreach (['fonte_prenotazione', 'id_prenotazione_esterna', 'customer_email', 'customer_phone', 'customer_cellphone', 'customer_observation', 'customer_anag_observation', 'observation'] as $field) {
+                    if (! $request->exists($field)) $payload[$field] = $schedina->{$field};
+                }
+            }
             $payload['customer_id'] = $customer?->id;
             $this->applySaveModeState($payload, (int) $schedina->struttura_id, $saveMode, $schedina);
 
@@ -496,7 +510,7 @@ class SchedinaController extends Controller
             $this->syncComponenti($schedina, $request);
             $this->syncCircuitNumbering((int) $schedina->struttura_id, $previousCircuit, (string) ($payload['circuito'] ?? $previousCircuit));
 
-            if (in_array($payload['circuito'] ?? null, ['arrivi', 'schedina'], true)) {
+            if (in_array($payload['circuito'] ?? null, ['bozza', 'arrivi', 'schedina'], true)) {
                 \App\Models\WebCheckinRichiesta::query()
                     ->where('schedina_id', $schedina->id)
                     ->where('struttura_id', $schedina->struttura_id)
@@ -646,7 +660,7 @@ class SchedinaController extends Controller
             ]);
         }
         $schedina = Schedina::query()->findOrFail($id);
-        abort_if($schedina->isInArrivi(), 404);
+        abort_if($schedina->isInArrivi() || ($schedina->circuito === 'bozza' || $this->normalizeSchedaCircuit($schedina) === 'web'), 404);
         $componenti = Componenti::query()->where('schedina_id', $id)->get();
         $currentId = $schedina->struttura_id;
         $struttura = $currentId ? Struttura::find($currentId) : null;
@@ -686,8 +700,9 @@ class SchedinaController extends Controller
         ]);
     }
 
-    protected function commonFormData(): array
+    protected function commonFormData(?int $webStrutturaId = null): array
     {
+        $catalog = fn (string $model) => $webStrutturaId === null ? $model::query() : $model::withoutGlobalScopes()->where('struttura_id', $webStrutturaId);
         $cittadinanze = GeoNazione::query()
             ->whereNotNull('cittadinanza')
             ->where('cittadinanza', '<>', '')
@@ -697,31 +712,31 @@ class SchedinaController extends Controller
             ->values();
 
         $rilasciatoDa = Schema::hasTable('rilasciato_da')
-            ? RilasciatoDa::query()
+            ? $catalog(RilasciatoDa::class)
                 ->when(Schema::hasColumn('rilasciato_da', 'attivo'), fn ($query) => $query->where('attivo', true))
                 ->orderBy('name')
                 ->get(['id', 'name'])
             : collect();
 
         return [
-            'titoli' => Titolo::query()->where('attivo', true)->orderBy('nome')->get(['id', 'nome as name']),
+            'titoli' => $catalog(Titolo::class)->where('attivo', true)->orderBy('nome')->get(['id', 'nome as name']),
             'tipiCliente' => TipoCliente::query()->diSistema()
                 ->when(Schema::hasColumn('tipo_cliente', 'attivo'), fn ($query) => $query->where('attivo', true))
                 ->orderBy('descrizione')
                 ->get(['id', 'codice', 'descrizione as nome']),
             'groups' => Schema::hasTable('gruppi')
-                ? Gruppo::query()->orderBy('livello')->orderBy('nome')->get(['id', 'nome', 'livello', 'parent_id'])
+                ? $catalog(Gruppo::class)->orderBy('livello')->orderBy('nome')->get(['id', 'nome', 'livello', 'parent_id'])
                 : collect(),
             'gruppiLivello1' => Schema::hasTable('gruppi')
-                ? Gruppo::query()->where('livello', 1)->orderBy('nome')->get(['id', 'nome', 'parent_id'])
+                ? $catalog(Gruppo::class)->where('livello', 1)->orderBy('nome')->get(['id', 'nome', 'parent_id'])
                 : collect(),
             'gruppiLivello2' => Schema::hasTable('gruppi')
-                ? Gruppo::query()->where('livello', 2)->orderBy('nome')->get(['id', 'nome', 'parent_id'])
+                ? $catalog(Gruppo::class)->where('livello', 2)->orderBy('nome')->get(['id', 'nome', 'parent_id'])
                 : collect(),
             'gruppiLivello3' => Schema::hasTable('gruppi')
-                ? Gruppo::query()->where('livello', 3)->orderBy('nome')->get(['id', 'nome', 'parent_id'])
+                ? $catalog(Gruppo::class)->where('livello', 3)->orderBy('nome')->get(['id', 'nome', 'parent_id'])
                 : collect(),
-            'tipiVia' => TipoVia::query()->orderBy('nome')->get(['id', 'nome as name']),
+            'tipiVia' => $catalog(TipoVia::class)->orderBy('nome')->get(['id', 'nome as name']),
             'tipiDocumento' => TipoDocumento::query()->orderBy('descrizione')->get(['id', 'descrizione as name']),
             'nations' => GeoNazione::query()->orderBy('nome')->get(['id', 'nome', 'cittadinanza', 'codice_iso2']),
             'regions' => GeoRegione::query()->orderBy('nome')->get(['id', 'nome']),
@@ -756,10 +771,11 @@ class SchedinaController extends Controller
         return [$tassaConfig, $esenzioni];
     }
 
-    protected function validateSchedinaRequest(Request $request, bool $complete = true): void
+    protected function validateSchedinaRequest(Request $request, bool $complete = true, ?int $webStrutturaId = null, ?Schedina $webSheet = null): void
     {
-        $existing = $request->route('id') ? Schedina::query()->find($request->route('id')) : null;
-        $titleValues = Titolo::query()->where('attivo', true)->pluck('nome')->all();
+        $existing = $webSheet ?? ($request->route('id') ? Schedina::query()->find($request->route('id')) : null);
+        $titles = $webStrutturaId === null ? Titolo::query() : Titolo::withoutGlobalScopes()->where('struttura_id', $webStrutturaId);
+        $titleValues = $titles->where('attivo', true)->pluck('nome')->all();
         if ($existing?->type) $titleValues[] = $existing->type;
         $istatRule = function (string $field, array $options) use ($existing) {
             $values = array_keys($options);
@@ -869,7 +885,7 @@ class SchedinaController extends Controller
         }
         $request->validate($rules, $this->schedinaValidationMessages(), $this->schedinaValidationAttributes());
         if (!$complete) return;
-        $currentId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
+        $currentId = $webStrutturaId ?? StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
         app(\App\Services\SchedinaAnagraficaValidation::class)->validate($request, (int) $currentId);
         app(\App\Services\SchedinaSoggiornoValidation::class)->validate(
             Struttura::query()->findOrFail($currentId), $request->input('arrive'), $request->input('departure')
@@ -1498,7 +1514,7 @@ class SchedinaController extends Controller
             return;
         }
 
-        if ($request->routeIs('schedina.store', 'schedina.update')) {
+        if ($request->routeIs('schedina.store', 'schedina.update', 'web_checkin.public.*')) {
             $head = collect(TipoAlloggiatoCatalogo::opzioniCapoSchedina())->first(
                 fn ($option) => TipoAlloggiatoCatalogo::valoreCompatibileConOpzione($request->input('relationship'), $option)
             );
@@ -1640,7 +1656,7 @@ class SchedinaController extends Controller
 
     private function normalizedComponentiRows(Request $request): array
     {
-        return DatiComponenteNormalizzati::normalizzaRighe((array) $request->input('componenti', []));
+        return DatiComponenteNormalizzati::normalizzaRighe((array) $request->input('componenti', []), $request->routeIs('web_checkin.public.*') || $request->filled('web_versione_gestione'));
     }
 
     protected function componentiForSchedina(Schedina $schedina): \Illuminate\Database\Eloquent\Builder

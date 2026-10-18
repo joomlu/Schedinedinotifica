@@ -217,11 +217,18 @@ final class DatiComponenteNormalizzati
         };
     }
 
-    public static function normalizzaRighe(array $rows): array
+    public static function normalizzaRighe(array $rows, bool $conservaParziali = false): array
     {
         return collect($rows)
             ->map(fn ($row) => self::daArray((array) $row))
-            ->filter(fn (self $row) => !$row->eVuoto())
+            ->filter(function (self $row) use ($conservaParziali) {
+                if (! $conservaParziali) return ! $row->eVuoto();
+                foreach (['id', 'name', 'surname', 'sex', 'relationship', 'exent', 'city_nac', 'province_nac', 'country_nac', 'regione_nac', 'comune_nac', 'cap_nac', 'date_nac', 'country', 'regione', 'province', 'city', 'typeaway', 'address', 'number', 'cap'] as $field) {
+                    if (filled($row->dati[$field] ?? null)) return true;
+                }
+
+                return false;
+            })
             ->map(fn (self $row) => $row->toArray())
             ->values()
             ->all();

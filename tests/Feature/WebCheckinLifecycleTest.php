@@ -15,6 +15,7 @@ use Tests\TestCase;
 
 class WebCheckinLifecycleTest extends TestCase
 {
+    use \Tests\Support\WebCheckinPublicInput;
     use RefreshDatabase, StrutturaFixtures;
 
     protected function setUp(): void
@@ -73,7 +74,7 @@ class WebCheckinLifecycleTest extends TestCase
         $this->get('/w/'.$r->short_token)->assertOk();
         $this->travelTo($r->link_expires_at);
         $this->get('/checkin/'.$r->token)->assertNotFound();
-        $this->post('/w/'.$r->short_token)->assertNotFound();
+        $this->postWeb('/w/'.$r->short_token)->assertNotFound();
     }
 
     public function test_emissione_anticipata_senza_cap_e_formato_indipendente(): void
@@ -94,7 +95,7 @@ class WebCheckinLifecycleTest extends TestCase
         $r = $this->issue($this->richiesta());
         $expiry = $r->link_expires_at->toDateTimeString();
         foreach (['Prima', 'Correzione'] as $name) {
-            $this->post('/checkin/'.$r->token, ['name' => $name, 'surname' => 'Sintetico', 'arrive' => '2027-04-01', 'departure' => '2027-04-02', 'cant_people' => 1])->assertOk();
+            $this->postWeb('/checkin/'.$r->token, ['name' => $name, 'surname' => 'Sintetico', 'arrive' => '2027-04-01', 'departure' => '2027-04-02', 'cant_people' => 1])->assertOk();
         }
         $this->assertSame('2026-10-12', $r->fresh()->partenza->toDateString());
         $this->assertSame('2026-10-09', $r->fresh()->arrivo->toDateString());
@@ -109,14 +110,14 @@ class WebCheckinLifecycleTest extends TestCase
         $data = $this->payload($r);
         $data['arrivo'] = '2026-10-12';
         $data['partenza'] = '2026-10-15';
-        $this->put('/web-checkin/'.$r->id, $data)->assertRedirect();
+        $this->putWeb('/web-checkin/'.$r->id, $data)->assertRedirect();
         $this->assertSame('2026-10-14', $r->fresh()->link_expires_at->toDateString());
         $this->travelTo(Carbon::parse('2026-10-14', 'Europe/Rome'));
         $data['arrivo'] = '2026-10-20';
         $data['partenza'] = '2026-10-23';
-        $this->put('/web-checkin/'.$r->id, $data)->assertRedirect();
+        $this->putWeb('/web-checkin/'.$r->id, $data)->assertRedirect();
         $this->get('/checkin/'.$r->token)->assertNotFound();
-        $this->post('/web-checkin/'.$r->id.'/rigenera')->assertRedirect();
+        $this->postWeb('/web-checkin/'.$r->id.'/rigenera')->assertRedirect();
         $this->get('/checkin/'.$r->fresh()->token)->assertOk();
         $this->get('/checkin/'.$r->token)->assertNotFound();
     }
@@ -125,22 +126,22 @@ class WebCheckinLifecycleTest extends TestCase
     {
         $r = $this->issue($this->richiesta());
         $this->operator($r);
-        $this->post('/web-checkin/'.$r->id.'/revoca', ['_token' => 'errato'])->assertStatus(419);
+        $this->postWeb('/web-checkin/'.$r->id.'/revoca', ['_token' => 'errato'])->assertStatus(419);
         $this->get('/w/'.$r->short_token)->assertOk();
-        $this->post('/web-checkin/'.$r->id.'/revoca')->assertRedirect();
+        $this->postWeb('/web-checkin/'.$r->id.'/revoca')->assertRedirect();
         $this->get('/w/'.$r->short_token)->assertNotFound();
         $this->get('/checkin/'.$r->token)->assertNotFound();
-        $this->post('/web-checkin/'.$r->id.'/rigenera')->assertRedirect();
+        $this->postWeb('/web-checkin/'.$r->id.'/rigenera')->assertRedirect();
         $new = $r->fresh();
         $this->get('/w/'.$new->short_token)->assertOk();
         $this->get('/w/'.$r->short_token)->assertNotFound();
         $data = $this->payload($new);
         $data['email'] = 'altro@example.invalid';
-        $this->put('/web-checkin/'.$r->id, $data)->assertRedirect();
+        $this->putWeb('/web-checkin/'.$r->id, $data)->assertRedirect();
         $this->get('/w/'.$new->short_token)->assertNotFound();
         $b = $this->richiesta();
-        $this->post('/web-checkin/'.$b->id.'/rigenera')->assertNotFound();
-        $this->post('/web-checkin/'.$b->id.'/revoca')->assertNotFound();
+        $this->postWeb('/web-checkin/'.$b->id.'/rigenera')->assertNotFound();
+        $this->postWeb('/web-checkin/'.$b->id.'/revoca')->assertNotFound();
     }
 
     public function test_cestino_non_riattiva_e_nuova_emissione64(): void
@@ -155,7 +156,7 @@ class WebCheckinLifecycleTest extends TestCase
         $this->get('/checkin/'.$old)->assertNotFound();
         $this->get('/checkin/'.$restored->token)->assertNotFound();
         $this->operator($restored);
-        $this->post('/web-checkin/'.$restored->id.'/rigenera')->assertRedirect();
+        $this->postWeb('/web-checkin/'.$restored->id.'/rigenera')->assertRedirect();
         $this->get('/w/'.$restored->fresh()->short_token)->assertOk();
     }
 
@@ -197,13 +198,13 @@ class WebCheckinLifecycleTest extends TestCase
         $r->update(['partenza' => '2026-10-08']);
         $this->get('/checkin/'.$r->token)->assertNotFound();
         $this->operator($r);
-        $this->post('/web-checkin/'.$r->id.'/rigenera')->assertStatus(422);
+        $this->postWeb('/web-checkin/'.$r->id.'/rigenera')->assertStatus(422);
         $data = $this->payload($r);
         $data['arrivo'] = '2026-10-10';
         $data['partenza'] = '2026-10-12';
-        $this->put('/web-checkin/'.$r->id, $data)->assertRedirect();
+        $this->putWeb('/web-checkin/'.$r->id, $data)->assertRedirect();
         $this->get('/checkin/'.$r->token)->assertNotFound();
-        $this->post('/web-checkin/'.$r->id.'/rigenera')->assertRedirect();
+        $this->postWeb('/web-checkin/'.$r->id.'/rigenera')->assertRedirect();
         $this->get('/checkin/'.$r->fresh()->token)->assertOk();
     }
 
@@ -232,14 +233,14 @@ class WebCheckinLifecycleTest extends TestCase
         $r = $this->issue($this->richiesta());
         $r->update(['stato' => 'convertito']);
         for ($i = 0; $i < 20; $i++) {
-            $this->post($i % 2 ? '/w/'.$r->short_token : '/checkin/'.$r->token)->assertOk();
+            $this->postWeb($i % 2 ? '/w/'.$r->short_token : '/checkin/'.$r->token)->assertOk();
         }
-        $this->post('/checkin/'.$r->token, ['name' => 'NON-SCRIVERE'])->assertStatus(429)->assertHeader('Retry-After', '600');
+        $this->postWeb('/checkin/'.$r->token, ['name' => 'NON-SCRIVERE'])->assertStatus(429)->assertHeader('Retry-After', '600');
         $this->get('/w/'.$r->short_token)->assertOk();
         $this->travelTo(now()->addSeconds(599));
-        $this->post('/w/'.$r->short_token)->assertStatus(429)->assertHeader('Retry-After', '1');
+        $this->postWeb('/w/'.$r->short_token)->assertStatus(429)->assertHeader('Retry-After', '1');
         $this->travelTo(now()->addSecond());
-        $this->post('/w/'.$r->short_token)->assertOk();
+        $this->postWeb('/w/'.$r->short_token)->assertOk();
         $this->assertSame('PERSONALE-SINTETICO', Schedina::withoutGlobalScopes()->find($r->schedina_id)->name);
     }
 
@@ -279,7 +280,7 @@ class WebCheckinLifecycleTest extends TestCase
         $r = $this->issue($this->richiesta());
         $this->operator($r);
         $payload = ['save_mode' => 'to_arrivi', 'name' => 'Destinatario diverso', 'surname' => 'Ospite', 'arrive' => '2026-10-12', 'departure' => '2026-10-15', 'cant_people' => 1, 'room' => 1, 'beds' => 1];
-        $this->put('/schedine/'.$r->schedina_id, $payload)->assertSessionHasNoErrors()->assertRedirect();
+        $this->putWeb('/schedine/'.$r->schedina_id, $payload)->assertSessionHasNoErrors()->assertRedirect();
         $this->assertSame('2026-10-09', $r->fresh()->arrivo->toDateString());
         $this->assertSame('convertito', $r->fresh()->stato);
         $this->get('/checkin/'.$r->token)->assertNotFound();
@@ -305,13 +306,13 @@ class WebCheckinLifecycleTest extends TestCase
         $data['arrivo'] = '2026-09-01';
         $data['partenza'] = '2026-09-03';
         $before = DB::table('schedina')->count();
-        $this->post('/web-checkin', $data)->assertRedirect();
+        $this->postWeb('/web-checkin', $data)->assertRedirect();
         $this->assertSame($before + 1, DB::table('schedina')->count());
         $past = WebCheckinRichiesta::orderByDesc('id')->firstOrFail();
         $this->get('/checkin/'.$past->token)->assertNotFound();
         $this->actingAs($this->actor('ruolo_sconosciuto', null, $r->struttura_id));
-        $this->post('/web-checkin/'.$r->id.'/rigenera')->assertForbidden();
-        $this->post('/web-checkin/'.$r->id.'/revoca')->assertForbidden();
+        $this->postWeb('/web-checkin/'.$r->id.'/rigenera')->assertForbidden();
+        $this->postWeb('/web-checkin/'.$r->id.'/revoca')->assertForbidden();
     }
 
     public function test_head_csrf_invalido_e_ip_distinto_rispettano_contatori(): void
@@ -323,8 +324,8 @@ class WebCheckinLifecycleTest extends TestCase
         }$this->get('/w/'.$r->short_token)->assertStatus(429);
         $this->withServerVariables(['REMOTE_ADDR' => '192.0.2.55'])->get('/w/'.$r->short_token)->assertOk();
         for ($i = 0; $i < 20; $i++) {
-            $this->post('/checkin/'.$r->token, ['_token' => 'errato'])->assertStatus(419);
-        }$this->post('/w/'.$r->short_token)->assertStatus(429);
+            $this->postWeb('/checkin/'.$r->token, ['_token' => 'errato'])->assertStatus(419);
+        }$this->postWeb('/w/'.$r->short_token)->assertStatus(429);
     }
 
     public function test_cancellazione_contatto_gestionale_revoca_anche_valore_null(): void
@@ -332,7 +333,7 @@ class WebCheckinLifecycleTest extends TestCase
         $r = $this->issue($this->richiesta());
         Schedina::withoutGlobalScopes()->findOrFail($r->schedina_id)->update(['customer_email' => 'precedente@example.invalid']);
         $this->operator($r);
-        $this->put('/schedine/'.$r->schedina_id, ['save_mode' => 'to_arrivi', 'name' => 'PERSONALE-SINTETICO', 'surname' => 'Ospite', 'arrive' => '2026-10-09', 'departure' => '2026-10-12', 'cant_people' => 1, 'room' => 1, 'beds' => 1, 'customer_email' => null])->assertSessionHasNoErrors()->assertRedirect();
+        $this->putWeb('/schedine/'.$r->schedina_id, ['save_mode' => 'to_arrivi', 'name' => 'PERSONALE-SINTETICO', 'surname' => 'Ospite', 'arrive' => '2026-10-09', 'departure' => '2026-10-12', 'cant_people' => 1, 'room' => 1, 'beds' => 1, 'customer_email' => null])->assertSessionHasNoErrors()->assertRedirect();
         $this->assertNotNull($r->fresh()->link_revoked_at);
         $this->get('/w/'.$r->short_token)->assertNotFound();
     }
@@ -344,7 +345,7 @@ class WebCheckinLifecycleTest extends TestCase
         $oldShort = $r->codice.'-'.substr($oldFull, 0, 8);
         $this->get('/w/'.$oldShort)->assertOk();
         $this->operator($r);
-        $this->post('/web-checkin/'.$r->id.'/rigenera')->assertRedirect();
+        $this->postWeb('/web-checkin/'.$r->id.'/rigenera')->assertRedirect();
         $r->refresh();
         $r->forceFill(['token' => substr($oldFull, 0, 8).str_repeat('X', 56)])->save();
         $this->get('/w/'.$oldShort)->assertNotFound();

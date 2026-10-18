@@ -6,7 +6,8 @@
     $hasPersistedSchedina = ($schedinaContext ?? null) !== 'new' && !empty($schedina) && $schedina instanceof \App\Models\Schedina && $schedina->exists && !empty($schedina->getKey());
     $isEdit = $usePutMethod !== null ? (bool) $usePutMethod : $hasPersistedSchedina;
     $formAction = $formAction ?? ($isEdit ? route('schedina.update', ['id' => $schedina->id]) : route('schedina.store'));
-    $isArrivi = $schedina?->isInArrivi() || request()->boolean('arrival');
+    $isPublicWeb = isset($webVersione) || request()->routeIs('web_checkin.public.*');
+    $isArrivi = ! $isPublicWeb && ($schedina?->isInArrivi() || request()->boolean('arrival'));
     $formTitle = $formTitle ?? ($isArrivi ? ($isEdit ? 'Modifica Arrivi' : 'Nuova scheda Arrivi') : ($isEdit ? 'Modifica schedina' : 'Nuova schedina'));
     $nextSchedaCode = $nextSchedaCode ?? null;
     $showIstatFields = $showIstatFields ?? true;
@@ -146,6 +147,17 @@
             @endif
             <input type="hidden" name="save_mode" id="save-mode" value="{{ $isArrivi ? 'to_arrivi' : old('save_mode', 'full') }}">
             <input type="hidden" name="save_mode_intent" id="save-mode-intent" value="{{ old('save_mode_intent', '') }}">
+            @if(!empty($webGestione))
+                <input type="hidden" name="web_versione_gestione" value="{{ ($errors->has('web_versione_gestione') || session()->hasOldInput('web_versione_gestione')) ? old('web_versione_gestione', '') : $webVersioneGestione }}">
+                <div class="alert alert-info">Provenienza Web Check-in {{ $webGestione->codice }} — prenotazione {{ $webGestione->numero_prenotazione }}. Referente: {{ $webGestione->nome_referente }}. Le note interne restano nella richiesta collegata.
+                    <a href="{{ route('web_checkin.edit', $webGestione->id) }}">Gestisci richiesta e note interne</a>.
+                    Salva a bozza per continuare in reception oppure passa esplicitamente a schedina dopo aver completato tutti i dati. Il collegamento conserva lo stesso identificativo della scheda.
+                </div>
+            @endif
+            @if(isset($webVersione))
+                <input type="hidden" name="web_versione" value="{{ ($errors->has('web_versione') || session()->hasOldInput('web_versione')) ? old('web_versione', '') : $webVersione }}">
+                <div class="alert alert-info">Puoi salvare anche dati incompleti e riprendere dallo stesso link. «Concludi compilazione» verifica tutti i dati; la reception confermerà la registrazione. Il soggiorno previsto resta quello indicato nell’invito.</div>
+            @endif
             @if($isArrivi)
                 <input type="hidden" name="arrivi_context" value="1">
                 <input type="hidden" name="arrivi_q" value="{{ old('arrivi_q', request('arrivi_q', '')) }}">
@@ -222,6 +234,7 @@
                                             variant="period-start"
                                             :value="$isArrivi ? \App\Support\ArriviDay::today() : $toDateInput($valueOf('arrive'))"
                                             :readonly="$isArrivi"
+                                            :disabled="isset($webVersione)"
                                             :group="$isArrivi ? null : 'soggiorno'"
                                             placeholder="gg/mm/aaaa"
                                         />
@@ -232,6 +245,7 @@
                                         <label class="form-label">Partenza <span class="text-danger">*</span></label>
                                         <x-calendario
                                             name="departure"
+                                            :disabled="isset($webVersione)"
                                             variant="period-end"
                                             group="soggiorno"
                                             :value="$toDateInput($valueOf('departure'))"
@@ -1251,12 +1265,13 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
 <h5 class="card-title mb-0">Tassa di soggiorno</h5>
-                                @if($hasPersistedSchedina && empty($tassaDettaglio['errore']))
+                                @if($hasPersistedSchedina && !$isPublicWeb && !in_array($schedina->circuito, ['web', 'bozza'], true) && empty($tassaDettaglio['errore']))
                                     <a href="{{ route('schedina.tassa.anteprima', ['id' => $schedina->id]) }}" class="btn btn-outline-secondary btn-sm" target="_blank" rel="noopener">Anteprima ricevuta</a>
                                 @endif
                             </div>
                         </div>
                         <div class="card-body">
+                            @if($isPublicWeb)<div class="alert alert-info">Anteprima informativa della tassa: nessuna ricevuta o contabilizzazione fino al passaggio esplicito a Schedina.</div>@endif
                             @if(!$isArrivi)<p class="text-muted small">Calcolo corrente. Le versioni consolidate restano disponibili nel rapporto Tassa.</p>@endif
                             @if($isArrivi)
                                 <div class="alert alert-info">Scheda in Arrivi: nessun calcolo, liquidazione o dichiarazione della Tassa fino al passaggio esplicito a schedina.</div>

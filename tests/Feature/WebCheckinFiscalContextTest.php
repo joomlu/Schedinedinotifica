@@ -14,6 +14,7 @@ use Tests\TestCase;
 
 class WebCheckinFiscalContextTest extends TestCase
 {
+    use \Tests\Support\WebCheckinPublicInput;
     use RefreshDatabase, StrutturaFixtures;
 
     protected function setUp(): void
@@ -89,7 +90,7 @@ class WebCheckinFiscalContextTest extends TestCase
 
     public static function invalidi(): array
     {
-        return [['assente'], ['aliquota'], ['periodo']];
+        return [['assente'], ['aliquota']];
     }
 
     #[DataProvider('invalidi')]
@@ -101,14 +102,23 @@ class WebCheckinFiscalContextTest extends TestCase
             $cfg->delete();
         } elseif ($case === 'aliquota') {
             $cfg->update(['tassa_soggiorno' => 9]);
-        } else {
-            $cfg->update(['inizio' => '2026-03-01']);
         }
         $before = $this->fiscale();
         $this->getJson('/checkin/'.$r->token)->assertStatus(422)->assertJsonValidationErrors(match ($case) {
-            'assente' => 'configurazione_tassa', 'aliquota' => 'categoria_tassa', default => 'periodo_tassa',
+            'assente' => 'configurazione_tassa', 'aliquota' => 'categoria_tassa',
         })->assertDontSee('PERSONA-SINTETICA-A07');
         $this->assertSame($before, $this->fiscale());
+    }
+
+    public function test_periodo_legacy_conservato_non_blocca_il_profilo_comunale_come_da_contratto_del_12_ottobre(): void
+    {
+        [$s, $cfg, $p, $r] = $this->contesto();
+        $cfg->update(['inizio' => '2026-03-01']);
+        $before = $this->fiscale();
+        $this->get('/checkin/'.$r->token)->assertOk()->assertViewHas('tassaConfig', fn ($c) => $c->id === $cfg->id);
+        $this->assertSame($before, $this->fiscale());
+        $this->assertSame('2026-03-01', substr((string) $cfg->fresh()->getRawOriginal('inizio'), 0, 10));
+        $this->assertNotNull(app(\App\Services\TassaDiSoggiornoService::class)->profiloFiscaleBellaria($s, 2026));
     }
 
     public static function periodi(): array

@@ -1,0 +1,7 @@
+{
+  "esito": "PASS_FORMATO_DUMP_REALE_PRECEDENTE",
+  "tabelle": 64,
+  "dati_reali_solo_letti_in_memoria_server": true,
+  "delta_sintetico_solo_memoria": true,
+  "nessuna_scrittura_DB_o_file": true
+}

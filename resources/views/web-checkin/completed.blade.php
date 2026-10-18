@@ -1,5 +1,5 @@
 @extends('layouts.master-without-nav')
-@section('title', 'Web Check-in completato')
+@section('title', $richiesta->compilato_at ? 'Compilazione conclusa' : 'Dati parziali salvati')
 
 @section('body')
 <body>
@@ -18,9 +18,9 @@
                                     <i class="ri-check-line"></i>
                                 </span>
                             </div>
-                            <h2 class="h3 mb-2">Web Check-in inviato</h2>
+                            <h2 class="h3 mb-2">{{ $richiesta->compilato_at ? 'Compilazione conclusa' : 'Dati parziali salvati' }}</h2>
                             <div class="text-muted">
-                                Grazie per aver completato il Web Check-in. La tua schedina online è stata salvata correttamente e la reception la troverà già pronta per accelerare l'arrivo in struttura.
+                                {{ $richiesta->compilato_at ? 'La reception ha ricevuto i dati per la revisione. La registrazione definitiva avverrà soltanto dopo la sua verifica.' : 'Le informazioni inserite sono state conservate. Riprendi dallo stesso link per aggiungere i dati mancanti oppure completali con la reception.' }}
                             </div>
                         </div>
                         <div class="card-body p-4">
@@ -48,7 +48,7 @@
                             <div class="card border-0 shadow-sm mb-4" id="webcheckin-ricevuta">
                                 <div class="card-header bg-light-subtle border-0 d-flex align-items-center">
                                     <i class="ri-file-text-line me-2 text-primary"></i>
-                                    <h5 class="card-title mb-0">Ricevuta Web Check-in</h5>
+                                    <h5 class="card-title mb-0">Riepilogo Web Check-in</h5>
                                 </div>
                                 <div class="card-body">
                                     <div class="ricevuta-print">
@@ -58,7 +58,7 @@
                                                     <img src="{{ asset($strutturaInfo->logo) }}" alt="Logo struttura" class="ricevuta-print__logo">
                                                 </div>
                                             @endif
-                                            <div class="ricevuta-print__title">Web Check-in completato</div>
+                                            <div class="ricevuta-print__title">{{ $richiesta->compilato_at ? 'Compilazione conclusa' : 'Dati parziali salvati' }}</div>
                                             <div class="ricevuta-print__subtitle">{{ $strutturaInfo->nome_struttura ?? 'Struttura' }}</div>
                                         </div>
 
@@ -82,7 +82,7 @@
                                         </div>
 
                                         <div class="ricevuta-print__note">
-                                            Grazie per aver completato il Web Check-in. La tua schedina è stata salvata online e la reception potrà importarla direttamente nel circuito operativo al momento dell'arrivo.
+                                            {{ $richiesta->compilato_at ? 'Compilazione conclusa: la reception verificherà i dati prima della registrazione definitiva.' : 'Dati salvati anche se incompleti. Puoi riprendere dallo stesso link finché è valido; la reception potrà aiutarti a completarli.' }}
                                         </div>
                                     </div>
                                 </div>
