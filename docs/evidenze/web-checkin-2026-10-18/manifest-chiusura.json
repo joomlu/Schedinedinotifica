@@ -9,6 +9,7 @@
     "online-accessi.json": "a13589774f602ba15515367eeb3c47cdefa7ad604fb35a73841ad763012d9df0",
     "rilascio-intermedio-39518a6.json": "b7be34ddc474126e610d5a3349bc77f9141dbaf5fb3b1104b68ed2ae491e0374",
     "comparatore-dump.json": "ac5f52291505a4d0314cb4c02fbbb5267d68554429af3d9eb5e1fdb25b6bdc82",
+    "presidio-Mac-chiuso.json": "0682070e72ac66c903d1044518c5872c520595f0cc240d8244049672561ffe6f",
     "preflight-capienza.json": "747d9485140fa2fb5ac4d4850148a1d687b53dd269056a1f8028b2dde15ded3d",
     "custodia-finale.json": "c96b68ca173a12a60f9c081c57311f294601595f33d208e706bbb1aaa380a274",
     "fixture-chiusura.json": "a5abab603fc1db05b6dad3d0032a58fbe963224e4987cc8ba3d6bc16e6567ded",
@@ -33,5 +34,6 @@
   },
   "nessun_segreto_o_dato_reale_esportato": true,
   "stato_generale": "BASELINE IN AUDIT",
-  "SHA_documentale": "Da registrare con commit successivo, evitando autoriferimento."
+  "SHA_documentale": "45ed9ba29e925b4932dc2e84cbe456a9259bcd42",
+  "nota_SHA_documentale": "Commit delle evidenze complete; riferimento e chiusura del presidio Mac registrati dal successore documentale, senza autoriferimento."
 }
