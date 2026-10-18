@@ -1,6 +1,6 @@
 # Web Check-in — circuito completo — 18 ottobre 2026
 
-**Implementazione e collaudo isolato conclusi; pubblicazione ancora da eseguire. BASELINE IN AUDIT generale invariata.** Autorizzazione umana corrente: codice, test isolati, commit/push, C5, Extra e QA sintetica; nessun invio a ospiti reali o enti.
+**Prima pubblicazione39518a6 eseguita; correzione del generatore verificata in isolamento. Circuito NON CHIUSO. BASELINE IN AUDIT generale invariata.** Autorizzazione umana corrente: codice, test isolati, commit/push, C5, Extra e QA sintetica; nessun invio a ospiti reali o enti.
 
 ## Obiettivo, ambito e stato iniziale
 
@@ -57,3 +57,13 @@ Diagnostici intermedi conservati: guardiaSHA rifiutò overlay iniziale degli str
 ## Pubblicazione e pendenti
 
 Ancora da verificare: revisione delta/commit/push, nuovo PREPARE/S0/recupero indipendente, C5 con guardiano e unica migrazione, QA online sintetica e pulizia con HMAC righe preesistenti, monitor almeno900secondi, SHA applicativo online e documentale. Nessuna nuova manutenzione o pubblicazione eseguita in questa attività finora. Budget1800/S0600/cutoff1379/riserva421 invariati.
+
+## Prima pubblicazione e correzione emersa online
+
+Applicativo39518a6b4ff0f9b1112b0fa6d13debf1854e5061 pubblicato con C5: S0indipendente180,179s, RUN263,172s,402campioni e una migrazione autorizzata.157migrazioni/66tabelle,64tabelle precedenti preservate salvo registrazione migrazione,75persistenti/env/APP_KEY/upload/logo,9sonde e sorgenti conformi. Guardiano concluso/inattivo/disabilitato. PrimaPREPARE fermata fuori barriera per inventario mutato; tar successivo mostra2nuove sessioni e1metadato, writer non attribuibile con certezza. Nuove base/prebuildr2 e recupero indipendentePASS, stessi gate; nessun T0/DDL nel tentativo PREPARE fermato.
+
+QA reale con account della sola struttura sintetica ha riprodotto500 alla creazione: indice codice globale contro generatoreWC1 calcolato separatamente per struttura. Tre tentativi sintetici falliti nei log14:56:46/14:58:42/14:59:52Europe/Rome; nessun log cancellato e nessuna registrazione dichiarata riuscita. Prima fixture rimossa: tutte le righe preesistenti nelle66tabelle conHMAC identici, senza restore o reset dei contatori. Il problema non richiede modifiche a schema o dati esistenti.
+
+Correzione candidata verificata:139test/1489asserzioni,14browser,8scenari token e1provaHTTP300/60sPASS,17guardie/23override/buildGEO invariati. Nuovi codiciWC+ULID alfanumerici28caratteri, entro il limite30 e il resolver legacy; nessuna rinumerazione. Regressione conWC1 storico, due strutture e quattro creazioni, controllo univocità e conservazione integrale del record storico. Nuovo C5 dal39518a6, senza ulterioriDDL, e nuova QA/monitor ancora pendenti.
+
+Prima del secondoC5: discard dei soli blocchi già liberi XFS, env/lock/disco nominale invariati; Mac10073268224→11996647424byte liberi, allocato raw30385913856→28452786176, senza attribuire al contatoretrimmed il recupero fisico. Preflight13:09:51UTC Mac11996610560/VM7587483648/Extra684957519872byte, fabbisogno3741884416PASS. Prima catena suExtra6file/397671072byte riletti, chiavi separate e originali conservati.

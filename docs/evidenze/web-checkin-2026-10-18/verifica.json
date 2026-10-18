@@ -1,10 +1,10 @@
 {
   "stato": "PASS_WEB_CHECKIN_ISOLATO",
-  "data_UTC": "2026-10-18T12:41:16.922539+00:00",
+  "data_UTC": "2026-10-18T13:09:51.314839+00:00",
   "backend": {
-    "test": 138,
-    "asserzioni": 1466,
-    "log": "isolato-R18.log"
+    "test": 139,
+    "asserzioni": 1489,
+    "log": "correzione-R21.log"
   },
   "browser_finale": {
     "test": 14,
@@ -16,11 +16,11 @@
   },
   "regressione_link": {
     "test": 8,
-    "log": "token-R6.log"
+    "log": "correzione-token-R7.log"
   },
   "limite_generale_runtime_nuovo": {
     "test": 1,
-    "log": "rate-R1.log",
+    "log": "correzione-rate-R2.log",
     "richieste_massime": 301,
     "soglia": 300,
     "finestra_secondi": 60,
@@ -40,7 +40,7 @@
     "app/Http/Controllers/TassaDiSoggiornoController.php": "1519257f2be786880d7742c56421ad4a59b7a2a81c13f7610424f756d733c9a2",
     "app/Http/Controllers/TassaReportController.php": "836baf8d77f0f676c59992b270828bb18ca342d77cb8234e8e8a2e0abda4d3c5",
     "app/Http/Controllers/WebCheckinComunicazioniController.php": "d257ea8cc4f362b17df89fe14ba3c9016a5b19f68be78287e2fef937ce53c4e4",
-    "app/Http/Controllers/WebCheckinController.php": "ae7ac6f6a0357549d5b4410aa057551af516bbe03d6ff424f1f512edb12e40fb",
+    "app/Http/Controllers/WebCheckinController.php": "9d36bf3067269d67a986a6e352ffdb4437c6384312ae92ff9afa961150e7d0b5",
     "app/Http/Middleware/WebCheckinRateLimit.php": "9fc02decc76c428348b82706c906ee3df462fd062e689baaf56d21d5ededc4cb",
     "app/Models/Schedina.php": "32cea9ca5dcbefffa7862e04a28e96f5dab0506929654e7e499d1fcc9a28c928",
     "app/Models/WebCheckinComunicazione.php": "92e4dde29e99662761fe389d3dd2499f7ac030f5ff862c01ba4157901e5aebcf",
@@ -73,7 +73,7 @@
     "tests/Feature/ArriviEsenzioniTest.php": "d685d9ac0fec82b9abf8c62e64f5d3d23cbd886656bd2497cd4a83c87fab6f63",
     "tests/Feature/ArriviLifecycleTest.php": "a62eac4cbe2da352c6937ceacfdc22bd0ca4f91c3aa700c569758d21100d2755",
     "tests/Feature/WebCheckinCameraIsolationTest.php": "3089eec98616d991a5d36c7373a80ab0dbb738a745f6ff0c869ef3697db177f8",
-    "tests/Feature/WebCheckinComunicazioniTest.php": "857156491a54e3a3a0c34646e783ca3163a6e5a70dc946d6b91efe35421e5cda",
+    "tests/Feature/WebCheckinComunicazioniTest.php": "abb4702c240b4f9e993a2423487b3d46f102619429b066ce9249690e213cd345",
     "tests/Feature/WebCheckinEsclusioniConversioneTest.php": "cc262ad4ebc55793d0e2f88af10c975ca328b40f10d38d09b1995646d4c90a27",
     "tests/Feature/WebCheckinFiscalContextTest.php": "db16b0d7d6edd1836952d2e8b00b14e9aa06aaa040e1358f17e0e2defd2fef98",
     "tests/Feature/WebCheckinGroupAtomicityTest.php": "7b132fd0788d4a0ca032a407d0835cd9a36b7e99183c031b4c8c1d28caf2ff0d",
@@ -84,15 +84,14 @@
     "tests/Feature/arrivi-lifecycle.playwright.spec.js": "e7c979254bc7604d3f4a6f2241e238a61ab00c621b362ff1d20dd031e7512b7c",
     "tests/Feature/web-checkin-lifecycle.playwright.spec.js": "586fbcf796bfe0c765ab8b904f0684a8c84f83968f3b93abcd4d6f5e67208d0f",
     "tests/Feature/web-checkin-operativo.playwright.spec.js": "ec492be0a7a004e4e1b6dcc9dda012d743866179ac8e9430403631f819dde16e",
-    "tests/Support/WebCheckinPublicInput.php": "fe9e8d49d5cfcad15a7f47d6882a990f1f70ebe268506f6fd697307f6788744f",
     "tests/Feature/web-checkin-rate-limit.playwright.spec.js": "4217a8e0b48e477c956f65d642838470afdd1231ed79ef10b713cfe7b52886e7",
+    "tests/Support/WebCheckinPublicInput.php": "fe9e8d49d5cfcad15a7f47d6882a990f1f70ebe268506f6fd697307f6788744f",
     "tests/Isolation/web-checkin-lifecycle-fixtures.php": "404388eec4ffd2aa1fa9e8273b0a4f5c7c0bfdaa483976556cfe2574d843fc62"
   },
   "log_sha256": {
-    "isolato-R18.log": "c2bda9a453ed165b4ca5b8ea2fd1be0bd12965ff4f5589e3b252686c0dd99925",
-    "browser-R19.log": "3ba09f4c3c34cbb6313a94b3647b2d4d26a313357ca3cd8cd28459430b3008bc",
-    "token-R6.log": "392c2cafca5eecab00c8dea9393495bb90da6658497e739c20cd45f1528876a1",
-    "rate-R1.log": "b69b6bde74c18a300908116df7d04331bea7c9dd8e27bbe4867e464536523954",
+    "correzione-R21.log": "5f03fcab659a9d56bd8c0974700175eace0203c7c9067eebf405ac12df380b41",
+    "correzione-token-R7.log": "587bd282eeff3df990df68ae3699e4544eee2cf575fe9e3035f3f799438d301c",
+    "correzione-rate-R2.log": "3b47d22cf16695bb0bd76e5135729e07392de1b8cb07ba1461b3c429ebbb25fa",
     "guardie-complete.log": "5eeeffeb5976191370e774e44c81ee5d14deb286782933056cf7582f5d98ce7f",
     "oom-matrici.log": "2a126a6acbf4e4930b62a6d50132a5e0ac4a5a171fbf4665270ca40ccfa8beef"
   },
@@ -101,7 +100,7 @@
     "Avvisi strumentali MariaDB conservati, nessuna deroga ai controlli",
     "VM giornaliera945ef553 preservata; clone CoW e overlay delle sole sorgenti candidate, hash espliciti",
     "Vista gestionale finale qualificata anche nella regressione link successiva",
-    "R18: backend PASS; browser interrotti da OOM documentato su due matrici concorrenti; R19 e regressione link ripetuti in sequenza, senza modificare risorse o soglie applicative/C5; sola prova HTTP301 con budget90s in runtime distinto: finestra60s fresca, nessun reset di contatori",
-    "C5 e versione online ancora da verificare"
+    "Precedenti OOM e problemi di sincronizzazione dichiarati nel rapporto; matrice finale sequenziale. Prova HTTP301 in runtime dedicato con finestra60s naturale, nessun reset di contatori",
+    "Prima pubblicazione39518a6 con difetto di codice globale riprodotto nella QA; nuova revisione e C5 senzaDDL ancora da verificare"
   ]
 }

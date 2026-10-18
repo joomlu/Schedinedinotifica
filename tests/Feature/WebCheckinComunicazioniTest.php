@@ -203,6 +203,30 @@ class WebCheckinComunicazioniTest extends TestCase
         $this->assertSame('web', $sheet->circuito); $this->assertSame(0, Schedina::effettive()->count());
     }
 
+    public function test_creazione_in_strutture_distinte_non_collide_con_codici_storici_globali(): void
+    {
+        $legacy = $this->scenario();
+        $legacy->update(['codice' => 'WC1']);
+        $before = $legacy->fresh()->getAttributes();
+        $other = $this->structureFor(null);
+        foreach ([$legacy->struttura_id, $other->id] as $sid) {
+            $this->actingAs($this->actor('struttura_user', null, $sid));
+            foreach ([1, 2] as $number) {
+                $ref = 'TENANT-SINTETICO-'.$sid.'-'.$number;
+                $this->withSession(['struttura_corrente_id' => $sid])->post(route('web_checkin.store'), [
+                    'numero_prenotazione' => $ref, 'nome_referente' => 'Referente sintetico', 'email' => 'sintetico@example.invalid',
+                    'arrivo' => now()->addDays(3)->toDateString(), 'partenza' => now()->addDays(6)->toDateString(), 'quantita_persone' => 1,
+                ])->assertSessionHasNoErrors()->assertRedirect();
+                $created = WebCheckinRichiesta::where('struttura_id', $sid)->where('numero_prenotazione', $ref)->firstOrFail();
+                $this->assertLessThanOrEqual(30, strlen($created->codice));
+                $this->assertMatchesRegularExpression('/\A[A-Za-z0-9]+\z/', $created->codice);
+            }
+        }
+        $this->assertDatabaseCount('web_checkin_richieste', 5);
+        $this->assertSame(5, WebCheckinRichiesta::pluck('codice')->unique()->count());
+        $this->assertSame($before, $legacy->fresh()->getAttributes());
+    }
+
     public function test_parametro_arrival_non_attiva_il_giorno_mobile_nel_form_pubblico(): void
     {
         $r = $this->scenario();

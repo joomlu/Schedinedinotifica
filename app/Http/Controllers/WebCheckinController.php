@@ -116,7 +116,7 @@ class WebCheckinController extends SchedinaController
             $richiesta = WebCheckinRichiesta::query()->create([
                 'struttura_id' => $strutturaId,
                 'schedina_id' => $schedina->id,
-                'codice' => $this->nextRichiestaCode($strutturaId),
+                'codice' => $this->nextRichiestaCode(),
                 'numero_prenotazione' => $data['numero_prenotazione'],
                 'email' => $data['email'],
                 'whatsapp' => $data['whatsapp'] ?? null,
@@ -645,20 +645,12 @@ class WebCheckinController extends SchedinaController
         return [$tassaConfig, $this->tassaService->catalogoBellaria($struttura, $esenzioni)];
     }
 
-    private function nextRichiestaCode(int $strutturaId): string
+    private function nextRichiestaCode(): string
     {
-        $codes = WebCheckinRichiesta::query()
-            ->where('struttura_id', $strutturaId)
-            ->pluck('codice');
-
-        $max = 0;
-        foreach ($codes as $code) {
-            if (preg_match('/^WC(\d+)$/i', (string) $code, $m)) {
-                $max = max($max, (int) $m[1]);
-            }
-        }
-
-        return 'WC'.($max + 1);
+        // Il vincolo SQL è globale: un identificativo alfanumerico di28caratteri
+        // evita collisioni fra strutture e resta compatibile con gli alias legacy.
+        // Nessun codice già assegnato viene rinumerato.
+        return 'WC'.(string) Str::ulid();
     }
 
     private function mailSubject(WebCheckinRichiesta $richiesta): string
