@@ -101,6 +101,7 @@
     "VM giornaliera945ef553 preservata; clone CoW e overlay delle sole sorgenti candidate, hash espliciti",
     "Vista gestionale finale qualificata anche nella regressione link successiva",
     "Precedenti OOM e problemi di sincronizzazione dichiarati nel rapporto; matrice finale sequenziale. Prova HTTP301 in runtime dedicato con finestra60s naturale, nessun reset di contatori",
-    "Prima pubblicazione39518a6 con difetto di codice globale riprodotto nella QA; nuova revisione e C5 senzaDDL ancora da verificare"
-  ]
+    "Prima pubblicazione39518a6 con difetto di codice globale riprodotto nella QA. Al momento del collaudo la nuova C5 era ancora da verificare; C5 finale, QA e monitor sono ora attestati separatamente in rilascio.json, senza modificare i risultati di questa prova."
+  ],
+  "chiusura_operativa_successiva": "rilascio.json"
 }

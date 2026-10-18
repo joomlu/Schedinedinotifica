@@ -1,0 +1,148 @@
+{
+  "inizio": "2026-10-18T13:26:56.151Z",
+  "SHA": "e4b8171112607aeee63cfa6523b3f91d5b1cd0f9",
+  "prove": [
+    {
+      "tipo": "OSPITE SINGOLO",
+      "parziale_e_ripresa": true,
+      "conclusione": true,
+      "bozza_intermedia": false,
+      "conversione_stesso_ID": true,
+      "vecchia_scheda409": true,
+      "componenti_preservati": true,
+      "note_private": true,
+      "tenant_estraneo404": true
+    },
+    {
+      "tipo": "CAPO FAMIGLIA",
+      "parziale_e_ripresa": true,
+      "conclusione": true,
+      "bozza_intermedia": true,
+      "conversione_stesso_ID": true,
+      "vecchia_scheda409": true,
+      "componenti_preservati": true,
+      "note_private": true,
+      "tenant_estraneo404": true
+    },
+    {
+      "tipo": "CAPO GRUPPO",
+      "parziale_e_ripresa": true,
+      "conclusione": true,
+      "bozza_intermedia": false,
+      "conversione_stesso_ID": true,
+      "vecchia_scheda409": true,
+      "componenti_preservati": true,
+      "note_private": true,
+      "tenant_estraneo404": true
+    },
+    {
+      "regressione_Nuova_schedina": true,
+      "ricerca_nome_cognome": true,
+      "selezione_cliente": true,
+      "bozza_e_ripresa": true
+    },
+    {
+      "creazione_reale_struttura_B_senza_collisioni": true,
+      "modelli_B_indipendenti": true,
+      "richiesta_B_negata_ad_A404": true
+    },
+    {
+      "ricerca_struttura_B_solo_proprio_cliente": true
+    }
+  ],
+  "responsive": [
+    {
+      "width": 1440,
+      "pagina": "/web-checkin",
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "/web-checkin/nuovo",
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "/schedine/nuova",
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "/schedine",
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "/schedine/bozze",
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "/arrivi",
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "/web-checkin",
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "/web-checkin/nuovo",
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "/schedine/nuova",
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "/schedine",
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "/schedine/bozze",
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "/arrivi",
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "/web-checkin",
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "/web-checkin/nuovo",
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "/schedine/nuova",
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "/schedine",
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "/schedine/bozze",
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "/arrivi",
+      "nessun_overflow": true
+    }
+  ],
+  "esito": "PASS_ONLINE_CONVERSIONI_WEB",
+  "errori_JS": [],
+  "fine": "2026-10-18T13:27:32.530Z"
+}

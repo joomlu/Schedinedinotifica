@@ -1,0 +1,31 @@
+{
+  "esito": "PASS_QA_ONLINE_FINALE",
+  "SHA": "e4b8171112607aeee63cfa6523b3f91d5b1cd0f9",
+  "sorgenti_prova": {
+    "online.mjs": "2d7c673eb5686236cfb39de8b756edacde0dba65b072d78806f8a1b5d044f0e8",
+    "online-completo.mjs": "dd64b068c7b4a3a2fb247a900d90fbca88f0c4e111829e40d3323b22dbe01480",
+    "online-accessi.mjs": "d5ddb63a6f43a69af7da695a02427b1006c877b3e2c5308d41f8710626fb8d6a"
+  },
+  "log_conservati_sha256": {
+    "online.log": "dbc115e2b02be63bfaae8c5d5f9a1585b2edb3021f952ffe944e4f003efd8ef1",
+    "online-r2.log": "040022bfb5c3911b9a79c58be4c3bf13b0ce6d2047fdd7094352e00c7ca5a6fa",
+    "online-r3.log": "b3ebe830a939b4d76fe4d3f218e6e853ad2133e7212448013857d5d5a9898ad9",
+    "online-r4.log": "84fed0216661eb0523f6883d967c4f97d4b3edcf495a2e0c6a57e930cd8d840f",
+    "online-completo.log": "0d5257951bd3b6eca7ba2f18cd024932ba5a3c61b67f5b97919627ce88ce7f5c",
+    "online-completo-r2.log": "e432a99852bd62fcdce17f1df04a78bd5e681cd01a17d2a1a3f0011268644a6b",
+    "online-completo-r3.log": "ef83f1acc3f7fec1176f755469b286bf230f988a08407be52a42c386221c40c3",
+    "online-completo-r4.log": "443f9a8c738cabf05ddf28c437d25aa564820097ecc613ff5ee657bfffd3ebf0",
+    "online-accessi.log": "549d62570d2110bf570ac776a80ec9b0c3266fff9a29562fa7c19bb48eb578c6",
+    "online-accessi-r2.log": "e6f63f61d7217772634a24663a44ab7913307c967497fb034042877621aa7000"
+  },
+  "diagnostici_intermedi": "Attese dei modali di successo, selettore non univoco e serializzazione della riga componente HTML vuota corretti negli script QA. Nessuna modifica o attenuazione applicativa. Rifiuto422 conservato. Ripetizioni finali complete PASS.",
+  "stato_monitor": "Separato: questa ricevuta non certifica ancora il monitor di900s.",
+  "nessun_invio_reale": true,
+  "nessun_test_Laravel_in_produzione": true,
+  "catture_sha256": {
+    "1440": "ae9ac6090b060fdfa43194cc48c6ebc18ec4b57f9c6bf621eebde2d81b13caa3",
+    "768": "7eb37e4d3992cdcfe698fc80a2ad25e22a82daf8c36169db0a609cf5721bf895",
+    "390": "20fcd852ad5245c55317b70c8aa59221f7c81fdde0d0406bbf6b34cfb2d5693d"
+  },
+  "catture_verificate": "Ispezionate le tre catture successive alla creazione con il modale di successo visibile. Le verifiche funzionali e le misure senza overflow a caricamento/font completati sono attestazioni separate nei risultati browser."
+}
