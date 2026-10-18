@@ -1,0 +1,30 @@
+{
+  "stato": {
+    "esito": "PASS_STATO_FINALE_ONLINE",
+    "SHA": "263274f48614e9215acec91da697c384e9600dfc",
+    "Git_pulito": true,
+    "sorgenti_e_protetti_conformi": true,
+    "FPM_attivo": true,
+    "barriere_assenti": true,
+    "key_provider_mail_conformi": true,
+    "sonde9": {
+      "mail.schedinedinotifica.tanggo.software/": true,
+      "mail.schedinedinotifica.tanggo.software/login": true,
+      "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "schedinedinotifica.tanggo.software/": true,
+      "schedinedinotifica.tanggo.software/login": true,
+      "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "www.schedinedinotifica.tanggo.software/": true,
+      "www.schedinedinotifica.tanggo.software/login": true,
+      "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+    },
+    "verifica_solo_lettura": true
+  },
+  "guardiano": {
+    "esito": "PASS_GUARDIANO_CONCLUSO",
+    "guardiano": "PASS_GUARDIANO_DISARMATO",
+    "servizio_concluso_inattivo_disabilitato": true,
+    "presidi_originali_preservati": true
+  },
+  "esito": "PASS_CONTROLLI_FINALI"
+}

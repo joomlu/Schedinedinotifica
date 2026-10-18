@@ -1,0 +1,24 @@
+{
+  "esito": "PASS_BACKEND_ONLINE_ARRIVI",
+  "fase": "prima",
+  "parcheggiate": 2,
+  "effettive": 0,
+  "selezioni": {
+    "presenze": {
+      "selezionate": 0,
+      "arrivi_esclusi": true
+    },
+    "questura": {
+      "selezionate": 0,
+      "arrivi_esclusi": true
+    },
+    "istat": {
+      "selezionate": 0,
+      "arrivi_esclusi": true
+    }
+  },
+  "tassa_arrivi_zero": true,
+  "giorno_operativo_oggi": true,
+  "cliente_e_componente_preservati": true,
+  "nessun_invio_o_export_creato": true
+}

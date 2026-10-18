@@ -1,0 +1,51 @@
+{
+  "esito": "PASS_CATENA_C5_EXTRA",
+  "file": [
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/arrivi-2026-10-18/c5/c5-prepare-hmyv4kwi/cifrati-ay6al6if/db.sql.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018/catena-C5-263274f4/c5-prepare-hmyv4kwi/db.sql.enc",
+      "sha256": "363ea387aa432e8ab4d133de0e3ab408b07c09fc16322a3b44c3caeb011347cf",
+      "byte": 23243632,
+      "originale_conservato": true
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/arrivi-2026-10-18/c5/c5-prepare-hmyv4kwi/cifrati-ay6al6if/fs.tar.gz.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018/catena-C5-263274f4/c5-prepare-hmyv4kwi/fs.tar.gz.enc",
+      "sha256": "12b4fb7368930e03847c5b16b5b5077bdde379d7bc01b0bf2542d8a1c3a6ac62",
+      "byte": 338706944,
+      "originale_conservato": true
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/arrivi-2026-10-18/c5/c5-prepare-hmyv4kwi/cifrati-ay6al6if/inventory.json.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018/catena-C5-263274f4/c5-prepare-hmyv4kwi/inventory.json.enc",
+      "sha256": "e049aab0b80159a403451a8470f1d41837b130f6486f86a24df7fe80187f81e0",
+      "byte": 6090912,
+      "originale_conservato": true
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/arrivi-2026-10-18/c5/c5-run-f07dz4sy/cifrati-nrxuh9y3/db.sql.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018/catena-C5-263274f4/c5-run-f07dz4sy/db.sql.enc",
+      "sha256": "ac608c0792b48411fa2a49268fb7109e258a4c40bbb5485c34db9ef73a0fb39e",
+      "byte": 23243632,
+      "originale_conservato": true
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/arrivi-2026-10-18/c5/c5-run-f07dz4sy/cifrati-nrxuh9y3/fs.tar.gz.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018/catena-C5-263274f4/c5-run-f07dz4sy/fs.tar.gz.enc",
+      "sha256": "763122bf3a8e5287ff2307d1bd52704712c161a3bdc1922b83469940f3bd5af5",
+      "byte": 1760,
+      "originale_conservato": true
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/arrivi-2026-10-18/c5/c5-run-f07dz4sy/cifrati-nrxuh9y3/inventory.json.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018/catena-C5-263274f4/c5-run-f07dz4sy/inventory.json.enc",
+      "sha256": "be0cecae4c731dcecd4d840f17145bb43fe7d873ccdbf85551a299a845d3b18a",
+      "byte": 6097104,
+      "originale_conservato": true
+    }
+  ],
+  "byte": 397383984,
+  "recupero_indipendente": "PREPARE e S0 verificati dal C5 prima del rilascio; copia Extra byte-identica",
+  "chiave": "Custodia separata nella VM /var/lib/schedine-release/custodia-ricevente-r20/transport.key; originali produttivi e ricevute conservati; nessuna chiave nel volume Extra",
+  "UUID_Extra": "488ACB8D-6B99-49AE-8A3C-175FD66F5466"
+}

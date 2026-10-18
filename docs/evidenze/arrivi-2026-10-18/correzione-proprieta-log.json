@@ -1,0 +1,16 @@
+{
+  "esito": "PASS_PROPRIETA_SINGOLO_LOG_RIPRISTINATA",
+  "path": "/home/tanggosoftware/repos/schedinedinotifica/storage/logs/laravel-2026-10-18.log",
+  "uid_gid_prima": [
+    0,
+    0
+  ],
+  "uid_gid_dopo": [
+    1002,
+    489
+  ],
+  "byte": 21730,
+  "sha256": "f4dec1828493304361275b96aba426cd0944106c0e91ee144c0f857a48b85cf0",
+  "contenuto_inode_mtime_mode_preservati": true,
+  "nessun_log_eliminato": true
+}

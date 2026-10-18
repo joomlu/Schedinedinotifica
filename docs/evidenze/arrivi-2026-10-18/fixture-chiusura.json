@@ -1,0 +1,10 @@
+{
+  "esito": "PASS_FIXTURE_RIMOSSA_E_DATI_PREESISTENTI_IDENTICI",
+  "tabelle_differenti": [],
+  "strutture_sintetiche_rimosse": [
+    17,
+    18
+  ],
+  "nessun_restore_DB": true,
+  "limite": "Confronto HMAC di tutte le righe, non dei contatori AUTO_INCREMENT; eventuali scritture concorrenti reali da riconciliare senza ripristini obsoleti"
+}

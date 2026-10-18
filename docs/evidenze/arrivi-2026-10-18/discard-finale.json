@@ -1,0 +1,16 @@
+{
+  "esito": "PASS_DISCARD_SOLI_BLOCCHI_LIBERI",
+  "prima": {
+    "Mac_liberi": 8021434368,
+    "disk_nominale": 38654705664,
+    "disk_allocato": 36577988608
+  },
+  "dopo": {
+    "Mac_liberi": 11399057408,
+    "disk_nominale": 38654705664,
+    "disk_allocato": 32759263232
+  },
+  "output_fstrim": "/: 34.8 GiB (37395345408 bytes) trimmed",
+  "env_lock_preservati": true,
+  "limite": "Il contatore trimmed non è il recupero fisico del Mac; misure separate, nessuna riscrittura o riduzione del disco."
+}

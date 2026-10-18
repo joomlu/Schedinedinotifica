@@ -1,0 +1,97 @@
+{
+  "esito": "STOP_PRIMO_RUN_PRIMA_EXECUTE_BASELINE_RECUPERATA",
+  "S0_verificato": true,
+  "DDL": false,
+  "causa": "Runtime non posseduto: solo storage/logs/laravel-2026-10-18.log uid0/gid0",
+  "diagnostico": {
+    "tipo": "RuntimeError",
+    "fase": "VERIFICA",
+    "traccia": [
+      {
+        "file": "release_operation.py",
+        "riga": 64,
+        "funzione": "run"
+      },
+      {
+        "file": "flow.py",
+        "riga": 15,
+        "funzione": "phase"
+      },
+      {
+        "file": "release_operation.py",
+        "riga": 64,
+        "funzione": "<lambda>"
+      },
+      {
+        "file": "deploy.py",
+        "riga": 470,
+        "funzione": "prepare"
+      },
+      {
+        "file": "runner_bridge.py",
+        "riga": 49,
+        "funzione": "runtime"
+      },
+      {
+        "file": "s0_core.py",
+        "riga": 33,
+        "funzione": "require"
+      }
+    ]
+  },
+  "recupero": {
+    "cause": "stopped",
+    "esito": "PASS_GUARDIANO",
+    "nonce": "9fca029f26bf366b9467595f747d5629601c0450ecec5122",
+    "T0_epoch": 1792314897.2927647,
+    "deadline_epoch": 1792316697.2927647,
+    "health": {
+      "db": true,
+      "files": true,
+      "config": true,
+      "key": true,
+      "fpm": true,
+      "tls": true,
+      "egress": true,
+      "zero_queries": true,
+      "versione_baseline": true,
+      "db_identico": true,
+      "schema_identico": true
+    },
+    "preservation": {
+      "scope_produzione_non_eseguito": true
+    },
+    "public": {
+      "mail.schedinedinotifica.tanggo.software/": true,
+      "mail.schedinedinotifica.tanggo.software/login": true,
+      "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "schedinedinotifica.tanggo.software/": true,
+      "schedinedinotifica.tanggo.software/login": true,
+      "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "www.schedinedinotifica.tanggo.software/": true,
+      "www.schedinedinotifica.tanggo.software/login": true,
+      "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+    },
+    "approvazione_esterna_scaduta": false,
+    "decision": "S0_RECUPERATO",
+    "elapsed_seconds": 260.2759244441986,
+    "recovery_seconds": 47.352233494166285,
+    "boot_changed": false
+  },
+  "correzione_proprieta": {
+    "esito": "PASS_PROPRIETA_SINGOLO_LOG_RIPRISTINATA",
+    "path": "/home/tanggosoftware/repos/schedinedinotifica/storage/logs/laravel-2026-10-18.log",
+    "uid_gid_prima": [
+      0,
+      0
+    ],
+    "uid_gid_dopo": [
+      1002,
+      489
+    ],
+    "byte": 21730,
+    "sha256": "f4dec1828493304361275b96aba426cd0944106c0e91ee144c0f857a48b85cf0",
+    "contenuto_inode_mtime_mode_preservati": true,
+    "nessun_log_eliminato": true
+  }
+}
