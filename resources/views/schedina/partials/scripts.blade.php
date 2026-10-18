@@ -1191,3 +1191,5 @@
         }
     });
 </script>
+
+@include('schedina.partials.arrivi-clock')

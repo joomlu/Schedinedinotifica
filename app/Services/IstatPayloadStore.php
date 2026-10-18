@@ -16,6 +16,7 @@ final class IstatPayloadStore
 {
     public function store(int $strutturaId, ?int $userId, Carbon $dal, Carbon $al, string $filename, string $xml, $schedine): IstatExport
     {
+        if ($schedine->contains(fn ($s) => $s->isInArrivi())) throw ValidationException::withMessages(['istat_export' => 'Schede in Arrivi escluse dalle comunicazioni ISTAT.']);
         (new IstatXmlValidator)->validate($xml);
         if ($strutturaId <= 0 || $schedine->contains(fn ($s) => (int) $s->struttura_id !== $strutturaId)) {
             throw ValidationException::withMessages(['istat_export' => 'Dati non appartenenti alla struttura selezionata.']);

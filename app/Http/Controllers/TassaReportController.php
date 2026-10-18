@@ -365,7 +365,7 @@ class TassaReportController extends Controller
 
     private function buildControlDataset(int $mese, int $anno, int $strutturaId, Struttura $struttura, ?TassaDiSoggiorno $config, Collection $esenzioni): array
     {
-        $schedine = Schedina::where('is_arrive', 0)
+        $schedine = Schedina::effettive()
             ->where('struttura_id', $strutturaId)
             ->get()->filter(fn ($schedina) => ($arrivo = $this->service->parseDate($schedina->arrive)) && $arrivo->betweenIncluded($this->dataDa, $this->dataA));
         if ($schedine->isEmpty()) {
@@ -526,7 +526,7 @@ class TassaReportController extends Controller
             return [];
         }
 
-        $schedine = Schedina::where('is_arrive', 0)
+        $schedine = Schedina::effettive()
             ->where('struttura_id', $strutturaId)
             ->get()->filter(fn ($schedina) => ($arrivo = $this->service->parseDate($schedina->arrive)) && $arrivo->betweenIncluded($this->dataDa, $this->dataA));
         if ($schedine->isEmpty()) {

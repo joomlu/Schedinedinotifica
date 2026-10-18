@@ -38,7 +38,7 @@ class CustomerExportController extends Controller
         $summary = $this->buildSummaryMetrics($query);
 
         $customers = $query
-            ->withCount('schedine')
+            ->withCount(['schedine' => fn ($q) => $q->effettive()])
             ->withMax('schedine as last_arrive_at', 'arrive')
             ->orderBy('surname')
             ->orderBy('name')
@@ -98,7 +98,7 @@ class CustomerExportController extends Controller
     {
         $mode = (string) $request->input('mode', 'general');
         $rows = $this->buildFilteredQuery($request)
-            ->withCount('schedine')
+            ->withCount(['schedine' => fn ($q) => $q->effettive()])
             ->withMax('schedine as last_arrive_at', 'arrive')
             ->orderBy('surname')
             ->orderBy('name')

@@ -6,7 +6,8 @@
     $hasPersistedSchedina = ($schedinaContext ?? null) !== 'new' && !empty($schedina) && $schedina instanceof \App\Models\Schedina && $schedina->exists && !empty($schedina->getKey());
     $isEdit = $usePutMethod !== null ? (bool) $usePutMethod : $hasPersistedSchedina;
     $formAction = $formAction ?? ($isEdit ? route('schedina.update', ['id' => $schedina->id]) : route('schedina.store'));
-    $formTitle = $formTitle ?? ($isEdit ? 'Modifica schedina' : 'Nuova schedina');
+    $isArrivi = $schedina?->isInArrivi() || request()->boolean('arrival');
+    $formTitle = $formTitle ?? ($isArrivi ? ($isEdit ? 'Modifica Arrivi' : 'Nuova scheda Arrivi') : ($isEdit ? 'Modifica schedina' : 'Nuova schedina'));
     $nextSchedaCode = $nextSchedaCode ?? null;
     $showIstatFields = $showIstatFields ?? true;
     $istatTipoTurismoOptions = \App\Services\IstatTabellaAService::TIPO_TURISMO;
@@ -135,7 +136,7 @@
         <h4 class="card-title mb-0">{{ $formTitle }}</h4>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ $formAction }}" class="form-steps" autocomplete="off" id="schedina-form">
+        <form method="POST" action="{{ $formAction }}" class="form-steps" autocomplete="off" id="schedina-form" @if($isArrivi) data-arrivi-clock="{{ route('arrivals.clock') }}" @endif>
             @csrf
             @if($isEdit)
                 @method('PUT')
@@ -143,8 +144,16 @@
             @if(!$isEdit && !empty($customerImportRowId))
                 <input type="hidden" name="customer_import_row_id" value="{{ $customerImportRowId }}">
             @endif
-            <input type="hidden" name="save_mode" id="save-mode" value="{{ old('save_mode', 'full') }}">
+            <input type="hidden" name="save_mode" id="save-mode" value="{{ $isArrivi ? 'to_arrivi' : old('save_mode', 'full') }}">
             <input type="hidden" name="save_mode_intent" id="save-mode-intent" value="{{ old('save_mode_intent', '') }}">
+            @if($isArrivi)
+                <input type="hidden" name="arrivi_context" value="1">
+                <input type="hidden" name="arrivi_q" value="{{ old('arrivi_q', request('arrivi_q', '')) }}">
+                <input type="hidden" name="arrivi_page" value="{{ old('arrivi_page', request('arrivi_page', 1)) }}">
+                <a class="btn btn-soft-info mb-3" href="{{ route('arrivals', ['q'=>old('arrivi_q', request('arrivi_q', '')), 'page'=>old('arrivi_page', request('arrivi_page', 1))]) }}">Torna all’elenco Arrivi</a>
+                <div class="alert alert-info" role="status">Scheda in attesa: esclusa da comunicazioni, Tassa e statistiche fino al passaggio esplicito a schedina. L’arrivo segue il giorno corrente; la partenza resta quella inserita.</div>
+                <div class="alert alert-warning" id="arrivi-day-warning" role="alert" @if(!$schedina->departure || $schedina->departure > \App\Support\ArriviDay::today()) hidden @endif>La partenza non è successiva all’arrivo di oggi. Correggila prima di passare a schedina; puoi continuare a salvare in Arrivi.</div>
+            @endif
             <input type="hidden" name="component_index" id="component-index" value="{{ old('component_index', '') }}">
             <input type="hidden" name="component_id" id="component-id" value="{{ old('component_id', '') }}">
             <input type="hidden" name="active_tab" id="active-tab" value="{{ old('active_tab', request()->query('active_tab', session('active_tab', 'schedina-step-base'))) }}">
@@ -211,8 +220,9 @@
                                         <x-calendario
                                             name="arrive"
                                             variant="period-start"
-                                            group="soggiorno"
-                                            :value="$toDateInput($valueOf('arrive'))"
+                                            :value="$isArrivi ? \App\Support\ArriviDay::today() : $toDateInput($valueOf('arrive'))"
+                                            :readonly="$isArrivi"
+                                            :group="$isArrivi ? null : 'soggiorno'"
                                             placeholder="gg/mm/aaaa"
                                         />
                                     </div>
@@ -1247,8 +1257,10 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <p class="text-muted small">Calcolo corrente. Le versioni consolidate restano disponibili nel rapporto Tassa.</p>
-                            @if(!empty($tassaDettaglio['errore']))
+                            @if(!$isArrivi)<p class="text-muted small">Calcolo corrente. Le versioni consolidate restano disponibili nel rapporto Tassa.</p>@endif
+                            @if($isArrivi)
+                                <div class="alert alert-info">Scheda in Arrivi: nessun calcolo, liquidazione o dichiarazione della Tassa fino al passaggio esplicito a schedina.</div>
+                            @elseif(!empty($tassaDettaglio['errore']))
                                 <div class="alert alert-warning" role="alert">{{ $tassaDettaglio['errore'] }} <a href="{{ route('tassa_di_soggiorno.edit') }}">Configurazione fiscale</a></div>
                             @else
                             @if(!empty($tassaConfig))

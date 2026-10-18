@@ -18,7 +18,7 @@ class QuesturaTxtExportService
 {
     public function schedinePerPeriodo(int $strutturaId, Carbon $dal, Carbon $al): Collection
     {
-        return Schedina::query()
+        return Schedina::query()->effettive()
             ->withoutGlobalScope('struttura')
             ->with(['componenti' => fn ($query) => $query->withoutGlobalScope('struttura')->where('struttura_id', $strutturaId)->orderBy('id')])
             ->where('struttura_id', $strutturaId)
@@ -95,6 +95,7 @@ class QuesturaTxtExportService
 
     private function validateSchedina(Schedina $schedina): array
     {
+        if ($schedina->isInArrivi()) return ['errors' => ['Scheda in Arrivi: esclusa dalle comunicazioni Questura.'], 'rows' => []];
         $errors = [];
         $rows = [];
 

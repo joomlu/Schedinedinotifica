@@ -402,9 +402,9 @@ Route::middleware(['auth'])->group(function () {
         ->whereIn('format', ['csv', 'txt', 'xlsx'])
         ->name('schedina.componenti.import.template');
     Route::get('/schedine/{id}/copia', [SchedinaController::class, 'copy'])->name('schedina.copy');
-    Route::get('/schedine/{id}/modifica', [SchedinaController::class, 'edit'])->name('schedina.edit');
-    Route::put('/schedine/{id}', [SchedinaController::class, 'update'])->name('schedina.update');
-    Route::delete('/schedine/{id}', [SchedinaController::class, 'destroy'])->name('schedina.destroy');
+    Route::get('/schedine/{id}/modifica', [SchedinaController::class, 'edit'])->name('schedina.edit')->where('id', '[1-9][0-9]{0,17}');
+    Route::put('/schedine/{id}', [SchedinaController::class, 'update'])->name('schedina.update')->where('id', '[1-9][0-9]{0,17}');
+    Route::delete('/schedine/{id}', [SchedinaController::class, 'destroy'])->name('schedina.destroy')->where('id', '[1-9][0-9]{0,17}');
     Route::get('/schedine/{id}/tassa/anteprima', [SchedinaController::class, 'printTassa'])->name('schedina.tassa.anteprima');
     Route::get('/schedine/{id}/tassa/print', [SchedinaController::class, 'printTassa'])->name('schedina.tassa.print');
 
@@ -448,10 +448,11 @@ Route::middleware(['auth'])->group(function () {
 
     // Arrivi
     Route::get('/arrivi', [ArrivalsController::class, 'index'])->name('arrivals');
+    Route::get('/arrivi/giorno-operativo', [ArrivalsController::class, 'clock'])->name('arrivals.clock');
     Route::get('/arrivi/nuovo', [ArrivalsController::class, 'new'])->name('newarrival');
     Route::post('/arrivi', [ArrivalsController::class, 'store'])->name('arrival.store');
-    Route::post('/arrivi/{id}/elimina', [ArrivalsController::class, 'destroy'])->name('arrivals.destroy');
-    Route::post('/arrivi/{id}/a-schedina', [ArrivalsController::class, 'a_schedina'])->name('a_schedina');
+    Route::post('/arrivi/{id}/elimina', [ArrivalsController::class, 'destroy'])->name('arrivals.destroy')->where('id', '[1-9][0-9]{0,17}');
+    Route::post('/arrivi/{id}/a-schedina', [ArrivalsController::class, 'a_schedina'])->name('a_schedina')->where('id', '[1-9][0-9]{0,17}');
     Route::get('/search_customers', [ArrivalsController::class, 'search'])->name('search_customers');
 
     //Update User Details

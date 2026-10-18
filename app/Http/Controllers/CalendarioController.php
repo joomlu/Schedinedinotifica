@@ -587,12 +587,11 @@ class CalendarioController extends Controller
     private function schedinaMovementEvents(Struttura $struttura, Carbon $start, Carbon $end): array
     {
         $events = [];
-        $schedine = Schedina::query()
+        $schedine = Schedina::query()->effettive()
             ->select(['id', 'name', 'surname', 'arrive', 'departure', 'cant_people', 'circuito', 'is_arrive', 'struttura_id'])
             ->where('struttura_id', $struttura->id)
             ->where(function ($query) {
                 $query->where('circuito', 'schedina')
-                    ->orWhere('circuito', 'arrivi')
                     ->orWhere(function ($legacy) {
                         $legacy->whereNull('circuito')->where('is_arrive', 0);
                     });

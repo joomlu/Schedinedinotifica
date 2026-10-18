@@ -61,7 +61,7 @@ class TassaDiSoggiornoController extends Controller
                 ? \Illuminate\Support\Facades\Crypt::encryptString(json_encode(['utente' => $request->user()->id, 'struttura' => (int) $strutturaId, 'anno' => $annoFiscale, 'scadenza' => now()->addMinutes(15)->timestamp, 'impronta' => $service->improntaConfigurazione($struttura, $tassa, $annoFiscale)], JSON_THROW_ON_ERROR)) : null;
             $datiStruttura = $service->datiStrutturaFiscali($struttura);
             $esenzioni = $service->catalogoBellaria($struttura, Schema::hasTable('tassa_esenzioni') ? TassaEsenzione::where('struttura_id', $strutturaId)->where('codice', '<>', '777')->get() : collect());
-            $previewSchedine = \App\Models\Schedina::where('struttura_id', $strutturaId)->orderByDesc('id')->limit(20)->get();
+            $previewSchedine = \App\Models\Schedina::effettive()->where('struttura_id', $strutturaId)->orderByDesc('id')->limit(20)->get();
             $previewSchedina = $previewSchedine->first();
             $comune = \App\Models\GeoComune::where('nome', $struttura->citta)->first();
             $logoComune = $comune?->logo_citta ?: ($comune?->logo ?: $struttura->logo_citta);

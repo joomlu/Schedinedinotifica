@@ -1,0 +1,40 @@
+{
+  "root_R12": "/home/collaudo.guest/arrivi-isolati-nADEi3lV",
+  "sorgenti_sha256_R12": {
+    "app/Http/Controllers/ArrivalsController.php": "a03611e9d05b0a59393b45a8b1ff4b398d7867c6798ebb9175fccbaa52f40b16",
+    "app/Http/Controllers/CalendarioController.php": "e2665fe96cd53e23a211cc14630b13b7397ed92dc956f07ce7cfadf167bc2037",
+    "app/Http/Controllers/CustomerController.php": "a49ea5041cbc2181d7428a7bce05280b6506dd66ebefcbb41ac722e48839741c",
+    "app/Http/Controllers/CustomerExportController.php": "99399871baba105d1f56aabf5bba5a2cd75159f0837b84a1f95d9dcabc08e232",
+    "app/Http/Controllers/HomeController.php": "31403b17b3c430135aa988ecd6347baca149da436c0830d58988d3e05c245426",
+    "app/Http/Controllers/QuesturaExportController.php": "1c329a130dd240f30fa9e04973a30e43d6a3a25712c824af5d4c5c257f0dd5ba",
+    "app/Http/Controllers/SchedinaController.php": "1f068693d15319ccffc7c49feb6fcab3050fd919dd5597a3a8dbddfe9150e805",
+    "app/Http/Controllers/TassaDiSoggiornoController.php": "1519257f2be786880d7742c56421ad4a59b7a2a81c13f7610424f756d733c9a2",
+    "app/Http/Controllers/TassaReportController.php": "836baf8d77f0f676c59992b270828bb18ca342d77cb8234e8e8a2e0abda4d3c5",
+    "app/Models/Schedina.php": "32cea9ca5dcbefffa7862e04a28e96f5dab0506929654e7e499d1fcc9a28c928",
+    "app/Services/CestinoService.php": "8e54b80bf9a191ccae7a4055c7bf8ecb9b3794c8207ea9bf05eb336f4bc1ac3a",
+    "app/Services/IstatOperationService.php": "16bbd1068785cdc3fc23ee3fb449a7a5a0ef95bf03aee095edc7a223f9d6d99f",
+    "app/Services/IstatPayloadStore.php": "4ce0cf761e02f6ffa3832c1d237743d59f04f396a4bbe85014bb069ff82008ca",
+    "app/Services/IstatTabellaAService.php": "baf3829f1583966387338e96dff35ee76513bee491b1df49dc672247ebc3576d",
+    "app/Services/NotificheService.php": "a7aaa05bc147dc284f6d3ae328c65cd4d1f2f7abfb06b7ff1a5c54fbf71b5ee9",
+    "app/Services/PresenzeReportService.php": "8084acefd9956201dd698cf12fd458e147e6574a0919946052f226d3622bbd09",
+    "app/Services/QuesturaTxtExportService.php": "fe7bb7e26e1769b901cb66b90e7bdf8b8aa0b1a52ff81c337095979d95cd923d",
+    "app/Services/TassaDiSoggiornoService.php": "a1f3857a56ddd5f123c190e6f32ca306994503dcf56c1a677ada564ed440dac4",
+    "resources/views/arrivals/list.blade.php": "44a32c390b09fd9190716558910df28cd45be8b0bd788d26f0091cb3160df070",
+    "resources/views/schedina/partials/form.blade.php": "498d26ecc38729d8a3bdc19caadce289aed1a4886959218f3afadfeccfcf5026",
+    "resources/views/schedina/partials/save-actions.blade.php": "cd4cd64900a1bdfcc94e80e322365766428b6fcf205737f736a393071d8ac029",
+    "resources/views/schedina/partials/scripts.blade.php": "6d511e8c178650a73d700daddeb749125baf85ef37e471ea8fef6c0bd5920df7",
+    "routes/web.php": "81d9e993123245f315bfd0d01cf2e5b43e9daf9bc166b610972f6819206fa1ce",
+    "tests/Feature/ArriviEsenzioniTest.php": "d685d9ac0fec82b9abf8c62e64f5d3d23cbd886656bd2497cd4a83c87fab6f63",
+    "app/Support/ArriviDay.php": "02870a4cccf11fcb59dd1e8d632c829dbda7e2ec535aebc5be7445fba7b8205f",
+    "resources/views/schedina/partials/arrivi-clock.blade.php": "334e836b519f358e2958d9fb3a075450abb0ec1e6f846090c59294fcff13fe4a",
+    "tests/Feature/ArriviLifecycleTest.php": "114d6c1386a51bb6fe214b3986f09242a2b3ecae2ad9d33b67d31d6e9c6efebe",
+    "tests/Feature/arrivi-lifecycle.playwright.spec.js": "2c5d209180d30b5f297405c89969efb5e577f2fcaf2f1514e4e91dc3c6b4be43"
+  },
+  "differenze_da_verificare_nel_ciclo_mirato": [
+    "routes/web.php",
+    "resources/views/schedina/partials/arrivi-clock.blade.php",
+    "tests/Feature/ArriviLifecycleTest.php",
+    "tests/Feature/arrivi-lifecycle.playwright.spec.js"
+  ],
+  "backend_modelli_servizi_controller_identici": true
+}

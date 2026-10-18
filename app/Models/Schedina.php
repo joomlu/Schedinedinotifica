@@ -23,6 +23,11 @@ class Schedina extends Model
     protected static function booted(): void
     {
         static::saving(function (self $record) {
+            if ($record->isInArrivi()) $record->arrive = \App\Support\ArriviDay::today();
+            if ($record->exists && ($record->getRawOriginal('is_arrive') || $record->getRawOriginal('circuito') === 'arrivi') && !$record->isInArrivi()) {
+                $record->arrive = \App\Support\ArriviDay::today();
+                app(\App\Services\SchedinaSoggiornoValidation::class)->validate(Struttura::withoutGlobalScopes()->findOrFail($record->struttura_id), $record->arrive, $record->departure);
+            }
             if (app()->runningInConsole()) return;
             $sid = (int) ($record->struttura_id ?: (\App\Support\StrutturaCorrente::getId() ?? auth()->user()?->struttura_id));
             app(\App\Services\TitoliStrutturaService::class)->validateSelection($record->type, $sid, $record->exists ? $record->getRawOriginal('type') : null);
@@ -58,6 +63,29 @@ class Schedina extends Model
         'istat_exported_at' => 'datetime',
         'istat_sent_at' => 'datetime',
     ];
+
+    public function isInArrivi(): bool
+    {
+        return (bool) $this->getAttribute('is_arrive') || $this->getAttribute('circuito') === 'arrivi';
+    }
+
+    public function scopeInArrivi($query)
+    {
+        return $query->where(fn ($q) => $q->where('is_arrive', true)->orWhere('circuito', 'arrivi'));
+    }
+
+    public function scopeEffettive($query)
+    {
+        return $query->where('is_arrive', false)
+            ->where(fn ($q) => $q->where('circuito', 'schedina')->orWhereNull('circuito'));
+    }
+
+    // Data effettiva calcolata a ogni lettura: vale anche senza richieste a mezzanotte.
+    // La data memorizzata viene materializzata al prossimo salvataggio, mai la partenza.
+    public function getArriveAttribute($value)
+    {
+        return $this->isInArrivi() ? \App\Support\ArriviDay::today() : $value;
+    }
 
     public function camere()
     {

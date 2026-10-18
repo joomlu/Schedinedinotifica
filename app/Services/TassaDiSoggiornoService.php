@@ -277,6 +277,7 @@ class TassaDiSoggiornoService
 
     public function dettaglioSchedina(Schedina $schedina, Collection $componenti, ?TassaDiSoggiorno $config, Collection $esenzioni, ?Struttura $struttura = null): array
     {
+        if ($schedina->isInArrivi()) return ['righe' => [], 'totale' => 0, 'notti_oltre_max' => 0, 'notti_totali' => 0, 'bellaria' => false, 'profili_fiscali' => [], 'esclusa_arrivi' => true];
         $arrivo = $this->parseDate($schedina->arrive);
         $partenza = $this->parseDate($schedina->departure);
         $giorniMax = $config && $config->giorni_massimo !== null ? (int) $config->giorni_massimo : null;

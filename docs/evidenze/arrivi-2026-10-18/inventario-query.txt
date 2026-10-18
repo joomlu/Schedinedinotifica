@@ -1,0 +1,66 @@
+app/Console/Commands/CleanupComponentiOrfaniCommand.php:30:            ->join('schedina as s', 's.id', '=', 'c.schedina_id')
+app/Services/QuesturaTxtExportService.php:21:        return Schedina::query()
+app/Models/WebCheckinRichiesta.php:44:        return $this->belongsTo(Schedina::class, 'schedina_id');
+app/Services/IstatPayloadStore.php:47:                Schedina::withoutGlobalScope('struttura')->where('struttura_id', $strutturaId)->whereIn('id', $schedine->pluck('id')->all())->update([
+app/Models/Customers.php:62:        return $this->hasMany(Schedina::class, 'customer_id');
+app/Console/Commands/RenumberSchedineCommand.php:22:        $query = Schedina::query()
+app/Console/Commands/RenumberSchedineCommand.php:108:            Schedina::query()
+app/Services/CestinoService.php:36:        Customers::class, Schedina::class, Componenti::class, WebCheckinRichiesta::class, Gruppo::class, Titolo::class, TipoVia::class, RilasciatoDa::class,
+app/Services/CestinoService.php:50:        if (in_array(get_class($model), [Gruppo::class, Titolo::class, TipoVia::class, RilasciatoDa::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true)) {
+app/Services/CestinoService.php:99:            Schedina::class => ['componenti', 'camere'],
+app/Services/CestinoService.php:149:            if (in_array($item->entity_class, [Gruppo::class, Titolo::class, TipoVia::class, RilasciatoDa::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true) && $item->struttura_id) {
+app/Services/CestinoService.php:155:                Schedina::class => $this->restoreSchedina($payload),
+app/Services/CestinoService.php:219:                ? Schedina::query()->withoutGlobalScopes()->with(['componenti', 'camere'])->find($model->schedina_id)
+app/Services/CestinoService.php:346:        $schedina = $this->restoreSimpleModel(Schedina::class, $payload, [
+app/Services/CestinoService.php:382:        } elseif (!empty($payload['schedina_id']) && !$this->baseQueryForClass(Schedina::class)->whereKey($payload['schedina_id'])->exists()) {
+app/Services/CestinoService.php:415:        if (!empty($payload['schedina_id']) && !$this->baseQueryForClass(Schedina::class)->whereKey($payload['schedina_id'])->exists()) {
+app/Services/CestinoService.php:688:        $last = Schedina::query()
+app/Services/TitoliStrutturaService.php:52:            [DB::table('schedina')->where('struttura_id', $sid), 'type'],
+app/Services/TitoliStrutturaService.php:53:            [DB::table('cestino_items')->where('struttura_id', $sid)->whereIn('entity_class', [\App\Models\Customers::class, \App\Models\Schedina::class]), 'payload->type'],
+app/Services/GruppiStrutturaService.php:121:                [\App\Models\Schedina::class, 'customer_'],
+app/Services/GruppiStrutturaService.php:138:                ->merge(DB::table('schedina')->where('struttura_id', $sid)
+app/Services/GruppiStrutturaService.php:146:                } elseif ($item->entity_class === \App\Models\Schedina::class) {
+app/Models/SchedinaCamera.php:26:        return $this->belongsTo(Schedina::class, 'schedina_id');
+app/Services/IstatTabellaAService.php:42:        return Schedina::query()->withoutGlobalScope('struttura')
+app/Services/PresenzeReportService.php:15:        return Schedina::query()
+app/Services/CataloghiIndirizziStrutturaService.php:40:        foreach ([\App\Models\Customers::class => $customer, \App\Models\Schedina::class => $schedina, \App\Models\Componenti::class => $authority ? [] : ['typeaway'], \App\Models\WebCheckinRichiesta::class => array_map(fn ($f) => 'schedina->'.$f, $schedina)] as $class => $fields) {
+app/Services/NotificheService.php:103:        $schedine = Schedina::query()
+app/Models/Componenti.php:19:        return $this->belongsTo(Schedina::class, 'schedina_id');
+app/Http/Controllers/SchedinaController.php:57:        $schedinas = Schedina::query()
+app/Http/Controllers/SchedinaController.php:122:        $schedinas = Schedina::query()
+app/Http/Controllers/SchedinaController.php:307:            $schedina = Schedina::query()->create($payload);
+app/Http/Controllers/SchedinaController.php:371:        $schedina = Schedina::query()->findOrFail($id);
+app/Http/Controllers/SchedinaController.php:401:        $schedina = Schedina::query()
+app/Http/Controllers/SchedinaController.php:416:        $schedina = Schedina::query()->findOrFail($id);
+app/Http/Controllers/SchedinaController.php:496:        $schedina = Schedina::query()->findOrFail($id);
+app/Http/Controllers/SchedinaController.php:614:        $schedina = Schedina::query()->findOrFail($id);
+app/Http/Controllers/SchedinaController.php:726:        $existing = $request->route('id') ? Schedina::query()->find($request->route('id')) : null;
+app/Http/Controllers/SchedinaController.php:1872:        $last = Schedina::query()
+app/Http/Controllers/SchedinaController.php:1903:        $rows = Schedina::query()
+app/Http/Controllers/SchedinaController.php:1950:                    Schedina::query()->withoutGlobalScopes()->whereKey($record->id)->update(['scheda' => $newCode]);
+app/Http/Controllers/QuesturaExportController.php:174:        $schedina = Schedina::query()
+app/Http/Controllers/QuesturaExportController.php:569:                    Schedina::query()
+app/Http/Controllers/TassaDiSoggiornoController.php:64:            $previewSchedine = \App\Models\Schedina::where('struttura_id', $strutturaId)->orderByDesc('id')->limit(20)->get();
+app/Http/Controllers/CustomerExportController.php:70:            $hasReferences = DB::table('schedina')->where('customer_id', $id)->exists()
+app/Http/Controllers/CalendarioController.php:590:        $schedine = Schedina::query()
+app/Http/Controllers/HomeController.php:110:                'schedine' => Schedina::query()->withoutGlobalScopes()->where('struttura_id', $strutturaDashboard->id)->count(),
+app/Http/Controllers/HomeController.php:111:                'arrivi' => Schedina::query()->withoutGlobalScopes()->where('struttura_id', $strutturaDashboard->id)->where('is_arrive', 1)->count(),
+app/Http/Controllers/TassaReportController.php:368:        $schedine = Schedina::where('is_arrive', 0)
+app/Http/Controllers/TassaReportController.php:529:        $schedine = Schedina::where('is_arrive', 0)
+app/Http/Controllers/ArrivalsController.php:34:        $baseQuery = Schedina::query()
+app/Http/Controllers/ArrivalsController.php:221:            $schedina = Schedina::query()->create($payload);
+app/Http/Controllers/ArrivalsController.php:234:        $schedina = Schedina::find($request->id);
+app/Http/Controllers/ArrivalsController.php:243:        $schedina = Schedina::query()
+app/Http/Controllers/ArrivalsController.php:273:        $schedina = Schedina::query()
+app/Http/Controllers/ArrivalsController.php:418:        $last = Schedina::query()
+app/Http/Controllers/ArrivalsController.php:733:        $rows = Schedina::query()
+app/Http/Controllers/ArrivalsController.php:757:                Schedina::query()
+app/Http/Controllers/ArrivalsController.php:797:        $rows = Schedina::query()
+app/Http/Controllers/ArrivalsController.php:842:                    Schedina::query()->withoutGlobalScopes()->whereKey($record->id)->update(['scheda' => $newCode]);
+app/Http/Controllers/WebCheckinController.php:100:            $schedina = Schedina::query()->create([
+app/Http/Controllers/WebCheckinController.php:510:        $schedina = Schedina::query()->create([
+app/Http/Controllers/WebCheckinController.php:545:        $schedina = Schedina::withoutGlobalScopes()->find($richiesta->schedina_id);
+app/Http/Controllers/GestioneOperativaController.php:447:            $schedina = Schedina::query()->withoutGlobalScopes()->find($entityId);
+app/Http/Controllers/CustomerController.php:722:        $storicoSchedine = Schedina::query()
+app/Http/Controllers/ComponentiImportController.php:425:        return Schedina::query()
+app/Http/Controllers/ArchivosController.php:17:        $hospedados = DB::table('schedina')->get(); // Reemplaza con tu consulta

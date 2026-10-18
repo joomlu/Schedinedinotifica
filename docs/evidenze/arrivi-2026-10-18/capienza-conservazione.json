@@ -1,0 +1,43 @@
+{
+  "condivisione-pack.json": {
+    "sha256_inventario_completo": "1582ffa59408bd211e3a5c742b76ee6a6a55ee350e485b6ff6e060b2b8e30051",
+    "file": 182,
+    "esito": "PASS_PACK_IDENTICI_CONSERVATI_COW",
+    "prima": 2438856704,
+    "dopo": 2803113984,
+    "nessun_backup_o_percorso_eliminato": true
+  },
+  "archivi-derivati.json": {
+    "sha256_inventario_completo": "b0181ee493ae9684d143ce119847569dae7406cb016a5babb0963e1b1b27acc3",
+    "file": 19,
+    "esito": "PASS_SOLI_ARCHIVI_DECIFRATI_DERIVATI_RIMOSSI",
+    "prima": 3119644672,
+    "dopo": 3439742976,
+    "SQL_DB_env_chiavi_upload_originali_cifrati_preservati": true
+  },
+  "derivati/eliminazione.json": {
+    "sha256_inventario_completo": "a02c29b4cc0b947d5046343445e83c4e273b004883a042f771a5d9a68bbd81c3",
+    "file": 36192,
+    "free_before": 2751094784,
+    "count": 36192,
+    "allocated_nominal": 771710976,
+    "cow_nominal": 0,
+    "protetti_non_candidati": [
+      "DB",
+      "SQL",
+      "chiavi",
+      "cifrati originali",
+      "upload",
+      "loghi",
+      "diagnostici",
+      "sorgenti e documenti"
+    ],
+    "nessun_processo_mount": true,
+    "free_after_unlink": 3532746752,
+    "recovered_unlink": 781651968,
+    "free_after": 3532955648,
+    "recovered_real": 781860864,
+    "deleted": true
+  },
+  "limite": "Misure puntuali durante collaudi: nessuna somma attribuita come recupero netto complessivo. Cifrati originali, DB, SQL, credenziali, upload e backup conservati."
+}

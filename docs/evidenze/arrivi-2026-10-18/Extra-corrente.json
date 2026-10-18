@@ -1,0 +1,13 @@
+{
+  "esito": "PASS_EXTRA_CORRENTE_E_BACKUP_PRECEDENTE_PRESENTE_CIFRATO",
+  "UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+  "montaggio": "/Volumes/extra",
+  "formato": "apfs",
+  "scrittura_rilettura_4096byte": "PASS",
+  "cartella_esclusiva": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018",
+  "liberi_Extra": 690396516352,
+  "liberi_Mac": 11920060416,
+  "backup_precedente_cifrato": true,
+  "nessuna_formattazione_o_rimozione_contenuti_precedenti": true,
+  "epoca": 1792312756.063207
+}

@@ -78,7 +78,7 @@
                             data-nome="{{ $arrival->name }}"
                             data-cognome="{{ $arrival->surname }}"
                             data-arrivo="{{ $formatShortDate($arrival->arrive) }}"
-                            data-partenza="{{ $formatShortDate($arrival->departure) }}"
+                            data-partenza="{{ $formatShortDate($arrival->departure) }} @if($arrival->departure && $arrival->departure <= \App\Support\ArriviDay::today())<span class="badge bg-warning text-dark">Partenza da correggere</span>@endif"
                             data-nazione="{{ $arrival->oa_country }}"
                             data-citta="{{ $arrival->oa_city }}"
                             data-persone="{{ $arrival->cant_people }}"
@@ -94,19 +94,21 @@
                             <td class="align-middle">{{ $arrival->name ?: '-' }}</td>
                             <td class="align-middle">{{ $arrival->surname ?: '-' }}</td>
                             <td class="align-middle text-nowrap">{{ $formatShortDate($arrival->arrive) }}</td>
-                            <td class="align-middle text-nowrap">{{ $formatShortDate($arrival->departure) }}</td>
+                            <td class="align-middle text-nowrap">{{ $formatShortDate($arrival->departure) }} @if($arrival->departure && $arrival->departure <= \App\Support\ArriviDay::today())<span class="badge bg-warning text-dark">Partenza da correggere</span>@endif</td>
                             <td class="align-middle">{{ $arrival->oa_country ?: '-' }}</td>
                             <td class="align-middle">{{ $arrival->oa_city ?: '-' }}</td>
                             <td class="align-middle text-center">{{ $arrival->cant_people ?: '-' }}</td>
                             <td class="align-middle text-center">{{ $arrival->room ?: '-' }}</td>
                             <td class="text-end align-middle text-nowrap">
                                 <div class="d-inline-flex gap-1">
-                                    <a href="{{ route('schedina.edit', ['id' => $arrival->id]) }}" class="btn btn-soft-info btn-sm" title="Apri arrivo nella scheda">
+                                    <a href="{{ route('schedina.edit', ['id' => $arrival->id, 'arrivi_q' => $q, 'arrivi_page' => $arrivals->currentPage()]) }}" class="btn btn-soft-info btn-sm" title="Apri arrivo nella scheda">
                                         <i class="ri-edit-line fs-16 align-middle"></i>
                                     </a>
-                                    <form action="{{ route('a_schedina', $arrival->id) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('a_schedina', $arrival->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Confermi il passaggio a schedina? La scheda uscirà da Arrivi e sarà inclusa nei normali flussi delle schedine.')">
                                         @csrf
-                                        <button class="btn btn-soft-success btn-sm" type="submit" title="Converti in schedina">
+                                        <input type="hidden" name="confirm_conversion" value="1">
+                                        <input type="hidden" name="schedina_struttura_id" value="{{ $struttura->id }}">
+                                        <button class="btn btn-soft-success btn-sm" type="submit" title="Passa a schedina" aria-label="Passa a schedina">
                                             <i class="ri-check-line fs-16 align-middle"></i>
                                         </button>
                                     </form>
@@ -117,6 +119,7 @@
                                         data-confirm-label="{{ $arrival->scheda ? 'l\'arrivo ' . $arrival->scheda . (trim(($arrival->name ?: '') . ' ' . ($arrival->surname ?: '')) !== '' ? ' di ' . trim(($arrival->name ?: '') . ' ' . ($arrival->surname ?: '')) : '') : (trim(($arrival->name ?: '') . ' ' . ($arrival->surname ?: '')) !== '' ? 'l\'arrivo di ' . trim(($arrival->name ?: '') . ' ' . ($arrival->surname ?: '')) : 'questo arrivo') }}"
                                     >
                                         @csrf
+                                        <input type="hidden" name="schedina_struttura_id" value="{{ $struttura->id }}">
                                         <button class="btn btn-soft-danger btn-sm" type="submit" title="Elimina arrivo">
                                             <i class="ri-delete-bin-line fs-16 align-middle"></i>
                                         </button>

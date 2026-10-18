@@ -22,17 +22,21 @@
                 </button>
             @endif
 
+            @if(!($isArrivi ?? false))
             <button type="submit" name="save_mode" value="draft" formnovalidate class="btn btn-soft-primary btn-label">
                 <i class="ri-draft-line label-icon align-middle fs-16 ms-2"></i>Salva a bozza
             </button>
 
+            @endif
             <button type="submit" name="save_mode" value="to_arrivi" formnovalidate class="btn btn-soft-info btn-label fw-semibold text-info-emphasis">
-                <i class="ri-route-line label-icon align-middle fs-16 ms-2"></i>Salva a arrivi
+                <i class="ri-route-line label-icon align-middle fs-16 ms-2"></i>Salva in Arrivi
             </button>
 
-            <button type="submit" name="save_mode" value="full" class="btn btn-success btn-label">
-                <i class="ri-save-line label-icon align-middle fs-16 ms-2"></i>Salva a schedina
+            @if(!($isArrivi ?? false) || $isEdit)
+            <button type="submit" name="save_mode" value="{{ ($isArrivi ?? false) ? 'convert_arrivi' : 'full' }}" @if($isArrivi ?? false) data-arrivi-convert="1" @endif class="btn btn-success btn-label">
+                <i class="ri-save-line label-icon align-middle fs-16 ms-2"></i>{{ ($isArrivi ?? false) ? 'Passa a schedina' : 'Salva a schedina' }}
             </button>
+            @endif
         @else
             <button type="submit" name="save_mode" value="web" formnovalidate class="btn btn-soft-primary btn-label">
                 <i class="ri-save-line label-icon align-middle fs-16 ms-2"></i>{{ $primarySaveLabel }}

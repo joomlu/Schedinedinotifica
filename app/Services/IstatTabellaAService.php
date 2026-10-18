@@ -39,7 +39,7 @@ class IstatTabellaAService
 
     public function schedinePerPeriodo(int $strutturaId, Carbon $dal, Carbon $al): Collection
     {
-        return Schedina::query()->withoutGlobalScope('struttura')
+        return Schedina::query()->effettive()->withoutGlobalScope('struttura')
             ->with(['componenti' => fn ($q) => $q->withoutGlobalScope('struttura')])
             ->where('struttura_id', $strutturaId)->where('is_arrive', false)
             ->where(fn ($q) => $q->where('circuito', 'schedina')->orWhereNull('circuito'))

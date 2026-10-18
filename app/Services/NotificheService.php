@@ -100,12 +100,11 @@ class NotificheService
             return collect();
         }
 
-        $schedine = Schedina::query()
+        $schedine = Schedina::query()->effettive()
             ->withoutGlobalScopes()
             ->where('struttura_id', $strutturaId)
             ->where(function ($query) {
                 $query->where('circuito', 'schedina')
-                    ->orWhere('circuito', 'arrivi')
                     ->orWhere(function ($legacy) {
                         $legacy->whereNull('circuito')->where('is_arrive', 0);
                     });

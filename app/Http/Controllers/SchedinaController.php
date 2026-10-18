@@ -216,6 +216,7 @@ class SchedinaController extends Controller
 
         [$schedina, $componenti] = $this->previewFromOldInput($request, $schedina, $componenti, $prefilledCustomer);
 
+        if ($request->boolean('arrival')) $schedina->forceFill(['circuito'=>'arrivi', 'is_arrive'=>true, 'arrive'=>\App\Support\ArriviDay::today()]);
         [$tassaConfig, $esenzioni] = $this->loadTassaContext($strutturaInfo);
         $tassaDettaglio = $this->dettaglioTassaPerGestione($schedina, $componenti, $tassaConfig, $esenzioni, $strutturaInfo);
 
@@ -232,7 +233,7 @@ class SchedinaController extends Controller
                 'prefilledCustomer' => $prefilledCustomer,
                 'customerImportRowId' => $customerImportRow?->id,
                 'importedTipoAlloggiato' => $customerImportRow?->normalized_payload['tipo_alloggiato'] ?? null,
-                'nextSchedaCode' => $this->nextSchedaCode($currentId),
+                'nextSchedaCode' => $this->nextSchedaCode($currentId, $schedina->isInArrivi() ? 'arrivi' : 'schedina'),
             ]
         ));
     }
@@ -269,6 +270,8 @@ class SchedinaController extends Controller
         \App\Support\SchedinaFormContext::validate($request, (int) (StrutturaCorrente::getId() ?? $request->user()?->struttura_id));
         $this->authorizedCustomerReference($request);
         $saveMode = $this->resolveSaveMode($request);
+        abort_if($saveMode === 'convert_arrivi', 422, 'Salva prima la scheda in Arrivi.');
+        if ($saveMode === 'to_arrivi') $request->merge(['arrive' => \App\Support\ArriviDay::today()]);
         if (in_array($saveMode, ['draft', 'to_arrivi'], true)) $this->validateSchedinaRequest($request, false);
         if ($saveMode === 'component') {
             return $this->handleSingleComponentSave($request, null, false);
@@ -413,40 +416,54 @@ class SchedinaController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $schedina = Schedina::query()->findOrFail($id);
-        $previousCircuit = $this->normalizeSchedaCircuit($schedina);
-        \App\Support\SchedinaFormContext::validate($request, (int) (StrutturaCorrente::getId() ?? $request->user()?->struttura_id));
-        $this->authorizedCustomerReference($request);
-        $saveMode = $this->resolveSaveMode($request);
-        if (in_array($saveMode, ['draft', 'to_arrivi'], true)) $this->validateSchedinaRequest($request, false);
+        return DB::transaction(function () use ($request, $id) {
+            $sid = (int) (StrutturaCorrente::getId() ?? $request->user()?->struttura_id);
+            \App\Support\SchedinaFormContext::validate($request, $sid);
+            Struttura::withoutGlobalScopes()->whereKey($sid)->lockForUpdate()->firstOrFail();
+            $schedina = Schedina::query()->where('struttura_id', $sid)->lockForUpdate()->findOrFail($id);
+            $previousCircuit = $this->normalizeSchedaCircuit($schedina);
+            $this->authorizedCustomerReference($request);
+            $saveMode = $this->resolveSaveMode($request);
+            if ($saveMode === 'convert_arrivi' && !$schedina->isInArrivi()) {
+                abort_unless($schedina->circuito === 'schedina' && !$schedina->is_arrive, 409);
+                return redirect()->route('schedina.edit', ['id' => $id])->with('success', 'Passaggio a schedina già completato: nessun duplicato creato.');
+            }
+            abort_if($request->boolean('arrivi_context') && !$schedina->isInArrivi(), 409, 'La scheda è già uscita da Arrivi. Riaprila prima di modificarla.');
+            if ($schedina->isInArrivi()) {
+                $request->merge(['arrive' => \App\Support\ArriviDay::today()]);
+                if ($saveMode === 'convert_arrivi') {
+                    $request->validate(['confirm_conversion' => ['required', 'accepted']]);
+                    $saveMode = 'full';
+                } elseif (!in_array($saveMode, ['component', 'componenti'], true)) {
+                    $saveMode = 'to_arrivi';
+                }
+            }
+            if (in_array($saveMode, ['draft', 'to_arrivi'], true)) $this->validateSchedinaRequest($request, false);
 
-        if ($saveMode === 'component') {
-            return $this->handleSingleComponentSave($request, $schedina, true);
-        }
+            if ($saveMode === 'component') {
+                return $this->handleSingleComponentSave($request, $schedina, true);
+            }
 
-        if ($saveMode === 'componenti') {
-            $this->validateComponentiRows($request);
-            $this->validatePeopleConsistencyForComponentSave($request);
-            $this->syncComponenti($schedina, $request);
+            if ($saveMode === 'componenti') {
+                $this->validateComponentiRows($request);
+                $this->validatePeopleConsistencyForComponentSave($request);
+                $this->syncComponenti($schedina, $request);
 
-            return redirect()
-                ->route('schedina.edit', ['id' => $schedina->id, 'active_tab' => 'schedina-step-comp'])
-                ->withInput($request->except(['componenti']))
-                ->with('success', 'Componente salvato con successo.')
-                ->with('active_tab', 'schedina-step-comp');
-        }
+                return redirect()
+                    ->route('schedina.edit', ['id' => $schedina->id, 'active_tab' => 'schedina-step-comp'])
+                    ->withInput($request->except(['componenti']))
+                    ->with('success', 'Componente salvato con successo.')
+                    ->with('active_tab', 'schedina-step-comp');
+            }
 
-        if ($saveMode === 'full') {
-            $this->validateSchedinaRequest($request);
-            $this->validateComponentiRows($request);
-            $this->validatePeopleConsistency($request);
-        } elseif ($saveMode === 'to_arrivi') {
-            $this->validateArriviModeRequest($request);
-        }
+            if ($saveMode === 'full') {
+                $this->validateSchedinaRequest($request);
+                $this->validateComponentiRows($request);
+                $this->validatePeopleConsistency($request);
+            } elseif ($saveMode === 'to_arrivi') {
+                $this->validateArriviModeRequest($request);
+            }
 
-        return DB::transaction(function () use ($request, $schedina, $previousCircuit, $saveMode) {
-            Struttura::withoutGlobalScopes()->whereKey($schedina->struttura_id)->lockForUpdate()->firstOrFail();
-            $schedina->refresh();
             \App\Models\WebCheckinRichiesta::where('schedina_id', $schedina->id)->where('struttura_id', $schedina->struttura_id)->lockForUpdate()->get();
             $customer = $this->resolveCustomerFromRequest($request);
             $defaults = $customer ? $this->customerToSchedinaDefaults($customer) : [];
@@ -491,12 +508,28 @@ class SchedinaController extends Controller
         });
     }
 
+    public function convertArrival(Request $request, int $id)
+    {
+        $request->validate(['confirm_conversion' => ['required', 'accepted']]);
+        $sid = (int) (StrutturaCorrente::getId() ?? $request->user()?->struttura_id);
+        \App\Support\SchedinaFormContext::validate($request, $sid);
+        return DB::transaction(function () use ($request, $sid, $id) {
+            Struttura::withoutGlobalScopes()->whereKey($sid)->lockForUpdate()->firstOrFail();
+            $row = Schedina::query()->where('struttura_id', $sid)->lockForUpdate()->findOrFail($id);
+            // Non sovrascrivere il contesto ricevuto: una scheda di un altro tenant resta vietata.
+            $request->merge(array_merge($row->getAttributes(), ['save_mode' => 'convert_arrivi',
+                'confirm_conversion' => '1', 'componenti' => $row->componenti->toArray()]));
+            $this->update($request, $id);
+            return redirect()->route('schedina.edit', ['id' => $id])->with('success', 'Passaggio a schedina completato.');
+        });
+    }
+
     public function destroy(int $id)
     {
         $schedina = Schedina::query()->findOrFail($id);
         app(CestinoService::class)->archiveModel($schedina, [
             'source' => 'Schedine',
-            'circuito' => 'schedina',
+            'circuito' => $schedina->isInArrivi() ? 'arrivi' : 'schedina',
         ]);
         $schedina->delete();
 
@@ -574,6 +607,7 @@ class SchedinaController extends Controller
 
     private function dettaglioTassaPerGestione(Schedina $schedina, $componenti, ?TassaDiSoggiorno $config, $esenzioni, ?Struttura $struttura): array
     {
+        if ($schedina->isInArrivi()) return ['totale' => null, 'righe' => [], 'errore' => 'Scheda in Arrivi: esclusa dal calcolo della Tassa.'];
         try {
             if ($struttura) {
                 $config = $this->tassaService->configurazioneAutomatica($struttura, $config, $this->tassaService->parseDate($schedina->arrive) ?? now());
@@ -612,6 +646,7 @@ class SchedinaController extends Controller
             ]);
         }
         $schedina = Schedina::query()->findOrFail($id);
+        abort_if($schedina->isInArrivi(), 404);
         $componenti = Componenti::query()->where('schedina_id', $id)->get();
         $currentId = $schedina->struttura_id;
         $struttura = $currentId ? Struttura::find($currentId) : null;
@@ -832,7 +867,7 @@ class SchedinaController extends Controller
                 })));
             }
         }
-        $request->validate($rules, [], $this->schedinaValidationAttributes());
+        $request->validate($rules, $this->schedinaValidationMessages(), $this->schedinaValidationAttributes());
         if (!$complete) return;
         $currentId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
         app(\App\Services\SchedinaAnagraficaValidation::class)->validate($request, (int) $currentId);
@@ -861,8 +896,8 @@ class SchedinaController extends Controller
             'name' => ['required', 'string', 'max:100'],
             'surname' => ['required', 'string', 'max:100'],
             'arrive' => ['required', 'date'],
-            'departure' => ['nullable', 'date', 'after_or_equal:arrive'],
-        ], [], $this->schedinaValidationAttributes());
+            'departure' => ['nullable', 'date'],
+        ], $this->schedinaValidationMessages(), $this->schedinaValidationAttributes());
     }
 
     private function resolveCustomerFromRequest(Request $request): ?Customers
@@ -1079,7 +1114,10 @@ class SchedinaController extends Controller
 
     private function resolveSaveMode(Request $request): string
     {
-        return (string) $request->input('save_mode', $request->input('save_mode_intent', 'full'));
+        $request->validate(['arrivi_q'=>['nullable','string','max:100'], 'arrivi_page'=>['nullable','integer','min:1']]);
+        $mode = (string) $request->input('save_mode', $request->input('save_mode_intent', 'full'));
+        if (!in_array($mode, ['full', 'draft', 'to_arrivi', 'component', 'componenti', 'convert_arrivi'], true)) throw ValidationException::withMessages(['save_mode' => 'Azione di salvataggio non valida.']);
+        return $mode;
     }
 
     private function applySaveModeState(array &$payload, int $strutturaId, string $saveMode, ?Schedina $schedina = null): void
@@ -1243,7 +1281,7 @@ class SchedinaController extends Controller
 
         if ($saveMode === 'to_arrivi') {
             return redirect()
-                ->route('arrivals')
+                ->route('arrivals', array_filter(['q'=>$request->input('arrivi_q'), 'page'=>$request->integer('arrivi_page') > 1 ? $request->integer('arrivi_page') : null]))
                 ->with('success', $isUpdate ? 'Schedina salvata nel circuito Arrivi.' : 'Schedina registrata nel circuito Arrivi.');
         }
 
@@ -1379,18 +1417,7 @@ class SchedinaController extends Controller
 
     private function applyOperationalArriviDates(array &$payload): void
     {
-        $today = now()->startOfDay();
-
-        $submittedArrival = $this->safeParseDateValue($payload['arrive'] ?? null);
-        $submittedDeparture = $this->safeParseDateValue($payload['departure'] ?? null);
-
-        $nights = 1;
-        if ($submittedArrival && $submittedDeparture && $submittedDeparture->greaterThan($submittedArrival)) {
-            $nights = max(1, $submittedArrival->diffInDays($submittedDeparture));
-        }
-
-        $payload['arrive'] = $today->toDateString();
-        $payload['departure'] = $today->copy()->addDays($nights)->toDateString();
+        $payload['arrive'] = \App\Support\ArriviDay::today();
     }
 
     private function safeParseDateValue($value): ?Carbon
@@ -1535,6 +1562,24 @@ class SchedinaController extends Controller
                 'cant_people' => "Con quantità persone pari a {$totalPeople} non puoi salvare più di {$expectedComponenti} componenti oltre all ospite principale.",
             ]);
         }
+    }
+
+    private function schedinaValidationMessages(): array
+    {
+        return [
+            'required' => 'Il campo :attribute è obbligatorio.',
+            'date' => 'Inserisci una data valida per :attribute.',
+            'departure.after' => 'La partenza deve essere successiva all’arrivo. Correggila prima di passare a schedina.',
+            'before_or_equal' => 'La data di :attribute non deve essere successiva a :date.',
+            'string' => 'Il campo :attribute deve contenere testo.',
+            'integer' => 'Il campo :attribute deve contenere un numero intero.',
+            'boolean' => 'Il valore di :attribute non è valido.',
+            'in' => 'Seleziona un valore valido per :attribute.',
+            'not_in' => 'Il valore selezionato per :attribute non è ammesso.',
+            'max' => 'Il campo :attribute supera il limite consentito (:max).',
+            'min' => 'Il campo :attribute deve essere almeno :min.',
+            'email' => 'Inserisci un indirizzo email valido per :attribute.',
+        ];
     }
 
     private function schedinaValidationAttributes(): array

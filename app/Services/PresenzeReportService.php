@@ -12,7 +12,7 @@ class PresenzeReportService
 {
     public function schedinePeriodo(int $strutturaId, Carbon $dal, Carbon $al): Collection
     {
-        return Schedina::query()
+        return Schedina::query()->effettive()
             ->withoutGlobalScope('struttura')
             ->with(['componenti' => fn ($query) => $query->withoutGlobalScope('struttura')])
             ->where('struttura_id', $strutturaId)

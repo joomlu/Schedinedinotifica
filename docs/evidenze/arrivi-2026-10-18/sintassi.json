@@ -1,0 +1,26 @@
+{
+  "esito": "PASS_SINTASSI_STATICA_SENZA_BOOTSTRAP",
+  "file": [
+    "app/Http/Controllers/ArrivalsController.php",
+    "app/Http/Controllers/CalendarioController.php",
+    "app/Http/Controllers/CustomerController.php",
+    "app/Http/Controllers/CustomerExportController.php",
+    "app/Http/Controllers/HomeController.php",
+    "app/Http/Controllers/QuesturaExportController.php",
+    "app/Http/Controllers/SchedinaController.php",
+    "app/Http/Controllers/TassaDiSoggiornoController.php",
+    "app/Http/Controllers/TassaReportController.php",
+    "app/Models/Schedina.php",
+    "app/Services/IstatOperationService.php",
+    "app/Services/IstatPayloadStore.php",
+    "app/Services/IstatTabellaAService.php",
+    "app/Services/NotificheService.php",
+    "app/Services/PresenzeReportService.php",
+    "app/Services/QuesturaTxtExportService.php",
+    "app/Services/TassaDiSoggiornoService.php",
+    "routes/web.php",
+    "tests/Feature/ArriviEsenzioniTest.php",
+    "app/Support/ArriviDay.php",
+    "tests/Feature/ArriviLifecycleTest.php"
+  ]
+}

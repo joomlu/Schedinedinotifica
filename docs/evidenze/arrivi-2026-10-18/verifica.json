@@ -1,0 +1,102 @@
+{
+  "stato": "PASS_COLLAUDO_ARRIVI_ISOLATO",
+  "baseline_documentale": "bef640c741b8583f49e0144e691155d477ffebd7",
+  "baseline_online_riletta": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+  "rischio": "ALTO: stati dei soggiorni, comunicazioni, fiscalità e tenancy",
+  "backend_esteso": {
+    "test": 322,
+    "asserzioni": 3259,
+    "esito": "PASS",
+    "deprecazioni_PHPUnit_pre_esistenti": 3
+  },
+  "backend_mirato_finale": {
+    "test": 24,
+    "asserzioni": 222,
+    "esito": "PASS",
+    "suite_non_sommate": true
+  },
+  "browser_R12": {
+    "esito": "PASS",
+    "test": 10,
+    "viewport": [
+      1440,
+      768,
+      390
+    ]
+  },
+  "browser_finale": {
+    "esito": "PASS",
+    "test": 10,
+    "viewport": [
+      1440,
+      768,
+      390
+    ]
+  },
+  "guardie": 17,
+  "override_respinti": 23,
+  "build_GEO": "PASS",
+  "DDL": [],
+  "sorgenti_sha256": {
+    "app/Http/Controllers/ArrivalsController.php": "a03611e9d05b0a59393b45a8b1ff4b398d7867c6798ebb9175fccbaa52f40b16",
+    "app/Http/Controllers/CalendarioController.php": "e2665fe96cd53e23a211cc14630b13b7397ed92dc956f07ce7cfadf167bc2037",
+    "app/Http/Controllers/CustomerController.php": "a49ea5041cbc2181d7428a7bce05280b6506dd66ebefcbb41ac722e48839741c",
+    "app/Http/Controllers/CustomerExportController.php": "99399871baba105d1f56aabf5bba5a2cd75159f0837b84a1f95d9dcabc08e232",
+    "app/Http/Controllers/HomeController.php": "31403b17b3c430135aa988ecd6347baca149da436c0830d58988d3e05c245426",
+    "app/Http/Controllers/QuesturaExportController.php": "1c329a130dd240f30fa9e04973a30e43d6a3a25712c824af5d4c5c257f0dd5ba",
+    "app/Http/Controllers/SchedinaController.php": "6fa6b7107b361230373f3e1c37163c90fcc73ccdd7dc038363210ed2f5a0015b",
+    "app/Http/Controllers/TassaDiSoggiornoController.php": "1519257f2be786880d7742c56421ad4a59b7a2a81c13f7610424f756d733c9a2",
+    "app/Http/Controllers/TassaReportController.php": "836baf8d77f0f676c59992b270828bb18ca342d77cb8234e8e8a2e0abda4d3c5",
+    "app/Models/Schedina.php": "32cea9ca5dcbefffa7862e04a28e96f5dab0506929654e7e499d1fcc9a28c928",
+    "app/Services/CestinoService.php": "8e54b80bf9a191ccae7a4055c7bf8ecb9b3794c8207ea9bf05eb336f4bc1ac3a",
+    "app/Services/IstatOperationService.php": "16bbd1068785cdc3fc23ee3fb449a7a5a0ef95bf03aee095edc7a223f9d6d99f",
+    "app/Services/IstatPayloadStore.php": "4ce0cf761e02f6ffa3832c1d237743d59f04f396a4bbe85014bb069ff82008ca",
+    "app/Services/IstatTabellaAService.php": "baf3829f1583966387338e96dff35ee76513bee491b1df49dc672247ebc3576d",
+    "app/Services/NotificheService.php": "a7aaa05bc147dc284f6d3ae328c65cd4d1f2f7abfb06b7ff1a5c54fbf71b5ee9",
+    "app/Services/PresenzeReportService.php": "8084acefd9956201dd698cf12fd458e147e6574a0919946052f226d3622bbd09",
+    "app/Services/QuesturaTxtExportService.php": "fe7bb7e26e1769b901cb66b90e7bdf8b8aa0b1a52ff81c337095979d95cd923d",
+    "app/Services/TassaDiSoggiornoService.php": "a1f3857a56ddd5f123c190e6f32ca306994503dcf56c1a677ada564ed440dac4",
+    "app/Support/ArriviDay.php": "02870a4cccf11fcb59dd1e8d632c829dbda7e2ec535aebc5be7445fba7b8205f",
+    "resources/views/arrivals/list.blade.php": "44a32c390b09fd9190716558910df28cd45be8b0bd788d26f0091cb3160df070",
+    "resources/views/schedina/partials/arrivi-clock.blade.php": "8a7715fd7e2d2d6932a6d2b352aba76996e86c51713354052c7e23f7a35f2b5a",
+    "resources/views/schedina/partials/form.blade.php": "498d26ecc38729d8a3bdc19caadce289aed1a4886959218f3afadfeccfcf5026",
+    "resources/views/schedina/partials/save-actions.blade.php": "cd4cd64900a1bdfcc94e80e322365766428b6fcf205737f736a393071d8ac029",
+    "resources/views/schedina/partials/scripts.blade.php": "6d511e8c178650a73d700daddeb749125baf85ef37e471ea8fef6c0bd5920df7",
+    "routes/web.php": "1f206f531e0d86fbda1a40eb0ed5b123a2a1f3ef5af30e5e929dd025fe7a9abb",
+    "tests/Feature/ArriviEsenzioniTest.php": "d685d9ac0fec82b9abf8c62e64f5d3d23cbd886656bd2497cd4a83c87fab6f63",
+    "tests/Feature/ArriviLifecycleTest.php": "fcf329cd57340cb79211473ea18e789664ddef1faefa54bebf4ba8e33f448aab",
+    "tests/Feature/arrivi-lifecycle.playwright.spec.js": "dc4fcf318b4994d9d7072891e25bb4e188582043de5835e2839e6bde90e7ff2f"
+  },
+  "protetti_sha256": {
+    "composer.json": "01f998ab9b65ad9cf210f574b77940c2d5684a295a84fe0c7cf7cd1c41783c56",
+    "composer.lock": "857bc7f6eb12f80852e49cfa3c46b04db064585175427a17fb176f5c06bef3e4",
+    "package.json": "1954c82f8cf076373b8b9fee93301c29943052e6cb808db54b2950ba6d58ac01",
+    "package-lock.json": "34873f00e2deeef212b21720a6b93644ce52b9c082eb3b2aab38800776bbc08c",
+    "deploy.sh": "b603b5bd68cdb1d01a2db15e9c93ef701544bdee777121b4279b23cae35ad43b",
+    "scripts/deployment/deploy.py": "7c4488df00697f1acd2a2df0d96a712c26d8355b9479674d82b80990a587a00d",
+    "scripts/deployment/artisan.php": "ea3bbe565529de2c09c9899a1041aee2f2eedfe09962a29f57a018e739fe9b98",
+    "scripts/deployment/maintenance.php": "59a9c80c50615f32fa79780d82f4cbb28ce5a4cfaec8191977fad8f67f3f7de7"
+  },
+  "logs_sha256": {
+    "prova-R1.log": "de6fe87eb0b0a0be48b1186935591cc23fe1cfd7e072abc67236586a17743ecb",
+    "prova-R3.log": "dc31f647ee2129de82b7a3cb335d55022a4b75b2f58655abfb0a01a39e69e9f0",
+    "prova-R2.log": "0059a74acf858e2cb6962d44a9b65c312c0eece1b4d6427def6138248c0d4c0c",
+    "prova-R6.log": "a37322181b8823b5324b6244643c4f10f6332c45993c074388d482fc095ea48b",
+    "prova-R7.log": "40f4f1b5f2ea01ea4f2d8971899f7ca0e6f9268edcd0e71a2cd9a27f6db65ec5",
+    "prova-R5.log": "9a4175cb81bf36fd3ed2eefbaa5a0b9ef8f525a7d67153231dbbad3a3bba05ce",
+    "prova-R4.log": "2348b774c780a1d41799973c5f767833f589d07b33246135464ae3a4dea39bed",
+    "prova-R11.log": "f3170eab0b023f115f2d67b9ab1d4e1cb44b4195e40315830a388c8e6779acc5",
+    "prova-R10.log": "b48f18f9765a34bd1d58df318c0c613441630e4a56c71b322d48cb54a803f874",
+    "prova-R12.log": "a3cf7bf604612b6b8213b7469d3d62f79608494efe355ff0bb7f7119df39e329",
+    "prova-R13.log": "b035e4b8d0607e9086f461f2a686a46f6338158cb1871b15e48e2cbbf86dbf60",
+    "prova-R14.log": "22f8ecebf74938f7c4f9984e18489657155f636de7607549a15544f0eb4192ac",
+    "prova-R9.log": "73357128cd9a645ca8d3163e19c67efd48e8c16ba5a74a941da63d591f0311db",
+    "prova-R8.log": "50b5b130a966e7dc666f7f88cb36391b176864abeb563fb1ad8d6026fbed869f"
+  },
+  "PHP_finale_messaggi": {
+    "esito": "PASS",
+    "test": 24,
+    "asserzioni": 223,
+    "suite_non_sommate": true
+  }
+}

@@ -719,7 +719,7 @@ class CustomerController extends Controller
         $customer->setAttribute('display_country_doc_reg', $this->resolveGeoLabel($customer->country_doc_reg, 'country'));
         $customer->setAttribute('display_city_doc_reg', $this->resolveGeoLabel($customer->city_doc_reg, 'city'));
 
-        $storicoSchedine = Schedina::query()
+        $storicoSchedine = Schedina::query()->effettive()
             ->withCount('componenti')
             ->where('customer_id', $customer->id)
             ->orderByDesc('arrive')

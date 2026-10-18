@@ -171,7 +171,7 @@ class QuesturaExportController extends Controller
             return $blocked;
         }
 
-        $schedina = Schedina::query()
+        $schedina = Schedina::query()->effettive()
             ->with('componenti')
             ->where('struttura_id', $struttura->id)
             ->where('circuito', 'schedina')

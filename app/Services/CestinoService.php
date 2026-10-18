@@ -327,6 +327,13 @@ class CestinoService
         if ($normalizedCircuit === 'arrivi') {
             $payload['circuito'] = 'arrivi';
             $payload['is_arrive'] = 1;
+            $payload['arrive'] = \App\Support\ArriviDay::today();
+            // Lo snapshot usa ISO UTC; l'inserimento SQL non applica i cast Eloquent.
+            foreach ((new Schedina)->getCasts() as $field => $cast) {
+                if ($cast === 'datetime' && !empty($payload[$field])) {
+                    $payload[$field] = \Carbon\Carbon::parse($payload[$field])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s');
+                }
+            }
         } elseif ($normalizedCircuit === 'web') {
             $payload['circuito'] = 'web';
             $payload['is_arrive'] = 0;

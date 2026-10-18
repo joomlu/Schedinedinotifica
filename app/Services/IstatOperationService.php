@@ -21,6 +21,7 @@ final class IstatOperationService
 
         return DB::transaction(function () use ($struttura, $export, $mode, $userId) {
             Struttura::whereKey($struttura->id)->lockForUpdate()->firstOrFail();
+            if (\App\Models\Schedina::withoutGlobalScopes()->where('struttura_id', $struttura->id)->whereIn('id', $export->schedina_ids ?? [])->inArrivi()->exists()) throw ValidationException::withMessages(['istat_ws' => 'La copia contiene schede ora in Arrivi: rigenera la comunicazione.']);
             $key = hash('sha256', $struttura->id.'|'.$mode.'|'.$export->sha256);
             $prior = IstatTransmission::where('idempotency_key', $key)->first();
             while ($prior && $prior->reconciled_at) {

@@ -1,5 +1,21 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Arrivi — candidato verificato, pubblicazione in preparazione — 18 ottobre 2026
+
+[Rapporto](../SCHEDINE-ARRIVI-2026-10-18.md), [prove isolate](../evidenze/arrivi-2026-10-18/verifica.json). **BASELINE IN AUDIT generale invariata.** Autorizzazione esplicita per implementazione, test, commit/push, C5 e pubblicazione Arrivi; soli dati sintetici online, nessun invio enti/email. Git iniziale bef640c e produzione945ef553/FPMattivo riletti; lavoro preesistente preservato.
+
+Arrivi resta distinto da bozza ed effettiva: modulo Nuova schedina riutilizzato, Salva in Arrivi conserva lo stato, Passa a schedina richiede conferma e rivalidazione completa condivisa. Lock struttura/riga e transazione, ID invariato, retry idempotente e vecchi moduli409; errori senza mutazioni parziali, componenti/relazioni preservati. Eliminazione Arrivi serializzata con conversione; ripristino resta Arrivi con consensi temporali preservati. Nessuna DDL o modifica dipendenze/infrastruttura.
+
+Arrivo effettivo sempre oggi nel fuso del progetto Europe/Rome (nessun fuso struttura esistente): proiezione del modello a ogni lettura e materializzazione prima del salvataggio/conversione, nessuna dipendenza da scheduler. Data SQL precedente resta materializzata dell’ultimo salvataggio; i canali confermati escludono Arrivi prima dei filtri data. Browser aggiorna solo arrivo, gestisce mezzanotte, pagine vecchie e risposte lente/fuori ordine. Partenza mai spostata/inventata; alert e conversione bloccata se non successiva, parcheggio ancora consentito. Kernel attuale con verifica settimanale tassa:verifica-profili, distinta/invariata e senza conversioni Arrivi: la vecchia annotazione storica «schedule vuoto» è superata.
+
+Esclusione backend con flag Arrivi O circuito Arrivi, anche incoerenti: Questura TXT/WS e dettaglio, ISTAT selezione/store/prenotazione, Tassa dataset/calcolo/ricevute, presenze/statistiche, calendario/notifiche ospiti, contatori/dashboard e storico/conteggi esportati clienti. Archivi storici preservati; controlli di integrità di riferimenti, componenti e cestino riconoscono ancora i record parcheggiati. Vecchio controller duplicato rimosso, dati anagrafici e moduli condivisi.
+
+Collaudo isolato322test/3259asserzioni e10browser PASS; ultime sole route/clock24test/222asserzioni e10browser PASS, ultimo dizionario messaggi italiani24/223PASS con normalizzazione del controller identica. Suite non sommate;17guardie/23override/buildGEO PASS, tre deprecazioni PHPUnit preesistenti. Coperti più giorni, mezzanotte controllata senza ora server, partenza scaduta, annullamento, conversione/retry/vecchia scheda, rollback, componenti, cestino, filtri/paginazione/ritorno, permessi e ID malformati. Diagnostici intermedi e regressione storica XML corretta conservati.
+
+Extra realmente /Volumes/extra/APFS/UUID488ACB8D-6B99-49AE-8A3C-175FD66F5466, scrittura/riletturaPASS e nuova cartella esclusiva; backup precedente ancora cifrato/preservato. VM36GiB/XFS37290283008, primo preflight STOP prima PREPARE:3540140032contro3732652032 byte, riserva1GiB invariata e massimi completi precedenti non ridotti dopo pulizie. Pack identici conservatiCoW e soli derivati vendor/build/archivi decifrati autenticati rimossi; DB/SQL/env/chiavi/upload/loghi/cifrati/backup preservati. Ulteriore audit PASS:409572file di sole dipendenze identiche in12copie di test proprie rimossi, canonico/protetti conservati; VM3540451328→3749924864. Nuovo preflight3749920768contro3732652032PASS, riserva1GiBinvariata; crescita baseline+blocchi nuovi2668754entro16MiBgiàprevisti. Nessun nuovo PREPARE/S0/RUN o candidato online dichiarato; C5 e verifica online/monitor ancora da completare.
+
+
+
 ## Pubblicazione con Extra — 18 ottobre 2026
 
 **Candidato `945ef553aab29ac437ff194f7cfad081fb7ab7c7` pubblicato e verificato online; monitor conclusivo PASS. BASELINE IN AUDIT generale invariata.** [Rapporto](../PUBBLICAZIONE-EXTRA-2026-10-18.md), [ricevuta C5](../evidenze/pubblicazione-extra-2026-10-18/rilascio.json). Questa esecuzione supera lo STOP per capacità descritto nella sezione storica successiva. Autorizzazione esplicita corrente per backup/Extra/capacità/VM32→36GiB, C5 e prove sintetiche; nessun invio enti/email.

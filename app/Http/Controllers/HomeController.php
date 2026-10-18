@@ -107,8 +107,8 @@ class HomeController extends Controller
                     ->whereIn('stato', ['aperto', 'in_lavorazione', 'in_attesa_struttura'])
                     ->count(),
                 'clienti' => Customers::query()->where('struttura_id', $strutturaDashboard->id)->count(),
-                'schedine' => Schedina::query()->withoutGlobalScopes()->where('struttura_id', $strutturaDashboard->id)->count(),
-                'arrivi' => Schedina::query()->withoutGlobalScopes()->where('struttura_id', $strutturaDashboard->id)->where('is_arrive', 1)->count(),
+                'schedine' => Schedina::query()->effettive()->withoutGlobalScopes()->where('struttura_id', $strutturaDashboard->id)->count(),
+                'arrivi' => Schedina::query()->inArrivi()->withoutGlobalScopes()->where('struttura_id', $strutturaDashboard->id)->count(),
                 'web_checkin' => WebCheckinRichiesta::query()->where('struttura_id', $strutturaDashboard->id)->whereIn('stato', ['nuova', 'inviata', 'aperta', 'compilata'])->count(),
                 'sections' => [
                     [
