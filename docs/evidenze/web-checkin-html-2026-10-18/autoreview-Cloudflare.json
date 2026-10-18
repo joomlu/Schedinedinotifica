@@ -1,0 +1,10 @@
+{
+  "azione": "Accesso Cloudflare con il profilo Google memorizzato",
+  "esito": "RESPINTO_DALLA_REVISIONE_AUTOMATICA",
+  "motivo": "Manca autorizzazione esplicita per profilo e destinazione",
+  "consenso_specifico_richiesto_per": [
+    "login Cloudflare con il profilo memorizzato",
+    "solo TXT SPF schedinedinotifica in tanggo.software: v=spf1 ip4:217.174.149.23 -all"
+  ],
+  "nessun_accesso_o_record_pubblicato": true
+}

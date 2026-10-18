@@ -1,0 +1,115 @@
+{
+  "inizio": "2026-10-18T18:16:49.807Z",
+  "SHA": "1c3b7a6c6aba71c2f57da76c304638eb7e13015d",
+  "prove": [
+    {
+      "regressione_Nuova_schedina": true,
+      "ricerca_nome_cognome": true,
+      "selezione_cliente": true,
+      "bozza_e_ripresa": true
+    },
+    {
+      "creazione_reale_struttura_B_senza_collisioni": true,
+      "modelli_B_indipendenti": true,
+      "richiesta_B_negata_ad_A404": true
+    },
+    {
+      "ricerca_struttura_B_solo_proprio_cliente": true
+    }
+  ],
+  "responsive": [
+    {
+      "width": 1440,
+      "pagina": "/web-checkin",
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "/web-checkin/nuovo",
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "/schedine/nuova",
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "/schedine",
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "/schedine/bozze",
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "/arrivi",
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "/web-checkin",
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "/web-checkin/nuovo",
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "/schedine/nuova",
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "/schedine",
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "/schedine/bozze",
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "/arrivi",
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "/web-checkin",
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "/web-checkin/nuovo",
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "/schedine/nuova",
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "/schedine",
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "/schedine/bozze",
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "/arrivi",
+      "nessun_overflow": true
+    }
+  ],
+  "esito": "PASS_ONLINE_REGRESSIONI_NUOVA_SCHEDINA_TENANCY",
+  "errori_JS": [],
+  "fine": "2026-10-18T18:17:04.189Z"
+}

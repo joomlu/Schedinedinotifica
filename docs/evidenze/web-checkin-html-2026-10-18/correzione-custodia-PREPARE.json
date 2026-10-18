@@ -1,0 +1,61 @@
+{
+  "esito": "PASS_PREPARE_EXTRA_INTEGRITA_RECUPERO",
+  "origine": "/var/lib/schedine-release/bases/e21a6828435758d278144f6dad55057a6eec961713779ce6",
+  "destinazione": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/C5-correzione-PREPARE",
+  "file": [
+    {
+      "nome": "db.sql",
+      "byte": 23255264,
+      "sigillo": {
+        "plain_sha256": "77de49f3d7bb965eb015330675c329b052e79596851b6b5bb8be7a3ad6c09e3e",
+        "cipher_sha256": "0fee667006c088c65e468bf063385b3c59334304e42e0694f14b6fd2a6834dfc",
+        "hmac": "4153e412e86783108291bb626632d93e55400fcf2e28cd8cb78ea130a50aefbd",
+        "byte": 23255264
+      },
+      "recupero": {
+        "cifrato_sha256": "0fee667006c088c65e468bf063385b3c59334304e42e0694f14b6fd2a6834dfc",
+        "decifrato_sha256": "77de49f3d7bb965eb015330675c329b052e79596851b6b5bb8be7a3ad6c09e3e",
+        "HMAC_prima_decifratura": true,
+        "decifratura_integrale": true,
+        "nessuna_scrittura_decifrata_o_temporanea": true
+      }
+    },
+    {
+      "nome": "fs.tar.gz",
+      "byte": 341004112,
+      "sigillo": {
+        "plain_sha256": "6c0a5e656b09d13424723b53aa56ab86165cc215491bb67a96a95739ce33da75",
+        "cipher_sha256": "1ed8eeeeebad04537c9b00575a0da23351998c7c89d7105e86728f9bbbb18c6b",
+        "hmac": "8a358989cbbb344dbdc174b5ba8ad63005a5f4c0c93b5977031e00ecd82f98b1",
+        "byte": 341004112
+      },
+      "recupero": {
+        "cifrato_sha256": "1ed8eeeeebad04537c9b00575a0da23351998c7c89d7105e86728f9bbbb18c6b",
+        "decifrato_sha256": "6c0a5e656b09d13424723b53aa56ab86165cc215491bb67a96a95739ce33da75",
+        "HMAC_prima_decifratura": true,
+        "decifratura_integrale": true,
+        "nessuna_scrittura_decifrata_o_temporanea": true
+      }
+    },
+    {
+      "nome": "inventory.json",
+      "byte": 6042096,
+      "sigillo": {
+        "plain_sha256": "9d083ea2c751c1f940f754d7eca791b7f4dbee02e09edb01698d7f167dfe3b81",
+        "cipher_sha256": "04778a9ccd12bb0ddfbc77436406c0094598075ef6fedad7b485d99231ee0327",
+        "hmac": "72506ea53c30578dc44ec7c2e2ed45dff90815ac8819108342cde2f460a23672",
+        "byte": 6042096
+      },
+      "recupero": {
+        "cifrato_sha256": "04778a9ccd12bb0ddfbc77436406c0094598075ef6fedad7b485d99231ee0327",
+        "decifrato_sha256": "9d083ea2c751c1f940f754d7eca791b7f4dbee02e09edb01698d7f167dfe3b81",
+        "HMAC_prima_decifratura": true,
+        "decifratura_integrale": true,
+        "nessuna_scrittura_decifrata_o_temporanea": true
+      }
+    }
+  ],
+  "chiave_separata_VM": true,
+  "liberi_Extra": 672374628352,
+  "liberi_Mac": 22371762176
+}

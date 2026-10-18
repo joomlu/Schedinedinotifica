@@ -1,0 +1,25 @@
+{
+  "esito": "RECORD_PRONTO_ACCESSO_CLOUDFLARE_NECESSARIO",
+  "data_UTC": "2026-10-18T18:11:33.627990+00:00",
+  "zona": "tanggo.software",
+  "nameserver": [
+    "aron.ns.cloudflare.com",
+    "jakub.ns.cloudflare.com"
+  ],
+  "record_da_pubblicare": {
+    "tipo": "TXT",
+    "nome": "schedinedinotifica",
+    "FQDN": "schedinedinotifica.tanggo.software",
+    "contenuto": "v=spf1 ip4:217.174.149.23 -all",
+    "TTL": "Auto"
+  },
+  "verifica_autoritativa": {
+    "aron.ns.cloudflare.com schedinedinotifica.tanggo.software": "\n; <<>> DiG 9.10.6 <<>> @aron.ns.cloudflare.com schedinedinotifica.tanggo.software TXT +noall +answer +comments\n; (3 servers found)\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25954\n;; flags: qr aa rd; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1\n;; WARNING: recursion requested but not available\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 1232\n",
+    "aron.ns.cloudflare.com default._domainkey.schedinedinotifica.tanggo.software": "\n; <<>> DiG 9.10.6 <<>> @aron.ns.cloudflare.com default._domainkey.schedinedinotifica.tanggo.software TXT +noall +answer +comments\n; (3 servers found)\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 13861\n;; flags: qr aa rd; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1\n;; WARNING: recursion requested but not available\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 1232\n",
+    "jakub.ns.cloudflare.com schedinedinotifica.tanggo.software": "\n; <<>> DiG 9.10.6 <<>> @jakub.ns.cloudflare.com schedinedinotifica.tanggo.software TXT +noall +answer +comments\n; (3 servers found)\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 35490\n;; flags: qr aa rd; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1\n;; WARNING: recursion requested but not available\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 1232\n",
+    "jakub.ns.cloudflare.com default._domainkey.schedinedinotifica.tanggo.software": "\n; <<>> DiG 9.10.6 <<>> @jakub.ns.cloudflare.com default._domainkey.schedinedinotifica.tanggo.software TXT +noall +answer +comments\n; (3 servers found)\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 32251\n;; flags: qr aa rd; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1\n;; WARNING: recursion requested but not available\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 1232\n"
+  },
+  "stato": "Non pubblicato: sessione Cloudflare alla schermata di accesso, nessuna custodia API disponibile nei riferimenti verificati",
+  "DKIM": "Chiave e record del sottodominio assenti; SPF del server effettivo e prima correzione minima, nuovo invio reale necessario prima di attestare consegna esterna",
+  "nessuna_modifica_DNS_o_invio_eseguiti_da_questa_sonda": true
+}

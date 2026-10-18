@@ -1,0 +1,20 @@
+{
+  "esito": "PASS_KIT_CORRETTIVO_SOLO_PARAMETRI",
+  "file_core": 68,
+  "file_kit_incluso_manifest": 69,
+  "kit_sha256": "6984d954a0b4faf2418cbea69dd19e55abab1e82dbf6eba374bb43dbe4279d82",
+  "SHA_candidato": "1c3b7a6c6aba71c2f57da76c304638eb7e13015d",
+  "SHA_baseline": "66fe89ab4b6733206960c60165ab99df1f52af38",
+  "budget_secondi": {
+    "totale": 1800,
+    "S0": 600,
+    "cutoff": 1379,
+    "recupero": 421
+  },
+  "migrazioni_autorizzate": [],
+  "nuove_tabelle": [],
+  "colonne_nuove": 0,
+  "controlli_core_identici": true,
+  "dump_DB_richiesto_byte_identico_S0": true,
+  "FPM_SMTP_blocchi_PHP_preservati": true
+}
