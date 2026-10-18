@@ -34,6 +34,19 @@ return [
     */
 
     'mailers' => [
+        'web_checkin_smtp' => [
+            'transport' => 'web_checkin_smtps',
+            'scheme' => env('WEB_CHECKIN_MAIL_SCHEME', 'smtps'),
+            'host' => env('WEB_CHECKIN_MAIL_HOST'),
+            'port' => (int) env('WEB_CHECKIN_MAIL_PORT', 465),
+            'username' => env('WEB_CHECKIN_MAIL_USERNAME'),
+            'password' => env('WEB_CHECKIN_MAIL_PASSWORD'),
+            'timeout' => 15,
+            'from' => [
+                'address' => env('WEB_CHECKIN_MAIL_FROM_ADDRESS'),
+                'name' => env('WEB_CHECKIN_MAIL_FROM_NAME', 'Reception · Web Check-in'),
+            ],
+        ],
         'smtp' => [
             'transport' => 'smtp',
             'host' => env('MAIL_HOST', 'smtp.mailgun.org'),

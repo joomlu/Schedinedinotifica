@@ -460,6 +460,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
 
     // Web Check-in
+    Route::post('/web-checkin/{id}/modelli/{model}/elimina', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'eliminaModello'])->name('web_checkin.modello.elimina')->where(['id' => '[1-9][0-9]{0,17}', 'model' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::post('/web-checkin/{id}/modelli/ripristina', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'ripristinaModelli'])->name('web_checkin.modelli.ripristina')->where(['id' => '[1-9][0-9]{0,17}', 'model' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::post('/web-checkin/{id}/cronologia/rimuovi', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'nascondi'])->name('web_checkin.cronologia.rimuovi')->where(['id' => '[1-9][0-9]{0,17}', 'model' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::post('/web-checkin/{id}/identita', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'identita'])->name('web_checkin.identita')->where(['id' => '[1-9][0-9]{0,17}', 'model' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::get('/web-checkin/{id}/comunicazioni/{communication}/anteprima', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'anteprima'])->name('web_checkin.comunicazione.anteprima')->where(['id' => '[1-9][0-9]{0,17}', 'model' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::post('/web-checkin/{id}/comunicazioni/{communication}/invia', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'invia'])->name('web_checkin.comunicazione.invia')->where(['id' => '[1-9][0-9]{0,17}', 'model' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
     Route::post('/web-checkin/{id}/comunicazioni/{communication}/apri', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'apri'])->name('web_checkin.comunicazione.apri')->where(['id' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
     Route::get('/web-checkin/{id}/comunicazioni', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'index'])->name('web_checkin.comunicazioni')->where('id', '[1-9][0-9]{0,17}');
     Route::post('/web-checkin/{id}/modelli', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'modello'])->name('web_checkin.modello')->where('id', '[1-9][0-9]{0,17}');
@@ -468,6 +474,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/web-checkin', [WebCheckinController::class, 'index'])->name('schedina.web');
     Route::get('/web-checkin/nuovo', [WebCheckinController::class, 'create'])->name('web_checkin.create');
     Route::post('/web-checkin', [WebCheckinController::class, 'store'])->name('web_checkin.store');
+    Route::get('/web-checkin/{id}/anteprima-modulo', [WebCheckinController::class, 'anteprimaModulo'])->name('web_checkin.anteprima_modulo')->where('id', '[1-9][0-9]{0,17}');
     Route::get('/web-checkin/{id}/modifica', [WebCheckinController::class, 'edit'])->name('web_checkin.edit');
     Route::put('/web-checkin/{id}', [WebCheckinController::class, 'update'])->name('web_checkin.update');
     Route::delete('/web-checkin/{id}', [WebCheckinController::class, 'destroy'])->name('web_checkin.destroy');

@@ -178,7 +178,7 @@
                         data-persone="{{ $richiesta->quantita_persone }}"
                         data-stato="{{ $richiesta->stato }}"
                     >
-                        <td class="align-middle text-nowrap"><span class="badge bg-dark-subtle text-dark">{{ $richiesta->codice }}</span></td>
+                        <td class="align-middle text-nowrap"><a href="{{ route('web_checkin.edit', $richiesta->id) }}" class="badge bg-dark-subtle text-dark">{{ $richiesta->codice }}</a></td>
                         <td class="align-middle text-nowrap">{{ $richiesta->nome_referente }}</td>
                         <td class="align-middle text-nowrap">{{ $richiesta->numero_prenotazione }}</td>
                         <td class="align-middle text-nowrap">{{ $formatShortDate(optional($richiesta->arrivo)->format('Y-m-d')) }}</td>
@@ -195,10 +195,10 @@
                         <td class="align-middle text-nowrap">{{ $richiesta->schedina->scheda ?? '-' }}<br><small>{{ match($richiesta->schedina?->circuito) { 'bozza' => 'Bozza', 'schedina' => 'Schedina', 'arrivi' => 'Arrivi', default => 'Web: da verificare' } }}</small></td>
                         <td class="text-end align-middle">
                             <div class="d-inline-flex gap-1">
-                                <a href="{{ route('web_checkin.edit', ['id' => $richiesta->id]) }}" class="btn btn-soft-info btn-sm" title="Gestione richiesta">
+                                <a href="{{ route('web_checkin.edit', ['id' => $richiesta->id]) }}" class="btn btn-soft-info btn-sm" title="Apri richiesta" aria-label="Apri richiesta">
                                     <i class="ri-settings-3-line fs-16 align-middle"></i>
                                 </a>
-                                <a href="{{ $publicUrl }}" class="btn btn-soft-primary btn-sm" title="Apri pagina cliente" target="_blank">
+                                <a href="{{ route('web_checkin.anteprima_modulo', $richiesta->id) }}" class="btn btn-soft-primary btn-sm" title="Anteprima modulo ospite" target="_blank">
                                     <i class="ri-links-line fs-16 align-middle"></i>
                                 </a>
                                 <a href="{{ route('web_checkin.comunicazioni', $richiesta->id) }}" class="btn btn-soft-success btn-sm" title="Personalizza e prepara comunicazione">

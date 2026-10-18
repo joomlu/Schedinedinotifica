@@ -771,7 +771,7 @@ class SchedinaController extends Controller
         return [$tassaConfig, $esenzioni];
     }
 
-    protected function validateSchedinaRequest(Request $request, bool $complete = true, ?int $webStrutturaId = null, ?Schedina $webSheet = null): void
+    protected function validateSchedinaRequest(Request $request, bool $complete = true, ?int $webStrutturaId = null, ?Schedina $webSheet = null, bool $publicGuest = false): void
     {
         $existing = $webSheet ?? ($request->route('id') ? Schedina::query()->find($request->route('id')) : null);
         $titles = $webStrutturaId === null ? Titolo::query() : Titolo::withoutGlobalScopes()->where('struttura_id', $webStrutturaId);
@@ -873,6 +873,11 @@ class SchedinaController extends Controller
             'istat_professione' => ['nullable', 'string', 'max:120'],
             'istat_non_turista' => ['nullable', 'boolean'],
         ];
+        if ($publicGuest) {
+            // Camera e letti sono completati dalla reception; nessun valore inventato.
+            $rules['room'] = ['nullable', 'integer', 'min:1', 'max:999'];
+            $rules['beds'] = ['nullable', 'integer', 'min:1', 'max:999'];
+        }
         if (!$complete) {
             // La bozza ammette dati mancanti, ma non valori che causerebbero errori SQL.
             foreach ($rules as $field=>$constraints) {

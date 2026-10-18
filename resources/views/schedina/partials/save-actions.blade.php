@@ -42,7 +42,7 @@
                 <i class="ri-save-line label-icon align-middle fs-16 ms-2"></i>{{ $primarySaveLabel }}
             </button>
             @if(isset($webVersione))
-                <button type="submit" name="save_mode" value="web_complete" formnovalidate class="btn btn-success">Concludi compilazione</button>
+                <button type="submit" name="save_mode" value="web_complete" formnovalidate class="btn btn-success">Conferma dati</button>
             @endif
         @endif
 

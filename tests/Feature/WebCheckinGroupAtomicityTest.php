@@ -117,7 +117,7 @@ class WebCheckinGroupAtomicityTest extends TestCase
         [$s, $p, $c, $r] = $this->gruppo('GRUPPOA');
         $r->update(['stato' => 'convertito']);
         $before = $this->stato();
-        $this->postWeb('/checkin/'.$r->token, $this->payload($c))->assertOk()->assertContent('Check-in recibido');
+        $this->postWeb('/checkin/'.$r->token, $this->payload($c))->assertOk()->assertSeeText('Grazie! Abbiamo ricevuto i tuoi dati.')->assertDontSee('<form', false);
         $this->assertSame($before, $this->stato());
     }
 }

@@ -6,6 +6,7 @@
 @endsection
 
 @section('content')
+<style>body{background:#f3f5f4}.btn-primary{background:{{ $identitaHotel['colore'] }};border-color:{{ $identitaHotel['colore'] }};color:{{ $identitaHotel['testo_colore'] }}}</style>
 <div class="auth-page-wrapper pt-5 pb-5">
     <div class="auth-page-content">
         <div class="container">
@@ -14,13 +15,14 @@
                     <div class="card border-0 shadow-sm overflow-hidden">
                         <div class="card-header bg-light-subtle border-0 py-4 text-center">
                             <div class="mb-3">
+                                @if($identitaHotel['logo_url'])<img src="{{ $identitaHotel['logo_url'] }}" width="{{ $identitaHotel['logo_width'] }}" height="{{ $identitaHotel['logo_height'] }}" alt="{{ $identitaHotel['nome'] }}" style="max-width:200px;max-height:90px;object-fit:contain">@endif
                                 <span class="avatar-title bg-success-subtle text-success rounded-circle fs-2 mx-auto" style="width: 72px; height: 72px;">
                                     <i class="ri-check-line"></i>
                                 </span>
                             </div>
                             <h2 class="h3 mb-2">{{ $richiesta->compilato_at ? 'Compilazione conclusa' : 'Dati parziali salvati' }}</h2>
                             <div class="text-muted">
-                                {{ $richiesta->compilato_at ? 'La reception ha ricevuto i dati per la revisione. La registrazione definitiva avverrà soltanto dopo la sua verifica.' : 'Le informazioni inserite sono state conservate. Riprendi dallo stesso link per aggiungere i dati mancanti oppure completali con la reception.' }}
+                                {{ $richiesta->compilato_at ? 'Grazie! Abbiamo ricevuto i tuoi dati. La reception li verificherà prima del tuo arrivo.' : 'Le informazioni inserite sono state conservate. Riprendi dallo stesso link per aggiungere i dati mancanti oppure completali con la reception.' }}
                             </div>
                         </div>
                         <div class="card-body p-4">
@@ -53,9 +55,9 @@
                                 <div class="card-body">
                                     <div class="ricevuta-print">
                                         <div class="ricevuta-print__header">
-                                            @if(!empty($strutturaInfo?->logo))
+                                            @if($identitaHotel['logo_url'])
                                                 <div class="ricevuta-print__logo-wrap">
-                                                    <img src="{{ asset($strutturaInfo->logo) }}" alt="Logo struttura" class="ricevuta-print__logo">
+                                                    <img src="{{ $identitaHotel['logo_url'] }}" width="{{ $identitaHotel['logo_width'] }}" height="{{ $identitaHotel['logo_height'] }}" alt="Logo struttura" class="ricevuta-print__logo">
                                                 </div>
                                             @endif
                                             <div class="ricevuta-print__title">{{ $richiesta->compilato_at ? 'Compilazione conclusa' : 'Dati parziali salvati' }}</div>
@@ -88,6 +90,7 @@
                                 </div>
                             </div>
 
+                            @if(!empty($campiPendentiOspite))<details class="mb-3"><summary>Campi ancora da completare</summary><ul>@foreach($campiPendentiOspite as $pending)<li>{{ $pending }}</li>@endforeach</ul></details>@endif
                             <div class="alert alert-info mb-4">
                                 @if(!empty($isLockedAfterConversion))
                                     Il Web Check-in è già stato importato in arrivi. Da questo momento la schedina viene gestita dalla reception nel circuito operativo.

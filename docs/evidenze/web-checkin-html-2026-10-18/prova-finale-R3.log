@@ -1,0 +1,57 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-18 19:27:48 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-8sv13x52; database=test_geo_b66a50ef21da7292e78d3b83e9e12d80; MySQL pid=57, porta=57971; HTTP pid=80, porta=52979
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /tmp/schedine-test-8sv13x52/checkout/phpunit.xml
+
+...............................................................  63 / 157 ( 40%)
+............................................................... 126 / 157 ( 80%)
+.......................\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n....                                 157 / 157 (100%)
+
+Time: 00:53.062, Memory: 78.50 MB
+
+OK (157 tests, 1913 assertions)
+
+Running 17 tests using 1 worker
+
+{"width":1440,"cancel_zero_scritture":true,"mezzanotte_senza_perdita":true,"partenza_invariata":true}
+  ✓   1 tests/Feature/arrivi-lifecycle.playwright.spec.js:6:36 › Arrivi: salvataggio, cancellazione conferma e cambio giorno a 1440px (7.6s)
+{"width":768,"cancel_zero_scritture":true,"mezzanotte_senza_perdita":true,"partenza_invariata":true}
+  ✓   2 tests/Feature/arrivi-lifecycle.playwright.spec.js:6:36 › Arrivi: salvataggio, cancellazione conferma e cambio giorno a 768px (9.0s)
+{"width":390,"cancel_zero_scritture":true,"mezzanotte_senza_perdita":true,"partenza_invariata":true}
+  ✓   3 tests/Feature/arrivi-lifecycle.playwright.spec.js:6:36 › Arrivi: salvataggio, cancellazione conferma e cambio giorno a 390px (8.6s)
+{"conversione_confermata":true,"una_sola_schedina":true,"retry_senza_duplicati":true,"scheda_vecchia_409":true}
+  ✓   4 tests/Feature/arrivi-lifecycle.playwright.spec.js:30:1 › Passaggio confermato da due schede: una sola schedina e rifiuto della scheda vecchia (14.2s)
+  ✓   5 tests/Feature/arrivi-lifecycle.playwright.spec.js:48:1 › Elenco Arrivi scaduti: ricerca filtrata senza overflow a 1440, 768 e 390px (16.2s)
+{"width":1440,"selezione":true,"omonimi":true,"tastiera":true,"rimozione":true,"bozza_ripresa":true}
+  ✓   6 tests/Feature/schedina-customer-picker.playwright.spec.js:3:36 › Selezione esplicita cliente e bozza a 1440px (11.7s)
+{"width":768,"selezione":true,"omonimi":true,"tastiera":true,"rimozione":true,"bozza_ripresa":true}
+  ✓   7 tests/Feature/schedina-customer-picker.playwright.spec.js:3:36 › Selezione esplicita cliente e bozza a 768px (11.0s)
+{"width":390,"selezione":true,"omonimi":true,"tastiera":true,"rimozione":true,"bozza_ripresa":true}
+  ✓   8 tests/Feature/schedina-customer-picker.playwright.spec.js:3:36 › Selezione esplicita cliente e bozza a 390px (10.7s)
+{"width":1440,"ingresso_da_clienti":true,"salvataggio_definitivo":true,"modifica":true,"letti_distinti":true}
+  ✓   9 tests/Feature/schedina-customer-picker.playwright.spec.js:34:36 › Crea schedina dall’elenco, salva e modifica a 1440px (12.8s)
+{"width":768,"ingresso_da_clienti":true,"salvataggio_definitivo":true,"modifica":true,"letti_distinti":true}
+  ✓  10 tests/Feature/schedina-customer-picker.playwright.spec.js:34:36 › Crea schedina dall’elenco, salva e modifica a 768px (16.0s)
+{"width":390,"ingresso_da_clienti":true,"salvataggio_definitivo":true,"modifica":true,"letti_distinti":true}
+  ✓  11 tests/Feature/schedina-customer-picker.playwright.spec.js:34:36 › Crea schedina dall’elenco, salva e modifica a 390px (17.1s)
+  ✓  12 tests/Feature/web-checkin-html.playwright.spec.js:10:133 › Email HTML e modulo guidato OSPITE SINGOLO 1440px (34.2s)
+  ✓  13 tests/Feature/web-checkin-html.playwright.spec.js:10:133 › Email HTML e modulo guidato CAPO FAMIGLIA 768px (31.9s)
+  ✓  14 tests/Feature/web-checkin-html.playwright.spec.js:10:133 › Email HTML e modulo guidato CAPO GRUPPO 390px (35.5s)
+LAYOUT_PUBBLICO {"width":1440,"prima":{"stato":"loading","larghezza":1440},"dopo":{"stato":"complete","larghezza":1440}}
+{"width":1440,"richiesta":true,"modello_originale_preservato":true,"duplicazione":true,"anteprima":true,"parziale_ripreso":true,"stessa_bozza":true,"note_private":true}
+  ✓  15 tests/Feature/web-checkin-operativo.playwright.spec.js:12:39 › Web Check-in: richiesta, modelli, anteprima, parziale e Bozza a 1440px (22.5s)
+LAYOUT_PUBBLICO {"width":768,"prima":{"stato":"loading","larghezza":768},"dopo":{"stato":"complete","larghezza":768}}
+{"width":768,"richiesta":true,"modello_originale_preservato":true,"duplicazione":true,"anteprima":true,"parziale_ripreso":true,"stessa_bozza":true,"note_private":true}
+  ✓  16 tests/Feature/web-checkin-operativo.playwright.spec.js:12:39 › Web Check-in: richiesta, modelli, anteprima, parziale e Bozza a 768px (22.4s)
+LAYOUT_PUBBLICO {"width":390,"prima":{"stato":"loading","larghezza":636},"dopo":{"stato":"complete","larghezza":390}}
+{"width":390,"richiesta":true,"modello_originale_preservato":true,"duplicazione":true,"anteprima":true,"parziale_ripreso":true,"stessa_bozza":true,"note_private":true}
+  ✓  17 tests/Feature/web-checkin-operativo.playwright.spec.js:12:39 › Web Check-in: richiesta, modelli, anteprima, parziale e Bozza a 390px (23.8s)
+
+  17 passed (5.1m)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-8sv13x52

@@ -2,6 +2,7 @@
 @section('title', 'Web Check-in')
 
 @section('content')
+@if(!empty($richiesta->id))<div class="d-flex flex-wrap gap-2 mb-3"><a class="btn btn-primary" href="{{ route('web_checkin.comunicazioni', $richiesta->id) }}">Prepara invito</a><a class="btn btn-light" href="{{ route('web_checkin.anteprima_modulo', $richiesta->id) }}">Apri modulo ospite</a>@if($richiesta->schedina)<a class="btn btn-light" href="{{ route('schedina.edit', $richiesta->schedina->id) }}">Visualizza dati ricevuti</a>@endif</div>@endif
 @component('components.breadcrumb')
     @slot('li_1')
         Schedine
@@ -203,7 +204,7 @@
                                         <span class="input-group-text">Link breve</span>
                                         <input type="text" class="form-control" id="webcheckin-public-link" value="{{ $publicUrl }}" readonly>
                                         <button type="button" class="btn btn-soft-dark" id="copy-webcheckin-public-link">Copia link</button>
-                                        <a href="{{ $publicUrl }}" target="_blank" class="btn btn-soft-primary">Apri pagina cliente</a>
+                                        <a href="{{ route('web_checkin.anteprima_modulo', $richiesta->id) }}" target="_blank" class="btn btn-soft-primary">Apri modulo ospite (anteprima)</a>
                                     </div>
                                     <div class="d-flex flex-wrap gap-2">
                                         <a class="btn btn-soft-success" href="{{ route('web_checkin.comunicazioni', $richiesta->id) }}">Personalizza e prepara comunicazione</a>

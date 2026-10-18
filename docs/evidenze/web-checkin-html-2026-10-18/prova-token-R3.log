@@ -1,0 +1,51 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-18 19:34:22 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-fi0phkx9; database=test_geo_0517270cdc5ed9e8fdab9f5d76b2fd63; MySQL pid=57, porta=49793; HTTP pid=81, porta=50395
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+test_actual_playwright_config_aborts_without_starting_playwright (__main__.ClosedRuntimeTests.test_actual_playwright_config_aborts_without_starting_playwright) ... ok
+test_all_existing_entrypoints_are_guarded (__main__.ClosedRuntimeTests.test_all_existing_entrypoints_are_guarded) ... ok
+test_browser_gate_rejects_hosts_servers_and_redirect_destinations (__main__.ClosedRuntimeTests.test_browser_gate_rejects_hosts_servers_and_redirect_destinations) ... ok
+test_direct_application_creation_cannot_bypass_phpunit_bootstrap (__main__.ClosedRuntimeTests.test_direct_application_creation_cannot_bypass_phpunit_bootstrap) ... ok
+test_php_rejects_every_untrusted_context_before_autoload (__main__.ClosedRuntimeTests.test_php_rejects_every_untrusted_context_before_autoload) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.500s
+
+OK
+PASS SOAP 200 and positive body never prove acceptance; no token/body leaves service
+PASS verification is unknown and retains Test operation
+PASS external constructor exception is contained
+PASS SOAP call exceptions do not escape with their chain
+PASS negative provider text is replaced with a fixed message
+PASS simulation makes no SOAP calls and is never accepted
+PASS nested and unexpected fields discarded; caller acceptance ignored
+PASS allowed slots cannot carry arrays objects or arbitrary strings
+PASS historical success never becomes accepted; history not rewritten
+PASS receipt and tables cannot expose or persist unvalidated bodies
+PASS actual persistence boundary projects injected provider material
+PASS legacy handler aborts before any DB or storage dependency
+PASS controller has no confirmed-send mutation for simulation or attempts
+PASS view never presents legacy provider messages or success as acceptance
+14 safety checks passed; in-memory doubles only
+Fixture Tassa sintetiche create esclusivamente nel database effimero.
+Fixture anteprime sintetiche create esclusivamente nel database effimero.
+
+Running 8 tests using 1 worker
+
+  ✓  1 tests/Feature/web-checkin-lifecycle.playwright.spec.js:7:1 › Ciclo reale: invito indipendente, form, salvataggio e correzione (7.5s)
+  ✓  2 tests/Feature/web-checkin-lifecycle.playwright.spec.js:17:1 › Conversione: ogni alias e completed contiene solo conferma; scaduti e revocati rifiutati; legacy80 valido (2.5s)
+  ✓  3 tests/Feature/web-checkin-lifecycle.playwright.spec.js:24:1 › Operatore reale: revoca, nuova emissione e invalidazione vecchi alias (9.3s)
+  ✓  4 tests/Feature/web-checkin-lifecycle.playwright.spec.js:30:1 › Riprogrammazione gestionale nel browser: attivo aggiornato e scaduto non riattivato (4.2s)
+  ✓  5 tests/Feature/web-checkin-lifecycle.playwright.spec.js:40:1 › Conversione reale dall’interfaccia in Arrivo: dati operatore conservati, link senza dati (5.4s)
+ASSOCIAZIONE_RIPRISTINO {
+  action: [32m'http://127.0.0.1:50395/cestino/19/ripristina'[39m,
+  closest: [32m'http://127.0.0.1:50395/cestino/19/ripristina'[39m
+}
+  ✓  6 tests/Feature/web-checkin-lifecycle.playwright.spec.js:46:1 › Cestino nel browser: cancellazione, ripristino bloccato, emissione autorizzata nuova (12.7s)
+  ✓  7 tests/Feature/web-checkin-lifecycle.playwright.spec.js:55:1 › Limite letture reale: alias condivisi, altri ospiti e strutture Wi-Fi indipendenti (10.0s)
+  ✓  8 tests/Feature/web-checkin-lifecycle.playwright.spec.js:60:1 › Limite POST reale20/10min: CSRF valido, nessuna modifica, letture indipendenti (4.9s)
+
+  8 passed (57.9s)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-fi0phkx9

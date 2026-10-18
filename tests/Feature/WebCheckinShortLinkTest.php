@@ -56,9 +56,9 @@ class WebCheckinShortLinkTest extends TestCase
     {
         $r = $this->richiesta();
         $before = $this->stato();
-        $this->get($this->link($r))->assertOk()->assertContent('Check-in recibido');
-        $this->get('/checkin/'.$r->token)->assertOk()->assertContent('Check-in recibido');
-        $this->get('/w/'.$r->token)->assertOk()->assertContent('Check-in recibido');
+        $this->get($this->link($r))->assertOk()->assertSeeText('Grazie! Abbiamo ricevuto i tuoi dati.')->assertDontSee('<form', false);
+        $this->get('/checkin/'.$r->token)->assertOk()->assertSeeText('Grazie! Abbiamo ricevuto i tuoi dati.')->assertDontSee('<form', false);
+        $this->get('/w/'.$r->token)->assertOk()->assertSeeText('Grazie! Abbiamo ricevuto i tuoi dati.')->assertDontSee('<form', false);
         $this->assertSame($before, $this->stato());
     }
 
@@ -83,8 +83,8 @@ class WebCheckinShortLinkTest extends TestCase
         $r = $this->richiesta();
         foreach (['Legacy'.str_repeat('x', 75), 'legacy-token-con-separatori', 'WC1-aaaaaaaa'] as $token) {
             $r->update(['token' => $token]);
-            $this->get('/checkin/'.$token)->assertOk()->assertContent('Check-in recibido');
-            $this->get('/w/'.$token)->assertOk()->assertContent('Check-in recibido');
+            $this->get('/checkin/'.$token)->assertOk()->assertSeeText('Grazie! Abbiamo ricevuto i tuoi dati.')->assertDontSee('<form', false);
+            $this->get('/w/'.$token)->assertOk()->assertSeeText('Grazie! Abbiamo ricevuto i tuoi dati.')->assertDontSee('<form', false);
             $this->postWeb('/w/'.$token)->assertOk();
             $this->get('/w/'.$token.'/completato')->assertOk();
         }

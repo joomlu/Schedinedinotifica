@@ -61,7 +61,7 @@ class WebCheckinEsclusioniConversioneTest extends TestCase
         $this->assertSame('schedina', $sheet->fresh()->circuito); $this->assertDatabaseCount('schedina', 1);
         $this->assertSame('RIFERIMENTO-SINTETICO', $sheet->fresh()->id_prenotazione_esterna);
         $this->assertSame('NOTE-INTERNE-SINTETICHE', $r->fresh()->note);
-        $this->get('/checkin/'.$r->token)->assertOk()->assertContent('Check-in recibido');
+        $this->get('/checkin/'.$r->token)->assertOk()->assertSeeText('Grazie! Abbiamo ricevuto i tuoi dati.')->assertDontSee('<form', false);
         foreach (['questura_transmissions', 'istat_transmissions', 'tassa_exports'] as $table) $this->assertDatabaseCount($table, 0);
     }
 }

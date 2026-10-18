@@ -12,10 +12,10 @@ class WebCheckinMessaggio
 
     public function improntaInvito(WebCheckinRichiesta $request): string
     {
-        return hash_hmac('sha256', json_encode($request->only(['struttura_id', 'nome_referente', 'numero_prenotazione', 'email', 'whatsapp', 'arrivo', 'partenza', 'quantita_persone', 'token', 'short_token', 'link_expires_at']), JSON_THROW_ON_ERROR), (string) config('app.key'));
+        return hash_hmac('sha256', json_encode([$request->only(['struttura_id', 'nome_referente', 'numero_prenotazione', 'email', 'whatsapp', 'arrivo', 'partenza', 'quantita_persone', 'token', 'short_token', 'link_expires_at']), app(WebCheckinIdentita::class)->of($request->struttura)], JSON_THROW_ON_ERROR), (string) config('app.key'));
     }
 
-    public function render(string $subject, string $body, WebCheckinRichiesta $request): array
+    public function render(string $subject, string $body, WebCheckinRichiesta $request, array $layout = []): array
     {
         $values = [
             'struttura' => $request->struttura?->nome_struttura,
@@ -54,7 +54,23 @@ class WebCheckinMessaggio
             throw ValidationException::withMessages(['corpo' => 'Inserisci la variabile {{link}} nel messaggio.']);
         }
 
-        return ['oggetto' => $replace($subject), 'corpo' => $replace($body)];
+        $layout = array_replace(self::layoutIniziale(), array_intersect_key($layout, self::layoutIniziale()));
+        foreach ($layout as $key => $text) $layout[$key] = $replace($text);
+        $renderedSubject = $replace($subject);
+        if (strpbrk($renderedSubject, "\r\n") !== false || mb_strlen($renderedSubject) > 255) throw ValidationException::withMessages(['oggetto' => 'L’oggetto deve stare su una sola riga, entro255 caratteri.']);
+        if (blank(trim($layout['pulsante'])) || mb_strlen($layout['pulsante']) > 80) throw ValidationException::withMessages(['impostazioni.pulsante' => 'Inserisci un’etichetta del pulsante entro80 caratteri.']);
+        $values['link'] = route('web_checkin.public.show', ['token' => $request->token]);
+
+        return ['oggetto' => $renderedSubject, 'corpo' => $replace($body), 'layout' => $layout,
+            'dati' => $values, 'identita' => app(WebCheckinIdentita::class)->of($request->struttura)];
+    }
+
+    public static function layoutIniziale(): array
+    {
+        return ['saluto' => 'Gentile {{referente}},',
+            'testo' => "il tuo soggiorno a {{struttura}} si avvicina!\nCompleta il check-in online prima dell’arrivo:\nci aiuterai ad accoglierti più velocemente.",
+            'pulsante' => 'Vai al Check-in',
+            'firma' => "Ti aspettiamo!\nLa Reception · {{struttura}}"];
     }
 
     public static function iniziali(): array
@@ -63,7 +79,7 @@ class WebCheckinMessaggio
         $end = "\n\nApri {{link}}\nPuoi salvare e riprendere i dati incompleti. Il link scade il {{scadenza}}. La reception verificherà i dati prima della registrazione definitiva.";
 
         return [
-            'singolo' => ['nome' => 'Invito Web Check-in — Ospite singolo', 'oggetto' => 'Web Check-in — {{struttura}} — {{prenotazione}}', 'corpo' => $common.'Inserisci i tuoi dati personali e del documento.'.$end],
+            'singolo' => ['nome' => 'Invito Web Check-in — Ospite singolo', 'oggetto' => '{{struttura}} · Il tuo check-in online', 'corpo' => $common.'Inserisci i tuoi dati personali e del documento.'.$end],
             'famiglia' => ['nome' => 'Invito Web Check-in — Famiglia / referente familiare', 'oggetto' => 'Web Check-in famiglia — {{struttura}} — {{prenotazione}}', 'corpo' => $common.'Come referente familiare, inserisci i tuoi dati e quelli di ogni familiare ospitato, aggiungendo i componenti. Se non conosci un dato, salva e completalo in seguito con la reception.'.$end],
             'gruppo' => ['nome' => 'Invito Web Check-in — Gruppo / più ospiti', 'oggetto' => 'Web Check-in gruppo — {{struttura}} — {{prenotazione}}', 'corpo' => $common.'Come referente del gruppo, inserisci i tuoi dati e quelli degli altri ospiti nei componenti. Verifica il numero delle persone e segnala alla reception le informazioni ancora mancanti.'.$end],
         ];

@@ -97,7 +97,7 @@ class WebCheckinParentSecurityTest extends TestCase
         $p = Schedina::forceCreate(['struttura_id' => $a->id, 'name' => 'VISIBILE-TENANT-A', 'surname' => 'Sintetico', 'arrive' => '2026-06-01', 'departure' => '2026-06-02', 'cant_people' => 1]);
         $r = $this->richiesta($a->id, $p->id);
         $before = $this->stato();
-        $this->get('/checkin/'.$r->token)->assertOk()->assertContent('Check-in recibido');
+        $this->get('/checkin/'.$r->token)->assertOk()->assertSeeText('Grazie! Abbiamo ricevuto i tuoi dati.')->assertDontSee('<form', false);
         $this->get('/checkin/'.$r->token.'/completato')->assertOk();
         $this->assertSame($before, $this->stato());
         $this->actingAs($this->actor('struttura_user', null, $b->id))->get('/web-checkin/'.$r->id.'/modifica')->assertNotFound();

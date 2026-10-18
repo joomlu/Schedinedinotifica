@@ -1,0 +1,9 @@
+{
+  "data": "2026-10-18T16:44:44.703281+00:00",
+  "host": "mail.schedinedinotifica.tanggo.software",
+  "porta": 465,
+  "invii_eseguiti": 0,
+  "TLS": "TLSv1.2",
+  "autenticazione": 235,
+  "esito": "PASS_AUTENTICAZIONE_SMTP_TLS"
+}

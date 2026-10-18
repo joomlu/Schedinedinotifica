@@ -156,7 +156,7 @@
             @endif
             @if(isset($webVersione))
                 <input type="hidden" name="web_versione" value="{{ ($errors->has('web_versione') || session()->hasOldInput('web_versione')) ? old('web_versione', '') : $webVersione }}">
-                <div class="alert alert-info">Puoi salvare anche dati incompleti e riprendere dallo stesso link. «Concludi compilazione» verifica tutti i dati; la reception confermerà la registrazione. Il soggiorno previsto resta quello indicato nell’invito.</div>
+                <div class="alert alert-info">Puoi salvare anche dati incompleti e riprendere dallo stesso link. «Conferma dati» verifica tutti i dati; la reception confermerà la registrazione. Il soggiorno previsto resta quello indicato nell’invito.</div>
             @endif
             @if($isArrivi)
                 <input type="hidden" name="arrivi_context" value="1">
@@ -334,7 +334,7 @@
                                 </div>
                                 <input type="hidden" id="customer_id" name="customer_id" value="{{ $selectedCustomerId }}">
                             </div>
-                            <div class="form-text mt-2">Quantità persone, Camera e Letti sono obbligatori per i conteggi ISTAT Tavola A e per il controllo della tassa di soggiorno.</div>
+                            @unless($isPublicWeb)<div class="form-text mt-2">Quantità persone, Camera e Letti sono obbligatori per i conteggi ISTAT Tavola A e per il controllo della tassa di soggiorno.</div>@endunless
 
                             <div class="row g-3 mt-1">
                                 <div class="col-12">
@@ -1260,7 +1260,7 @@
                     @include('schedina.partials.save-actions', ['previous' => 'schedina-step-contact', 'next' => 'schedina-step-tassa', 'showComponentiSave' => true, 'isEdit' => $isEdit])
                 </div>
 
-                <div class="tab-pane fade" id="schedina-step-tassa-pane" role="tabpanel" aria-labelledby="schedina-step-tassa">
+                <div class="tab-pane fade" id="schedina-step-tassa-pane" role="tabpanel" aria-labelledby="schedina-step-tassa" @if($isPublicWeb && (empty($tassaConfig) || !empty($tassaDettaglio['errore']))) data-web-tassa-riservata @endif>
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
@@ -1271,12 +1271,12 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            @if($isPublicWeb)<div class="alert alert-info">Anteprima informativa della tassa: nessuna ricevuta o contabilizzazione fino al passaggio esplicito a Schedina.</div>@endif
-                            @if(!$isArrivi)<p class="text-muted small">Calcolo corrente. Le versioni consolidate restano disponibili nel rapporto Tassa.</p>@endif
+                            @if($isPublicWeb)<div class="alert alert-info">Anteprima informativa della tassa. L’importo sarà verificato dalla reception; questa anteprima non è una ricevuta.</div>@endif
+                            @if(!$isArrivi && !$isPublicWeb)<p class="text-muted small">Calcolo corrente. Le versioni consolidate restano disponibili nel rapporto Tassa.</p>@endif
                             @if($isArrivi)
                                 <div class="alert alert-info">Scheda in Arrivi: nessun calcolo, liquidazione o dichiarazione della Tassa fino al passaggio esplicito a schedina.</div>
                             @elseif(!empty($tassaDettaglio['errore']))
-                                <div class="alert alert-warning" role="alert">{{ $tassaDettaglio['errore'] }} <a href="{{ route('tassa_di_soggiorno.edit') }}">Configurazione fiscale</a></div>
+                                @if($isPublicWeb)<p class="text-muted">Per informazioni sulla tassa di soggiorno contatta la reception.</p>@else<div class="alert alert-warning" role="alert">{{ $tassaDettaglio['errore'] }} <a href="{{ route('tassa_di_soggiorno.edit') }}">Configurazione fiscale</a></div>@endif
                             @else
                             @if(!empty($tassaConfig))
                                 <div class="card border-0 bg-light-subtle shadow-sm mb-3">
@@ -1309,7 +1309,7 @@
                                 </div>
                                 <p class="text-muted">Aliquota: <strong>{{ $tariffaVariabile ? 'Variabile' : $tassaConfig->tassa_soggiorno.' €' }}</strong> — Giorni massimo: <strong>{{ $tassaConfig->giorni_massimo }}</strong></p>
                             @else
-                                <div class="alert alert-warning">Configura prima la tassa di soggiorno nella sezione dedicata.</div>
+                                @unless($isPublicWeb)<div class="alert alert-warning">Configura prima la tassa di soggiorno nella sezione dedicata.</div>@endunless
                             @endif
                             <div class="table-responsive">
                                 <table class="table table-bordered align-middle">

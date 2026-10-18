@@ -1,0 +1,933 @@
+{
+  "esito": "PASS_TRASFERIMENTO_STORICI_VERIFICATO",
+  "cifrati_distinti_recuperati": 183,
+  "Mac_prima": 10912047104,
+  "Mac_dopo": 33693392896,
+  "Extra_liberi": 673170153472,
+  "chiavi_separate": true,
+  "nessun_SQL_env_upload_documento_o_dato_eliminato": true,
+  "nessun_utilizzatore": true,
+  "data_UTC": "2026-10-18T16:33:07.042602+00:00",
+  "limite": "Sole copie di cifrati storici gi\u00e0 censiti e con copia precedente Extra ancora conservata; nuova copia esclusiva riletta, autenticata e integralmente decifrata prima del ritiro. Byte nominali distinti dal recupero reale. Le custodie VM e produttive non vengono modificate.",
+  "copie": 366,
+  "nominali_byte": 22763381952,
+  "ricevuta_integrale_sha256": "3742bb99249d619fd520603901dd5967cd61474a4061fbe4628154a1f324a008",
+  "recuperabilita_integrale_sha256": "9361fa44eea502cdbcc9501e73bc5edc55b19058e4f0404c12dcd3a267293278",
+  "cifrati_distinti": [
+    {
+      "SHA256": "7026aca5ecd235c2bf91e14f77d2eb986d0060e00ecca09c7cb4c9ed621779da",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/7026aca5ecd235c2bf91e14f77d2eb986d0060e00ecca09c7cb4c9ed621779da.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "1c68b6261fa45ce7b45442afc91cd6874a0a9355b7a7f243362a7600acd4fee7",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/1c68b6261fa45ce7b45442afc91cd6874a0a9355b7a7f243362a7600acd4fee7.enc",
+      "byte": 5790272
+    },
+    {
+      "SHA256": "7048b11127f9169c8811df6c6c4781929fd88d857f0cc156172f277bcdc6f486",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/7048b11127f9169c8811df6c6c4781929fd88d857f0cc156172f277bcdc6f486.enc",
+      "byte": 2432
+    },
+    {
+      "SHA256": "1265853e0bc381e9395417f4f488f6a0c564a39883a4faf86285b7cab3c378ad",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/1265853e0bc381e9395417f4f488f6a0c564a39883a4faf86285b7cab3c378ad.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "9ee24551e20da54a82fe31b9a826d9ee246d548b718effe6a55f0cd45ca3cd8a",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/9ee24551e20da54a82fe31b9a826d9ee246d548b718effe6a55f0cd45ca3cd8a.enc",
+      "byte": 5781504
+    },
+    {
+      "SHA256": "db644e6924ba229cc3dfb4907652be69abcd36301a309878b12dc5ec5d0e652e",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/db644e6924ba229cc3dfb4907652be69abcd36301a309878b12dc5ec5d0e652e.enc",
+      "byte": 333290288
+    },
+    {
+      "SHA256": "e4b44947c3bf677e2a72ae6dc93b65857dbd59b9870339cb38c077d97cc9d849",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/e4b44947c3bf677e2a72ae6dc93b65857dbd59b9870339cb38c077d97cc9d849.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "8949814077628e2e8fea670c9f26c7c672f9843ccc51a0c88b9e83862c6a2f98",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/8949814077628e2e8fea670c9f26c7c672f9843ccc51a0c88b9e83862c6a2f98.enc",
+      "byte": 5895840
+    },
+    {
+      "SHA256": "6667163d14dfcb56fc8dc6feb056fe9aaca37f1fcc0134c5b7f20ae39ba974de",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/6667163d14dfcb56fc8dc6feb056fe9aaca37f1fcc0134c5b7f20ae39ba974de.enc",
+      "byte": 1136
+    },
+    {
+      "SHA256": "9a1238562dc901a566c59dc733c18f99097ec3655d3d2f369355cc50b1cbf43b",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/9a1238562dc901a566c59dc733c18f99097ec3655d3d2f369355cc50b1cbf43b.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "3dcf88349267f1c43efe7845ce5c759cc7cef0f5f8b1b7a6229501aa3f20741b",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/3dcf88349267f1c43efe7845ce5c759cc7cef0f5f8b1b7a6229501aa3f20741b.enc",
+      "byte": 5895696
+    },
+    {
+      "SHA256": "5c144d80ab3722b0901401c74d8d294ac69a36f53132830ae35851db66dc7ef4",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/5c144d80ab3722b0901401c74d8d294ac69a36f53132830ae35851db66dc7ef4.enc",
+      "byte": 334028784
+    },
+    {
+      "SHA256": "53316f33b8bbfedc7e6c37740b8d1b9bfd5c6f2cdcaa6c033fe1211edd2795d3",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/53316f33b8bbfedc7e6c37740b8d1b9bfd5c6f2cdcaa6c033fe1211edd2795d3.enc",
+      "byte": 23243136
+    },
+    {
+      "SHA256": "df149bb833c081f87d9f929824fdb940f78058906093d14375fb51b1753d88bf",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/df149bb833c081f87d9f929824fdb940f78058906093d14375fb51b1753d88bf.enc",
+      "byte": 5896192
+    },
+    {
+      "SHA256": "03f7eb5a0ef4d33004092463f7553e56043ff59015410014a0270c56ab232c21",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/03f7eb5a0ef4d33004092463f7553e56043ff59015410014a0270c56ab232c21.enc",
+      "byte": 332021008
+    },
+    {
+      "SHA256": "a53380e47c77592129faae4e39f353f80125d493641998b38ad5e8b3fcabf6fd",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/a53380e47c77592129faae4e39f353f80125d493641998b38ad5e8b3fcabf6fd.enc",
+      "byte": 23243136
+    },
+    {
+      "SHA256": "f7c56c4ce6fcfe7e14c94e5f91f6aa065d0edb17eeaea9cf1d23fdb5f12ecd2b",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/f7c56c4ce6fcfe7e14c94e5f91f6aa065d0edb17eeaea9cf1d23fdb5f12ecd2b.enc",
+      "byte": 5899840
+    },
+    {
+      "SHA256": "c9fc3be2b4a85633543b4f614b2833e296b79b2e4c5794a497e80e49c38a2112",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/c9fc3be2b4a85633543b4f614b2833e296b79b2e4c5794a497e80e49c38a2112.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "df6f6fedfec8205f1038f8cab618998bf9cefccca238ad00686cefc42f1ab1d2",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/df6f6fedfec8205f1038f8cab618998bf9cefccca238ad00686cefc42f1ab1d2.enc",
+      "byte": 23042640
+    },
+    {
+      "SHA256": "427d216863a2c7363c7efd330533679291784e61b0f5d56ff2dc09e36589dc7d",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/427d216863a2c7363c7efd330533679291784e61b0f5d56ff2dc09e36589dc7d.enc",
+      "byte": 5892416
+    },
+    {
+      "SHA256": "800468bba7a41229d3bf4f1c1d3338ffe8a161b96cdbfb897e4a2da624b14444",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/800468bba7a41229d3bf4f1c1d3338ffe8a161b96cdbfb897e4a2da624b14444.enc",
+      "byte": 331698880
+    },
+    {
+      "SHA256": "6ec9494ed8db1f7331a058b5804c980a0ad4d198760f5da416319a4bde6ec4d9",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/6ec9494ed8db1f7331a058b5804c980a0ad4d198760f5da416319a4bde6ec4d9.enc",
+      "byte": 23243136
+    },
+    {
+      "SHA256": "9978aa824017a27f9509f3a2472e88142634883de9de7a5de2828ac19ca9b6d7",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/9978aa824017a27f9509f3a2472e88142634883de9de7a5de2828ac19ca9b6d7.enc",
+      "byte": 5894096
+    },
+    {
+      "SHA256": "464a372f3f005b7e5af0682017896e448f7958b6dfa29fec4aec4b8d51df81ea",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/464a372f3f005b7e5af0682017896e448f7958b6dfa29fec4aec4b8d51df81ea.enc",
+      "byte": 1136
+    },
+    {
+      "SHA256": "675dc21e134d04c43f1d8e44906445b3814252ef18d2c2149d748d10c5f052e7",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/675dc21e134d04c43f1d8e44906445b3814252ef18d2c2149d748d10c5f052e7.enc",
+      "byte": 23243136
+    },
+    {
+      "SHA256": "3a571f562cce8f5cd9bf9c3eb83222aa363ac18d873fd18e50330b02f04e4206",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/3a571f562cce8f5cd9bf9c3eb83222aa363ac18d873fd18e50330b02f04e4206.enc",
+      "byte": 5890656
+    },
+    {
+      "SHA256": "56fad60df110068512bc8fe390ccf5fc8daddb8787a4bf9f5f906153bd3d24e2",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/56fad60df110068512bc8fe390ccf5fc8daddb8787a4bf9f5f906153bd3d24e2.enc",
+      "byte": 332020816
+    },
+    {
+      "SHA256": "27044ec09d206635d4bf7dde4cea0d7c0fedb599d05f6d401892dad60251c5bf",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/27044ec09d206635d4bf7dde4cea0d7c0fedb599d05f6d401892dad60251c5bf.enc",
+      "byte": 23042640
+    },
+    {
+      "SHA256": "81b56100084fc0fb1d9ac319ff470d655e260a366a617c3f1138bfe720d7f572",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/81b56100084fc0fb1d9ac319ff470d655e260a366a617c3f1138bfe720d7f572.enc",
+      "byte": 5895792
+    },
+    {
+      "SHA256": "3ca76075cdae99ded127141434e2b2edf43acbb74d0b40621ba4d3c15815512e",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/3ca76075cdae99ded127141434e2b2edf43acbb74d0b40621ba4d3c15815512e.enc",
+      "byte": 331698528
+    },
+    {
+      "SHA256": "7b18a7b43d6afea2c5e0bd2b056fd7bb5c6e64ae9c6182b5643743d6104b9324",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/7b18a7b43d6afea2c5e0bd2b056fd7bb5c6e64ae9c6182b5643743d6104b9324.enc",
+      "byte": 23042640
+    },
+    {
+      "SHA256": "a0aedd262e0739e454aad0c3f8030599f5fbc4333cd82603ac6439cec8588680",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/a0aedd262e0739e454aad0c3f8030599f5fbc4333cd82603ac6439cec8588680.enc",
+      "byte": 5898160
+    },
+    {
+      "SHA256": "8e7550c4c636afb64c4451aef3b5c20ec43fa2b43e90507a08b554b5b99864e9",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/8e7550c4c636afb64c4451aef3b5c20ec43fa2b43e90507a08b554b5b99864e9.enc",
+      "byte": 1136
+    },
+    {
+      "SHA256": "9b4e6fb1af97a2941537cd4e1132eb62d42c948a5366c7943ad16ab36659ca16",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/9b4e6fb1af97a2941537cd4e1132eb62d42c948a5366c7943ad16ab36659ca16.enc",
+      "byte": 23042640
+    },
+    {
+      "SHA256": "fa478006db34132e1e7fdefefdf433ca71ea8ec30942cd728e47335e407db46f",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/fa478006db34132e1e7fdefefdf433ca71ea8ec30942cd728e47335e407db46f.enc",
+      "byte": 5894528
+    },
+    {
+      "SHA256": "de0ae660d06f4edaa3d41a32af76007cd708c80cb7b29e2caca3dfdb95855d43",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/de0ae660d06f4edaa3d41a32af76007cd708c80cb7b29e2caca3dfdb95855d43.enc",
+      "byte": 331699536
+    },
+    {
+      "SHA256": "087da0bcf62913bcd28b44aa533b70544ded4d67acb2443d6202e86f027a5593",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/087da0bcf62913bcd28b44aa533b70544ded4d67acb2443d6202e86f027a5593.enc",
+      "byte": 23243632
+    },
+    {
+      "SHA256": "776d085fd601b5b6fb06a7506d4bc3998c1706dc4a27fa7cb34e71388091d9cb",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/776d085fd601b5b6fb06a7506d4bc3998c1706dc4a27fa7cb34e71388091d9cb.enc",
+      "byte": 5979552
+    },
+    {
+      "SHA256": "6ef0b0e145744a1d755c6da0c5ca37ab0af2975a6b0af495d5fdd796a23137dd",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/6ef0b0e145744a1d755c6da0c5ca37ab0af2975a6b0af495d5fdd796a23137dd.enc",
+      "byte": 1136
+    },
+    {
+      "SHA256": "e8041575d8d1dfec412d2f2861f9c64f8b67060d8d7a92f4daf8f2f8cbbef697",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/e8041575d8d1dfec412d2f2861f9c64f8b67060d8d7a92f4daf8f2f8cbbef697.enc",
+      "byte": 23243632
+    },
+    {
+      "SHA256": "a8316bc894cba4217cb69bf29d86756d19854404c8a93d6580e111c870b39c8c",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/a8316bc894cba4217cb69bf29d86756d19854404c8a93d6580e111c870b39c8c.enc",
+      "byte": 5984416
+    },
+    {
+      "SHA256": "5bfb2f28adb6c2e15dd00f60a13030e04eb80bb98d35c0af957fd62c98b6102c",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/5bfb2f28adb6c2e15dd00f60a13030e04eb80bb98d35c0af957fd62c98b6102c.enc",
+      "byte": 2624
+    },
+    {
+      "SHA256": "6437a53f04a1d1345244fdb1beff2cc737304308d7088887ab0127c4ec696047",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/6437a53f04a1d1345244fdb1beff2cc737304308d7088887ab0127c4ec696047.enc",
+      "byte": 23243632
+    },
+    {
+      "SHA256": "f9f278b6c30786c4406c85f0fef0a71e57cbb7b4577d1969b5a50ba96a539002",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/f9f278b6c30786c4406c85f0fef0a71e57cbb7b4577d1969b5a50ba96a539002.enc",
+      "byte": 5975920
+    },
+    {
+      "SHA256": "b94d63b63417d5ee5df5e055d8aee0cd93f74306015dc8872b93daf913f56b20",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/b94d63b63417d5ee5df5e055d8aee0cd93f74306015dc8872b93daf913f56b20.enc",
+      "byte": 336887344
+    },
+    {
+      "SHA256": "a04f847052bd4c5c1bfc2a241c39e0c69bd695af6d3d7974033af3a9e59c2b81",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/a04f847052bd4c5c1bfc2a241c39e0c69bd695af6d3d7974033af3a9e59c2b81.enc",
+      "byte": 22860768
+    },
+    {
+      "SHA256": "51132aa8705300b3be00ea24d1354997a5cbb6831b4637c75dfcc0ae9541d8c2",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/51132aa8705300b3be00ea24d1354997a5cbb6831b4637c75dfcc0ae9541d8c2.enc",
+      "byte": 5541936
+    },
+    {
+      "SHA256": "a79b16b7bf472739aae2f2dd9eccce8860a8d290de83f05c92985d64853e1f49",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/a79b16b7bf472739aae2f2dd9eccce8860a8d290de83f05c92985d64853e1f49.enc",
+      "byte": 326448592
+    },
+    {
+      "SHA256": "e034d6c1bd4df825bfe10cd81e34ca40a8274b95116735151e10db20881d31f2",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/e034d6c1bd4df825bfe10cd81e34ca40a8274b95116735151e10db20881d31f2.enc",
+      "byte": 22860768
+    },
+    {
+      "SHA256": "88355974e5b90deee535353f60352dda6d93d7333e500e444da4a59c3562bde5",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/88355974e5b90deee535353f60352dda6d93d7333e500e444da4a59c3562bde5.enc",
+      "byte": 5563024
+    },
+    {
+      "SHA256": "90abd1022f259232b3bc812c7bc0b8ae39a5cc5bcb0884a85994265160b73834",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/90abd1022f259232b3bc812c7bc0b8ae39a5cc5bcb0884a85994265160b73834.enc",
+      "byte": 3440
+    },
+    {
+      "SHA256": "84091aa3b6161de1b60287ff7f23a27c81d9455b46ceac2ec3951a4093361393",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/84091aa3b6161de1b60287ff7f23a27c81d9455b46ceac2ec3951a4093361393.enc",
+      "byte": 22860768
+    },
+    {
+      "SHA256": "c7ac6fea090b9f597721f3b850c33e2dfd0b5a3f494c46700a34416b8fe34d7b",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/c7ac6fea090b9f597721f3b850c33e2dfd0b5a3f494c46700a34416b8fe34d7b.enc",
+      "byte": 5555968
+    },
+    {
+      "SHA256": "a234986de2d0e0a0a2c113c5b6c2ed76de209ab38db964707c4200fef9a22019",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/a234986de2d0e0a0a2c113c5b6c2ed76de209ab38db964707c4200fef9a22019.enc",
+      "byte": 1136
+    },
+    {
+      "SHA256": "d6f12b8b6e0c7f5336a50df399e95d0854d77983c947b1ddac55f753728a01b3",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/d6f12b8b6e0c7f5336a50df399e95d0854d77983c947b1ddac55f753728a01b3.enc",
+      "byte": 22860768
+    },
+    {
+      "SHA256": "9bb7afda3a4a511f653f4e094ef86c55921cbaeb429f098354d88049a4e87d66",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/9bb7afda3a4a511f653f4e094ef86c55921cbaeb429f098354d88049a4e87d66.enc",
+      "byte": 5552336
+    },
+    {
+      "SHA256": "11f461c4fc9a540034bc7c3065ec342507442523d81635a726db6aff092d22bf",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/11f461c4fc9a540034bc7c3065ec342507442523d81635a726db6aff092d22bf.enc",
+      "byte": 326453744
+    },
+    {
+      "SHA256": "66137d54efa814d9a45be4662582277c565a4f2fee805efc6e3636b67ff2c1ac",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/66137d54efa814d9a45be4662582277c565a4f2fee805efc6e3636b67ff2c1ac.enc",
+      "byte": 22861936
+    },
+    {
+      "SHA256": "2c8eb57968f3b8bc4b1868a892948bcdcb633ff806f3917e3aac6dc7cc8420b2",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/2c8eb57968f3b8bc4b1868a892948bcdcb633ff806f3917e3aac6dc7cc8420b2.enc",
+      "byte": 5646144
+    },
+    {
+      "SHA256": "069292f84ea1429cb58837ad5e2b132c3a8a2733091b089c85d9301c4bc9fd7c",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/069292f84ea1429cb58837ad5e2b132c3a8a2733091b089c85d9301c4bc9fd7c.enc",
+      "byte": 327517280
+    },
+    {
+      "SHA256": "9a657080a4468a9328711843f426b046edf6bf50eb133b2bccf52c75a1cb348f",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/9a657080a4468a9328711843f426b046edf6bf50eb133b2bccf52c75a1cb348f.enc",
+      "byte": 22861936
+    },
+    {
+      "SHA256": "e107a33e772a378ffd36ff742a5355f980cc0ebdb142518a4d986d4182dc5a9e",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/e107a33e772a378ffd36ff742a5355f980cc0ebdb142518a4d986d4182dc5a9e.enc",
+      "byte": 5649776
+    },
+    {
+      "SHA256": "003f5c82d32fb9378864bc641656e6a5d7d77cbbe73e77bee05740695c671ba3",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/003f5c82d32fb9378864bc641656e6a5d7d77cbbe73e77bee05740695c671ba3.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "f89968400e2018bfc225a2b4f1ed306ec7e8a31a3f732d63b3ea4a866b40ec93",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/f89968400e2018bfc225a2b4f1ed306ec7e8a31a3f732d63b3ea4a866b40ec93.enc",
+      "byte": 22861936
+    },
+    {
+      "SHA256": "646dff31fad77693f3fdbeb531f0c127e5bb44a5e718a4931afd76ff45530c7e",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/646dff31fad77693f3fdbeb531f0c127e5bb44a5e718a4931afd76ff45530c7e.enc",
+      "byte": 5832992
+    },
+    {
+      "SHA256": "e8bf02cd67bb64d9c43ed77edefa7820f7944c25495b6a25e625f28673687682",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/e8bf02cd67bb64d9c43ed77edefa7820f7944c25495b6a25e625f28673687682.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "89dda4e7ca73599ba8f817b14680bd2cc2a4171a8b7ff0c7eeb9d430bbc8e845",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/89dda4e7ca73599ba8f817b14680bd2cc2a4171a8b7ff0c7eeb9d430bbc8e845.enc",
+      "byte": 22861936
+    },
+    {
+      "SHA256": "124fef0b047b7af9f272b0b8e8d3fbfb7e315ad62e4f564400d25b489835c6cc",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/124fef0b047b7af9f272b0b8e8d3fbfb7e315ad62e4f564400d25b489835c6cc.enc",
+      "byte": 5829360
+    },
+    {
+      "SHA256": "d68cbfecc2ce709f81f8f5c1b0c4cb8c0c1f484aa7bd962e4b9c26c8d1359ff7",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/d68cbfecc2ce709f81f8f5c1b0c4cb8c0c1f484aa7bd962e4b9c26c8d1359ff7.enc",
+      "byte": 327252640
+    },
+    {
+      "SHA256": "51713af6913de2eadacdcda9d0b0e28e1d9d6e599981d1b45a6709255cc1db99",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/51713af6913de2eadacdcda9d0b0e28e1d9d6e599981d1b45a6709255cc1db99.enc",
+      "byte": 23243136
+    },
+    {
+      "SHA256": "1815f19546d6138fd0b0b74b3dc869acef60b964f57e5161f7bd322093a9b5de",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/1815f19546d6138fd0b0b74b3dc869acef60b964f57e5161f7bd322093a9b5de.enc",
+      "byte": 5835120
+    },
+    {
+      "SHA256": "c48d30228903c7d1c2850ef53d834091c17d50539a1bdbf25d847db17bbdb849",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/c48d30228903c7d1c2850ef53d834091c17d50539a1bdbf25d847db17bbdb849.enc",
+      "byte": 2512
+    },
+    {
+      "SHA256": "5e7e7ec011a4c09ba53600492850ef9df1349da5e645f86b672c9a91f50a0154",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/5e7e7ec011a4c09ba53600492850ef9df1349da5e645f86b672c9a91f50a0154.enc",
+      "byte": 23243136
+    },
+    {
+      "SHA256": "43fd3915f003d0575dbf2b1f8e2456971821e323ab119fdbfeb5b15874afd02a",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/43fd3915f003d0575dbf2b1f8e2456971821e323ab119fdbfeb5b15874afd02a.enc",
+      "byte": 5829488
+    },
+    {
+      "SHA256": "152945f4f4e4a75c5b0837ee7d99d01f9305f9d2519bfb24556146407a45c74e",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/152945f4f4e4a75c5b0837ee7d99d01f9305f9d2519bfb24556146407a45c74e.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "acdb87c1c28be68bd6c8a6b787aac327c28f547e9db595ac339c1c5515729d24",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/acdb87c1c28be68bd6c8a6b787aac327c28f547e9db595ac339c1c5515729d24.enc",
+      "byte": 23243136
+    },
+    {
+      "SHA256": "b29eebb509994467ed15cf7296b7558e500baa18c1738583a388ec0a585f747a",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/b29eebb509994467ed15cf7296b7558e500baa18c1738583a388ec0a585f747a.enc",
+      "byte": 5825856
+    },
+    {
+      "SHA256": "33f584ef1d347ba8c3f2b2b6c565c6b23b16ac04a447fb01f39f71e0f2a77e92",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/33f584ef1d347ba8c3f2b2b6c565c6b23b16ac04a447fb01f39f71e0f2a77e92.enc",
+      "byte": 332339488
+    },
+    {
+      "SHA256": "3621ad23abf955755e11ab498a3086a10905cef682d4c9ec133626e1e1ca0cec",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/3621ad23abf955755e11ab498a3086a10905cef682d4c9ec133626e1e1ca0cec.enc",
+      "byte": 23042448
+    },
+    {
+      "SHA256": "1e53189d530f83ea83c8d4c97ccc8d401996197e38d63d9e41dabe339cdf26db",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/1e53189d530f83ea83c8d4c97ccc8d401996197e38d63d9e41dabe339cdf26db.enc",
+      "byte": 5738736
+    },
+    {
+      "SHA256": "57ab90451b686cbaadfc93b106d30d248f83306a449dfdbdcf4468fd89bdb68a",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/57ab90451b686cbaadfc93b106d30d248f83306a449dfdbdcf4468fd89bdb68a.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "360616d74e3afb393e672b7d577c679e832109302f7e4b18c99d9c92dff432de",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/360616d74e3afb393e672b7d577c679e832109302f7e4b18c99d9c92dff432de.enc",
+      "byte": 23042448
+    },
+    {
+      "SHA256": "5f78d00847c493d8df4de940cdbff4086437b49ddeb1c676fed029030ff54907",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/5f78d00847c493d8df4de940cdbff4086437b49ddeb1c676fed029030ff54907.enc",
+      "byte": 5735104
+    },
+    {
+      "SHA256": "e788e4728c5fa0d119ddb4af7b9be49d8f13ce8125d04912d7e348303d3863d2",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/e788e4728c5fa0d119ddb4af7b9be49d8f13ce8125d04912d7e348303d3863d2.enc",
+      "byte": 330478112
+    },
+    {
+      "SHA256": "27013d66ad0f5b7a96f7829b3792d6ad3b3932cc227cad3c65dc188aa2143a59",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/27013d66ad0f5b7a96f7829b3792d6ad3b3932cc227cad3c65dc188aa2143a59.enc",
+      "byte": 23042448
+    },
+    {
+      "SHA256": "11120d00a6218c14a7bf0219a227292ceecf225b7e9be84794237d2242401e86",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/11120d00a6218c14a7bf0219a227292ceecf225b7e9be84794237d2242401e86.enc",
+      "byte": 5747680
+    },
+    {
+      "SHA256": "b7894372e4923992b65ab01e7651f00e30ebfada2dd96b9c8717cd7df8013ca0",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/b7894372e4923992b65ab01e7651f00e30ebfada2dd96b9c8717cd7df8013ca0.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "3797a6275a800809aa1ffd074bf30cb6b7314cf17b5c2d71e649d8a1afadf71f",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/3797a6275a800809aa1ffd074bf30cb6b7314cf17b5c2d71e649d8a1afadf71f.enc",
+      "byte": 23042448
+    },
+    {
+      "SHA256": "403c0cf1b854d8082831e3c3b6338765fe2f68b3333fcc2bb1b485b175530cba",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/403c0cf1b854d8082831e3c3b6338765fe2f68b3333fcc2bb1b485b175530cba.enc",
+      "byte": 5753792
+    },
+    {
+      "SHA256": "7e48da80b221dd907d996f84f1ad4783949f12b4a96dcfacd9b0f78b4ca4e2f0",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/7e48da80b221dd907d996f84f1ad4783949f12b4a96dcfacd9b0f78b4ca4e2f0.enc",
+      "byte": 2832
+    },
+    {
+      "SHA256": "4f26d265d9c23459f964e7e8bf9d31cda1996bb65b4ee88e39f70d60b3821440",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/4f26d265d9c23459f964e7e8bf9d31cda1996bb65b4ee88e39f70d60b3821440.enc",
+      "byte": 23042448
+    },
+    {
+      "SHA256": "2656fcabaa7b8ab19393c85b9758bc6e4978aa6bdba9162eaa7e8561803d4abf",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/2656fcabaa7b8ab19393c85b9758bc6e4978aa6bdba9162eaa7e8561803d4abf.enc",
+      "byte": 5787440
+    },
+    {
+      "SHA256": "2fe23ebbad2f18f6cdada761919d22da1ecf3232415eb39ee0a83b11ec3126c7",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/2fe23ebbad2f18f6cdada761919d22da1ecf3232415eb39ee0a83b11ec3126c7.enc",
+      "byte": 21888
+    },
+    {
+      "SHA256": "b42acb6059ead81bd9b741f24470cc36b911764d1b7f6d0f18e4b78a358eaaa7",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/b42acb6059ead81bd9b741f24470cc36b911764d1b7f6d0f18e4b78a358eaaa7.enc",
+      "byte": 23042448
+    },
+    {
+      "SHA256": "198254084469c312cd2699977e3b5ede0e8e776eb9e10f9a0bfa05c383c51224",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/198254084469c312cd2699977e3b5ede0e8e776eb9e10f9a0bfa05c383c51224.enc",
+      "byte": 5744048
+    },
+    {
+      "SHA256": "1289aeed8afe0b7df28c871b5be68870a7c431aeafc56017b29f32b50a46c329",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/1289aeed8afe0b7df28c871b5be68870a7c431aeafc56017b29f32b50a46c329.enc",
+      "byte": 330485072
+    },
+    {
+      "SHA256": "9ddd24762a7b74b43c01e06532fd51b8b243c1e3c40d4c009f7b1d59fe1d4b46",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/9ddd24762a7b74b43c01e06532fd51b8b243c1e3c40d4c009f7b1d59fe1d4b46.enc",
+      "byte": 23042640
+    },
+    {
+      "SHA256": "aaca50d3f5d720faec75d5ac4003310c324b5bd8f9531f2b1d5a7f55a91ff88e",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/aaca50d3f5d720faec75d5ac4003310c324b5bd8f9531f2b1d5a7f55a91ff88e.enc",
+      "byte": 5834672
+    },
+    {
+      "SHA256": "d68b9e481d75b8e730638e48ccda43b8eaa936869f9a87913fd40f971bfc39a8",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/d68b9e481d75b8e730638e48ccda43b8eaa936869f9a87913fd40f971bfc39a8.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "6a0d5da77f35ba6977bb2605f7c2d062fff0b8fc60c729750459dc0bface7eb1",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/6a0d5da77f35ba6977bb2605f7c2d062fff0b8fc60c729750459dc0bface7eb1.enc",
+      "byte": 23042640
+    },
+    {
+      "SHA256": "ed683ae8188d1b829f7bcb7a834caefe6ac16e3534155ec187b7f8cbb0fd0dc3",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/ed683ae8188d1b829f7bcb7a834caefe6ac16e3534155ec187b7f8cbb0fd0dc3.enc",
+      "byte": 5831040
+    },
+    {
+      "SHA256": "889aabb78be50bdf1ee4c93de25cec41e1aa6e1452e8fc9b9f44e2d0528cd2eb",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/889aabb78be50bdf1ee4c93de25cec41e1aa6e1452e8fc9b9f44e2d0528cd2eb.enc",
+      "byte": 331107104
+    },
+    {
+      "SHA256": "b8f49bc3d81bbc1768a21225b34cd90fd9da1ae9d680863588107ca87c5c7697",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/b8f49bc3d81bbc1768a21225b34cd90fd9da1ae9d680863588107ca87c5c7697.enc",
+      "byte": 23042448
+    },
+    {
+      "SHA256": "2e400f20ac3866d59ee839db6bb975e8bfde5669b40f5c5d7bd9a4d1efb258d7",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/2e400f20ac3866d59ee839db6bb975e8bfde5669b40f5c5d7bd9a4d1efb258d7.enc",
+      "byte": 5728816
+    },
+    {
+      "SHA256": "f26c4a9e70f3d8778ea69bbe333ed840499c045e5523df7c05d7f930050ed391",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/f26c4a9e70f3d8778ea69bbe333ed840499c045e5523df7c05d7f930050ed391.enc",
+      "byte": 330474464
+    },
+    {
+      "SHA256": "d8324f4e5a2a90584672d8b0c01a8852dd5464c968a36a7cd7c31dfa1faca6e8",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/d8324f4e5a2a90584672d8b0c01a8852dd5464c968a36a7cd7c31dfa1faca6e8.enc",
+      "byte": 23042448
+    },
+    {
+      "SHA256": "aee6bad10c8bf6d60cdd40bb9eb15e3b9b6f09468731a1286b45850fb8bdf230",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/aee6bad10c8bf6d60cdd40bb9eb15e3b9b6f09468731a1286b45850fb8bdf230.enc",
+      "byte": 5763952
+    },
+    {
+      "SHA256": "f2f59863275639bde7a6bfc056f626f71aaa05f281b5df367d47fb608ab28a8a",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/f2f59863275639bde7a6bfc056f626f71aaa05f281b5df367d47fb608ab28a8a.enc",
+      "byte": 330491648
+    },
+    {
+      "SHA256": "ffa4ed6b12f2a658b43cc564c3709df0efe7ac1a0545c3ad4c0be42e5ec1ca3d",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/ffa4ed6b12f2a658b43cc564c3709df0efe7ac1a0545c3ad4c0be42e5ec1ca3d.enc",
+      "byte": 23042448
+    },
+    {
+      "SHA256": "d0fcc48015a73f21e926fb73ac075ccd2ee6b8f2db6103c5bb3466e4e9a47bf8",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/d0fcc48015a73f21e926fb73ac075ccd2ee6b8f2db6103c5bb3466e4e9a47bf8.enc",
+      "byte": 5732464
+    },
+    {
+      "SHA256": "c89076881f0a9416b1332fa0aefcd59348cefc4f4bb84cb38e4b79073a392219",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/c89076881f0a9416b1332fa0aefcd59348cefc4f4bb84cb38e4b79073a392219.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "45b46459ac882b519bd5bc303a6907d23b1d90d038052fa3f5851570b0df6a07",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/45b46459ac882b519bd5bc303a6907d23b1d90d038052fa3f5851570b0df6a07.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "50f37a1e4356adc3ca1ba937270b9d2310654ab39ae037c09085779e82456dc1",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/50f37a1e4356adc3ca1ba937270b9d2310654ab39ae037c09085779e82456dc1.enc",
+      "byte": 5968640
+    },
+    {
+      "SHA256": "b87af658f6d63718cd7af5957681de16ee8989edce267835ab163ef4fb3a7ea7",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/b87af658f6d63718cd7af5957681de16ee8989edce267835ab163ef4fb3a7ea7.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "982d53ea63030476b5589b12e3039546ebfd0ce7606898a93a54427def5aad26",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/982d53ea63030476b5589b12e3039546ebfd0ce7606898a93a54427def5aad26.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "20ccb85708a70963b8387022299b91781bb66d18e5ec61f857b332c747a00749",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/20ccb85708a70963b8387022299b91781bb66d18e5ec61f857b332c747a00749.enc",
+      "byte": 5965008
+    },
+    {
+      "SHA256": "9c662b014e98a1b6f81880b41bc0e1fa6bf36e719c27771a4fdaa372930e0467",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/9c662b014e98a1b6f81880b41bc0e1fa6bf36e719c27771a4fdaa372930e0467.enc",
+      "byte": 335347488
+    },
+    {
+      "SHA256": "b1b45074c1c3660762fce8c157f48b4d4d086e19a7cc1c92e5e0776e9d2d07ad",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/b1b45074c1c3660762fce8c157f48b4d4d086e19a7cc1c92e5e0776e9d2d07ad.enc",
+      "byte": 22861936
+    },
+    {
+      "SHA256": "0b9de4fcb59842338d24a19d9befb84e26b44dd84b999dcb8455c8ce8a26afa5",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/0b9de4fcb59842338d24a19d9befb84e26b44dd84b999dcb8455c8ce8a26afa5.enc",
+      "byte": 5743072
+    },
+    {
+      "SHA256": "c4893afed5b3a4ae3e782454a232357ffaea74ae6ac7d11c91b18cebf80f1c62",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/c4893afed5b3a4ae3e782454a232357ffaea74ae6ac7d11c91b18cebf80f1c62.enc",
+      "byte": 326711104
+    },
+    {
+      "SHA256": "8e051f5f3266a5a1a3903a47a4a217b7c1ffbe9713bb9c48cf35f5836b191465",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/8e051f5f3266a5a1a3903a47a4a217b7c1ffbe9713bb9c48cf35f5836b191465.enc",
+      "byte": 22861936
+    },
+    {
+      "SHA256": "ef1e029ba92e456917daf408bc373a47b490cc29e4a16d6fd066d13c880b45d1",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/ef1e029ba92e456917daf408bc373a47b490cc29e4a16d6fd066d13c880b45d1.enc",
+      "byte": 5752128
+    },
+    {
+      "SHA256": "613c4817a77b0fd9e0423c4ec460b085027bda8ed217b45e6711144eb209b09d",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/613c4817a77b0fd9e0423c4ec460b085027bda8ed217b45e6711144eb209b09d.enc",
+      "byte": 2352
+    },
+    {
+      "SHA256": "0e8b1c7cece8c250b09e7418d4768a545cc06926195bce9c4979376808ff93b1",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/0e8b1c7cece8c250b09e7418d4768a545cc06926195bce9c4979376808ff93b1.enc",
+      "byte": 22861936
+    },
+    {
+      "SHA256": "185b6634d6c6dd40e6c5c90bef07969142e54963c0c5f8e39dc6529c40a0c43f",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/185b6634d6c6dd40e6c5c90bef07969142e54963c0c5f8e39dc6529c40a0c43f.enc",
+      "byte": 5746704
+    },
+    {
+      "SHA256": "0362d96ceca17777d5db9bc6dd6b61458f67e7b751a1588ec967b9e7ba705687",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/0362d96ceca17777d5db9bc6dd6b61458f67e7b751a1588ec967b9e7ba705687.enc",
+      "byte": 1136
+    },
+    {
+      "SHA256": "fcf20de872db68cfac5f629c3e48b2eca526239e96cdec45d8f661a26afe1ece",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/fcf20de872db68cfac5f629c3e48b2eca526239e96cdec45d8f661a26afe1ece.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "63881f8527e0f7a1087a7814443f673fd3599bf76dead25b412fdfeb24320e51",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/63881f8527e0f7a1087a7814443f673fd3599bf76dead25b412fdfeb24320e51.enc",
+      "byte": 5997824
+    },
+    {
+      "SHA256": "998cbfd006c51a819adb2dfb3ca00a6b7baf9e6087069e9cf9391f12ba1bf886",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/998cbfd006c51a819adb2dfb3ca00a6b7baf9e6087069e9cf9391f12ba1bf886.enc",
+      "byte": 335899456
+    },
+    {
+      "SHA256": "77d13fa40ff387da74f30ae25d953350b3c154f033270a8b2691aba8692eae1d",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/77d13fa40ff387da74f30ae25d953350b3c154f033270a8b2691aba8692eae1d.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "e6b808e31d8b425d101fedb7255316b40f75d10fb65ba8466d57fdeceeb25eb5",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/e6b808e31d8b425d101fedb7255316b40f75d10fb65ba8466d57fdeceeb25eb5.enc",
+      "byte": 6001456
+    },
+    {
+      "SHA256": "13a4d9b5073afd71305493674e00603f6fcde9dc65a853cb1f819af6102cf2b6",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/13a4d9b5073afd71305493674e00603f6fcde9dc65a853cb1f819af6102cf2b6.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "68cb0a910d241a183c9fe89346f16e8690fb36bdc0bd7a09070702b6661b0987",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/68cb0a910d241a183c9fe89346f16e8690fb36bdc0bd7a09070702b6661b0987.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "557a3c36b01cabd2502d49fb620dbf8c7e43fc9adee218352c70dc7b59133edd",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/557a3c36b01cabd2502d49fb620dbf8c7e43fc9adee218352c70dc7b59133edd.enc",
+      "byte": 5834016
+    },
+    {
+      "SHA256": "de734e7aeb54fc29c8ac400238914aa6292ba96146cd36f7a012df02bd82b085",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/de734e7aeb54fc29c8ac400238914aa6292ba96146cd36f7a012df02bd82b085.enc",
+      "byte": 332767584
+    },
+    {
+      "SHA256": "eb552fc12472067fc48774a83cb5e01ec6f1296f9fedd9b74a227736aaf9e7d0",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/eb552fc12472067fc48774a83cb5e01ec6f1296f9fedd9b74a227736aaf9e7d0.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "c286172a7bb07ad8e506575f7ce2ad608b80847a6e070ffc01ee643a318a8bd4",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/c286172a7bb07ad8e506575f7ce2ad608b80847a6e070ffc01ee643a318a8bd4.enc",
+      "byte": 5837648
+    },
+    {
+      "SHA256": "e7bdc4c9b1076cf2aa64557e1eb99497b0544cd18e5f7dd038db15e19c4d18f0",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/e7bdc4c9b1076cf2aa64557e1eb99497b0544cd18e5f7dd038db15e19c4d18f0.enc",
+      "byte": 1136
+    },
+    {
+      "SHA256": "fcb77a83d4d99c4c02f1a6e1584e70d932ea5d45998863826ce9dd2bfd9be8ed",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/fcb77a83d4d99c4c02f1a6e1584e70d932ea5d45998863826ce9dd2bfd9be8ed.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "aadc0d8221fe7dafdcff6e79cbe81f88d99126edd7617618977e2bd14e89ffda",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/aadc0d8221fe7dafdcff6e79cbe81f88d99126edd7617618977e2bd14e89ffda.enc",
+      "byte": 5806768
+    },
+    {
+      "SHA256": "c06a3c188de90e6c1004be9362cf9274ec9fa09e8940cceb8807b8da7cb236f7",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/c06a3c188de90e6c1004be9362cf9274ec9fa09e8940cceb8807b8da7cb236f7.enc",
+      "byte": 332946176
+    },
+    {
+      "SHA256": "90ee9936c8e804aca046660be0e16be94a29f0b5b1389b3214731c76297abe74",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/90ee9936c8e804aca046660be0e16be94a29f0b5b1389b3214731c76297abe74.enc",
+      "byte": 23243136
+    },
+    {
+      "SHA256": "80095dd45d763a36af31e18c3143e90bf198d7cfccc88c5c0723348e48ffe44a",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/80095dd45d763a36af31e18c3143e90bf198d7cfccc88c5c0723348e48ffe44a.enc",
+      "byte": 5748720
+    },
+    {
+      "SHA256": "b2bfd6f54e325a961dd7961e27a45ad8d6b946904aa82fd9db9c162425ab7497",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/b2bfd6f54e325a961dd7961e27a45ad8d6b946904aa82fd9db9c162425ab7497.enc",
+      "byte": 332482720
+    },
+    {
+      "SHA256": "756bc5f83ca080637dd35e835d767e1f6df5fb8bc33d20e60e4041e0e04da66d",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/756bc5f83ca080637dd35e835d767e1f6df5fb8bc33d20e60e4041e0e04da66d.enc",
+      "byte": 23243136
+    },
+    {
+      "SHA256": "f80dc1c59b60c943ba67967395cd9596c4bfa0d048a35531565142c15298aaff",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/f80dc1c59b60c943ba67967395cd9596c4bfa0d048a35531565142c15298aaff.enc",
+      "byte": 5752352
+    },
+    {
+      "SHA256": "8cda66aa363941ba60a854cc29a462101d1c74203c54bda41e6e0b6499fb7252",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/8cda66aa363941ba60a854cc29a462101d1c74203c54bda41e6e0b6499fb7252.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "43cafbd727f58514d4eb8f538686478f6647b0edcdaf7eb45d357440a04c5035",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/43cafbd727f58514d4eb8f538686478f6647b0edcdaf7eb45d357440a04c5035.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "248d6e528cc406b9b6ecabe73945c3d8a153a2c73599369e7a397d1a5e25b63e",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/248d6e528cc406b9b6ecabe73945c3d8a153a2c73599369e7a397d1a5e25b63e.enc",
+      "byte": 5812928
+    },
+    {
+      "SHA256": "71a46f069c3ad816b394ed81eb3410618fc3bcc6549a9e2b3bdf76d4f4dd5023",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/71a46f069c3ad816b394ed81eb3410618fc3bcc6549a9e2b3bdf76d4f4dd5023.enc",
+      "byte": 332947216
+    },
+    {
+      "SHA256": "4188c2cb50a73116e2cdde94985fec0067d3d56988856cc6e647cc9319fe1148",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/4188c2cb50a73116e2cdde94985fec0067d3d56988856cc6e647cc9319fe1148.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "7d747ed3aecb33c2d0dd9e97e05eda710f60ba318e5b1f9bf055fffd8ac84d51",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/7d747ed3aecb33c2d0dd9e97e05eda710f60ba318e5b1f9bf055fffd8ac84d51.enc",
+      "byte": 5816560
+    },
+    {
+      "SHA256": "e860e8ea143004cf79984867731696a23da92a6d1ce032c416f3d9a574858e43",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/e860e8ea143004cf79984867731696a23da92a6d1ce032c416f3d9a574858e43.enc",
+      "byte": 1136
+    },
+    {
+      "SHA256": "ff22177c39125af90df331182f4927ca8029e11bdd5bcb31121af1b549db80a3",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/ff22177c39125af90df331182f4927ca8029e11bdd5bcb31121af1b549db80a3.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "fef35bb01af171ce572055e12f998d3a062c41ce6940088e272677db91c1a511",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/fef35bb01af171ce572055e12f998d3a062c41ce6940088e272677db91c1a511.enc",
+      "byte": 5797136
+    },
+    {
+      "SHA256": "8341741b71a32ba18bc66f71de6853730b1ab6fc86a917ef5fd07c9b108cd038",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/8341741b71a32ba18bc66f71de6853730b1ab6fc86a917ef5fd07c9b108cd038.enc",
+      "byte": 2768
+    },
+    {
+      "SHA256": "b80a9d2616809b8ccb4dad86c06d63e2e9abe459f845d7a34ffb2fd680daf42d",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/b80a9d2616809b8ccb4dad86c06d63e2e9abe459f845d7a34ffb2fd680daf42d.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "9e53a07c17489d0653ada8bde253804d43def10811dbe50e2d901cc5f680a12c",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/9e53a07c17489d0653ada8bde253804d43def10811dbe50e2d901cc5f680a12c.enc",
+      "byte": 5843216
+    },
+    {
+      "SHA256": "86563cc7aa59b8ed07f6a240530344f10c3cefe702a47d096d6c3b0f35e0c798",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/86563cc7aa59b8ed07f6a240530344f10c3cefe702a47d096d6c3b0f35e0c798.enc",
+      "byte": 2512
+    },
+    {
+      "SHA256": "2208e54053dd6dc8d848980ec14a6052fa2bc16a0abd4209b38a9e865e2a8894",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/2208e54053dd6dc8d848980ec14a6052fa2bc16a0abd4209b38a9e865e2a8894.enc",
+      "byte": 23243136
+    },
+    {
+      "SHA256": "33f310bc6acda80873bc6ca39a59986a7be93c42d09f8c310c07244e666dbf95",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/33f310bc6acda80873bc6ca39a59986a7be93c42d09f8c310c07244e666dbf95.enc",
+      "byte": 5759760
+    },
+    {
+      "SHA256": "bea4942d8267ee8145ba6ea47d2fd2215287a668da864e56411622caa1111a90",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/bea4942d8267ee8145ba6ea47d2fd2215287a668da864e56411622caa1111a90.enc",
+      "byte": 3040
+    },
+    {
+      "SHA256": "c7b989ad9ec2d0d4bbbfd1353454525cfe85805433a671ed787d17ce7f598867",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/c7b989ad9ec2d0d4bbbfd1353454525cfe85805433a671ed787d17ce7f598867.enc",
+      "byte": 23042640
+    },
+    {
+      "SHA256": "58a5665960d083f09048f3ef313d0cefae8afe50da7fb269ac231ab41884377b",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/58a5665960d083f09048f3ef313d0cefae8afe50da7fb269ac231ab41884377b.enc",
+      "byte": 5888192
+    },
+    {
+      "SHA256": "ff8b938d7ae75ed586e69568026bd04bb29dd07f7ae572a5001a053805129f2e",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/ff8b938d7ae75ed586e69568026bd04bb29dd07f7ae572a5001a053805129f2e.enc",
+      "byte": 1136
+    },
+    {
+      "SHA256": "edef013a7efa79861a11e1a87c9c231ea2f3a4fa4c6211f87ae043a3902978b3",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/edef013a7efa79861a11e1a87c9c231ea2f3a4fa4c6211f87ae043a3902978b3.enc",
+      "byte": 23042640
+    },
+    {
+      "SHA256": "9f30393a70b8a3ccdc694c9626a38324bea9fc1b82b4ecb71e7acb96d627f641",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/9f30393a70b8a3ccdc694c9626a38324bea9fc1b82b4ecb71e7acb96d627f641.enc",
+      "byte": 5884560
+    },
+    {
+      "SHA256": "ae9cc097d69be76b172d760c9fbda7d55e1a942f60fe6eeedc42bbb4ad240bdc",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/ae9cc097d69be76b172d760c9fbda7d55e1a942f60fe6eeedc42bbb4ad240bdc.enc",
+      "byte": 331517232
+    },
+    {
+      "SHA256": "0365aa1317c0fcbf02816fc546e07c56736731f99c7aef371f7feef07f39835c",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/0365aa1317c0fcbf02816fc546e07c56736731f99c7aef371f7feef07f39835c.enc",
+      "byte": 23042640
+    },
+    {
+      "SHA256": "56b0e336368ef450eb5fef94061dfd6a4f8bbbbf2bbcb2d6c15b060c584a5e53",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/56b0e336368ef450eb5fef94061dfd6a4f8bbbbf2bbcb2d6c15b060c584a5e53.enc",
+      "byte": 5799568
+    },
+    {
+      "SHA256": "b50d9c094f3f4ebf92c842110d05b55a5cd604ca2c41d39f54c3854c430910ed",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/b50d9c094f3f4ebf92c842110d05b55a5cd604ca2c41d39f54c3854c430910ed.enc",
+      "byte": 331273664
+    },
+    {
+      "SHA256": "c4c1f4f453206fe7e61001744fc2b118f4758d7923a3c9e8e298437c2864e461",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/c4c1f4f453206fe7e61001744fc2b118f4758d7923a3c9e8e298437c2864e461.enc",
+      "byte": 23042640
+    },
+    {
+      "SHA256": "1326d14bf2d13fac5216253ee5a9b06d9e0cd642c218dac8ad8d6af263a76ae3",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/1326d14bf2d13fac5216253ee5a9b06d9e0cd642c218dac8ad8d6af263a76ae3.enc",
+      "byte": 5803216
+    },
+    {
+      "SHA256": "cbd2a0296bf973a8442fc42318e3b96ceef762d7be25b3ac3621824c63844b37",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/cbd2a0296bf973a8442fc42318e3b96ceef762d7be25b3ac3621824c63844b37.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "26f7770f40669df66bcdb227d346ecaf37840a801eebcb3dbdb9b3e3248d9bd8",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/26f7770f40669df66bcdb227d346ecaf37840a801eebcb3dbdb9b3e3248d9bd8.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "c66a46be65fb47c21ee1732d71d919a5401bb20eba9ec62d24a81289903347f8",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/c66a46be65fb47c21ee1732d71d919a5401bb20eba9ec62d24a81289903347f8.enc",
+      "byte": 5840032
+    },
+    {
+      "SHA256": "6cd1ed32b3f9edb928915de663ee883173e8e74f38edaf06b26a7c0d9e7ef63b",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/6cd1ed32b3f9edb928915de663ee883173e8e74f38edaf06b26a7c0d9e7ef63b.enc",
+      "byte": 334445360
+    },
+    {
+      "SHA256": "8a4be467b87515b3c92fe56d31a49cb9e1983c6c1aacaa1653ea907ae3c1e615",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/8a4be467b87515b3c92fe56d31a49cb9e1983c6c1aacaa1653ea907ae3c1e615.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "4b53b6eee9138b5b8c9ff51097de0be003d2e3f0cbbba9b36bd6923dc36285c5",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/4b53b6eee9138b5b8c9ff51097de0be003d2e3f0cbbba9b36bd6923dc36285c5.enc",
+      "byte": 5845776
+    },
+    {
+      "SHA256": "e2311c4fb35e81aeb3d4c22ecd01eecb01debce9cfd1ad0df05ab5a8d31c257a",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/e2311c4fb35e81aeb3d4c22ecd01eecb01debce9cfd1ad0df05ab5a8d31c257a.enc",
+      "byte": 1120
+    },
+    {
+      "SHA256": "f9e9d3b980212b13aa54beb163e426d4d648b3519c2991868bf1a9e02ebc4bb3",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/f9e9d3b980212b13aa54beb163e426d4d648b3519c2991868bf1a9e02ebc4bb3.enc",
+      "byte": 23243568
+    },
+    {
+      "SHA256": "5d5b8a756b0631b0a50db486eb750bc3bbebd0a0c0b9943cbc38da7f72869616",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/5d5b8a756b0631b0a50db486eb750bc3bbebd0a0c0b9943cbc38da7f72869616.enc",
+      "byte": 5842144
+    },
+    {
+      "SHA256": "f229a98dda9dc8db12b7a148eb4d0259144077da075008938210dda798d9a912",
+      "Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/cifrati-storici/f229a98dda9dc8db12b7a148eb4d0259144077da075008938210dda798d9a912.enc",
+      "byte": 334444880
+    }
+  ]
+}

@@ -26,15 +26,18 @@ class WebCheckinComunicazioniController extends Controller
         DB::transaction(function () use ($r) {
             Struttura::whereKey($r->struttura_id)->lockForUpdate()->firstOrFail();
             foreach (WebCheckinMessaggio::iniziali() as $key => $values) {
-                WebCheckinModello::firstOrCreate(['struttura_id' => $r->struttura_id, 'iniziale' => $key], $values);
+                WebCheckinModello::withTrashed()->firstOrCreate(['struttura_id' => $r->struttura_id, 'iniziale' => $key], $values);
             }
         });
 
         return response()->view('web-checkin.comunicazioni', [
             'richiesta' => $r,
             'modelli' => WebCheckinModello::where('struttura_id', $r->struttura_id)->orderBy('id')->get(),
-            'storico' => WebCheckinComunicazione::where('struttura_id', $r->struttura_id)->where('richiesta_id', $r->id)->latest('id')->paginate(10),
+            'storico' => WebCheckinComunicazione::where('struttura_id', $r->struttura_id)->where('richiesta_id', $r->id)->whereNull('nascosta_at')->latest('id')->paginate(10),
             'variabili' => WebCheckinMessaggio::VARIABLES,
+            'testoBreve' => "{{struttura}} · Check-in online\nGentile {{referente}}, arrivo {{arrivo}}, partenza {{partenza}}.\n{{link}}\nPuoi salvare e continuare più tardi. Accesso fino al {{scadenza}}.",
+            'oggettoDefault' => '{{struttura}} · Il tuo check-in online',
+            'identita' => app(\App\Services\WebCheckinIdentita::class)->of($r->struttura),
         ])->header('Cache-Control', 'no-store');
     }
 
@@ -45,11 +48,16 @@ class WebCheckinComunicazioniController extends Controller
             'nome' => ['required', 'string', 'max:191'],
             'oggetto' => ['required', 'string', 'max:255'],
             'corpo' => ['required', 'string', 'max:12000'],
+            'impostazioni' => ['nullable', 'array:saluto,testo,pulsante,firma'],
+            'impostazioni.saluto' => ['required_with:impostazioni', 'string', 'max:500'],
+            'impostazioni.testo' => ['required_with:impostazioni', 'string', 'max:4000'],
+            'impostazioni.pulsante' => ['required_with:impostazioni', 'string', 'max:80'],
+            'impostazioni.firma' => ['required_with:impostazioni', 'string', 'max:1000'],
             'modello_id' => ['nullable', 'integer', 'min:1'],
             'versione' => ['nullable', 'integer', 'min:1'],
             'azione' => ['required', 'in:nuovo,aggiorna,duplica'],
         ], self::MESSAGES);
-        app(WebCheckinMessaggio::class)->render($data['oggetto'], $data['corpo'], $r);
+        app(WebCheckinMessaggio::class)->render($data['oggetto'], $data['corpo'], $r, $data['impostazioni'] ?? []);
         DB::transaction(function () use ($r, $data) {
             Struttura::whereKey($r->struttura_id)->lockForUpdate()->firstOrFail();
             $source = ! empty($data['modello_id']) ? WebCheckinModello::where('struttura_id', $r->struttura_id)->lockForUpdate()->findOrFail($data['modello_id']) : null;
@@ -75,6 +83,11 @@ class WebCheckinComunicazioniController extends Controller
         $data = $request->validate([
             'oggetto' => ['required', 'string', 'max:255'],
             'corpo' => ['required', 'string', 'max:12000'],
+            'impostazioni' => ['nullable', 'array:saluto,testo,pulsante,firma'],
+            'impostazioni.saluto' => ['required_with:impostazioni', 'string', 'max:500'],
+            'impostazioni.testo' => ['required_with:impostazioni', 'string', 'max:4000'],
+            'impostazioni.pulsante' => ['required_with:impostazioni', 'string', 'max:80'],
+            'impostazioni.firma' => ['required_with:impostazioni', 'string', 'max:1000'],
             'modello_id' => ['nullable', 'integer', 'min:1'],
             'idempotenza' => ['required', 'uuid'],
             'canale' => ['required', 'in:testo,email,whatsapp'],
@@ -86,7 +99,7 @@ class WebCheckinComunicazioniController extends Controller
             if ($previous) return $previous;
             abort_unless(app(WebCheckinLink::class)->valid($r) && $r->stato !== 'convertito', 422, 'Il link non è disponibile per un nuovo invito.');
             if (! empty($data['modello_id'])) WebCheckinModello::where('struttura_id', $r->struttura_id)->findOrFail($data['modello_id']);
-            $rendered = app(WebCheckinMessaggio::class)->render($data['oggetto'], $data['corpo'], $r);
+            $rendered = app(WebCheckinMessaggio::class)->render($data['oggetto'], $data['corpo'], $r, $data['impostazioni'] ?? []);
             abort_if($data['canale'] === 'email' && ! filter_var($r->email, FILTER_VALIDATE_EMAIL), 422, 'Indirizzo email mancante o non valido.');
             abort_if($data['canale'] === 'whatsapp' && ! preg_match('/\A\+?[0-9 ()-]{6,50}\z/', (string) $r->whatsapp), 422, 'Numero WhatsApp mancante o non valido.');
 
@@ -98,15 +111,17 @@ class WebCheckinComunicazioniController extends Controller
             ]);
         });
 
+        if ($c->nascosta_at) return redirect()->route('web_checkin.comunicazioni', $id)->with('success', 'Preparazione già registrata e rimossa dalla cronologia visibile. Nessun duplicato creato.');
+
         return redirect()->route('web_checkin.comunicazione', [$id, $c->id]);
     }
 
     public function show(Request $request, int $id, int $communication)
     {
         $r = $this->owned($request, $id);
-        $c = WebCheckinComunicazione::where('struttura_id', $r->struttura_id)->where('richiesta_id', $r->id)->findOrFail($communication);
+        $c = WebCheckinComunicazione::where('struttura_id', $r->struttura_id)->where('richiesta_id', $r->id)->whereNull('nascosta_at')->findOrFail($communication);
 
-        return response()->view('web-checkin.messaggio', ['richiesta' => $r, 'comunicazione' => $c])->header('Cache-Control', 'no-store')->header('Referrer-Policy', 'no-referrer');
+        return response()->view('web-checkin.messaggio', ['richiesta' => $r, 'comunicazione' => $c, 'impedimentoEmail' => app(\App\Services\WebCheckinInvio::class)->impedimento()])->header('Cache-Control', 'no-store')->header('Referrer-Policy', 'no-referrer');
     }
 
     public function apri(Request $request, int $id, int $communication)
@@ -121,17 +136,100 @@ class WebCheckinComunicazioniController extends Controller
             abort_unless(hash_equals(app(WebCheckinMessaggio::class)->improntaInvito($r), (string) ($content['impronta_invito'] ?? '')), 422, 'I dati dell’invito sono cambiati. Prepara una nuova comunicazione.');
             $current = filled($r->short_token) ? route('web_checkin.public.short.show', ['token' => $r->short_token]) : route('web_checkin.public.show', ['token' => $r->token]);
             abort_unless(str_contains($content['corpo'], $current), 422, 'Il link è stato rigenerato. Prepara un nuovo messaggio.');
-            abort_unless(in_array($c->canale, ['email', 'whatsapp'], true), 422);
+            abort_unless($c->canale === 'whatsapp' && ! $c->nascosta_at, 422, 'Per l’email utilizza l’invio HTML, non un programma esterno.');
             if ($c->stato === 'preparato') $c->update(['stato' => 'apertura_richiesta']);
 
             return $c;
         });
         $content = $c->contenuto;
-        $url = $c->canale === 'email'
-            ? 'mailto:'.rawurlencode($content['destinatario']).'?subject='.rawurlencode($content['oggetto']).'&body='.rawurlencode($content['corpo'])
-            : 'https://wa.me/'.preg_replace('/\D/', '', $content['destinatario']).'?text='.rawurlencode($content['corpo']);
+        $url = 'https://wa.me/'.preg_replace('/\D/', '', $content['destinatario']).'?text='.rawurlencode($content['corpo']);
 
         return redirect()->away($url)->header('Cache-Control', 'no-store')->header('Referrer-Policy', 'no-referrer');
+    }
+
+    public function eliminaModello(Request $request, int $id, int $model)
+    {
+        $r = $this->owned($request, $id);
+        $data = $request->validate(['versione' => ['required', 'integer', 'min:1']]);
+        DB::transaction(function () use ($r, $model, $data) {
+            Struttura::whereKey($r->struttura_id)->lockForUpdate()->firstOrFail();
+            $m = WebCheckinModello::where('struttura_id', $r->struttura_id)->lockForUpdate()->findOrFail($model);
+            abort_unless((int)$m->versione === (int)$data['versione'], 409, 'Modello cambiato: ricarica prima di eliminarlo.');
+            $m->delete();
+        });
+        return redirect()->route('web_checkin.comunicazioni', $id)->with('success', 'Modello eliminato. Non verrà ricreato automaticamente.');
+    }
+
+    public function ripristinaModelli(Request $request, int $id)
+    {
+        $r = $this->owned($request, $id);
+        DB::transaction(function () use ($r) {
+            Struttura::whereKey($r->struttura_id)->lockForUpdate()->firstOrFail();
+            foreach (WebCheckinMessaggio::iniziali() as $key => $values) {
+                $m = WebCheckinModello::withTrashed()->firstOrCreate(['struttura_id' => $r->struttura_id, 'iniziale' => $key], $values);
+                if ($m->trashed()) { $m->versione++; $m->save(); $m->restore(); }
+            }
+        });
+        return redirect()->route('web_checkin.comunicazioni', $id)->with('success', 'Modelli iniziali ripristinati; personalizzazioni conservate.');
+    }
+
+    public function nascondi(Request $request, int $id)
+    {
+        $r = $this->owned($request, $id);
+        $data = $request->validate(['comunicazioni' => ['required', 'array', 'min:1', 'max:100'], 'comunicazioni.*' => ['required', 'integer', 'distinct', 'min:1']]);
+        DB::transaction(function () use ($r, $data) {
+            Struttura::whereKey($r->struttura_id)->lockForUpdate()->firstOrFail();
+            $q = WebCheckinComunicazione::where('struttura_id', $r->struttura_id)->where('richiesta_id', $r->id)->whereIn('id', $data['comunicazioni']);
+            abort_unless($q->count() === count($data['comunicazioni']), 404);
+            $q->update(['nascosta_at' => now()]);
+        });
+        return redirect()->route('web_checkin.comunicazioni', $id)->with('success', 'Comunicazioni rimosse dalla cronologia visibile. Eventuali messaggi già inviati non sono annullati. Richiesta e ospiti conservati.');
+    }
+
+    public function identita(Request $request, int $id)
+    {
+        $r = $this->owned($request, $id);
+        $data = $request->validate(['colore' => ['required', 'regex:/\A#[a-fA-F0-9]{6}\z/D']]);
+        DB::transaction(function () use ($r, $data) {
+            $s = Struttura::whereKey($r->struttura_id)->lockForUpdate()->firstOrFail();
+            $s->forceFill(['web_checkin_colore' => $data['colore']])->save();
+        });
+        return redirect()->route('web_checkin.comunicazioni', $id)->with('success', 'Colore dell’invito e del modulo aggiornato per la sola struttura corrente. Prepara nuovamente gli inviti precedenti.');
+    }
+
+    public function anteprima(Request $request, int $id, int $communication)
+    {
+        $r = $this->owned($request, $id);
+        $c = WebCheckinComunicazione::where('struttura_id', $r->struttura_id)->where('richiesta_id', $id)->whereNull('nascosta_at')->findOrFail($communication);
+        abort_unless(isset($c->contenuto['layout'], $c->contenuto['identita']), 422, 'Prepara nuovamente questo invito per l’anteprima HTML.');
+        return response()->view('emails.web-checkin', ['invito' => $c->contenuto, 'logo_src' => $c->contenuto['identita']['logo_url']])
+            ->header('Cache-Control', 'no-store')->header('Referrer-Policy', 'no-referrer')
+            ->header('Content-Security-Policy', "default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'self'");
+    }
+
+    public function invia(Request $request, int $id, int $communication)
+    {
+        $r = $this->owned($request, $id);
+        WebCheckinComunicazione::where('struttura_id', $r->struttura_id)->where('richiesta_id', $r->id)->whereNull('nascosta_at')->findOrFail($communication);
+        $request->validate(['conferma_destinatario' => ['accepted']]);
+        $service = app(\App\Services\WebCheckinInvio::class);
+        abort_if($service->impedimento(), 422, $service->impedimento());
+        $c = DB::transaction(function () use ($r, $communication) {
+            Struttura::whereKey($r->struttura_id)->lockForUpdate()->firstOrFail();
+            $r = WebCheckinRichiesta::where('struttura_id', $r->struttura_id)->lockForUpdate()->findOrFail($r->id);
+            $c = WebCheckinComunicazione::where('struttura_id', $r->struttura_id)->where('richiesta_id', $r->id)->whereNull('nascosta_at')->lockForUpdate()->findOrFail($communication);
+            abort_unless($c->canale === 'email', 422);
+            abort_unless(app(WebCheckinLink::class)->valid($r) && $r->stato !== 'convertito', 422, 'Link scaduto, revocato o già preso in carico.');
+            $content = $c->contenuto;
+            abort_unless(isset($content['layout'], $content['identita']) && hash_equals(app(WebCheckinMessaggio::class)->improntaInvito($r), (string)($content['impronta_invito'] ?? '')), 422, 'Dati o identità modificati: prepara un nuovo invito.');
+            abort_unless(app(\App\Services\WebCheckinIdentita::class)->of($r->struttura)['logo_path'], 422, 'Configura il logo reale della struttura prima dell’invio.');
+            abort_unless(filter_var($content['destinatario'] ?? null, FILTER_VALIDATE_EMAIL), 422, 'Destinatario non valido.');
+            if ($c->tentativo_at) return null;
+            $c->update(['stato' => 'invio_in_corso', 'tentativo_at' => now()]);
+            return $c;
+        });
+        if ($c) $service->invia($c);
+        return redirect()->route('web_checkin.comunicazione', [$id, $communication])->with('success', $c ? 'Tentativo registrato. Controlla l’esito: accettazione del trasporto e consegna sono distinte.' : 'Tentativo già registrato: nessun duplicato inviato.');
     }
 
     private function owned(Request $request, int $id): WebCheckinRichiesta

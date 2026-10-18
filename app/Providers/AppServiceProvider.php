@@ -31,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        \Illuminate\Support\Facades\Mail::extend('web_checkin_smtps',
+            fn (array $config) => new \App\Mail\Transport\WebCheckinSmtpCurl($config));
         $this->app['validator']->resolver(fn ($translator, $data, $rules, $messages, $attributes) =>
             new \App\Validation\EmailControlValidator($translator, $data, $rules, $messages, $attributes));
 

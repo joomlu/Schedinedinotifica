@@ -169,8 +169,10 @@ class WebCheckinLifecycleTest extends TestCase
             foreach (['GET', 'POST'] as $method) {
                 $response = $this->call($method, $path, ['name' => 'ATTACCO']);
                 $response->assertOk();
-                $this->assertSame('Check-in recibido', $response->getContent());
-            } $this->get($path.'/completato')->assertContent('Check-in recibido');
+                $this->assertStringContainsString('Grazie! Abbiamo ricevuto i tuoi dati.', $response->getContent());
+                $this->assertStringNotContainsString('<form', $response->getContent());
+                $this->assertStringNotContainsString($r->token, $response->getContent());
+            } $this->get($path.'/completato')->assertSeeText('Grazie! Abbiamo ricevuto i tuoi dati.')->assertDontSee('<form', false);
         }
         $this->assertEquals($before, DB::table('schedina')->where('id', $r->schedina_id)->first());
     }

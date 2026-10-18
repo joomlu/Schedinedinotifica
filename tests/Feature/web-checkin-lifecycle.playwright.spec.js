@@ -16,7 +16,7 @@ test('Ciclo reale: invito indipendente, form, salvataggio e correzione',async({p
 });
 test('Conversione: ogni alias e completed contiene solo conferma; scaduti e revocati rifiutati; legacy80 valido',async({page})=>{
  const r=await ids(page);for(const path of [`/checkin/${r.converted.full}`,`/w/${r.converted.short}`,`/w/${r.converted.full}`,`/w/${r.converted.short}/completato`]){
-  expect((await page.goto(BASE_URL+path)).status()).toBe(200);await expect(page.locator('body')).toHaveText('Check-in recibido');expect(await page.content()).not.toContain('Ospite');expect(await page.content()).not.toContain(r.full);
+  expect((await page.goto(BASE_URL+path)).status()).toBe(200);await expect(page.locator('body')).toContainText('Grazie! Abbiamo ricevuto i tuoi dati.');expect(await page.content()).not.toContain('Ospite');expect(await page.content()).not.toContain(r.full);
  }
  for(const kind of ['expired','revoked'])for(const token of [r[kind].full,r[kind].short])expect((await page.goto(`${BASE_URL}/w/${token}`)).status()).toBe(404);
  expect((await page.goto(`${BASE_URL}/checkin/${r.legacy.full}`)).status()).toBe(200);await expect(page.locator('#schedina-form')).toBeVisible();
@@ -41,7 +41,7 @@ test('Conversione reale dall’interfaccia in Arrivo: dati operatore conservati,
  const r=await ids(page);await login(page);await page.goto(`${BASE_URL}/schedine/${r.operational.parent}/modifica`,{waitUntil:'domcontentloaded'});
  await page.locator('button[name="save_mode"][value="to_arrivi"]:visible').first().click();await expect(page).toHaveURL(/\/arrivi$/);
  const state=await (await page.request.get(`${BASE_URL}/audit-token/state/operational`)).json();expect(state.request.stato).toBe('convertito');expect(state.parent.circuito).toBe('arrivi');expect(state.parent.name).toBe('OSPITE-operational');
- await page.goto(`${BASE_URL}/logout`,{waitUntil:'domcontentloaded'});expect((await page.goto(`${BASE_URL}/w/${r.operational.short}`)).status()).toBe(200);await expect(page.locator('body')).toHaveText('Check-in recibido');
+ await page.goto(`${BASE_URL}/logout`,{waitUntil:'domcontentloaded'});expect((await page.goto(`${BASE_URL}/w/${r.operational.short}`)).status()).toBe(200);await expect(page.locator('body')).toContainText('Grazie! Abbiamo ricevuto i tuoi dati.');
 });
 test('Cestino nel browser: cancellazione, ripristino bloccato, emissione autorizzata nuova',async({page})=>{
  const r=await ids(page);await login(page);await page.goto(`${BASE_URL}/web-checkin/${r.trash.id}/modifica`);let csrf=await page.locator('input[name="_token"]').first().inputValue();
@@ -59,6 +59,6 @@ test('Limite letture reale: alias condivisi, altri ospiti e strutture Wi-Fi indi
 });
 test('Limite POST reale20/10min: CSRF valido, nessuna modifica, letture indipendenti',async({page})=>{
  const r=await ids(page);await page.goto(`${BASE_URL}/checkin/${r.legacy.full}`);const csrf=await page.locator('input[name="_token"]').first().inputValue();
- for(let i=0;i<20;i++){const response=await page.request.post(`${BASE_URL}/${i%2?'w/'+r.posts.short:'checkin/'+r.posts.full}`,{headers:{'X-CSRF-TOKEN':csrf},form:{name:'NON-MODIFICARE'}});expect(response.status()).toBe(200);expect(await response.text()).toBe('Check-in recibido');}
+ for(let i=0;i<20;i++){const response=await page.request.post(`${BASE_URL}/${i%2?'w/'+r.posts.short:'checkin/'+r.posts.full}`,{headers:{'X-CSRF-TOKEN':csrf},form:{name:'NON-MODIFICARE'}});expect(response.status()).toBe(200);const html=await response.text();expect(html).toContain('Grazie! Abbiamo ricevuto i tuoi dati.');expect(html).not.toContain('<form');expect(html).not.toContain(r.posts.full);}
  const response=await page.request.post(`${BASE_URL}/w/${r.posts.short}`,{headers:{'X-CSRF-TOKEN':csrf},form:{name:'NON-MODIFICARE'}});expect(response.status()).toBe(429);expect(Number(response.headers()['retry-after'])).toBeGreaterThan(0);expect((await page.goto(`${BASE_URL}/w/${r.posts.short}`)).status()).toBe(200);
 });

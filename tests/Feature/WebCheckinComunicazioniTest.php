@@ -143,7 +143,8 @@ class WebCheckinComunicazioniTest extends TestCase
     public function test_apertura_esterna_e_soltanto_richiesta_non_invio_o_consegna_e_revoca_la_blocca(): void
     {
         $r = $this->scenario();
-        $data = ['oggetto' => 'Invito', 'corpo' => 'Apri {{link}}', 'canale' => 'email', 'idempotenza' => (string) Str::uuid()];
+        $r->update(['whatsapp' => '+390000000000']);
+        $data = ['oggetto' => 'Invito', 'corpo' => 'Apri {{link}}', 'canale' => 'whatsapp', 'idempotenza' => (string) Str::uuid()];
         $this->postWeb(route('web_checkin.prepara', $r->id), $data)->assertRedirect();
         $c = WebCheckinComunicazione::firstOrFail();
         $url = route('web_checkin.comunicazione.apri', [$r->id, $c->id]);
@@ -305,7 +306,7 @@ class WebCheckinComunicazioniTest extends TestCase
         $this->putWeb(route('schedina.update', $sheet->id), $payload)->assertSessionHasNoErrors()->assertRedirect();
         $this->assertSame('bozza', $sheet->fresh()->circuito);
         $this->assertSame(0, Schedina::effettive()->count());
-        $this->get('/checkin/'.$r->token)->assertOk()->assertContent('Check-in recibido');
+        $this->get('/checkin/'.$r->token)->assertOk()->assertSeeText('Grazie! Abbiamo ricevuto i tuoi dati.')->assertDontSee('<form', false);
         $this->putJsonWeb(route('schedina.update', $sheet->id), $payload)->assertStatus(409);
         $r->refresh(); $payload['web_versione_gestione'] = app(\App\Services\WebCheckinVersione::class)->of($r); $payload['save_mode'] = 'full';
         $this->putWeb(route('schedina.update', $sheet->id), $payload)->assertSessionHasNoErrors()->assertRedirect();

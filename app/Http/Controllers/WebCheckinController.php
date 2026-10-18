@@ -133,7 +133,7 @@ class WebCheckinController extends SchedinaController
 
             return redirect()
                 ->route('web_checkin.edit', ['id' => $richiesta->id])
-                ->with('success', 'Web Check-in creato. Link e testo email pronti per l\'invio.');
+                ->with('success', 'Richiesta creata. Prepara l’invito e verifica il canale disponibile.');
         });
     }
 
@@ -248,19 +248,19 @@ class WebCheckinController extends SchedinaController
         return $camere;
     }
 
-    public function publicShow(string $token)
+    public function publicShow(string $token, bool $preview = false)
     {
         $known = $this->findPublicRichiesta($token);
         abort_unless($known, 404);
 
-        return DB::transaction(function () use ($token, $known) {
+        return DB::transaction(function () use ($token, $known, $preview) {
             Struttura::withoutGlobalScopes()->whereKey($known->struttura_id)->lockForUpdate()->firstOrFail();
             $richiesta = WebCheckinRichiesta::where('struttura_id', $known->struttura_id)->whereKey($known->id)->lockForUpdate()->firstOrFail();
             abort_unless(app(\App\Services\WebCheckinLink::class)->valid($richiesta) && hash_equals((string) $richiesta->token, $token), 404);
             $schedina = $this->linkedSchedinaForRichiesta($richiesta);
             $richiesta->load('struttura');
             if ($richiesta->stato === 'convertito' || $schedina->circuito !== 'web') {
-                return $this->received();
+                return $this->received($richiesta);
             }
 
             $oldContext = session()->getOldInput('web_checkin_context');
@@ -269,7 +269,7 @@ class WebCheckinController extends SchedinaController
             $publicErrors = $ownInput ? session('errors', new \Illuminate\Support\ViewErrorBag) : new \Illuminate\Support\ViewErrorBag;
             view()->share('errors', $publicErrors);
 
-            $richiesta->forceFill([
+            if (! $preview) $richiesta->forceFill([
                 'ultimo_accesso_at' => now(),
                 'stato' => in_array($richiesta->stato, ['da_inviare', 'inviato'], true) ? 'in_compilazione' : $richiesta->stato,
             ])->save();
@@ -299,6 +299,9 @@ class WebCheckinController extends SchedinaController
                     'showPrintTassa' => false,
                     'geoEndpointBase' => '/geo-public',
                     'webCheckinRichiesta' => $richiesta,
+                    'webPreview' => $preview,
+                    'identitaHotel' => app(\App\Services\WebCheckinIdentita::class)->of($richiesta->struttura),
+                    'campiPendentiOspite' => $this->pendingData($richiesta, true, true),
                     'webVersione' => app(\App\Services\WebCheckinVersione::class)->of($richiesta),
                     'errors' => $publicErrors,
                 ]
@@ -319,6 +322,7 @@ class WebCheckinController extends SchedinaController
     {
         return $this->publicRead($token, fn ($richiesta) => response()->view('web-checkin.invite', [
             'richiesta' => $richiesta, 'strutturaInfo' => $richiesta->struttura,
+            'identitaHotel' => app(\App\Services\WebCheckinIdentita::class)->of($richiesta->struttura),
             'checkinUrl' => route('web_checkin.public.show', ['token' => $richiesta->token]),
         ]));
     }
@@ -352,7 +356,7 @@ class WebCheckinController extends SchedinaController
             $richiesta->load('struttura');
             abort_unless(app(\App\Services\WebCheckinLink::class)->valid($richiesta) && hash_equals((string) $richiesta->token, $token), 404);
             if ($richiesta->stato === 'convertito') {
-                return $this->received();
+                return $this->received($richiesta);
             }
 
             abort_unless($schedina->circuito === 'web', 409, 'La reception ha già preso in carico i dati. Contatta la struttura per correggerli.');
@@ -369,7 +373,7 @@ class WebCheckinController extends SchedinaController
             ]);
             // Il soggiorno previsto e i riferimenti interni sono gestiti dalla reception.
             $request->merge(['arrive' => $richiesta->arrivo->toDateString(), 'departure' => $richiesta->partenza->toDateString()]);
-            $this->validateSchedinaRequest($request, $complete, (int) $richiesta->struttura_id, $schedina);
+            $this->validateSchedinaRequest($request, $complete, (int) $richiesta->struttura_id, $schedina, true);
             if (! $complete) app(\App\Services\SchedinaAnagraficaValidation::class)->validate($request, (int) $richiesta->struttura_id);
             $this->validateProvidedComponenti($request, (int) $richiesta->struttura_id);
             if ($complete) {
@@ -419,7 +423,7 @@ class WebCheckinController extends SchedinaController
             abort_unless($current && $current->id === $r->id, 404);
             $r->setRelation('schedina', $this->linkedSchedinaForRichiesta($r));
             $r->load('struttura');
-            if ($r->stato === 'convertito' || $r->schedina?->circuito !== 'web') return $this->received();
+            if ($r->stato === 'convertito' || $r->schedina?->circuito !== 'web') return $this->received($r);
 
             return $render($r);
         });
@@ -441,7 +445,7 @@ class WebCheckinController extends SchedinaController
         }
     }
 
-    private function pendingData(WebCheckinRichiesta $r): array
+    private function pendingData(WebCheckinRichiesta $r, bool $publicGuest = false, bool $fields = false): array
     {
         $sheet = $this->linkedSchedinaForRichiesta($r);
         if (! $sheet || ! in_array($sheet->circuito, ['web', 'bozza'], true)) return [];
@@ -452,12 +456,12 @@ class WebCheckinController extends SchedinaController
         $route->name('web_checkin.public.store')->bind($form);
         $form->setRouteResolver(fn () => $route);
         $errors = [];
-        foreach ([fn () => $this->validateSchedinaRequest($form, true, (int) $r->struttura_id, $sheet), fn () => $this->validateComponentiRows($form), fn () => $this->validatePeopleConsistency($form)] as $check) {
+        foreach ([fn () => $this->validateSchedinaRequest($form, true, (int) $r->struttura_id, $sheet, $publicGuest), fn () => $this->validateComponentiRows($form), fn () => $this->validatePeopleConsistency($form)] as $check) {
             try { $check(); }
             catch (\Illuminate\Validation\ValidationException $e) { $errors = array_merge($errors, $e->errors()); }
         }
 
-        return array_values(array_unique(collect($errors)->flatten()->all()));
+        return $fields ? $errors : array_values(array_unique(collect($errors)->flatten()->all()));
     }
 
     public function toSchedina(Request $request, int $id)
@@ -474,9 +478,15 @@ class WebCheckinController extends SchedinaController
             ->with('warning', 'Completa e salva la schedina web dal form prima di inviarla nel circuito operativo.');
     }
 
-    private function received()
+    private function received(WebCheckinRichiesta $r)
     {
-        return response('Check-in recibido', 200)->header('Content-Type', 'text/plain; charset=UTF-8')->header('Cache-Control', 'no-store');
+        return response()->view('web-checkin.received', ['identitaHotel' => app(\App\Services\WebCheckinIdentita::class)->of($r->struttura)])->header('Cache-Control', 'no-store')->header('Referrer-Policy', 'no-referrer');
+    }
+
+    public function anteprimaModulo(int $id)
+    {
+        $r = $this->findOwnedRichiesta($id);
+        return $this->publicShow($r->token, true);
     }
 
     public function revoke(int $id)
@@ -729,7 +739,7 @@ class WebCheckinController extends SchedinaController
     private function renderCompletedView(WebCheckinRichiesta $richiesta)
     {
         if ($richiesta->stato === 'convertito') {
-            return $this->received();
+            return $this->received($richiesta);
         }
         $schedina = $richiesta->schedina;
         abort_if(! $schedina, 404);
@@ -741,6 +751,8 @@ class WebCheckinController extends SchedinaController
             'strutturaInfo' => $richiesta->struttura,
             'editUrl' => route('web_checkin.public.show', ['token' => $richiesta->token]),
             'componentiCount' => $schedina->componenti->count(),
+            'identitaHotel' => app(\App\Services\WebCheckinIdentita::class)->of($richiesta->struttura),
+            'campiPendentiOspite' => $richiesta->compilato_at ? [] : $this->pendingData($richiesta, true),
             'isLockedAfterConversion' => false,
         ]);
     }

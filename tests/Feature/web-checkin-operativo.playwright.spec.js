@@ -30,6 +30,7 @@ for (const width of [1440, 768, 390]) test(`Web Check-in: richiesta, modelli, an
     await expect(page).toHaveURL(/\/web-checkin\/\d+\/modifica/);
     const manage = page.url(); const id = manage.match(/web-checkin\/(\d+)/)[1];
     await page.goto(`${BASE_URL}/web-checkin/${id}/comunicazioni`);
+    await page.locator('#invito-canale').selectOption('testo');
     const countBefore = await page.locator('#invito-modello option').count(); expect(countBefore).toBeGreaterThanOrEqual(3);
     await page.locator('#invito-modello').selectOption({label: 'Invito Web Check-in — Famiglia / referente familiare'});
     await expect(page.locator('#invito-corpo')).toHaveValue(/referente familiare/);
@@ -79,7 +80,7 @@ for (const width of [1440, 768, 390]) test(`Web Check-in: richiesta, modelli, an
     await page.goto(sheetUrl);
     await expect(page.locator('[name="name"]').first()).toHaveValue(`Ospite parziale ${width}`);
     await page.goto(manage); await expect(page.locator('[name="note"]')).toHaveValue('NOTA-INTERNA-SINTETICA');
-    await page.goto(publicUrl); await expect(page.locator('body')).toHaveText('Check-in recibido');
+    await page.goto(publicUrl); await expect(page.locator('body')).toContainText('Grazie! Abbiamo ricevuto i tuoi dati.');
     expect(errors).toEqual([]);
     console.log(JSON.stringify({width, richiesta: true, modello_originale_preservato: true, duplicazione: true, anteprima: true, parziale_ripreso: true, stessa_bozza: true, note_private: true}));
 });
