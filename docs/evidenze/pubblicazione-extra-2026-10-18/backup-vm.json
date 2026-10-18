@@ -1,0 +1,152 @@
+{
+  "esito": "PASS_BACKUP_OFFLINE_INTEGRALE",
+  "file": [
+    {
+      "origine": "/Users/jorgeluccitelli/.lima/schedine-sviluppo-interno/disk",
+      "destinazione": "istanza/disk",
+      "sha256": "9e073a0604cb11c50eceeb6c1a231cbc99a438249395b96e11f07234610321d2",
+      "byte": 34359738368,
+      "modo": 420,
+      "uid": 501,
+      "gid": 20,
+      "mtime_ns": 1792306438677424577,
+      "xattrs": {
+        "com.apple.provenance": "0102007AFC4B1853AE1444"
+      }
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/.lima/schedine-sviluppo-interno/lima.yaml",
+      "destinazione": "istanza/lima.yaml",
+      "sha256": "b3e1fbb836a80c0efc7527023b1c74358d69f9eae3adb45485f7eec6947ca5bb",
+      "byte": 489,
+      "modo": 420,
+      "uid": 501,
+      "gid": 20,
+      "mtime_ns": 1792256368236801727,
+      "xattrs": {
+        "com.apple.provenance": "0102007AFC4B1853AE1444"
+      }
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/.lima/schedine-sviluppo-interno/vz-efi",
+      "destinazione": "istanza/vz-efi",
+      "sha256": "3dc39f29baecfdd833cdcc8d480642604f1d832c59b32754580fd353c79c0c7d",
+      "byte": 131072,
+      "modo": 384,
+      "uid": 501,
+      "gid": 20,
+      "mtime_ns": 1792176846150666426,
+      "xattrs": {
+        "com.apple.provenance": "0102007AFC4B1853AE1444"
+      }
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/.lima/schedine-sviluppo-interno/vz-identifier",
+      "destinazione": "istanza/vz-identifier",
+      "sha256": "fedb0954ad9ec6185894cd3f1eda51083ffa032037452f8f399bca0c7f5e9028",
+      "byte": 70,
+      "modo": 420,
+      "uid": 501,
+      "gid": 20,
+      "mtime_ns": 1791823356487685934,
+      "xattrs": {
+        "com.apple.provenance": "0102007AFC4B1853AE1444"
+      }
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/.lima/schedine-sviluppo-interno/lima-version",
+      "destinazione": "istanza/lima-version",
+      "sha256": "d01c4e9bf10ed63e0de02bdaa54ae5a279486e9125f5febcc5d8bb3fab332568",
+      "byte": 5,
+      "modo": 292,
+      "uid": 501,
+      "gid": 20,
+      "mtime_ns": 1791823356283879723,
+      "xattrs": {
+        "com.apple.provenance": "0102007AFC4B1853AE1444"
+      }
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/.lima/schedine-sviluppo-interno/cloud-config.yaml",
+      "destinazione": "istanza/cloud-config.yaml",
+      "sha256": "4d600aba742b9d5fd4033bb62ac00635b81c33eee26b37ca60103db76b664a0f",
+      "byte": 1245,
+      "modo": 292,
+      "uid": 501,
+      "gid": 20,
+      "mtime_ns": 1792256369787304924,
+      "xattrs": {
+        "com.apple.provenance": "0102007AFC4B1853AE1444"
+      }
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/.lima/schedine-sviluppo-interno/cidata.iso",
+      "destinazione": "istanza/cidata.iso",
+      "sha256": "c031145b8724fd4a77fe91fc9b3a8ec0aad2145821c9d9ebf8d68b3cf00414a3",
+      "byte": 20037632,
+      "modo": 420,
+      "uid": 501,
+      "gid": 20,
+      "mtime_ns": 1792256369983136840,
+      "xattrs": {
+        "com.apple.provenance": "0102007AFC4B1853AE1444"
+      }
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/.lima/schedine-sviluppo-interno/ssh.config",
+      "destinazione": "istanza/ssh.config",
+      "sha256": "f16dbe76ed4bb523a9816e2d9bb430537523786e09b740b7eabff7d3d800bf94",
+      "byte": 736,
+      "modo": 384,
+      "uid": 501,
+      "gid": 20,
+      "mtime_ns": 1792256370005474671,
+      "xattrs": {
+        "com.apple.provenance": "0102007AFC4B1853AE1444"
+      }
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/.lima/_config/networks.yaml",
+      "destinazione": "config-globale/networks.yaml",
+      "sha256": "2fed4d81dc833fe20760dcb9ba80d265b8802a43d5ab28600edf51ce0dc9cdf3",
+      "byte": 1438,
+      "modo": 420,
+      "uid": 501,
+      "gid": 20,
+      "mtime_ns": 1791628580534909351,
+      "xattrs": {
+        "com.apple.provenance": "0102007AFC4B1853AE1444"
+      }
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/.lima/_config/user",
+      "destinazione": "config-globale/user",
+      "sha256": "496423eb66d24d3bec7f682fdae9ea988e1e828443817a1be4985296fe629c2f",
+      "byte": 387,
+      "modo": 384,
+      "uid": 501,
+      "gid": 20,
+      "mtime_ns": 1791628580339766131,
+      "xattrs": {
+        "com.apple.provenance": "0102007AFC4B1853AE1444"
+      }
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/.lima/_config/user.pub",
+      "destinazione": "config-globale/user.pub",
+      "sha256": "e921883c6373d8aa0b7549f0fa21ae500cd6033a74e99eac8e0eac7ebdf3636b",
+      "byte": 86,
+      "modo": 420,
+      "uid": 501,
+      "gid": 20,
+      "mtime_ns": 1791628580339862173,
+      "xattrs": {
+        "com.apple.provenance": "0102007AFC4B1853AE1444"
+      }
+    }
+  ],
+  "VM_ferma": true,
+  "originali_preservati": true,
+  "cifratura": "AES-256",
+  "recupero": "PENDENTE"
+}

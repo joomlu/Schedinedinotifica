@@ -1,0 +1,34 @@
+{
+  "data": "2026-10-18T08:57:37.021774+02:00",
+  "diskutil": {
+    "DeviceIdentifier": "disk5s1",
+    "ParentWholeDisk": "disk5",
+    "VolumeName": "extra",
+    "MountPoint": "/Volumes/extra",
+    "VolumeUUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+    "FilesystemType": "apfs",
+    "FilesystemName": "APFS",
+    "TotalSize": 999859159040,
+    "FreeSpace": 0,
+    "Writable": true,
+    "MediaReadOnly": null,
+    "VolumeReadOnly": null,
+    "BusProtocol": "USB",
+    "Internal": false,
+    "APFSContainerReference": "disk5",
+    "APFSPhysicalStores": [
+      {
+        "APFSPhysicalStore": "disk4s2"
+      }
+    ]
+  },
+  "identita_USB": {
+    "modello": "PSSD T7",
+    "seriale": "S6WYNS0W604273K"
+  },
+  "liberi_reali": 690877333504,
+  "scrittura_rilettura_4096byte": "PASS",
+  "cartella_esclusiva": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018",
+  "formattazioni": false,
+  "contenuti_precedenti_alterati": false
+}

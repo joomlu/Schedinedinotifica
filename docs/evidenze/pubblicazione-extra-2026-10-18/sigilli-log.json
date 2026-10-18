@@ -1,0 +1,34 @@
+{
+  "guardie-dopo-allineamento.log": {
+    "byte": 15996,
+    "sha256": "5dc00d947a97369ea2b4e6e102333e196b4f15a4eaa10fcdf0974b8abd4873a8"
+  },
+  "flusso-nuovo.log": {
+    "byte": 3340,
+    "sha256": "84bca3e5af3428f949656390d7a8455f12b77ac7d74b6ad6e5a53ba671669cd8"
+  },
+  "import-nuovo.log": {
+    "byte": 1083,
+    "sha256": "d28591d8502d3e72d642ed2901c33964b1466cf64417756a4aa73ea41fb02bab"
+  },
+  "guardie-complete.log": {
+    "byte": 116,
+    "sha256": "676aac0354bb4f06bfc2e9ef671212179a86f9b33c4c643afec1bceb082240f5"
+  },
+  "c5/run.log": {
+    "byte": 2143,
+    "sha256": "c0dcb31ccb9bfc07d17fe81858aa764f9357a75a5904e9ec831be385ab166f83"
+  },
+  "c5-r2/run.log": {
+    "byte": 183,
+    "sha256": "cd8e0a64389b4dd744b188819b42ae6af84718fa7c579dbb919bf953d80368b4"
+  },
+  "c5-r2/verifica-online.log": {
+    "byte": 1584,
+    "sha256": "83f6ffea22454869a6ce56cd3fbd408163104794e850b97985a94c61e12b7d46"
+  },
+  "c5-r2/guardiano.log": {
+    "byte": 165,
+    "sha256": "43ffb56503dc3850e0aec5d4ea7049d27a88d6bfa63ce9758d98896b101e09fc"
+  }
+}

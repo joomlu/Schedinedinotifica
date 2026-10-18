@@ -1,0 +1,6 @@
+{
+  "esito": "PASS_RIAPERTURA_CIFRATO_E_RILETTURA_COMPLETA",
+  "file": 11,
+  "chiave_separata": true,
+  "boot_recupero": "PENDENTE"
+}

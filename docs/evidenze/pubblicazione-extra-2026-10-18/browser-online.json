@@ -1,0 +1,44 @@
+{
+  "ricerca_nome": true,
+  "ricerca_cognome": true,
+  "risultati_A": 3,
+  "cliente_B_escluso": true,
+  "selezione_esplicita": true,
+  "bozza_salvata": 87,
+  "ripresa_bozza": true,
+  "ingresso_da_clienti": true,
+  "salvataggio_definitivo": 88,
+  "letti_riletti": 2,
+  "componenti_creazione": true,
+  "componenti_aggiornamento": true,
+  "responsive": [
+    {
+      "larghezza": 1440,
+      "larghezzaDocumento": 1429,
+      "schede": 6,
+      "elenco": true,
+      "bozze": true,
+      "nuova": true
+    },
+    {
+      "larghezza": 768,
+      "larghezzaDocumento": 757,
+      "schede": 6,
+      "elenco": true,
+      "bozze": true,
+      "nuova": true
+    },
+    {
+      "larghezza": 390,
+      "larghezzaDocumento": 379,
+      "schede": 6,
+      "elenco": true,
+      "bozze": true,
+      "nuova": true
+    }
+  ],
+  "risultati_B": 1,
+  "clienti_A_esclusi_da_B": true,
+  "cliente_cross_struttura_404": true,
+  "schedina_cross_struttura_404": true
+}

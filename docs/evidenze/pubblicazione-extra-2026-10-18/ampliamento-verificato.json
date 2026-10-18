@@ -1,0 +1,11 @@
+{
+  "liberi_VM": 5947129856,
+  "filesystem_byte": 37290283008,
+  "disco_byte": 38654705664,
+  "partizione_byte": 37395348992,
+  "SELinux": "Enforcing",
+  "esito": "PASS_AMPLIAMENTO_DISCO_PARTIZIONE_XFS",
+  "Mac_liberi": 10704740352,
+  "data_epoch": 1792307149.0047228,
+  "backup_recupero": "PASS"
+}

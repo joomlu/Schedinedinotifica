@@ -1,0 +1,9 @@
+{
+  "immagine": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/VM-prima-ampliamento.sparsebundle",
+  "montaggio": "/Volumes/Schedine-Recupero-20261018",
+  "cifratura": "AES-256",
+  "custodia_chiave": "/Users/jorgeluccitelli/.local/share/schedine-custodia-pubblicazione-20261018/recupero-vm.key",
+  "chiave_su_Extra": false,
+  "capacita_nominale": 51539607552,
+  "esito": "CREATO_MONTATO_BACKUP_PENDENTE"
+}

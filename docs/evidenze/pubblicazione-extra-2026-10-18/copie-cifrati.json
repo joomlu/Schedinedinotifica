@@ -1,0 +1,1665 @@
+{
+  "esito": "PASS_COPIA_E_DOPPIA_RILETTURA",
+  "file": [
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0087ed9527f03bfedfbffb4a21916ebee43d784bec3231ce/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0087ed9527f03bfedfbffb4a21916ebee43d784bec3231ce/db.sql.enc",
+      "sha256": "8e051f5f3266a5a1a3903a47a4a217b7c1ffbe9713bb9c48cf35f5836b191465",
+      "byte": 22861936,
+      "mtime_ns": 1791842854946628176
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0087ed9527f03bfedfbffb4a21916ebee43d784bec3231ce/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0087ed9527f03bfedfbffb4a21916ebee43d784bec3231ce/fs.tar.gz.enc",
+      "sha256": "613c4817a77b0fd9e0423c4ec460b085027bda8ed217b45e6711144eb209b09d",
+      "byte": 2352,
+      "mtime_ns": 1791842854950740807
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0087ed9527f03bfedfbffb4a21916ebee43d784bec3231ce/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0087ed9527f03bfedfbffb4a21916ebee43d784bec3231ce/inventory.json.enc",
+      "sha256": "ef1e029ba92e456917daf408bc373a47b490cc29e4a16d6fd066d13c880b45d1",
+      "byte": 5752128,
+      "mtime_ns": 1791842854953428964
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-03224c144f1ba98fc9f4bede9d14c2cb0d319e05e840d4b1/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-03224c144f1ba98fc9f4bede9d14c2cb0d319e05e840d4b1/db.sql.enc",
+      "sha256": "43cafbd727f58514d4eb8f538686478f6647b0edcdaf7eb45d357440a04c5035",
+      "byte": 23243568,
+      "mtime_ns": 1792147868110687695
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-03224c144f1ba98fc9f4bede9d14c2cb0d319e05e840d4b1/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-03224c144f1ba98fc9f4bede9d14c2cb0d319e05e840d4b1/fs.tar.gz.enc",
+      "sha256": "71a46f069c3ad816b394ed81eb3410618fc3bcc6549a9e2b3bdf76d4f4dd5023",
+      "byte": 332947216,
+      "mtime_ns": 1792147868523267995
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-03224c144f1ba98fc9f4bede9d14c2cb0d319e05e840d4b1/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-03224c144f1ba98fc9f4bede9d14c2cb0d319e05e840d4b1/inventory.json.enc",
+      "sha256": "248d6e528cc406b9b6ecabe73945c3d8a153a2c73599369e7a397d1a5e25b63e",
+      "byte": 5812928,
+      "mtime_ns": 1792147868531107483
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-038b9695757e68da8e1d59d537c448c9abd0d6c2bdb72fd3/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-038b9695757e68da8e1d59d537c448c9abd0d6c2bdb72fd3/db.sql.enc",
+      "sha256": "7b18a7b43d6afea2c5e0bd2b056fd7bb5c6e64ae9c6182b5643743d6104b9324",
+      "byte": 23042640,
+      "mtime_ns": 1792016378819605389
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-038b9695757e68da8e1d59d537c448c9abd0d6c2bdb72fd3/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-038b9695757e68da8e1d59d537c448c9abd0d6c2bdb72fd3/fs.tar.gz.enc",
+      "sha256": "8e7550c4c636afb64c4451aef3b5c20ec43fa2b43e90507a08b554b5b99864e9",
+      "byte": 1136,
+      "mtime_ns": 1792016378823918747
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-038b9695757e68da8e1d59d537c448c9abd0d6c2bdb72fd3/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-038b9695757e68da8e1d59d537c448c9abd0d6c2bdb72fd3/inventory.json.enc",
+      "sha256": "a0aedd262e0739e454aad0c3f8030599f5fbc4333cd82603ac6439cec8588680",
+      "byte": 5898160,
+      "mtime_ns": 1792016378825330812
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0721aec40df17b4135075d3c838feabd1da6ddd5c247b12e/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0721aec40df17b4135075d3c838feabd1da6ddd5c247b12e/db.sql.enc",
+      "sha256": "ff22177c39125af90df331182f4927ca8029e11bdd5bcb31121af1b549db80a3",
+      "byte": 23243568,
+      "mtime_ns": 1792152152250497040
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0721aec40df17b4135075d3c838feabd1da6ddd5c247b12e/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0721aec40df17b4135075d3c838feabd1da6ddd5c247b12e/fs.tar.gz.enc",
+      "sha256": "8341741b71a32ba18bc66f71de6853730b1ab6fc86a917ef5fd07c9b108cd038",
+      "byte": 2768,
+      "mtime_ns": 1792152152254356824
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0721aec40df17b4135075d3c838feabd1da6ddd5c247b12e/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0721aec40df17b4135075d3c838feabd1da6ddd5c247b12e/inventory.json.enc",
+      "sha256": "fef35bb01af171ce572055e12f998d3a062c41ce6940088e272677db91c1a511",
+      "byte": 5797136,
+      "mtime_ns": 1792152152256136297
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0a0e3f93d5e6612789e4138b24b30671f7dbad3912a94060/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0a0e3f93d5e6612789e4138b24b30671f7dbad3912a94060/db.sql.enc",
+      "sha256": "0365aa1317c0fcbf02816fc546e07c56736731f99c7aef371f7feef07f39835c",
+      "byte": 23042640,
+      "mtime_ns": 1792004818089520744
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0a0e3f93d5e6612789e4138b24b30671f7dbad3912a94060/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0a0e3f93d5e6612789e4138b24b30671f7dbad3912a94060/fs.tar.gz.enc",
+      "sha256": "b50d9c094f3f4ebf92c842110d05b55a5cd604ca2c41d39f54c3854c430910ed",
+      "byte": 331273664,
+      "mtime_ns": 1792004818488111424
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0a0e3f93d5e6612789e4138b24b30671f7dbad3912a94060/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0a0e3f93d5e6612789e4138b24b30671f7dbad3912a94060/inventory.json.enc",
+      "sha256": "56b0e336368ef450eb5fef94061dfd6a4f8bbbbf2bbcb2d6c15b060c584a5e53",
+      "byte": 5799568,
+      "mtime_ns": 1792004818491410666
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0a64f1a9367f5ed1ccd2ff1b45a3635e7dd8fc4a3012b948/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0a64f1a9367f5ed1ccd2ff1b45a3635e7dd8fc4a3012b948/db.sql.enc",
+      "sha256": "306fc0fbaf7276233ce166ad3b451f72dced39008654809895eee04ed3ee0bf9",
+      "byte": 23042448,
+      "mtime_ns": 1791962323340542622
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0a64f1a9367f5ed1ccd2ff1b45a3635e7dd8fc4a3012b948/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0a64f1a9367f5ed1ccd2ff1b45a3635e7dd8fc4a3012b948/fs.tar.gz.enc",
+      "sha256": "62496f69a92bc9f625686d67137e7d549416212a22e0fd079705c588b13bd240",
+      "byte": 23680,
+      "mtime_ns": 1791962323343353483
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0a64f1a9367f5ed1ccd2ff1b45a3635e7dd8fc4a3012b948/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0a64f1a9367f5ed1ccd2ff1b45a3635e7dd8fc4a3012b948/inventory.json.enc",
+      "sha256": "906d32964d6db03447aff95a66e4b45574ed9ce177146901cb8d340f853543d6",
+      "byte": 5770688,
+      "mtime_ns": 1791962323344802184
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0fe18cd4a8882cec82fc22fddc48c627572e5c667da22a75/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0fe18cd4a8882cec82fc22fddc48c627572e5c667da22a75/db.sql.enc",
+      "sha256": "3fbcf0ac8fd79623d6d73bc98072c94058417ea33329b358e62ff25c6c57356e",
+      "byte": 23042448,
+      "mtime_ns": 1791939105262938923
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0fe18cd4a8882cec82fc22fddc48c627572e5c667da22a75/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0fe18cd4a8882cec82fc22fddc48c627572e5c667da22a75/fs.tar.gz.enc",
+      "sha256": "fcb6c23f718e9de514da6357e67f982cfbc84b4d1ea145ba1b2e8a6756ca94aa",
+      "byte": 330120512,
+      "mtime_ns": 1791939105396433108
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-0fe18cd4a8882cec82fc22fddc48c627572e5c667da22a75/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-0fe18cd4a8882cec82fc22fddc48c627572e5c667da22a75/inventory.json.enc",
+      "sha256": "d07bf8e34c5c09ca6b0611c7ae6d702993a93979610d1b9a1c7e3dc20e5d0aec",
+      "byte": 5731088,
+      "mtime_ns": 1791939105399557294
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-115a2c450b9019c085844544babe29d53b118225ad6d5fec/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-115a2c450b9019c085844544babe29d53b118225ad6d5fec/db.sql.enc",
+      "sha256": "c7b989ad9ec2d0d4bbbfd1353454525cfe85805433a671ed787d17ce7f598867",
+      "byte": 23042640,
+      "mtime_ns": 1792006516520165865
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-115a2c450b9019c085844544babe29d53b118225ad6d5fec/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-115a2c450b9019c085844544babe29d53b118225ad6d5fec/fs.tar.gz.enc",
+      "sha256": "ff8b938d7ae75ed586e69568026bd04bb29dd07f7ae572a5001a053805129f2e",
+      "byte": 1136,
+      "mtime_ns": 1792006516524578459
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-115a2c450b9019c085844544babe29d53b118225ad6d5fec/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-115a2c450b9019c085844544babe29d53b118225ad6d5fec/inventory.json.enc",
+      "sha256": "58a5665960d083f09048f3ef313d0cefae8afe50da7fb269ac231ab41884377b",
+      "byte": 5888192,
+      "mtime_ns": 1792006516526503065
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-14c6447de9d28c521de9a0a1f88923201d3f060e00f052b0/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-14c6447de9d28c521de9a0a1f88923201d3f060e00f052b0/db.sql.enc",
+      "sha256": "756bc5f83ca080637dd35e835d767e1f6df5fb8bc33d20e60e4041e0e04da66d",
+      "byte": 23243136,
+      "mtime_ns": 1792102523109497153
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-14c6447de9d28c521de9a0a1f88923201d3f060e00f052b0/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-14c6447de9d28c521de9a0a1f88923201d3f060e00f052b0/fs.tar.gz.enc",
+      "sha256": "8cda66aa363941ba60a854cc29a462101d1c74203c54bda41e6e0b6499fb7252",
+      "byte": 1120,
+      "mtime_ns": 1792102523113542960
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-14c6447de9d28c521de9a0a1f88923201d3f060e00f052b0/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-14c6447de9d28c521de9a0a1f88923201d3f060e00f052b0/inventory.json.enc",
+      "sha256": "f80dc1c59b60c943ba67967395cd9596c4bfa0d048a35531565142c15298aaff",
+      "byte": 5752352,
+      "mtime_ns": 1792102523115626551
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-15ff2aa998c8f7e19933ed81fbe01f9a2e169e211cb44ddb/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-15ff2aa998c8f7e19933ed81fbe01f9a2e169e211cb44ddb/db.sql.enc",
+      "sha256": "1265853e0bc381e9395417f4f488f6a0c564a39883a4faf86285b7cab3c378ad",
+      "byte": 23243568,
+      "mtime_ns": 1792182168738156447
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-15ff2aa998c8f7e19933ed81fbe01f9a2e169e211cb44ddb/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-15ff2aa998c8f7e19933ed81fbe01f9a2e169e211cb44ddb/fs.tar.gz.enc",
+      "sha256": "db644e6924ba229cc3dfb4907652be69abcd36301a309878b12dc5ec5d0e652e",
+      "byte": 333290288,
+      "mtime_ns": 1792182168861322607
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-15ff2aa998c8f7e19933ed81fbe01f9a2e169e211cb44ddb/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-15ff2aa998c8f7e19933ed81fbe01f9a2e169e211cb44ddb/inventory.json.enc",
+      "sha256": "9ee24551e20da54a82fe31b9a826d9ee246d548b718effe6a55f0cd45ca3cd8a",
+      "byte": 5781504,
+      "mtime_ns": 1792182168865753107
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1a944f2825e0f2a998872360f24dfb67713ed49bdb73beeb/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1a944f2825e0f2a998872360f24dfb67713ed49bdb73beeb/db.sql.enc",
+      "sha256": "27044ec09d206635d4bf7dde4cea0d7c0fedb599d05f6d401892dad60251c5bf",
+      "byte": 23042640,
+      "mtime_ns": 1792014436702409354
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1a944f2825e0f2a998872360f24dfb67713ed49bdb73beeb/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1a944f2825e0f2a998872360f24dfb67713ed49bdb73beeb/fs.tar.gz.enc",
+      "sha256": "3ca76075cdae99ded127141434e2b2edf43acbb74d0b40621ba4d3c15815512e",
+      "byte": 331698528,
+      "mtime_ns": 1792014436852472465
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1a944f2825e0f2a998872360f24dfb67713ed49bdb73beeb/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1a944f2825e0f2a998872360f24dfb67713ed49bdb73beeb/inventory.json.enc",
+      "sha256": "81b56100084fc0fb1d9ac319ff470d655e260a366a617c3f1138bfe720d7f572",
+      "byte": 5895792,
+      "mtime_ns": 1792014436855603333
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1b3b2b84c7814baf53423c746a51c8370972a4419a67598b/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1b3b2b84c7814baf53423c746a51c8370972a4419a67598b/db.sql.enc",
+      "sha256": "27013d66ad0f5b7a96f7829b3792d6ad3b3932cc227cad3c65dc188aa2143a59",
+      "byte": 23042448,
+      "mtime_ns": 1791985296756164105
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1b3b2b84c7814baf53423c746a51c8370972a4419a67598b/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1b3b2b84c7814baf53423c746a51c8370972a4419a67598b/fs.tar.gz.enc",
+      "sha256": "b7894372e4923992b65ab01e7651f00e30ebfada2dd96b9c8717cd7df8013ca0",
+      "byte": 1120,
+      "mtime_ns": 1791985296759978919
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1b3b2b84c7814baf53423c746a51c8370972a4419a67598b/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1b3b2b84c7814baf53423c746a51c8370972a4419a67598b/inventory.json.enc",
+      "sha256": "11120d00a6218c14a7bf0219a227292ceecf225b7e9be84794237d2242401e86",
+      "byte": 5747680,
+      "mtime_ns": 1791985296761837222
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1d906949ea925f7ef835b38f63af79f354fdd174743a20c3/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1d906949ea925f7ef835b38f63af79f354fdd174743a20c3/db.sql.enc",
+      "sha256": "ae48b4095b2df8af9cf5b8c8f437394b8636d785168b7483e38ce08d68f3344b",
+      "byte": 22861936,
+      "mtime_ns": 1791922404396494963
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1d906949ea925f7ef835b38f63af79f354fdd174743a20c3/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1d906949ea925f7ef835b38f63af79f354fdd174743a20c3/fs.tar.gz.enc",
+      "sha256": "f6c26870753b09b6e62668aa493561ea30d87fb30275754221fed8e5b70e576b",
+      "byte": 1120,
+      "mtime_ns": 1791922404399523507
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1d906949ea925f7ef835b38f63af79f354fdd174743a20c3/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1d906949ea925f7ef835b38f63af79f354fdd174743a20c3/inventory.json.enc",
+      "sha256": "952d2fc1c61df50311a21d8b04ec8aa3ed5a0d83eb7841c3d9d4c1e8fb6e2976",
+      "byte": 5688784,
+      "mtime_ns": 1791922404400753258
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1dd3c59fd25056ef084fb8aaf271ed096f8f4a7f99df6429/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1dd3c59fd25056ef084fb8aaf271ed096f8f4a7f99df6429/db.sql.enc",
+      "sha256": "5e7e7ec011a4c09ba53600492850ef9df1349da5e645f86b672c9a91f50a0154",
+      "byte": 23243136,
+      "mtime_ns": 1792048656740029454
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1dd3c59fd25056ef084fb8aaf271ed096f8f4a7f99df6429/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1dd3c59fd25056ef084fb8aaf271ed096f8f4a7f99df6429/fs.tar.gz.enc",
+      "sha256": "152945f4f4e4a75c5b0837ee7d99d01f9305f9d2519bfb24556146407a45c74e",
+      "byte": 1120,
+      "mtime_ns": 1792048656745830203
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1dd3c59fd25056ef084fb8aaf271ed096f8f4a7f99df6429/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1dd3c59fd25056ef084fb8aaf271ed096f8f4a7f99df6429/inventory.json.enc",
+      "sha256": "43fd3915f003d0575dbf2b1f8e2456971821e323ab119fdbfeb5b15874afd02a",
+      "byte": 5829488,
+      "mtime_ns": 1792048656747132319
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1f97d160b33bedc77e5d002c0cff439f87a2b6dc16f76d12/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1f97d160b33bedc77e5d002c0cff439f87a2b6dc16f76d12/db.sql.enc",
+      "sha256": "360616d74e3afb393e672b7d577c679e832109302f7e4b18c99d9c92dff432de",
+      "byte": 23042448,
+      "mtime_ns": 1791980338698568505
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1f97d160b33bedc77e5d002c0cff439f87a2b6dc16f76d12/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1f97d160b33bedc77e5d002c0cff439f87a2b6dc16f76d12/fs.tar.gz.enc",
+      "sha256": "e788e4728c5fa0d119ddb4af7b9be49d8f13ce8125d04912d7e348303d3863d2",
+      "byte": 330478112,
+      "mtime_ns": 1791980338811430216
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1f97d160b33bedc77e5d002c0cff439f87a2b6dc16f76d12/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1f97d160b33bedc77e5d002c0cff439f87a2b6dc16f76d12/inventory.json.enc",
+      "sha256": "5f78d00847c493d8df4de940cdbff4086437b49ddeb1c676fed029030ff54907",
+      "byte": 5735104,
+      "mtime_ns": 1791980338814598087
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1fc107c3d15605ea61d63b83dbba0e17ea1c27af9c85d6bb/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1fc107c3d15605ea61d63b83dbba0e17ea1c27af9c85d6bb/db.sql.enc",
+      "sha256": "185fd35cbcc2569717dc636cae10a5619fae86dec27d6e6f4d6d545195c10189",
+      "byte": 22977456,
+      "mtime_ns": 1791925479841094641
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1fc107c3d15605ea61d63b83dbba0e17ea1c27af9c85d6bb/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1fc107c3d15605ea61d63b83dbba0e17ea1c27af9c85d6bb/fs.tar.gz.enc",
+      "sha256": "bb67915c9bbba68f415002cc0592a944f687470df7616f7f7b7267f8d779c12c",
+      "byte": 1248,
+      "mtime_ns": 1791925479843225895
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-1fc107c3d15605ea61d63b83dbba0e17ea1c27af9c85d6bb/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-1fc107c3d15605ea61d63b83dbba0e17ea1c27af9c85d6bb/inventory.json.enc",
+      "sha256": "69ece5d80d3a058865e235fede647e82c2247fdf99d291d58d2827df6b06a163",
+      "byte": 5799232,
+      "mtime_ns": 1791925479845021232
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-287a9d53bcef499aa3855e83517a39bc9089877a8bd4f8f8/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-287a9d53bcef499aa3855e83517a39bc9089877a8bd4f8f8/db.sql.enc",
+      "sha256": "5b24bfdf0481a0661d0775c78a19bc0ec12bf1bb531fcd33dcc6b824b59ca11e",
+      "byte": 23042448,
+      "mtime_ns": 1791939322746199487
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-287a9d53bcef499aa3855e83517a39bc9089877a8bd4f8f8/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-287a9d53bcef499aa3855e83517a39bc9089877a8bd4f8f8/fs.tar.gz.enc",
+      "sha256": "e6e80b52b44c45dcc448d8ed7a461b01cb53756718fc5e70280d7517fe40f17b",
+      "byte": 1296,
+      "mtime_ns": 1791939322748331500
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-287a9d53bcef499aa3855e83517a39bc9089877a8bd4f8f8/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-287a9d53bcef499aa3855e83517a39bc9089877a8bd4f8f8/inventory.json.enc",
+      "sha256": "88dd11e1ebc1586a52c585c155d23c07479e91162e1cc75b95c399c104e2385e",
+      "byte": 5735136,
+      "mtime_ns": 1791939322749546174
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-33f7f65d94a210ac90af150635d2618caad3c8afb8582be9/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-33f7f65d94a210ac90af150635d2618caad3c8afb8582be9/db.sql.enc",
+      "sha256": "fcb77a83d4d99c4c02f1a6e1584e70d932ea5d45998863826ce9dd2bfd9be8ed",
+      "byte": 23243568,
+      "mtime_ns": 1792145505356472237
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-33f7f65d94a210ac90af150635d2618caad3c8afb8582be9/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-33f7f65d94a210ac90af150635d2618caad3c8afb8582be9/fs.tar.gz.enc",
+      "sha256": "c06a3c188de90e6c1004be9362cf9274ec9fa09e8940cceb8807b8da7cb236f7",
+      "byte": 332946176,
+      "mtime_ns": 1792145505567052669
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-33f7f65d94a210ac90af150635d2618caad3c8afb8582be9/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-33f7f65d94a210ac90af150635d2618caad3c8afb8582be9/inventory.json.enc",
+      "sha256": "aadc0d8221fe7dafdcff6e79cbe81f88d99126edd7617618977e2bd14e89ffda",
+      "byte": 5806768,
+      "mtime_ns": 1792145505571469812
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-354ff692c3ccb45ce88cb412ebd8b6771f711d85ddeb403b/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-354ff692c3ccb45ce88cb412ebd8b6771f711d85ddeb403b/db.sql.enc",
+      "sha256": "675dc21e134d04c43f1d8e44906445b3814252ef18d2c2149d748d10c5f052e7",
+      "byte": 23243136,
+      "mtime_ns": 1792017733308100821
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-354ff692c3ccb45ce88cb412ebd8b6771f711d85ddeb403b/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-354ff692c3ccb45ce88cb412ebd8b6771f711d85ddeb403b/fs.tar.gz.enc",
+      "sha256": "56fad60df110068512bc8fe390ccf5fc8daddb8787a4bf9f5f906153bd3d24e2",
+      "byte": 332020816,
+      "mtime_ns": 1792017733427312843
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-354ff692c3ccb45ce88cb412ebd8b6771f711d85ddeb403b/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-354ff692c3ccb45ce88cb412ebd8b6771f711d85ddeb403b/inventory.json.enc",
+      "sha256": "3a571f562cce8f5cd9bf9c3eb83222aa363ac18d873fd18e50330b02f04e4206",
+      "byte": 5890656,
+      "mtime_ns": 1792017733431019210
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-3b382a668bfb56b596a46eb4708de4c2da468681bd9a2eb1/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-3b382a668bfb56b596a46eb4708de4c2da468681bd9a2eb1/db.sql.enc",
+      "sha256": "e8041575d8d1dfec412d2f2861f9c64f8b67060d8d7a92f4daf8f2f8cbbef697",
+      "byte": 23243632,
+      "mtime_ns": 1792275065484992278
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-3b382a668bfb56b596a46eb4708de4c2da468681bd9a2eb1/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-3b382a668bfb56b596a46eb4708de4c2da468681bd9a2eb1/fs.tar.gz.enc",
+      "sha256": "5bfb2f28adb6c2e15dd00f60a13030e04eb80bb98d35c0af957fd62c98b6102c",
+      "byte": 2624,
+      "mtime_ns": 1792275065489117276
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-3b382a668bfb56b596a46eb4708de4c2da468681bd9a2eb1/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-3b382a668bfb56b596a46eb4708de4c2da468681bd9a2eb1/inventory.json.enc",
+      "sha256": "a8316bc894cba4217cb69bf29d86756d19854404c8a93d6580e111c870b39c8c",
+      "byte": 5984416,
+      "mtime_ns": 1792275065567045871
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-3b744e4b981714bba4e9874ebb1f22aa8d1d149a0f7031f8/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-3b744e4b981714bba4e9874ebb1f22aa8d1d149a0f7031f8/db.sql.enc",
+      "sha256": "6ec9494ed8db1f7331a058b5804c980a0ad4d198760f5da416319a4bde6ec4d9",
+      "byte": 23243136,
+      "mtime_ns": 1792017887944714014
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-3b744e4b981714bba4e9874ebb1f22aa8d1d149a0f7031f8/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-3b744e4b981714bba4e9874ebb1f22aa8d1d149a0f7031f8/fs.tar.gz.enc",
+      "sha256": "464a372f3f005b7e5af0682017896e448f7958b6dfa29fec4aec4b8d51df81ea",
+      "byte": 1136,
+      "mtime_ns": 1792017887947572367
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-3b744e4b981714bba4e9874ebb1f22aa8d1d149a0f7031f8/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-3b744e4b981714bba4e9874ebb1f22aa8d1d149a0f7031f8/inventory.json.enc",
+      "sha256": "9978aa824017a27f9509f3a2472e88142634883de9de7a5de2828ac19ca9b6d7",
+      "byte": 5894096,
+      "mtime_ns": 1792017887948783278
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-44cc3c10efbd2c58f46c2fcb8e3b8fa7bed3aeab77abc371/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-44cc3c10efbd2c58f46c2fcb8e3b8fa7bed3aeab77abc371/db.sql.enc",
+      "sha256": "f89968400e2018bfc225a2b4f1ed306ec7e8a31a3f732d63b3ea4a866b40ec93",
+      "byte": 22861936,
+      "mtime_ns": 1791846030569575594
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-44cc3c10efbd2c58f46c2fcb8e3b8fa7bed3aeab77abc371/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-44cc3c10efbd2c58f46c2fcb8e3b8fa7bed3aeab77abc371/fs.tar.gz.enc",
+      "sha256": "e8bf02cd67bb64d9c43ed77edefa7820f7944c25495b6a25e625f28673687682",
+      "byte": 1120,
+      "mtime_ns": 1791846030571549399
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-44cc3c10efbd2c58f46c2fcb8e3b8fa7bed3aeab77abc371/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-44cc3c10efbd2c58f46c2fcb8e3b8fa7bed3aeab77abc371/inventory.json.enc",
+      "sha256": "646dff31fad77693f3fdbeb531f0c127e5bb44a5e718a4931afd76ff45530c7e",
+      "byte": 5832992,
+      "mtime_ns": 1791846030573098909
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-45d39b4ef9c80000c3965bd04f4509a6364d7ec3cba0b4aa/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-45d39b4ef9c80000c3965bd04f4509a6364d7ec3cba0b4aa/db.sql.enc",
+      "sha256": "84091aa3b6161de1b60287ff7f23a27c81d9455b46ceac2ec3951a4093361393",
+      "byte": 22860768,
+      "mtime_ns": 1791836471380787628
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-45d39b4ef9c80000c3965bd04f4509a6364d7ec3cba0b4aa/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-45d39b4ef9c80000c3965bd04f4509a6364d7ec3cba0b4aa/fs.tar.gz.enc",
+      "sha256": "a234986de2d0e0a0a2c113c5b6c2ed76de209ab38db964707c4200fef9a22019",
+      "byte": 1136,
+      "mtime_ns": 1791836471384215057
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-45d39b4ef9c80000c3965bd04f4509a6364d7ec3cba0b4aa/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-45d39b4ef9c80000c3965bd04f4509a6364d7ec3cba0b4aa/inventory.json.enc",
+      "sha256": "c7ac6fea090b9f597721f3b850c33e2dfd0b5a3f494c46700a34416b8fe34d7b",
+      "byte": 5555968,
+      "mtime_ns": 1791836471386538510
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4937c59007924186583c70cb781c0d56bf3b2a845ba5ea01/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4937c59007924186583c70cb781c0d56bf3b2a845ba5ea01/db.sql.enc",
+      "sha256": "eb552fc12472067fc48774a83cb5e01ec6f1296f9fedd9b74a227736aaf9e7d0",
+      "byte": 23243568,
+      "mtime_ns": 1792107061300039769
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4937c59007924186583c70cb781c0d56bf3b2a845ba5ea01/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4937c59007924186583c70cb781c0d56bf3b2a845ba5ea01/fs.tar.gz.enc",
+      "sha256": "e7bdc4c9b1076cf2aa64557e1eb99497b0544cd18e5f7dd038db15e19c4d18f0",
+      "byte": 1136,
+      "mtime_ns": 1792107061304225347
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4937c59007924186583c70cb781c0d56bf3b2a845ba5ea01/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4937c59007924186583c70cb781c0d56bf3b2a845ba5ea01/inventory.json.enc",
+      "sha256": "c286172a7bb07ad8e506575f7ce2ad608b80847a6e070ffc01ee643a318a8bd4",
+      "byte": 5837648,
+      "mtime_ns": 1792107061306104493
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4c9003f2c112af0ddae389a5a54a8fccdf00c77f31950a87/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4c9003f2c112af0ddae389a5a54a8fccdf00c77f31950a87/db.sql.enc",
+      "sha256": "169413a8418221de329657d74a5f2ad9a5801a92e46a1a4a7ebd8bbb116e35c0",
+      "byte": 22977456,
+      "mtime_ns": 1791937734411756178
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4c9003f2c112af0ddae389a5a54a8fccdf00c77f31950a87/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4c9003f2c112af0ddae389a5a54a8fccdf00c77f31950a87/fs.tar.gz.enc",
+      "sha256": "f23dfa8077fa590a9e42ba2931ac00dfffe30f00f47007a632ec351ed905ff52",
+      "byte": 1136,
+      "mtime_ns": 1791937734414726806
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4c9003f2c112af0ddae389a5a54a8fccdf00c77f31950a87/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4c9003f2c112af0ddae389a5a54a8fccdf00c77f31950a87/inventory.json.enc",
+      "sha256": "20ee7979cb05f272424f29a1dc628ee1ec31aff052ce073dc36ed3856343e27e",
+      "byte": 5741392,
+      "mtime_ns": 1791937734418167018
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4deb82b5bcc21fea5b4705bd9618fe019fb9ce87d9565cca/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4deb82b5bcc21fea5b4705bd9618fe019fb9ce87d9565cca/db.sql.enc",
+      "sha256": "6a0d5da77f35ba6977bb2605f7c2d062fff0b8fc60c729750459dc0bface7eb1",
+      "byte": 23042640,
+      "mtime_ns": 1791987258556938878
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4deb82b5bcc21fea5b4705bd9618fe019fb9ce87d9565cca/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4deb82b5bcc21fea5b4705bd9618fe019fb9ce87d9565cca/fs.tar.gz.enc",
+      "sha256": "889aabb78be50bdf1ee4c93de25cec41e1aa6e1452e8fc9b9f44e2d0528cd2eb",
+      "byte": 331107104,
+      "mtime_ns": 1791987258758991207
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4deb82b5bcc21fea5b4705bd9618fe019fb9ce87d9565cca/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4deb82b5bcc21fea5b4705bd9618fe019fb9ce87d9565cca/inventory.json.enc",
+      "sha256": "ed683ae8188d1b829f7bcb7a834caefe6ac16e3534155ec187b7f8cbb0fd0dc3",
+      "byte": 5831040,
+      "mtime_ns": 1791987258761308148
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4faf225add340b580415ec300fa19708b39c7de59b823e96/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4faf225add340b580415ec300fa19708b39c7de59b823e96/db.sql.enc",
+      "sha256": "ffa4ed6b12f2a658b43cc564c3709df0efe7ac1a0545c3ad4c0be42e5ec1ca3d",
+      "byte": 23042448,
+      "mtime_ns": 1791978244002392861
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4faf225add340b580415ec300fa19708b39c7de59b823e96/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4faf225add340b580415ec300fa19708b39c7de59b823e96/fs.tar.gz.enc",
+      "sha256": "c89076881f0a9416b1332fa0aefcd59348cefc4f4bb84cb38e4b79073a392219",
+      "byte": 1120,
+      "mtime_ns": 1791978244006515422
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4faf225add340b580415ec300fa19708b39c7de59b823e96/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4faf225add340b580415ec300fa19708b39c7de59b823e96/inventory.json.enc",
+      "sha256": "d0fcc48015a73f21e926fb73ac075ccd2ee6b8f2db6103c5bb3466e4e9a47bf8",
+      "byte": 5732464,
+      "mtime_ns": 1791978244007768707
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4fc2b26ba49ca749a001d2be063dd3f1ab05d3e5b72e243b/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4fc2b26ba49ca749a001d2be063dd3f1ab05d3e5b72e243b/db.sql.enc",
+      "sha256": "77d13fa40ff387da74f30ae25d953350b3c154f033270a8b2691aba8692eae1d",
+      "byte": 23243568,
+      "mtime_ns": 1792259976387222761
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4fc2b26ba49ca749a001d2be063dd3f1ab05d3e5b72e243b/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4fc2b26ba49ca749a001d2be063dd3f1ab05d3e5b72e243b/fs.tar.gz.enc",
+      "sha256": "13a4d9b5073afd71305493674e00603f6fcde9dc65a853cb1f819af6102cf2b6",
+      "byte": 1120,
+      "mtime_ns": 1792259976389577102
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-4fc2b26ba49ca749a001d2be063dd3f1ab05d3e5b72e243b/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-4fc2b26ba49ca749a001d2be063dd3f1ab05d3e5b72e243b/inventory.json.enc",
+      "sha256": "e6b808e31d8b425d101fedb7255316b40f75d10fb65ba8466d57fdeceeb25eb5",
+      "byte": 6001456,
+      "mtime_ns": 1792259976391369482
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-50c676813a010da1721d075765aaee4bb4a78b8574b3bd5b/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-50c676813a010da1721d075765aaee4bb4a78b8574b3bd5b/db.sql.enc",
+      "sha256": "9a8ecf3f669735bd8802aa7672159c02c8646a006848d85a11773c1d21fc54a5",
+      "byte": 23042448,
+      "mtime_ns": 1791965908199702269
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-50c676813a010da1721d075765aaee4bb4a78b8574b3bd5b/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-50c676813a010da1721d075765aaee4bb4a78b8574b3bd5b/fs.tar.gz.enc",
+      "sha256": "b06e3a2ee2575c05c5269e990c7d229d852bdcb14a9c1629eea3131914b03c26",
+      "byte": 1120,
+      "mtime_ns": 1791965908201930198
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-50c676813a010da1721d075765aaee4bb4a78b8574b3bd5b/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-50c676813a010da1721d075765aaee4bb4a78b8574b3bd5b/inventory.json.enc",
+      "sha256": "6d95d90a234d0540115ba2973bbe0032ea081247f849b024507ad92523fa9e10",
+      "byte": 5741808,
+      "mtime_ns": 1791965908203229456
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-5487e88fba955369aa629be1d8d59ff852944d0a2eb0af7c/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-5487e88fba955369aa629be1d8d59ff852944d0a2eb0af7c/db.sql.enc",
+      "sha256": "a04f847052bd4c5c1bfc2a241c39e0c69bd695af6d3d7974033af3a9e59c2b81",
+      "byte": 22860768,
+      "mtime_ns": 1791834919249505307
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-5487e88fba955369aa629be1d8d59ff852944d0a2eb0af7c/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-5487e88fba955369aa629be1d8d59ff852944d0a2eb0af7c/fs.tar.gz.enc",
+      "sha256": "a79b16b7bf472739aae2f2dd9eccce8860a8d290de83f05c92985d64853e1f49",
+      "byte": 326448592,
+      "mtime_ns": 1791834919458341137
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-5487e88fba955369aa629be1d8d59ff852944d0a2eb0af7c/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-5487e88fba955369aa629be1d8d59ff852944d0a2eb0af7c/inventory.json.enc",
+      "sha256": "51132aa8705300b3be00ea24d1354997a5cbb6831b4637c75dfcc0ae9541d8c2",
+      "byte": 5541936,
+      "mtime_ns": 1791834919462566912
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-5494e50309fb3c471027271f5ec8526c0b85dd9be19ef746/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-5494e50309fb3c471027271f5ec8526c0b85dd9be19ef746/db.sql.enc",
+      "sha256": "acdb87c1c28be68bd6c8a6b787aac327c28f547e9db595ac339c1c5515729d24",
+      "byte": 23243136,
+      "mtime_ns": 1792048404035113092
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-5494e50309fb3c471027271f5ec8526c0b85dd9be19ef746/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-5494e50309fb3c471027271f5ec8526c0b85dd9be19ef746/fs.tar.gz.enc",
+      "sha256": "33f584ef1d347ba8c3f2b2b6c565c6b23b16ac04a447fb01f39f71e0f2a77e92",
+      "byte": 332339488,
+      "mtime_ns": 1792048404406207801
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-5494e50309fb3c471027271f5ec8526c0b85dd9be19ef746/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-5494e50309fb3c471027271f5ec8526c0b85dd9be19ef746/inventory.json.enc",
+      "sha256": "b29eebb509994467ed15cf7296b7558e500baa18c1738583a388ec0a585f747a",
+      "byte": 5825856,
+      "mtime_ns": 1792048404410172938
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-58cdf14768ed4140c15c4828aa29ef3eb931530927f5e71e/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-58cdf14768ed4140c15c4828aa29ef3eb931530927f5e71e/db.sql.enc",
+      "sha256": "7026aca5ecd235c2bf91e14f77d2eb986d0060e00ecca09c7cb4c9ed621779da",
+      "byte": 23243568,
+      "mtime_ns": 1792182792194834297
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-58cdf14768ed4140c15c4828aa29ef3eb931530927f5e71e/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-58cdf14768ed4140c15c4828aa29ef3eb931530927f5e71e/fs.tar.gz.enc",
+      "sha256": "7048b11127f9169c8811df6c6c4781929fd88d857f0cc156172f277bcdc6f486",
+      "byte": 2432,
+      "mtime_ns": 1792182792200947696
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-58cdf14768ed4140c15c4828aa29ef3eb931530927f5e71e/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-58cdf14768ed4140c15c4828aa29ef3eb931530927f5e71e/inventory.json.enc",
+      "sha256": "1c68b6261fa45ce7b45442afc91cd6874a0a9355b7a7f243362a7600acd4fee7",
+      "byte": 5790272,
+      "mtime_ns": 1792182792203827352
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-5a2cf9ddc39caf0473f857217059bbe9a3581b8e61d6012f/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-5a2cf9ddc39caf0473f857217059bbe9a3581b8e61d6012f/db.sql.enc",
+      "sha256": "b1b45074c1c3660762fce8c157f48b4d4d086e19a7cc1c92e5e0776e9d2d07ad",
+      "byte": 22861936,
+      "mtime_ns": 1791842000016598974
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-5a2cf9ddc39caf0473f857217059bbe9a3581b8e61d6012f/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-5a2cf9ddc39caf0473f857217059bbe9a3581b8e61d6012f/fs.tar.gz.enc",
+      "sha256": "c4893afed5b3a4ae3e782454a232357ffaea74ae6ac7d11c91b18cebf80f1c62",
+      "byte": 326711104,
+      "mtime_ns": 1791842000463538254
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-5a2cf9ddc39caf0473f857217059bbe9a3581b8e61d6012f/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-5a2cf9ddc39caf0473f857217059bbe9a3581b8e61d6012f/inventory.json.enc",
+      "sha256": "0b9de4fcb59842338d24a19d9befb84e26b44dd84b999dcb8455c8ce8a26afa5",
+      "byte": 5743072,
+      "mtime_ns": 1791842000472186188
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-63c7d9e582dfcc7bb6c0b72c194843bac8c41de9b9642505/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-63c7d9e582dfcc7bb6c0b72c194843bac8c41de9b9642505/db.sql.enc",
+      "sha256": "90ee9936c8e804aca046660be0e16be94a29f0b5b1389b3214731c76297abe74",
+      "byte": 23243136,
+      "mtime_ns": 1792102349563070728
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-63c7d9e582dfcc7bb6c0b72c194843bac8c41de9b9642505/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-63c7d9e582dfcc7bb6c0b72c194843bac8c41de9b9642505/fs.tar.gz.enc",
+      "sha256": "b2bfd6f54e325a961dd7961e27a45ad8d6b946904aa82fd9db9c162425ab7497",
+      "byte": 332482720,
+      "mtime_ns": 1792102349750837111
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-63c7d9e582dfcc7bb6c0b72c194843bac8c41de9b9642505/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-63c7d9e582dfcc7bb6c0b72c194843bac8c41de9b9642505/inventory.json.enc",
+      "sha256": "80095dd45d763a36af31e18c3143e90bf198d7cfccc88c5c0723348e48ffe44a",
+      "byte": 5748720,
+      "mtime_ns": 1792102349754558251
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-63fc9c6646d4d18836b4843e6d7ec861009e8ec2fb9c776b/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-63fc9c6646d4d18836b4843e6d7ec861009e8ec2fb9c776b/db.sql.enc",
+      "sha256": "c4c1f4f453206fe7e61001744fc2b118f4758d7923a3c9e8e298437c2864e461",
+      "byte": 23042640,
+      "mtime_ns": 1792004960037341850
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-63fc9c6646d4d18836b4843e6d7ec861009e8ec2fb9c776b/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-63fc9c6646d4d18836b4843e6d7ec861009e8ec2fb9c776b/fs.tar.gz.enc",
+      "sha256": "cbd2a0296bf973a8442fc42318e3b96ceef762d7be25b3ac3621824c63844b37",
+      "byte": 1120,
+      "mtime_ns": 1792004960041306549
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-63fc9c6646d4d18836b4843e6d7ec861009e8ec2fb9c776b/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-63fc9c6646d4d18836b4843e6d7ec861009e8ec2fb9c776b/inventory.json.enc",
+      "sha256": "1326d14bf2d13fac5216253ee5a9b06d9e0cd642c218dac8ad8d6af263a76ae3",
+      "byte": 5803216,
+      "mtime_ns": 1792004960044884124
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-675bd8051937c3eb250ad9f9974e2da91c1af9fd3b38bc94/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-675bd8051937c3eb250ad9f9974e2da91c1af9fd3b38bc94/db.sql.enc",
+      "sha256": "4f26d265d9c23459f964e7e8bf9d31cda1996bb65b4ee88e39f70d60b3821440",
+      "byte": 23042448,
+      "mtime_ns": 1791985877060861829
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-675bd8051937c3eb250ad9f9974e2da91c1af9fd3b38bc94/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-675bd8051937c3eb250ad9f9974e2da91c1af9fd3b38bc94/fs.tar.gz.enc",
+      "sha256": "2fe23ebbad2f18f6cdada761919d22da1ecf3232415eb39ee0a83b11ec3126c7",
+      "byte": 21888,
+      "mtime_ns": 1791985877063619304
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-675bd8051937c3eb250ad9f9974e2da91c1af9fd3b38bc94/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-675bd8051937c3eb250ad9f9974e2da91c1af9fd3b38bc94/inventory.json.enc",
+      "sha256": "2656fcabaa7b8ab19393c85b9758bc6e4978aa6bdba9162eaa7e8561803d4abf",
+      "byte": 5787440,
+      "mtime_ns": 1791985877065278314
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-69d5b397adf92115f9e389ceb79aa29637d14008eaf3f64e/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-69d5b397adf92115f9e389ceb79aa29637d14008eaf3f64e/db.sql.enc",
+      "sha256": "26f7770f40669df66bcdb227d346ecaf37840a801eebcb3dbdb9b3e3248d9bd8",
+      "byte": 23243568,
+      "mtime_ns": 1792237864490803243
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-69d5b397adf92115f9e389ceb79aa29637d14008eaf3f64e/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-69d5b397adf92115f9e389ceb79aa29637d14008eaf3f64e/fs.tar.gz.enc",
+      "sha256": "6cd1ed32b3f9edb928915de663ee883173e8e74f38edaf06b26a7c0d9e7ef63b",
+      "byte": 334445360,
+      "mtime_ns": 1792237864848485388
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-69d5b397adf92115f9e389ceb79aa29637d14008eaf3f64e/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-69d5b397adf92115f9e389ceb79aa29637d14008eaf3f64e/inventory.json.enc",
+      "sha256": "c66a46be65fb47c21ee1732d71d919a5401bb20eba9ec62d24a81289903347f8",
+      "byte": 5840032,
+      "mtime_ns": 1792237864851980526
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-6b43efff579c30101b1afe401c80032462d75e7f29ca4c7d/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-6b43efff579c30101b1afe401c80032462d75e7f29ca4c7d/db.sql.enc",
+      "sha256": "63c89c120d199db56b4d20a32a20f9dce8d3914180dd353f974839299b3e78a3",
+      "byte": 22861936,
+      "mtime_ns": 1791922904635951797
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-6b43efff579c30101b1afe401c80032462d75e7f29ca4c7d/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-6b43efff579c30101b1afe401c80032462d75e7f29ca4c7d/fs.tar.gz.enc",
+      "sha256": "c7f7c71a5aa8dc0d1c3016c4c54ab289cdae52acba694b3fff48ecf6f0ed1540",
+      "byte": 3360,
+      "mtime_ns": 1791922904638634757
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-6b43efff579c30101b1afe401c80032462d75e7f29ca4c7d/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-6b43efff579c30101b1afe401c80032462d75e7f29ca4c7d/inventory.json.enc",
+      "sha256": "2e7f15a490049e233013aac9e549e0da78a095a0cb1db31ec6bdb7bfa985a507",
+      "byte": 5696832,
+      "mtime_ns": 1791922904641106592
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-6ba336ab9f5339d70e942e05719225e7428fa7c04762ac3b/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-6ba336ab9f5339d70e942e05719225e7428fa7c04762ac3b/db.sql.enc",
+      "sha256": "6e689055d899c5cbd79d781911cfc6f6857b79e9cf09d2c48bd857292f31972d",
+      "byte": 22861936,
+      "mtime_ns": 1791920062354021285
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-6ba336ab9f5339d70e942e05719225e7428fa7c04762ac3b/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-6ba336ab9f5339d70e942e05719225e7428fa7c04762ac3b/fs.tar.gz.enc",
+      "sha256": "6be090b6160a4148419d08f72f445d5492d134f857fd89d2a05272dbb96fd714",
+      "byte": 328942304,
+      "mtime_ns": 1791920062462225071
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-6ba336ab9f5339d70e942e05719225e7428fa7c04762ac3b/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-6ba336ab9f5339d70e942e05719225e7428fa7c04762ac3b/inventory.json.enc",
+      "sha256": "6e9626864db44f23eb57d6f20bf3e4c5b0031859a2137980da1b8acb19b85a27",
+      "byte": 5599648,
+      "mtime_ns": 1791920062464887131
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-7086f17e2698a03945f505cf5b78359c39ef1fe6f5a00f11/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-7086f17e2698a03945f505cf5b78359c39ef1fe6f5a00f11/db.sql.enc",
+      "sha256": "dacb82de0ee93780e0b294a347a3b496da82e197227c2592ff88977471699a58",
+      "byte": 23042448,
+      "mtime_ns": 1791965042390453269
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-7086f17e2698a03945f505cf5b78359c39ef1fe6f5a00f11/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-7086f17e2698a03945f505cf5b78359c39ef1fe6f5a00f11/fs.tar.gz.enc",
+      "sha256": "1e8c5d30c785885513308f0503e79949f427946fb2642d5a2453bf1b7038efe8",
+      "byte": 330301488,
+      "mtime_ns": 1791965042515633179
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-7086f17e2698a03945f505cf5b78359c39ef1fe6f5a00f11/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-7086f17e2698a03945f505cf5b78359c39ef1fe6f5a00f11/inventory.json.enc",
+      "sha256": "bdfcf516394112b68bf82f1c3529d10c017985658b1b4e488f57d86f842c5a5c",
+      "byte": 5738160,
+      "mtime_ns": 1791965042518476861
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-73c87202ab9c1cc6589249dc5d59d61768e09d17d30c1335/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-73c87202ab9c1cc6589249dc5d59d61768e09d17d30c1335/db.sql.enc",
+      "sha256": "e9ded747340d4740057a0a3e0ab493329572f64b0016bee821226a0ab1cd3c20",
+      "byte": 22977456,
+      "mtime_ns": 1791926589152127346
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-73c87202ab9c1cc6589249dc5d59d61768e09d17d30c1335/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-73c87202ab9c1cc6589249dc5d59d61768e09d17d30c1335/fs.tar.gz.enc",
+      "sha256": "824787a0eb760fcac63025d4dd87c1f70adb2bd5c8bbf0f105fb32dfbe111303",
+      "byte": 3344,
+      "mtime_ns": 1791926589205900629
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-73c87202ab9c1cc6589249dc5d59d61768e09d17d30c1335/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-73c87202ab9c1cc6589249dc5d59d61768e09d17d30c1335/inventory.json.enc",
+      "sha256": "5dd47e2d94c3fc82d6baa67df43302815be112c8ad09491c969b5b7c7f367a6a",
+      "byte": 5807760,
+      "mtime_ns": 1791926589321691510
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-7bf361c00822ceeffb85bc18645595d3046ed00de4b726ae/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-7bf361c00822ceeffb85bc18645595d3046ed00de4b726ae/db.sql.enc",
+      "sha256": "53316f33b8bbfedc7e6c37740b8d1b9bfd5c6f2cdcaa6c033fe1211edd2795d3",
+      "byte": 23243136,
+      "mtime_ns": 1792018526229446847
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-7bf361c00822ceeffb85bc18645595d3046ed00de4b726ae/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-7bf361c00822ceeffb85bc18645595d3046ed00de4b726ae/fs.tar.gz.enc",
+      "sha256": "03f7eb5a0ef4d33004092463f7553e56043ff59015410014a0270c56ab232c21",
+      "byte": 332021008,
+      "mtime_ns": 1792018526351819822
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-7bf361c00822ceeffb85bc18645595d3046ed00de4b726ae/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-7bf361c00822ceeffb85bc18645595d3046ed00de4b726ae/inventory.json.enc",
+      "sha256": "df149bb833c081f87d9f929824fdb940f78058906093d14375fb51b1753d88bf",
+      "byte": 5896192,
+      "mtime_ns": 1792018526365732212
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-7e256c5665209bbe9bcb13a50257ab03095e1cf037dc4fcd/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-7e256c5665209bbe9bcb13a50257ab03095e1cf037dc4fcd/db.sql.enc",
+      "sha256": "68cb0a910d241a183c9fe89346f16e8690fb36bdc0bd7a09070702b6661b0987",
+      "byte": 23243568,
+      "mtime_ns": 1792106867278976908
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-7e256c5665209bbe9bcb13a50257ab03095e1cf037dc4fcd/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-7e256c5665209bbe9bcb13a50257ab03095e1cf037dc4fcd/fs.tar.gz.enc",
+      "sha256": "de734e7aeb54fc29c8ac400238914aa6292ba96146cd36f7a012df02bd82b085",
+      "byte": 332767584,
+      "mtime_ns": 1792106867438121225
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-7e256c5665209bbe9bcb13a50257ab03095e1cf037dc4fcd/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-7e256c5665209bbe9bcb13a50257ab03095e1cf037dc4fcd/inventory.json.enc",
+      "sha256": "557a3c36b01cabd2502d49fb620dbf8c7e43fc9adee218352c70dc7b59133edd",
+      "byte": 5834016,
+      "mtime_ns": 1792106867441717435
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-7ee6bf1c03d72775e596faaa836d4c91b687d27c3aeb5c18/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-7ee6bf1c03d72775e596faaa836d4c91b687d27c3aeb5c18/db.sql.enc",
+      "sha256": "087da0bcf62913bcd28b44aa533b70544ded4d67acb2443d6202e86f027a5593",
+      "byte": 23243632,
+      "mtime_ns": 1792274460609895559
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-7ee6bf1c03d72775e596faaa836d4c91b687d27c3aeb5c18/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-7ee6bf1c03d72775e596faaa836d4c91b687d27c3aeb5c18/fs.tar.gz.enc",
+      "sha256": "6ef0b0e145744a1d755c6da0c5ca37ab0af2975a6b0af495d5fdd796a23137dd",
+      "byte": 1136,
+      "mtime_ns": 1792274460614515179
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-7ee6bf1c03d72775e596faaa836d4c91b687d27c3aeb5c18/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-7ee6bf1c03d72775e596faaa836d4c91b687d27c3aeb5c18/inventory.json.enc",
+      "sha256": "776d085fd601b5b6fb06a7506d4bc3998c1706dc4a27fa7cb34e71388091d9cb",
+      "byte": 5979552,
+      "mtime_ns": 1792274460696021817
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-8514f3398071bfcc488884067c886e36920a6bb5e929f691/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-8514f3398071bfcc488884067c886e36920a6bb5e929f691/db.sql.enc",
+      "sha256": "b8f49bc3d81bbc1768a21225b34cd90fd9da1ae9d680863588107ca87c5c7697",
+      "byte": 23042448,
+      "mtime_ns": 1791977705745747504
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-8514f3398071bfcc488884067c886e36920a6bb5e929f691/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-8514f3398071bfcc488884067c886e36920a6bb5e929f691/fs.tar.gz.enc",
+      "sha256": "f26c4a9e70f3d8778ea69bbe333ed840499c045e5523df7c05d7f930050ed391",
+      "byte": 330474464,
+      "mtime_ns": 1791977705880033523
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-8514f3398071bfcc488884067c886e36920a6bb5e929f691/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-8514f3398071bfcc488884067c886e36920a6bb5e929f691/inventory.json.enc",
+      "sha256": "2e400f20ac3866d59ee839db6bb975e8bfde5669b40f5c5d7bd9a4d1efb258d7",
+      "byte": 5728816,
+      "mtime_ns": 1791977705882408760
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-85f85c2c6b2609067801485bcdcf1af8e3658ae8f6011955/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-85f85c2c6b2609067801485bcdcf1af8e3658ae8f6011955/db.sql.enc",
+      "sha256": "9a1238562dc901a566c59dc733c18f99097ec3655d3d2f369355cc50b1cbf43b",
+      "byte": 23243568,
+      "mtime_ns": 1792188487742659817
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-85f85c2c6b2609067801485bcdcf1af8e3658ae8f6011955/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-85f85c2c6b2609067801485bcdcf1af8e3658ae8f6011955/fs.tar.gz.enc",
+      "sha256": "5c144d80ab3722b0901401c74d8d294ac69a36f53132830ae35851db66dc7ef4",
+      "byte": 334028784,
+      "mtime_ns": 1792188487956892856
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-85f85c2c6b2609067801485bcdcf1af8e3658ae8f6011955/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-85f85c2c6b2609067801485bcdcf1af8e3658ae8f6011955/inventory.json.enc",
+      "sha256": "3dcf88349267f1c43efe7845ce5c759cc7cef0f5f8b1b7a6229501aa3f20741b",
+      "byte": 5895696,
+      "mtime_ns": 1792188487960326259
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-8f613ecee4956b4b14cf34475bcddb94608b169c6c598ff4/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-8f613ecee4956b4b14cf34475bcddb94608b169c6c598ff4/db.sql.enc",
+      "sha256": "df6f6fedfec8205f1038f8cab618998bf9cefccca238ad00686cefc42f1ab1d2",
+      "byte": 23042640,
+      "mtime_ns": 1792015426834444740
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-8f613ecee4956b4b14cf34475bcddb94608b169c6c598ff4/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-8f613ecee4956b4b14cf34475bcddb94608b169c6c598ff4/fs.tar.gz.enc",
+      "sha256": "800468bba7a41229d3bf4f1c1d3338ffe8a161b96cdbfb897e4a2da624b14444",
+      "byte": 331698880,
+      "mtime_ns": 1792015426993684325
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-8f613ecee4956b4b14cf34475bcddb94608b169c6c598ff4/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-8f613ecee4956b4b14cf34475bcddb94608b169c6c598ff4/inventory.json.enc",
+      "sha256": "427d216863a2c7363c7efd330533679291784e61b0f5d56ff2dc09e36589dc7d",
+      "byte": 5892416,
+      "mtime_ns": 1792015426998116644
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9562637f960ecf358203e60e66518316d2e870b40955ba2a/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9562637f960ecf358203e60e66518316d2e870b40955ba2a/db.sql.enc",
+      "sha256": "a53380e47c77592129faae4e39f353f80125d493641998b38ad5e8b3fcabf6fd",
+      "byte": 23243136,
+      "mtime_ns": 1792018697109898692
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9562637f960ecf358203e60e66518316d2e870b40955ba2a/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9562637f960ecf358203e60e66518316d2e870b40955ba2a/fs.tar.gz.enc",
+      "sha256": "c9fc3be2b4a85633543b4f614b2833e296b79b2e4c5794a497e80e49c38a2112",
+      "byte": 1120,
+      "mtime_ns": 1792018697114151392
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9562637f960ecf358203e60e66518316d2e870b40955ba2a/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9562637f960ecf358203e60e66518316d2e870b40955ba2a/inventory.json.enc",
+      "sha256": "f7c56c4ce6fcfe7e14c94e5f91f6aa065d0edb17eeaea9cf1d23fdb5f12ecd2b",
+      "byte": 5899840,
+      "mtime_ns": 1792018697116106347
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9640085542f8e9b9a170714477f9e6cd0cf1d8d59989d6d1/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9640085542f8e9b9a170714477f9e6cd0cf1d8d59989d6d1/db.sql.enc",
+      "sha256": "8a4be467b87515b3c92fe56d31a49cb9e1983c6c1aacaa1653ea907ae3c1e615",
+      "byte": 23243568,
+      "mtime_ns": 1792238574776323004
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9640085542f8e9b9a170714477f9e6cd0cf1d8d59989d6d1/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9640085542f8e9b9a170714477f9e6cd0cf1d8d59989d6d1/fs.tar.gz.enc",
+      "sha256": "e2311c4fb35e81aeb3d4c22ecd01eecb01debce9cfd1ad0df05ab5a8d31c257a",
+      "byte": 1120,
+      "mtime_ns": 1792238574778447870
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9640085542f8e9b9a170714477f9e6cd0cf1d8d59989d6d1/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9640085542f8e9b9a170714477f9e6cd0cf1d8d59989d6d1/inventory.json.enc",
+      "sha256": "4b53b6eee9138b5b8c9ff51097de0be003d2e3f0cbbba9b36bd6923dc36285c5",
+      "byte": 5845776,
+      "mtime_ns": 1792238574779730432
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9658a5634f0819e3bd892f710dfd131c4045d4d003697572/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9658a5634f0819e3bd892f710dfd131c4045d4d003697572/db.sql.enc",
+      "sha256": "b80a9d2616809b8ccb4dad86c06d63e2e9abe459f845d7a34ffb2fd680daf42d",
+      "byte": 23243568,
+      "mtime_ns": 1792107962519697081
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9658a5634f0819e3bd892f710dfd131c4045d4d003697572/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9658a5634f0819e3bd892f710dfd131c4045d4d003697572/fs.tar.gz.enc",
+      "sha256": "86563cc7aa59b8ed07f6a240530344f10c3cefe702a47d096d6c3b0f35e0c798",
+      "byte": 2512,
+      "mtime_ns": 1792107962522360178
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9658a5634f0819e3bd892f710dfd131c4045d4d003697572/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9658a5634f0819e3bd892f710dfd131c4045d4d003697572/inventory.json.enc",
+      "sha256": "9e53a07c17489d0653ada8bde253804d43def10811dbe50e2d901cc5f680a12c",
+      "byte": 5843216,
+      "mtime_ns": 1792107962524642440
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-983f1eaef0cc00deee156e80a8d20409db0ef3394d88cb95/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-983f1eaef0cc00deee156e80a8d20409db0ef3394d88cb95/db.sql.enc",
+      "sha256": "edef013a7efa79861a11e1a87c9c231ea2f3a4fa4c6211f87ae043a3902978b3",
+      "byte": 23042640,
+      "mtime_ns": 1792006332640899928
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-983f1eaef0cc00deee156e80a8d20409db0ef3394d88cb95/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-983f1eaef0cc00deee156e80a8d20409db0ef3394d88cb95/fs.tar.gz.enc",
+      "sha256": "ae9cc097d69be76b172d760c9fbda7d55e1a942f60fe6eeedc42bbb4ad240bdc",
+      "byte": 331517232,
+      "mtime_ns": 1792006332789001055
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-983f1eaef0cc00deee156e80a8d20409db0ef3394d88cb95/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-983f1eaef0cc00deee156e80a8d20409db0ef3394d88cb95/inventory.json.enc",
+      "sha256": "9f30393a70b8a3ccdc694c9626a38324bea9fc1b82b4ecb71e7acb96d627f641",
+      "byte": 5884560,
+      "mtime_ns": 1792006332793513858
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9b5183c68a71d21901375f46a4c3cb95110ebc2e61743ce3/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9b5183c68a71d21901375f46a4c3cb95110ebc2e61743ce3/db.sql.enc",
+      "sha256": "3621ad23abf955755e11ab498a3086a10905cef682d4c9ec133626e1e1ca0cec",
+      "byte": 23042448,
+      "mtime_ns": 1791980613472157709
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9b5183c68a71d21901375f46a4c3cb95110ebc2e61743ce3/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9b5183c68a71d21901375f46a4c3cb95110ebc2e61743ce3/fs.tar.gz.enc",
+      "sha256": "57ab90451b686cbaadfc93b106d30d248f83306a449dfdbdcf4468fd89bdb68a",
+      "byte": 1120,
+      "mtime_ns": 1791980613474792163
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9b5183c68a71d21901375f46a4c3cb95110ebc2e61743ce3/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9b5183c68a71d21901375f46a4c3cb95110ebc2e61743ce3/inventory.json.enc",
+      "sha256": "1e53189d530f83ea83c8d4c97ccc8d401996197e38d63d9e41dabe339cdf26db",
+      "byte": 5738736,
+      "mtime_ns": 1791980613477081243
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9cf0e8ead9a22a994da71326b35e35b4596988b24d899ead/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9cf0e8ead9a22a994da71326b35e35b4596988b24d899ead/db.sql.enc",
+      "sha256": "f9e9d3b980212b13aa54beb163e426d4d648b3519c2991868bf1a9e02ebc4bb3",
+      "byte": 23243568,
+      "mtime_ns": 1792238418432376419
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9cf0e8ead9a22a994da71326b35e35b4596988b24d899ead/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9cf0e8ead9a22a994da71326b35e35b4596988b24d899ead/fs.tar.gz.enc",
+      "sha256": "f229a98dda9dc8db12b7a148eb4d0259144077da075008938210dda798d9a912",
+      "byte": 334444880,
+      "mtime_ns": 1792238418584662079
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9cf0e8ead9a22a994da71326b35e35b4596988b24d899ead/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9cf0e8ead9a22a994da71326b35e35b4596988b24d899ead/inventory.json.enc",
+      "sha256": "5d5b8a756b0631b0a50db486eb750bc3bbebd0a0c0b9943cbc38da7f72869616",
+      "byte": 5842144,
+      "mtime_ns": 1792238418588230426
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9f9f4c1587b151167ca55584ca8b210a28034f9be3ccdfeb/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9f9f4c1587b151167ca55584ca8b210a28034f9be3ccdfeb/db.sql.enc",
+      "sha256": "d6f12b8b6e0c7f5336a50df399e95d0854d77983c947b1ddac55f753728a01b3",
+      "byte": 22860768,
+      "mtime_ns": 1791836203270684931
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9f9f4c1587b151167ca55584ca8b210a28034f9be3ccdfeb/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9f9f4c1587b151167ca55584ca8b210a28034f9be3ccdfeb/fs.tar.gz.enc",
+      "sha256": "11f461c4fc9a540034bc7c3065ec342507442523d81635a726db6aff092d22bf",
+      "byte": 326453744,
+      "mtime_ns": 1791836203484184054
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-9f9f4c1587b151167ca55584ca8b210a28034f9be3ccdfeb/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-9f9f4c1587b151167ca55584ca8b210a28034f9be3ccdfeb/inventory.json.enc",
+      "sha256": "9bb7afda3a4a511f653f4e094ef86c55921cbaeb429f098354d88049a4e87d66",
+      "byte": 5552336,
+      "mtime_ns": 1791836203487565357
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-a009d33dafb0b5ff37d179bd8a0d2e5d27420a0a73aca672/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-a009d33dafb0b5ff37d179bd8a0d2e5d27420a0a73aca672/db.sql.enc",
+      "sha256": "51713af6913de2eadacdcda9d0b0e28e1d9d6e599981d1b45a6709255cc1db99",
+      "byte": 23243136,
+      "mtime_ns": 1792049149543926386
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-a009d33dafb0b5ff37d179bd8a0d2e5d27420a0a73aca672/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-a009d33dafb0b5ff37d179bd8a0d2e5d27420a0a73aca672/fs.tar.gz.enc",
+      "sha256": "c48d30228903c7d1c2850ef53d834091c17d50539a1bdbf25d847db17bbdb849",
+      "byte": 2512,
+      "mtime_ns": 1792049149546892990
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-a009d33dafb0b5ff37d179bd8a0d2e5d27420a0a73aca672/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-a009d33dafb0b5ff37d179bd8a0d2e5d27420a0a73aca672/inventory.json.enc",
+      "sha256": "1815f19546d6138fd0b0b74b3dc869acef60b964f57e5161f7bd322093a9b5de",
+      "byte": 5835120,
+      "mtime_ns": 1792049149548237230
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-a369c05c5b3674ea85128dd1feb4b6757bf0bf155b846e87/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-a369c05c5b3674ea85128dd1feb4b6757bf0bf155b846e87/db.sql.enc",
+      "sha256": "b590c44143ddfa88af1f6290105d409dc01e3a0264f0c220222834e5b523354e",
+      "byte": 22861936,
+      "mtime_ns": 1791921066175988874
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-a369c05c5b3674ea85128dd1feb4b6757bf0bf155b846e87/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-a369c05c5b3674ea85128dd1feb4b6757bf0bf155b846e87/fs.tar.gz.enc",
+      "sha256": "69d8fe0d1399935143c97fcab592eb2dcfb30df64d49cc23e50f12b389371943",
+      "byte": 328943904,
+      "mtime_ns": 1791921066282375536
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-a369c05c5b3674ea85128dd1feb4b6757bf0bf155b846e87/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-a369c05c5b3674ea85128dd1feb4b6757bf0bf155b846e87/inventory.json.enc",
+      "sha256": "7b994b686900b34d678e771da7f85bd2ec2f830f78006193f13d6d3edf3877a8",
+      "byte": 5602064,
+      "mtime_ns": 1791921066286080741
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-a5b356ee7c578d0aa52d54af1348dfabf4d92114235bb82f/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-a5b356ee7c578d0aa52d54af1348dfabf4d92114235bb82f/db.sql.enc",
+      "sha256": "4188c2cb50a73116e2cdde94985fec0067d3d56988856cc6e647cc9319fe1148",
+      "byte": 23243568,
+      "mtime_ns": 1792148643860829322
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-a5b356ee7c578d0aa52d54af1348dfabf4d92114235bb82f/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-a5b356ee7c578d0aa52d54af1348dfabf4d92114235bb82f/fs.tar.gz.enc",
+      "sha256": "e860e8ea143004cf79984867731696a23da92a6d1ce032c416f3d9a574858e43",
+      "byte": 1136,
+      "mtime_ns": 1792148643864574641
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-a5b356ee7c578d0aa52d54af1348dfabf4d92114235bb82f/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-a5b356ee7c578d0aa52d54af1348dfabf4d92114235bb82f/inventory.json.enc",
+      "sha256": "7d747ed3aecb33c2d0dd9e97e05eda710f60ba318e5b1f9bf055fffd8ac84d51",
+      "byte": 5816560,
+      "mtime_ns": 1792148643867032351
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-a79df3e514d67a5f2cc7ce9921870e3160b56cf460a3757a/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-a79df3e514d67a5f2cc7ce9921870e3160b56cf460a3757a/db.sql.enc",
+      "sha256": "982d53ea63030476b5589b12e3039546ebfd0ce7606898a93a54427def5aad26",
+      "byte": 23243568,
+      "mtime_ns": 1792256598634035848
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-a79df3e514d67a5f2cc7ce9921870e3160b56cf460a3757a/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-a79df3e514d67a5f2cc7ce9921870e3160b56cf460a3757a/fs.tar.gz.enc",
+      "sha256": "9c662b014e98a1b6f81880b41bc0e1fa6bf36e719c27771a4fdaa372930e0467",
+      "byte": 335347488,
+      "mtime_ns": 1792256599085787996
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-a79df3e514d67a5f2cc7ce9921870e3160b56cf460a3757a/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-a79df3e514d67a5f2cc7ce9921870e3160b56cf460a3757a/inventory.json.enc",
+      "sha256": "20ccb85708a70963b8387022299b91781bb66d18e5ec61f857b332c747a00749",
+      "byte": 5965008,
+      "mtime_ns": 1792256599092954131
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-aacfd0bc7a3b2ca2a4821a3d6e686b9af41ae0f3b9e3eede/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-aacfd0bc7a3b2ca2a4821a3d6e686b9af41ae0f3b9e3eede/db.sql.enc",
+      "sha256": "66137d54efa814d9a45be4662582277c565a4f2fee805efc6e3636b67ff2c1ac",
+      "byte": 22861936,
+      "mtime_ns": 1791903041150073362
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-aacfd0bc7a3b2ca2a4821a3d6e686b9af41ae0f3b9e3eede/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-aacfd0bc7a3b2ca2a4821a3d6e686b9af41ae0f3b9e3eede/fs.tar.gz.enc",
+      "sha256": "069292f84ea1429cb58837ad5e2b132c3a8a2733091b089c85d9301c4bc9fd7c",
+      "byte": 327517280,
+      "mtime_ns": 1791903041255388729
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-aacfd0bc7a3b2ca2a4821a3d6e686b9af41ae0f3b9e3eede/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-aacfd0bc7a3b2ca2a4821a3d6e686b9af41ae0f3b9e3eede/inventory.json.enc",
+      "sha256": "2c8eb57968f3b8bc4b1868a892948bcdcb633ff806f3917e3aac6dc7cc8420b2",
+      "byte": 5646144,
+      "mtime_ns": 1791903041258512750
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-aaf83c0bd2fcaf7d89d0c948e35277048a6859e0d8c12db1/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-aaf83c0bd2fcaf7d89d0c948e35277048a6859e0d8c12db1/db.sql.enc",
+      "sha256": "6437a53f04a1d1345244fdb1beff2cc737304308d7088887ab0127c4ec696047",
+      "byte": 23243632,
+      "mtime_ns": 1792274195205375961
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-aaf83c0bd2fcaf7d89d0c948e35277048a6859e0d8c12db1/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-aaf83c0bd2fcaf7d89d0c948e35277048a6859e0d8c12db1/fs.tar.gz.enc",
+      "sha256": "b94d63b63417d5ee5df5e055d8aee0cd93f74306015dc8872b93daf913f56b20",
+      "byte": 336887344,
+      "mtime_ns": 1792274197065876661
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-aaf83c0bd2fcaf7d89d0c948e35277048a6859e0d8c12db1/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-aaf83c0bd2fcaf7d89d0c948e35277048a6859e0d8c12db1/inventory.json.enc",
+      "sha256": "f9f278b6c30786c4406c85f0fef0a71e57cbb7b4577d1969b5a50ba96a539002",
+      "byte": 5975920,
+      "mtime_ns": 1792274197146245790
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ab3c5fa7cbf0fced50ed1c6215d782b06b5accd312e3331d/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ab3c5fa7cbf0fced50ed1c6215d782b06b5accd312e3331d/db.sql.enc",
+      "sha256": "e034d6c1bd4df825bfe10cd81e34ca40a8274b95116735151e10db20881d31f2",
+      "byte": 22860768,
+      "mtime_ns": 1791837331160039890
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ab3c5fa7cbf0fced50ed1c6215d782b06b5accd312e3331d/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ab3c5fa7cbf0fced50ed1c6215d782b06b5accd312e3331d/fs.tar.gz.enc",
+      "sha256": "90abd1022f259232b3bc812c7bc0b8ae39a5cc5bcb0884a85994265160b73834",
+      "byte": 3440,
+      "mtime_ns": 1791837331163556864
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ab3c5fa7cbf0fced50ed1c6215d782b06b5accd312e3331d/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ab3c5fa7cbf0fced50ed1c6215d782b06b5accd312e3331d/inventory.json.enc",
+      "sha256": "88355974e5b90deee535353f60352dda6d93d7333e500e444da4a59c3562bde5",
+      "byte": 5563024,
+      "mtime_ns": 1791837331165158849
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-af62f0158f01ae6ae1ed69e15a4eca809d204517d791017d/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-af62f0158f01ae6ae1ed69e15a4eca809d204517d791017d/db.sql.enc",
+      "sha256": "b42acb6059ead81bd9b741f24470cc36b911764d1b7f6d0f18e4b78a358eaaa7",
+      "byte": 23042448,
+      "mtime_ns": 1791985120650351237
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-af62f0158f01ae6ae1ed69e15a4eca809d204517d791017d/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-af62f0158f01ae6ae1ed69e15a4eca809d204517d791017d/fs.tar.gz.enc",
+      "sha256": "1289aeed8afe0b7df28c871b5be68870a7c431aeafc56017b29f32b50a46c329",
+      "byte": 330485072,
+      "mtime_ns": 1791985120939552230
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-af62f0158f01ae6ae1ed69e15a4eca809d204517d791017d/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-af62f0158f01ae6ae1ed69e15a4eca809d204517d791017d/inventory.json.enc",
+      "sha256": "198254084469c312cd2699977e3b5ede0e8e776eb9e10f9a0bfa05c383c51224",
+      "byte": 5744048,
+      "mtime_ns": 1791985120942742873
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-b548203e49245e8c6804a19d4bd239a329ec46861be0b088/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-b548203e49245e8c6804a19d4bd239a329ec46861be0b088/db.sql.enc",
+      "sha256": "d8324f4e5a2a90584672d8b0c01a8852dd5464c968a36a7cd7c31dfa1faca6e8",
+      "byte": 23042448,
+      "mtime_ns": 1791975581009020566
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-b548203e49245e8c6804a19d4bd239a329ec46861be0b088/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-b548203e49245e8c6804a19d4bd239a329ec46861be0b088/fs.tar.gz.enc",
+      "sha256": "f2f59863275639bde7a6bfc056f626f71aaa05f281b5df367d47fb608ab28a8a",
+      "byte": 330491648,
+      "mtime_ns": 1791975581135663087
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-b548203e49245e8c6804a19d4bd239a329ec46861be0b088/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-b548203e49245e8c6804a19d4bd239a329ec46861be0b088/inventory.json.enc",
+      "sha256": "aee6bad10c8bf6d60cdd40bb9eb15e3b9b6f09468731a1286b45850fb8bdf230",
+      "byte": 5763952,
+      "mtime_ns": 1791975581138242328
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-be6aad18824474af511895ff96d0ec7c26c0057a00d134cc/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-be6aad18824474af511895ff96d0ec7c26c0057a00d134cc/db.sql.enc",
+      "sha256": "9b4e6fb1af97a2941537cd4e1132eb62d42c948a5366c7943ad16ab36659ca16",
+      "byte": 23042640,
+      "mtime_ns": 1792016197714489892
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-be6aad18824474af511895ff96d0ec7c26c0057a00d134cc/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-be6aad18824474af511895ff96d0ec7c26c0057a00d134cc/fs.tar.gz.enc",
+      "sha256": "de0ae660d06f4edaa3d41a32af76007cd708c80cb7b29e2caca3dfdb95855d43",
+      "byte": 331699536,
+      "mtime_ns": 1792016198501107752
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-be6aad18824474af511895ff96d0ec7c26c0057a00d134cc/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-be6aad18824474af511895ff96d0ec7c26c0057a00d134cc/inventory.json.enc",
+      "sha256": "fa478006db34132e1e7fdefefdf433ca71ea8ec30942cd728e47335e407db46f",
+      "byte": 5894528,
+      "mtime_ns": 1792016198511053364
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-c09d47109a2292b1983e701ea55b83356201f71e2fdeef5c/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-c09d47109a2292b1983e701ea55b83356201f71e2fdeef5c/db.sql.enc",
+      "sha256": "03a2faee4b364a27330edee67cce9bf086441730a9ed276243c2d53f0c15f5d4",
+      "byte": 23042448,
+      "mtime_ns": 1791939873867003587
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-c09d47109a2292b1983e701ea55b83356201f71e2fdeef5c/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-c09d47109a2292b1983e701ea55b83356201f71e2fdeef5c/fs.tar.gz.enc",
+      "sha256": "d0c618e445d96aef069bc869c730e1fdd2303c253510e005f595f7f83a8271e8",
+      "byte": 3424,
+      "mtime_ns": 1791939873869081156
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-c09d47109a2292b1983e701ea55b83356201f71e2fdeef5c/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-c09d47109a2292b1983e701ea55b83356201f71e2fdeef5c/inventory.json.enc",
+      "sha256": "8a0f9b6d4edfca306a6e458ef29458a610d80ac4c4a95144f70966a04572bc76",
+      "byte": 5743488,
+      "mtime_ns": 1791939873870544051
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-c8e49bbaa0a380683f8dc5f53b25ed8a5a35018d90e4d115/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-c8e49bbaa0a380683f8dc5f53b25ed8a5a35018d90e4d115/db.sql.enc",
+      "sha256": "e4b44947c3bf677e2a72ae6dc93b65857dbd59b9870339cb38c077d97cc9d849",
+      "byte": 23243568,
+      "mtime_ns": 1792188680110873297
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-c8e49bbaa0a380683f8dc5f53b25ed8a5a35018d90e4d115/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-c8e49bbaa0a380683f8dc5f53b25ed8a5a35018d90e4d115/fs.tar.gz.enc",
+      "sha256": "6667163d14dfcb56fc8dc6feb056fe9aaca37f1fcc0134c5b7f20ae39ba974de",
+      "byte": 1136,
+      "mtime_ns": 1792188680113293012
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-c8e49bbaa0a380683f8dc5f53b25ed8a5a35018d90e4d115/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-c8e49bbaa0a380683f8dc5f53b25ed8a5a35018d90e4d115/inventory.json.enc",
+      "sha256": "8949814077628e2e8fea670c9f26c7c672f9843ccc51a0c88b9e83862c6a2f98",
+      "byte": 5895840,
+      "mtime_ns": 1792188680114846472
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-d5c51f00fdc3ce9504288f985fcda59e049d3f04c304b80d/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-d5c51f00fdc3ce9504288f985fcda59e049d3f04c304b80d/db.sql.enc",
+      "sha256": "fcf20de872db68cfac5f629c3e48b2eca526239e96cdec45d8f661a26afe1ece",
+      "byte": 23243568,
+      "mtime_ns": 1792259782774822547
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-d5c51f00fdc3ce9504288f985fcda59e049d3f04c304b80d/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-d5c51f00fdc3ce9504288f985fcda59e049d3f04c304b80d/fs.tar.gz.enc",
+      "sha256": "998cbfd006c51a819adb2dfb3ca00a6b7baf9e6087069e9cf9391f12ba1bf886",
+      "byte": 335899456,
+      "mtime_ns": 1792259783904497538
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-d5c51f00fdc3ce9504288f985fcda59e049d3f04c304b80d/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-d5c51f00fdc3ce9504288f985fcda59e049d3f04c304b80d/inventory.json.enc",
+      "sha256": "63881f8527e0f7a1087a7814443f673fd3599bf76dead25b412fdfeb24320e51",
+      "byte": 5997824,
+      "mtime_ns": 1792259783915989365
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-da59fbde0887dca7f951294786bf12af8b9780279536be6c/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-da59fbde0887dca7f951294786bf12af8b9780279536be6c/db.sql.enc",
+      "sha256": "3797a6275a800809aa1ffd074bf30cb6b7314cf17b5c2d71e649d8a1afadf71f",
+      "byte": 23042448,
+      "mtime_ns": 1791985565869320725
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-da59fbde0887dca7f951294786bf12af8b9780279536be6c/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-da59fbde0887dca7f951294786bf12af8b9780279536be6c/fs.tar.gz.enc",
+      "sha256": "7e48da80b221dd907d996f84f1ad4783949f12b4a96dcfacd9b0f78b4ca4e2f0",
+      "byte": 2832,
+      "mtime_ns": 1791985565873457749
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-da59fbde0887dca7f951294786bf12af8b9780279536be6c/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-da59fbde0887dca7f951294786bf12af8b9780279536be6c/inventory.json.enc",
+      "sha256": "403c0cf1b854d8082831e3c3b6338765fe2f68b3333fcc2bb1b485b175530cba",
+      "byte": 5753792,
+      "mtime_ns": 1791985565874726257
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-e746a78391544e305b93be7ee8ae2559a0906abc3ac8be9b/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-e746a78391544e305b93be7ee8ae2559a0906abc3ac8be9b/db.sql.enc",
+      "sha256": "45b46459ac882b519bd5bc303a6907d23b1d90d038052fa3f5851570b0df6a07",
+      "byte": 23243568,
+      "mtime_ns": 1792256785361504570
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-e746a78391544e305b93be7ee8ae2559a0906abc3ac8be9b/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-e746a78391544e305b93be7ee8ae2559a0906abc3ac8be9b/fs.tar.gz.enc",
+      "sha256": "b87af658f6d63718cd7af5957681de16ee8989edce267835ab163ef4fb3a7ea7",
+      "byte": 1120,
+      "mtime_ns": 1792256785363871642
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-e746a78391544e305b93be7ee8ae2559a0906abc3ac8be9b/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-e746a78391544e305b93be7ee8ae2559a0906abc3ac8be9b/inventory.json.enc",
+      "sha256": "50f37a1e4356adc3ca1ba937270b9d2310654ab39ae037c09085779e82456dc1",
+      "byte": 5968640,
+      "mtime_ns": 1792256785366306757
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ed8d25ff5fee0e0e674d889c12607d1659bd7cf839f73d22/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ed8d25ff5fee0e0e674d889c12607d1659bd7cf839f73d22/db.sql.enc",
+      "sha256": "9a657080a4468a9328711843f426b046edf6bf50eb133b2bccf52c75a1cb348f",
+      "byte": 22861936,
+      "mtime_ns": 1791903194360132068
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ed8d25ff5fee0e0e674d889c12607d1659bd7cf839f73d22/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ed8d25ff5fee0e0e674d889c12607d1659bd7cf839f73d22/fs.tar.gz.enc",
+      "sha256": "003f5c82d32fb9378864bc641656e6a5d7d77cbbe73e77bee05740695c671ba3",
+      "byte": 1120,
+      "mtime_ns": 1791903194362752960
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ed8d25ff5fee0e0e674d889c12607d1659bd7cf839f73d22/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ed8d25ff5fee0e0e674d889c12607d1659bd7cf839f73d22/inventory.json.enc",
+      "sha256": "e107a33e772a378ffd36ff742a5355f980cc0ebdb142518a4d986d4182dc5a9e",
+      "byte": 5649776,
+      "mtime_ns": 1791903194365033142
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ee0cb57ec1a4ec10d8d1d5ec71e42800cab3ea1a7d4ec32a/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ee0cb57ec1a4ec10d8d1d5ec71e42800cab3ea1a7d4ec32a/db.sql.enc",
+      "sha256": "89dda4e7ca73599ba8f817b14680bd2cc2a4171a8b7ff0c7eeb9d430bbc8e845",
+      "byte": 22861936,
+      "mtime_ns": 1791845862761652249
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ee0cb57ec1a4ec10d8d1d5ec71e42800cab3ea1a7d4ec32a/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ee0cb57ec1a4ec10d8d1d5ec71e42800cab3ea1a7d4ec32a/fs.tar.gz.enc",
+      "sha256": "d68cbfecc2ce709f81f8f5c1b0c4cb8c0c1f484aa7bd962e4b9c26c8d1359ff7",
+      "byte": 327252640,
+      "mtime_ns": 1791845863002010883
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ee0cb57ec1a4ec10d8d1d5ec71e42800cab3ea1a7d4ec32a/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ee0cb57ec1a4ec10d8d1d5ec71e42800cab3ea1a7d4ec32a/inventory.json.enc",
+      "sha256": "124fef0b047b7af9f272b0b8e8d3fbfb7e315ad62e4f564400d25b489835c6cc",
+      "byte": 5829360,
+      "mtime_ns": 1791845863007948547
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-f458ae3093517e379811c57ae35269c985c9821ba0ea2a6d/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-f458ae3093517e379811c57ae35269c985c9821ba0ea2a6d/db.sql.enc",
+      "sha256": "a57bff28b61a0544cccbfb3d0137436171c231843f40097111e5e0128ae571d5",
+      "byte": 22977456,
+      "mtime_ns": 1791934668846708148
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-f458ae3093517e379811c57ae35269c985c9821ba0ea2a6d/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-f458ae3093517e379811c57ae35269c985c9821ba0ea2a6d/fs.tar.gz.enc",
+      "sha256": "1ebf5658fb8ad0a87ee6906ea2282fef66c41145bdd220a7e6b12b25f58094b1",
+      "byte": 329811248,
+      "mtime_ns": 1791934668963631686
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-f458ae3093517e379811c57ae35269c985c9821ba0ea2a6d/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-f458ae3093517e379811c57ae35269c985c9821ba0ea2a6d/inventory.json.enc",
+      "sha256": "a11241a5a209dc78d48a91b951d2f71062fa174ffded769cb965622d72ffbf32",
+      "byte": 5735904,
+      "mtime_ns": 1791934668966848792
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-f46af8b37380a44d9e2bd5fad446cc45713bbe40dcc2877e/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-f46af8b37380a44d9e2bd5fad446cc45713bbe40dcc2877e/db.sql.enc",
+      "sha256": "9ddd24762a7b74b43c01e06532fd51b8b243c1e3c40d4c009f7b1d59fe1d4b46",
+      "byte": 23042640,
+      "mtime_ns": 1791987397671838495
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-f46af8b37380a44d9e2bd5fad446cc45713bbe40dcc2877e/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-f46af8b37380a44d9e2bd5fad446cc45713bbe40dcc2877e/fs.tar.gz.enc",
+      "sha256": "d68b9e481d75b8e730638e48ccda43b8eaa936869f9a87913fd40f971bfc39a8",
+      "byte": 1120,
+      "mtime_ns": 1791987397677142383
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-f46af8b37380a44d9e2bd5fad446cc45713bbe40dcc2877e/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-f46af8b37380a44d9e2bd5fad446cc45713bbe40dcc2877e/inventory.json.enc",
+      "sha256": "aaca50d3f5d720faec75d5ac4003310c324b5bd8f9531f2b1d5a7f55a91ff88e",
+      "byte": 5834672,
+      "mtime_ns": 1791987397679182821
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-f5f4d03963af8318ec697740bf52ae7ef2b326351d0eb8a7/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-f5f4d03963af8318ec697740bf52ae7ef2b326351d0eb8a7/db.sql.enc",
+      "sha256": "0e8b1c7cece8c250b09e7418d4768a545cc06926195bce9c4979376808ff93b1",
+      "byte": 22861936,
+      "mtime_ns": 1791842208172957421
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-f5f4d03963af8318ec697740bf52ae7ef2b326351d0eb8a7/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-f5f4d03963af8318ec697740bf52ae7ef2b326351d0eb8a7/fs.tar.gz.enc",
+      "sha256": "0362d96ceca17777d5db9bc6dd6b61458f67e7b751a1588ec967b9e7ba705687",
+      "byte": 1136,
+      "mtime_ns": 1791842208175000986
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-f5f4d03963af8318ec697740bf52ae7ef2b326351d0eb8a7/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-f5f4d03963af8318ec697740bf52ae7ef2b326351d0eb8a7/inventory.json.enc",
+      "sha256": "185b6634d6c6dd40e6c5c90bef07969142e54963c0c5f8e39dc6529c40a0c43f",
+      "byte": 5746704,
+      "mtime_ns": 1791842208176446086
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-f97e0cb63f80c4cc9d559bb8650441fe68b720312d25b8dc/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-f97e0cb63f80c4cc9d559bb8650441fe68b720312d25b8dc/db.sql.enc",
+      "sha256": "8fd2e5864ff9fc043c32b1a6695f28b8b993441da433db2bd27ba49ca7cb2e53",
+      "byte": 23042448,
+      "mtime_ns": 1791963152897548313
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-f97e0cb63f80c4cc9d559bb8650441fe68b720312d25b8dc/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-f97e0cb63f80c4cc9d559bb8650441fe68b720312d25b8dc/fs.tar.gz.enc",
+      "sha256": "d2d1efeb028f6853ca7f2a965b6c3517d4a9f58683b4ed4d3eef2884516c254a",
+      "byte": 25728,
+      "mtime_ns": 1791963152900153633
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-f97e0cb63f80c4cc9d559bb8650441fe68b720312d25b8dc/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-f97e0cb63f80c4cc9d559bb8650441fe68b720312d25b8dc/inventory.json.enc",
+      "sha256": "f2fa83a945582a398346090c58c0e72b5fbbffd7406dbe96df83483187806653",
+      "byte": 5778416,
+      "mtime_ns": 1791963152901484460
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-faf0a834e440568581934f2ce04c3d18e77ac2f14603f1fd/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-faf0a834e440568581934f2ce04c3d18e77ac2f14603f1fd/db.sql.enc",
+      "sha256": "22df1d948b275461650fe695efd5e4a807368aa3fd5e27531fc5afad4f077b76",
+      "byte": 22977456,
+      "mtime_ns": 1791937066035191421
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-faf0a834e440568581934f2ce04c3d18e77ac2f14603f1fd/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-faf0a834e440568581934f2ce04c3d18e77ac2f14603f1fd/fs.tar.gz.enc",
+      "sha256": "f6c4f6f04449d6252fadc400aa3ae782ee7639f2ebbf4726156364386c1d0494",
+      "byte": 329810928,
+      "mtime_ns": 1791937066151217288
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-faf0a834e440568581934f2ce04c3d18e77ac2f14603f1fd/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-faf0a834e440568581934f2ce04c3d18e77ac2f14603f1fd/inventory.json.enc",
+      "sha256": "d1e089bdc385572cc6da476300b4568ba6f515a8d0194b88afa780824b3adb03",
+      "byte": 5737760,
+      "mtime_ns": 1791937066153423957
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-fe91f9a52dafa61cd88d91fa872b3838ba1ed307fb68b0ba/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-fe91f9a52dafa61cd88d91fa872b3838ba1ed307fb68b0ba/db.sql.enc",
+      "sha256": "80a8ce6a7ec6cb0d55360ef2f7e631e2e6828dacaf62c28db63d562d73447e0d",
+      "byte": 22861936,
+      "mtime_ns": 1791922154555209699
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-fe91f9a52dafa61cd88d91fa872b3838ba1ed307fb68b0ba/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-fe91f9a52dafa61cd88d91fa872b3838ba1ed307fb68b0ba/fs.tar.gz.enc",
+      "sha256": "98ac5b653823795ab1efdee9554e5a1c9d58662a4abb029dded166645b0c92eb",
+      "byte": 328974128,
+      "mtime_ns": 1791922154707681763
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-fe91f9a52dafa61cd88d91fa872b3838ba1ed307fb68b0ba/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-fe91f9a52dafa61cd88d91fa872b3838ba1ed307fb68b0ba/inventory.json.enc",
+      "sha256": "e991b9b0048187964ced3959bc8ea3d5eaf266990876a88ed591a352dd7e546f",
+      "byte": 5685136,
+      "mtime_ns": 1791922154710572682
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ffaa8e9f2aae1022f8fda87cb808cba30225b38c21cc49af/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ffaa8e9f2aae1022f8fda87cb808cba30225b38c21cc49af/db.sql.enc",
+      "sha256": "ce5772cb463943d2d35e5e15bf3c74b2d3f9397ac73e57e9ab5db2ae3de75b86",
+      "byte": 22977456,
+      "mtime_ns": 1791925244847716649
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ffaa8e9f2aae1022f8fda87cb808cba30225b38c21cc49af/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ffaa8e9f2aae1022f8fda87cb808cba30225b38c21cc49af/fs.tar.gz.enc",
+      "sha256": "f47f00ccbe47f4edae144f6e66d4c9d28ecdb44a08ea507c30dab3e3344d6c12",
+      "byte": 329651536,
+      "mtime_ns": 1791925244954952629
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ffaa8e9f2aae1022f8fda87cb808cba30225b38c21cc49af/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ffaa8e9f2aae1022f8fda87cb808cba30225b38c21cc49af/inventory.json.enc",
+      "sha256": "865952a38258176513047d79dad4ce0581bc5d3f7d4dd61f5dcce714c64f52b2",
+      "byte": 5795168,
+      "mtime_ns": 1791925244958063164
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ffcd3dd66ec3bfa882b876d4a2ce8d1b21f7abc6edd62b02/db.sql.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ffcd3dd66ec3bfa882b876d4a2ce8d1b21f7abc6edd62b02/db.sql.enc",
+      "sha256": "2208e54053dd6dc8d848980ec14a6052fa2bc16a0abd4209b38a9e865e2a8894",
+      "byte": 23243136,
+      "mtime_ns": 1792105510490436301
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ffcd3dd66ec3bfa882b876d4a2ce8d1b21f7abc6edd62b02/fs.tar.gz.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ffcd3dd66ec3bfa882b876d4a2ce8d1b21f7abc6edd62b02/fs.tar.gz.enc",
+      "sha256": "bea4942d8267ee8145ba6ea47d2fd2215287a668da864e56411622caa1111a90",
+      "byte": 3040,
+      "mtime_ns": 1792105510494329629
+    },
+    {
+      "origine": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/ricevente-interno/Schedine-S0-ffcd3dd66ec3bfa882b876d4a2ce8d1b21f7abc6edd62b02/inventory.json.enc",
+      "copia": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/ricevente-storico/Schedine-S0-ffcd3dd66ec3bfa882b876d4a2ce8d1b21f7abc6edd62b02/inventory.json.enc",
+      "sha256": "33f310bc6acda80873bc6ca39a59986a7be93c42d09f8c310c07244e666dbf95",
+      "byte": 5759760,
+      "mtime_ns": 1792105510496276731
+    }
+  ],
+  "originali_preservati": true
+}
