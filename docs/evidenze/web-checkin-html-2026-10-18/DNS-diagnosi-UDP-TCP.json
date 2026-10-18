@@ -1,0 +1,45 @@
+{
+  "data_UTC": "2026-10-18T19:47:53.760202+00:00",
+  "verifiche": {
+    "aron.ns.cloudflare.com UDP": {
+      "codice": 0,
+      "risposta": "\n; <<>> DiG 9.10.6 <<>> @aron.ns.cloudflare.com schedinedinotifica.tanggo.software TXT +noall +answer +authority +comments +time=3 +tries=1\n; (3 servers found)\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 15127\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1\n;; WARNING: recursion requested but not available\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 1232\n;; ANSWER SECTION:\nschedinedinotifica.tanggo.software. 300\tIN TXT\t\"v=spf1 ip4:217.174.149.23 -all\"\n\n",
+      "errore": ""
+    },
+    "aron.ns.cloudflare.com TCP": {
+      "codice": 0,
+      "risposta": "\n; <<>> DiG 9.10.6 <<>> @aron.ns.cloudflare.com schedinedinotifica.tanggo.software TXT +noall +answer +authority +comments +time=3 +tries=1 +tcp\n; (3 servers found)\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 6792\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1\n;; WARNING: recursion requested but not available\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 65535\n;; ANSWER SECTION:\nschedinedinotifica.tanggo.software. 300\tIN TXT\t\"v=spf1 ip4:217.174.149.23 -all\"\n\n",
+      "errore": ""
+    },
+    "jakub.ns.cloudflare.com UDP": {
+      "codice": 0,
+      "risposta": "\n; <<>> DiG 9.10.6 <<>> @jakub.ns.cloudflare.com schedinedinotifica.tanggo.software TXT +noall +answer +authority +comments +time=3 +tries=1\n; (3 servers found)\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 64524\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1\n;; WARNING: recursion requested but not available\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 1232\n;; ANSWER SECTION:\nschedinedinotifica.tanggo.software. 300\tIN TXT\t\"v=spf1 ip4:217.174.149.23 -all\"\n\n",
+      "errore": ""
+    },
+    "jakub.ns.cloudflare.com TCP": {
+      "codice": 0,
+      "risposta": "\n; <<>> DiG 9.10.6 <<>> @jakub.ns.cloudflare.com schedinedinotifica.tanggo.software TXT +noall +answer +authority +comments +time=3 +tries=1 +tcp\n; (3 servers found)\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 50133\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1\n;; WARNING: recursion requested but not available\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 65535\n;; ANSWER SECTION:\nschedinedinotifica.tanggo.software. 300\tIN TXT\t\"v=spf1 ip4:217.174.149.23 -all\"\n\n",
+      "errore": ""
+    },
+    "1.1.1.1 UDP": {
+      "codice": 0,
+      "risposta": "\n; <<>> DiG 9.10.6 <<>> @1.1.1.1 schedinedinotifica.tanggo.software TXT +noall +answer +authority +comments +time=3 +tries=1\n; (1 server found)\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 14841\n;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 1232\n;; ANSWER SECTION:\nschedinedinotifica.tanggo.software. 300\tIN TXT\t\"v=spf1 ip4:217.174.149.23 -all\"\n\n",
+      "errore": ""
+    },
+    "1.1.1.1 TCP": {
+      "codice": 0,
+      "risposta": "\n; <<>> DiG 9.10.6 <<>> @1.1.1.1 schedinedinotifica.tanggo.software TXT +noall +answer +authority +comments +time=3 +tries=1 +tcp\n; (1 server found)\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 4753\n;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 1232\n;; ANSWER SECTION:\nschedinedinotifica.tanggo.software. 300\tIN TXT\t\"v=spf1 ip4:217.174.149.23 -all\"\n\n",
+      "errore": ""
+    },
+    "8.8.8.8 UDP": {
+      "codice": 0,
+      "risposta": "\n; <<>> DiG 9.10.6 <<>> @8.8.8.8 schedinedinotifica.tanggo.software TXT +noall +answer +authority +comments +time=3 +tries=1\n; (1 server found)\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 2223\n;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 512\n;; ANSWER SECTION:\nschedinedinotifica.tanggo.software. 300\tIN TXT\t\"v=spf1 ip4:217.174.149.23 -all\"\n\n",
+      "errore": ""
+    },
+    "8.8.8.8 TCP": {
+      "codice": 0,
+      "risposta": "\n; <<>> DiG 9.10.6 <<>> @8.8.8.8 schedinedinotifica.tanggo.software TXT +noall +answer +authority +comments +time=3 +tries=1 +tcp\n; (1 server found)\n;; global options: +cmd\n;; Got answer:\n;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 8200\n;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1\n\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:; udp: 512\n;; ANSWER SECTION:\nschedinedinotifica.tanggo.software. 300\tIN TXT\t\"v=spf1 ip4:217.174.149.23 -all\"\n\n",
+      "errore": ""
+    }
+  }
+}

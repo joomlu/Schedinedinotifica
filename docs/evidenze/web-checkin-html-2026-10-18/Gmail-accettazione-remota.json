@@ -1,0 +1,16 @@
+{
+  "esito": "ACCETTAZIONE_GOOGLE_VERIFICATA",
+  "messaggi_di_prova": [
+    {
+      "coda_sha256": "8476bab67d81a9ad81421623baa49563ee82840730051930add7c4c2cb087633",
+      "ora_registro": "2026-10-18 19:37:18",
+      "mittente_autenticato_correlato": true,
+      "Google_SMTP_accettazione_250": true,
+      "differimenti": 0,
+      "rifiuti_permanenti": 0,
+      "diagnosi_rifiuto": [],
+      "transazione_conclusa": true
+    }
+  ],
+  "limite": "Accettazione SMTP remota distinta da presenza in Posta in arrivo/Spam e visualizzazione HTML; nessun contenuto email o registro estraneo esportato"
+}

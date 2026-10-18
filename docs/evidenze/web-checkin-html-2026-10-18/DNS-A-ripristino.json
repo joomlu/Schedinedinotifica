@@ -1,0 +1,102 @@
+{
+  "data_UTC": "2026-10-18T19:54:12.163117+00:00",
+  "verifiche": [
+    {
+      "server": "aron.ns.cloudflare.com",
+      "host": "schedinedinotifica.tanggo.software",
+      "A": [
+        "217.174.149.23"
+      ],
+      "codice": 0
+    },
+    {
+      "server": "aron.ns.cloudflare.com",
+      "host": "mail.schedinedinotifica.tanggo.software",
+      "A": [
+        "217.174.149.23"
+      ],
+      "codice": 0
+    },
+    {
+      "server": "aron.ns.cloudflare.com",
+      "host": "www.schedinedinotifica.tanggo.software",
+      "A": [
+        "217.174.149.23"
+      ],
+      "codice": 0
+    },
+    {
+      "server": "jakub.ns.cloudflare.com",
+      "host": "schedinedinotifica.tanggo.software",
+      "A": [
+        "217.174.149.23"
+      ],
+      "codice": 0
+    },
+    {
+      "server": "jakub.ns.cloudflare.com",
+      "host": "mail.schedinedinotifica.tanggo.software",
+      "A": [
+        "217.174.149.23"
+      ],
+      "codice": 0
+    },
+    {
+      "server": "jakub.ns.cloudflare.com",
+      "host": "www.schedinedinotifica.tanggo.software",
+      "A": [
+        "217.174.149.23"
+      ],
+      "codice": 0
+    },
+    {
+      "server": "1.1.1.1",
+      "host": "schedinedinotifica.tanggo.software",
+      "A": [
+        "217.174.149.23"
+      ],
+      "codice": 0
+    },
+    {
+      "server": "1.1.1.1",
+      "host": "mail.schedinedinotifica.tanggo.software",
+      "A": [
+        "217.174.149.23"
+      ],
+      "codice": 0
+    },
+    {
+      "server": "1.1.1.1",
+      "host": "www.schedinedinotifica.tanggo.software",
+      "A": [
+        "217.174.149.23"
+      ],
+      "codice": 0
+    },
+    {
+      "server": "8.8.8.8",
+      "host": "schedinedinotifica.tanggo.software",
+      "A": [
+        "217.174.149.23"
+      ],
+      "codice": 0
+    },
+    {
+      "server": "8.8.8.8",
+      "host": "mail.schedinedinotifica.tanggo.software",
+      "A": [
+        "217.174.149.23"
+      ],
+      "codice": 0
+    },
+    {
+      "server": "8.8.8.8",
+      "host": "www.schedinedinotifica.tanggo.software",
+      "A": [
+        "217.174.149.23"
+      ],
+      "codice": 0
+    }
+  ],
+  "PASS": true
+}

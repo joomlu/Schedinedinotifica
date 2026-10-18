@@ -1,0 +1,6 @@
+{
+  "esito": "PASS_PERSISTENTI_DOPO_PULIZIA",
+  "voci": 75,
+  "env_upload_loghi_contenuti_e_metadati_identici_S0": true,
+  "eccezione": "Solo mtime delle directory, inevitabilmente aggiornato dalla creazione/rimozione dei soli loghi sintetici; ogni altro metadato/file invariato."
+}

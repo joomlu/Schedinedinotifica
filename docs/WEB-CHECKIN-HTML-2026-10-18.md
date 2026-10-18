@@ -1,4 +1,22 @@
-# Web Check-in HTML — pubblicato; consegna esterna bloccata dal DNS
+# Web Check-in HTML — pubblicato e consegna Gmail verificata
+
+## Chiusura DNS e consegna Gmail — 18 ottobre 2026
+
+**Web Check-in HTML pubblicato e verificato online: applicativo `1c3b7a6c6aba71c2f57da76c304638eb7e13015d`. Nuovo invito realmente ricevuto in Posta in arrivo Gmail, HTML visualizzato e pulsante verificato. Monitor dopo l’ultima pulizia PASS. BASELINE IN AUDIT generale invariata.** [Rapporto](WEB-CHECKIN-HTML-2026-10-18.md), [ricevuta](evidenze/web-checkin-html-2026-10-18/rilascio.json).
+
+Dopo consenso specifico, pubblicato TXT SPF `schedinedinotifica = v=spf1 ip4:217.174.149.23 -all`. Il nodo esplicito ha interrotto l’eredità A dal wildcard precedente: incidente rilevato prima di nuovi invii, login del collaudo fermo con ERR_NAME_NOT_RESOLVED. Primo salvataggio A bloccato dalla revisione automatica; successivo consenso esplicito per entrambi ricevuto e rispettato. Aggiunti A `schedinedinotifica` e `*.schedinedinotifica`, stesso217.174.149.23, SoloDNS/TTLauto. A applicazione/mail/www e SPF verificati sui due autorevoli e su1.1.1.1/8.8.8.8; DNS ordinario Mac e HTTPS200/TLS0 tornati positivi prima dell’invio. Nessuna continuità assoluta dichiarata durante l’incidente: durata effettiva distribuita non misurabile per le cache. Nessun cambioIP/NS/MX/proxy o altro sito. Due risposte TXT vuote da8.8.8.8 alle19:47:42 e19:54:09UTC, con autorevoli e1.1.1.1 positivi. Diagnostica completa UDP/TCP su tutti4server positiva dopo il primo caso; otto verifiche complete Google successive al secondo positive e controllo finale completo dei4server positivo alle19:54:33UTC. Anomalie conservate, causa puntuale non attribuita e segnalata come limite osservativo; nessun altro record modificato. Scheda Cloudflare già autenticata trovata; nessuna password esposta.
+
+Un solo nuovo invio esplicito alla Gmail controllata: accettazione SMTP remotaGoogle250, zero differimenti/rifiuti, messaggio presente in Posta in arrivo. Logo sintetico della struttura corretta, saluto, pulsante, prenotazione, firma, contatti e scadenza visualizzati in HTML. Pulsante cliccato in Gmail: href identico alla richiesta collaudata a390px, conferma dei dati ricevuti visibile. Percorso mobile completo parziale/ripresa/accompagnatori→reception→Bozza/definitivo stessoID/409 e modelli PASS, zero erroriJS. Totale storico quattro invii controllati: due alla Gmail (primo rifiutato, nuovo ricevuto) e due alla casella progetto. Nessun ospite reale/ente. MIME HTML/testo/CID già ricevuto e verificato nella casella progetto sullo stesso applicativo; nuova ricezione Gmail attestata separatamente da UI e SMTP remoto. DKIM sottodominio ancora assente; SPF e consegna Gmail verificati, senza garanzia universale di recapito futuro.
+
+Nuova fixture/account/loghi rimossi: tutte le righe preesistenti delle66tabelle HMACidentiche;75persistenti controS0 PASS, sola eccezione mtime directory. Nessun restore/reset. Nuovo monitor server dopo pulizia **917.339s/31campioni/279sonde**, FPM/chiave/provider/mailer/blocchi a ogni campione; nuovo monitor Mac **925.168s/31campioni/93richieste HTTPS** con DNS/TLS ordinari e SPF a ogni campione PASS. Zero nuovi erroriLaravel/journalFPM dall’intero secondo T0 originario correttivo. Monitor precedente917.737s conservato come storico. Sorgenti76/57Web/29Arrivi, Gitprod pulito,158migrazioni/66tabelle e versione online riconfermati; nessuna nuova modifica applicativa o DDL/deploy per il DNS.
+
+Capacità conclusivaMac 13812396032/VM 1524535296/Extra 672378396672byte; Extra UUID488ACB8D-6B99-49AE-8A3C-175FD66F5466/APFS/scrittura-rilettura PASS, backupVM cifrato chiuso e chiavi separate0700/0600. Crescita36GiB/XFS37290283008/SELinuxEnforcing e daily945ef553 invariati. Backup/recuperi C5 già verificati restano conservati. Gate8/40GiB e riservaVM1GiB invariati; futuro C5 richiede nuovo preflight. Lavoro estraneo preservato. Nessun pendente bloccante nello scope verificato. Pendenti concreti non bloccanti: attribuzione delle due risposte DNS Google vuote intermedie; DKIM del sottodominio non configurato. Audit generale distinto e non chiuso.
+
+## Consuntivo storico precedente alla correzione DNS
+
+Le sezioni seguenti conservano le evidenze e i blocchi osservati prima della chiusura sopra riportata; non rappresentano pendenti attuali.
+
+
 
 18 ottobre 2026. **Applicativo `1c3b7a6c6aba71c2f57da76c304638eb7e13015d` online e verificato. C5, QA, pulizia e monitor conclusivi PASS. Obiettivo complessivo ancora parziale: Gmail ha rifiutato l’invito di prova per autenticazione SPF/DKIM mancante. BASELINE IN AUDIT generale invariata.** [Ricevuta e blocco esatto](evidenze/web-checkin-html-2026-10-18/rilascio.json), [collaudo](evidenze/web-checkin-html-2026-10-18/verifica.json).
 
@@ -55,3 +73,8 @@ Capacità reale rilevata 2026-10-18T18:33:34.369157+00:00: **Mac 19248590848 byt
 ## Pendenti concreti
 
 Consegna esterna: accesso/consenso Cloudflare e record SPF, quindi prova reale positiva; attualmente bloccata con550 5.7.26. Nessun difetto funzionale residuo osservato nei percorsi applicativi collaudati, senza dichiarare chiuso l’audit generale del prodotto. Non attestati invii a enti, validazioni normative generali o readiness di un futuro C5. L’obiettivo complessivo non è completato finché resta il blocco email esterno.
+
+
+## Aggiornamento DNS — 18 ottobre 2026, ore 21:32 italiane
+
+**Ripristino DNS bloccante, approvazione specifica richiesta.** Nuovo consenso dell’utente ad accesso Cloudflare e TXT SPF ricevuto; scheda già autenticata trovata. Aggiunto soltanto TXT `schedinedinotifica = v=spf1 ip4:217.174.149.23 -all`, verificato sui due autorevoli e su 1.1.1.1/8.8.8.8 alle19:28:34UTC. Rilevato effetto prima non considerato: il nodo TXT esplicito interrompe la sintesi A dal precedente `*.tanggo.software`, quindi A applicazione e mail risultano assenti. Nuova prova sintetica fermata prima del login con ERR_NAME_NOT_RESOLVED, nessuna nuova email inviata. Preparato A esplicito verso lo stesso217.174.149.23, SoloDNS; salvataggio rifiutato dalla revisione automatica perché il consenso specifico copriva soltantoSPF. Richiesto consenso per A `schedinedinotifica` e `*.schedinedinotifica`, stessoIP/SoloDNS/TTLauto, per ripristinare l’assetto precedente anche dei sottodomini. Nessun A aggiunto, nessun aggiramento del rifiuto. Fixture nuova separata creata: pulizia e nuovo monitor pendenti dopo ripristino/prova. Vecchio monitor applicativo PASS resta storico e non copre questo incidente DNS. Obiettivo non completato.
