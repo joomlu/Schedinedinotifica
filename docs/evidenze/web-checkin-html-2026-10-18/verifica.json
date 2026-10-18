@@ -1,10 +1,10 @@
 {
   "stato": "PASS_WEB_CHECKIN_HTML_ISOLATO",
-  "data_UTC": "2026-10-18T17:37:20.808287+00:00",
+  "data_UTC": "2026-10-18T18:01:52.288519+00:00",
   "backend": {
     "test": 157,
-    "asserzioni": 1913,
-    "log": "prova-finale-R3.log"
+    "asserzioni": 1916,
+    "log": "prova-finale-R4.log"
   },
   "browser_finale": {
     "test": 17,
@@ -95,7 +95,7 @@
     "resources/views/schedina/partials/save-actions.blade.php": "0cb33464f9fa57312a439f67fc639edad09e39c2d3268af4fc0ebc7c1fef3287",
     "resources/views/schedina/partials/scripts.blade.php": "6d511e8c178650a73d700daddeb749125baf85ef37e471ea8fef6c0bd5920df7",
     "resources/views/web-checkin/completed.blade.php": "7a822d40c089707aaab975b442b0c020a904b8dad911cba555ae3b929a2ba351",
-    "resources/views/web-checkin/comunicazioni.blade.php": "a124e3531b34b4586c91ef655e84577fadfc26fc7f949775539f87ff5f06a793",
+    "resources/views/web-checkin/comunicazioni.blade.php": "62783973095f3b37b201c503fb72824870c08862ef02441420958975ecea8fe2",
     "resources/views/web-checkin/form.blade.php": "c70ac69e7f00067e602d5232bbdcda5b9b1904d476cc3259e8bbeeabaf4ff9f3",
     "resources/views/web-checkin/index.blade.php": "8421828bea9f27dd994488f45e6d1ba68a450fb2b8efd2f97dc37aee43f18a11",
     "resources/views/web-checkin/invite.blade.php": "807011839d8146b04d50ec8f79830c49fda881c491bcb6ee1b0a09fcdaf892b5",
@@ -110,7 +110,7 @@
     "tests/Feature/WebCheckinEsclusioniConversioneTest.php": "d61086dcf73b3d588698b35e5f5437765875641b927e04470ab98a52f1b17bb1",
     "tests/Feature/WebCheckinFiscalContextTest.php": "db16b0d7d6edd1836952d2e8b00b14e9aa06aaa040e1358f17e0e2defd2fef98",
     "tests/Feature/WebCheckinGroupAtomicityTest.php": "c070b292e9b76a9db8f75cf25b7df5e358844e43379f03edf524f86b48a148c9",
-    "tests/Feature/WebCheckinHtmlTest.php": "71c349858b68453a4f0a518684a5f255be5c9a982aba85dd811f0312c49cb607",
+    "tests/Feature/WebCheckinHtmlTest.php": "16eb82a24925c84354d1e7a196cc167d8ead91234196ce4855b7f8b4bcdbd5b7",
     "tests/Feature/WebCheckinLifecycleConcurrencyAudit.php": "f1ad155377b72f74d5089d2bba2e8804f1ab0569f2556c8a6ed6d299385e4a0d",
     "tests/Feature/WebCheckinLifecycleTest.php": "bf558962c2ddf4bc27ec56668e61e1d5ea93bebcbde4ce2d46afd7fb45ccf8fb",
     "tests/Feature/WebCheckinMigrationPreservationTest.php": "8c2a0cd1bab760cc71147572156c99616bd6599488a8aa9dbf48d4e8a1af85aa",
@@ -118,7 +118,7 @@
     "tests/Feature/WebCheckinShortLinkTest.php": "816dbab9677ce5d1a07d03bc6ad0f5d718bbb5e570e192fada997987d739580e",
     "tests/Feature/WebCheckinSmtpCurlTest.php": "fb75ea901b5dcf03f9feb5009bef6e46fb5f75ac4fc28beb8065e31f3469a5c2",
     "tests/Feature/arrivi-lifecycle.playwright.spec.js": "e7c979254bc7604d3f4a6f2241e238a61ab00c621b362ff1d20dd031e7512b7c",
-    "tests/Feature/web-checkin-html.playwright.spec.js": "3372b5a1bb180820327d59f6cd1d8bcf6e76fa0dfaf7206bd312fe99b46f3613",
+    "tests/Feature/web-checkin-html.playwright.spec.js": "d782cc7310065072ddcc2a5c4595091e26560771ebe90f162d0501adaa7acfa5",
     "tests/Feature/web-checkin-lifecycle.playwright.spec.js": "c0ea3ea82c4eddd71cdf65dde72d98726d1e29f0cf017d67039f224fd5506fcb",
     "tests/Feature/web-checkin-operativo.playwright.spec.js": "736942598116db57e35b0f009d1a7c72402708f3932e75cc9454b8fed7444112",
     "tests/Feature/web-checkin-rate-limit.playwright.spec.js": "4217a8e0b48e477c956f65d642838470afdd1231ed79ef10b713cfe7b52886e7",
@@ -133,7 +133,9 @@
     "prova-rate-R3.log": "deeb106a1f20034dbcf850074310dd46e32480c180d9f2c05e7d94617e55e01e",
     "guardie-finali.log": "6aeff61419190dc942e4a6cda56cce788c67619574f0411c1024bfdeac75ebc8",
     "prova-smtp-isolata.log": "4a4be0345855ce8d373ae41311c500bb9d35ab318631a676fcc3f22eca47d16a",
-    "prova-migrazione-R2.log": "98cbec74dd973ad3ccd687a94b44bfba1f90b1f892d55d8e01fdd8bd0dd86a25"
+    "prova-migrazione-R2.log": "98cbec74dd973ad3ccd687a94b44bfba1f90b1f892d55d8e01fdd8bd0dd86a25",
+    "prova-finale-R4.log": "631340ff0e2157f9e3473b3bed04775c982212cf65c307ebbdc07da5f7f33389",
+    "guardie-R4.log": "d67691568803ff3b2fb27ecccf93d611d59cf0aed20b9465e0c27fd6d95415d2"
   },
   "FPM_SMTP_NOOP": {
     "esito": "PASS_SMTP_TLS_NOOP_FPM",
@@ -152,6 +154,27 @@
     "PHP collaudo8.3.33 e produzione8.3.35 distinti; compatibilita SMTPS nel FPM reale verificata senza inviare messaggi",
     "VM quotidiana945ef553 preservata; sole copie CoW e runtime effimeri qualificati",
     "Precedenti tentativi FAIL/interrotti e correzioni UI/fixture dichiarati nel rapporto, non conteggiati come PASS",
-    "Invio reale email, versione online, C5, pulizia e monitor del candidato ancora da verificare"
-  ]
+    "Pubblicazione intermedia66fe89a e ricezioneMIME effettiva verificate; nuovoC5 senzaDDL e QA/monitor conclusivi della correzione ancora da verificare"
+  ],
+  "correzione_conferma_modelli": {
+    "azione_relativa_provata": true,
+    "annullamento_conferma_mancata_ricreazione_ripristino_esplicito": true,
+    "browser_larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "nuove_migrazioni": 0,
+    "delta_applicativo": [
+      "resources/views/web-checkin/comunicazioni.blade.php"
+    ]
+  },
+  "regressioni_precedenti_preservate": {
+    "link8_e_soglia300_60s": "PASS R3 invariati; sola vista e prove modelli modificate; matrice backend/browser completa ripetuta R4",
+    "file_modificati": [
+      "resources/views/web-checkin/comunicazioni.blade.php",
+      "tests/Feature/WebCheckinHtmlTest.php",
+      "tests/Feature/web-checkin-html.playwright.spec.js"
+    ]
+  }
 }

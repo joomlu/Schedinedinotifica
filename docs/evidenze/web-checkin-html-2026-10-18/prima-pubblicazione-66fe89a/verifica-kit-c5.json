@@ -1,0 +1,22 @@
+{
+  "esito": "PASS_KIT_C5_SOLO_PARAMETRI",
+  "file_core": 68,
+  "file_kit_incluso_manifest": 69,
+  "kit_sha256": "5f52d0b75c2905819ae158526b30f6989796e1bdfd876f3576e6638c746d4017",
+  "SHA_candidato": "66fe89ab4b6733206960c60165ab99df1f52af38",
+  "SHA_baseline": "e4b8171112607aeee63cfa6523b3f91d5b1cd0f9",
+  "budget_secondi": {
+    "totale": 1800,
+    "S0": 600,
+    "cutoff": 1379,
+    "recupero": 421
+  },
+  "migrazioni_autorizzate": [
+    "2026_10_18_200000_extend_web_checkin_inviti"
+  ],
+  "nuove_tabelle": [],
+  "colonne_nullable": 7,
+  "controlli_core_identici": true,
+  "confronto_integrale_dati_indici_contatori_precedenti": true,
+  "FPM_originale_e_blocchi_PHP_preservati": true
+}

@@ -1,6 +1,6 @@
 # Web Check-in HTML — verifica e pubblicazione
 
-18 ottobre 2026. **In lavorazione: questa revisione non è ancora pubblicata. BASELINE IN AUDIT invariata.** La produzione verificata all’avvio è `e4b8171112607aeee63cfa6523b3f91d5b1cd0f9`; i riferimenti dbee302/945ef55/85a636c della richiesta iniziale sono stati superati dalle pubblicazioni documentate nel Maestro. Il precedente Web Check-in online resta distinto dal candidato HTML corrente.
+18 ottobre 2026. **Revisione intermedia66fe89a online e verificata; correzione della conferma modelli collaudata, nuovoC5 ancora da eseguire. BASELINE IN AUDIT invariata.** La produzione verificata all’avvio è `e4b8171112607aeee63cfa6523b3f91d5b1cd0f9`; i riferimenti dbee302/945ef55/85a636c della richiesta iniziale sono stati superati dalle pubblicazioni documentate nel Maestro. Il precedente Web Check-in online resta distinto dal candidato HTML corrente.
 
 ## Perimetro autorizzato
 
@@ -35,3 +35,11 @@ Il gruppo FPM è confinato dalla catena dedicata: il servizio SMTP risiede sull�
 ## Passi ancora da verificare
 
 Chiudere browser e regressioni/guardie sul sorgente definitivo; verificare il nuovo mailer nel FPM dopo C5 (configurazione preparatoria e backup Extra/recupero indipendente già PASS); sigillare candidato e GitHub; nuovo C5 completo con PREPARE/S0/recupero indipendente e confronto DB rigoroso; QA online con soli dati sintetici, invio HTML al destinatario controllato e verifica della ricezione; pulizia con integrità dei dati precedenti; monitor di almeno 900 secondi; aggiornamento conclusivo Maestro/GitHub con SHA ed evidenze reali. Nessun completamento o pubblicazione della revisione HTML è attestato da questo rapporto intermedio.
+
+## Pubblicazione intermedia e correzione della conferma
+
+Applicativo66fe89ab pubblicato tramiteC5 PASS: S0recuperato162,588s, RUN242,340s/400campioni, migrazione200000 applicata,158migrazioni e66tabelle. Righe/DDL/indici/contatori preesistenti identiciS0, sole sette colonne nullable e una migrazione;75persistenti/env/key/upload/loghi preservati. PREPARE eS0 copiateExtra, SHA/HMAC e decifratura integralePASS; S0Extra attestato primaDDL. SMTPdedicato attivo con blocchiPHP invariati. Due invii controllati accettati; ricezione reale HTML/testo/CID verificata viaIMAP nella casella del progetto e link estratto dalMIME usato fino alla reception. QA1440/768/390,Bozza/stessoID/409,clienti/tenancy,18navigazioni e revoca/scadenzaPASS,zeroerroriJS. Pulizia sinteticaPASS,HMAC di tutte le righe precedenti delle66tabelle identici. [Evidenze intermedie](evidenze/web-checkin-html-2026-10-18/prima-pubblicazione-66fe89a/stato.json).
+
+Il primo script online attendeva un dialogo assente: richiesta sintetica creata, zero email in quel tentativo. Diagnosi del codiceUI preesistente: il controllo action.includes('/schedine') intercetta anche il nome dell’host assoluto. Dopo aver verificato il percorso reale con conferma destinatario server, il requisito di conferma eliminazione modelli ha imposto una correzione circoscritta: azione relativa del solo modulo ed espliciti testi di conferma. Nuove prove di annullamento, conferma, mancata ricreazione e ripristino esplicito. Nessuna modifica globale allaUI, nessuna nuova migrazione. Monitor intermedio interrotto volontariamente dopo tre campioni osservati, non dichiarato900sPASS. Nuovo candidato/C5senzaDDL,QAonline e monitor conclusivo ancora da eseguire. Conferma visiva della casellaGmail richiesta all’utente; accettazioneSMTP non equivale a consegnaGmail.
+
+Collaudo correttivo R4 concluso: **157test/1916asserzioni e17browser PASS**, comprese conferma e annullamento eliminazione a1440/768/390, mancata ricreazione e ripristino esplicito.17guardie,23rifiutioverride/buildGEO PASS. Regressioni8link e soglia300/60s R3 conservate: relativa implementazione invariata e nessuna ripetizione non necessaria; nuova matrice completa backend/browser sul delta vista/test. NuovoC5 senzaDDL ancora pendente.

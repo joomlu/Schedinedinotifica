@@ -1,0 +1,13 @@
+{
+  "esito": "PASS_EMAIL_RICEVUTA_HTML_MIME_REALE",
+  "casella_controllata": "SMTP del progetto",
+  "UID": "2",
+  "MIME_sha256": "341b106a235854d34eb3707266b8351805c662069b066105a362368369703a4f",
+  "HTML_sha256": "a63ab6c01555de20046c49428812df8fcc27e06bc67378f3842483f8737e9d05",
+  "HTML_e_testo_veri": true,
+  "logo_CID_SHA256": "023471532b33be4f9df3090ac65578f7d1fd3cead95c19b76a41c5a0ec111459",
+  "pulsante_diretto_corrispondente": true,
+  "destinatario_sha256": "e5980e83e428d11b6306641b590fabda1838c6b7c175546c629f2ae853a16f39",
+  "nessuna_nota_privata": true,
+  "nessuna_modifica_messaggi_IMAP": true
+}

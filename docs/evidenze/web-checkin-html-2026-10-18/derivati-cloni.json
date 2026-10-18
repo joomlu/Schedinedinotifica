@@ -1,0 +1,69 @@
+{
+  "esito": "PASS_SOLI_DERIVATI_CLONI_PROPRI",
+  "prima": 3747627008,
+  "dopo": 3846897664,
+  "directory": [
+    {
+      "path": "/home/collaudo.guest/web-checkin-isolato-LAdBcAPI/vendor",
+      "voci": 12403,
+      "sha256_albero": "4fef91da603103dbc6dd41c2944d7877a8838355a5fe2b2665003b1ba22c5ab6"
+    },
+    {
+      "path": "/home/collaudo.guest/web-checkin-isolato-1NSnOjjA/vendor",
+      "voci": 12403,
+      "sha256_albero": "4fef91da603103dbc6dd41c2944d7877a8838355a5fe2b2665003b1ba22c5ab6"
+    },
+    {
+      "path": "/home/collaudo.guest/web-checkin-isolato-gxeJ47rS/vendor",
+      "voci": 12403,
+      "sha256_albero": "4fef91da603103dbc6dd41c2944d7877a8838355a5fe2b2665003b1ba22c5ab6"
+    },
+    {
+      "path": "/home/collaudo.guest/web-checkin-isolato-gnYhpK9X/vendor",
+      "voci": 12403,
+      "sha256_albero": "4fef91da603103dbc6dd41c2944d7877a8838355a5fe2b2665003b1ba22c5ab6"
+    },
+    {
+      "path": "/home/collaudo.guest/web-checkin-isolato-LAdBcAPI/node_modules",
+      "voci": 25325,
+      "sha256_albero": "8ed45a0673f9c2c32f672f4dac261cdaea82701e558b3f17cdef675ee27bebfd"
+    },
+    {
+      "path": "/home/collaudo.guest/web-checkin-isolato-1NSnOjjA/node_modules",
+      "voci": 25325,
+      "sha256_albero": "8ed45a0673f9c2c32f672f4dac261cdaea82701e558b3f17cdef675ee27bebfd"
+    },
+    {
+      "path": "/home/collaudo.guest/web-checkin-isolato-gxeJ47rS/node_modules",
+      "voci": 25325,
+      "sha256_albero": "8ed45a0673f9c2c32f672f4dac261cdaea82701e558b3f17cdef675ee27bebfd"
+    },
+    {
+      "path": "/home/collaudo.guest/web-checkin-isolato-gnYhpK9X/node_modules",
+      "voci": 25325,
+      "sha256_albero": "8ed45a0673f9c2c32f672f4dac261cdaea82701e558b3f17cdef675ee27bebfd"
+    },
+    {
+      "path": "/home/collaudo.guest/web-checkin-isolato-LAdBcAPI/public/build",
+      "voci": 4135,
+      "sha256_albero": "9b433c1f8478a4e007961f77a6aca2160c23732ef44ba071e59ed4062ed0d51a"
+    },
+    {
+      "path": "/home/collaudo.guest/web-checkin-isolato-1NSnOjjA/public/build",
+      "voci": 4135,
+      "sha256_albero": "9b433c1f8478a4e007961f77a6aca2160c23732ef44ba071e59ed4062ed0d51a"
+    },
+    {
+      "path": "/home/collaudo.guest/web-checkin-isolato-gxeJ47rS/public/build",
+      "voci": 4135,
+      "sha256_albero": "9b433c1f8478a4e007961f77a6aca2160c23732ef44ba071e59ed4062ed0d51a"
+    },
+    {
+      "path": "/home/collaudo.guest/web-checkin-isolato-gnYhpK9X/public/build",
+      "voci": 4135,
+      "sha256_albero": "9b433c1f8478a4e007961f77a6aca2160c23732ef44ba071e59ed4062ed0d51a"
+    }
+  ],
+  "baseline_quotidiana_intatta": true,
+  "DB_SQL_env_upload_chiavi_evidenze_sorgenti_Git_preservati": true
+}

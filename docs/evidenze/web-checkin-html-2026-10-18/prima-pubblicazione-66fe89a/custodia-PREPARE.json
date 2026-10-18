@@ -1,0 +1,61 @@
+{
+  "esito": "PASS_PREPARE_EXTRA_INTEGRITA_RECUPERO",
+  "origine": "/var/lib/schedine-release/bases/c48ad3bbc1594e866a0fac6ec798838084e69570d5207331",
+  "destinazione": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/C5-PREPARE",
+  "file": [
+    {
+      "nome": "db.sql",
+      "byte": 23254736,
+      "sigillo": {
+        "plain_sha256": "45af6e59b389a638b46d2a0c36a7182ad4e3e0329fab0c7f9a9d11ccae4af37b",
+        "cipher_sha256": "3c58193ebfdae29641d54f0328b2942db47b47756bc050b120a33b77c4057ebd",
+        "hmac": "f5d780d74cfecea74c5774a46364502679d0de709d0f502d0a768029321ff8fe",
+        "byte": 23254736
+      },
+      "recupero": {
+        "cifrato_sha256": "3c58193ebfdae29641d54f0328b2942db47b47756bc050b120a33b77c4057ebd",
+        "decifrato_sha256": "45af6e59b389a638b46d2a0c36a7182ad4e3e0329fab0c7f9a9d11ccae4af37b",
+        "HMAC_prima_decifratura": true,
+        "decifratura_integrale": true,
+        "nessuna_scrittura_decifrata_o_temporanea": true
+      }
+    },
+    {
+      "nome": "fs.tar.gz",
+      "byte": 339665904,
+      "sigillo": {
+        "plain_sha256": "514baa9b6d1a658a2fb9cfe634b2e4c553400a415d8bf47a146de4812731bbf2",
+        "cipher_sha256": "1b725d2119ac63aaa19139054a1bd49a506866e6a8e7ef4d2c0767b6c40b89d9",
+        "hmac": "23d6efd8178c282a3838eb515a307c527e4eb2f5344f7b561d1aae535ccc3d06",
+        "byte": 339665904
+      },
+      "recupero": {
+        "cifrato_sha256": "1b725d2119ac63aaa19139054a1bd49a506866e6a8e7ef4d2c0767b6c40b89d9",
+        "decifrato_sha256": "514baa9b6d1a658a2fb9cfe634b2e4c553400a415d8bf47a146de4812731bbf2",
+        "HMAC_prima_decifratura": true,
+        "decifratura_integrale": true,
+        "nessuna_scrittura_decifrata_o_temporanea": true
+      }
+    },
+    {
+      "nome": "inventory.json",
+      "byte": 6108928,
+      "sigillo": {
+        "plain_sha256": "7c9a9f16889eb51241893a0f00112c3143a311decc3b4a1c0a3b24cd898601ff",
+        "cipher_sha256": "d43c40752d7c6c3138342b33452bc9d8ca53292b95d961c2fbf82603b9fb6027",
+        "hmac": "4ec64ed484b7ad1a19ed5a4e878d9a17639734902be5d6e7a34cb43afabcd40a",
+        "byte": 6108928
+      },
+      "recupero": {
+        "cifrato_sha256": "d43c40752d7c6c3138342b33452bc9d8ca53292b95d961c2fbf82603b9fb6027",
+        "decifrato_sha256": "7c9a9f16889eb51241893a0f00112c3143a311decc3b4a1c0a3b24cd898601ff",
+        "HMAC_prima_decifratura": true,
+        "decifratura_integrale": true,
+        "nessuna_scrittura_decifrata_o_temporanea": true
+      }
+    }
+  ],
+  "chiave_separata_VM": true,
+  "liberi_Extra": 672787390464,
+  "liberi_Mac": 27061399552
+}

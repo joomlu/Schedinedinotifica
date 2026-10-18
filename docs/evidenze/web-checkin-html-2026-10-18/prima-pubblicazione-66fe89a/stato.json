@@ -1,0 +1,11 @@
+{
+  "esito": "PUBBLICAZIONE_INTERMEDIA_VERIFICATA_CON_CORREZIONE_UI_NECESSARIA",
+  "SHA": "66fe89ab4b6733206960c60165ab99df1f52af38",
+  "C5_PASS": true,
+  "QA_HTML_MIME_reception_PASS": true,
+  "pulizia_HMAC_66_tabelle_PASS": true,
+  "monitor_finale": "Interrotto volontariamente dopo tre campioni osservati; non promosso a monitor900s conclusivo",
+  "difetto": "Il controllo UI generico esamina anche il nome dell’host nell’azione assoluta; eliminazione modelli senza dialogo sul dominio produttivo",
+  "correzione": "Solo azione relativa e metadati espliciti del modulo eliminazione modelli; nuovo candidato, nuovo C5 senza DDL e nuovo monitor richiesti",
+  "diagnostico_primo_browser_sha256": "362077861e5dfeb7e356c18153bff73e744be3c1abf97c8ab138fa9c9f6177c8"
+}

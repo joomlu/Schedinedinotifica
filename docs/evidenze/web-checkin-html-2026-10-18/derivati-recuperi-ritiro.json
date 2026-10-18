@@ -1,0 +1,37 @@
+{
+  "esito": "PASS_SOLI_DERIVATI_DEI_RECUPERI_PROPRI",
+  "prima": 2785710080,
+  "dopo": 3285647360,
+  "directory": [
+    {
+      "path": "/tmp/schedine-linux-cold-final-zz_sun50/extracted/home/tanggosoftware/repos/schedinedinotifica/vendor",
+      "inventario_sha256": "7c9a9f16889eb51241893a0f00112c3143a311decc3b4a1c0a3b24cd898601ff",
+      "voci": 9205,
+      "byte_nominali": 44057007,
+      "sigillo_voci": "6e269ef403f63f25a38ab305cc2f55d58cde9dbf5e5dfe4a2767199d90fa247a"
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-zz_sun50/extracted/home/tanggosoftware/repos/schedinedinotifica/public/build",
+      "inventario_sha256": "7c9a9f16889eb51241893a0f00112c3143a311decc3b4a1c0a3b24cd898601ff",
+      "voci": 4135,
+      "byte_nominali": 181207341,
+      "sigillo_voci": "e7bd5d78d6958efadd8d6f6c6016248708cadbb30fdd7178ac25218078a3d5db"
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-2zxxqhdm/extracted/home/tanggosoftware/repos/schedinedinotifica/vendor",
+      "inventario_sha256": "640fc6844f9f731a0a587de4118f4e08d8e31592ca0d134dbd581a86f3e0abc8",
+      "voci": 9205,
+      "byte_nominali": 44057007,
+      "sigillo_voci": "6e269ef403f63f25a38ab305cc2f55d58cde9dbf5e5dfe4a2767199d90fa247a"
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-2zxxqhdm/extracted/home/tanggosoftware/repos/schedinedinotifica/public/build",
+      "inventario_sha256": "640fc6844f9f731a0a587de4118f4e08d8e31592ca0d134dbd581a86f3e0abc8",
+      "voci": 4135,
+      "byte_nominali": 181207341,
+      "sigillo_voci": "e7bd5d78d6958efadd8d6f6c6016248708cadbb30fdd7178ac25218078a3d5db"
+    }
+  ],
+  "cifrati_Extra_autenticati_e_decifrati_prima": true,
+  "SQL_DB_env_upload_loghi_chiavi_TLS_evidenze_preservati": true
+}

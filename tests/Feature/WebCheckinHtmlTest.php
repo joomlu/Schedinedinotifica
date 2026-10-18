@@ -161,6 +161,7 @@ class WebCheckinHtmlTest extends TestCase
     {
         $r=$this->scenario();$url=route('web_checkin.comunicazioni',$r->id);$this->get($url)->assertOk();
         $m=WebCheckinModello::firstOrFail();$m->update(['nome'=>'Personalizzato prima della rimozione']);
+        $this->get($url)->assertOk()->assertSee('action="'.route('web_checkin.modello.elimina',[$r->id,$m->id],false).'"',false)->assertSee('data-confirm-button="Sì, elimina"',false);
         $this->postWeb(route('web_checkin.modello.elimina',[$r->id,$m->id]),['versione'=>99])->assertStatus(409);
         $this->postWeb(route('web_checkin.modello.elimina',[$r->id,$m->id]),['versione'=>$m->versione])->assertRedirect();
         $this->get($url)->assertOk();$this->get($url)->assertOk();$this->assertSame(2,WebCheckinModello::count());$this->assertTrue($m->fresh()->trashed());
