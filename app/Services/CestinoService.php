@@ -318,7 +318,7 @@ class CestinoService
     {
         $componenti = Arr::pull($payload, 'componenti', []);
         $camere = Arr::pull($payload, 'camere', []);
-        $normalizedCircuit = $this->normalizedSchedinaCircuit($payload);
+        $normalizedCircuit = !empty($payload['is_arrive']) ? 'arrivi' : $this->normalizedSchedinaCircuit($payload);
         $strutturaId = isset($payload['struttura_id']) ? (int) $payload['struttura_id'] : null;
 
         $payload['created_at'] = now();

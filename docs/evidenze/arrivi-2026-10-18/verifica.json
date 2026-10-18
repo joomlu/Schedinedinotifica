@@ -48,7 +48,7 @@
     "app/Http/Controllers/TassaDiSoggiornoController.php": "1519257f2be786880d7742c56421ad4a59b7a2a81c13f7610424f756d733c9a2",
     "app/Http/Controllers/TassaReportController.php": "836baf8d77f0f676c59992b270828bb18ca342d77cb8234e8e8a2e0abda4d3c5",
     "app/Models/Schedina.php": "32cea9ca5dcbefffa7862e04a28e96f5dab0506929654e7e499d1fcc9a28c928",
-    "app/Services/CestinoService.php": "8e54b80bf9a191ccae7a4055c7bf8ecb9b3794c8207ea9bf05eb336f4bc1ac3a",
+    "app/Services/CestinoService.php": "7d71060ca2c2690c7f5c593646c2c175420587a4bc4d99fc3f4dacfa91ab0a56",
     "app/Services/IstatOperationService.php": "16bbd1068785cdc3fc23ee3fb449a7a5a0ef95bf03aee095edc7a223f9d6d99f",
     "app/Services/IstatPayloadStore.php": "4ce0cf761e02f6ffa3832c1d237743d59f04f396a4bbe85014bb069ff82008ca",
     "app/Services/IstatTabellaAService.php": "baf3829f1583966387338e96dff35ee76513bee491b1df49dc672247ebc3576d",
@@ -64,7 +64,7 @@
     "resources/views/schedina/partials/scripts.blade.php": "6d511e8c178650a73d700daddeb749125baf85ef37e471ea8fef6c0bd5920df7",
     "routes/web.php": "1f206f531e0d86fbda1a40eb0ed5b123a2a1f3ef5af30e5e929dd025fe7a9abb",
     "tests/Feature/ArriviEsenzioniTest.php": "d685d9ac0fec82b9abf8c62e64f5d3d23cbd886656bd2497cd4a83c87fab6f63",
-    "tests/Feature/ArriviLifecycleTest.php": "fcf329cd57340cb79211473ea18e789664ddef1faefa54bebf4ba8e33f448aab",
+    "tests/Feature/ArriviLifecycleTest.php": "526b98b696ea179bd0706b60ed9397a7f2544a6bb30a9a668f5f4444a703936c",
     "tests/Feature/arrivi-lifecycle.playwright.spec.js": "dc4fcf318b4994d9d7072891e25bb4e188582043de5835e2839e6bde90e7ff2f"
   },
   "protetti_sha256": {
@@ -91,12 +91,20 @@
     "prova-R13.log": "b035e4b8d0607e9086f461f2a686a46f6338158cb1871b15e48e2cbbf86dbf60",
     "prova-R14.log": "22f8ecebf74938f7c4f9984e18489657155f636de7607549a15544f0eb4192ac",
     "prova-R9.log": "73357128cd9a645ca8d3163e19c67efd48e8c16ba5a74a941da63d591f0311db",
-    "prova-R8.log": "50b5b130a966e7dc666f7f88cb36391b176864abeb563fb1ad8d6026fbed869f"
+    "prova-R8.log": "50b5b130a966e7dc666f7f88cb36391b176864abeb563fb1ad8d6026fbed869f",
+    "prova-R15.log": "464d992f1d988c9192a080d8ca7d8cf18a763273a35eaa5408f27c1b4c2e1d2a"
   },
   "PHP_finale_messaggi": {
     "esito": "PASS",
     "test": 24,
     "asserzioni": 223,
     "suite_non_sommate": true
+  },
+  "PHP_finale_cestino": {
+    "esito": "PASS",
+    "test": 25,
+    "asserzioni": 233,
+    "suite_non_sommate": true,
+    "ambito": "Ultima sola modifica CestinoService: flag Arrivi prevalente nel ripristino, anche circuito discordante; nuova regressione. Nessun altro sorgente applicativo cambiato rispetto alla revisione8a."
   }
 }

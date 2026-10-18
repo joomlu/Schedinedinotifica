@@ -166,6 +166,21 @@ class ArriviLifecycleTest extends TestCase
         $this->post(route('arrivals.destroy',$restored->id))->assertNotFound();$this->assertTrue(Schedina::effettive()->whereKey($restored->id)->exists());
     }
 
+    public function test_ripristino_con_indicatori_discordanti_preserva_arrivi(): void
+    {
+        [$s,$p]=$this->context();$r=$this->arrival($p);
+        DB::table('schedina')->where('id',$r->id)->update(['circuito'=>'schedina','is_arrive'=>1]);
+        $this->post(route('arrivals.destroy',$r->id),['schedina_struttura_id'=>$s->id])->assertRedirect();
+        $item=\App\Models\CestinoItem::where('original_id',$r->id)->where('entity_class',Schedina::class)->firstOrFail();
+        Carbon::setTestNow('2026-03-19 00:00:01');
+        $restored=app(\App\Services\CestinoService::class)->restoreItem($item);
+        $this->assertTrue($restored->isInArrivi());$this->assertSame('arrivi',$restored->circuito);
+        $this->assertSame('2026-03-19',$restored->getRawOriginal('arrive'));
+        $this->assertSame('2026-03-17',$restored->departure);
+        $this->assertSame('2026-03-15 23:59:50',$restored->customer_privacy_consent_at->format('Y-m-d H:i:s'));
+        $this->assertFalse(Schedina::effettive()->whereKey($restored->id)->exists());
+    }
+
     public function test_identificatori_malformati_non_raggiungono_mutazioni_o_errori_interni(): void
     {
         [$s,$p]=$this->context();$r=$this->arrival($p);$before=DB::table('schedina')->get()->toJson();

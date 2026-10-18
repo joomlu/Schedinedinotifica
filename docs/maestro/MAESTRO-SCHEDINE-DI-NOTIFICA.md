@@ -15,6 +15,8 @@ Collaudo isolato322test/3259asserzioni e10browser PASS; ultime sole route/clock2
 Extra realmente /Volumes/extra/APFS/UUID488ACB8D-6B99-49AE-8A3C-175FD66F5466, scrittura/riletturaPASS e nuova cartella esclusiva; backup precedente ancora cifrato/preservato. VM36GiB/XFS37290283008, primo preflight STOP prima PREPARE:3540140032contro3732652032 byte, riserva1GiB invariata e massimi completi precedenti non ridotti dopo pulizie. Pack identici conservatiCoW e soli derivati vendor/build/archivi decifrati autenticati rimossi; DB/SQL/env/chiavi/upload/loghi/cifrati/backup preservati. Ulteriore audit PASS:409572file di sole dipendenze identiche in12copie di test proprie rimossi, canonico/protetti conservati; VM3540451328→3749924864. Nuovo preflight3749920768contro3732652032PASS, riserva1GiBinvariata; crescita baseline+blocchi nuovi2668754entro16MiBgiàprevisti. Nessun nuovo PREPARE/S0/RUN o candidato online dichiarato; C5 e verifica online/monitor ancora da completare.
 
 
+Ripristino con indicatori discordanti verificato: flag Arrivi prevalente anche nel cestino, nessuna promozione implicita; R15 isolato25test/233asserzioniPASS, unica modifica applicativa successiva.
+
 
 ## Pubblicazione con Extra — 18 ottobre 2026
 
