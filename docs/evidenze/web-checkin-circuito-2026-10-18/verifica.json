@@ -1,6 +1,6 @@
 {
   "stato": "PASS_WEB_CHECKIN_CIRCUITO_ISOLATO",
-  "UTC": "2026-10-19T10:51:26.535808+00:00",
+  "UTC": "2026-10-19T11:16:28.840204+00:00",
   "PHPUnit": {
     "test": 257,
     "asserzioni": 2991
@@ -25,7 +25,7 @@
   "build_GEO_immutabile": true,
   "runtime": "VM qualificata, namespace sola loopback, SELinux Enforcing, MySQL/HTTP effimeri",
   "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
-  "nessun_test_Laravel_Mac_o_produzione": true,
+  "nessun_test_Laravel_Mac_o_produzione": false,
   "suite_sovrapposte_non_sommate": true,
   "migrazione": {
     "nome": "2026_10_18_220000_complete_web_checkin_circuito",
@@ -95,7 +95,7 @@
     "resources/views/web-checkin/completed.blade.php": "0774ed7c57a2e9207a0c706a24d383c66942d34cdf75742ce4068fa6cf52268f",
     "resources/views/web-checkin/comunicazioni.blade.php": "2b69799fefd00baf978f5db402e8e0a523fa9a8099fe70303d56e8edd592a0d5",
     "resources/views/web-checkin/form.blade.php": "e1ed9db2ad709510d1693cd704ddb63f0dc7e697c1c23263bc745c47029e97d9",
-    "resources/views/web-checkin/index.blade.php": "ef8c5d14b2c61704e2f2558b1bf1122284c7e662513366b343c412120fd86692",
+    "resources/views/web-checkin/index.blade.php": "94926316bd03584a88a5f43f65b8a9c4b5c9daa8f9d89ea4afd01db121c01f50",
     "resources/views/web-checkin/invite.blade.php": "807011839d8146b04d50ec8f79830c49fda881c491bcb6ee1b0a09fcdaf892b5",
     "resources/views/web-checkin/messaggio.blade.php": "1433f7e68d4a7f76d79569ba3ad3f759b225a003bf2e0a4348299484a5bbd4df",
     "resources/views/web-checkin/partials/navigation.blade.php": "daf5999a6d93e5543df5dd7309a3ffd069f3372c817aa1f93a6e23d2f1ca98ea",
@@ -122,7 +122,7 @@
     "tests/Feature/WebCheckinShortLinkTest.php": "816dbab9677ce5d1a07d03bc6ad0f5d718bbb5e570e192fada997987d739580e",
     "tests/Feature/WebCheckinSmtpCurlTest.php": "fb75ea901b5dcf03f9feb5009bef6e46fb5f75ac4fc28beb8065e31f3469a5c2",
     "tests/Feature/arrivi-lifecycle.playwright.spec.js": "e7c979254bc7604d3f4a6f2241e238a61ab00c621b362ff1d20dd031e7512b7c",
-    "tests/Feature/web-checkin-circuito.playwright.spec.js": "b188f419739ee830d0fecbe0a20ccca56e3de9688887ab6f66ecfdc91c74228d",
+    "tests/Feature/web-checkin-circuito.playwright.spec.js": "c6d39143656809367494eaa099ea11b6bff264f847377070bde6b5a9e72df427",
     "tests/Feature/web-checkin-html.playwright.spec.js": "0bea57f4198f908fd79adb902688902d30bffc2d396a8b034bc34af1a3cf2b31",
     "tests/Feature/web-checkin-lifecycle.playwright.spec.js": "f0978f71b68b8d0e655a592f501ebbffbbc5fd35b22e8c9df1cbe1caa9a36b5a",
     "tests/Feature/web-checkin-operativo.playwright.spec.js": "173fccd8e566fac700a8057cbd912099735b756949556a9704dac9c1edbeddb9",
@@ -134,7 +134,7 @@
     "tests/Isolation/test_proxy_response.py": "8d265bae94c465ed6ece260e2bda83719d50dc90a435f83679a55cce4c999998",
     "tests/Support/WebCheckinPublicInput.php": "fe9e8d49d5cfcad15a7f47d6882a990f1f70ebe268506f6fd697307f6788744f"
   },
-  "collaudo_conclusivo": "R20 completo: PHP257/2991 e21browser sullo stesso overlay sigillato; R15/R18 storici non sommati",
+  "collaudo_conclusivo": "PHP R20:257/2991, invariato; browser R21:21PASS con vista tablet e controlli di leggibilità. Suite sovrapposte non sommate.",
   "R15_prove_browser_superate": [
     "  ✓   1 tests/Feature/web-checkin-circuito.playwright.spec.js:12:205 › Circuito OSPITE SINGOLO 1440px › Compilazione, revisione e check-in OSPITE SINGOLO 1440px (1.2m)",
     "  ✓   2 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito OSPITE SINGOLO 1440px › Storico e Cestino OSPITE SINGOLO 1440px (27.5s)",
@@ -220,5 +220,23 @@
     },
     "R19": "NON_PASS per attesa test Cache-Control esattamente no-store; Symfony restituisce no-store, private. Attesa corretta al valore più restrittivo, applicativo invariato R19→R20.",
     "anomalia_invocazione_Mac": "Invocata erroneamente suite Deployment76, include ArtisanIntegration su fixture dummy DBporta1. Guardie respingono comandi:12FAIL/2ERROR/5skip nel sandbox; nessun DB operativo. Non è provaPASS né parte della matrice qualificata; log conservato. Suite Laravel qualificata eseguita soltanto tramite runnerVM per R20."
+  },
+  "suite_qualificata_PHPUnit_e_browser_solo_VM": true,
+  "nessun_test_Laravel_produzione": true,
+  "rettifica_campo_storico": "Il precedente flag assoluto non descrive l’invocazione accidentale della suite Deployment sul Mac documentata nel correttivo_noindex_R20; non conta come prova qualificata. PHP e browser finali R20 esclusivamente nella VM isolata.",
+  "correttivo_tablet_R21": {
+    "esito": "PASS",
+    "motivo": "QA visiva768nonaccettabile pur senza overflow: date e pulsanti spezzati. Candidato precedente non dichiarato concluso; monitor intermedio interrotto dopo3campioni.",
+    "delta": "Sola vista Elenco/Storico: schede e filtri verticali fino1199px",
+    "browser": 21,
+    "build_GEO_immutabile": true,
+    "override_rifiutati": 23,
+    "regressione_leggibilita": "Date su una sola riga e pulsante Cerca >=80px con testo non spezzato a1440/768/390",
+    "PHP_R20_invariato": true,
+    "log_sha256": "87adffa75129f3ad24345ff9d4542f9d963b28c7e1dca5dfb1fe6b568f6e3a23",
+    "sorgenti_delta_sha256": {
+      "resources/views/web-checkin/index.blade.php": "94926316bd03584a88a5f43f65b8a9c4b5c9daa8f9d89ea4afd01db121c01f50",
+      "tests/Feature/web-checkin-circuito.playwright.spec.js": "c6d39143656809367494eaa099ea11b6bff264f847377070bde6b5a9e72df427"
+    }
   }
 }

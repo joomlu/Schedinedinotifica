@@ -269,5 +269,76 @@
     ],
     "solo_vendor_node_build_derivati_sigillati_stesso_lock": true,
     "SQL_DB_env_upload_loghi_chiavi_TLS_evidenze_preservati": true
+  },
+  "ritiro-derivati-prima-tablet.json": {
+    "esito": "PASS_SOLI_DERIVATI_DEI_RECUPERI_PROPRI",
+    "prima": 1572085760,
+    "dopo": 2100215808,
+    "directory": [
+      {
+        "path": "/tmp/schedine-linux-cold-final-81uotea1/extracted/home/tanggosoftware/repos/schedinedinotifica/vendor",
+        "inventario_sha256": "1d57fbe1afd03c371a0c62e5534959ed404c1ee8e81d934a3c0aadc2253149dc",
+        "voci": 9205,
+        "byte_nominali": 44058007,
+        "sigillo_voci": "b7afabe92428908f8f6ae97f9539128decf91d0efaba58645c5cbe011ce0572c"
+      },
+      {
+        "path": "/tmp/schedine-linux-cold-final-81uotea1/extracted/home/tanggosoftware/repos/schedinedinotifica/public/build",
+        "inventario_sha256": "1d57fbe1afd03c371a0c62e5534959ed404c1ee8e81d934a3c0aadc2253149dc",
+        "voci": 4135,
+        "byte_nominali": 181207341,
+        "sigillo_voci": "81c7718c645bd1537ce1149361bf59a3a5aacc61f55413cd7d1ece4b7b6195d3"
+      },
+      {
+        "path": "/tmp/schedine-linux-cold-final-_r4_2suh/extracted/home/tanggosoftware/repos/schedinedinotifica/vendor",
+        "inventario_sha256": "1cf1dd61e45e161d3e7080e8607e5a6605d252993e07e41d8243c76ce9d7feac",
+        "voci": 9205,
+        "byte_nominali": 44058007,
+        "sigillo_voci": "b7afabe92428908f8f6ae97f9539128decf91d0efaba58645c5cbe011ce0572c"
+      },
+      {
+        "path": "/tmp/schedine-linux-cold-final-_r4_2suh/extracted/home/tanggosoftware/repos/schedinedinotifica/public/build",
+        "inventario_sha256": "1cf1dd61e45e161d3e7080e8607e5a6605d252993e07e41d8243c76ce9d7feac",
+        "voci": 4135,
+        "byte_nominali": 181207341,
+        "sigillo_voci": "81c7718c645bd1537ce1149361bf59a3a5aacc61f55413cd7d1ece4b7b6195d3"
+      }
+    ],
+    "solo_vendor_node_build_derivati_sigillati_stesso_lock": true,
+    "SQL_DB_env_upload_loghi_chiavi_TLS_evidenze_preservati": true
+  },
+  "ritiro-cache-prima-tablet.json": {
+    "esito": "PASS_RITIRO_CACHE_DB_RICOSTRUIBILI",
+    "prima": 2100215808,
+    "dopo": 2513231872,
+    "derivati": [
+      {
+        "root": "/tmp/schedine-linux-cold-final-81uotea1",
+        "dump_ripristinato_identico_sha256": "1117aeae1c802917f0973615947af7767f613016cc69184469e4993146d844fd",
+        "voci": 342,
+        "byte_nominali": 206074040,
+        "sigillo_cache": "a4181f9ca5ba4daf199471a3fc72bfbf550f86f1a0892a2db5ee1e67ad078990"
+      },
+      {
+        "root": "/tmp/schedine-linux-cold-final-_r4_2suh",
+        "dump_ripristinato_identico_sha256": "1117aeae1c802917f0973615947af7767f613016cc69184469e4993146d844fd",
+        "voci": 342,
+        "byte_nominali": 206074040,
+        "sigillo_cache": "390ba31c7e1de964ca7a66f424d06bcd51764840f9fbbad47985962a4150dc1d"
+      }
+    ],
+    "solo_datadir_generate_da_cold_verify": true,
+    "SQL_ridump_cifrati_env_upload_chiavi_sorgenti_evidenze_preservati": true,
+    "limite": "Ricostruibilita attestata dai dump SQL sorgente e ridump identici del recupero gia eseguito; non sono database operativi o sorgenti di backup."
+  },
+  "compattazione-CoW-tablet.json": {
+    "esito": "PASS_COPIE_IDENTICHE_COW_PRESERVATE",
+    "prima": 2077188096,
+    "dopo": 2923024384,
+    "duplicati": 26123,
+    "byte_nominali_duplicati": 5758635879,
+    "file_preservati_con_byte_metadati_xattrs_identici": true,
+    "ambito": "Sole copie di oggetti Git/documenti/reference/resources nei recuperi conclusi; nessun file rimosso, nessun DB/env/upload/chiave/tls/config toccato",
+    "manifest_interventi_SHA256": "5c944e900870e9cc17bc5f1fad09ec8dde1c6f09a15211cf26ff5e495036bb7a"
   }
 }
