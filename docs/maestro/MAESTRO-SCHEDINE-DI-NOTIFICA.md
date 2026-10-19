@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Invio Web Check-in — verifica online447571f4 e correttivo tablet pendente
+
+C5 tecnico e tre invii reali Gmail HTML/pulsante PASS; percorso mobile fino alla reception/Storico PASS. Fixture rimossa,66tabelle HMACidentiche e75persistenti invariati. QA visuale tablet768 NON PASS: «Apri richiesta» compresso su più righe. Correttivo CSS e controllo browser aggiunto qualificati R5:263test/3074asserzioni e21browser PASS; nuova pubblicazione e monitor finale900s ancora necessari. Nessun completamento anticipato. BASELINE IN AUDIT generale invariata. [Rapporto](../WEB-CHECKIN-INVIO-2026-10-19.md).
+
+
 ## Invio e reinvio Web Check-in — collaudo isolato PASS, C5 pendente, 19 ottobre 2026
 
 **COLLAUDO ISOLATO PASS; nessuna nuova pubblicazione o prova reale di invio ancora attestata. BASELINE IN AUDIT generale invariata.** [Rapporto](../WEB-CHECKIN-INVIO-2026-10-19.md). Stato iniziale verificato: Git4fe1710 e produzione3d78e513 pulita/FPMattivo. Difetto riprodotto nella VM sulla baseline e osservato online in sola lettura: elenco privo del comando di invio dopo preparazione e del reinvio guidato. Rita Giorgetti solo lettura, nessuna modifica o email: link revocato e soggiorno trascorso; apertura esterna precedente non prova un invio. Correzione autorizzata di elenco/dettaglio/anteprima e tentativi SMTP, senza DDL/configurazione; accettazione distinta da consegna e compilazione distinta da check-in. R4:263test/3074asserzioni e21browser1440/768/390 PASS,17guardie/23override/buildGEO; prove solo VM, nessun test Laravel Mac/produzione, consegne simulate distinte dalle reali. Nuovo C5/recuperi/QA reale controllata/monitor ancora pendenti. Extra realeAPFS/UUID488ACB8D-6B99-49AE-8A3C-175FD66F5466 riconfermato con scrittura, cartella esclusiva; soli derivati propri verificati e30repliche temporanee cifrate ritirate dopo rilettura/HMAC/decifratura integrale delle copie Extra, chiavi e altre copie conservate. Nessuna crescita VM ripetuta o controllo ridotto. Lavoro estraneo preservato.

@@ -1,6 +1,6 @@
 {
   "stato": "PASS_WEB_CHECKIN_INVIO_ISOLATO",
-  "UTC": "2026-10-19T17:17:07.692600+00:00",
+  "UTC": "2026-10-19T18:50:31.937413+00:00",
   "PHPUnit": {
     "test": 263,
     "asserzioni": 3074,
@@ -22,7 +22,7 @@
   "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
   "nessun_test_Laravel_Mac_o_produzione": true,
   "invii_isolati": "Trasporto in memoria e server SMTPS TLS sintetico in loopback; nessuna consegna reale dedotta",
-  "invio_reale_online": "ANCORA_DA_VERIFICARE",
+  "invio_reale_online": "TRE_INVII_GMAIL_HTML_VERIFICATI_SU_447571f4; CORRETTIVO_SOLO_CSS_DA_PUBBLICARE",
   "sorgenti_sha256": {
     "app/Http/Controllers/ArrivalsController.php": "a03611e9d05b0a59393b45a8b1ff4b398d7867c6798ebb9175fccbaa52f40b16",
     "app/Http/Controllers/CalendarioController.php": "e2665fe96cd53e23a211cc14630b13b7397ed92dc956f07ce7cfadf167bc2037",
@@ -78,7 +78,7 @@
     "resources/views/web-checkin/completed.blade.php": "0774ed7c57a2e9207a0c706a24d383c66942d34cdf75742ce4068fa6cf52268f",
     "resources/views/web-checkin/comunicazioni.blade.php": "d1d373b5ea7a6d0fb787312dcce0e31ddddc107289238d3685dc25792a5f06d5",
     "resources/views/web-checkin/form.blade.php": "fcf71f9e191c991358ed4c22c48ce0577a7b509640e7e1db4ff87906215a272c",
-    "resources/views/web-checkin/index.blade.php": "82cd7fa1ed646a65df981e4b4ad73696e10d8fca7c3d199c2f5f028fd83b3e33",
+    "resources/views/web-checkin/index.blade.php": "7dd9121b9e26752659095efa377c90c83b95bc636129e52be6f17c6eaf232237",
     "resources/views/web-checkin/invite.blade.php": "807011839d8146b04d50ec8f79830c49fda881c491bcb6ee1b0a09fcdaf892b5",
     "resources/views/web-checkin/messaggio.blade.php": "3eb4c8bbd96d8d9a0dd75ff22c204d961b378c0871a11d6c9b8d0cc0b89959ce",
     "resources/views/web-checkin/partials/comunicazione-stato.blade.php": "dbb60e1144f651c6a17ffd19fa4ca74a3e1749ccd597a90e7269cccad4bb2e5f",
@@ -107,7 +107,7 @@
     "tests/Feature/WebCheckinShortLinkTest.php": "816dbab9677ce5d1a07d03bc6ad0f5d718bbb5e570e192fada997987d739580e",
     "tests/Feature/WebCheckinSmtpCurlTest.php": "9429da7d54052f871565d983cebf57592705e0f70e7a4d36034bf4325b1f9565",
     "tests/Feature/arrivi-lifecycle.playwright.spec.js": "e7c979254bc7604d3f4a6f2241e238a61ab00c621b362ff1d20dd031e7512b7c",
-    "tests/Feature/web-checkin-circuito.playwright.spec.js": "051ce07d3c276fa57ee95fc010ff4085bce89aaaef55b1bdd14cc833ad7deb1b",
+    "tests/Feature/web-checkin-circuito.playwright.spec.js": "c417337023301fd62593416f240686725a1cb7747092a5bcaa699514a7943ee6",
     "tests/Feature/web-checkin-html.playwright.spec.js": "b53a85d698558c17d3e6dfc0e831edd6e0111395cbfd89373bf30f0e26e64e23",
     "tests/Feature/web-checkin-lifecycle.playwright.spec.js": "f0978f71b68b8d0e655a592f501ebbffbbc5fd35b22e8c9df1cbe1caa9a36b5a",
     "tests/Feature/web-checkin-operativo.playwright.spec.js": "22a5b44d530300afcccd70c4fcdc27f5c282aac85557060db78e2fd0c10a34b7",
@@ -119,8 +119,8 @@
     "tests/Isolation/test_proxy_response.py": "8d265bae94c465ed6ece260e2bda83719d50dc90a435f83679a55cce4c999998",
     "tests/Support/WebCheckinPublicInput.php": "fe9e8d49d5cfcad15a7f47d6882a990f1f70ebe268506f6fd697307f6788744f"
   },
-  "log_R4_sha256": "c28b76d28819dbe6b3714fe0e0e60976a41af090c16818030fac6cc4c78d4f34",
-  "guardie_sha256": "e916a97005c594fe54b267899c906bd6f44219eb4a9d8d366a5c1d8fbc2fe5fd",
+  "log_R5_sha256": "2ff97087c8d08315368c8a0b2fbeac06aaef03c4a5307eedbb340c92eab2d059",
+  "guardie_sha256": "e931d453abbd0c540e57eca287504217ede4b70431720b85ceb3e2c1d5786df1",
   "riproduzione_baseline": {
     "esito": "NEGATIVO_ATTESO_AZIONE_ASSENTE",
     "log_sha256": "d7e88767b80a4214169a7cec6537ea042cd4c66da8ffcf5e2b4fa5acc0d366c6"
