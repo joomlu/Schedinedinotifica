@@ -284,7 +284,8 @@ class WebCheckinLifecycleTest extends TestCase
         $payload = ['save_mode' => 'to_arrivi', 'name' => 'Destinatario diverso', 'surname' => 'Ospite', 'arrive' => '2026-10-12', 'departure' => '2026-10-15', 'cant_people' => 1, 'room' => 1, 'beds' => 1];
         $this->putWeb('/schedine/'.$r->schedina_id, $payload)->assertSessionHasNoErrors()->assertRedirect();
         $this->assertSame('2026-10-09', $r->fresh()->arrivo->toDateString());
-        $this->assertSame('convertito', $r->fresh()->stato);
+        $this->assertNotSame('convertito', $r->fresh()->stato);
+        $this->assertNull($r->fresh()->convertito_at);
         $this->get('/checkin/'.$r->token)->assertNotFound();
     }
 

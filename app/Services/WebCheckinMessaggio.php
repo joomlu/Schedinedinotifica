@@ -8,16 +8,17 @@ use Illuminate\Validation\ValidationException;
 /** Sostituzione testuale: nessuna valutazione Blade, PHP o HTML. */
 class WebCheckinMessaggio
 {
-    public const VARIABLES = ['struttura', 'referente', 'prenotazione', 'arrivo', 'partenza', 'persone', 'link', 'scadenza', 'email_struttura', 'telefono_struttura'];
+    public const VARIABLES = ['struttura', 'referente', 'prenotazione', 'arrivo', 'partenza', 'persone', 'link', 'scadenza', 'email_struttura', 'telefono_struttura', 'messaggio_ospite'];
 
     public function improntaInvito(WebCheckinRichiesta $request): string
     {
-        return hash_hmac('sha256', json_encode([$request->only(['struttura_id', 'nome_referente', 'numero_prenotazione', 'email', 'whatsapp', 'arrivo', 'partenza', 'quantita_persone', 'token', 'short_token', 'link_expires_at']), app(WebCheckinIdentita::class)->of($request->struttura)], JSON_THROW_ON_ERROR), (string) config('app.key'));
+        return hash_hmac('sha256', json_encode([$request->only(['struttura_id', 'nome_referente', 'numero_prenotazione', 'email', 'whatsapp', 'arrivo', 'partenza', 'quantita_persone', 'messaggio_ospite', 'numero_adulti', 'numero_bambini', 'token', 'short_token', 'link_expires_at']), app(WebCheckinIdentita::class)->of($request->struttura)], JSON_THROW_ON_ERROR), (string) config('app.key'));
     }
 
     public function render(string $subject, string $body, WebCheckinRichiesta $request, array $layout = []): array
     {
         $values = [
+            'messaggio_ospite' => $request->messaggio_ospite ?: 'Completa i dati prima dell’arrivo. Puoi salvare e continuare più tardi.',
             'struttura' => $request->struttura?->nome_struttura,
             'referente' => $request->nome_referente,
             'prenotazione' => $request->numero_prenotazione,
@@ -69,7 +70,7 @@ class WebCheckinMessaggio
     {
         return ['saluto' => 'Gentile {{referente}},',
             'testo' => "il tuo soggiorno a {{struttura}} si avvicina!\nCompleta il check-in online prima dell’arrivo:\nci aiuterai ad accoglierti più velocemente.",
-            'pulsante' => 'Vai al Check-in',
+            'pulsante' => 'Completa il web check-in',
             'firma' => "Ti aspettiamo!\nLa Reception · {{struttura}}"];
     }
 

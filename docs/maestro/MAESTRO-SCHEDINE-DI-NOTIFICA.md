@@ -1,5 +1,9 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Completamento circuito Web Check-in — candidato verificato,19ottobre2026
+
+**Candidato verificato in isolamento; nessuna nuova pubblicazione ancora dichiarata.** [Rapporto](../WEB-CHECKIN-CIRCUITO-2026-10-18.md), [sigilli](../evidenze/web-checkin-circuito-2026-10-18/verifica.json). Circuito Web→revisione separata→conversione esplicita transazionale/idempotente con cliente/componenti→Storico cifrato e immutabile; Cestino senza eliminazione definitiva, dati conservati e ripristino senza duplicati/token riattivati. Adulti/bambini all’arrivo, referente distinto, note/CRM riservati. Due schedeWeb precedenti collegabili esplicitamente senza inventare dati; record reali intatti. Migrazione5nullable158→159/66tabelle verificata. **257test/2867asserzioni,21browser1440/768/390,17guardie/23override/buildGEO PASS**, concorrenza reale e rollback inclusi; suite non sommate, FAIL intermedi conservati. Produzione1c3b7a6/158/66 e9sonde riconfermate; nuovoC5/PREPARE/S0/Extra/recupero/QAonline/pulizia/monitor900s ancora pendenti. Mac30.284.079.104/Extra603.084.230.656byte nella misura preparatoria; UUID/APFS/scritturaPASS, soglie8/40GiB/riservaVM1GiB e budget1800/600/1379/421 invariati. Solo derivati/cache propri verificati ritirati, backup/chiavi/dati/lavoro estraneo conservati. SMTP/DNS/configurazione posta invariati. BASELINE IN AUDIT generale mantenuta.
+
 ## Chiusura DNS e consegna Gmail — 18 ottobre 2026
 
 **Web Check-in HTML pubblicato e verificato online: applicativo `1c3b7a6c6aba71c2f57da76c304638eb7e13015d`. Nuovo invito realmente ricevuto in Posta in arrivo Gmail, HTML visualizzato e pulsante verificato. Monitor dopo l’ultima pulizia PASS. BASELINE IN AUDIT generale invariata.** [Rapporto](../WEB-CHECKIN-HTML-2026-10-18.md), [ricevuta](../evidenze/web-checkin-html-2026-10-18/rilascio.json).

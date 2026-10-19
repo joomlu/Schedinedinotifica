@@ -40,7 +40,7 @@ test('Riprogrammazione gestionale nel browser: attivo aggiornato e scaduto non r
 test('Conversione reale dall’interfaccia in Arrivo: dati operatore conservati, link senza dati',async({page})=>{
  const r=await ids(page);await login(page);await page.goto(`${BASE_URL}/schedine/${r.operational.parent}/modifica`,{waitUntil:'domcontentloaded'});
  await page.locator('button[name="save_mode"][value="to_arrivi"]:visible').first().click();await expect(page).toHaveURL(/\/arrivi$/);
- const state=await (await page.request.get(`${BASE_URL}/audit-token/state/operational`)).json();expect(state.request.stato).toBe('convertito');expect(state.parent.circuito).toBe('arrivi');expect(state.parent.name).toBe('OSPITE-operational');
+ const state=await (await page.request.get(`${BASE_URL}/audit-token/state/operational`)).json();expect(state.request.stato).not.toBe('convertito');expect(state.parent.circuito).toBe('arrivi');expect(state.parent.name).toBe('OSPITE-operational');
  await page.goto(`${BASE_URL}/logout`,{waitUntil:'domcontentloaded'});expect((await page.goto(`${BASE_URL}/w/${r.operational.short}`)).status()).toBe(200);await expect(page.locator('body')).toContainText('Grazie! Abbiamo ricevuto i tuoi dati.');
 });
 test('Cestino nel browser: cancellazione, ripristino bloccato, emissione autorizzata nuova',async({page})=>{

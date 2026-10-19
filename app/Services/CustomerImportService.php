@@ -352,6 +352,54 @@ class CustomerImportService
         });
     }
 
+    /** Riusa mappatura/normalizzazione/codifica cliente, senza sovrascrivere anagrafiche esistenti. */
+    public function clienteDaSchedinaWeb(Schedina $schedina): Customers
+    {
+        if ($schedina->customer_id) {
+            $customer = Customers::withoutGlobalScopes()->where('struttura_id', $schedina->struttura_id)->findOrFail($schedina->customer_id);
+            if (mb_strtolower(trim($customer->name)) !== mb_strtolower(trim($schedina->name))
+                || mb_strtolower(trim($customer->surname)) !== mb_strtolower(trim($schedina->surname))
+                || substr((string) $customer->nac_reg, 0, 10) !== substr((string) $schedina->oa_date_nac, 0, 10)) {
+                throw \Illuminate\Validation\ValidationException::withMessages(['customer_id' => 'Il cliente collegato non corrisponde al titolare. Verifica la selezione prima del check-in.']);
+            }
+            return $customer;
+        }
+        if (filled($schedina->or_doc) && filled($schedina->or_doctype)) {
+            $documents = Customers::withoutGlobalScopes()->where('struttura_id', $schedina->struttura_id)
+                ->where('type_doc_reg', $schedina->or_doctype)->where('num_doc_reg', $schedina->or_doc)->lockForUpdate()->get();
+            foreach ($documents as $documentCustomer) {
+                if ($documents->count() > 1 || mb_strtolower(trim($documentCustomer->name)) !== mb_strtolower(trim($schedina->name))
+                    || mb_strtolower(trim($documentCustomer->surname)) !== mb_strtolower(trim($schedina->surname))
+                    || substr((string) $documentCustomer->nac_reg, 0, 10) !== substr((string) $schedina->oa_date_nac, 0, 10)) {
+                    throw \Illuminate\Validation\ValidationException::withMessages(['customer_id' => 'Il documento è già associato a un’anagrafica da verificare: seleziona esplicitamente il cliente nella revisione.']);
+                }
+            }
+        }
+        $matches = Customers::withoutGlobalScopes()->where('struttura_id', $schedina->struttura_id)
+            ->where('name', $schedina->name)->where('surname', $schedina->surname)->where('nac_reg', substr((string) $schedina->oa_date_nac, 0, 10))->lockForUpdate()->get();
+        if ($matches->count() > 1) throw \Illuminate\Validation\ValidationException::withMessages(['customer_id' => 'Sono presenti anagrafiche omonime: seleziona esplicitamente il cliente nella revisione.']);
+        if ($matches->count() === 1) {
+            $customer = $matches->first();
+            if (filled($customer->num_doc_reg) && (string) $customer->num_doc_reg !== (string) $schedina->or_doc) {
+                throw \Illuminate\Validation\ValidationException::withMessages(['customer_id' => 'Il documento differisce dall’anagrafica esistente: verifica e seleziona esplicitamente il cliente.']);
+            }
+            return $customer;
+        }
+        $struttura = Struttura::withoutGlobalScopes()->findOrFail($schedina->struttura_id);
+        $normalized = $this->normalizePayload($this->importPayloadFromSchedina($schedina), $struttura);
+        $data = $this->buildCustomerPayloadForImport($normalized, (int) $schedina->struttura_id);
+        $data['type_housed'] = 'Ospite';
+        $data['type'] = $schedina->type;
+        foreach (['privacy', 'marketing', 'communication'] as $consent) {
+            $data[$consent.'_consent'] = $schedina->{'customer_'.$consent.'_consent'};
+            $data[$consent.'_consent_at'] = $schedina->{'customer_'.$consent.'_consent_at'};
+        }
+        $customer = new Customers($data);
+        $this->ensureNumeroCliente($customer, 'Ospite');
+        $customer->save();
+        return $customer;
+    }
+
     private function importPayloadFromSchedina(Schedina $schedina): array
     {
         $fields = [

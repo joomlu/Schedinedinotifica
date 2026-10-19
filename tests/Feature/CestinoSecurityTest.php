@@ -281,17 +281,31 @@ class CestinoSecurityTest extends TestCase
         $this->assertSame($c['adminB']->getRawOriginal('password'), User::findOrFail($c['adminB']->id)->getRawOriginal('password'));
     }
 
-    public function test_superadmin_purge_struttura_e_ripristina_catalogo_globale(): void
+    public function test_superadmin_purge_struttura_vuota_e_non_attribuisce_catalogo_globale(): void
     {
         $c = $this->contesto();
-        $structure = $this->archiviaStruttura($c);
-        $this->actingAs($c['super'])->delete('/cestino/'.$structure->id)->assertRedirect();
-        $this->assertDatabaseMissing('struttura', ['id' => $c['b']->id]);
+        $empty = Struttura::withoutEvents(fn () => $this->structureFor($c['ownerB']));
+        $this->actingAs($c['super'])->delete('/superadmin/strutture/'.$empty->id)->assertRedirect();
+        $structure = CestinoItem::where('entity_class', Struttura::class)->where('original_id', $empty->id)->sole();
+        $this->delete('/cestino/'.$structure->id)->assertRedirect();
+        $this->assertDatabaseMissing('struttura', ['id' => $empty->id]);
         $titolo = Titolo::create(['nome' => 'Titolo sintetico', 'attivo' => true]);
         $item = app(CestinoService::class)->archiveModel($titolo);
         $titolo->delete();
-        $this->post('/cestino/'.$item->id.'/ripristina')->assertRedirect();
-        $this->assertDatabaseHas('titolo', ['id' => $titolo->id, 'nome' => 'Titolo sintetico']);
+        $this->post('/cestino/'.$item->id.'/ripristina')->assertSessionHasErrors('titolo')->assertRedirect();
+        $this->assertDatabaseMissing('titolo', ['id' => $titolo->id]);
+        $this->assertDatabaseHas('cestino_items', ['id' => $item->id]);
+    }
+
+    public function test_purge_con_dipendenze_rifiutato_senza_errori_sql_o_perdita_dati(): void
+    {
+        $c = $this->contesto(); $item = $this->archiviaStruttura($c);
+        $gruppi = DB::table('gruppi')->where('struttura_id', $c['b']->id)->orderBy('id')->get()->toJson();
+        $this->assertNotSame('[]', $gruppi);
+        $this->actingAs($c['super'])->delete('/cestino/'.$item->id)->assertStatus(409);
+        $this->assertSoftDeleted('struttura', ['id' => $c['b']->id]);
+        $this->assertDatabaseHas('cestino_items', ['id' => $item->id]);
+        $this->assertSame($gruppi, DB::table('gruppi')->where('struttura_id', $c['b']->id)->orderBy('id')->get()->toJson());
     }
 
     public function test_webcheckin_non_archivia_vecchio_token_e_restore_ne_genera_uno_nuovo(): void

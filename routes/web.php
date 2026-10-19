@@ -472,6 +472,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/web-checkin/{id}/comunicazioni', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'prepara'])->name('web_checkin.prepara')->where('id', '[1-9][0-9]{0,17}');
     Route::get('/web-checkin/{id}/comunicazioni/{communication}', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'show'])->name('web_checkin.comunicazione')->where(['id' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
     Route::get('/web-checkin', [WebCheckinController::class, 'index'])->name('schedina.web');
+    Route::get('/web-checkin/storico', [WebCheckinController::class, 'index'])->name('web_checkin.storico');
     Route::get('/web-checkin/nuovo', [WebCheckinController::class, 'create'])->name('web_checkin.create');
     Route::post('/web-checkin', [WebCheckinController::class, 'store'])->name('web_checkin.store');
     Route::get('/web-checkin/{id}/anteprima-modulo', [WebCheckinController::class, 'anteprimaModulo'])->name('web_checkin.anteprima_modulo')->where('id', '[1-9][0-9]{0,17}');

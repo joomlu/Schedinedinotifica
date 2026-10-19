@@ -97,7 +97,7 @@ class CestinoService
             Proprietario::class => ['struttura_ids', 'user_ids', 'licenza_ids', 'import_batch_ids'],
             Struttura::class => ['access_user_ids', 'licenza_ids', 'crm_lead_ids'],
             Schedina::class => ['componenti', 'camere'],
-            WebCheckinRichiesta::class => ['schedina'],
+            WebCheckinRichiesta::class => ['schedina', 'comunicazioni_ids'],
             default => [],
         };
         $data = Arr::only($payload, ['id', ...$model->getFillable(), ...$extra]);
@@ -132,7 +132,7 @@ class CestinoService
         $safe = [];
         foreach ($payload as $key => $value) {
             $field = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', (string) $key));
-            if (in_array($field, ['istat_username', 'questura_username', 'questura_codici'], true)
+            if (in_array($field, ['istat_username', 'questura_username', 'questura_codici', 'compilazione_snapshot', 'conversione_snapshot'], true)
                 || preg_match('/password|passwd|token|secret|credential|credenzial|wskey|(^|_)(key|puk)($|_)|auth_code|codic[ei]_auth/', $field)) {
                 continue;
             }
@@ -179,6 +179,8 @@ class CestinoService
 
     public function purgeItem(CestinoItem $item): void
     {
+        abort_if($item->entity_class === WebCheckinRichiesta::class || ($item->entity_class === Schedina::class && $item->circuito === 'web'), 403, 'Le richieste Web Check-in possono essere ripristinate: eliminazione definitiva non disponibile.');
+        try {
         DB::transaction(function () use ($item) {
             $class = $item->entity_class;
             $originalId = $item->original_id;
@@ -193,6 +195,10 @@ class CestinoService
 
             $item->delete();
         });
+        } catch (\Illuminate\Database\QueryException $e) {
+            if (($e->errorInfo[1] ?? null) === 1451) abort(409, 'Impossibile eliminare definitivamente: esistono dati collegati. Gli elementi sono stati conservati.');
+            throw $e;
+        }
     }
 
     private function buildSnapshot(Model $model): array
@@ -216,7 +222,7 @@ class CestinoService
         if ($model instanceof WebCheckinRichiesta) {
             $model->loadMissing(['struttura']);
             $schedina = $model->schedina_id
-                ? Schedina::query()->withoutGlobalScopes()->with(['componenti', 'camere'])->find($model->schedina_id)
+                ? Schedina::query()->withoutGlobalScopes()->where('struttura_id', $model->struttura_id)->with(['componenti', 'camere'])->find($model->schedina_id)
                 : null;
 
             return [
@@ -225,6 +231,9 @@ class CestinoService
                 'circuito' => 'web',
                 'source' => 'Web Check-in',
                 'payload' => array_merge($model->toArray(), [
+                    'compilazione_snapshot' => $model->getRawOriginal('compilazione_snapshot'),
+                    'conversione_snapshot' => $model->getRawOriginal('conversione_snapshot'),
+                    'comunicazioni_ids' => \App\Models\WebCheckinComunicazione::where('struttura_id', $model->struttura_id)->where('richiesta_id', $model->id)->pluck('id')->all(),
                     'schedina' => $schedina?->toArray(),
                     'schedina_componenti' => $schedina?->componenti?->toArray() ?? [],
                     'schedina_camere' => $schedina?->camere?->toArray() ?? [],
@@ -377,24 +386,29 @@ class CestinoService
 
     private function restoreWebCheckinRichiesta(array $payload): WebCheckinRichiesta
     {
+        $oldId = $payload['id'] ?? null;
+        $communications = Arr::pull($payload, 'comunicazioni_ids', []);
         $schedinaPayload = Arr::pull($payload, 'schedina');
         Arr::pull($payload, 'schedina_componenti');
         Arr::pull($payload, 'schedina_camere');
         Arr::pull($payload, 'struttura');
         $strutturaId = isset($payload['struttura_id']) ? (int) $payload['struttura_id'] : null;
 
-        if (is_array($schedinaPayload)) {
+        $existingSheet = !empty($payload['schedina_id']) ? Schedina::withoutGlobalScopes()->where('struttura_id', $strutturaId)->find($payload['schedina_id']) : null;
+        if ($existingSheet) {
+            $payload['schedina_id'] = $existingSheet->id;
+        } elseif (is_array($schedinaPayload) && (int) ($schedinaPayload['struttura_id'] ?? 0) === $strutturaId && ($schedinaPayload['circuito'] ?? null) === 'web' && empty($payload['conversione_snapshot'])) {
             $schedina = $this->restoreSchedina($schedinaPayload);
             $payload['schedina_id'] = $schedina->id;
-        } elseif (!empty($payload['schedina_id']) && !$this->baseQueryForClass(Schedina::class)->whereKey($payload['schedina_id'])->exists()) {
+        } elseif (!empty($payload['schedina_id']) && !$existingSheet) {
             $payload['schedina_id'] = null;
         }
 
-        $payload['arrivo'] = $this->normalizeDateValue($payload['arrivo'] ?? null);
-        $payload['partenza'] = $this->normalizeDateValue($payload['partenza'] ?? null);
-        $payload['ultimo_accesso_at'] = $this->normalizeDateTimeValue($payload['ultimo_accesso_at'] ?? null);
-        $payload['compilato_at'] = $this->normalizeDateTimeValue($payload['compilato_at'] ?? null);
-        $payload['convertito_at'] = $this->normalizeDateTimeValue($payload['convertito_at'] ?? null);
+        $payload['arrivo'] = $this->normalizeWebDate($payload['arrivo'] ?? null, 'Y-m-d');
+        $payload['partenza'] = $this->normalizeWebDate($payload['partenza'] ?? null, 'Y-m-d');
+        $payload['ultimo_accesso_at'] = $this->normalizeWebDate($payload['ultimo_accesso_at'] ?? null, 'Y-m-d H:i:s');
+        $payload['compilato_at'] = $this->normalizeWebDate($payload['compilato_at'] ?? null, 'Y-m-d H:i:s');
+        $payload['convertito_at'] = $this->normalizeWebDate($payload['convertito_at'] ?? null, 'Y-m-d H:i:s');
         $payload['created_at'] = now();
         $payload['updated_at'] = now();
 
@@ -412,6 +426,7 @@ class CestinoService
             'preserve_id' => false,
         ]);
         $richiesta->forceFill(['short_token' => null, 'link_revoked_at' => now(), 'link_issued_at' => null, 'link_expires_at' => null])->save();
+        if ($oldId && $communications) \App\Models\WebCheckinComunicazione::where('struttura_id', $strutturaId)->where('richiesta_id', $oldId)->whereIn('id', $communications)->update(['richiesta_id' => $richiesta->id]);
         return $richiesta;
     }
 
@@ -709,19 +724,7 @@ class CestinoService
 
     private function nextRichiestaCode(int $strutturaId): string
     {
-        $codes = WebCheckinRichiesta::query()
-            ->withoutGlobalScopes()
-            ->where('struttura_id', $strutturaId)
-            ->pluck('codice');
-
-        $max = 0;
-        foreach ($codes as $code) {
-            if (preg_match('/^WC(\d+)$/i', (string) $code, $m)) {
-                $max = max($max, (int) $m[1]);
-            }
-        }
-
-        return 'WC' . ($max + 1);
+        return 'WC'.(string) Str::ulid();
     }
 
     private function nextWebCheckinToken(): string
@@ -745,6 +748,20 @@ class CestinoService
     private function baseQueryForClass(string $class)
     {
         return $class::query()->withoutGlobalScopes();
+    }
+
+    private function normalizeWebDate($value, string $format): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        try {
+            return \Illuminate\Support\Carbon::parse((string) $value, config('app.timezone'))
+                ->setTimezone(config('app.timezone'))->format($format);
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     private function normalizeDateValue($value): ?string

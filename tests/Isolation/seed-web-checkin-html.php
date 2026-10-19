@@ -7,4 +7,5 @@ foreach([[$s,35,'#345678'],[$b,170,'#8c3d57']]as[$hotel,$red,$color]){
  $path='uploads/loghi/html-browser-'.$hotel->id.'.png';\Illuminate\Support\Facades\Storage::disk('public')->put($path,$png);
  $hotel->forceFill(['logo'=>'storage/'.$path,'web_checkin_colore'=>$color])->save();
 }
-file_put_contents(public_path('web-html-fixture.json'),json_encode(['A'=>$s->id,'B'=>$b->id,'logoA'=>$s->logo,'logoB'=>$b->logo]));
+$legacy=\App\Models\Schedina::forceCreate(['struttura_id'=>$s->id,'circuito'=>'web','scheda'=>'WEB-PRECEDENTE-SINTETICA','name'=>'Titolare precedente','surname'=>'Sintetico','customer_email'=>'precedente@example.invalid','arrive'=>'2026-11-10','departure'=>'2026-11-13','cant_people'=>1]);
+file_put_contents(public_path('web-html-fixture.json'),json_encode(['legacy'=>$legacy->id,'A'=>$s->id,'B'=>$b->id,'logoA'=>$s->logo,'logoB'=>$b->logo]));

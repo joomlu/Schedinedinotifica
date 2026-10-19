@@ -2,29 +2,40 @@ import {test, expect, BASE_URL} from '../Support/playwright.js';
 test.use({headless: true});
 
 async function conferma(page) {
-    const yes = page.getByRole('button', {name: /Sì, salva/});
+    const yes = page.getByRole('button', {name: /^Sì,/});
     if (await yes.isVisible()) {
         await yes.click();
         await page.getByRole('button', {name: 'OK', exact: true}).click();
     }
+    await page.waitForLoadState('networkidle');
+    const esito = page.getByRole('dialog', {name: 'Operazione completata', exact: true});
+    if (await esito.isVisible()) await esito.getByRole('button', {name: 'OK', exact: true}).click();
 }
 
-for (const width of [1440, 768, 390]) test(`Web Check-in: richiesta, modelli, anteprima, parziale e Bozza a ${width}px`, async ({page}) => {
-    await page.setViewportSize({width, height: 950});
-    const errors = []; page.on('pageerror', e => errors.push(e.message));
-    page.on('dialog', d => d.accept());
+async function login(page) {
     await page.goto(`${BASE_URL}/login`);
     await page.locator('[name="login"]').fill('fixture-super_admin');
     await page.locator('[name="password"]').fill('Password-fixture-123!');
     await page.getByRole('button', {name: 'Entra', exact: true}).click();
-    await page.goto(`${BASE_URL}/web-checkin/nuovo`);
+    const fixture = await (await page.request.get(BASE_URL+'/web-html-fixture.json')).json();
+    await page.goto(BASE_URL+'/strutture/seleziona');
+    const selection=page.locator('.main-content form[action$="/strutture/'+fixture.A+'/seleziona"]');
+    const response=await page.request.post(BASE_URL+'/strutture/'+fixture.A+'/seleziona',{form:{_token:await selection.locator('[name=_token]').inputValue()},maxRedirects:0});
+    expect(response.status()).toBe(302);
+    await page.goto(BASE_URL+'/web-checkin');
+}
+for (const width of [1440, 768, 390]) { const saved={};test.describe.serial(`Operatività Web ${width}px`,()=>{test(`Richiesta e comunicazione ${width}px`, async ({page}) => {
+    await page.setViewportSize({width, height: 950});
+    const errors = []; page.on('pageerror', e => errors.push(e.message));
+    page.on('dialog', d => d.accept());
+    await login(page);    await page.goto(`${BASE_URL}/web-checkin/nuovo`);
     await page.locator('[name="numero_prenotazione"]').fill(`WEB-OPERATIVO-${width}`);
     await page.locator('[name="nome_referente"]').fill('Referente sintetico');
     await page.locator('[name="email"]').fill('sintetico@example.invalid');
     for (const [name, date] of [['arrivo', '2026-11-10'], ['partenza', '2026-11-13']]) {
         await page.locator(`[name="${name}"]`).evaluate((el, value) => el._flatpickr.setDate(value, true), date);
     }
-    await page.locator('[name="quantita_persone"]').fill('1');
+    await page.locator('[name="numero_adulti"]').fill('1');
     await page.locator('[name="note"]').fill('NOTA-INTERNA-SINTETICA');
     await page.getByRole('button', {name: 'Crea richiesta', exact: true}).click(); await conferma(page);
     await expect(page).toHaveURL(/\/web-checkin\/\d+\/modifica/);
@@ -51,6 +62,10 @@ for (const width of [1440, 768, 390]) test(`Web Check-in: richiesta, modelli, an
     await page.locator('#invito-nome').fill(`Copia sintetica ${width}`);
     await page.getByRole('button', {name: 'Duplica modello', exact: true}).click(); await conferma(page);
     await expect(page.locator('#invito-modello option')).toHaveCount(countBefore + 1);
+    Object.assign(saved,{manage,id,publicUrl});expect(errors).toEqual([]);
+});
+test(`Salvataggio parziale e ripresa ${width}px`,async({page})=>{
+    await page.setViewportSize({width,height:950});const errors=[];page.on('pageerror',e=>errors.push(e.message));const {publicUrl}=saved;
     await page.goto(publicUrl);
     const open = page.getByRole('link', {name: /Apri il tuo Web Check-in/});
     if (await open.isVisible()) await open.click();
@@ -60,6 +75,7 @@ for (const width of [1440, 768, 390]) test(`Web Check-in: richiesta, modelli, an
     await page.locator('#schedina-form [name="surname"]').fill('Sintetico');
     await page.locator('button[name="save_mode"][value="web"]:visible').first().click();
     await expect(page.locator('#schedina-form')).toHaveCount(0);
+    await expect(page.locator('body')).toContainText('Dati parziali salvati');
     await expect(page.locator('body')).toContainText('Dati salvati anche se incompleti');
     await page.goto(publicUrl); if (await open.isVisible()) await open.click();
     await expect(page.locator('#schedina-form [name="name"]')).toHaveValue(`Ospite parziale ${width}`);
@@ -71,16 +87,22 @@ for (const width of [1440, 768, 390]) test(`Web Check-in: richiesta, modelli, an
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
     console.log('LAYOUT_PUBBLICO', JSON.stringify({width,prima:layoutBefore,dopo:await page.evaluate(() => ({stato:document.readyState,larghezza:document.documentElement.scrollWidth}))}));
+    expect(errors).toEqual([]);
+});
+test(`Revisione separata ${width}px`,async({page})=>{
+    await page.setViewportSize({width,height:950});const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());await login(page);const {manage,id,publicUrl}=saved;
     await page.goto(manage);
-    await page.locator('#webcheckin-tab-accesso').click();
-    await page.getByRole('link', {name: 'Apri schedina web', exact: true}).click();
+    await page.getByRole('link', {name: 'Rivedi e correggi i dati ospiti', exact: true}).click();
     const sheetUrl = page.url();
-    await page.locator('button[name="save_mode"][value="draft"]:visible').first().click(); await conferma(page);
-    await expect(page).toHaveURL(/schedine\/bozze/);
+    await page.locator('button[name="save_mode"][value="review_web"]:visible').first().click(); await conferma(page);
+    await expect(page).toHaveURL(new RegExp('/web-checkin/'+id+'/modifica$'));
+    await expect(page.locator('body')).toContainText('Da effettuare');
     await page.goto(sheetUrl);
     await expect(page.locator('[name="name"]').first()).toHaveValue(`Ospite parziale ${width}`);
     await page.goto(manage); await expect(page.locator('[name="note"]')).toHaveValue('NOTA-INTERNA-SINTETICA');
-    await page.goto(publicUrl); await expect(page.locator('body')).toContainText('Grazie! Abbiamo ricevuto i tuoi dati.');
+    await page.goto(publicUrl);await page.getByRole('link',{name:'Apri il tuo Web Check-in',exact:true}).click(); await expect(page.locator('#schedina-form [name=\"name\"]')).toHaveValue(`Ospite parziale ${width}`);
     expect(errors).toEqual([]);
-    console.log(JSON.stringify({width, richiesta: true, modello_originale_preservato: true, duplicazione: true, anteprima: true, parziale_ripreso: true, stessa_bozza: true, note_private: true}));
+    console.log(JSON.stringify({width, richiesta: true, modello_originale_preservato: true, duplicazione: true, anteprima: true, parziale_ripreso: true, stessa_scheda: true, note_private: true}));
 });
+
+});}

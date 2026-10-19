@@ -41,8 +41,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="border rounded p-3 h-100 bg-light-subtle">
-                                        <div class="text-muted small">Schedina web</div>
-                                        <div>{{ $schedina->scheda ?: '-' }}</div>
+                                        <div class="text-muted small">Ospiti</div>
+                                        <div>{{ $richiesta->quantita_persone }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
 
                                         <div class="ricevuta-print__line">
                                             <div><span class="text-muted">Prenotazione:</span> {{ $richiesta->numero_prenotazione }}</div>
-                                            <div><span class="text-muted">Schedina web:</span> {{ $schedina->scheda ?: '-' }}</div>
+                                            <div><span class="text-muted">Ospiti:</span> {{ $richiesta->quantita_persone }}</div>
                                         </div>
 
                                         <div class="ricevuta-print__line ricevuta-print__line--full">
@@ -80,7 +80,7 @@
 
                                         <div class="ricevuta-print__line">
                                             <div><span class="text-muted">Persone totali:</span> {{ $schedina->cant_people ?: '-' }}</div>
-                                            <div><span class="text-muted">Componenti:</span> {{ $componentiCount }}</div>
+                                            <div><span class="text-muted">Accompagnatori:</span> {{ $componentiCount }}</div>
                                         </div>
 
                                         <div class="ricevuta-print__note">
@@ -93,9 +93,9 @@
                             @if(!empty($campiPendentiOspite))<details class="mb-3"><summary>Campi ancora da completare</summary><ul>@foreach($campiPendentiOspite as $pending)<li>{{ $pending }}</li>@endforeach</ul></details>@endif
                             <div class="alert alert-info mb-4">
                                 @if(!empty($isLockedAfterConversion))
-                                    Il Web Check-in è già stato importato in arrivi. Da questo momento la schedina viene gestita dalla reception nel circuito operativo.
+                                    La reception ha ricevuto e verificato il tuo check-in. Per eventuali correzioni, contatta la struttura.
                                 @else
-                                    Se devi correggere o aggiornare qualche dato, puoi ancora riaprire il Web Check-in e modificare la schedina prima dell'arrivo.
+                                    Se devi correggere o aggiornare qualche dato, puoi ancora riaprire il Web Check-in e modificare i tuoi dati prima dell'arrivo.
                                 @endif
                             </div>
 

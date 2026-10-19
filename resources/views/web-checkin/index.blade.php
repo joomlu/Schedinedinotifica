@@ -1,289 +1,34 @@
 @extends('layouts.master')
-@section('title', 'Web Check-in')
-
+@section('title', $storico ? 'Storico Web Check-in' : 'Web Check-in')
 @section('content')
-@component('components.breadcrumb')
-    @slot('li_1')
-        Schedine
-    @endslot
-    @slot('title')
-        Web Check-in
-    @endslot
-@endcomponent
-
-@php
-    $totali = $totaliWebCheckin ?? [];
-    $countDaInviare = $totali['da_inviare'] ?? 0;
-    $countCompilazione = $totali['in_compilazione'] ?? 0;
-    $countCompilato = $totali['compilato'] ?? 0;
-    $countConvertito = $totali['convertito'] ?? 0;
-    $formatShortDate = function ($value) {
-        if (!$value) {
-            return '-';
-        }
-
-        try {
-            return \Carbon\Carbon::parse($value)->format('j/n/y');
-        } catch (\Throwable $e) {
-            return (string) $value;
-        }
-    };
-    $statiDisponibili = [
-        '' => 'Tutti gli stati',
-        'da_inviare' => 'Da inviare',
-        'in_compilazione' => 'In compilazione',
-        'compilato' => 'Compilato',
-        'convertito' => 'Convertito',
-    ];
-@endphp
-
-<div class="row g-3 mb-3">
-    <div class="col-xl-3 col-md-6">
-        <div class="card border-0 shadow-sm mb-0">
-            <div class="card-body py-3">
-                <div class="text-muted small">Da inviare</div>
-                <div class="fs-4">{{ $countDaInviare }}</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card border-0 shadow-sm mb-0">
-            <div class="card-body py-3">
-                <div class="text-muted small">In compilazione</div>
-                <div class="fs-4">{{ $countCompilazione }}</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card border-0 shadow-sm mb-0">
-            <div class="card-body py-3">
-                <div class="text-muted small">Compilati</div>
-                <div class="fs-4">{{ $countCompilato }}</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card border-0 shadow-sm mb-0">
-            <div class="card-body py-3">
-                <div class="text-muted small">Convertiti nel circuito operativo</div>
-                <div class="fs-4">{{ $countConvertito }}</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col-lg-12">
-        <div class="card border-0 shadow-sm mb-0">
-            <div class="card-body py-3">
-                <form method="GET" action="{{ route('schedina.web') }}" class="row g-3 align-items-end">
-                    <div class="col-xl-3 col-md-5">
-                        <label class="form-label mb-1">Filtro stato</label>
-                        <x-ui.select name="stato">
-                            @foreach($statiDisponibili as $value => $label)
-                                <option value="{{ $value }}" @selected(($statoFiltro ?? '') === $value)>{{ $label }}</option>
-                            @endforeach
-                        </x-ui.select>
-                    </div>
-                    <div class="col-xl-4 col-md-7">
-                        <label class="form-label mb-1">Ricerca rapida</label>
-                        <input type="text" class="form-control" name="q" value="{{ request('q') }}" placeholder="Codice, prenotazione, referente, email...">
-                    </div>
-                    <div class="col-xl-5">
-                        <div class="d-flex justify-content-xl-end gap-2">
-                            <a href="{{ route('schedina.web') }}" class="btn btn-light">Reset</a>
-                            <button type="submit" class="btn btn-primary">Applica filtri</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-12">
-        <x-crud-table
-            title="Web Check-in"
-            subtitle="Richieste, dati ricevuti e revisione in reception prima di Bozza o Schedina"
-            searchPlaceholder="Cerca per codice, referente, arrivo, partenza, persone o stato..."
-            searchId="webCheckinSearch"
-            createText="Nuovo Web Check-in"
-            :createHref="route('web_checkin.create')"
-            createTarget="#"
-            tableId="webCheckinTable"
-            :paginator="$richieste"
-        >
-            <x-slot name="columns">
-                <tr>
-                    <th style="width: 10%;">Codice</th>
-                    <th style="width: 13%;">Ref.</th>
-                    <th style="width: 12%;">Pren.</th>
-                    <th style="width: 8%;">Arr.</th>
-                    <th style="width: 8%;">Part.</th>
-                    <th style="width: 6%;">Per.</th>
-                    <th style="width: 12%;">Contatto</th>
-                    <th style="width: 8%;">Stato</th>
-                    <th style="width: 8%;">Sched.</th>
-                    <th class="text-end" style="width: 15%; min-width: 210px;">Azioni</th>
-                </tr>
-            </x-slot>
-
-            <x-slot name="rows">
-                @foreach($richieste as $richiesta)
-                    @php
-                        $statoClass = match($richiesta->stato) {
-                            'compilato' => 'bg-success-subtle text-success',
-                            'convertito' => 'bg-primary-subtle text-primary',
-                            'in_compilazione' => 'bg-info-subtle text-info',
-                            default => 'bg-warning-subtle text-warning',
-                        };
-                        $contatto = $richiesta->email;
-                        if ($richiesta->whatsapp) {
-                            $contatto .= ' · ' . $richiesta->whatsapp;
-                        }
-                        $publicUrl = route('web_checkin.public.short.show', ['token' => $richiesta->short_token ?: $richiesta->codice . '-' . substr((string) $richiesta->token, 0, 8)]);
-                        $mailSubject = 'Benvenuto in ' . ($richiesta->struttura->nome_struttura ?? 'Struttura') . ' | Completa il tuo Web Check-in';
-                        $mailBody = "Gentile {$richiesta->nome_referente},\n\n"
-                            . 'abbiamo preparato il tuo invito al Web Check-in per ' . ($richiesta->struttura->nome_struttura ?? 'la struttura') . ".\n"
-                            . "Apri questa pagina personale per iniziare in modo semplice e guidato:\n\n"
-                            . "{$publicUrl}\n\n"
-                            . "Troverai il logo della struttura, il riepilogo del soggiorno e il pulsante per aprire il tuo Web Check-in.\n\n"
-                            . "Grazie per la collaborazione.\n"
-                            . "A presto,\n"
-                            . 'Reception ' . ($richiesta->struttura->nome_struttura ?? 'Struttura');
-                        $mailToUrl = 'mailto:' . rawurlencode((string) $richiesta->email)
-                            . '?subject=' . rawurlencode($mailSubject)
-                            . '&body=' . rawurlencode($mailBody);
-                        $hasEmail = filled($richiesta->email);
-                        $whatsAppPhone = preg_replace('/\D+/', '', (string) ($richiesta->whatsapp ?? ''));
-                        $whatsAppBody = "Gentile {$richiesta->nome_referente},\n\n"
-                            . 'abbiamo preparato il tuo invito al Web Check-in per ' . ($richiesta->struttura->nome_struttura ?? 'la struttura') . ".\n"
-                            . "Apri questa pagina personale per iniziare:\n\n"
-                            . $publicUrl
-                            . "\n\nGrazie.\n"
-                            . 'Reception ' . ($richiesta->struttura->nome_struttura ?? 'Struttura');
-                        $whatsAppUrl = $whatsAppPhone !== ''
-                            ? 'https://wa.me/' . $whatsAppPhone . '?text=' . rawurlencode($whatsAppBody)
-                            : null;
-                    @endphp
-                    <tr
-                        class="data-row"
-                        data-codice="{{ $richiesta->codice }}"
-                        data-referente="{{ $richiesta->nome_referente }}"
-                        data-prenotazione="{{ $richiesta->numero_prenotazione }}"
-                        data-contatto="{{ $contatto }}"
-                        data-arrivo="{{ $formatShortDate(optional($richiesta->arrivo)->format('Y-m-d')) }}"
-                        data-partenza="{{ $formatShortDate(optional($richiesta->partenza)->format('Y-m-d')) }}"
-                        data-persone="{{ $richiesta->quantita_persone }}"
-                        data-stato="{{ $richiesta->stato }}"
-                    >
-                        <td class="align-middle text-nowrap"><a href="{{ route('web_checkin.edit', $richiesta->id) }}" class="badge bg-dark-subtle text-dark">{{ $richiesta->codice }}</a></td>
-                        <td class="align-middle text-nowrap">{{ $richiesta->nome_referente }}</td>
-                        <td class="align-middle text-nowrap">{{ $richiesta->numero_prenotazione }}</td>
-                        <td class="align-middle text-nowrap">{{ $formatShortDate(optional($richiesta->arrivo)->format('Y-m-d')) }}</td>
-                        <td class="align-middle text-nowrap">{{ $formatShortDate(optional($richiesta->partenza)->format('Y-m-d')) }}</td>
-                        <td class="align-middle text-center text-nowrap">{{ $richiesta->quantita_persone }}</td>
-                        <td class="align-middle text-nowrap">{{ $contatto }}</td>
-                        <td class="align-middle text-nowrap">
-                            <div class="d-flex flex-column gap-1">
-                                <span class="badge {{ $statoClass }}">{{ match($richiesta->stato) { 'da_inviare', 'inviato' => 'Non ancora aperta', 'in_compilazione' => 'Dati da completare', 'compilato' => 'Da verificare in reception', 'convertito' => 'Presa in carico', default => $richiesta->stato } }}</span>
-                                <span class="small">Accesso {{ app(\App\Services\WebCheckinLink::class)->valid($richiesta) && $richiesta->schedina?->circuito === 'web' ? 'valido' : 'chiuso' }}</span>
-                                <span class="small">Scade {{ ($richiesta->link_expires_at ?? app(\App\Services\WebCheckinLink::class)->deadline($richiesta))?->timezone('Europe/Rome')->format('d/m/Y H:i T') ?: '—' }}</span>
-                            </div>
-                        </td>
-                        <td class="align-middle text-nowrap">{{ $richiesta->schedina->scheda ?? '-' }}<br><small>{{ match($richiesta->schedina?->circuito) { 'bozza' => 'Bozza', 'schedina' => 'Schedina', 'arrivi' => 'Arrivi', default => 'Web: da verificare' } }}</small></td>
-                        <td class="text-end align-middle">
-                            <div class="d-inline-flex gap-1">
-                                <a href="{{ route('web_checkin.edit', ['id' => $richiesta->id]) }}" class="btn btn-soft-info btn-sm" title="Apri richiesta" aria-label="Apri richiesta">
-                                    <i class="ri-settings-3-line fs-16 align-middle"></i>
-                                </a>
-                                <a href="{{ route('web_checkin.anteprima_modulo', $richiesta->id) }}" class="btn btn-soft-primary btn-sm" title="Anteprima modulo ospite" target="_blank">
-                                    <i class="ri-links-line fs-16 align-middle"></i>
-                                </a>
-                                <a href="{{ route('web_checkin.comunicazioni', $richiesta->id) }}" class="btn btn-soft-success btn-sm" title="Personalizza e prepara comunicazione">
-                                    <i class="ri-mail-send-line fs-16 align-middle"></i>
-                                </a>
-                                <button type="button" class="btn btn-soft-dark btn-sm js-copy-webcheckin-link" data-link="{{ $publicUrl }}" title="Copia link breve">
-                                    <i class="ri-file-copy-line fs-16 align-middle"></i>
-                                </button>
-                                @if($richiesta->schedina)
-                                    <a href="{{ route('schedina.edit', ['id' => $richiesta->schedina->id]) }}" class="btn btn-soft-secondary btn-sm" title="Apri schedina web">
-                                        <i class="ri-file-list-3-line fs-16 align-middle"></i>
-                                    </a>
-                                @endif
-                                <form
-                                    action="{{ route('web_checkin.destroy', ['id' => $richiesta->id]) }}"
-                                    method="POST"
-                                    class="d-inline"
-                                    data-confirm-label="{{ $richiesta->codice ? 'la richiesta Web Check-in ' . $richiesta->codice . ($richiesta->nome_referente ? ' di ' . $richiesta->nome_referente : '') : ($richiesta->nome_referente ? 'la richiesta Web Check-in di ' . $richiesta->nome_referente : 'questa richiesta Web Check-in') }}"
-                                >
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-soft-danger btn-sm" title="Elimina">
-                                        <i class="ri-delete-bin-line fs-16 align-middle"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </x-slot>
-        </x-crud-table>
-    </div>
-</div>
+<h1 class="h3 mb-3">{{ $storico ? 'Storico Web Check-In' : 'Elenco web check-in' }}</h1>
+@include('web-checkin.partials.navigation')
+<p class="text-muted">{{ $storico ? 'Richieste elaborate: dati ricevuti, comunicazioni e schedina collegata restano consultabili.' : 'Prepara l’invito, consulta i dati degli ospiti e verifica tutto prima di effettuare il check-in.' }}</p>
+<div class="card"><div class="card-body">
+<form method="GET" action="{{ $storico ? route('web_checkin.storico') : route('schedina.web') }}" class="row g-3 mb-4 align-items-end">
+<div class="col-md-7"><label for="web-search" class="form-label">Cerca prenotazione o referente</label><input id="web-search" class="form-control" name="q" value="{{ request('q') }}" maxlength="150"></div>
+<div class="col-md-3"><label for="web-state" class="form-label">Compilazione</label><select id="web-state" class="form-select" name="stato"><option value="">Tutti gli stati</option>@foreach(['da_inviare'=>'Preparato', 'in_compilazione'=>'In compilazione', 'compilato'=>'Compilazione completata', 'convertito'=>'Check-in effettuato'] as $v=>$label)<option value="{{ $v }}" @selected(($statoFiltro ?? '')===$v)>{{ $label }}</option>@endforeach</select></div>
+<div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Cerca</button></div>
+</form>
+<table class="table align-middle web-elenco"><thead><tr><th>Prenotazione e referente</th><th>Soggiorno</th><th>Ospiti</th><th>Compilazione e stato</th><th>Azioni</th></tr></thead><tbody>
+@forelse($richieste as $r)
+@php($p=$r->progresso)
+<tr>
+<td data-label="Prenotazione"><a class="fw-semibold" href="{{ route('web_checkin.edit',$r->id) }}">{{ $r->numero_prenotazione }}</a><div>{{ $r->nome_referente }}</div><small class="text-muted">Richiesta {{ $r->codice }}</small></td>
+<td data-label="Soggiorno">{{ $r->arrivo?->format('d/m/Y') }}<br>{{ $r->partenza?->format('d/m/Y') }}</td>
+<td data-label="Ospiti"><strong>{{ $r->quantita_persone }} totali</strong><div class="small">@if($r->numero_adulti!==null){{ $r->numero_adulti }} adulti · {{ $r->numero_bambini }} bambini @else Ripartizione da definire @endif</div></td>
+<td data-label="Compilazione"><span class="badge {{ $r->processata() ? 'bg-primary' : ($r->compilato_at ? 'bg-success' : 'bg-secondary') }}">{{ $r->processata() ? 'Check-in effettuato' : ($r->compilato_at ? 'Compilazione completata' : ($r->ultimo_accesso_at ? 'In compilazione' : 'Preparato')) }}</span><div class="small mt-1">{{ $p['caricate'] }} caricate · {{ $p['complete'] }} complete · {{ $p['pendenti'] }} da completare</div><small>{{ app(\App\Services\WebCheckinLink::class)->valid($r) ? 'Accesso valido' : ($r->link_revoked_at ? 'Accesso revocato' : 'Accesso scaduto o non emesso') }}</small></td>
+<td data-label="Azioni"><div class="d-flex flex-wrap gap-2"><a class="btn btn-outline-primary btn-sm" href="{{ route('web_checkin.edit',$r->id) }}">Apri richiesta</a>
+@if(!$r->processata())<a class="btn btn-light btn-sm" href="{{ route('web_checkin.comunicazioni',$r->id) }}">Prepara invito</a>@endif
+@if($r->processata() && $r->schedina)<a class="btn btn-light btn-sm" href="{{ route('schedina.edit',$r->schedina->id) }}">Apri schedina</a>@elseif($r->schedina && $r->compilato_at)<a class="btn btn-success btn-sm" href="{{ route('web_checkin.edit',$r->id) }}#effettua-check-in">Effettua check-in / Crea schedina</a>@endif
+</div></td>
+</tr>
+@empty<tr><td colspan="5">{{ $storico ? 'Nessun Web Check-in ancora elaborato.' : 'Nessuna richiesta trovata. Puoi preparare un nuovo web check-in.' }}</td></tr>@endforelse
+</tbody></table>
+{{ $richieste->links() }}
+</div></div>
+@if($schedePrecedenti && $schedePrecedenti->count())
+<div class="card"><div class="card-body"><h2 class="h5">Schede Web precedenti</h2><p>Questi dati sono conservati senza una richiesta associata. Prepara la richiesta indicando referente e prenotazione: gli ospiti resteranno nella stessa scheda.</p><ul class="list-group list-group-flush">@foreach($schedePrecedenti as $sheet)<li class="list-group-item px-0 d-flex flex-wrap justify-content-between gap-2"><div><strong>{{ trim($sheet->name.' '.$sheet->surname) ?: 'Ospite da completare' }}</strong><div>{{ $sheet->arrive ? \Carbon\Carbon::parse($sheet->arrive)->format('d/m/Y') : 'Arrivo da definire' }} · {{ $sheet->cant_people }} ospiti · {{ $sheet->scheda }}</div></div><div class="d-flex flex-wrap gap-2"><a class="btn btn-primary" href="{{ route('web_checkin.create',['scheda_precedente'=>$sheet->id]) }}">Prepara richiesta conservando gli ospiti</a><a class="btn btn-light" href="{{ route('schedina.edit',$sheet->id) }}">Apri dati precedenti</a></div></li>@endforeach</ul>{{ $schedePrecedenti->links() }}</div></div>
+@endif
+<style>.web-elenco td{overflow-wrap:anywhere}.web-elenco .btn{min-height:40px;white-space:normal}@media(max-width:767px){.web-elenco thead{display:none}.web-elenco,.web-elenco tbody,.web-elenco tr,.web-elenco td{display:block;width:100%}.web-elenco tr{border:1px solid #dce2e7;border-radius:12px;padding:12px;margin:12px 0}.web-elenco td{border:0;padding:8px 0}.web-elenco td:before{content:attr(data-label);display:block;font-size:.8rem;color:#59626d}.web-elenco td .btn{flex:1}}</style>
 @endsection
-
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const showMissingDataAlert = function (text) {
-            if (window.Swal) {
-                window.Swal.fire({
-                    title: 'Dato mancante',
-                    text: text,
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            }
-
-            window.alert(text);
-        };
-
-        document.querySelectorAll('.js-webcheckin-email').forEach(function (button) {
-            button.addEventListener('click', function (event) {
-                if (button.dataset.hasEmail === '1') return;
-                event.preventDefault();
-                showMissingDataAlert('Questo indirizzo email non risulta caricato nel sistema.');
-            });
-        });
-
-        document.querySelectorAll('.js-webcheckin-whatsapp').forEach(function (button) {
-            button.addEventListener('click', function (event) {
-                if (button.dataset.hasWhatsapp === '1') return;
-                event.preventDefault();
-                showMissingDataAlert('Questo numero WhatsApp non risulta caricato nel sistema.');
-            });
-        });
-
-        document.querySelectorAll('.js-copy-webcheckin-link').forEach(function (button) {
-            button.addEventListener('click', async function () {
-                const link = button.dataset.link || '';
-                if (!link) return;
-                try {
-                    await navigator.clipboard.writeText(link);
-                    button.classList.remove('btn-soft-dark');
-                    button.classList.add('btn-soft-success');
-                    setTimeout(function () {
-                        button.classList.remove('btn-soft-success');
-                        button.classList.add('btn-soft-dark');
-                    }, 1600);
-                } catch (error) {
-                    window.prompt('Copia il link:', link);
-                }
-            });
-        });
-    });
-</script>
-@endpush

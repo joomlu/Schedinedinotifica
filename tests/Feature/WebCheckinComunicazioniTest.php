@@ -184,6 +184,7 @@ class WebCheckinComunicazioniTest extends TestCase
     public function test_note_lunghe_valide_conservate_e_limite_reale_in_byte_verificato_prima_di_sql(): void
     {
         $r = $this->scenario();
+        $r->schedina->forceFill(['circuito' => 'schedina'])->save();
         $r->update(['stato' => 'convertito', 'note' => str_repeat('x', 60000)]);
         $this->putJsonWeb(route('web_checkin.update', $r->id), ['note' => str_repeat('x', 60000)])->assertRedirect();
         $this->putJsonWeb(route('web_checkin.update', $r->id), ['note' => str_repeat('😀', 20000)])->assertUnprocessable()->assertJsonValidationErrors('note');

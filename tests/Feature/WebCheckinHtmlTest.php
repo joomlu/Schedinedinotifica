@@ -79,7 +79,7 @@ class WebCheckinHtmlTest extends TestCase
         $this->assertStringContainsString('text/html', $email->toString());
         $this->assertStringContainsString('text/plain', $email->toString());
         $this->assertStringContainsString('cid:', $email->getHtmlBody());
-        $this->assertStringContainsString('Vai al Check-in', $email->getHtmlBody());
+        $this->assertStringContainsString('Completa il web check-in', $email->getHtmlBody());
         $this->assertStringContainsString(route('web_checkin.public.show', $r->token), $email->getHtmlBody());
         $this->assertStringContainsString($r->numero_prenotazione, $email->getHtmlBody());
         $this->assertStringContainsString('Inserisci i tuoi dati.', $email->getHtmlBody());

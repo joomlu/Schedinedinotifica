@@ -21,7 +21,7 @@
 <input type="hidden" name="azione" id="modello-azione" value=""><input type="hidden" name="versione" id="modello-versione" value="1">
 <div class="row g-3">
 <div class="col-md-6"><label class="form-label" for="invito-modello">Modello</label><select class="form-select" name="modello_id" id="invito-modello">
-@forelse($modelli as $m)<option value="{{ $m->id }}" @selected((string)old('modello_id') === (string)$m->id) data-oggetto="{{ $m->oggetto }}" data-corpo="{{ $m->corpo }}" data-versione="{{ $m->versione }}" data-nome="{{ $m->nome }}" data-impostazioni="{{ json_encode($m->impostazioni ?? \App\Services\WebCheckinMessaggio::layoutIniziale()) }}">{{ $m->nome }}</option>@empty<option value="">Nessun modello: prepara un nuovo invito</option>@endforelse
+@forelse($modelli as $m)<option value="{{ $m->id }}" @selected((string)old('modello_id') === (string)$m->id) data-oggetto="{{ $m->oggetto }}" data-corpo="{{ $m->corpo }}" data-versione="{{ $m->versione }}" data-nome="{{ $m->nome }}" data-impostazioni="{{ json_encode($m->impostazioni ?? array_replace(\App\Services\WebCheckinMessaggio::layoutIniziale(), filled($richiesta->messaggio_ospite) ? ['testo'=>$richiesta->messaggio_ospite] : [])) }}">{{ $m->nome }}</option>@empty<option value="">Nessun modello: prepara un nuovo invito</option>@endforelse
 </select></div>
 <div class="col-md-6"><label class="form-label" for="invito-nome">Nome del modello riutilizzabile</label><input class="form-control" id="invito-nome" name="nome" maxlength="191"></div>
 <div class="col-md-6"><label class="form-label" for="invito-canale">Canale</label><select class="form-select" id="invito-canale" name="canale"><option value="email">Email HTML con versione testuale</option><option value="whatsapp">WhatsApp esterno</option><option value="testo">Testo da copiare</option></select></div>
@@ -51,7 +51,7 @@
 @endsection
 @push('scripts')
 @php($previousInput = \Illuminate\Support\Arr::only(session()->getOldInput(), ['nome','oggetto','corpo','canale','impostazioni']))
-@php($layoutDefaults = \App\Services\WebCheckinMessaggio::layoutIniziale())
+@php($layoutDefaults = array_replace(\App\Services\WebCheckinMessaggio::layoutIniziale(), filled($richiesta->messaggio_ospite) ? ['testo'=>$richiesta->messaggio_ospite] : []))
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 const defaults=@json($layoutDefaults), previous=@json($previousInput), select=document.getElementById('invito-modello');

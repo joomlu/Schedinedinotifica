@@ -15,7 +15,12 @@
     @endif
 
     <div class="ms-auto d-flex align-items-start gap-2 flex-wrap">
-        @if($showCircuitSaveButtons)
+        @if(!($isPublicWeb ?? false) && !empty($schedina) && $schedina->exists && $schedina->circuito==='web' && empty($webGestione))
+            <a class="btn btn-primary" href="{{ route('schedina.web') }}">Apri gestione Web Check-in</a>
+        @elseif(!empty($webGestione) && !$webGestione->processata())
+            <button type="submit" name="save_mode" value="review_web" formnovalidate class="btn btn-outline-primary">Salva revisione senza effettuare check-in</button>
+            <button type="submit" name="save_mode" value="full" class="btn btn-success">Effettua check-in / Crea schedina</button>
+        @elseif($showCircuitSaveButtons)
             @if($showComponentiSave)
                 <button type="submit" formnovalidate class="btn btn-soft-secondary btn-label" id="save-componenti-btn">
                     <i class="ri-group-line label-icon align-middle fs-16 ms-2"></i>Salva componenti

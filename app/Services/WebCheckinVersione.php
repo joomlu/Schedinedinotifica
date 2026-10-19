@@ -15,12 +15,12 @@ class WebCheckinVersione
 
     public function of(WebCheckinRichiesta $request): string
     {
-        $sheet = Schedina::withoutGlobalScopes()->where('struttura_id', $request->struttura_id)->findOrFail($request->schedina_id);
-        $people = Componenti::withoutGlobalScopes()->where('struttura_id', $request->struttura_id)->where('schedina_id', $sheet->id)->orderBy('id')->get()->map->getAttributes()->all();
+        $sheet = Schedina::withoutGlobalScopes()->where('struttura_id', $request->struttura_id)->find($request->schedina_id);
+        $people = $sheet ? Componenti::withoutGlobalScopes()->where('struttura_id', $request->struttura_id)->where('schedina_id', $sheet?->id)->orderBy('id')->get()->map->getAttributes()->all() : [];
 
         return hash_hmac('sha256', json_encode([
-            $request->only(['arrivo', 'partenza', 'nome_referente', 'email', 'whatsapp', 'quantita_persone', 'stato', 'note', 'link_revoked_at', 'link_expires_at']),
-            $sheet->getAttributes(), $people,
+            $request->only(['arrivo', 'partenza', 'nome_referente', 'email', 'whatsapp', 'quantita_persone', 'numero_adulti', 'numero_bambini', 'messaggio_ospite', 'stato', 'note', 'link_revoked_at', 'link_expires_at']),
+            $sheet?->getAttributes(), $people,
         ], JSON_THROW_ON_ERROR), (string) config('app.key'));
     }
 }

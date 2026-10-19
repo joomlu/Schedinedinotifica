@@ -151,9 +151,10 @@
                 <input type="hidden" name="web_versione_gestione" value="{{ ($errors->has('web_versione_gestione') || session()->hasOldInput('web_versione_gestione')) ? old('web_versione_gestione', '') : $webVersioneGestione }}">
                 <div class="alert alert-info">Provenienza Web Check-in {{ $webGestione->codice }} — prenotazione {{ $webGestione->numero_prenotazione }}. Referente: {{ $webGestione->nome_referente }}. Le note interne restano nella richiesta collegata.
                     <a href="{{ route('web_checkin.edit', $webGestione->id) }}">Gestisci richiesta e note interne</a>.
-                    Salva a bozza per continuare in reception oppure passa esplicitamente a schedina dopo aver completato tutti i dati. Il collegamento conserva lo stesso identificativo della scheda.
+                    Salva la revisione per continuare senza effettuare check-in oppure conferma esplicitamente dopo aver completato tutti i dati. Il collegamento conserva lo stesso identificativo della scheda.
                 </div>
             @endif
+            @if(!$isPublicWeb && $hasPersistedSchedina && $schedina->circuito==='web' && empty($webGestione))<div class="alert alert-info">Scheda Web conservata: <a href="{{ route('schedina.web') }}">apri la gestione Web Check-in</a> per preparare la richiesta o ripristinarla dal Cestino, conservando gli ospiti.</div>@endif
             @if(isset($webVersione))
                 <input type="hidden" name="web_versione" value="{{ ($errors->has('web_versione') || session()->hasOldInput('web_versione')) ? old('web_versione', '') : $webVersione }}">
                 <div class="alert alert-info">Puoi salvare anche dati incompleti e riprendere dallo stesso link. «Conferma dati» verifica tutti i dati; la reception confermerà la registrazione. Il soggiorno previsto resta quello indicato nell’invito.</div>
@@ -303,13 +304,13 @@
                         </div>
                         <div class="card-body">
                             <div class="row g-3">
-                                @php $tipoClienteValue = old('customer_type_housed', $schedina->customer_type_housed ?? $prefilledCustomer->type_housed ?? 'Ospite'); @endphp
+                                @php $tipoClienteValue = $isPublicWeb ? 'Ospite' : old('customer_type_housed', $schedina->customer_type_housed ?? $prefilledCustomer->type_housed ?? 'Ospite'); @endphp
                                 <input type="hidden" id="customer-type-housed" name="customer_type_housed" value="{{ $tipoClienteValue }}">
                                 <div class="col-lg-3">
                                     <label class="form-label form-label-help">Quantità persone <span class="text-danger">*</span>
                                         <x-ui.help
                                             title="Quantità persone"
-                                            text="Serve per indicare quante persone appartengono a questa schedina. Il formato e un numero intero. Rappresenta il totale delle persone registrate nel soggiorno e aiuta i conteggi operativi e statistici."
+                                            text="Indica il numero totale di ospiti del soggiorno. Il formato e un numero intero. Rappresenta il totale delle persone registrate nel soggiorno e aiuta i conteggi operativi e statistici."
                                         />
                                     </label>
                                     <input type="number" class="form-control" name="cant_people" min="1" required value="{{ old('cant_people', $schedina->cant_people ?? 1) }}">
@@ -318,7 +319,7 @@
                                     <label class="form-label form-label-help">Camera <span class="text-danger">*</span>
                                         <x-ui.help
                                             title="Camera"
-                                            text="Serve per indicare quante camere occupa questa schedina. Il formato e un numero intero. Inserisci 1 se il soggiorno occupa una sola camera, 2 se ne occupa due, e cosi via."
+                                            text="Indica quante camere occupa il soggiorno. Il formato e un numero intero. Inserisci 1 se il soggiorno occupa una sola camera, 2 se ne occupa due, e cosi via."
                                         />
                                     </label>
                                     <input type="number" class="form-control" name="room" min="1" required value="{{ old('room', $schedina->room) }}">
@@ -327,7 +328,7 @@
                                     <label class="form-label form-label-help">Letti <span class="text-danger">*</span>
                                         <x-ui.help
                                             title="Letti"
-                                            text="Serve per indicare quanti letti occupa la schedina. Il formato e un numero intero. Si ragiona in letti singoli equivalenti, non in letti matrimoniali o doppi. Normalmente il numero dei letti coincide con il numero delle persone ospitate."
+                                            text="Indica quanti letti occupa il soggiorno. Il formato e un numero intero. Si ragiona in letti singoli equivalenti, non in letti matrimoniali o doppi. Normalmente il numero dei letti coincide con il numero delle persone ospitate."
                                         />
                                     </label>
                                     <input type="number" class="form-control" name="beds" min="1" required value="{{ old('beds', $schedina->beds) }}">
@@ -337,6 +338,7 @@
                             @unless($isPublicWeb)<div class="form-text mt-2">Quantità persone, Camera e Letti sono obbligatori per i conteggi ISTAT Tavola A e per il controllo della tassa di soggiorno.</div>@endunless
 
                             <div class="row g-3 mt-1">
+                                @unless($isPublicWeb)
                                 <div class="col-12">
                                     <div class="row g-3 align-items-end" data-ui="customer-group-cascade" data-scope="schedina">
                                         <div class="col-lg-3">
@@ -383,6 +385,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endunless
                                 <div class="col-lg-2">
                                     <label class="form-label">Titolo</label>
                                     <x-ui.select name="type">
@@ -414,6 +417,7 @@
                         </div>
                     </div>
 
+                    @unless($isPublicWeb)
                     <div class="card border-0 shadow-sm mb-3">
                         <div class="card-header border-0 bg-light-subtle d-flex align-items-center">
                             <i class="ri-file-list-3-line me-2 text-primary"></i>
@@ -431,6 +435,7 @@
                         </div>
                     </div>
 
+                    @endunless
                     @if($showIstatFields)
                         <div class="card border-0 shadow-sm mb-3">
                         <div class="card-header border-0 bg-light-subtle d-flex align-items-center">
@@ -691,7 +696,7 @@
                                             'manual_flag' => 'or_geo_manual',
                                         ]"
                                     />
-                                    <div class="form-text mt-2">Per salvare la schedina sono obbligatori: nazione, regione, provincia e città della residenza.</div>
+                                    <div class="form-text mt-2">Per salvare i dati sono obbligatori: nazione, regione, provincia e città della residenza.</div>
                                 </div>
                             </div>
                         </div>
@@ -854,6 +859,7 @@
                                     <label class="form-label">Fax</label>
                                     <input type="text" class="form-control" name="customer_fax" value="{{ old('customer_fax', $schedina->customer_fax ?? $prefilledCustomer?->fax) }}">
                                 </div>
+                                @unless($isPublicWeb)
                                 <div class="col-lg-6">
                                     <label class="form-label">Osservazione cliente</label>
                                     <textarea class="form-control" name="customer_observation" rows="2">{{ old('customer_observation', $schedina->customer_observation ?? $prefilledCustomer?->observation) }}</textarea>
@@ -862,6 +868,7 @@
                                     <label class="form-label">Osservazione anagrafica</label>
                                     <textarea class="form-control" name="customer_anag_observation" rows="2">{{ old('customer_anag_observation', $schedina->customer_anag_observation ?? $prefilledCustomer?->observation_reg) }}</textarea>
                                 </div>
+                                @endunless
                             </div>
                         </div>
                     </div>
@@ -873,7 +880,7 @@
                                 <span class="section-title-help">Consensi cliente
                                     <x-ui.help
                                         title="Consensi cliente"
-                                        text="Privacy e il consenso obbligatorio per trattare i dati nella schedina. Marketing permette comunicazioni promozionali future. Comunicazioni permette contatti operativi o commerciali come email o WhatsApp. I consensi seguono il cliente e vanno gestiti in modo coerente."
+                                        text="Privacy è il consenso obbligatorio per trattare i dati del soggiorno. Marketing permette comunicazioni promozionali future. Comunicazioni permette contatti operativi o commerciali come email o WhatsApp. I consensi seguono il cliente e vanno gestiti in modo coerente."
                                     />
                                 </span>
                             </h5>
@@ -887,7 +894,7 @@
                                         <div class="d-flex align-items-center justify-content-between gap-3">
                                             <div>
                                                 <div class="fw-semibold">Privacy <span class="text-danger">*</span></div>
-                                                <div class="text-muted small">Obbligatorio per la registrazione della schedina.</div>
+                                                <div class="text-muted small">Obbligatorio per registrare il soggiorno.</div>
                                             </div>
                                             <div class="form-check form-switch form-switch-md m-0">
                                                 <input class="form-check-input js-schedina-consent-switch" type="checkbox" role="switch" name="customer_privacy_consent" value="1" @checked(old('customer_privacy_consent', $schedina->customer_privacy_consent ?? $prefilledCustomer?->privacy_consent)) data-timestamp-target="customer_privacy_consent_at">
@@ -937,7 +944,7 @@
                         <div class="card-header border-0 bg-light-subtle d-flex align-items-center">
                             <div class="d-flex align-items-center">
                                 <i class="ri-team-line me-2 text-primary"></i>
-                                <h5 class="card-title mb-0">Componenti scheda</h5>
+                                <h5 class="card-title mb-0">{{ $isPublicWeb ? 'Altri ospiti' : 'Componenti scheda' }}</h5>
                             </div>
                         </div>
                         <div class="card-body">
@@ -1211,6 +1218,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @unless($isPublicWeb)
                                             <div class="d-flex justify-content-end mt-3">
                                                 <button
                                                     type="submit"
@@ -1223,6 +1231,7 @@
                                                     <i class="ri-save-line align-bottom me-1"></i>Salva componente
                                                 </button>
                                             </div>
+                                            @endunless
                                         </div>
                                     </div>
                                 @endforeach
@@ -1233,6 +1242,7 @@
                                     <button type="button" class="btn btn-outline-primary btn-sm" id="add-componente-row">
                                         <i class="ri-add-line align-bottom me-1"></i>Nuovo componente
                                     </button>
+                                    @unless($isPublicWeb)
                                     <button type="submit"
                                         id="import-componenti-btn"
                                         class="btn btn-outline-secondary btn-sm"
@@ -1253,6 +1263,7 @@
                                             <li><a class="dropdown-item" href="{{ $hasPersistedSchedina ? route('schedina.componenti.import.template', ['schedina' => $schedina->id, 'format' => 'xlsx']) : route('schedina.componenti.import.new.template', ['format' => 'xlsx']) }}" download>Modello XLSX</a></li>
                                         </ul>
                                     </div>
+                                    @endunless
                                 </div>
                             </div>
                         </div>

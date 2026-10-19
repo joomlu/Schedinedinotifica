@@ -1,387 +1,59 @@
 @extends('layouts.master')
-@section('title', 'Web Check-in')
-
+@section('title','Web Check-in')
 @section('content')
-@if(!empty($richiesta->id))<div class="d-flex flex-wrap gap-2 mb-3"><a class="btn btn-primary" href="{{ route('web_checkin.comunicazioni', $richiesta->id) }}">Prepara invito</a><a class="btn btn-light" href="{{ route('web_checkin.anteprima_modulo', $richiesta->id) }}">Apri modulo ospite</a>@if($richiesta->schedina)<a class="btn btn-light" href="{{ route('schedina.edit', $richiesta->schedina->id) }}">Visualizza dati ricevuti</a>@endif</div>@endif
-@component('components.breadcrumb')
-    @slot('li_1')
-        Schedine
-    @endslot
-    @slot('title')
-        {{ $richiesta->exists ? 'Gestione Web Check-in' : 'Nuovo Web Check-in' }}
-    @endslot
-@endcomponent
-
-@php
-    $richiestaBloccata = $richiesta->exists && ($richiesta->stato === 'convertito' || $richiesta->schedina?->circuito !== 'web');
-    $statoLabel = $richiesta->exists ? ($richiesta->stato === 'convertito' ? 'presa in carico' : str_replace('_', ' ', $richiesta->stato)) : 'da creare';
-    $statoClass = match($richiesta->stato ?? null) {
-        'compilato' => 'success',
-        'convertito' => 'primary',
-        'in_compilazione' => 'info',
-        default => 'warning',
-    };
-@endphp
-
+@php($richiestaBloccata=$richiesta->exists && $richiesta->processata())
+<h1 class="h3 mb-3">{{ $richiesta->exists ? 'Dettaglio Web Check-In' : 'Nuovo web check-in' }}</h1>
+@include('web-checkin.partials.navigation')
+@if($schedaPrecedente ?? null)<div class="card border-info"><div class="card-body"><h2 class="h5">Ospiti della scheda precedente</h2><p>La richiesta utilizzerà questa stessa scheda. Indica il referente, la prenotazione e la ripartizione prevista; i dati degli ospiti e gli accompagnatori saranno conservati.</p>@include('web-checkin.partials.persona',['persona'=>$schedaPrecedente->getAttributes(),'titolo'=>'Ospite principale'])@foreach($componentiPrecedenti as $i=>$p)@include('web-checkin.partials.persona',['persona'=>$p->getAttributes(),'titolo'=>'Ospite '.($i+2)])@endforeach</div></div>@endif
 @if($richiesta->exists)
-    @if($richiestaBloccata)<div class="alert alert-info">Richiesta già presa in carico: qui puoi aggiornare le note interne. Per soggiorno e ospiti usa la scheda collegata, conservando la richiesta originale.</div>@endif
-    <div class="alert alert-light border">
-        <strong>Accesso:</strong> scadenza esclusiva {{ ($richiesta->link_expires_at ?? app(\App\Services\WebCheckinLink::class)->deadline($richiesta))?->timezone('Europe/Rome')->format('d/m/Y H:i:s T') ?: 'date da correggere' }}.
-        <strong>Compilazione:</strong> {{ $richiesta->compilato_at ? 'conclusa dall’ospite, da verificare in reception' : ($richiesta->ultimo_accesso_at ? 'aperta o parziale' : 'non ancora aperta') }}.
-        <strong>Risultato:</strong> {{ match($richiesta->schedina?->circuito) { 'bozza' => 'Bozza collegata', 'schedina' => 'Schedina effettiva', 'arrivi' => 'Arrivi', default => 'dati Web, nessun soggiorno effettivo' } }}.
-    </div>
-    @if(!empty($datiPendenti))
-        <details class="alert alert-warning"><summary>{{ count($datiPendenti) }} controlli da completare prima della Schedina. Puoi continuare come Bozza.</summary>
-            <ul class="mt-2 mb-0">@foreach($datiPendenti as $dato)<li>{{ $dato }}</li>@endforeach</ul>
-        </details>
-    @endif
-    <p class="text-muted">Link {{ app(\App\Services\WebCheckinLink::class)->valid($richiesta) ? 'valido' : 'non utilizzabile: revocato, scaduto o date da correggere' }}. La nuova emissione non modifica il termine dell’arrivo previsto.</p>
-    <div class="d-flex gap-2 mb-3">
-        <form method="POST" data-confirm-title="Revoca link" data-confirm-text="Il link corrente non sarà più utilizzabile." data-confirm-button="Sì, revoca" data-done-title="Revoca confermata" data-done-text="Premi OK per revocare il link." action="{{ route('web_checkin.revoke', $richiesta->id) }}">@csrf<button class="btn btn-outline-danger" type="submit">Revoca link</button></form>
-        <form method="POST" data-confirm-title="Nuova emissione" data-confirm-text="Tutti i link precedenti saranno invalidati." data-confirm-button="Sì, emetti" data-done-title="Emissione confermata" data-done-text="Premi OK per emettere il nuovo link." action="{{ route('web_checkin.regenerate', $richiesta->id) }}">@csrf<button class="btn btn-outline-primary" type="submit" @disabled($richiestaBloccata)>Emetti nuovo link</button></form>
-    </div>
-    <div class="row mb-3">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body py-3">
-                    <div class="row g-3 align-items-center">
-                        <div class="col-xl-2 col-md-4">
-                            <div class="text-muted small">Richiesta</div>
-                            <div class="fs-6">{{ $richiesta->codice }}</div>
-                        </div>
-                        <div class="col-xl-3 col-md-4">
-                            <div class="text-muted small">Prenotazione</div>
-                            <div class="fs-6">{{ $richiesta->numero_prenotazione }}</div>
-                        </div>
-                        <div class="col-xl-2 col-md-4">
-                            <div class="text-muted small">Persone</div>
-                            <div class="fs-6">{{ $richiesta->quantita_persone }}</div>
-                        </div>
-                        <div class="col-xl-2 col-md-4">
-                            <div class="text-muted small">Schedina web</div>
-                            <div class="fs-6">{{ $richiesta->schedina->scheda ?? '-' }}</div>
-                        </div>
-                        <div class="col-xl-3 col-md-8">
-                            <div class="text-muted small">Stato</div>
-                            <div class="d-flex flex-wrap gap-1">
-                                <span class="badge bg-{{ $statoClass }}-subtle text-{{ $statoClass }} text-uppercase">{{ $statoLabel }}</span>
-                                @if($richiesta->compilato_at && ($richiesta->stato ?? null) !== 'convertito')
-                                    <span class="badge bg-success-subtle text-success">Compilata nel web</span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endif
-
-<div class="card border-0 shadow-sm">
-    <div class="card-header border-0 bg-light-subtle d-flex align-items-center">
-        <i class="ri-route-line me-2 text-primary"></i>
-        <h4 class="card-title mb-0">{{ $richiesta->exists ? 'Gestione Web Check-in' : 'Nuovo Web Check-in' }}</h4>
-    </div>
-    <div class="card-body">
-        <div class="step-arrow-nav mb-4">
-            <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="webcheckin-tab-richiesta" data-bs-toggle="pill" data-bs-target="#webcheckin-pane-richiesta" type="button" role="tab" aria-controls="webcheckin-pane-richiesta" aria-selected="true">Richiesta</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="webcheckin-tab-accesso" data-bs-toggle="pill" data-bs-target="#webcheckin-pane-accesso" type="button" role="tab" aria-controls="webcheckin-pane-accesso" aria-selected="false">Accesso e stato</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="webcheckin-tab-comunicazioni" data-bs-toggle="pill" data-bs-target="#webcheckin-pane-comunicazioni" type="button" role="tab" aria-controls="webcheckin-pane-comunicazioni" aria-selected="false">Comunicazioni</button>
-                </li>
-            </ul>
-        </div>
-
-        <div class="tab-content">
-            <div class="tab-pane fade show active" id="webcheckin-pane-richiesta" role="tabpanel" aria-labelledby="webcheckin-tab-richiesta">
-                <form method="POST" action="{{ $richiesta->exists ? route('web_checkin.update', ['id' => $richiesta->id]) : route('web_checkin.store') }}">
-                    @csrf
-                    @if($richiesta->exists)
-                        @method('PUT')
-                        <input type="hidden" name="web_versione_richiesta" value="{{ ($errors->has('web_versione_richiesta') || session()->hasOldInput('web_versione_richiesta')) ? old('web_versione_richiesta', '') : app(\App\Services\WebCheckinVersione::class)->of($richiesta) }}">
-                    @endif
-
-                    <div class="row g-4">
-                        <div class="col-xl-6">
-                            <div class="card border-0 bg-light-subtle h-100 mb-0">
-                                <div class="card-header border-0 py-2 d-flex align-items-center">
-                                    <i class="ri-bookmark-3-line me-2 text-primary"></i>
-                                    <h5 class="card-title mb-0 fs-6">Identificazione richiesta</h5>
-                                </div>
-                                <div class="card-body pt-2">
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label">Numero prenotazione *</label>
-                                            <input type="text" name="numero_prenotazione" @disabled($richiestaBloccata) class="form-control" value="{{ old('numero_prenotazione', $richiesta->numero_prenotazione) }}" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">Referente *</label>
-                                            <input type="text" name="nome_referente" @disabled($richiestaBloccata) class="form-control" value="{{ old('nome_referente', $richiesta->nome_referente) }}" required>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-6">
-                            <div class="card border-0 bg-light-subtle h-100 mb-0">
-                                <div class="card-header border-0 py-2 d-flex align-items-center">
-                                    <i class="ri-mail-open-line me-2 text-primary"></i>
-                                    <h5 class="card-title mb-0 fs-6">Canali di contatto</h5>
-                                </div>
-                                <div class="card-body pt-2">
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label">Email *</label>
-                                            <input type="email" name="email" @disabled($richiestaBloccata) class="form-control" value="{{ old('email', $richiesta->email) }}" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">WhatsApp</label>
-                                            <input type="text" name="whatsapp" @disabled($richiestaBloccata) class="form-control" value="{{ old('whatsapp', $richiesta->whatsapp) }}">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="card border-0 bg-light-subtle mb-0">
-                                <div class="card-header border-0 py-2 d-flex align-items-center">
-                                    <i class="ri-calendar-check-line me-2 text-primary"></i>
-                                    <h5 class="card-title mb-0 fs-6">Periodo soggiorno e note</h5>
-                                </div>
-                                <div class="card-body pt-2">
-                                    <div class="row g-3">
-                                        <div class="col-xl-3 col-md-4">
-                                            <label class="form-label">Arrivo *</label>
-                                            <x-calendario name="arrivo" :disabled="$richiestaBloccata" variant="period-start" group="web-checkin" :value="old('arrivo', optional($richiesta->arrivo)->format('Y-m-d'))" required />
-                                        </div>
-                                        <div class="col-xl-3 col-md-4">
-                                            <label class="form-label">Partenza *</label>
-                                            <x-calendario name="partenza" :disabled="$richiestaBloccata" variant="period-end" group="web-checkin" :value="old('partenza', optional($richiesta->partenza)->format('Y-m-d'))" required />
-                                        </div>
-                                        <div class="col-xl-2 col-md-4">
-                                            <label class="form-label">Quantità persone *</label>
-                                            <input type="number" name="quantita_persone" @disabled($richiestaBloccata) class="form-control" min="1" max="50" value="{{ old('quantita_persone', $richiesta->quantita_persone ?: 1) }}" required>
-                                        </div>
-                                        <div class="col-xl-4 col-md-12">
-                                            <label class="form-label">Note interne</label>
-                                            <textarea name="note" class="form-control" rows="2">{{ old('note', $richiesta->note) }}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-end gap-2 mt-4">
-                        <a href="{{ route('schedina.web') }}" class="btn btn-light">Chiudi</a>
-                        <button type="submit" class="btn btn-primary">{{ $richiestaBloccata ? 'Aggiorna note interne' : ($richiesta->exists ? 'Aggiorna richiesta' : 'Crea richiesta') }}</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="tab-pane fade" id="webcheckin-pane-accesso" role="tabpanel" aria-labelledby="webcheckin-tab-accesso">
-                @if($richiesta->exists)
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <div class="card border-0 bg-light-subtle mb-0">
-                                <div class="card-header border-0 py-2 d-flex align-items-center">
-                                    <i class="ri-links-line me-2 text-primary"></i>
-                                    <h5 class="card-title mb-0 fs-6">Pagina cliente Web Check-in</h5>
-                                </div>
-                                <div class="card-body pt-2">
-                                    <div class="rounded-3 border bg-white p-3 mb-3">
-                                        <div class="fw-semibold mb-1">Invita il cliente a completare il Web Check-in online</div>
-                                        <div class="text-muted small">Usa il link breve qui sotto oppure apri direttamente il programma di mail del computer con il messaggio gia pronto.</div>
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text">Link breve</span>
-                                        <input type="text" class="form-control" id="webcheckin-public-link" value="{{ $publicUrl }}" readonly>
-                                        <button type="button" class="btn btn-soft-dark" id="copy-webcheckin-public-link">Copia link</button>
-                                        <a href="{{ route('web_checkin.anteprima_modulo', $richiesta->id) }}" target="_blank" class="btn btn-soft-primary">Apri modulo ospite (anteprima)</a>
-                                    </div>
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <a class="btn btn-soft-success" href="{{ route('web_checkin.comunicazioni', $richiesta->id) }}">Personalizza e prepara comunicazione</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-6">
-                            <div class="card border-0 bg-light-subtle h-100 mb-0">
-                                <div class="card-header border-0 py-2 d-flex align-items-center">
-                                    <i class="ri-pulse-line me-2 text-primary"></i>
-                                    <h5 class="card-title mb-0 fs-6">Stato operativo</h5>
-                                </div>
-                                <div class="card-body pt-2">
-                                    <div class="mb-3"><span class="badge bg-{{ $statoClass }}-subtle text-{{ $statoClass }} text-uppercase">{{ $statoLabel }}</span></div>
-                                    <div class="small text-muted">
-                                        @if($richiesta->ultimo_accesso_at)
-                                            Ultimo accesso: {{ $richiesta->ultimo_accesso_at->format('d/m/Y H:i') }}<br>
-                                        @endif
-                                        @if($richiesta->compilato_at)
-                                            Compilato il: {{ $richiesta->compilato_at->format('d/m/Y H:i') }}<br>
-                                        @endif
-                                        @if($richiesta->convertito_at)
-                                            Convertito il: {{ $richiesta->convertito_at->format('d/m/Y H:i') }}
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-6">
-                            <div class="card border-0 bg-light-subtle h-100 mb-0">
-                                <div class="card-header border-0 py-2 d-flex align-items-center">
-                                    <i class="ri-file-list-3-line me-2 text-primary"></i>
-                                    <h5 class="card-title mb-0 fs-6">Schedina web collegata</h5>
-                                </div>
-                                <div class="card-body pt-2">
-                                    @if($richiesta->schedina)
-                                        <div class="row g-3 mb-3">
-                                            <div class="col-4">
-                                                <div class="text-muted small">Numero</div>
-                                                <div>{{ $richiesta->schedina->scheda ?: '-' }}</div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="text-muted small">Arrivo</div>
-                                                <div>{{ $richiesta->schedina->arrive ?: '-' }}</div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="text-muted small">Partenza</div>
-                                                <div>{{ $richiesta->schedina->departure ?: '-' }}</div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-wrap gap-2">
-                                            <a href="{{ route('schedina.edit', ['id' => $richiesta->schedina->id]) }}" class="btn btn-soft-info btn-sm">Apri schedina web</a>
-                                        </div>
-                                    @else
-                                        <div class="text-muted">Non ancora generata.</div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <div class="alert alert-info mb-0">Salva prima la richiesta per generare il link pubblico e la schedina web collegata.</div>
-                @endif
-            </div>
-
-            <div class="tab-pane fade" id="webcheckin-pane-comunicazioni" role="tabpanel" aria-labelledby="webcheckin-tab-comunicazioni">
-                @if($richiesta->exists)
-                    <div class="alert alert-info">Scegli un modello, personalizza oggetto e testo e verifica l’anteprima con i dati della richiesta. Il salvataggio del modello originale richiede un’azione esplicita.</div>
-                    <a class="btn btn-primary" href="{{ route('web_checkin.comunicazioni', $richiesta->id) }}">Modelli e comunicazioni</a>
-                    <p class="text-muted mt-3">Lo storico distingue la preparazione dalla richiesta di apertura della posta o di WhatsApp esterni. Nessun invio automatico o conferma di consegna è disponibile attraverso questi canali.</p>
-                @else
-                    <div class="alert alert-info">Salva prima la richiesta per personalizzare e preparare l’invito.</div>
-                @endif
-            </div>
-        </div>
-    </div>
+<div class="card"><div class="card-body">
+<div class="d-flex flex-wrap justify-content-between gap-3"><div><h2 class="h5">Prenotazione {{ $richiesta->numero_prenotazione }}</h2><p class="mb-1">{{ $richiesta->nome_referente }} · {{ $richiesta->arrivo?->format('d/m/Y') }} – {{ $richiesta->partenza?->format('d/m/Y') }}</p><small>Identificativo interno: {{ $richiesta->codice }}</small></div><div><span class="badge {{ $richiestaBloccata ? 'bg-primary' : ($richiesta->compilato_at ? 'bg-success' : 'bg-secondary') }}">{{ $richiestaBloccata ? 'Check-in effettuato · Storico' : ($richiesta->compilato_at ? 'Compilazione completata · Da verificare in reception' : ($richiesta->ultimo_accesso_at ? 'In compilazione' : 'Preparato')) }}</span></div></div>
+<p class="mt-3 mb-2"><strong>Ospiti:</strong> {{ $progresso['previste'] }} previsti · {{ $progresso['caricate'] }} caricate · {{ $progresso['complete'] }} complete · {{ $progresso['pendenti'] }} da completare.</p>
+<dl class="row small mb-3"><div class="col-sm-6 col-xl-3"><dt>Registrazione richiesta</dt><dd>{{ $richiesta->created_at?->timezone('Europe/Rome')->format('d/m/Y H:i') ?? '—' }}</dd></div><div class="col-sm-6 col-xl-3"><dt>Ultima attività sul modulo</dt><dd>{{ $richiesta->ultimo_accesso_at?->timezone('Europe/Rome')->format('d/m/Y H:i') ?? 'Nessuna attività registrata' }}</dd></div><div class="col-sm-6 col-xl-3"><dt>Conferma dei dati ospite</dt><dd>{{ $richiesta->compilato_at?->timezone('Europe/Rome')->format('d/m/Y H:i') ?? 'Non confermata' }}</dd></div><div class="col-sm-6 col-xl-3"><dt>Check-in effettuato</dt><dd>{{ $richiestaBloccata ? ($richiesta->convertito_at?->timezone('Europe/Rome')->format('d/m/Y H:i') ?? 'Data precedente non disponibile') : 'Da effettuare' }}</dd></div></dl>
+<div class="d-flex flex-wrap gap-2">
+@if(!$richiestaBloccata)<a class="btn btn-primary" href="{{ route('web_checkin.comunicazioni',$richiesta->id) }}">Prepara invito</a>@if($richiesta->schedina)<a class="btn btn-light" href="{{ route('schedina.edit',$richiesta->schedina->id) }}">Rivedi e correggi i dati ospiti</a><a class="btn btn-light" href="{{ route('web_checkin.anteprima_modulo',$richiesta->id) }}">Anteprima modulo ospite</a>@endif
+@elseif($richiesta->schedina)<a class="btn btn-success" href="{{ route('schedina.edit',$richiesta->schedina->id) }}">Apri schedina collegata</a>@endif
 </div>
+@if(!$richiesta->schedina)<p class="alert alert-warning mt-3 mb-0">I dati originali della richiesta sono consultabili. Il collegamento alla scheda ospiti è assente o non valido: nessuna scheda viene ricreata automaticamente durante la consultazione.</p>@endif
+</div></div>
+@endif
+<div class="card"><div class="card-body">
+<h2 class="h5">{{ $richiesta->exists ? 'Dati originali della richiesta' : 'Prenotazione e ospiti previsti' }}</h2>
+<form method="POST" action="{{ $richiesta->exists ? route('web_checkin.update',['id'=>$richiesta->id],false) : route('web_checkin.store',[],false) }}" data-confirm-ignore>
+@csrf
+@if($schedaPrecedente ?? null)<input type="hidden" name="scheda_precedente" value="{{ $schedaPrecedente->id }}"><input type="hidden" name="versione_scheda_precedente" value="{{ $versioneSchedaPrecedente }}">@endif
+@if($richiesta->exists)@method('PUT')<input type="hidden" name="web_versione_richiesta" value="{{ old('web_versione_richiesta',app(\App\Services\WebCheckinVersione::class)->of($richiesta)) }}">@endif
+<div class="row g-3">
+@foreach(['numero_prenotazione'=>['Numero prenotazione','text',100],'nome_referente'=>['Referente','text',150],'email'=>['Email','email',191],'whatsapp'=>['WhatsApp','text',50]] as $field=>[$label,$type,$max])<div class="col-md-6"><label class="form-label" for="richiesta-{{ $field }}">{{ $label }}</label><input id="richiesta-{{ $field }}" name="{{ $field }}" type="{{ $type }}" class="form-control @error($field) is-invalid @enderror" maxlength="{{ $max }}" value="{{ old($field,$richiesta->$field) }}" @disabled($richiestaBloccata) @required($field!=='whatsapp')>@error($field)<div class="invalid-feedback">{{ $message }}</div>@enderror</div>@endforeach
+<div class="col-md-6"><label class="form-label">Arrivo</label><x-calendario name="arrivo" :disabled="$richiestaBloccata" variant="period-start" group="web-checkin" :value="old('arrivo',$richiesta->arrivo?->format('Y-m-d'))" required />@error('arrivo')<div class="text-danger">{{ $message }}</div>@enderror</div>
+<div class="col-md-6"><label class="form-label">Partenza</label><x-calendario name="partenza" :disabled="$richiestaBloccata" variant="period-end" group="web-checkin" :value="old('partenza',$richiesta->partenza?->format('Y-m-d'))" required />@error('partenza')<div class="text-danger">{{ $message }}</div>@enderror</div>
+<div class="col-md-4"><label for="numero-adulti" class="form-label">Numero adulti (18+ all’arrivo)</label><input id="numero-adulti" name="numero_adulti" type="number" min="0" max="50" required class="form-control" value="{{ old('numero_adulti',$richiesta->numero_adulti ?? ($richiesta->exists || ($schedaPrecedente ?? null) ? '' : 1)) }}" @disabled($richiestaBloccata)>@error('numero_adulti')<div class="text-danger">{{ $message }}</div>@enderror</div>
+<div class="col-md-4"><label for="numero-bambini" class="form-label">Numero bambini (0–17 all’arrivo)</label><input id="numero-bambini" name="numero_bambini" type="number" min="0" max="50" required class="form-control" value="{{ old('numero_bambini',$richiesta->numero_bambini ?? ($richiesta->exists || ($schedaPrecedente ?? null) ? '' : 0)) }}" @disabled($richiestaBloccata)>@error('numero_bambini')<div class="text-danger">{{ $message }}</div>@enderror</div>
+<div class="col-md-4"><label for="totale-persone" class="form-label">Totale persone</label><input id="totale-persone" name="quantita_persone" type="number" min="1" max="50" class="form-control" readonly value="{{ old('quantita_persone',$richiesta->quantita_persone ?: 1) }}" @disabled($richiestaBloccata)>@error('quantita_persone')<div class="text-danger">{{ $message }}</div>@enderror</div>
+@if($richiesta->exists && $richiesta->numero_adulti===null)<p class="small text-muted">Richiesta precedente: la ripartizione non era registrata. Definiscila esplicitamente prima di aggiornare, senza cancellare gli ospiti già inseriti.</p>@endif
+<div class="col-12"><label for="messaggio-ospite" class="form-label">Comunicazione per l’ospite</label><textarea id="messaggio-ospite" name="messaggio_ospite" class="form-control" rows="3" maxlength="4000" @disabled($richiestaBloccata)>{{ old('messaggio_ospite',$richiesta->messaggio_ospite) }}</textarea><small class="text-muted">Visibile nel modulo ospite e disponibile nell’invito personalizzabile.</small>@error('messaggio_ospite')<div class="text-danger">{{ $message }}</div>@enderror</div>
+<div class="col-12"><label for="note-interne" class="form-label">Note interne · solo reception</label><textarea id="note-interne" name="note" class="form-control" rows="3">{{ old('note',$richiesta->note) }}</textarea>@error('note')<div class="text-danger">{{ $message }}</div>@enderror</div>
+</div><div class="mt-4 d-flex flex-wrap gap-2"><button type="submit" class="btn btn-primary">{{ $richiestaBloccata ? 'Aggiorna note interne' : ($richiesta->exists ? 'Aggiorna richiesta' : 'Crea richiesta') }}</button><a class="btn btn-light" href="{{ route('schedina.web') }}">Torna all’elenco</a></div>
+</form></div></div>
+@if($richiesta->exists)
+<div class="card"><div class="card-body"><h2 class="h5">Dati degli ospiti</h2>
+@if($richiestaBloccata && $richiesta->conversione_snapshot)
+<p class="text-muted">Copia protetta dei dati utilizzati al check-in. Le modifiche successive alla schedina non cambiano questa copia.</p>
+@include('web-checkin.partials.persona',['persona'=>$richiesta->conversione_snapshot['titolare'],'titolo'=>'Ospite principale'])
+@foreach($richiesta->conversione_snapshot['componenti'] as $i=>$p)@include('web-checkin.partials.persona',['persona'=>$p,'titolo'=>'Ospite '.($i+2)])@endforeach
+@elseif($richiesta->schedina)
+@include('web-checkin.partials.persona',['persona'=>$richiesta->schedina->getAttributes(),'titolo'=>'Ospite principale'])
+@foreach($componentiRicevuti as $i=>$p)@include('web-checkin.partials.persona',['persona'=>$p->getAttributes(),'titolo'=>'Ospite '.($i+2)])@endforeach
+@else<p>Dati ospite non collegati. I riferimenti originali della richiesta restano conservati.</p>@endif
+@if($richiesta->compilazione_snapshot)<details class="mt-3"><summary>Dati ricevuti dall’ospite prima della revisione</summary><div class="mt-3">@include('web-checkin.partials.persona',['persona'=>$richiesta->compilazione_snapshot['titolare'],'titolo'=>'Ospite principale'])@foreach($richiesta->compilazione_snapshot['componenti'] as $i=>$p)@include('web-checkin.partials.persona',['persona'=>$p,'titolo'=>'Ospite '.($i+2)])@endforeach</div></details>@endif
+</div></div>
+@if(!$richiestaBloccata && $richiesta->schedina)<div id="effettua-check-in" class="card border-success"><div class="card-body"><h2 class="h5">Effettua check-in / Crea schedina</h2><p>La conferma dell’ospite non effettua il check-in. Controlla i dati e completa camera e letti; questa azione valida nuovamente e crea una sola schedina.</p>@if($datiPendenti)<details class="mb-3"><summary>Controlli ancora da completare</summary><ul>@foreach($datiPendenti as $dato)<li>{{ $dato }}</li>@endforeach</ul></details>@endif
+<form method="POST" action="{{ route('web_checkin.to_schedina',$richiesta->id,false) }}" data-confirm-ignore>@csrf<input type="hidden" name="web_versione_richiesta" value="{{ app(\App\Services\WebCheckinVersione::class)->of($richiesta) }}"><div class="row g-3"><div class="col-sm-4"><label for="web-camera" class="form-label">Camera</label><input id="web-camera" class="form-control" name="room" type="number" min="1" max="999" required value="{{ old('room',$richiesta->schedina->room) }}"></div><div class="col-sm-4"><label for="web-letti" class="form-label">Letti</label><input id="web-letti" class="form-control" name="beds" type="number" min="1" max="999" required value="{{ old('beds',$richiesta->schedina->beds) }}"></div><div class="col-12"><button class="btn btn-success" type="submit">Effettua check-in / Crea schedina</button></div></div></form></div></div>@endif
+<div class="card"><div class="card-body"><h2 class="h5">Accesso e comunicazioni</h2><p>Accesso {{ $richiesta->link_revoked_at ? 'revocato' : (app(\App\Services\WebCheckinLink::class)->valid($richiesta) ? 'valido' : 'scaduto o non emesso') }}. Scadenza: {{ $richiesta->link_expires_at?->timezone('Europe/Rome')->format('d/m/Y H:i T') ?? 'non emessa' }}.</p><div class="d-flex flex-wrap gap-2 mb-3"><form method="POST" action="{{ route('web_checkin.revoke',$richiesta->id,false) }}" data-confirm-ignore>@csrf<button class="btn btn-outline-danger" type="submit">Revoca link</button></form>@if(!$richiestaBloccata)<form method="POST" action="{{ route('web_checkin.regenerate',$richiesta->id,false) }}" data-confirm-ignore>@csrf<button class="btn btn-outline-primary" type="submit">Emetti nuovo link</button></form>@endif</div>
+<p class="small text-muted">La nuova emissione invalida tutti i collegamenti precedenti. Accettazione del trasporto e consegna al destinatario sono risultati distinti.</p><ul class="list-group list-group-flush">@forelse($comunicazioniRicevute as $c)<li class="list-group-item px-0"><a href="{{ route('web_checkin.comunicazione',[$richiesta->id,$c->id]) }}">{{ $c->created_at?->format('d/m/Y H:i') }} · {{ $c->canale }}</a> — {{ match($c->stato){'accettato'=>'Accettato dal trasporto email; consegna non confermata','esito_incerto'=>'Esito di invio non verificabile','preparato'=>'Preparato; non inviato',default=>str_replace('_',' ',$c->stato)} }}</li>@empty<li class="list-group-item px-0">Nessuna comunicazione disponibile.</li>@endforelse</ul></div></div>
+<div class="card"><div class="card-body"><h2 class="h5">Sposta nel Cestino</h2><p>La richiesta non sarà più accessibile dal link pubblico. Schedina e clienti collegati vengono conservati; il ripristino richiederà un nuovo accesso esplicito.</p><form action="{{ route('web_checkin.destroy',$richiesta->id,false) }}" method="POST" data-confirm-title="Sposta nel Cestino" data-confirm-text="Il link ospite verrà disattivato. Schedina e clienti restano conservati." data-confirm-button="Sì, sposta nel Cestino">@csrf @method('DELETE')<button class="btn btn-outline-danger" type="submit">Sposta richiesta nel Cestino</button></form></div></div>
+@endif
 @endsection
-
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const showMissingDataAlert = function (text) {
-            if (window.Swal) {
-                window.Swal.fire({
-                    title: 'Dato mancante',
-                    text: text,
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            }
-
-            window.alert(text);
-        };
-
-        const copyButton = document.getElementById('copy-webcheckin-public-link');
-        const copyInput = document.getElementById('webcheckin-public-link');
-        const copyEmailButton = document.getElementById('copy-webcheckin-email-text');
-        const copyWhatsappButton = document.getElementById('copy-webcheckin-whatsapp-text');
-        const mailSubject = document.getElementById('webcheckin-mail-subject');
-        const mailBody = document.getElementById('webcheckin-mail-body');
-        const whatsappBody = document.getElementById('webcheckin-whatsapp-body');
-
-        document.querySelectorAll('.js-webcheckin-email').forEach(function (button) {
-            button.addEventListener('click', function (event) {
-                if (button.dataset.hasEmail === '1') return;
-                event.preventDefault();
-                showMissingDataAlert('Questo indirizzo email non risulta caricato nel sistema.');
-            });
-        });
-
-        document.querySelectorAll('.js-webcheckin-whatsapp').forEach(function (button) {
-            button.addEventListener('click', function (event) {
-                if (button.dataset.hasWhatsapp === '1') return;
-                event.preventDefault();
-                showMissingDataAlert('Questo numero WhatsApp non risulta caricato nel sistema.');
-            });
-        });
-
-        if (copyButton && copyInput) {
-            copyButton.addEventListener('click', async function () {
-                try {
-                    await navigator.clipboard.writeText(copyInput.value);
-                    copyButton.classList.remove('btn-soft-dark');
-                    copyButton.classList.add('btn-soft-success');
-                    copyButton.textContent = 'Link copiato';
-                    setTimeout(function () {
-                        copyButton.classList.remove('btn-soft-success');
-                        copyButton.classList.add('btn-soft-dark');
-                        copyButton.textContent = 'Copia link';
-                    }, 1600);
-                } catch (error) {
-                    window.prompt('Copia il link:', copyInput.value);
-                }
-            });
-        }
-
-        if (copyEmailButton && mailSubject && mailBody) {
-            copyEmailButton.addEventListener('click', async function () {
-                const emailText = 'Oggetto: ' + mailSubject.value + '\n\n' + mailBody.value;
-                try {
-                    await navigator.clipboard.writeText(emailText);
-                    copyEmailButton.classList.remove('btn-soft-secondary');
-                    copyEmailButton.classList.add('btn-soft-success');
-                    copyEmailButton.textContent = 'Testo copiato';
-                    setTimeout(function () {
-                        copyEmailButton.classList.remove('btn-soft-success');
-                        copyEmailButton.classList.add('btn-soft-secondary');
-                        copyEmailButton.textContent = 'Copia testo email';
-                    }, 1600);
-                } catch (error) {
-                    window.prompt('Copia il testo email:', emailText);
-                }
-            });
-        }
-
-        if (copyWhatsappButton && whatsappBody) {
-            copyWhatsappButton.addEventListener('click', async function () {
-                try {
-                    await navigator.clipboard.writeText(whatsappBody.value);
-                    copyWhatsappButton.classList.remove('btn-soft-secondary');
-                    copyWhatsappButton.classList.add('btn-soft-success');
-                    copyWhatsappButton.textContent = 'Testo copiato';
-                    setTimeout(function () {
-                        copyWhatsappButton.classList.remove('btn-soft-success');
-                        copyWhatsappButton.classList.add('btn-soft-secondary');
-                        copyWhatsappButton.textContent = 'Copia testo WhatsApp';
-                    }, 1600);
-                } catch (error) {
-                    window.prompt('Copia il testo WhatsApp:', whatsappBody.value);
-                }
-            });
-        }
-    });
-</script>
-@endpush
+@section('script')
+<script>document.addEventListener('DOMContentLoaded',()=>{const a=document.getElementById('numero-adulti'),b=document.getElementById('numero-bambini'),t=document.getElementById('totale-persone');const sum=()=>{if(a.value!==''&&b.value!=='')t.value=Number(a.value)+Number(b.value);};a?.addEventListener('input',sum);b?.addEventListener('input',sum);});</script>
+@endsection

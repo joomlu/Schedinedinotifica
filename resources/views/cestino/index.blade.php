@@ -82,7 +82,7 @@
                                     </button>
                                 </form>
                                 @endunless
-                                @unless($item->admin_read_only ?? false)
+                                @unless(($item->admin_read_only ?? false) || $item->entity_class === \App\Models\WebCheckinRichiesta::class || ($item->entity_class === \App\Models\Schedina::class && $item->circuito === 'web'))
                                 <form
                                     action="{{ route('cestino.destroy', ['id' => $item->id]) }}"
                                     method="POST"

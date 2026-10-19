@@ -271,8 +271,9 @@ class SchedinaController extends Controller
         $this->authorizedCustomerReference($request);
         $saveMode = $this->resolveSaveMode($request);
         abort_if($saveMode === 'convert_arrivi', 422, 'Salva prima la scheda in Arrivi.');
+        abort_if($saveMode === 'review_web', 422, 'La revisione richiede una richiesta Web Check-in esistente.');
         if ($saveMode === 'to_arrivi') $request->merge(['arrive' => \App\Support\ArriviDay::today()]);
-        if (in_array($saveMode, ['draft', 'to_arrivi'], true)) $this->validateSchedinaRequest($request, false);
+        if (in_array($saveMode, ['draft', 'to_arrivi', 'review_web'], true)) $this->validateSchedinaRequest($request, false);
         if ($saveMode === 'component') {
             return $this->handleSingleComponentSave($request, null, false);
         }
@@ -433,6 +434,7 @@ class SchedinaController extends Controller
                 $request->validate(['web_versione_gestione' => ['required', 'string', 'size:64']], ['web_versione_gestione.required' => 'Riapri la scheda Web Check-in prima di salvarla.']);
                 abort_unless(hash_equals(app(\App\Services\WebCheckinVersione::class)->of($webGestione), $request->input('web_versione_gestione')), 409, 'I dati Web Check-in sono cambiati o sono già stati convertiti. Riapri la scheda prima di salvare.');
             }
+            if ($schedina->circuito === 'web' && !$webGestione && in_array($saveMode, ['full', 'draft', 'to_arrivi'], true)) throw ValidationException::withMessages(['save_mode' => 'Prepara prima la richiesta dalla scheda Web precedente: gli ospiti saranno conservati e il check-in resterà tracciato.']);
             if ($saveMode === 'convert_arrivi' && !$schedina->isInArrivi()) {
                 abort_unless($schedina->circuito === 'schedina' && !$schedina->is_arrive, 409);
                 return redirect()->route('schedina.edit', ['id' => $id])->with('success', 'Passaggio a schedina già completato: nessun duplicato creato.');
@@ -447,7 +449,7 @@ class SchedinaController extends Controller
                     $saveMode = 'to_arrivi';
                 }
             }
-            if (in_array($saveMode, ['draft', 'to_arrivi'], true)) $this->validateSchedinaRequest($request, false);
+            if (in_array($saveMode, ['draft', 'to_arrivi', 'review_web'], true)) $this->validateSchedinaRequest($request, false);
 
             if ($saveMode === 'component') {
                 return $this->handleSingleComponentSave($request, $schedina, true);
@@ -465,10 +467,16 @@ class SchedinaController extends Controller
                     ->with('active_tab', 'schedina-step-comp');
             }
 
+            if ($saveMode === 'review_web') abort_unless($webGestione && ! $webGestione->processata() && in_array($schedina->circuito, ['web', 'bozza'], true), 409);
             if ($saveMode === 'full') {
+                if ($webGestione && !$request->exists('componenti')) $request->merge(['componenti' => $this->componentiForSchedina($schedina)->get()->map->getAttributes()->all()]);
                 $this->validateSchedinaRequest($request);
                 $this->validateComponentiRows($request);
                 $this->validatePeopleConsistency($request);
+                if ($webGestione && ! $webGestione->processata()) {
+                    $request->validate(['arrive' => ['in:'.$webGestione->arrivo->toDateString()], 'departure' => ['in:'.$webGestione->partenza->toDateString()]]);
+                    app(\App\Services\WebCheckinCircuito::class)->verificaPersone($webGestione, $request);
+                }
             } elseif ($saveMode === 'to_arrivi') {
                 $this->validateArriviModeRequest($request);
             }
@@ -484,6 +492,7 @@ class SchedinaController extends Controller
                 }
             }
 
+            if ($webGestione) $defaults = array_replace($schedina->getAttributes(), $defaults);
             $payload = $this->buildSchedinaPayload($request, $defaults);
             if ($webGestione) {
                 foreach (['fonte_prenotazione', 'id_prenotazione_esterna', 'customer_email', 'customer_phone', 'customer_cellphone', 'customer_observation', 'customer_anag_observation', 'observation'] as $field) {
@@ -506,17 +515,15 @@ class SchedinaController extends Controller
                 $web->save();
             }
             $schedina->fill($payload)->save();
-            $this->syncCamere($schedina, $request);
-            $this->syncComponenti($schedina, $request);
+            if (! $webGestione || $request->exists('camere')) $this->syncCamere($schedina, $request);
+            if (! $webGestione || $request->exists('componenti')) $this->syncComponenti($schedina, $request);
             $this->syncCircuitNumbering((int) $schedina->struttura_id, $previousCircuit, (string) ($payload['circuito'] ?? $previousCircuit));
 
-            if (in_array($payload['circuito'] ?? null, ['bozza', 'arrivi', 'schedina'], true)) {
-                \App\Models\WebCheckinRichiesta::query()
-                    ->where('schedina_id', $schedina->id)
-                    ->where('struttura_id', $schedina->struttura_id)
-                    ->where('stato', '<>', 'convertito')
-                    ->update(['stato' => 'convertito', 'convertito_at' => now()]);
+            if (($payload['circuito'] ?? null) === 'schedina') {
+                if ($webGestione && ! $webGestione->processata()) app(\App\Services\WebCheckinCircuito::class)->finalizza($webGestione, $schedina);
             }
+
+            if ($saveMode === 'review_web') return redirect()->route('web_checkin.edit', $webGestione->id)->with('success', 'Correzioni salvate. Il check-in resta da effettuare separatamente.');
 
             return $this->redirectAfterSave($schedina, $request, $saveMode, true);
         });
@@ -1137,12 +1144,18 @@ class SchedinaController extends Controller
     {
         $request->validate(['arrivi_q'=>['nullable','string','max:100'], 'arrivi_page'=>['nullable','integer','min:1']]);
         $mode = (string) $request->input('save_mode', $request->input('save_mode_intent', 'full'));
-        if (!in_array($mode, ['full', 'draft', 'to_arrivi', 'component', 'componenti', 'convert_arrivi'], true)) throw ValidationException::withMessages(['save_mode' => 'Azione di salvataggio non valida.']);
+        if (!in_array($mode, ['full', 'draft', 'to_arrivi', 'component', 'componenti', 'convert_arrivi', 'review_web'], true)) throw ValidationException::withMessages(['save_mode' => 'Azione di salvataggio non valida.']);
         return $mode;
     }
 
     private function applySaveModeState(array &$payload, int $strutturaId, string $saveMode, ?Schedina $schedina = null): void
     {
+        if ($saveMode === 'review_web') {
+            $payload['circuito'] = $schedina->circuito;
+            $payload['is_arrive'] = 0;
+            $payload['scheda'] = $schedina?->scheda;
+            return;
+        }
         if ($saveMode === 'draft') {
             $payload['circuito'] = 'bozza';
             $payload['is_arrive'] = 0;

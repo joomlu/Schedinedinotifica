@@ -61,9 +61,9 @@ class WebCheckinMigrationPreservationTest extends TestCase
             }
         }
         $this->assertSame(1, DB::table('migrations')->where('migration', $name)->count());
-        $this->assertSame(158, DB::table('migrations')->count());
+        $this->assertSame(159, DB::table('migrations')->count());
         $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
-        $this->assertSame(158, DB::table('migrations')->count());
+        $this->assertSame(159, DB::table('migrations')->count());
     }
 
     private function rows(string $table, array $columns, ?string $excludeMigration = null): array
