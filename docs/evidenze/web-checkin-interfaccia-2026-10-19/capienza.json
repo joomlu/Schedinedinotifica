@@ -1,0 +1,21 @@
+{
+  "UTC": "2026-10-19T20:37:01.045001+00:00",
+  "campioni_VM_dopo_cleanup": [
+    {
+      "liberi_VM": 1969762304,
+      "dimensione_VM": 37290283008
+    },
+    {
+      "liberi_VM": 1969762304,
+      "dimensione_VM": 37290283008
+    }
+  ],
+  "minimo_prudenziale_C5_da_ultimo_consuntivo": 2418061312,
+  "riserva_VM_invariata": 1073741824,
+  "deficit_minimo": 448299008,
+  "liberi_Mac": 23187931136,
+  "liberi_Extra": 601074421760,
+  "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+  "esito": "STOP_CAPIENZA_PRIMA_PREPARE",
+  "limite": "Minimo prudenziale storico conservato; non misura del nuovo picco o certificazione del preflight completo. Nessun PREPARE/T0/S0 nuovo avviato."
+}
