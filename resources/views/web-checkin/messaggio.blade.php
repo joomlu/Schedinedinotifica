@@ -3,7 +3,7 @@
 @section('content')
 @php($testo = $comunicazione->contenuto)
 <div class="card"><div class="card-body">
-<h1 class="h4">Anteprima della comunicazione preparata</h1>
+<h1 class="h4">2. Anteprima e conferma</h1>
 @foreach(['success'=>'success','error'=>'danger','warning'=>'warning'] as $key=>$style)@if(session($key))<div class="alert alert-{{ $style }}" role="status">{{ session($key) }}</div>@endif @endforeach
 <p>Destinatario: <strong>{{ $testo['destinatario'] ?? 'Testo da copiare' }}</strong></p>
 <p>Stato: <strong>{{ \App\Services\WebCheckinComunicazioneStato::esito($comunicazione) }}</strong></p>
@@ -15,12 +15,12 @@
 <iframe class="web-email-preview" src="{{ route('web_checkin.comunicazione.anteprima', [$richiesta->id, $comunicazione->id]) }}" title="Anteprima visiva email HTML" tabindex="-1" inert sandbox="" referrerpolicy="no-referrer"></iframe>
 <p class="small text-muted mt-2">L’anteprima visiva non apre il modulo e non registra una visita dell’ospite. Il pulsante nell’email ricevuta apre direttamente il modulo pubblico.</p>
 <a class="btn btn-light mb-3" href="{{ route('web_checkin.anteprima_modulo', $richiesta->id) }}">Anteprima modulo ospite senza registrare una visita</a>
-@if(!$testo['identita']['logo_path'])<div class="alert alert-warning">Configura il logo reale dell’hotel prima dell’invio. <a href="{{ route('struttura.edit') }}">Configura logo</a></div>@endif
+@if(!$testo['identita']['logo_path'])<div class="alert alert-warning">Configura il logo reale dell’hotel prima dell’invio. <a href="{{ route('struttura.edit') }}" target="_blank" rel="noopener">Configura logo</a></div>@endif
 @if($impedimentoEmail)<div class="alert alert-warning">{{ $impedimentoEmail }}</div>@endif
 @if(!$comunicazione->tentativo_at && !$impedimentoEmail)
 <form method="post" action="{{ route('web_checkin.comunicazione.invia', [$richiesta->id, $comunicazione->id]) }}" class="my-3" data-web-invio data-confirm-ignore>@csrf
 <label class="d-block mb-2"><input type="checkbox" name="conferma_destinatario" value="1" required> Confermo il destinatario {{ $testo['destinatario'] }}</label>
-<button class="btn btn-primary" type="submit" >Invia Web Check-in</button>
+<button class="btn btn-primary" type="submit" >Conferma e invia</button>
 </form>
 @endif
 <p class="small text-muted">L’accettazione SMTP non certifica la consegna. Se l’esito è incerto, verifica prima con l’assistenza: questo tentativo non viene ripetuto. Un nuovo invio volontario richiede una nuova preparazione esplicita.</p>
@@ -33,9 +33,10 @@
 @endif
 <p class="small text-muted mt-3">Preparazione del {{ $comunicazione->created_at->timezone('Europe/Rome')->format('d/m/Y H:i:s') }}. Modifiche di dati/logo, revoca, rigenerazione o scadenza possono richiedere un nuovo invito. Il contenuto finale è conservato cifrato.</p>
 @if($richiesta->stato !== 'convertito')
-<a class="btn btn-primary" href="{{ route('web_checkin.comunicazioni', $richiesta->id) }}">{{ $comunicazione->stato === 'accettato' && !$impedimentoEmail ? 'Reinvia Web Check-in' : 'Modifica invito e prepara un nuovo tentativo' }}</a>
+<a class="btn btn-primary" href="{{ route('web_checkin.comunicazioni', $richiesta->id) }}">{{ $comunicazione->stato === 'accettato' && !$impedimentoEmail ? 'Reinvia Web Check-in' : 'Torna a modifica' }}</a>
 @endif
-<a class="btn btn-light" href="{{ route('web_checkin.edit', $richiesta->id) }}">Correggi richiesta o link</a>
+<a class="btn btn-light" href="{{ route('web_checkin.edit', $richiesta->id) }}">Modifica richiesta</a>
+<a class="btn btn-light" href="{{ route('web_checkin.attivita',[$richiesta->id,'link']) }}">Gestisci link</a>
 <a class="btn btn-light" href="{{ route('schedina.web') }}">Torna all’elenco</a>
 </div></div>
 @endsection

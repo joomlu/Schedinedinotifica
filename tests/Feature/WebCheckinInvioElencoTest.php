@@ -56,11 +56,29 @@ class WebCheckinInvioElencoTest extends TestCase
         return WebCheckinComunicazione::where('richiesta_id', $r->id)->latest('id')->firstOrFail();
     }
 
+    public function test_attivita_separate_dalla_modifica_e_isolate_per_struttura(): void
+    {
+        $r = $this->scenario();
+        $this->get(route('web_checkin.edit', $r->id))->assertOk()
+            ->assertSeeText('Modifica richiesta')->assertDontSee('id="web-camera"', false)
+            ->assertDontSeeText('Revoca link')->assertDontSeeText('Conferma check-in');
+        foreach (['ospiti', 'link', 'check-in', 'cestino'] as $attivita) {
+            $this->get(route('web_checkin.attivita', [$r->id, $attivita]))->assertOk();
+        }
+        $this->get(route('web_checkin.attivita', [$r->id, 'link']))->assertSeeText('Copia link')->assertDontSee('id="web-camera"', false);
+        $this->get(route('web_checkin.attivita', [$r->id, 'check-in']))->assertSee('id="web-camera"', false)->assertDontSeeText('Revoca link');
+        $other = $this->structureFor(null);
+        $this->actingAs($this->actor('struttura_user', null, $other->id))->withSession(['struttura_corrente_id' => $other->id]);
+        foreach (['ospiti', 'link', 'check-in', 'cestino'] as $attivita) {
+            $this->get(route('web_checkin.attivita', [$r->id, $attivita]))->assertNotFound();
+        }
+    }
+
     public function test_invito_preparato_ha_azione_visibile_per_invio_nellelenco(): void
     {
         $r=$this->scenario(); $c=$this->prepara($r);
         config(['web_checkin.email_abilitata'=>true,'web_checkin.mailer'=>'smtp','mail.mailers.smtp.transport'=>'smtp','mail.mailers.smtp.host'=>'smtp.example.invalid','mail.from.address'=>'reception@example.invalid']);
-        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Invia Web Check-in')->assertSee(route('web_checkin.comunicazione',[$r->id,$c->id]),false)->assertSeeText('Pronto per l’invio')->assertSeeText('In attesa di compilazione');
+        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Anteprima e invio')->assertSee(route('web_checkin.comunicazioni',$r->id),false)->assertSeeText('Pronto per l’invio')->assertSeeText('In attesa di compilazione');
     }
     public function test_sola_visita_non_dimostra_compilazione_e_date_trascorse_non_si_riattivano(): void
     {

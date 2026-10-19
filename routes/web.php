@@ -476,6 +476,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/web-checkin/nuovo', [WebCheckinController::class, 'create'])->name('web_checkin.create');
     Route::post('/web-checkin', [WebCheckinController::class, 'store'])->name('web_checkin.store');
     Route::get('/web-checkin/{id}/anteprima-modulo', [WebCheckinController::class, 'anteprimaModulo'])->name('web_checkin.anteprima_modulo')->where('id', '[1-9][0-9]{0,17}');
+    Route::get('/web-checkin/{id}/attivita/{attivita}', [WebCheckinController::class, 'edit'])->name('web_checkin.attivita')->where(['id' => '[1-9][0-9]{0,17}', 'attivita' => 'ospiti|check-in|link|cestino']);
     Route::get('/web-checkin/{id}/modifica', [WebCheckinController::class, 'edit'])->name('web_checkin.edit');
     Route::put('/web-checkin/{id}', [WebCheckinController::class, 'update'])->name('web_checkin.update');
     Route::delete('/web-checkin/{id}', [WebCheckinController::class, 'destroy'])->name('web_checkin.destroy');

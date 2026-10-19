@@ -247,7 +247,7 @@ class WebCheckinComunicazioniController extends Controller
         if (! $c) return [];
         $content = $c->contenuto;
         // Le vecchie preparazioni conservano il testo personalizzato; il link viene sempre risolto nuovamente.
-        return ($content['sorgente'] ?? ['oggetto' => $content['oggetto'], 'corpo' => 'Apri {{link}}', 'impostazioni' => $content['layout'] ?? WebCheckinMessaggio::layoutIniziale()]) + ['canale' => 'email'];
+        return ($content['sorgente'] ?? ['oggetto' => $content['oggetto'], 'corpo' => 'Apri {{link}}', 'impostazioni' => $content['layout'] ?? WebCheckinMessaggio::layoutIniziale()]) + ['canale' => 'email', 'modello_id' => $c->modello_id];
     }
 
     private function owned(Request $request, int $id): WebCheckinRichiesta

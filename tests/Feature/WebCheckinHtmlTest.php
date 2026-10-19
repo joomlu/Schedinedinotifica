@@ -237,20 +237,20 @@ class WebCheckinHtmlTest extends TestCase
         $transport=$this->trasportoSimulato();$retry=$this->prepara($r);
         $this->postWeb(route('web_checkin.comunicazione.invia',[$r->id,$retry->id]),['conferma_destinatario'=>'1'])->assertRedirect();
         $this->assertSame('accettato',$retry->fresh()->stato);$this->assertCount(1,$transport->messages());
-        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Reinvia Web Check-in')->assertSeeText('Ultimo invio:')->assertSeeText($r->email)->assertSeeText('In attesa di compilazione');
+        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Anteprima e invio')->assertSeeText('Ultimo invio:')->assertSeeText($r->email)->assertSeeText('In attesa di compilazione');
         $this->get(route('web_checkin.comunicazioni',$r->id))->assertOk()->assertSeeText('Nuovo invio volontario');
         $resend=$this->prepara($r,['oggetto'=>'Secondo invito {{referente}}']);
         $this->postWeb(route('web_checkin.comunicazione.invia',[$r->id,$resend->id]),['conferma_destinatario'=>'1'])->assertRedirect();
         $this->assertCount(2,$transport->messages());$this->assertSame('accettato',$resend->fresh()->stato);$this->assertSame('non_riuscito',$c->fresh()->stato);
         $retry->update(['nascosta_at'=>now()]);$resend->update(['nascosta_at'=>now()]);
-        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Ultimo invio:')->assertSeeText('Reinvia Web Check-in');
+        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Ultimo invio:')->assertSeeText('Anteprima e invio');
     }
 
     public function test_link_revocato_email_errata_e_anteprima_obsoleta_spiegano_il_blocco_nellelenco(): void
     {
         $r=$this->scenario();$c=$this->prepara($r);$this->trasportoSimulato();
         $r->forceFill(['link_revoked_at'=>now()])->save();
-        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Link revocato')->assertDontSeeText('Invia Web Check-in')->assertSeeText('Correggi richiesta o link');
+        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Link revocato')->assertDontSeeText('Invia Web Check-in')->assertSeeText('Gestisci link');
         $r->forceFill(['link_revoked_at'=>null,'email'=>'non-valida'])->save();
         $this->get(route('schedina.web'))->assertOk()->assertSeeText('Email del referente mancante o non valida')->assertDontSeeText('Invia Web Check-in');
         $r->forceFill(['email'=>'nuovo@example.invalid'])->save();

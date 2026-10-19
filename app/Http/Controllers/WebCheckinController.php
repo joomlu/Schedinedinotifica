@@ -176,7 +176,11 @@ class WebCheckinController extends SchedinaController
     {
         $richiesta = $this->findOwnedRichiesta($id);
 
-        return response()->view('web-checkin.form', [
+        $attivita = request()->route('attivita');
+        $titoli = ['ospiti' => 'Rivedi dati ospiti', 'check-in' => 'Effettua check-in', 'link' => 'Gestisci link', 'cestino' => 'Sposta nel Cestino'];
+        return response()->view($attivita ? 'web-checkin.attivita' : 'web-checkin.form', [
+            'attivita' => $attivita,
+            'titoloAttivita' => $titoli[$attivita] ?? 'Modifica richiesta',
             'richiesta' => $richiesta,
             'publicUrl' => $this->publicUrl($richiesta),
             'mailSubject' => $this->mailSubject($richiesta),
@@ -538,7 +542,7 @@ class WebCheckinController extends SchedinaController
             $form->setUserResolver(fn () => $request->user());
             $form->setLaravelSession($request->session());
             parent::update($form, $sheet->id);
-            return redirect()->route('web_checkin.edit', $r->id)->with('success', 'Check-in effettuato. Schedina creata una sola volta e richiesta nello storico.');
+            return redirect()->route('web_checkin.attivita', [$r->id, 'ospiti'])->with('success', 'Check-in effettuato. Schedina creata una sola volta e richiesta nello storico.');
         });
     }
 
@@ -609,7 +613,7 @@ class WebCheckinController extends SchedinaController
                 $links->revoke($r);
             }
 
-            return redirect()->route('web_checkin.edit', ['id' => $r->id])->with('success', $issue ? 'Nuovo link emesso.' : 'Link revocato.');
+            return redirect()->route('web_checkin.attivita', ['id' => $r->id, 'attivita' => 'link'])->with('success', $issue ? 'Nuovo link emesso.' : 'Link revocato.');
         });
     }
 
