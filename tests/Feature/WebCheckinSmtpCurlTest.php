@@ -66,7 +66,8 @@ class WebCheckinSmtpCurlTest extends TestCase
                 Mail::mailer('smtp_sintetico')->to('controllato@example.invalid')->send(new WebCheckinInvito($invito));
                 $this->fail('Certificato non fidato accettato');
             } catch (TransportException $e) {
-                $this->assertSame('Accettazione SMTPS non verificata.', $e->getMessage());
+                $this->assertInstanceOf(\App\Mail\Transport\WebCheckinSmtpRifiutato::class, $e);
+                $this->assertSame('connessione', $e->motivo);
                 $this->assertFileDoesNotExist($root.'/ricevuto.eml');
             }
         });
@@ -80,7 +81,13 @@ class WebCheckinSmtpCurlTest extends TestCase
                     Mail::mailer('smtp_sintetico')->to('controllato@example.invalid')->send(new WebCheckinInvito($invito));
                     $this->fail('Accettazione attribuita senza risposta 250');
                 } catch (TransportException $e) {
-                    $this->assertSame('Accettazione SMTPS non verificata.', $e->getMessage());
+                    if ($mode === 'rifiuta') {
+                        $this->assertInstanceOf(\App\Mail\Transport\WebCheckinSmtpRifiutato::class, $e);
+                        $this->assertSame('rifiuto_smtp', $e->motivo);
+                    } else {
+                        $this->assertNotInstanceOf(\App\Mail\Transport\WebCheckinSmtpRifiutato::class, $e);
+                        $this->assertSame('Accettazione SMTPS non verificata.', $e->getMessage());
+                    }
                     $this->assertSame($mode, json_decode(file_get_contents($root.'/ricevuta.json'), true)['modo']);
                 }
             });

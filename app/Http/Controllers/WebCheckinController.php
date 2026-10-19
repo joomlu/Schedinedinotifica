@@ -21,7 +21,6 @@ class WebCheckinController extends SchedinaController
 
     public function index()
     {
-        session()->forget(['success', 'warning', 'error']);
         $strutturaId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
         if (! $strutturaId) {
             return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
@@ -36,7 +35,16 @@ class WebCheckinController extends SchedinaController
             ->with(['schedina', 'struttura'])
             ->when($storico, fn ($q) => $q->storiche(), fn ($q) => $q->whereNotIn('id', WebCheckinRichiesta::query()->storiche()->select('id')))
             ->where('struttura_id', $strutturaId)
-            ->when($stato !== '', fn ($query) => $query->where('stato', $stato))
+            ->when(in_array($stato, ['da_inviare', 'in_compilazione'], true), function ($query) use ($stato, $strutturaId) {
+                $query->whereNull('compilato_at')->where('stato', '<>', 'convertito');
+                $hasData = fn ($sheet) => $sheet->where('struttura_id', $strutturaId)->where(fn ($data) => $data
+                    ->whereRaw("TRIM(COALESCE(name, '')) <> ''")->orWhereRaw("TRIM(COALESCE(surname, '')) <> ''")
+                    ->orWhereHas('componenti', fn ($people) => $people->where('struttura_id', $strutturaId)));
+                if ($stato === 'in_compilazione') $query->whereHas('schedina', $hasData);
+                else $query->whereDoesntHave('schedina', $hasData);
+            })
+            ->when($stato === 'compilato', fn ($query) => $query->whereNotNull('compilato_at')->where('stato', '<>', 'convertito'))
+            ->when($stato === 'convertito', fn ($query) => $query->storiche())
             ->when($q !== '', function ($query) use ($q) {
                 $like = '%'.$q.'%';
                 $query->where(function ($inner) use ($like) {
@@ -59,6 +67,7 @@ class WebCheckinController extends SchedinaController
         $richieste->getCollection()->transform(function (WebCheckinRichiesta $richiesta) {
             $richiesta->setRelation('schedina', $this->linkedSchedinaForRichiesta($richiesta));
             $richiesta->progresso = $this->progresso($richiesta);
+            $richiesta->comunicazioneUI = app(\App\Services\WebCheckinComunicazioneStato::class)->of($richiesta);
             return $richiesta;
         });
 
@@ -158,8 +167,8 @@ class WebCheckinController extends SchedinaController
             app(\App\Services\WebCheckinLink::class)->issue($richiesta);
 
             return redirect()
-                ->route('web_checkin.edit', ['id' => $richiesta->id])
-                ->with('success', 'Richiesta creata. Prepara l’invito e verifica il canale disponibile.');
+                ->route('schedina.web')
+                ->with('success', 'Richiesta creata. Nell’elenco scegli Prepara invito, verifica l’anteprima e premi Invia Web Check-in.');
         });
     }
 

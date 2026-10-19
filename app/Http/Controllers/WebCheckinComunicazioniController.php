@@ -31,6 +31,8 @@ class WebCheckinComunicazioniController extends Controller
         });
 
         return response()->view('web-checkin.comunicazioni', [
+            'ripresa' => $this->ripresa($r),
+            'comunicazioneUI' => app(\App\Services\WebCheckinComunicazioneStato::class)->of($r),
             'richiesta' => $r,
             'modelli' => WebCheckinModello::where('struttura_id', $r->struttura_id)->orderBy('id')->get(),
             'storico' => WebCheckinComunicazione::where('struttura_id', $r->struttura_id)->where('richiesta_id', $r->id)->whereNull('nascosta_at')->latest('id')->paginate(10),
@@ -97,6 +99,11 @@ class WebCheckinComunicazioniController extends Controller
             $r = WebCheckinRichiesta::where('struttura_id', $r->struttura_id)->lockForUpdate()->findOrFail($r->id);
             $previous = WebCheckinComunicazione::where('richiesta_id', $r->id)->where('struttura_id', $r->struttura_id)->where('idempotenza', $data['idempotenza'])->first();
             if ($previous) return $previous;
+            $uncertain = WebCheckinComunicazione::where('struttura_id', $r->struttura_id)->where('richiesta_id', $r->id)->where('canale', 'email')->latest('id')->first();
+            if ($data['canale'] === 'email' && $uncertain && in_array($uncertain->stato, ['invio_in_corso', 'esito_incerto'], true)) {
+                abort_if($uncertain->stato === 'invio_in_corso', 422, 'Invio già in corso. Attendi e ricarica la pagina.');
+                $request->validate(['conferma_nuovo_tentativo' => ['accepted']], ['accepted' => 'Verifica il tentativo incerto e conferma il nuovo invio volontario.']);
+            }
             abort_unless(app(WebCheckinLink::class)->valid($r) && $r->stato !== 'convertito', 422, 'Il link non è disponibile per un nuovo invito.');
             if (! empty($data['modello_id'])) WebCheckinModello::where('struttura_id', $r->struttura_id)->findOrFail($data['modello_id']);
             $rendered = app(WebCheckinMessaggio::class)->render($data['oggetto'], $data['corpo'], $r, $data['impostazioni'] ?? []);
@@ -107,7 +114,7 @@ class WebCheckinComunicazioniController extends Controller
                 'struttura_id' => $r->struttura_id, 'richiesta_id' => $r->id, 'utente_id' => $request->user()->id,
                 'modello_id' => $data['modello_id'] ?? null, 'idempotenza' => $data['idempotenza'],
                 'canale' => $data['canale'], 'stato' => 'preparato',
-                'contenuto' => $rendered + ['impronta_invito' => app(WebCheckinMessaggio::class)->improntaInvito($r), 'destinatario' => $data['canale'] === 'whatsapp' ? $r->whatsapp : ($data['canale'] === 'email' ? $r->email : null)],
+                'contenuto' => $rendered + ['sorgente' => \Illuminate\Support\Arr::only($data, ['oggetto', 'corpo', 'impostazioni']), 'impronta_invito' => app(WebCheckinMessaggio::class)->improntaInvito($r), 'destinatario' => $data['canale'] === 'whatsapp' ? $r->whatsapp : ($data['canale'] === 'email' ? $r->email : null)],
             ]);
         });
 
@@ -121,7 +128,7 @@ class WebCheckinComunicazioniController extends Controller
         $r = $this->owned($request, $id);
         $c = WebCheckinComunicazione::where('struttura_id', $r->struttura_id)->where('richiesta_id', $r->id)->whereNull('nascosta_at')->findOrFail($communication);
 
-        return response()->view('web-checkin.messaggio', ['richiesta' => $r, 'comunicazione' => $c, 'impedimentoEmail' => app(\App\Services\WebCheckinInvio::class)->impedimento()])->header('Cache-Control', 'no-store')->header('Referrer-Policy', 'no-referrer');
+        return response()->view('web-checkin.messaggio', ['richiesta' => $r, 'comunicazione' => $c, 'impedimentoEmail' => app(\App\Services\WebCheckinComunicazioneStato::class)->impedimento($r, $c), 'comunicazioneUI' => app(\App\Services\WebCheckinComunicazioneStato::class)->of($r)])->header('Cache-Control', 'no-store')->header('Referrer-Policy', 'no-referrer');
     }
 
     public function apri(Request $request, int $id, int $communication)
@@ -229,7 +236,18 @@ class WebCheckinComunicazioniController extends Controller
             return $c;
         });
         if ($c) $service->invia($c);
-        return redirect()->route('web_checkin.comunicazione', [$id, $communication])->with('success', $c ? 'Tentativo registrato. Controlla l’esito: accettazione del trasporto e consegna sono distinte.' : 'Tentativo già registrato: nessun duplicato inviato.');
+        $level = $c ? match ($c->stato) { 'accettato' => 'success', 'non_riuscito' => 'error', default => 'warning' } : 'warning';
+        $message = $c ? \App\Services\WebCheckinComunicazioneStato::esito($c) : 'Tentativo già registrato: nessun duplicato inviato. Consulta l’esito del tentativo esistente.';
+        return redirect()->route('web_checkin.comunicazione', [$id, $communication])->with($level, $message);
+    }
+
+    private function ripresa(WebCheckinRichiesta $r): array
+    {
+        $c = WebCheckinComunicazione::where('struttura_id', $r->struttura_id)->where('richiesta_id', $r->id)->where('canale', 'email')->whereNull('nascosta_at')->latest('id')->first();
+        if (! $c) return [];
+        $content = $c->contenuto;
+        // Le vecchie preparazioni conservano il testo personalizzato; il link viene sempre risolto nuovamente.
+        return ($content['sorgente'] ?? ['oggetto' => $content['oggetto'], 'corpo' => 'Apri {{link}}', 'impostazioni' => $content['layout'] ?? WebCheckinMessaggio::layoutIniziale()]) + ['canale' => 'email'];
     }
 
     private function owned(Request $request, int $id): WebCheckinRichiesta

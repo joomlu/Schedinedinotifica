@@ -4,6 +4,9 @@
 <div class="card"><div class="card-body">
 <h1 class="h4">Invito Web Check-in — {{ $richiesta->numero_prenotazione }}</h1>
 <p>Personalizza l’invito, verifica destinatario e anteprima, poi scegli il canale. Le modifiche diventano un modello riutilizzabile solo con un’azione esplicita.</p>
+<p><strong>Destinatario email:</strong> {{ $richiesta->email ?: 'Mancante' }} · <a href="{{ route('web_checkin.edit',$richiesta->id) }}">Correggi destinatario e dati richiesta</a></p>
+@if($comunicazioneUI['impedimento'])<div class="alert alert-warning">{{ $comunicazioneUI['impedimento'] }}</div>@endif
+@if($comunicazioneUI['inviato'])<p>Nuovo invio volontario: verifica destinatario e messaggio. Verrà registrato un nuovo tentativo senza modificare quelli precedenti.</p>@endif
 <a class="btn btn-light mb-3" href="{{ route('web_checkin.edit', $richiesta->id) }}">Torna alla richiesta</a>
 @if($errors->any())<div class="alert alert-danger">{{ $errors->first() }}</div>@endif
 @if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
@@ -17,6 +20,7 @@
 </form>
 <form method="post" action="{{ route('web_checkin.prepara', $richiesta->id) }}" id="invito-form">
 @csrf
+@if($comunicazioneUI['ultimo']?->stato === 'esito_incerto')<div class="alert alert-warning"><label><input type="checkbox" name="conferma_nuovo_tentativo" value="1" required> Ho verificato il tentativo incerto con l’amministratore e richiedo un nuovo invio volontario, consapevole del possibile duplicato.</label></div>@endif
 <input type="hidden" name="idempotenza" value="{{ (string) Illuminate\Support\Str::uuid() }}">
 <input type="hidden" name="azione" id="modello-azione" value=""><input type="hidden" name="versione" id="modello-versione" value="1">
 <div class="row g-3">
@@ -43,14 +47,14 @@
 <p class="small text-muted">Eliminare un modello non cancella gli inviti preparati. I modelli eliminati non vengono ricreati all’apertura; il ripristino è esplicito e conserva le personalizzazioni.</p>
 <h2 class="h5 mt-4">Cronologia delle comunicazioni</h2>
 <form method="post" action="{{ route('web_checkin.cronologia.rimuovi', $richiesta->id) }}">@csrf
-@forelse($storico as $c)<label class="d-block mb-2"><input type="checkbox" name="comunicazioni[]" value="{{ $c->id }}"> <a href="{{ route('web_checkin.comunicazione', [$richiesta->id, $c->id]) }}">{{ $c->created_at->timezone('Europe/Rome')->format('d/m/Y H:i:s') }} — {{ $c->canale }} — {{ ['preparato'=>'Preparato', 'apertura_richiesta'=>'Apertura esterna richiesta', 'invio_in_corso'=>'Tentativo in corso', 'accettato'=>'Accettato dal trasporto', 'esito_incerto'=>'Esito da verificare'][$c->stato] ?? $c->stato }}</a></label>@empty<p>Nessuna comunicazione nella cronologia visibile.</p>@endforelse
+@forelse($storico as $c)<label class="d-block mb-2"><input type="checkbox" name="comunicazioni[]" value="{{ $c->id }}"> <a href="{{ route('web_checkin.comunicazione', [$richiesta->id, $c->id]) }}">{{ $c->created_at->timezone('Europe/Rome')->format('d/m/Y H:i:s') }} — {{ $c->canale }} — {{ ['preparato'=>'Preparato', 'apertura_richiesta'=>'Apertura esterna richiesta', 'invio_in_corso'=>'Tentativo in corso', 'accettato'=>'Inviato · accettato dal trasporto', 'non_riuscito'=>'Invio non riuscito', 'esito_incerto'=>'Esito da verificare'][$c->stato] ?? $c->stato }}</a></label>@empty<p>Nessuna comunicazione nella cronologia visibile.</p>@endforelse
 @if($storico->isNotEmpty())<button type="submit" class="btn btn-outline-danger">Elimina comunicazioni selezionate dalla cronologia</button>@endif
 </form>{{ $storico->links() }}
 <p class="small text-muted">La rimozione dalla cronologia non annulla messaggi già inviati o tentativi in corso. Richiesta, ospiti e metadati tecnici d’idempotenza sono conservati.</p>
 </div></div>
 @endsection
 @push('scripts')
-@php($previousInput = \Illuminate\Support\Arr::only(session()->getOldInput(), ['nome','oggetto','corpo','canale','impostazioni']))
+@php($previousInput = array_replace($ripresa, \Illuminate\Support\Arr::only(session()->getOldInput(), ['nome','oggetto','corpo','canale','impostazioni'])))
 @php($layoutDefaults = array_replace(\App\Services\WebCheckinMessaggio::layoutIniziale(), filled($richiesta->messaggio_ospite) ? ['testo'=>$richiesta->messaggio_ospite] : []))
 <script>
 document.addEventListener('DOMContentLoaded', () => {

@@ -32,7 +32,7 @@ final class WebCheckinSmtpCurl extends AbstractTransport
             || ! hash_equals((string) ($this->config['from']['address'] ?? ''), $sender)
             || ! filter_var($recipients[0]->getAddress(), FILTER_VALIDATE_EMAIL)
             || empty($this->config['username']) || empty($this->config['password'])) {
-            throw new TransportException('Configurazione SMTPS Web Check-in non valida.');
+            throw new WebCheckinSmtpRifiutato('configurazione');
         }
 
         $raw = $message->toString();
@@ -65,11 +65,14 @@ final class WebCheckinSmtpCurl extends AbstractTransport
                 CURLOPT_VERBOSE => false,
             ];
             if (! empty($this->config['cafile'])) $options[CURLOPT_CAINFO] = $this->config['cafile'];
-            if (! curl_setopt_array($curl, $options)) throw new TransportException('Opzioni SMTPS non applicate.');
+            if (! curl_setopt_array($curl, $options)) throw new WebCheckinSmtpRifiutato('configurazione');
             $result = curl_exec($curl);
             $code = (int) curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
             if ($result === false || $code !== 250 || $offset !== strlen($raw)) {
-                // Nessun dettaglio cURL/SMTP: può contenere destinatari o credenziali.
+                // Rifiuto esplicito oppure nessun byte del messaggio trasferito: ripetibile dopo correzione.
+                if ($code >= 400 && $code <= 599) throw new WebCheckinSmtpRifiutato('rifiuto_smtp');
+                if ($offset === 0 && $result === false) throw new WebCheckinSmtpRifiutato('connessione');
+                // Un timeout dopo DATA può seguire un'accettazione: conservare l'incertezza.
                 throw new TransportException('Accettazione SMTPS non verificata.');
             }
         } finally {

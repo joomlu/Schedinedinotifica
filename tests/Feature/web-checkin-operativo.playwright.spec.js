@@ -38,8 +38,9 @@ for (const width of [1440, 768, 390]) { const saved={};test.describe.serial(`Ope
     await page.locator('[name="numero_adulti"]').fill('1');
     await page.locator('[name="note"]').fill('NOTA-INTERNA-SINTETICA');
     await page.getByRole('button', {name: 'Crea richiesta', exact: true}).click(); await conferma(page);
-    await expect(page).toHaveURL(/\/web-checkin\/\d+\/modifica/);
-    const manage = page.url(); const id = manage.match(/web-checkin\/(\d+)/)[1];
+    await expect(page).toHaveURL(/\/web-checkin$/);
+    const row = page.locator('.web-elenco tr').filter({hasText: `WEB-OPERATIVO-${width}`});
+    const manage = await row.getByRole('link', {name: 'Apri richiesta', exact: true}).getAttribute('href'); const id = manage.match(/web-checkin\/(\d+)/)[1];
     await page.goto(`${BASE_URL}/web-checkin/${id}/comunicazioni`);
     await page.locator('#invito-canale').selectOption('testo');
     const countBefore = await page.locator('#invito-modello option').count(); expect(countBefore).toBeGreaterThanOrEqual(3);

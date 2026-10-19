@@ -62,7 +62,7 @@ class WebCheckinHtmlTest extends TestCase
         config(['web_checkin.email_abilitata' => true, 'web_checkin.mailer' => 'smtp',
             'mail.mailers.smtp.transport' => 'smtp', 'mail.mailers.smtp.host' => 'smtp.example.invalid',
             'mail.from.address' => 'reception@example.invalid']);
-        $mailer = app('mail.manager')->mailer('array');
+        $mailer = (new \Illuminate\Mail\MailManager(app()))->mailer('array');
         $mailer->alwaysFrom('reception@example.invalid', 'Reception sintetica');
         $factory = \Mockery::mock(\Illuminate\Contracts\Mail\Factory::class);
         $factory->shouldReceive('mailer')->with('smtp')->andReturn($mailer);
@@ -221,5 +221,51 @@ class WebCheckinHtmlTest extends TestCase
     {
         $r=$this->scenario();
         foreach(['https://non-autorizzato.invalid/logo.png','storage/uploads/loghi/../../secret.png','storage/uploads/loghi/attivo.svg']as$path){$r->struttura->forceFill(['logo'=>$path])->save();$this->assertNull(app(WebCheckinIdentita::class)->of($r->struttura)['logo_path']);}
+    }
+    public function test_rifiuto_smtp_nuova_preparazione_reinvio_e_ultimo_invio_senza_duplicati(): void
+    {
+        $r=$this->scenario(); $c=$this->prepara($r); $this->trasportoSimulato();
+        $mailer=\Mockery::mock(\Illuminate\Contracts\Mail\Mailer::class);
+        $mailer->shouldReceive('to')->once()->andReturnSelf();
+        $mailer->shouldReceive('send')->once()->andThrow(new \App\Mail\Transport\WebCheckinSmtpRifiutato('rifiuto_smtp'));
+        $factory=\Mockery::mock(\Illuminate\Contracts\Mail\Factory::class);$factory->shouldReceive('mailer')->with('smtp')->once()->andReturn($mailer);Mail::swap($factory);
+        $url=route('web_checkin.comunicazione.invia',[$r->id,$c->id]);
+        $this->postWeb($url,['conferma_destinatario'=>'1'])->assertRedirect()->assertSessionHas('error');
+        $this->postWeb($url,['conferma_destinatario'=>'1'])->assertRedirect()->assertSessionHas('warning');
+        $this->assertSame('non_riuscito',$c->fresh()->stato);
+        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Invio non riuscito')->assertSeeText('server SMTP ha rifiutato');
+        $transport=$this->trasportoSimulato();$retry=$this->prepara($r);
+        $this->postWeb(route('web_checkin.comunicazione.invia',[$r->id,$retry->id]),['conferma_destinatario'=>'1'])->assertRedirect();
+        $this->assertSame('accettato',$retry->fresh()->stato);$this->assertCount(1,$transport->messages());
+        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Reinvia Web Check-in')->assertSeeText('Ultimo invio:')->assertSeeText($r->email)->assertSeeText('In attesa di compilazione');
+        $this->get(route('web_checkin.comunicazioni',$r->id))->assertOk()->assertSeeText('Nuovo invio volontario');
+        $resend=$this->prepara($r,['oggetto'=>'Secondo invito {{referente}}']);
+        $this->postWeb(route('web_checkin.comunicazione.invia',[$r->id,$resend->id]),['conferma_destinatario'=>'1'])->assertRedirect();
+        $this->assertCount(2,$transport->messages());$this->assertSame('accettato',$resend->fresh()->stato);$this->assertSame('non_riuscito',$c->fresh()->stato);
+        $retry->update(['nascosta_at'=>now()]);$resend->update(['nascosta_at'=>now()]);
+        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Ultimo invio:')->assertSeeText('Reinvia Web Check-in');
+    }
+
+    public function test_link_revocato_email_errata_e_anteprima_obsoleta_spiegano_il_blocco_nellelenco(): void
+    {
+        $r=$this->scenario();$c=$this->prepara($r);$this->trasportoSimulato();
+        $r->forceFill(['link_revoked_at'=>now()])->save();
+        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Link revocato')->assertDontSeeText('Invia Web Check-in')->assertSeeText('Correggi richiesta o link');
+        $r->forceFill(['link_revoked_at'=>null,'email'=>'non-valida'])->save();
+        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Email del referente mancante o non valida')->assertDontSeeText('Invia Web Check-in');
+        $r->forceFill(['email'=>'nuovo@example.invalid'])->save();
+        $this->get(route('schedina.web'))->assertOk()->assertSeeText('Dati, logo o link modificati')->assertDontSeeText('Invia Web Check-in');
+        $this->get(route('web_checkin.comunicazione',[$r->id,$c->id]))->assertOk()->assertSeeText('Dati, logo o link modificati')->assertDontSee('name="conferma_destinatario"',false);
+    }
+
+    public function test_nuovo_tentativo_incerto_richiede_conferma_esplicita_e_non_cancella_storico(): void
+    {
+        $r=$this->scenario();$c=$this->prepara($r);$c->update(['stato'=>'esito_incerto','tentativo_at'=>now()]);
+        $data=['oggetto'=>'Nuovo invito','corpo'=>'Apri {{link}}','canale'=>'email','idempotenza'=>(string)Str::uuid()];
+        $this->postJsonWeb(route('web_checkin.prepara',$r->id),$data)->assertUnprocessable();
+        $this->assertSame(1,WebCheckinComunicazione::where('richiesta_id',$r->id)->count());
+        $this->get(route('web_checkin.comunicazioni',$r->id))->assertOk()->assertSee('name="conferma_nuovo_tentativo"',false);
+        $this->postJsonWeb(route('web_checkin.prepara',$r->id),$data+['conferma_nuovo_tentativo'=>'1'])->assertRedirect();
+        $this->assertSame(2,WebCheckinComunicazione::where('richiesta_id',$r->id)->count());$this->assertSame('esito_incerto',$c->fresh()->stato);
     }
 }

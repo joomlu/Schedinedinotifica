@@ -19,7 +19,7 @@ class WebCheckinInvio
             || (($mailer['transport'] ?? null) === 'web_checkin_smtps' && (! function_exists('curl_init')
                 || ! in_array('smtps', curl_version()['protocols'], true) || ($mailer['scheme'] ?? null) !== 'smtps'
                 || empty($mailer['username']) || empty($mailer['password'])))) {
-            return 'Invio email non configurato: servono trasporto SMTP Web Check-in abilitato e mittente autorizzato. L’anteprima non equivale a un invio.';
+            return 'Invio email non configurato: servono trasporto SMTP Web Check-in abilitato e mittente autorizzato. Contatta l’amministratore per verificare server, porta, autenticazione e mittente del servizio Web Check-in. L’anteprima non equivale a un invio.';
         }
 
         return null;
@@ -34,6 +34,8 @@ class WebCheckinInvio
             // Anche un trasporto senza ricevuta non autorizza un secondo tentativo automatico.
             $c->update($sent ? ['stato' => 'accettato', 'accettato_at' => now(), 'errore_codice' => null]
                 : ['stato' => 'esito_incerto', 'errore_codice' => 'nessuna_ricevuta']);
+        } catch (\App\Mail\Transport\WebCheckinSmtpRifiutato $e) {
+            $c->update(['stato' => 'non_riuscito', 'errore_codice' => $e->motivo]);
         } catch (\Throwable) {
             // Non registrare eccezioni SMTP: possono contenere destinatari o messaggi con token.
             $c->update(['stato' => 'esito_incerto', 'errore_codice' => 'esito_non_verificabile']);

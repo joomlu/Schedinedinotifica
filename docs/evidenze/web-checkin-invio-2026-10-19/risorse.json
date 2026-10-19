@@ -1,0 +1,19 @@
+{
+  "esito": "PASS_IDENTITA_EXTRA_SCRITTURA",
+  "mount": "/Volumes/extra",
+  "UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+  "formato": "apfs",
+  "cartella_esclusiva": "/Volumes/extra/Schedinedinotifica-Web-Checkin-Invio-20261019",
+  "Mac_liberi": 40665526272,
+  "Extra_liberi": 601887498240,
+  "VM_prima_derivati": 1684930560,
+  "VM_dopo_ricollocazione": 4149194752,
+  "repliche_cifrate_rimosse_solo_dopo_recupero_Extra": 30,
+  "byte_repliche_nominali": 2000754080,
+  "ricollocazione": {
+    "file": 30,
+    "byte_nominali": 2000754080,
+    "HMAC_e_decifratura_integrale_Extra_prima_ritiro": true,
+    "manifest_privato_sha256": "3626140934be2f957e7ed10bd173ee2e74df76429947f0f713019ac3ee6cd9de"
+  }
+}
