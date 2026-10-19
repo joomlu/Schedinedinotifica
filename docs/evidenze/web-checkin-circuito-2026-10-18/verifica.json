@@ -1,9 +1,9 @@
 {
   "stato": "PASS_WEB_CHECKIN_CIRCUITO_ISOLATO",
-  "UTC": "2026-10-19T08:59:03.956952+00:00",
+  "UTC": "2026-10-19T10:51:26.535808+00:00",
   "PHPUnit": {
     "test": 257,
-    "asserzioni": 2867
+    "asserzioni": 2991
   },
   "browser": {
     "test": 21,
@@ -20,7 +20,7 @@
   },
   "browser_circuito": 6,
   "guardie": 17,
-  "guardie_log_sha256": "5beb292f24750619472a14c016539443ef8262526fccb66eaffc79a3f88955df",
+  "guardie_log_sha256": "c7004db0352d4362a656068615213acaea783f0498735924154678eb720be532",
   "override_rifiutati": 23,
   "build_GEO_immutabile": true,
   "runtime": "VM qualificata, namespace sola loopback, SELinux Enforcing, MySQL/HTTP effimeri",
@@ -54,7 +54,7 @@
     "app/Http/Controllers/TassaReportController.php": "836baf8d77f0f676c59992b270828bb18ca342d77cb8234e8e8a2e0abda4d3c5",
     "app/Http/Controllers/WebCheckinComunicazioniController.php": "12c77d7f10738ac3bf7eac5b81685f2a31affd275a9a8174b56ab37d41d435be",
     "app/Http/Controllers/WebCheckinController.php": "0094ab3147ade033b374cd8d6df6717e9b2d0561ae17460bd3042fe8d6ba9025",
-    "app/Http/Middleware/WebCheckinRateLimit.php": "9fc02decc76c428348b82706c906ee3df462fd062e689baaf56d21d5ededc4cb",
+    "app/Http/Middleware/WebCheckinRateLimit.php": "1ae6fd2ec6126865d15604ae12189742c98ca1111822190685eb390c292409ab",
     "app/Mail/Transport/WebCheckinSmtpCurl.php": "f55e174ed932f704c9923d6974157e583d4ce483f87ca089ce10875be81acee6",
     "app/Mail/WebCheckinInvito.php": "865266b5861b9c28076986e7bef957c01dd123d9eb41ce5a33d0c11bd97520dc",
     "app/Models/Schedina.php": "32cea9ca5dcbefffa7862e04a28e96f5dab0506929654e7e499d1fcc9a28c928",
@@ -116,7 +116,7 @@
     "tests/Feature/WebCheckinGroupAtomicityTest.php": "c070b292e9b76a9db8f75cf25b7df5e358844e43379f03edf524f86b48a148c9",
     "tests/Feature/WebCheckinHtmlTest.php": "425566477b89a90755f232e65e08196ab7f1dcc61dea070833d261b103cb994e",
     "tests/Feature/WebCheckinLifecycleConcurrencyAudit.php": "f1ad155377b72f74d5089d2bba2e8804f1ab0569f2556c8a6ed6d299385e4a0d",
-    "tests/Feature/WebCheckinLifecycleTest.php": "a6bcebb9d357b521749b5d80d935c9c1dcd25cdda717bf40060915e0fb710991",
+    "tests/Feature/WebCheckinLifecycleTest.php": "28f407c6132b08de391e0a1f1fe714e10393e998cc5dc8d675af8ad0379fc2d9",
     "tests/Feature/WebCheckinMigrationPreservationTest.php": "18f63a9c646951a89b7f880b3296b0805fb0061ef9e75c09da28279f243fa92b",
     "tests/Feature/WebCheckinParentSecurityTest.php": "6922fbf66c59475619b0b9e7b745e7d49872f48d3cc4ffe928e495ef256d374a",
     "tests/Feature/WebCheckinShortLinkTest.php": "816dbab9677ce5d1a07d03bc6ad0f5d718bbb5e570e192fada997987d739580e",
@@ -134,7 +134,7 @@
     "tests/Isolation/test_proxy_response.py": "8d265bae94c465ed6ece260e2bda83719d50dc90a435f83679a55cce4c999998",
     "tests/Support/WebCheckinPublicInput.php": "fe9e8d49d5cfcad15a7f47d6882a990f1f70ebe268506f6fd697307f6788744f"
   },
-  "collaudo_conclusivo": "Matrice R15+R18, solo spec operativo modificato",
+  "collaudo_conclusivo": "R20 completo: PHP257/2991 e21browser sullo stesso overlay sigillato; R15/R18 storici non sommati",
   "R15_prove_browser_superate": [
     "  ✓   1 tests/Feature/web-checkin-circuito.playwright.spec.js:12:205 › Circuito OSPITE SINGOLO 1440px › Compilazione, revisione e check-in OSPITE SINGOLO 1440px (1.2m)",
     "  ✓   2 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito OSPITE SINGOLO 1440px › Storico e Cestino OSPITE SINGOLO 1440px (27.5s)",
@@ -201,5 +201,24 @@
     },
     "limiti": "Solo ambiente isolato e dati sintetici; riscontro online ancora necessario. Sovrapposizioni header nelle catture distinte dal contenuto HTML email.",
     "origine": "Schermate circuito R15; sorgenti viste invariati inR16"
+  },
+  "correttivo_noindex_R20": {
+    "esito": "PASS",
+    "motivo": "QA online4d0bb218 ha rilevato assenza X-Robots-Tag; correttivo pubblicabile solo con nuovo C5 senzaDDL",
+    "risposte": "Alias pubblici e429: noindex,nofollow,noarchive; no-store/private e no-referrer mantenuti",
+    "PHPUnit": {
+      "test": 257,
+      "asserzioni": 2991
+    },
+    "browser": 21,
+    "guardie": 17,
+    "override_rifiutati": 23,
+    "log_sha256": "42c4c138e5da46af846c359bd92d1dadc4901cc72ab6c2610a561e5bf096ef1f",
+    "sorgenti_delta_sha256": {
+      "app/Http/Middleware/WebCheckinRateLimit.php": "1ae6fd2ec6126865d15604ae12189742c98ca1111822190685eb390c292409ab",
+      "tests/Feature/WebCheckinLifecycleTest.php": "28f407c6132b08de391e0a1f1fe714e10393e998cc5dc8d675af8ad0379fc2d9"
+    },
+    "R19": "NON_PASS per attesa test Cache-Control esattamente no-store; Symfony restituisce no-store, private. Attesa corretta al valore più restrittivo, applicativo invariato R19→R20.",
+    "anomalia_invocazione_Mac": "Invocata erroneamente suite Deployment76, include ArtisanIntegration su fixture dummy DBporta1. Guardie respingono comandi:12FAIL/2ERROR/5skip nel sandbox; nessun DB operativo. Non è provaPASS né parte della matrice qualificata; log conservato. Suite Laravel qualificata eseguita soltanto tramite runnerVM per R20."
   }
 }

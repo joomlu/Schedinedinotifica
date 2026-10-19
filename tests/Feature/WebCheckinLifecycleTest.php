@@ -219,9 +219,11 @@ class WebCheckinLifecycleTest extends TestCase
             $r->update(['stato' => 'convertito']);
         }
         for ($i = 0; $i < 60; $i++) {
-            $this->get($i % 2 ? '/w/'.$a->short_token : '/checkin/'.$a->token)->assertOk();
+            $this->get($i % 2 ? '/w/'.$a->short_token : '/checkin/'.$a->token)->assertOk()
+                ->assertHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
         }
-        $this->get('/w/'.$a->short_token)->assertStatus(429)->assertHeader('Retry-After', '60');
+        $this->get('/w/'.$a->short_token)->assertStatus(429)->assertHeader('Retry-After', '60')
+            ->assertHeader('X-Robots-Tag', 'noindex, nofollow, noarchive')->assertHeader('Cache-Control', 'no-store, private');
         $this->get('/w/'.$b->short_token)->assertOk();
         $this->get('/w/'.$c->short_token)->assertOk();
         $this->travelTo(now()->addSeconds(59));

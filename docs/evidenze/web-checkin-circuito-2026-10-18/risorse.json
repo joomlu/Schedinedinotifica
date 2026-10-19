@@ -167,5 +167,107 @@
     "UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
     "formato": "apfs",
     "montaggio": "/Volumes/extra"
+  },
+  "compattazione-CoW.json": {
+    "esito": "PASS_COPIE_IDENTICHE_COW_PRESERVATE",
+    "prima": 1865666560,
+    "dopo": 3269980160,
+    "duplicati": 5173,
+    "byte_nominali_duplicati": 4743934135,
+    "file_preservati_con_byte_metadati_xattrs_identici": true,
+    "ambito": "Sole copie di oggetti Git/documenti/reference/resources nei recuperi conclusi; nessun file rimosso, nessun DB/env/upload/chiave/tls/config toccato",
+    "manifest_interventi_SHA256": "abefdb0814bfe97b501a2bbd9631ca201c3bbed232f038a06323b3bc2d88a9c8"
+  },
+  "ritiro-cache-prima-noindex.json": {
+    "esito": "PASS_RITIRO_CACHE_DB_RICOSTRUIBILI",
+    "prima": 3265302528,
+    "dopo": 3471941632,
+    "derivati": [
+      {
+        "root": "/tmp/schedine-linux-cold-final-qzk72knp",
+        "dump_ripristinato_identico_sha256": "92efe78683b91041464d79ab179b475cd92df825f9414dcf0dba4d3df4656b72",
+        "voci": 342,
+        "byte_nominali": 206073829,
+        "sigillo_cache": "2e4ca4c9a8f7b378a76a47581b4615d48465454bc9137ee995cdc20db75f1e04"
+      }
+    ],
+    "solo_datadir_generate_da_cold_verify": true,
+    "SQL_ridump_cifrati_env_upload_chiavi_sorgenti_evidenze_preservati": true,
+    "limite": "Ricostruibilita attestata dai dump SQL sorgente e ridump identici del recupero gia eseguito; non sono database operativi o sorgenti di backup."
+  },
+  "ritiro-cache-ripresa.json": {
+    "esito": "PASS_RITIRO_CACHE_DB_RICOSTRUIBILI",
+    "prima": 2113540096,
+    "dopo": 2526777344,
+    "derivati": [
+      {
+        "root": "/tmp/schedine-linux-cold-final-olusw96c",
+        "dump_ripristinato_identico_sha256": "92efe78683b91041464d79ab179b475cd92df825f9414dcf0dba4d3df4656b72",
+        "voci": 342,
+        "byte_nominali": 206073829,
+        "sigillo_cache": "45d50d1cd7eef06f681bc059d27f0c3162ab05f73a9aefe0ccbc9d64ccc7270d"
+      },
+      {
+        "root": "/tmp/schedine-linux-cold-final-yzdnk89x",
+        "dump_ripristinato_identico_sha256": "92efe78683b91041464d79ab179b475cd92df825f9414dcf0dba4d3df4656b72",
+        "voci": 342,
+        "byte_nominali": 206073829,
+        "sigillo_cache": "a89857985597e588bcb929982edb6ac0f01e131fa3e5dea40ce1273a2502ad07"
+      }
+    ],
+    "solo_datadir_generate_da_cold_verify": true,
+    "SQL_ridump_cifrati_env_upload_chiavi_sorgenti_evidenze_preservati": true,
+    "limite": "Ricostruibilita attestata dai dump SQL sorgente e ridump identici del recupero gia eseguito; non sono database operativi o sorgenti di backup."
+  },
+  "ritiro-derivati-noindex.json": {
+    "esito": "PASS_SOLI_DERIVATI_DEI_RECUPERI_PROPRI",
+    "prima": 1526534144,
+    "dopo": 2320564224,
+    "directory": [
+      {
+        "path": "/tmp/schedine-linux-cold-final-olusw96c/extracted/home/tanggosoftware/repos/schedinedinotifica/vendor",
+        "inventario_sha256": "b604663b6908b32bfb1ba224213d7c70a9a8f518daabe096a783c8833306aecf",
+        "voci": 9205,
+        "byte_nominali": 44057805,
+        "sigillo_voci": "274c71b348b98f0a65e0c689dbac0fa9d647c1ffa4236959d660eeb25996d9fe"
+      },
+      {
+        "path": "/tmp/schedine-linux-cold-final-olusw96c/extracted/home/tanggosoftware/repos/schedinedinotifica/public/build",
+        "inventario_sha256": "b604663b6908b32bfb1ba224213d7c70a9a8f518daabe096a783c8833306aecf",
+        "voci": 4135,
+        "byte_nominali": 181207341,
+        "sigillo_voci": "f883450afcb394165269a03a27688d0f3374a06f07867c90ef7dfc2f615585f8"
+      },
+      {
+        "path": "/tmp/schedine-linux-cold-final-yzdnk89x/extracted/home/tanggosoftware/repos/schedinedinotifica/vendor",
+        "inventario_sha256": "21b1197e05831fb8bda7acbbe9cc66fc0457f56ef551b812dc2ca82c099b2f16",
+        "voci": 9205,
+        "byte_nominali": 44057805,
+        "sigillo_voci": "274c71b348b98f0a65e0c689dbac0fa9d647c1ffa4236959d660eeb25996d9fe"
+      },
+      {
+        "path": "/tmp/schedine-linux-cold-final-yzdnk89x/extracted/home/tanggosoftware/repos/schedinedinotifica/public/build",
+        "inventario_sha256": "21b1197e05831fb8bda7acbbe9cc66fc0457f56ef551b812dc2ca82c099b2f16",
+        "voci": 4135,
+        "byte_nominali": 181207341,
+        "sigillo_voci": "f883450afcb394165269a03a27688d0f3374a06f07867c90ef7dfc2f615585f8"
+      },
+      {
+        "path": "/tmp/schedine-linux-cold-final-qzk72knp/extracted/home/tanggosoftware/repos/schedinedinotifica/vendor",
+        "inventario_sha256": "ed1c9a3955fc1a815c4bc56615c2dfcc6ed0e403dd81263d756a45a864e40c24",
+        "voci": 9205,
+        "byte_nominali": 44057805,
+        "sigillo_voci": "274c71b348b98f0a65e0c689dbac0fa9d647c1ffa4236959d660eeb25996d9fe"
+      },
+      {
+        "path": "/tmp/schedine-linux-cold-final-qzk72knp/extracted/home/tanggosoftware/repos/schedinedinotifica/public/build",
+        "inventario_sha256": "ed1c9a3955fc1a815c4bc56615c2dfcc6ed0e403dd81263d756a45a864e40c24",
+        "voci": 4135,
+        "byte_nominali": 181207341,
+        "sigillo_voci": "f883450afcb394165269a03a27688d0f3374a06f07867c90ef7dfc2f615585f8"
+      }
+    ],
+    "solo_vendor_node_build_derivati_sigillati_stesso_lock": true,
+    "SQL_DB_env_upload_loghi_chiavi_TLS_evidenze_preservati": true
   }
 }

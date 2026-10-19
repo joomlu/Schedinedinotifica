@@ -25,11 +25,14 @@ class WebCheckinRateLimit
             }
         }
         if ($retry) {
-            return response('Troppe richieste.', 429)->header('Retry-After', (string) $retry);
+            return response('Troppe richieste.', 429)->header('Retry-After', (string) $retry)
+                ->header('Cache-Control', 'no-store')->header('Referrer-Policy', 'no-referrer')
+                ->header('X-Robots-Tag', 'noindex, nofollow, noarchive');
         }
         $response = $next($request);
         $response->headers->set('Cache-Control', 'no-store');
         $response->headers->set('Referrer-Policy', 'no-referrer');
+        $response->headers->set('X-Robots-Tag', 'noindex, nofollow, noarchive');
 
         return $response;
     }
