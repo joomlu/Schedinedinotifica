@@ -200,5 +200,8 @@
     "R11.log": "14657b9f25d7d67b0c8c08b1276519e454cfa3824be09e7342436ac17cd664d0",
     "guardie.log": "d4eb3af7283c20802076e46ad526c81e067ed090e33f800995b64830f2c1cdd0"
   },
-  "normalizzazione_log_documentali": "Soltanto spazi finali rimossi; originali byte per byte conservati in output/web-checkin-email-modale-2026-10-20"
+  "normalizzazione_log_documentali": "Soltanto spazi finali rimossi; originali byte per byte conservati in output/web-checkin-email-modale-2026-10-20",
+  "pubblicazione_produzione": "PASS_C5_QA_PULIZIA_MONITOR",
+  "produzione_SHA_letto": "8edeb15104e8c8a1c9a61e0415ec207e2bacd202",
+  "ricevuta_rilascio": "rilascio.json"
 }

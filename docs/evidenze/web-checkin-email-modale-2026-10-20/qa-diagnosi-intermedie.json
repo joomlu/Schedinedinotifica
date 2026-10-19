@@ -1,0 +1,17 @@
+{
+  "esito": "PASS_RIPETIZIONI_QA_E_INTEGRITA_PREESISTENTI",
+  "primo_tentativo_circuito": "NONPASS: selettore troppo restrittivo della riga Cestino nell’adattatore, check-in e spostamento già completati",
+  "log_primo_circuito_sha256": "62e2e074e12d3784576dd82b22b0a1589639a56975f29e1234b29b5cd58aa19d",
+  "prima_fixture_rimossa_HMAC": true,
+  "seconda_fixture_nuova": true,
+  "baseline_HMAC_prima_e_seconda_fixture_identiche": 66,
+  "circuito_secondo_tentativo": "PASS_SCENARI_ONLINE",
+  "primo_tentativo_modelli": "NONPASS: mancata riapertura della sezione dopo il salvataggio nell’adattatore",
+  "log_primo_modelli_sha256": "0b2382d896d9f5f7d4c679b4d67de53ed498197770492e5097c4fa96b6f6f74f",
+  "soli_due_modelli_sintetici_parziali_rimossi_con_UI": true,
+  "modelli_iniziali_preservati": 3,
+  "modelli_ripetuti": "PASS_GESTIONE_MODELLI_HTML_ONLINE",
+  "seconda_fixture_rimossa_HMAC": true,
+  "nessun_restore_o_reset_contatori": true,
+  "nessuna_modifica_applicativa_per_correggere_adattatori": true
+}
