@@ -168,7 +168,7 @@ class WebCheckinController extends SchedinaController
 
             return redirect()
                 ->route('schedina.web')
-                ->with('success', 'Richiesta creata. Nell’elenco scegli Prepara invito, verifica l’anteprima e premi Invia Web Check-in.');
+                ->with('success', 'Richiesta creata. Nell’elenco scegli Anteprima e invio, verifica l’anteprima e premi Conferma e invia.');
         });
     }
 
