@@ -1,6 +1,6 @@
 # Riorganizzazione dell’interfaccia Web Check-in — 19 ottobre 2026
 
-**Implementazione e collaudo isolato PASS. Codice `aca59002a945d7c3f20d678431bcf8c8e2db90fe` pubblicato sul ramo GitHub `codex/web-checkin-interfaccia-2026-10-19`. Produzione non aggiornata: STOP capienza prima del PREPARE. BASELINE IN AUDIT invariata.** [Verifica](evidenze/web-checkin-interfaccia-2026-10-19/verifica.json), [capacità](evidenze/web-checkin-interfaccia-2026-10-19/capienza.json).
+**Implementazione e collaudo isolato PASS. Codice `d17687c702a4ca438857ef56a1176d2fc9fd6d89` pubblicato sul ramo GitHub `codex/web-checkin-interfaccia-2026-10-19`. Produzione ancora invariata; capacità recuperata, nuova procedura C5 da eseguire. BASELINE IN AUDIT invariata.** [Verifica](evidenze/web-checkin-interfaccia-2026-10-19/verifica.json), [capacità](evidenze/web-checkin-interfaccia-2026-10-19/capienza.json).
 
 ## Organizzazione e percorso
 
@@ -22,6 +22,8 @@ Nessuna migrazione o modifica SMTP, DNS, credenziali e regole estranee allo scop
 |---|---|
 | R8, regressioni ampliate | 264 test / 3.089 asserzioni PASS |
 | R10, selezione Web Check-in sul contenuto finale | 66 test / 643 asserzioni PASS |
+| R12, regressione ampliata | 264 test / 3.089 asserzioni, 21 scenari storici browser PASS |
+| R14, correzione avviso modifiche non salvate | 66 test / 643 asserzioni, 3 percorsi completi browser PASS |
 | R10, browser | 3 percorsi completi a 1440, 768, 390 px; 30 schermate PASS |
 | Guardie complete | 17 PASS, inclusi i due controlli del proxy |
 | Ogni runtime conclusivo | Identità DB/HTTP, riconnessione e 23 override rifiutati; build/GEO PASS |
@@ -32,12 +34,12 @@ Le esecuzioni sovrapposte non sono sommate. La selezione ampliata include invio/
 
 Il checkout quotidiano VM e il relativo snapshot sono divergenti: sincronizzazione ufficiale fermata senza sovrascritture. Usato un nuovo clone CoW del laboratorio precedente, conservando gli originali. R1 fu interrotto dalla guardia PHP host incompatibile; ripristinati i tre template ufficiali parametrizzati sul clone, senza disabilitare controlli. R2/R3 evidenziarono aspettative del vecchio percorso e un dettaglio SMTP mancante, corretto. R4 rilevò direttive Blade adiacenti, corrette. R5 fu fermato ordinatamente per il dialogo iniziale non gestito; R6 fallì sul doppio clic del test durante la chiusura del dialogo; R7 sulla conferma CRUD precedente all’anteprima. Diagnostici privati conservati. Timeout e retry non aumentati; R8, R9 e R10 positivi nei rispettivi ambiti.
 
-## Pubblicazione e unico impedimento operativo
+## Pubblicazione e nuovo preflight
 
 GitHub iniziale e checkout coincidevano su `e84627f4f8b036625815a70ecd767d10a059122c`. Il nuovo ramo candidato contiene il codice verificato. Il tentativo di aggiornare anche main è stato rifiutato dalla revisione automatica, che ha ritenuto quel ramo condiviso fuori dall’autorizzazione disponibile; pubblicato soltanto il candidato, senza aggirare il rifiuto.
 
-Due letture dopo il cleanup attestano **1.969.762.304 byte liberi VM**, contro il minimo prudenziale conservato dell’ultima C5 di **2.418.061.312 byte**: deficit minimo **448.299.008 byte, circa 428 MiB**. La riserva di **1 GiB** resta invariata. Cache utente quasi vuote; anche il libero osservato prima di creare il clone, 2.076.962.816 byte, restava sotto quel minimo. Nessuna cancellazione di backup, chiavi, originali o lavoro estraneo; nessun ampliamento o arresto della VM.
+Il primo preflight era fermo prima PREPARE: VM 1.969.762.304 byte liberi contro minimo prudenziale 2.418.061.312, riserva 1 GiB invariata. Il successivo audit dei recuperi conclusi ha verificato dump sorgenti e riesportati identici, sigilli delle cache e assenza di processi utilizzatori. Ritirate soltanto 12 cache datadir ricostruibili: libero durante il collaudo da 1.560.936.448 a 3.979.030.528 byte. SQL originali, riesportazioni, cifrati, backup, chiavi, sorgenti ed evidenze conservati; nessun ampliamento o arresto VM.
 
-Mac **23.187.931.136 byte**, Extra **601.074.421.760 byte**, UUID Extra `488ACB8D-6B99-49AE-8A3C-175FD66F5466`. Misure datate, non certificazione del preflight completo né del nuovo picco. La produzione è stata riletta sullo SHA `78e889759b0838f35267496527c42024aa18bd00`; nessun nuovo PREPARE, T0, S0, deploy, DDL, fixture online o monitor attribuito a questo candidato.
+Nuova lettura Mac 20.643.999.744 byte, Extra 601.075.138.560, UUID Extra conforme. Sono misure preliminari: serve ancora il preflight integrale, seguito da nuovi PREPARE/S0, recuperi indipendenti, QA online e monitor finali. La produzione è stata riletta sullo SHA `78e889759b0838f35267496527c42024aa18bd00`; nessun nuovo deploy attribuito a questo candidato.
 
-Resta da risolvere la capacità VM con margine, poi ripetere il preflight completo e l’intera procedura C5 con nuovi backup/recuperi, QA online, pulizia e monitor finali. I controlli precedenti non sostituiscono quelli della futura finestra.
+R11: 264/3089 e nuovi tre percorsi PASS, regressione storica browser NONPASS per conferme e selettori delle vecchie pagine; adattamenti completati, R12 PHP264/3089 e21browser storici PASS; tre nuovi percorsi NONPASS per avviso dopo submit invalido. Corretto il ripristino del flag dopo tutti i gestori dell’evento, R13 e R14 finali66/643 e3percorsi completi PASS. Corretto anche il ritorno dopo revisione alla pagina ospiti e verificato il mantenimento dell’avviso modifiche non salvate dopo submit invalido. Timeout e retry invariati.

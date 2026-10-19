@@ -1,7 +1,7 @@
 {
   "stato": "PASS_WEB_CHECKIN_INTERFACCIA_ISOLATO",
-  "UTC": "2026-10-19T20:37:56.218423+00:00",
-  "applicativo_SHA": "aca59002a945d7c3f20d678431bcf8c8e2db90fe",
+  "UTC": "2026-10-19T21:21:19.404559+00:00",
+  "applicativo_SHA": "d17687c702a4ca438857ef56a1176d2fc9fd6d89",
   "PHPUnit_R8": {
     "test": 264,
     "asserzioni": 3089,
@@ -41,7 +41,7 @@
   "guardie": 17,
   "override_rifiutati": 23,
   "build_GEO_immutabile": true,
-  "ispezione_visuale": "30 schermate finali raccolte; panoramiche dei27 percorsi principali e ritagli del modulo/ritorni ispezionati; nessun overflow o sovrapposizione rilevata",
+  "ispezione_visuale": "Trenta schermate finali R14 raccolte; panorama R13 e dettagli finali ispezionati; nessun overflow o sovrapposizione",
   "ambiente": "VM qualificata, nuovo clone CoW, namespace senza rete esterna, MariaDB11.8.9 e HTTP effimeri; nessun test Laravel Mac/produzione",
   "sorgenti_host_commit_clone_identiche": true,
   "sorgenti_sha256": {
@@ -51,11 +51,11 @@
     "app/Http/Controllers/CustomerExportController.php": "99399871baba105d1f56aabf5bba5a2cd75159f0837b84a1f95d9dcabc08e232",
     "app/Http/Controllers/HomeController.php": "31403b17b3c430135aa988ecd6347baca149da436c0830d58988d3e05c245426",
     "app/Http/Controllers/QuesturaExportController.php": "1c329a130dd240f30fa9e04973a30e43d6a3a25712c824af5d4c5c257f0dd5ba",
-    "app/Http/Controllers/SchedinaController.php": "8724a7d25a0cb8ac899ae98d41bdb8f0596f136763baa33706c7cdc23540ccc6",
+    "app/Http/Controllers/SchedinaController.php": "7d9988d9e262e0c56709064f98c0e589b668966d285f562e586a37aa9ec10479",
     "app/Http/Controllers/TassaDiSoggiornoController.php": "1519257f2be786880d7742c56421ad4a59b7a2a81c13f7610424f756d733c9a2",
     "app/Http/Controllers/TassaReportController.php": "836baf8d77f0f676c59992b270828bb18ca342d77cb8234e8e8a2e0abda4d3c5",
     "app/Http/Controllers/WebCheckinComunicazioniController.php": "9cf5fd8cbf7b73cf5231fba36dee3cb94d713df425cb0e46bab0c9bebc614191",
-    "app/Http/Controllers/WebCheckinController.php": "70ff023200cf4ab4e1f8b963fa9dfddf4110a513af26b67e7b72d5dbc259cba5",
+    "app/Http/Controllers/WebCheckinController.php": "9910c2236c273c7571111c60b9c870e79d2741db7338beee096bbcff42e164b5",
     "app/Http/Middleware/WebCheckinRateLimit.php": "1ae6fd2ec6126865d15604ae12189742c98ca1111822190685eb390c292409ab",
     "app/Mail/Transport/WebCheckinSmtpCurl.php": "10968eda44aff485ea90e5b95b12782a77520e69006d0a6f5d6acd9ba9f43571",
     "app/Mail/Transport/WebCheckinSmtpRifiutato.php": "b4442377a747d6bf53d560ba3ce041604be11abaf261f9d234b8289be8f583d6",
@@ -96,11 +96,11 @@
     "resources/views/schedina/partials/form.blade.php": "589eae859fad998ba79ed6ca25abd8e3a157343254d17b4e2304ebfaad29132e",
     "resources/views/schedina/partials/save-actions.blade.php": "f270c56d0bac820d3fe72ac6a80bfa30fd70735f50e08124d308d0dd678cbd12",
     "resources/views/schedina/partials/scripts.blade.php": "6d511e8c178650a73d700daddeb749125baf85ef37e471ea8fef6c0bd5920df7",
-    "resources/views/web-checkin/attivita.blade.php": "fa3a7dfaad33888e1b87e1f4bbd159beda0cfd54d29141adfa75c5a435ba44a2",
+    "resources/views/web-checkin/attivita.blade.php": "792bf66659be3db5045aa28d1ab4f16799b9a55cd8737a79a6d74ef7448c57ed",
     "resources/views/web-checkin/completed.blade.php": "0774ed7c57a2e9207a0c706a24d383c66942d34cdf75742ce4068fa6cf52268f",
     "resources/views/web-checkin/comunicazioni.blade.php": "943706ec60c8c0c1310ed27e6c3a572242f8befaad859b2b117920ea48a54ed1",
-    "resources/views/web-checkin/form.blade.php": "132eeb89e81c1dbcca3e1c9c9dd876fd13acbeefbaadde3caded6f1d8f469d76",
-    "resources/views/web-checkin/index.blade.php": "bec4b98027eace789af9b88d97f128fc88365ee1ff01fdc7ea538e107b2962e9",
+    "resources/views/web-checkin/form.blade.php": "c09289b26a17d6ad99a868f3fd8dbb57f440a56fb7713221eee27a2c7229d099",
+    "resources/views/web-checkin/index.blade.php": "a5158ff691d214eef78eaeb08839fd449a7301ce4a79017df898d1b65d249b3b",
     "resources/views/web-checkin/invite.blade.php": "807011839d8146b04d50ec8f79830c49fda881c491bcb6ee1b0a09fcdaf892b5",
     "resources/views/web-checkin/messaggio.blade.php": "1bf666d8b073dbc6a5557e855b9496ca839c7ff2dd65d0adec05f9de9bc0869c",
     "resources/views/web-checkin/partials/comunicazione-stato.blade.php": "dbb60e1144f651c6a17ffd19fa4ca74a3e1749ccd597a90e7269cccad4bb2e5f",
@@ -114,7 +114,7 @@
     "tests/Feature/CestinoSecurityTest.php": "e2555528d574bb1bfd21c2f93e7cc2429bd4ad5fe95d3af78ad64ba029a66dd9",
     "tests/Feature/WebCheckinCameraIsolationTest.php": "3089eec98616d991a5d36c7373a80ab0dbb738a745f6ff0c869ef3697db177f8",
     "tests/Feature/WebCheckinCircuitoMigrationTest.php": "5b2e793f61f5bbf74cab0aa7cb5531788a0802a6992c42d0c1565fc3a78c1b7b",
-    "tests/Feature/WebCheckinCircuitoTest.php": "0ef3bab726cd906744f85673a0b8e0faffde1e89b3cf65ab686f1f1dc31bdd93",
+    "tests/Feature/WebCheckinCircuitoTest.php": "7027a08327b42c33f70c6285c8b9f45cb19376aee9ecd5c93cab38e5b53f3a91",
     "tests/Feature/WebCheckinComunicazioniTest.php": "3b775776f23084ff3414db1ac8f4fbefe36401a5214e310ba58b917c4b8cdcfc",
     "tests/Feature/WebCheckinConversionConcurrencyAudit.php": "c3a13318a0ba74457f2cc69dd7224b9f5ff9287d19428c7d25f3ddfdc55e79ff",
     "tests/Feature/WebCheckinEsclusioniConversioneTest.php": "d61086dcf73b3d588698b35e5f5437765875641b927e04470ab98a52f1b17bb1",
@@ -129,11 +129,11 @@
     "tests/Feature/WebCheckinShortLinkTest.php": "816dbab9677ce5d1a07d03bc6ad0f5d718bbb5e570e192fada997987d739580e",
     "tests/Feature/WebCheckinSmtpCurlTest.php": "9429da7d54052f871565d983cebf57592705e0f70e7a4d36034bf4325b1f9565",
     "tests/Feature/arrivi-lifecycle.playwright.spec.js": "e7c979254bc7604d3f4a6f2241e238a61ab00c621b362ff1d20dd031e7512b7c",
-    "tests/Feature/web-checkin-circuito.playwright.spec.js": "c417337023301fd62593416f240686725a1cb7747092a5bcaa699514a7943ee6",
-    "tests/Feature/web-checkin-html.playwright.spec.js": "b53a85d698558c17d3e6dfc0e831edd6e0111395cbfd89373bf30f0e26e64e23",
-    "tests/Feature/web-checkin-interfaccia.playwright.spec.js": "f274efaeb8b86018457fcb3c87a264e8538aa8db2b28a2ca77640e18cdde819a",
+    "tests/Feature/web-checkin-circuito.playwright.spec.js": "24bfd605ea8d509ccb4299507c9a981d31f0d734061dd90c749997864a5801b0",
+    "tests/Feature/web-checkin-html.playwright.spec.js": "b8f7de1b09fc350ec3e824514922de10d3322e4171ac8207f7e7d4b72055c694",
+    "tests/Feature/web-checkin-interfaccia.playwright.spec.js": "ad0f58cc67afd337170897996214b67fe3d1024d4c0efe4a85cd7143badae2be",
     "tests/Feature/web-checkin-lifecycle.playwright.spec.js": "f0978f71b68b8d0e655a592f501ebbffbbc5fd35b22e8c9df1cbe1caa9a36b5a",
-    "tests/Feature/web-checkin-operativo.playwright.spec.js": "22a5b44d530300afcccd70c4fcdc27f5c282aac85557060db78e2fd0c10a34b7",
+    "tests/Feature/web-checkin-operativo.playwright.spec.js": "f590a97516142a9556481cc200b03fccacc65da5b267621efabd82cc76ed4807",
     "tests/Feature/web-checkin-rate-limit.playwright.spec.js": "4217a8e0b48e477c956f65d642838470afdd1231ed79ef10b713cfe7b52886e7",
     "tests/Isolation/seed-web-checkin-html.php": "853efd6af23af4c16e61f00d29dc7d37b0a454b294e7de9837cf2f7e04fff09c",
     "tests/Isolation/smtp-tls-fixture.py": "ece8ab137281ce631d1d0affb766c3c4d7d37b0fd589b3a809dd9f1591b261ab",
@@ -143,27 +143,72 @@
     "tests/Support/WebCheckinPublicInput.php": "fe9e8d49d5cfcad15a7f47d6882a990f1f70ebe268506f6fd697307f6788744f"
   },
   "schermate_pubbliche_sha256": {
-    "elenco-1440.png": "e8b0974ceece89c45af59fb135e9ab2a1f395c285d6e12f90064aadbc26e76d5",
-    "anteprima-1440.png": "25bc4b4ffb9cb836fa8e408fe7fd7a81db539995ac193059b038ddfef0f00f05",
-    "elenco-768.png": "a293e24c4b1e1f176ec0f30433baeb6fd203c12ee9f7f296cc83776f06c508ea",
-    "anteprima-768.png": "fbc66453bfc79e8032400331ff2e068018d44bdaccd16b50fd4feef1ba581c7d",
-    "elenco-390.png": "1fcd09c0d276fffddaddf32107e2ad0837fcd829bd2dc3e7b6d9fe90c2167187",
-    "anteprima-390.png": "39d88c9a10934fab21fe62f97dea42d86e5a2332268455cbb6bdb114fc1d973b",
+    "elenco-1440.png": "c89393c7ee38f11236793022f54ac0c89254dff1729c15d422b18c2a8af28b3a",
+    "anteprima-1440.png": "3527a7a9dddd8a950db9a3c0741c95f9eb7924da76225f70acfe76b82b6b289a",
+    "elenco-768.png": "d28dab43d3d31a2032f0f0685d60f1aebff3e534d2ed410d383e716b476d302a",
+    "anteprima-768.png": "5324520ed4f1e93223ceba0c890cfebdfbda93e1fe88f4c6c00320f9fbf3f060",
+    "elenco-390.png": "6c1276eec2d63226adbcdc848eba5674484e0c04d9184432ebacb0a88968b487",
+    "anteprima-390.png": "628ffcd246e945d1c68d5982bd7cd867b2400a02bf07a6a83d2984c31badff87",
     "modulo-ospite-390.png": "bfa89dec8b5a9e0acfcd8c7bfdf8d512e5acd8345c1edf6ac6d37597678e76af",
-    "check-in-768.png": "2657a1d4383d5a80c39fbce665da7300bd42d79f3999b8480d5dc047c39c574e"
+    "check-in-768.png": "0aa6ee4f32e6a4aa9e6bcfc8c7c5988e251a7165c9fe3aa43051c7a907ea7079"
   },
   "log_privati_sha256": {
     "R8.log": "2e3fdfbfad86065db660f39e9f29bdea9c5d7fba6e0ea61861828d75b038beaa",
     "R9.log": "6b7e07a0772c29acf44932063c91b2973819e155420924e9a6fbff28b7f9c41c",
     "R10.log": "761239e5a7274e338f108113de11cb3ebfa1aca15d187839542429726d33563c",
-    "guardie-complete.log": "76990657cab70e3bdd0d4b57d10cf49ccaf869cfac5b1a751e5b28f3a0735c39"
+    "guardie-complete.log": "76990657cab70e3bdd0d4b57d10cf49ccaf869cfac5b1a751e5b28f3a0735c39",
+    "R11.log": "2fd6c94b723736d7de30d47d0b1d01210921fe36b5919dee5b2a60c6a0c2e067",
+    "R12.log": "cc22dbcccf3320f6307151eceb17423dbabe00285a5c7b976dcf17665dfc8b49",
+    "R13.log": "b5d600712efba1790463cf4ad5105cd936e298b7ae8adff5cf9631b7f181e681",
+    "R14.log": "f2fe582bd641f6349fcf0f19cc3dbb8324ab844c0996f8a618cd9ed974e6e2b8"
   },
   "invii": "Solo trasporto in memoria e SMTPS TLS sintetico loopback nella suite; nessuna email reale o scrittura su ospiti reali",
-  "pubblicazione_produzione": "NON_ESEGUITA_STOP_CAPIENZA",
+  "pubblicazione_produzione": "DA_ESEGUIRE_NUOVO_C5_DOPO_PREFLIGHT",
   "produzione_SHA_letto": "78e889759b0838f35267496527c42024aa18bd00",
   "pubblicazione_GitHub": {
     "ramo": "codex/web-checkin-interfaccia-2026-10-19",
-    "codice_SHA_verificato": "aca59002a945d7c3f20d678431bcf8c8e2db90fe",
-    "main_non_aggiornato": "Revisione automatica: aggiornamento del ramo condiviso considerato oltre scope; nessun aggiramento"
+    "codice_SHA_verificato": "d17687c702a4ca438857ef56a1176d2fc9fd6d89",
+    "main_non_aggiornato": "Rifiuto revisore automatico conservato; nessun aggiramento"
+  },
+  "PHPUnit_finale_R12": {
+    "test": 264,
+    "asserzioni": 3089,
+    "esito": "PASS"
+  },
+  "PHPUnit_finale_R13": {
+    "test": 66,
+    "asserzioni": 643,
+    "esito": "PASS"
+  },
+  "browser_regressione_R12": {
+    "prove": 21,
+    "esito": "PASS",
+    "nota": "Tre nuovi percorsi NONPASS per avviso dopo submit invalido, corretto e ricollaudato in R13 e R14"
+  },
+  "browser_finale_R13": {
+    "prove": 3,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "esito": "PASS",
+    "copertura": "Circuito completo, storico/Cestino, HTML/modelli, operatività e interfaccia separata; compreso submit invalido seguito da avviso beforeunload"
+  },
+  "precedenti_R11": "PHP264/3089 e nuovi3browser PASS, regressione browser NONPASS: selettori storici e conferme da adeguare ai percorsi separati; corretti senza aumentare timeout o retry",
+  "PHPUnit_finale_R14": {
+    "test": 66,
+    "asserzioni": 643,
+    "esito": "PASS"
+  },
+  "browser_finale_R14": {
+    "prove": 3,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "esito": "PASS",
+    "copertura": "Circuito completo, storico/Cestino, HTML/modelli, operatività e interfaccia separata; compreso submit invalido seguito da avviso beforeunload"
   }
 }

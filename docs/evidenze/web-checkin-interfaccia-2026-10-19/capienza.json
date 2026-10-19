@@ -1,21 +1,25 @@
 {
-  "UTC": "2026-10-19T20:37:01.045001+00:00",
-  "campioni_VM_dopo_cleanup": [
+  "stato": "CAPACITA_RECUPERATA_NUOVO_PREFLIGHT_C5_RICHIESTO",
+  "riserva_VM": 1073741824,
+  "ritiri": [
     {
-      "liberi_VM": 1969762304,
-      "dimensione_VM": 37290283008
+      "ricevuta_sha256": "19961ce60f91cf03200f2e53432e27f4af235c443c4b29d7b4c4dd79d8b965f0",
+      "prima": 1560936448,
+      "dopo": 3215568896,
+      "cache": 8,
+      "SQL_backup_chiavi_preservati": true
     },
     {
-      "liberi_VM": 1969762304,
-      "dimensione_VM": 37290283008
+      "ricevuta_sha256": "679b9cc5bb7f9bae52bf1788d49a70f9b4b2e8de3e3b2f4ef2f878b7c63fe612",
+      "prima": 3215032320,
+      "dopo": 3979030528,
+      "cache": 4,
+      "SQL_backup_chiavi_preservati": true
     }
   ],
-  "minimo_prudenziale_C5_da_ultimo_consuntivo": 2418061312,
-  "riserva_VM_invariata": 1073741824,
-  "deficit_minimo": 448299008,
-  "liberi_Mac": 23187931136,
-  "liberi_Extra": 601074421760,
+  "UTC": "2026-10-19T21:06:27.049239+00:00",
+  "Mac": 20643999744,
+  "Extra": 601075138560,
   "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
-  "esito": "STOP_CAPIENZA_PRIMA_PREPARE",
-  "limite": "Minimo prudenziale storico conservato; non misura del nuovo picco o certificazione del preflight completo. Nessun PREPARE/T0/S0 nuovo avviato."
+  "ritiri_cache_verificati": 12
 }
