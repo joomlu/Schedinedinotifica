@@ -340,5 +340,204 @@
     "file_preservati_con_byte_metadati_xattrs_identici": true,
     "ambito": "Sole copie di oggetti Git/documenti/reference/resources nei recuperi conclusi; nessun file rimosso, nessun DB/env/upload/chiave/tls/config toccato",
     "manifest_interventi_SHA256": "5c944e900870e9cc17bc5f1fad09ec8dde1c6f09a15211cf26ff5e495036bb7a"
+  },
+  "C5_tablet_capienza-prepare-integro.json": {
+    "recupero_PREPARE_allocato": 953810944,
+    "ingresso_PREPARE_cifrato": 372154368,
+    "liberi_VM": 2013376512,
+    "data_UTC": "2026-10-19T11:22:24.908447+00:00",
+    "margine_invariato": 1073741824,
+    "fabbisogno_residuo_stimato": 2416484352,
+    "liberi_Mac": 17910665216,
+    "esito": "STOP_PRIMA_RUN_CAPIENZA",
+    "limite": "Stima prudenziale dal massimo fra nuova misura e consumo storico completo, con16MiB aggiuntivi e riserva1GiB invariati; S0 ancora da catturare fresco, nessuna stima promossa a misura del suo picco."
+  },
+  "C5_tablet_capienza-dopo-prepare.json": {
+    "recupero_PREPARE_allocato": 490057728,
+    "ingresso_PREPARE_cifrato": 372154368,
+    "liberi_VM": 2686615552,
+    "data_UTC": "2026-10-19T11:31:45.965868+00:00",
+    "margine_invariato": 1073741824,
+    "fabbisogno_residuo_stimato": 2416484352,
+    "liberi_Mac": 17413619712,
+    "esito": "PASS_STIMA_RESIDUA_S0",
+    "limite": "Stima prudenziale dal massimo fra nuova misura e consumo storico completo, con16MiB aggiuntivi e riserva1GiB invariati; S0 ancora da catturare fresco, nessuna stima promossa a misura del suo picco."
+  },
+  "C5_tablet_ritiro-derivati-prepare.json": {
+    "esito": "PASS_SOLI_DERIVATI_DEI_RECUPERI_PROPRI",
+    "prima": 2013261824,
+    "dopo": 2276016128,
+    "directory": [
+      {
+        "path": "/tmp/schedine-linux-cold-final-aobsokch/extracted/home/tanggosoftware/repos/schedinedinotifica/vendor",
+        "inventario_sha256": "ac66d2f17b7145755732ffa0cceea2b1c1b882e9a6b3cba9b62f3b9f4daac58b",
+        "voci": 9205,
+        "byte_nominali": 44058007,
+        "sigillo_voci": "542c0651d30e19ce6e669eac74f47576e55fe86f5f163e0c6d8f3f7ff0dea4c6"
+      },
+      {
+        "path": "/tmp/schedine-linux-cold-final-aobsokch/extracted/home/tanggosoftware/repos/schedinedinotifica/public/build",
+        "inventario_sha256": "ac66d2f17b7145755732ffa0cceea2b1c1b882e9a6b3cba9b62f3b9f4daac58b",
+        "voci": 4135,
+        "byte_nominali": 181207387,
+        "sigillo_voci": "cc1bd55dc8ad15307e6afcf659f195ada72a97280bb3e545d381d33e3940d153"
+      }
+    ],
+    "solo_vendor_node_build_derivati_sigillati_stesso_lock": true,
+    "SQL_DB_env_upload_loghi_chiavi_TLS_evidenze_preservati": true
+  },
+  "C5_tablet_ritiro-cache-prepare.json": {
+    "esito": "PASS_RITIRO_CACHE_DB_RICOSTRUIBILI",
+    "prima": 2276016128,
+    "dopo": 2482659328,
+    "derivati": [
+      {
+        "root": "/tmp/schedine-linux-cold-final-aobsokch",
+        "dump_ripristinato_identico_sha256": "5901c2933c2a6cc9fa24fac432cc3c24b57d7bfaec152faff58a0ffdda90b364",
+        "voci": 342,
+        "byte_nominali": 206074052,
+        "sigillo_cache": "b0e9b684abea6a3e1ab00f00634a0bb85000bbae6dd8c9648b149f5b080d1dc4"
+      }
+    ],
+    "solo_datadir_generate_da_cold_verify": true,
+    "SQL_ridump_cifrati_env_upload_chiavi_sorgenti_evidenze_preservati": true,
+    "limite": "Ricostruibilita attestata dai dump SQL sorgente e ridump identici del recupero gia eseguito; non sono database operativi o sorgenti di backup."
+  },
+  "C5_tablet_ritiro-derivati-r2.json": {
+    "esito": "PASS_SOLI_DERIVATI_DEI_RECUPERI_PROPRI",
+    "prima": 1482182656,
+    "dopo": 1746145280,
+    "directory": [
+      {
+        "path": "/tmp/schedine-linux-cold-final-0q43ibuy/extracted/home/tanggosoftware/repos/schedinedinotifica/vendor",
+        "inventario_sha256": "506040c5617b595d3fdac0e8dc4e3cde35d38972d2756b0df6b7430dde488c6d",
+        "voci": 9205,
+        "byte_nominali": 44058007,
+        "sigillo_voci": "542c0651d30e19ce6e669eac74f47576e55fe86f5f163e0c6d8f3f7ff0dea4c6"
+      },
+      {
+        "path": "/tmp/schedine-linux-cold-final-0q43ibuy/extracted/home/tanggosoftware/repos/schedinedinotifica/public/build",
+        "inventario_sha256": "506040c5617b595d3fdac0e8dc4e3cde35d38972d2756b0df6b7430dde488c6d",
+        "voci": 4135,
+        "byte_nominali": 181207387,
+        "sigillo_voci": "cc1bd55dc8ad15307e6afcf659f195ada72a97280bb3e545d381d33e3940d153"
+      }
+    ],
+    "solo_vendor_node_build_derivati_sigillati_stesso_lock": true,
+    "SQL_DB_env_upload_loghi_chiavi_TLS_evidenze_preservati": true
+  },
+  "C5_tablet_ritiro-cache-r2.json": {
+    "esito": "PASS_RITIRO_CACHE_DB_RICOSTRUIBILI",
+    "prima": 1746145280,
+    "dopo": 1952141312,
+    "derivati": [
+      {
+        "root": "/tmp/schedine-linux-cold-final-0q43ibuy",
+        "dump_ripristinato_identico_sha256": "5901c2933c2a6cc9fa24fac432cc3c24b57d7bfaec152faff58a0ffdda90b364",
+        "voci": 342,
+        "byte_nominali": 206074052,
+        "sigillo_cache": "95b0912a5683d94c629098ec39faa2ca063b4940e1126ee9cddb2dc62557fd62"
+      }
+    ],
+    "solo_datadir_generate_da_cold_verify": true,
+    "SQL_ridump_cifrati_env_upload_chiavi_sorgenti_evidenze_preservati": true,
+    "limite": "Ricostruibilita attestata dai dump SQL sorgente e ridump identici del recupero gia eseguito; non sono database operativi o sorgenti di backup."
+  },
+  "C5_tablet_compattazione-CoW-r2.json": {
+    "esito": "PASS_COPIE_IDENTICHE_COW_PRESERVATE",
+    "prima": 1952493568,
+    "dopo": 2686136320,
+    "duplicati": 3501,
+    "byte_nominali_duplicati": 726143301,
+    "file_preservati_con_byte_metadati_xattrs_identici": true,
+    "ambito": "Sole copie di oggetti Git/documenti/reference/resources nei recuperi conclusi; nessun file rimosso, nessun DB/env/upload/chiave/tls/config toccato",
+    "manifest_interventi_SHA256": "e7a74b6de9a34ecaad263e6a30b966cdd4a36d67ce5298d1dec66e848e94f592"
+  },
+  "manifest_recupero_Extra": {
+    "esito": "PASS_MANIFEST_RECUPERO_EXTRA",
+    "UTC": "2026-10-19T11:48:43.260478+00:00",
+    "manifest": [
+      {
+        "fase": "PREPARE",
+        "ciclo_SHA": "4d0bb218cb90d398daf273bc32a5821c27b0f461",
+        "manifest": "/Volumes/extra/Schedinedinotifica-Web-Checkin-Circuito-20261018/C5-PREPARE/RECUPERO.json",
+        "SHA256": "f8b3a8c93b72f663cfcf82db9cfc9c30db208d1b25ba3e529e67e6b863c27b4d",
+        "kit": "kit-ripristino-4d0bb218.tar",
+        "kit_SHA256": "b5134538a6ad677f6af9e6bc7eb94345a852c291a6796e4d3dd98ab185d08cee",
+        "nessuna_chiave_o_dato_personale_in_chiaro": true
+      },
+      {
+        "fase": "S0",
+        "ciclo_SHA": "4d0bb218cb90d398daf273bc32a5821c27b0f461",
+        "manifest": "/Volumes/extra/Schedinedinotifica-Web-Checkin-Circuito-20261018/C5-S0/RECUPERO.json",
+        "SHA256": "aa611c9d519e1a6df6069f6ad378ff4f5401ef7a8e09361830374680e354e6ca",
+        "kit": "kit-ripristino-4d0bb218.tar",
+        "kit_SHA256": "b5134538a6ad677f6af9e6bc7eb94345a852c291a6796e4d3dd98ab185d08cee",
+        "nessuna_chiave_o_dato_personale_in_chiaro": true
+      },
+      {
+        "fase": "PREPARE",
+        "ciclo_SHA": "caeac90311d17820cad21fc3ae3f6b7cf4dd9e94",
+        "manifest": "/Volumes/extra/Schedinedinotifica-Web-Checkin-Circuito-20261018/C5-noindex-PREPARE/RECUPERO.json",
+        "SHA256": "ea2c4c6404b2f24fa80173f80101c13b7b9aa22a562ae1782ff37f61f1fdf29c",
+        "kit": "kit-ripristino-caeac903.tar",
+        "kit_SHA256": "00e2b927c78f2d2320811ad7215ec87c0942d80ca030e836d9192fea6d15290e",
+        "nessuna_chiave_o_dato_personale_in_chiaro": true
+      },
+      {
+        "fase": "S0",
+        "ciclo_SHA": "caeac90311d17820cad21fc3ae3f6b7cf4dd9e94",
+        "manifest": "/Volumes/extra/Schedinedinotifica-Web-Checkin-Circuito-20261018/C5-noindex-S0/RECUPERO.json",
+        "SHA256": "999f6eb4a564928c9288125838cbff292ac88c09a0d76268e75be09c43e2edff",
+        "kit": "kit-ripristino-caeac903.tar",
+        "kit_SHA256": "00e2b927c78f2d2320811ad7215ec87c0942d80ca030e836d9192fea6d15290e",
+        "nessuna_chiave_o_dato_personale_in_chiaro": true
+      },
+      {
+        "fase": "PREPARE",
+        "ciclo_SHA": "3d78e513528164f8c0faed60584d4b4a6df56e04",
+        "manifest": "/Volumes/extra/Schedinedinotifica-Web-Checkin-Circuito-20261018/C5-tablet-PREPARE/RECUPERO.json",
+        "SHA256": "6c5ca0e9d3137f2b5b6003f6e011435f1fc81553f6e34550f9738c25dcaee6f8",
+        "kit": "kit-ripristino-3d78e513.tar",
+        "kit_SHA256": "269e1fc55ff3e2c6aa7d578af5c3ee36774e8bdbd2c51145c00cec708920d117",
+        "nessuna_chiave_o_dato_personale_in_chiaro": true
+      },
+      {
+        "fase": "S0",
+        "ciclo_SHA": "3d78e513528164f8c0faed60584d4b4a6df56e04",
+        "manifest": "/Volumes/extra/Schedinedinotifica-Web-Checkin-Circuito-20261018/C5-tablet-S0/RECUPERO.json",
+        "SHA256": "6c60615782262ac8d4bd97c2c5946caddfe5208acfc7472ed720f44bb898afb4",
+        "kit": "kit-ripristino-3d78e513.tar",
+        "kit_SHA256": "269e1fc55ff3e2c6aa7d578af5c3ee36774e8bdbd2c51145c00cec708920d117",
+        "nessuna_chiave_o_dato_personale_in_chiaro": true
+      }
+    ],
+    "file_cifrati_riletti": 18,
+    "kit_sigillati": 3,
+    "chiavi_non_lette_o_copiate": true
+  },
+  "capacita_finale": {
+    "esito": "PASS_CAPIENZA_FINALE",
+    "data_UTC": "2026-10-19T11:57:22.690851+00:00",
+    "Mac_liberi_byte": 16938520576,
+    "Extra_liberi_byte": 601886408704,
+    "Extra_montaggio": "/Volumes/extra",
+    "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+    "Extra_formato": "apfs",
+    "Extra_scrittura_fsync_rilettura": true,
+    "liberi_VM": 1684844544,
+    "disco_byte": 38654705664,
+    "filesystem_byte": 37290283008,
+    "filesystem_tipo": "xfs",
+    "SELinux": "Enforcing",
+    "daily": "945ef553aab29ac437ff194f7cfad081fb7ab7c7"
+  },
+  "custodia_VM_finale": {
+    "esito": "PASS_CUSTODIA_VM_FINALE",
+    "UTC": "2026-10-19T10:58:33.392560+00:00",
+    "backup_cifrato_storico_presente_e_chiuso": true,
+    "chiave_recupero_separata_file0600_cartella0700": true,
+    "valore_chiave_non_letto": true,
+    "prova_recupero_VM": "PASS storico prima ampliamento; non ripetuta né confusa con i nuovi recuperi C5"
   }
 }

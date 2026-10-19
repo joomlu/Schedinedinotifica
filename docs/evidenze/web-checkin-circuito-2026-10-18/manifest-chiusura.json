@@ -1,0 +1,10 @@
+{
+  "esito": "PASS_MANIFEST_CHIUSURA",
+  "file": {
+    "verifica-caeac903.json": "435a720836047f3b4c58733e747c16c5ff3ca044a6829d80a6febb3007c5be96",
+    "risorse.json": "0d5fb3adfdecefd7d6ea4337fa565fdaa704199c6847d8350b84795377aeb11e",
+    "rilascio.json": "caa0516db918ea69f25ec9c959ff25b1675a4de8cb77146533ced9ef87870678",
+    "verifica.json": "4f519aec391952e063a0b5a9dfcac678304a41fb4cfb3acf3dab3b85a51ee65e",
+    "verifica-4d0bb218.json": "16d1ee683797e842cc88637048ed183bdb1ecb6bca5bbb4412c4580b66cfa6a8"
+  }
+}
