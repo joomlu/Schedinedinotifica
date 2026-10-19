@@ -523,7 +523,7 @@ class SchedinaController extends Controller
                 if ($webGestione && ! $webGestione->processata()) app(\App\Services\WebCheckinCircuito::class)->finalizza($webGestione, $schedina);
             }
 
-            if ($saveMode === 'review_web') return redirect()->route('web_checkin.edit', $webGestione->id)->with('success', 'Correzioni salvate. Il check-in resta da effettuare separatamente.');
+            if ($saveMode === 'review_web') return redirect()->route('web_checkin.attivita', [$webGestione->id, 'ospiti'])->with('success', 'Correzioni salvate. Il check-in resta da effettuare separatamente.');
 
             return $this->redirectAfterSave($schedina, $request, $saveMode, true);
         });

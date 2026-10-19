@@ -83,11 +83,11 @@ class WebCheckinCircuitoTest extends TestCase
     public function test_revisione_e_bozza_non_archiviano_ne_cancellano_dati_omessi(): void
     {
         $r=$this->scenario();$payload=$r->schedina->getAttributes()+['save_mode'=>'review_web'];
-        $this->putWeb(route('schedina.update',$r->schedina_id),$payload)->assertSessionHasNoErrors()->assertRedirect(route('web_checkin.edit',$r->id));
+        $this->putWeb(route('schedina.update',$r->schedina_id),$payload)->assertSessionHasNoErrors()->assertRedirect(route('web_checkin.attivita',[$r->id,'ospiti']));
         $this->assertSame('web',$r->schedina->fresh()->circuito);$this->assertNotSame('convertito',$r->fresh()->stato);$this->assertNull($r->fresh()->convertito_at);
         $payload=$r->schedina->fresh()->getAttributes()+['save_mode'=>'draft'];$this->putWeb(route('schedina.update',$r->schedina_id),$payload)->assertSessionHasNoErrors()->assertRedirect();
         $this->assertSame('bozza',$r->schedina->fresh()->circuito);$this->assertFalse($r->fresh()->processata());$this->get(route('web_checkin.storico'))->assertDontSee('ESTERNA-SINTETICA');
-        $payload=$r->schedina->fresh()->getAttributes()+['save_mode'=>'review_web'];$this->putWeb(route('schedina.update',$r->schedina_id),$payload)->assertSessionHasNoErrors()->assertRedirect(route('web_checkin.edit',$r->id));$this->assertSame('bozza',$r->schedina->fresh()->circuito);
+        $payload=$r->schedina->fresh()->getAttributes()+['save_mode'=>'review_web'];$this->putWeb(route('schedina.update',$r->schedina_id),$payload)->assertSessionHasNoErrors()->assertRedirect(route('web_checkin.attivita',[$r->id,'ospiti']));$this->assertSame('bozza',$r->schedina->fresh()->circuito);
     }
 
     public function test_cestino_conserva_schedina_clienti_storico_comunicazioni_e_restore_non_duplica(): void

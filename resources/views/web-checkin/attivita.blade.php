@@ -10,6 +10,7 @@
 @if($errors->any())<div class="alert alert-danger">{{ $errors->first() }}</div>@endif
 <p><strong>{{ $richiesta->numero_prenotazione }}</strong> · {{ $richiesta->nome_referente }} · {{ $richiesta->arrivo?->format('d/m/Y') }} – {{ $richiesta->partenza?->format('d/m/Y') }} · {{ $richiesta->quantita_persone }} persone</p>
 @if($attivita==='ospiti' || $attivita==='check-in')
+@if(!$richiestaBloccata)<p><span class="badge bg-secondary">{{ $richiesta->compilato_at ? 'Compilazione completata' : ($progresso['caricate'] > 0 ? 'Compilazione in corso' : 'In attesa di compilazione') }}</span> · Check-in operativo: <strong>Da effettuare</strong></p>@endif
 @if($richiesta->schedina)<a class="btn btn-light mb-3" href="{{ route('schedina.edit',$richiesta->schedina->id) }}">{{ $richiestaBloccata ? 'Apri schedina collegata' : 'Correggi dati ospiti' }}</a>@endif
 <div class="card"><div class="card-body"><h2 class="h5">Dati degli ospiti</h2>
 @if($richiestaBloccata && $richiesta->conversione_snapshot)
