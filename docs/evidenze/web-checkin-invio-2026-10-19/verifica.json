@@ -22,7 +22,7 @@
   "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
   "nessun_test_Laravel_Mac_o_produzione": true,
   "invii_isolati": "Trasporto in memoria e server SMTPS TLS sintetico in loopback; nessuna consegna reale dedotta",
-  "invio_reale_online": "TRE_INVII_GMAIL_HTML_VERIFICATI_SU_447571f4; CORRETTIVO_SOLO_CSS_DA_PUBBLICARE",
+  "invio_reale_online": "Tre invii reali e ricezioneGmailHTML verificati sul447571f4; correttivoCSS78e8897 online e monitorato. Vedi invii-reali.json e rilascio.json.",
   "sorgenti_sha256": {
     "app/Http/Controllers/ArrivalsController.php": "a03611e9d05b0a59393b45a8b1ff4b398d7867c6798ebb9175fccbaa52f40b16",
     "app/Http/Controllers/CalendarioController.php": "e2665fe96cd53e23a211cc14630b13b7397ed92dc956f07ce7cfadf167bc2037",
@@ -132,5 +132,7 @@
   },
   "controlli_ridotti": false,
   "DDL": false,
-  "SMTP_DNS_credenziali_modificati": false
+  "SMTP_DNS_credenziali_modificati": false,
+  "SHA_applicativo_online_finale": "78e889759b0838f35267496527c42024aa18bd00",
+  "fase_prova": "CollaudoR5 prepubblicazione, aggiornamento successivo dei soli riferimenti alla pubblicazione; sorgenti e risultati invariati"
 }
