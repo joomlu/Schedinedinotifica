@@ -163,8 +163,8 @@
     "R14.log": "f2fe582bd641f6349fcf0f19cc3dbb8324ab844c0996f8a618cd9ed974e6e2b8"
   },
   "invii": "Solo trasporto in memoria e SMTPS TLS sintetico loopback nella suite; nessuna email reale o scrittura su ospiti reali",
-  "pubblicazione_produzione": "DA_ESEGUIRE_NUOVO_C5_DOPO_PREFLIGHT",
-  "produzione_SHA_letto": "78e889759b0838f35267496527c42024aa18bd00",
+  "pubblicazione_produzione": "PASS_C5_QA_PULIZIA_MONITOR",
+  "produzione_SHA_letto": "42deeaf399910d8e6ac913348306756a9c566277",
   "pubblicazione_GitHub": {
     "ramo": "codex/web-checkin-interfaccia-2026-10-19",
     "codice_SHA_verificato": "d17687c702a4ca438857ef56a1176d2fc9fd6d89",
@@ -210,5 +210,6 @@
     ],
     "esito": "PASS",
     "copertura": "Circuito completo, storico/Cestino, HTML/modelli, operatività e interfaccia separata; compreso submit invalido seguito da avviso beforeunload"
-  }
+  },
+  "ricevuta_rilascio": "rilascio.json"
 }
