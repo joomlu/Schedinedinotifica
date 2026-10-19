@@ -9,6 +9,7 @@ const form=document.getElementById('invito-form'),slot=document.getElementById('
 let preparing=false;
 const signature=()=>form?new URLSearchParams(new FormData(form)).toString():'';
 function install(dialog,original=null){
+ if(dialog.dataset.emailInstalled==='1'){bootstrap.Modal.getOrCreateInstance(dialog).show();return;}dialog.dataset.emailInstalled='1';
  const iframe=dialog.querySelector('iframe'),paper=dialog.querySelector('.web-email-paper');let observer;
  function measure(){try{const doc=iframe.contentDocument;if(!doc?.body)return;iframe.style.height=Math.ceil(doc.body.scrollHeight)+'px';}catch(_){}}
  iframe?.addEventListener('load',()=>{const doc=iframe.contentDocument;if(!doc)return;doc.addEventListener('click',e=>e.preventDefault(),true);doc.addEventListener('submit',e=>e.preventDefault(),true);observer=new ResizeObserver(measure);observer.observe(doc.body);doc.querySelectorAll('img').forEach(img=>img.addEventListener('load',measure));measure();});
