@@ -1,0 +1,306 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20  0:41:14 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-k0olc95t; database=test_geo_c405bdb7395f52455616cc145484dbe2; MySQL pid=57, porta=53267; HTTP pid=97, porta=57141
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+
+> velzon@4.3.0 build
+> npm run clean && vite build && npm run verify-architecture
+
+
+> velzon@4.3.0 clean
+> rimraf public/build
+
+vite v5.2.8 building for production...
+transforming...
+DEPRECATION WARNING: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+DEPRECATION WARNING: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+DEPRECATION WARNING: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+DEPRECATION WARNING: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+DEPRECATION WARNING: red() is deprecated. Suggestion:
+
+color.channel($color, red)
+
+More info: https://sass-lang.com/d/color-functions
+
+    ╷
+185 │     "r": red($color),
+    │          ^^^^^^^^^^^
+    ╵
+    node_modules/bootstrap/scss/_functions.scss 185:10  luminance()
+    node_modules/bootstrap/scss/_functions.scss 174:8   contrast-ratio()
+    node_modules/bootstrap/scss/_functions.scss 159:22  color-contrast()
+    node_modules/bootstrap/scss/_variables.scss 846:42  @import
+    resources/scss/app.scss 16:9                        root stylesheet
+
+DEPRECATION WARNING: green() is deprecated. Suggestion:
+
+color.channel($color, green)
+
+More info: https://sass-lang.com/d/color-functions
+
+    ╷
+186 │     "g": green($color),
+    │          ^^^^^^^^^^^^^
+    ╵
+    node_modules/bootstrap/scss/_functions.scss 186:10  luminance()
+    node_modules/bootstrap/scss/_functions.scss 174:8   contrast-ratio()
+    node_modules/bootstrap/scss/_functions.scss 159:22  color-contrast()
+    node_modules/bootstrap/scss/_variables.scss 846:42  @import
+    resources/scss/app.scss 16:9                        root stylesheet
+
+DEPRECATION WARNING: blue() is deprecated. Suggestion:
+
+color.channel($color, blue)
+
+More info: https://sass-lang.com/d/color-functions
+
+    ╷
+187 │     "b": blue($color)
+    │          ^^^^^^^^^^^^
+    ╵
+    node_modules/bootstrap/scss/_functions.scss 187:10  luminance()
+    node_modules/bootstrap/scss/_functions.scss 174:8   contrast-ratio()
+    node_modules/bootstrap/scss/_functions.scss 159:22  color-contrast()
+    node_modules/bootstrap/scss/_variables.scss 846:42  @import
+    resources/scss/app.scss 16:9                        root stylesheet
+
+DEPRECATION WARNING: red() is deprecated. Suggestion:
+
+color.channel($color, red)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ╷
+37 │   @return red($value), green($value), blue($value);
+   │           ^^^^^^^^^^^
+   ╵
+    node_modules/bootstrap/scss/_functions.scss 37:11   to-rgb()
+    node_modules/bootstrap/scss/_variables.scss 846:31  @import
+    resources/scss/app.scss 16:9                        root stylesheet
+
+DEPRECATION WARNING: green() is deprecated. Suggestion:
+
+color.channel($color, green)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ╷
+37 │   @return red($value), green($value), blue($value);
+   │                        ^^^^^^^^^^^^^
+   ╵
+    node_modules/bootstrap/scss/_functions.scss 37:24   to-rgb()
+    node_modules/bootstrap/scss/_variables.scss 846:31  @import
+    resources/scss/app.scss 16:9                        root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ╷
+349 │ ┌         @media (min-width: 1024.1px) {
+350 │ │             margin-top: $header-height;
+351 │ │         }
+    │ └─── nested rule
+... │
+357 │           padding: calc(45px + #{$grid-gutter-width}) calc(#{$grid-gutter-width} * 0.5) $footer-height calc(#{$grid-gutter-width} * 0.5);
+    │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ declaration
+    ╵
+    resources/scss/structure/_topbar.scss 357:9  @import
+    resources/scss/app.scss 24:9                 root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ╷
+353 │ ┌         @media (max-width: 1024.1px) {
+354 │ │             padding: calc(45px + #{$grid-gutter-width} * 1.8) calc(#{$grid-gutter-width} * 0.5) $footer-height calc(#{$grid-gutter-width} * 0.5);
+355 │ │         }
+    │ └─── nested rule
+... │
+357 │           padding: calc(45px + #{$grid-gutter-width}) calc(#{$grid-gutter-width} * 0.5) $footer-height calc(#{$grid-gutter-width} * 0.5);
+    │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ declaration
+    ╵
+    resources/scss/structure/_topbar.scss 357:9  @import
+    resources/scss/app.scss 24:9                 root stylesheet
+
+WARNING: 79 repetitive deprecation warnings omitted.
+
+DEPRECATION WARNING: red() is deprecated. Suggestion:
+
+color.channel($color, red)
+
+More info: https://sass-lang.com/d/color-functions
+
+    ╷
+185 │     "r": red($color),
+    │          ^^^^^^^^^^^
+    ╵
+    node_modules/bootstrap/scss/_functions.scss 185:10  luminance()
+    node_modules/bootstrap/scss/_functions.scss 174:8   contrast-ratio()
+    node_modules/bootstrap/scss/_functions.scss 159:22  color-contrast()
+    node_modules/bootstrap/scss/_variables.scss 846:42  @import
+    resources/scss/bootstrap.scss 13:9                  root stylesheet
+
+DEPRECATION WARNING: green() is deprecated. Suggestion:
+
+color.channel($color, green)
+
+More info: https://sass-lang.com/d/color-functions
+
+    ╷
+186 │     "g": green($color),
+    │          ^^^^^^^^^^^^^
+    ╵
+    node_modules/bootstrap/scss/_functions.scss 186:10  luminance()
+    node_modules/bootstrap/scss/_functions.scss 174:8   contrast-ratio()
+    node_modules/bootstrap/scss/_functions.scss 159:22  color-contrast()
+    node_modules/bootstrap/scss/_variables.scss 846:42  @import
+    resources/scss/bootstrap.scss 13:9                  root stylesheet
+
+DEPRECATION WARNING: blue() is deprecated. Suggestion:
+
+color.channel($color, blue)
+
+More info: https://sass-lang.com/d/color-functions
+
+    ╷
+187 │     "b": blue($color)
+    │          ^^^^^^^^^^^^
+    ╵
+    node_modules/bootstrap/scss/_functions.scss 187:10  luminance()
+    node_modules/bootstrap/scss/_functions.scss 174:8   contrast-ratio()
+    node_modules/bootstrap/scss/_functions.scss 159:22  color-contrast()
+    node_modules/bootstrap/scss/_variables.scss 846:42  @import
+    resources/scss/bootstrap.scss 13:9                  root stylesheet
+
+DEPRECATION WARNING: red() is deprecated. Suggestion:
+
+color.channel($color, red)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ╷
+37 │   @return red($value), green($value), blue($value);
+   │           ^^^^^^^^^^^
+   ╵
+    node_modules/bootstrap/scss/_functions.scss 37:11   to-rgb()
+    node_modules/bootstrap/scss/_variables.scss 846:31  @import
+    resources/scss/bootstrap.scss 13:9                  root stylesheet
+
+DEPRECATION WARNING: green() is deprecated. Suggestion:
+
+color.channel($color, green)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ╷
+37 │   @return red($value), green($value), blue($value);
+   │                        ^^^^^^^^^^^^^
+   ╵
+    node_modules/bootstrap/scss/_functions.scss 37:24   to-rgb()
+    node_modules/bootstrap/scss/_variables.scss 846:31  @import
+    resources/scss/bootstrap.scss 13:9                  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ┌──> node_modules/bootstrap/scss/_reboot.scss
+503 │     font-weight: $legend-font-weight;
+    │     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ declaration
+    ╵
+    ┌──> node_modules/bootstrap/scss/vendor/_rfs.scss
+136 │ ┌     @media (#{$rfs-mq-property-width}: #{$rfs-mq-value}) {
+137 │ │       @content;
+138 │ │     }
+    │ └─── nested rule
+    ╵
+    node_modules/bootstrap/scss/_reboot.scss 503:3   @import
+    node_modules/bootstrap/scss/bootstrap.scss 16:9  @import
+    resources/scss/bootstrap.scss 17:9               root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ┌──> node_modules/bootstrap/scss/_reboot.scss
+504 │     line-height: inherit;
+    │     ^^^^^^^^^^^^^^^^^^^^ declaration
+    ╵
+    ┌──> node_modules/bootstrap/scss/vendor/_rfs.scss
+136 │ ┌     @media (#{$rfs-mq-property-width}: #{$rfs-mq-value}) {
+137 │ │       @content;
+138 │ │     }
+    │ └─── nested rule
+    ╵
+    node_modules/bootstrap/scss/_reboot.scss 504:3   @import
+    node_modules/bootstrap/scss/bootstrap.scss 16:9  @import
+    resources/scss/bootstrap.scss 17:9               root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ┌──> node_modules/bootstrap/scss/_type.scss
+38  │       font-family: $display-font-family;
+    │       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ declaration
+    ╵
+    ┌──> node_modules/bootstrap/scss/vendor/_rfs.scss
+136 │ ┌
+TEST interrotto senza fallback: build fallito: 130
+mysql-error.log:
+2026-10-20  0:41:53 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 57
+2026-10-20  0:41:53 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-20  0:41:53 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-20  0:41:53 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-20  0:41:53 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-20  0:41:53 0 [Note] InnoDB: Using Linux native AIO
+2026-10-20  0:41:53 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-20  0:41:53 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-20  0:41:53 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-20  0:41:53 0 [Note] InnoDB: End of log at LSN=45568
+2026-10-20  0:41:53 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-20  0:41:53 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-20  0:41:53 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-20  0:41:53 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-20  0:41:53 0 [Note] InnoDB: log sequence number 45568; transaction id 14
+2026-10-20  0:41:53 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-k0olc95t/mysql-data/ib_buffer_pool
+2026-10-20  0:41:53 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-20  0:41:53 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-20  0:41:53 0 [Note] InnoDB: Buffer pool(s) load completed at 261020  0:41:53
+2026-10-20  0:41:57 0 [Note] Server socket created on IP: '127.0.0.1', port: '53267'.
+2026-10-20  0:41:57 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-20  0:41:57 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-k0olc95t/mysql.sock'  port: 53267  MariaDB Server
+
+http.log:
+[Tue Oct 20 00:42:02 2026] PHP 8.3.33 Development Server (http://127.0.0.1:57141) started
+[Tue Oct 20 00:42:02 2026] 127.0.0.1:55384 Accepted
+[Tue Oct 20 00:42:02 2026] 127.0.0.1:55384 Closed without sending a request; it was probably just an unused speculative preconnection
+[Tue Oct 20 00:42:02 2026] 127.0.0.1:55384 Closing
+[Tue Oct 20 00:42:07 2026] 127.0.0.1:57146 Accepted
+[Tue Oct 20 00:42:07 2026] 127.0.0.1:57146 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-k0olc95t

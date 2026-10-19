@@ -1,0 +1,415 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20  0:31:23 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-es_g6b33; database=test_geo_6c2d9645e0c88cfbeee52d61a575398a; MySQL pid=57, porta=55453; HTTP pid=81, porta=59399
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+
+Running 24 tests using 1 worker
+
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-A5hiRJ
+  ✘   1 tests/Feature/web-checkin-circuito.playwright.spec.js:13:205 › Circuito OSPITE SINGOLO 1440px › Compilazione, revisione e check-in OSPITE SINGOLO 1440px (2.0m)
+  -   2 tests/Feature/web-checkin-circuito.playwright.spec.js:40:1 › Circuito OSPITE SINGOLO 1440px › Storico e Cestino OSPITE SINGOLO 1440px
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-AvK6Wf
+  ✘   3 tests/Feature/web-checkin-circuito.playwright.spec.js:13:205 › Circuito CAPO FAMIGLIA 768px › Compilazione, revisione e check-in CAPO FAMIGLIA 768px (2.0m)
+  -   4 tests/Feature/web-checkin-circuito.playwright.spec.js:40:1 › Circuito CAPO FAMIGLIA 768px › Storico e Cestino CAPO FAMIGLIA 768px
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-E5QPHp
+  ✘   5 tests/Feature/web-checkin-circuito.playwright.spec.js:13:205 › Circuito CAPO GRUPPO 390px › Compilazione, revisione e check-in CAPO GRUPPO 390px (2.1m)
+  -   6 tests/Feature/web-checkin-circuito.playwright.spec.js:40:1 › Circuito CAPO GRUPPO 390px › Storico e Cestino CAPO GRUPPO 390px
+  ✘   7 tests/Feature/web-checkin-html.playwright.spec.js:10:213 › Regressioni HTML OSPITE SINGOLO 1440px › Email HTML e modulo guidato OSPITE SINGOLO 1440px (2.1m)
+  -   8 tests/Feature/web-checkin-html.playwright.spec.js:32:1 › Regressioni HTML OSPITE SINGOLO 1440px › Cronologia e gestione modelli OSPITE SINGOLO 1440px
+  ✘   9 tests/Feature/web-checkin-html.playwright.spec.js:10:213 › Regressioni HTML CAPO FAMIGLIA 768px › Email HTML e modulo guidato CAPO FAMIGLIA 768px (1.5m)
+  -  10 tests/Feature/web-checkin-html.playwright.spec.js:32:1 › Regressioni HTML CAPO FAMIGLIA 768px › Cronologia e gestione modelli CAPO FAMIGLIA 768px
+
+
+  1) tests/Feature/web-checkin-circuito.playwright.spec.js:13:205 › Circuito OSPITE SINGOLO 1440px › Compilazione, revisione e check-in OSPITE SINGOLO 1440px
+
+    [31mTest timeout of 120000ms exceeded.[39m
+
+    Error: locator.click: Target page, context or browser has been closed
+    Call log:
+    [2m  - waiting for getByRole('link', { name: 'Storico', exact: true })[22m
+
+
+      35 |  await page.getByRole('link',{name:'Correggi dati ospiti',exact:true}).click();await page.waitForLoadState('networkidle');await page.getByRole('tab',{name:'Residenza / Doc.',exact:true}).click();await expect(page.getByRole('tab',{name:'Residenza / Doc.',exact:true})).toHaveAttribute('aria-selected','true');await page.locator('[name=or_address]').first().fill('Indirizzo revisionato');const reviewed=await post(page,{save_mode:'review_web'});expect(reviewed.status,reviewed.text.slice(0,1000)).toBeLessThan(400);
+      36 |  await page.goto(manage.replace('/modifica','/attivita/check-in'));await expect(page.getByRole('button',{name:'Effettua check-in',exact:true})).toBeVisible();await page.locator('#web-camera').fill('1');await page.locator('#web-letti').fill(width===768?'3':(member?'2':'1'));await page.getByRole('button',{name:'Effettua check-in',exact:true}).click();await page.getByRole('button',{name:'Conferma check-in',exact:true}).click();await page.getByRole('button',{name:'OK',exact:true}).click();await conferma(page);await expect(page.locator('body')).toContainText('Check-in effettuato · Storico');const sheet=await page.getByRole('link',{name:'Apri schedina collegata',exact:true}).getAttribute('href');
+    > 37 |  await page.getByRole('link',{name:'Storico',exact:true}).click();await expect(page.locator('body')).toContainText('CIRCUITO-BROWSER-'+width);await verificaLeggibilitaElenco(page);await page.getByRole('link',{name:'Elenco web check-in',exact:true}).click();await expect(page.locator('body')).not.toContainText('CIRCUITO-BROWSER-'+width);await verificaLeggibilitaElenco(page);
+         |                                                           ^
+      38 |  Object.assign(saved,{manage,direct,sheet});expect(errors.filter(e=>e!==sandboxWarning),'Errori del percorso ospite e reception').toEqual([]);
+      39 | });
+      40 | test(`Storico e Cestino ${head} ${width}px`,async({page},info)=>{
+        at /tmp/schedine-test-es_g6b33/checkout/tests/Feature/web-checkin-circuito.playwright.spec.js:37:59
+
+    Error Context: test-results/web-checkin-circuito.playw-fe57f-ck-in-OSPITE-SINGOLO-1440px/error-context.md
+
+  2) tests/Feature/web-checkin-circuito.playwright.spec.js:13:205 › Circuito CAPO FAMIGLIA 768px › Compilazione, revisione e check-in CAPO FAMIGLIA 768px
+
+    [31mTest timeout of 120000ms exceeded.[39m
+
+    Error: locator.click: Target page, context or browser has been closed
+    Call log:
+    [2m  - waiting for getByRole('link', { name: 'Storico', exact: true })[22m
+
+
+      35 |  await page.getByRole('link',{name:'Correggi dati ospiti',exact:true}).click();await page.waitForLoadState('networkidle');await page.getByRole('tab',{name:'Residenza / Doc.',exact:true}).click();await expect(page.getByRole('tab',{name:'Residenza / Doc.',exact:true})).toHaveAttribute('aria-selected','true');await page.locator('[name=or_address]').first().fill('Indirizzo revisionato');const reviewed=await post(page,{save_mode:'review_web'});expect(reviewed.status,reviewed.text.slice(0,1000)).toBeLessThan(400);
+      36 |  await page.goto(manage.replace('/modifica','/attivita/check-in'));await expect(page.getByRole('button',{name:'Effettua check-in',exact:true})).toBeVisible();await page.locator('#web-camera').fill('1');await page.locator('#web-letti').fill(width===768?'3':(member?'2':'1'));await page.getByRole('button',{name:'Effettua check-in',exact:true}).click();await page.getByRole('button',{name:'Conferma check-in',exact:true}).click();await page.getByRole('button',{name:'OK',exact:true}).click();await conferma(page);await expect(page.locator('body')).toContainText('Check-in effettuato · Storico');const sheet=await page.getByRole('link',{name:'Apri schedina collegata',exact:true}).getAttribute('href');
+    > 37 |  await page.getByRole('link',{name:'Storico',exact:true}).click();await expect(page.locator('body')).toContainText('CIRCUITO-BROWSER-'+width);await verificaLeggibilitaElenco(page);await page.getByRole('link',{name:'Elenco web check-in',exact:true}).click();await expect(page.locator('body')).not.toContainText('CIRCUITO-BROWSER-'+width);await verificaLeggibilitaElenco(page);
+         |                                                           ^
+      38 |  Object.assign(saved,{manage,direct,sheet});expect(errors.filter(e=>e!==sandboxWarning),'Errori del percorso ospite e reception').toEqual([]);
+      39 | });
+      40 | test(`Storico e Cestino ${head} ${width}px`,async({page},info)=>{
+        at /tmp/schedine-test-es_g6b33/checkout/tests/Feature/web-checkin-circuito.playwright.spec.js:37:59
+
+    Error Context: test-results/web-checkin-circuito.playw-6ebda-heck-in-CAPO-FAMIGLIA-768px/error-context.md
+
+  3) tests/Feature/web-checkin-circuito.playwright.spec.js:13:205 › Circuito CAPO GRUPPO 390px › Compilazione, revisione e check-in CAPO GRUPPO 390px
+
+    [31mTest timeout of 120000ms exceeded.[39m
+
+    Error: locator.evaluateAll: Execution context was destroyed, most likely because of a navigation
+
+       6 | test.afterEach(async({},info)=>{if(info.status!==info.expectedStatus)fs.writeFileSync(info.outputPath('errore.json'),JSON.stringify({stato:info.status,errori:info.errors.map(e=>(e.message??'').replace(/\/(?:checkin|w)\/[A-Za-z0-9-]{10,}/g,'/[link-riservato]'))}));});
+       7 | test.afterEach(async({},info)=>{const dir=fs.mkdtempSync('/tmp/schedine-circuito-immagini-');for(const name of (fs.existsSync(info.outputDir)?fs.readdirSync(info.outputDir):[]))if(name.endsWith('.png'))fs.copyFileSync(info.outputDir+'/'+name,dir+'/'+name);console.log('IMMAGINI_CIRCUITO '+dir);});
+    >  8 | test.afterEach(async({page},info)=>{if(info.status!==info.expectedStatus)fs.writeFileSync(info.outputPath('stato-componenti.json'),JSON.stringify(await page.locator('.componente-row').evaluateAll(rows=>rows.map(r=>({classi:r.className,nascosta:r.hidden,display:getComputedStyle(r).display,id:r.querySelector('[name$="[id]"]')?.value,nome:r.querySelector('[name$="[name]"]')?.value})))));});
+         |                                                                                                                                                                                         ^
+       9 | async function conferma(p){await p.waitForLoadState('networkidle');const yes=p.getByRole('button',{name:/^Sì,/});if(await yes.isVisible()){await yes.click();await p.getByRole('button',{name:'OK',exact:true}).click();await p.waitForLoadState('networkidle');}const esito=p.getByRole('dialog',{name:'Operazione completata',exact:true});if(await esito.isVisible())await esito.getByRole('button',{name:'OK',exact:true}).click();await expect(esito).toBeHidden();}
+      10 | async function login(p){await p.goto(BASE_URL+'/login');await p.locator('[name=login]').fill('fixture-super_admin');await p.locator('[name=password]').fill('Password-fixture-123!');await p.getByRole('button',{name:'Entra',exact:true}).click();await expect(p).not.toHaveURL(/\/login$/);const fixture=await(await p.request.get(BASE_URL+'/web-html-fixture.json')).json();await p.goto(BASE_URL+'/strutture/seleziona');const selection=p.locator('.main-content form[action$="/strutture/'+fixture.A+'/seleziona"]');const token=await selection.locator('[name=_token]').inputValue();const selected=await p.request.post(BASE_URL+'/strutture/'+fixture.A+'/seleziona',{form:{_token:token},maxRedirects:0});expect(selected.status()).toBe(302);await p.goto(BASE_URL+'/web-checkin');}
+      11 | async function post(p,payload){return p.evaluate(async data=>{const form=document.querySelector('#schedina-form'),body=new FormData(form),blank=new Set([...body.keys()].map(k=>k.match(/^componenti\[(\d+)\]/)?.[1]).filter(i=>i!==undefined&&!body.get(`componenti[${i}][name]`)&&!body.get(`componenti[${i}][surname]`)));for(const k of [...body.keys()])if(blank.has(k.match(/^componenti\[(\d+)\]/)?.[1]))body.delete(k);if(O
+web-checkin-circuito.playw-fe57f-ck-in-OSPITE-SINGOLO-1440px:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - button [ref=e7] [cursor=pointer]
+      - generic [ref=e12]:
+        - generic [ref=e14]:
+          - 'button " Struttura: Hotel Browser " [ref=e15] [cursor=pointer]':
+            - generic [ref=e16]: 
+            - text: "Struttura: Hotel Browser"
+            - generic [ref=e17]: 
+          - text: 
+        - link "" [ref=e19] [cursor=pointer]:
+          - /url: http://127.0.0.1:59399/calendario
+          - generic [ref=e20]: 
+        - generic [ref=e21]:
+          - button "" [ref=e22] [cursor=pointer]:
+            - generic [ref=e23]: 
+          - text:  
+        - button "" [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]: 
+        - generic [ref=e27]:
+          - button "Avatar Utente Super Admin" [ref=e28] [cursor=pointer]:
+            - generic [ref=e29]:
+              - img "Avatar" [ref=e31]
+              - generic [ref=e32]:
+                - generic [ref=e33]: Utente
+                - generic [ref=e34]: Super Admin
+          - text: 󰀉      󰍃
+  - generic [ref=e35]:
+    - link "Tango" [ref=e37] [cursor=pointer]:
+      - /url: http://127.0.0.1:59399/dashboard
+      - img "Tango" [ref=e39]
+    - list [ref=e42]:
+      - listitem [ref=e43]:
+        - generic [ref=e44]: Menu
+      - listitem [ref=e45]:
+        - link "Dashboard" [ref=e46] [cursor=pointer]:
+          - /url: http://127.0.0.1:59399/dashboard
+          - generic [ref=e47]: Dashboard
+      - listitem [ref=e48]:
+        - button "SuperAdmin 󰅂" [ref=e49] [cursor=pointer]:
+          - generic [ref=e50]: SuperAdmin
+          - text: 󰅂
+      - listitem [ref=e51]:
+        - link "Dati struttura" [ref=e52] [cursor=pointer]:
+          - /url: http://127.0.0.1:59399/struttura
+          - generic [ref=e53]: Dati struttura
+      - listitem [ref=e54]:
+        - button "Configurazioni 󰅂" [ref=e55] [cursor=pointer]:
+          - generic [ref=e56]: Configurazioni
+          - text: 󰅂
+      - listitem [ref=e57]:
+        - button "Clienti 󰅂" [ref=e58] [cursor=pointer]:
+          - generic [ref=e59]: Clienti
+          - text: 󰅂
+      - listitem [ref=e60]:
+        - button "Schedine 󰅂" [expanded] [ref=e61] [cursor=pointer]:
+          - generic [ref=e62]: Schedine
+          - text: 󰅂
+        - list [ref=e64]:
+          - listitem [ref=e65]:
+            - link "Nuova / Elenco / Bozze" [ref=e66] [cursor=pointer]:
+              - /url: http://127.0.0.1:59399/schedine/nuova
+          - listitem [ref=e67]:
+            - link "Schedine arrivi" [ref=e68] [cursor=pointer]:
+              - /url: http://127.0.0.1:59399/arrivi
+      - listitem [ref=e69]:
+        - link "Web Check-in" [ref=e70] [cursor=pointer]:
+          - /url: http://127.0.0.1:59399/web-checkin
+          - generic [ref=e71]: Web Check-in
+      - listitem [ref=e72]:
+        - button "Invio telematico 󰅂" [ref=e73] [cursor=pointer]:
+          - generic [ref=e74]: Invio telematico
+          - text: 󰅂
+      - listitem [ref=e75]:
+        - button "Statistica 󰅂" [ref=e76] [cursor=pointer]:
+          - generic [ref=e77]: Statistica
+          - text: 󰅂
+      - listitem [ref=e78]:
+        - link "Calendario" [ref=e79] [cursor=pointer]:
+          - /url: http://127.0.0.1:59399/calendario
+          - generic [ref=e80]: Calendario
+      - listitem [ref=e81]:
+        - link "Cestino" [ref=e82] [cursor=pointer]:
+          - /url: http://127.0.0.1:59399/cestino
+          - generic [ref=e83]: Cestino
+  - generic [ref=e85]:
+    - generic [ref=e87]:
+      - banner [ref=e88]:
+        - generic [ref=e89]:
+          - generic [ref=e90]:
+            - link "← Elenco Web Check-in" [ref=e91] [cursor=pointer]:
+              - /url: http://127.0.0.1:59399/web-checkin
+            - heading "Referente HTML" [level=1] [ref=e92]
+            - paragraph [ref=e93]: CIRCUITO-BROWSER-1440 · 10/11/2026 – 13/11/2026 · 1 ospiti
+            - generic [ref=e94]: Check-in effettuato
+          - group [ref=e95]:
+            - generic "Altre az
+web-checkin-circuito.playw-6ebda-heck-in-CAPO-FAMIGLIA-768px:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - button [ref=e7] [cursor=pointer]
+      - generic [ref=e12]:
+        - generic [ref=e14]:
+          - 'button " Struttura: Hotel Browser " [ref=e15] [cursor=pointer]':
+            - generic [ref=e16]: 
+            - text: "Struttura: Hotel Browser"
+            - generic [ref=e17]: 
+          - text: 
+        - link "" [ref=e19] [cursor=pointer]:
+          - /url: http://127.0.0.1:59399/calendario
+          - generic [ref=e20]: 
+        - generic [ref=e21]:
+          - button "" [ref=e22] [cursor=pointer]:
+            - generic [ref=e23]: 
+          - text:  
+        - button "" [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]: 
+        - generic [ref=e27]:
+          - button "Avatar" [ref=e28] [cursor=pointer]:
+            - img "Avatar" [ref=e31]
+          - text: 󰀉      󰍃
+  - generic [ref=e32]:
+    - link "Tango" [ref=e34] [cursor=pointer]:
+      - /url: http://127.0.0.1:59399/dashboard
+      - img "Tango" [ref=e36]
+    - list [ref=e39]:
+      - listitem [ref=e40]:
+        - generic [ref=e41]: Menu
+      - listitem [ref=e42]:
+        - link "Dashboard" [ref=e43] [cursor=pointer]:
+          - /url: http://127.0.0.1:59399/dashboard
+          - generic [ref=e44]: Dashboard
+      - listitem [ref=e45]:
+        - button "SuperAdmin 󰅂" [ref=e46] [cursor=pointer]:
+          - generic [ref=e47]: SuperAdmin
+          - text: 󰅂
+      - listitem [ref=e48]:
+        - link "Dati struttura" [ref=e49] [cursor=pointer]:
+          - /url: http://127.0.0.1:59399/struttura
+          - generic [ref=e50]: Dati struttura
+      - listitem [ref=e51]:
+        - button "Configurazioni 󰅂" [ref=e52] [cursor=pointer]:
+          - generic [ref=e53]: Configurazioni
+          - text: 󰅂
+      - listitem [ref=e54]:
+        - button "Clienti 󰅂" [ref=e55] [cursor=pointer]:
+          - generic [ref=e56]: Clienti
+          - text: 󰅂
+      - listitem [ref=e57]:
+        - button "Schedine 󰅂" [expanded] [ref=e58] [cursor=pointer]:
+          - generic [ref=e59]: Schedine
+          - text: 󰅂
+        - list [ref=e61]:
+          - listitem [ref=e62]:
+            - link "Nuova / Elenco / Bozze" [ref=e63] [cursor=pointer]:
+              - /url: http://127.0.0.1:59399/schedine/nuova
+          - listitem [ref=e64]:
+            - link "Schedine arrivi" [ref=e65] [cursor=pointer]:
+              - /url: http://127.0.0.1:59399/arrivi
+      - listitem [ref=e66]:
+        - link "Web Check-in" [ref=e67] [cursor=pointer]:
+          - /url: http://127.0.0.1:59399/web-checkin
+          - generic [ref=e68]: Web Check-in
+      - listitem [ref=e69]:
+        - button "Invio telematico 󰅂" [ref=e70] [cursor=pointer]:
+          - generic [ref=e71]: Invio telematico
+          - text: 󰅂
+      - listitem [ref=e72]:
+        - button "Statistica 󰅂" [ref=e73] [cursor=pointer]:
+          - generic [ref=e74]: Statistica
+          - text: 󰅂
+      - listitem [ref=e75]:
+        - link "Calendario" [ref=e76] [cursor=pointer]:
+          - /url: http://127.0.0.1:59399/calendario
+          - generic [ref=e77]: Calendario
+      - listitem [ref=e78]:
+        - link "Cestino" [ref=e79] [cursor=pointer]:
+          - /url: http://127.0.0.1:59399/cestino
+          - generic [ref=e80]: Cestino
+  - generic [ref=e82]:
+    - generic [ref=e84]:
+      - banner [ref=e85]:
+        - generic [ref=e86]:
+          - generic [ref=e87]:
+            - link "← Elenco Web Check-in" [ref=e88] [cursor=pointer]:
+              - /url: http://127.0.0.1:59399/web-checkin
+            - heading "Referente HTML" [level=1] [ref=e89]
+            - paragraph [ref=e90]: CIRCUITO-BROWSER-768 · 10/11/2026 – 13/11/2026 · 3 ospiti
+            - generic [ref=e91]: Check-in effettuato
+          - group [ref=e92]:
+            - generic "Altre azioni" [ref=e93] [cursor=pointer]:
+              - generic [ref=e94]: 
+              - text: Altre azioni
+            - text:    
+        - navigation "Sezioni della richiesta" [r
+web-checkin-circuito.playw-04f3d--check-in-CAPO-GRUPPO-390px:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - img [ref=e5]
+  - generic [ref=e8]:
+    - link "Tango" [ref=e13] [cursor=pointer]:
+      - /url: http://127.0.0.1:59399/login
+      - img "Tango" [ref=e14]
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - heading "Accesso struttura" [level=5] [ref=e20]
+        - paragraph [ref=e21]: Entra con il nome di accesso della struttura e con la password personale.
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]: Nome di accesso o email *
+          - textbox "Nome di accesso o email *" [ref=e26]:
+            - /placeholder: Inserisci il nome di accesso della struttura o l'email
+        - generic [ref=e27]:
+          - link "Password dimenticata?" [ref=e29] [cursor=pointer]:
+            - /url: http://127.0.0.1:59399/password/reset
+          - generic [ref=e30]: Password personale *
+          - generic [ref=e31]:
+            - textbox "Password personale *" [ref=e32]:
+              - /placeholder: Inserisci la password personale
+            - button [ref=e33]
+        - generic [ref=e34]:
+          - checkbox "Ricordami" [ref=e35]
+          - text: Ricordami
+        - button "Entra" [ref=e37]
+  - contentinfo [ref=e38]:
+    - generic [ref=e42]:
+      - paragraph [ref=e43]: Software gestionale per ospitalità, ricezione e adempimenti telematici.
+      - paragraph [ref=e44]:
+        - text: Realizzato con
+        - text: per il lavoro quotidiano della struttura.
+      - paragraph [ref=e45]: ©
+```
+TEST interrotto senza fallback: playwright fallito: 130
+mysql-error.log:
+2026-10-20  0:32:13 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 57
+2026-10-20  0:32:13 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-20  0:32:13 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-20  0:32:13 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-20  0:32:13 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-20  0:32:13 0 [Note] InnoDB: Using Linux native AIO
+2026-10-20  0:32:13 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-20  0:32:13 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-20  0:32:13 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-20  0:32:13 0 [Note] InnoDB: End of log at LSN=45109
+2026-10-20  0:32:13 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-20  0:32:13 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-20  0:32:13 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-20  0:32:13 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-20  0:32:13 0 [Note] InnoDB: log sequence number 45109; transaction id 14
+2026-10-20  0:32:13 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-20  0:32:13 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-20  0:32:13 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-es_g6b33/mysql-data/ib_buffer_pool
+2026-10-20  0:32:13 0 [Note] InnoDB: Buffer pool(s) load completed at 261020  0:32:13
+2026-10-20  0:32:14 0 [Note] Server socket created on IP: '127.0.0.1', port: '55453'.
+2026-10-20  0:32:14 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-20  0:32:14 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-es_g6b33/mysql.sock'  port: 55453  MariaDB Server
+
+http.log:
+1:50572 Closing
+[Tue Oct 20 00:42:59 2026] 127.0.0.1:50586 Closing
+[Tue Oct 20 00:43:00 2026] 127.0.0.1:50598 Accepted
+[Tue Oct 20 00:43:01 2026] 127.0.0.1:50598 Closing
+[Tue Oct 20 00:43:02 2026] 127.0.0.1:50600 Accepted
+[Tue Oct 20 00:43:02 2026] 127.0.0.1:50600 Closing
+[Tue Oct 20 00:43:02 2026] 127.0.0.1:50602 Accepted
+[Tue Oct 20 00:43:02 2026] 127.0.0.1:50602 [200]: GET /build/css/icons.min.css
+[Tue Oct 20 00:43:02 2026] 127.0.0.1:50614 Accepted
+[Tue Oct 20 00:43:02 2026] 127.0.0.1:50616 Accepted
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50614 [200]: GET /build/libs/select2/css/select2.min.css
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50622 Accepted
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50616 [200]: GET /build/css/bootstrap.min.css
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50638 Accepted
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50622 [200]: GET /build/css/app.min.css
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50642 Accepted
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50614 Closing
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50638 [200]: GET /build/libs/flatpickr/flatpickr.min.css
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50656 Accepted
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50642 [200]: GET /build/css/custom.min.css
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50658 Accepted
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50602 Closing
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50616 Closing
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50656 [200]: GET /build/js/app2.js
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50662 Accepted
+[Tue Oct 20 00:43:03 2026] 127.0.0.1:50638 Closing
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:50658 Closing
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:50664 Accepted
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:50662 [200]: GET /build/libs/jquery/jquery.min.js
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:50622 Closing
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:50642 Closing
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:50666 Accepted
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:50664 [200]: GET /build/libs/select2/js/select2.full.min.js
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:50668 Accepted
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:50666 [200]: GET /build/libs/simplebar/simplebar.min.js
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:45506 Accepted
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:50662 Closing
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:50668 [200]: GET /build/libs/bootstrap/js/bootstrap.bundle.min.js
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:45522 Accepted
+[Tue Oct 20 00:43:06 2026] 127.0.0.1:50664 Closing
+[Tue Oct 20 00:43:07 2026] 127.0.0.1:45506 [200]: GET /build/icons/remixicon.woff2?t=1718271040674
+[Tue Oct 20 00:43:07 2026] 127.0.0.1:45528 Accepted
+[Tue Oct 20 00:43:07 2026] 127.0.0.1:45522 [200]: GET /build/icons/boxicons.woff2
+[Tue Oct 20 00:43:07 2026] 127.0.0.1:50656 Closing
+[Tue Oct 20 00:43:07 2026] 127.0.0.1:50666 Closing
+[Tue Oct 20 00:43:07 2026] 127.0.0.1:45530 Accepted
+[Tue Oct 20 00:43:07 2026] 127.0.0.1:45528 [200]: GET /build/icons/materialdesignicons-webfont.woff2?v=7.2.96
+[Tue Oct 20 00:43:07 2026] 127.0.0.1:50668 Closing
+[Tue Oct 20 00:43:07 2026] 127.0.0.1:45536 Accepted
+[Tue Oct 20 00:43:08 2026] 127.0.0.1:45530 Closing
+[Tue Oct 20 00:43:08 2026] 127.0.0.1:45550 Accepted
+[Tue Oct 20 00:43:08 2026] 127.0.0.1:45536 [200]: GET /build/libs/node-waves/waves.min.js
+[Tue Oct 20 00:43:08 2026] 127.0.0.1:45522 Closing
+[Tue Oct 20 00:43:08 2026] 127.0.0.1:45506 Closing
+[Tue Oct 20 00:43:08 2026] 127.0.0.1:45566 Accepted
+[Tue Oct 20 00:43:09 2026] 127.0.0.1:45550 [200]: GET /build/libs/feather-icons/feather.min.js
+[Tue Oct 20 00:43:09 2026] 127.0.0.1:45576 Accepted
+[Tue Oct 20 00:43:09 2026] 127.0.0.1:45566 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Tue Oct 20 00:43:09 2026] 127.0.0.1:45536 Closing
+[Tue Oct 20 00:43:10 2026] 127.0.0.1:45576 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Tue Oct 20 00:43:10 2026] 127.0.0.1:45550 Closing
+[Tue Oct 20 00:43:10 2026] 127.0.0.1:45528 Closing
+[Tue Oct 20 00:43:10 2026] 127.0.0.1:45566 Closing
+[Tue Oct 20 00:43:10 2026] 127.0.0.1:45576 Closing
+[Tue Oct 20 00:43:14 2026] 127.0.0.1:32906 Accepted
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-es_g6b33
