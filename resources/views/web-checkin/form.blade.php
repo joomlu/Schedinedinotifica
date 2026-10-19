@@ -2,8 +2,8 @@
 @section('title','Web Check-in')
 @section('content')
 @php($richiestaBloccata=$richiesta->exists && $richiesta->processata())
-<h1 class="h3 mb-3">{{ $richiesta->exists ? 'Modifica richiesta' : 'Nuovo web check-in' }}</h1>
-@include('web-checkin.partials.navigation')
+@if(!$richiesta->exists)<h1 class="h3 mb-3">Nuovo web check-in</h1>@endif
+@if($richiesta->exists)@include('web-checkin.partials.dettaglio-header',['sezione'=>'Richiesta'])@else @include('web-checkin.partials.navigation') @endif
 @if($schedaPrecedente ?? null)<div class="card border-info"><div class="card-body"><h2 class="h5">Ospiti della scheda precedente</h2><p>La richiesta utilizzerà questa stessa scheda. Indica il referente, la prenotazione e la ripartizione prevista; i dati degli ospiti e gli accompagnatori saranno conservati.</p>@include('web-checkin.partials.persona',['persona'=>$schedaPrecedente->getAttributes(),'titolo'=>'Ospite principale'])@foreach($componentiPrecedenti as $i=>$p)@include('web-checkin.partials.persona',['persona'=>$p->getAttributes(),'titolo'=>'Ospite '.($i+2)])@endforeach</div></div>@endif
 <div class="card"><div class="card-body">
 <h2 class="h5">{{ $richiesta->exists ? 'Dati originali della richiesta' : 'Prenotazione e ospiti previsti' }}</h2>

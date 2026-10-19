@@ -60,7 +60,7 @@ class WebCheckinInvioElencoTest extends TestCase
     {
         $r = $this->scenario();
         $this->get(route('web_checkin.edit', $r->id))->assertOk()
-            ->assertSeeText('Modifica richiesta')->assertDontSee('id="web-camera"', false)
+            ->assertSeeText('Dati originali della richiesta')->assertDontSee('id="web-camera"', false)
             ->assertDontSeeText('Revoca link')->assertDontSeeText('Conferma check-in');
         foreach (['ospiti', 'link', 'check-in', 'cestino'] as $attivita) {
             $this->get(route('web_checkin.attivita', [$r->id, $attivita]))->assertOk();

@@ -1,0 +1,16 @@
+@php($testo=$comunicazione->contenuto)
+<div class="modal fade web-email-modal" id="web-email-dialog" tabindex="-1" aria-labelledby="email-dialog-title" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="true">
+<div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content">
+<div class="modal-header align-items-start"><div><h2 class="modal-title h5" id="email-dialog-title">{{ $comunicazione->tentativo_at ? 'Email e stato del tentativo' : 'Visualizza email' }}</h2><p class="small mb-0"><strong>A:</strong> {{ $testo['destinatario'] }}<br><strong>Oggetto:</strong> {{ $testo['oggetto'] }}</p></div><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Chiudi anteprima"></button></div>
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2 px-3 py-2 border-bottom"><div class="btn-group" role="group" aria-label="Dimensioni anteprima"><button class="btn btn-sm btn-outline-secondary active" type="button" data-email-width="desktop" aria-pressed="true">Desktop</button><button class="btn btn-sm btn-outline-secondary" type="button" data-email-width="mobile" aria-pressed="false">Mobile</button></div><span class="small text-muted">Anteprima HTML · collegamenti disattivati</span></div>
+<div class="web-email-canvas" tabindex="0" role="region" aria-label="Email completa, scorrimento verticale"><div class="web-email-paper"><iframe class="web-email-preview" src="{{ route('web_checkin.comunicazione.anteprima',[$richiesta->id,$comunicazione->id]) }}" title="Email HTML effettiva" sandbox="allow-same-origin" tabindex="-1" inert referrerpolicy="no-referrer"></iframe></div></div>
+<div class="modal-footer d-block">
+<a class="small d-inline-block mb-2" href="{{ route('web_checkin.anteprima_modulo',$richiesta->id) }}">Anteprima modulo ospite senza registrare una visita</a>
+@if($impedimentoEmail)<div class="alert alert-warning small py-2 mb-2">{{ $impedimentoEmail }} <a href="{{ route('web_checkin.edit',$richiesta->id) }}">Correggi richiesta</a> · <a href="{{ route('web_checkin.attivita',[$richiesta->id,'link']) }}">Gestisci link</a></div>@endif
+@if($comunicazione->tentativo_at)<p class="small mb-2" role="status">{{ \App\Services\WebCheckinComunicazioneStato::esito($comunicazione) }}. Questo tentativo non verrà ripetuto.</p>@endif
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-2"><button type="button" class="btn btn-light border" data-bs-dismiss="modal" data-email-edit="{{ route('web_checkin.comunicazioni',$richiesta->id) }}">Torna alla modifica</button>
+@if(!$comunicazione->tentativo_at && !$impedimentoEmail)
+<form method="post" action="{{ route('web_checkin.comunicazione.invia',[$richiesta->id,$comunicazione->id]) }}" data-web-invio data-confirm-ignore>@csrf<label class="small d-block mb-2"><input type="checkbox" name="conferma_destinatario" value="1" required> Confermo il destinatario {{ $testo['destinatario'] }}</label><button class="btn btn-primary" type="submit">Conferma e invia</button></form>
+@endif
+</div><p class="small text-muted mb-0 mt-2">L’accettazione del trasporto è distinta dalla consegna al destinatario. La resa può variare tra i programmi di posta.</p></div>
+</div></div></div>

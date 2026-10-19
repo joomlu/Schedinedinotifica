@@ -39,7 +39,7 @@ class WebCheckinCircuitoTest extends TestCase
     public function test_elenco_dettaglio_storico_e_link_non_modificano_dati_nella_consultazione(): void
     {
         $r=$this->scenario();$before=$r->getAttributes();$sheet=$r->schedina->getAttributes();
-        $this->get(route('schedina.web'))->assertOk()->assertSee('Modifica richiesta')->assertSee('ESTERNA-SINTETICA');
+        $this->get(route('schedina.web'))->assertOk()->assertSee('Modifica')->assertSee('ESTERNA-SINTETICA');
         $this->get(route('web_checkin.edit',$r->id))->assertOk()->assertSee('NOTA-RISERVATA')->assertSee('Referente diverso dal titolare');
         $this->get(route('web_checkin.storico'))->assertOk()->assertDontSee('ESTERNA-SINTETICA');
         $this->assertSame($before,$r->fresh()->getAttributes());$this->assertSame($sheet,$r->schedina->fresh()->getAttributes());
