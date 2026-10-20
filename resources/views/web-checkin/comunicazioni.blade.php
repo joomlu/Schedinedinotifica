@@ -82,4 +82,3 @@ document.getElementById('invito-canale').dispatchEvent(new Event('change'));docu
 });
 </script>
 @endpush
-

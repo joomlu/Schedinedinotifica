@@ -157,8 +157,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         if (add) {
             add.hidden = rows().length >= limit;
-            // Il gestore canonico decide se il dettaglio aperto consente di aggiungere.
-            if (add.hidden) add.classList.add('d-none');
+            // Dopo la rimozione il modello viene nascosto: riallinea anche il pulsante.
+            const openDetails = rows().some(row => !row.classList.contains('d-none')
+                && !row.querySelector('.componente-details')?.classList.contains('d-none'));
+            add.classList.toggle('d-none', add.hidden || openDetails);
         }
     };
     if (add && container) {
@@ -221,4 +223,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 @endsection
-

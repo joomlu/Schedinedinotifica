@@ -1,0 +1,411 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20 11:08:18 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-1srqutek; database=test_geo_535e18851f93b93ce9b6f7072eaed196; MySQL pid=57, porta=58669; HTTP pid=83, porta=49333
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /tmp/schedine-test-1srqutek/checkout/phpunit.xml
+
+...............                                                   15 / 15 (100%)
+
+Time: 00:05.277, Memory: 68.50 MB
+
+OK (15 tests, 121 assertions)
+
+Running 9 tests using 1 worker
+
+  ✓  1 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML OSPITE SINGOLO 1440px › Email HTML e modulo guidato OSPITE SINGOLO 1440px (25.7s)
+  ✓  2 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML OSPITE SINGOLO 1440px › Cronologia e gestione modelli OSPITE SINGOLO 1440px (18.4s)
+  ✓  3 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML CAPO FAMIGLIA 768px › Email HTML e modulo guidato CAPO FAMIGLIA 768px (26.9s)
+  ✓  4 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML CAPO FAMIGLIA 768px › Cronologia e gestione modelli CAPO FAMIGLIA 768px (21.5s)
+  ✓  5 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML CAPO GRUPPO 390px › Email HTML e modulo guidato CAPO GRUPPO 390px (28.3s)
+  ✓  6 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML CAPO GRUPPO 390px › Cronologia e gestione modelli CAPO GRUPPO 390px (16.9s)
+  ✘  7 tests/Feature/web-checkin-sezioni.playwright.spec.js:2:35 › Tassa informativa e tastiera sezioni 1440px (5.6s)
+  ✘  8 tests/Feature/web-checkin-sezioni.playwright.spec.js:2:35 › Tassa informativa e tastiera sezioni 768px (5.7s)
+  ✘  9 tests/Feature/web-checkin-sezioni.playwright.spec.js:2:35 › Tassa informativa e tastiera sezioni 390px (5.6s)
+
+
+  1) tests/Feature/web-checkin-sezioni.playwright.spec.js:2:35 › Tassa informativa e tastiera sezioni 1440px
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[data-web-section="tassa"]')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('[data-web-section="tassa"]')[22m
+
+
+      4 |  const fixture=await(await page.request.get(BASE_URL+'/web-html-fixture.json')).json();
+      5 |  await page.goto(fixture.tassa);
+    > 6 |  const tax=page.locator('[data-web-section="tassa"]');await expect(tax).toBeVisible();
+        |                                                                         ^
+      7 |  await page.locator('[data-web-section="base"]').focus();await page.keyboard.press('End');
+      8 |  await expect(tax).toBeFocused();await expect(tax).toHaveAttribute('aria-selected','true');
+      9 |  await expect(page.locator('#schedina-step-tassa-pane')).toBeVisible();
+        at /tmp/schedine-test-1srqutek/checkout/tests/Feature/web-checkin-sezioni.playwright.spec.js:6:73
+
+    Error Context: test-results/web-checkin-sezioni.playwr-8327d-a-e-tastiera-sezioni-1440px/error-context.md
+
+  2) tests/Feature/web-checkin-sezioni.playwright.spec.js:2:35 › Tassa informativa e tastiera sezioni 768px
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[data-web-section="tassa"]')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('[data-web-section="tassa"]')[22m
+
+
+      4 |  const fixture=await(await page.request.get(BASE_URL+'/web-html-fixture.json')).json();
+      5 |  await page.goto(fixture.tassa);
+    > 6 |  const tax=page.locator('[data-web-section="tassa"]');await expect(tax).toBeVisible();
+        |                                                                         ^
+      7 |  await page.locator('[data-web-section="base"]').focus();await page.keyboard.press('End');
+      8 |  await expect(tax).toBeFocused();await expect(tax).toHaveAttribute('aria-selected','true');
+      9 |  await expect(page.locator('#schedina-step-tassa-pane')).toBeVisible();
+        at /tmp/schedine-test-1srqutek/checkout/tests/Feature/web-checkin-sezioni.playwright.spec.js:6:73
+
+    Error Context: test-results/web-checkin-sezioni.playwr-94b02-va-e-tastiera-sezioni-768px/error-context.md
+
+  3) tests/Feature/web-checkin-sezioni.playwright.spec.js:2:35 › Tassa informativa e tastiera sezioni 390px
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[data-web-section="tassa"]')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('[data-web-section="tassa"]')[22m
+
+
+      4 |  const fixture=await(await page.request.get(BASE_URL+'/web-html-fixture.json')).json();
+      5 |  await page.goto(fixture.tassa);
+    > 6 |  const tax=page.locator('[data-web-section="tassa"]');await expect(tax).toBeVisible();
+        |                                                                         ^
+      7 |  await page.locator('[data-web-section="base"]').focus();await page.keyboard.press('End');
+      8 |  await expect(tax).toBeFocused();await expect(tax).toHaveAttribute('aria-selected','true');
+      9 |  await expect(page.locator('#schedina-step-tassa-pane')).toBeVisible();
+        at /tmp/schedine-test-1srqutek/checkout/tests/Feature/web-checkin-sezioni.playwright.spec.js:6:73
+
+    Error Context: test-results/web-checkin-sezioni.playwr-e5122-va-e-tastiera-sezioni-390px/error-context.md
+
+  3 failed
+    tests/Feature/web-checkin-sezioni.playwright.spec.js:2:35 › Tassa informativa e tastiera sezioni 1440px
+    tests/Feature/web-checkin-sezioni.playwright.spec.js:2:35 › Tassa informativa e tastiera sezioni 768px
+    tests/Feature/web-checkin-sezioni.playwright.spec.js:2:35 › Tassa informativa e tastiera sezioni 390px
+  6 passed (2.7m)
+web-checkin-sezioni.playwr-8327d-a-e-tastiera-sezioni-1440px:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - link "Schedine di Notifica" [ref=e4] [cursor=pointer]:
+      - /url: /
+      - img "Logo Tanggo" [ref=e5]
+      - generic [ref=e6]:
+        - strong [ref=e7]: Schedine di Notifica
+        - generic [ref=e8]: Tanggo Platform 2.0
+    - navigation [ref=e9]:
+      - link "Panoramica" [ref=e10] [cursor=pointer]:
+        - /url: /
+      - link "Moduli" [ref=e11] [cursor=pointer]:
+        - /url: /moduli
+      - link "Percorso guidato" [ref=e12] [cursor=pointer]:
+        - /url: /demo
+      - link "Prezzi" [ref=e13] [cursor=pointer]:
+        - /url: /prezzi
+      - link "Contatti" [ref=e14] [cursor=pointer]:
+        - /url: /contatti
+      - link "Accesso" [ref=e15] [cursor=pointer]:
+        - /url: /login
+  - main [ref=e16]:
+    - generic [ref=e17]:
+      - generic [ref=e18]:
+        - paragraph [ref=e19]: Software ricettivo completo per l'operativita quotidiana
+        - heading "Un solo sistema per clienti, schedine, web check-in, invii telematici, tassa di soggiorno e controllo operativo della struttura." [level=1] [ref=e20]
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - paragraph [ref=e23]: Schedine di Notifica e pensato per strutture ricettive che vogliono lavorare con piu ordine, piu velocita e meno passaggi ripetuti. Anagrafiche clienti, schedine, web check-in, Questura, Tabella A, tassa di soggiorno, presenze, calendario, notifiche e ticket restano dentro un percorso unico e coerente.
+          - generic [ref=e24]:
+            - generic [ref=e25]: gestione clienti
+            - generic [ref=e26]: schedine e bozze
+            - generic [ref=e27]: web check-in
+            - generic [ref=e28]: Questura
+            - generic [ref=e29]: Tabella A / ISTAT
+            - generic [ref=e30]: tassa di soggiorno
+          - generic [ref=e31]:
+            - link "Apri il percorso guidato" [ref=e32] [cursor=pointer]:
+              - /url: /demo
+            - link "Esplora i moduli" [ref=e33] [cursor=pointer]:
+              - /url: /moduli
+        - img "Illustrazione reception e software alberghiero" [ref=e36]
+    - generic [ref=e37]:
+      - article [ref=e38]:
+        - generic [ref=e39]: Posizionamento
+        - strong [ref=e40]: Reception, adempimenti ufficiali e controllo interno nello stesso ambiente
+      - article [ref=e41]:
+        - generic [ref=e42]: Per chi e pensato
+        - strong [ref=e43]: Hotel, residence, B&B e strutture che vogliono un flusso piu ordinato
+      - article [ref=e44]:
+        - generic [ref=e45]: Valore percepito
+        - strong [ref=e46]: Meno errori, piu continuita del dato e una reception piu professionale
+    - generic [ref=e47]:
+      - generic [ref=e48]:
+        - paragraph [ref=e49]: Punti di forza reali
+        - 'heading "Non e solo un programma per registrare ospiti: accompagna la struttura dall''arrivo al controllo finale." [level=2] [ref=e50]'
+        - paragraph [ref=e51]: "Il sistema vale perche collega quello che normalmente resta spezzato: il dato del cliente, la schedina, il recupero da storico, il web check-in, la tassa di soggiorno, i flussi verso gli enti, il calendario interno e il supporto operativo."
+      - generic [ref=e52]:
+        - article [ref=e53]:
+          - heading "Clienti seguiti nel tempo" [level=3] [ref=e54]
+          - paragraph [ref=e55]: Le anagrafiche non servono solo a registrare un soggiorno. Servono a ritrovare i clienti, riutilizzare dati gia presenti e lavorare meglio sui ritorni successivi.
+        - article [ref=e56]:
+          - heading "Schedine veloci ma controllate" [level=3] [ref=e57]
+          - paragraph [ref=e58]: La schedina nasce da dati gia raccolti, recupera informazioni da clienti e storico, mantiene coerenza di compilazione e resta collegata agli adempimenti.
+        - article [ref=e59]:
+          - heading "Web check-in davvero utile" [level=3] [ref=e60]
+          - paragraph [ref=e61]: Non e un form isolato. E un canale operativo che anticipa i dati,
+web-checkin-sezioni.playwr-94b02-va-e-tastiera-sezioni-768px:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - link "Schedine di Notifica" [ref=e4] [cursor=pointer]:
+      - /url: /
+      - img "Logo Tanggo" [ref=e5]
+      - generic [ref=e6]:
+        - strong [ref=e7]: Schedine di Notifica
+        - generic [ref=e8]: Tanggo Platform 2.0
+    - navigation [ref=e9]:
+      - link "Panoramica" [ref=e10] [cursor=pointer]:
+        - /url: /
+      - link "Moduli" [ref=e11] [cursor=pointer]:
+        - /url: /moduli
+      - link "Percorso guidato" [ref=e12] [cursor=pointer]:
+        - /url: /demo
+      - link "Prezzi" [ref=e13] [cursor=pointer]:
+        - /url: /prezzi
+      - link "Contatti" [ref=e14] [cursor=pointer]:
+        - /url: /contatti
+      - link "Accesso" [ref=e15] [cursor=pointer]:
+        - /url: /login
+  - main [ref=e16]:
+    - generic [ref=e17]:
+      - generic [ref=e18]:
+        - paragraph [ref=e19]: Software ricettivo completo per l'operativita quotidiana
+        - heading "Un solo sistema per clienti, schedine, web check-in, invii telematici, tassa di soggiorno e controllo operativo della struttura." [level=1] [ref=e20]
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - paragraph [ref=e23]: Schedine di Notifica e pensato per strutture ricettive che vogliono lavorare con piu ordine, piu velocita e meno passaggi ripetuti. Anagrafiche clienti, schedine, web check-in, Questura, Tabella A, tassa di soggiorno, presenze, calendario, notifiche e ticket restano dentro un percorso unico e coerente.
+          - generic [ref=e24]:
+            - generic [ref=e25]: gestione clienti
+            - generic [ref=e26]: schedine e bozze
+            - generic [ref=e27]: web check-in
+            - generic [ref=e28]: Questura
+            - generic [ref=e29]: Tabella A / ISTAT
+            - generic [ref=e30]: tassa di soggiorno
+          - generic [ref=e31]:
+            - link "Apri il percorso guidato" [ref=e32] [cursor=pointer]:
+              - /url: /demo
+            - link "Esplora i moduli" [ref=e33] [cursor=pointer]:
+              - /url: /moduli
+        - img "Illustrazione reception e software alberghiero" [ref=e36]
+    - generic [ref=e37]:
+      - article [ref=e38]:
+        - generic [ref=e39]: Posizionamento
+        - strong [ref=e40]: Reception, adempimenti ufficiali e controllo interno nello stesso ambiente
+      - article [ref=e41]:
+        - generic [ref=e42]: Per chi e pensato
+        - strong [ref=e43]: Hotel, residence, B&B e strutture che vogliono un flusso piu ordinato
+      - article [ref=e44]:
+        - generic [ref=e45]: Valore percepito
+        - strong [ref=e46]: Meno errori, piu continuita del dato e una reception piu professionale
+    - generic [ref=e47]:
+      - generic [ref=e48]:
+        - paragraph [ref=e49]: Punti di forza reali
+        - 'heading "Non e solo un programma per registrare ospiti: accompagna la struttura dall''arrivo al controllo finale." [level=2] [ref=e50]'
+        - paragraph [ref=e51]: "Il sistema vale perche collega quello che normalmente resta spezzato: il dato del cliente, la schedina, il recupero da storico, il web check-in, la tassa di soggiorno, i flussi verso gli enti, il calendario interno e il supporto operativo."
+      - generic [ref=e52]:
+        - article [ref=e53]:
+          - heading "Clienti seguiti nel tempo" [level=3] [ref=e54]
+          - paragraph [ref=e55]: Le anagrafiche non servono solo a registrare un soggiorno. Servono a ritrovare i clienti, riutilizzare dati gia presenti e lavorare meglio sui ritorni successivi.
+        - article [ref=e56]:
+          - heading "Schedine veloci ma controllate" [level=3] [ref=e57]
+          - paragraph [ref=e58]: La schedina nasce da dati gia raccolti, recupera informazioni da clienti e storico, mantiene coerenza di compilazione e resta collegata agli adempimenti.
+        - article [ref=e59]:
+          - heading "Web check-in davvero utile" [level=3] [ref=e60]
+          - paragraph [ref=e61]: Non e un form isolato. E un canale operativo che anticipa i dati,
+web-checkin-sezioni.playwr-e5122-va-e-tastiera-sezioni-390px:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - link "Schedine di Notifica" [ref=e4] [cursor=pointer]:
+      - /url: /
+      - img "Logo Tanggo" [ref=e5]
+      - generic [ref=e6]:
+        - strong [ref=e7]: Schedine di Notifica
+        - generic [ref=e8]: Tanggo Platform 2.0
+    - button [ref=e9]
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - paragraph [ref=e15]: Software ricettivo completo per l'operativita quotidiana
+        - heading "Un solo sistema per clienti, schedine, web check-in, invii telematici, tassa di soggiorno e controllo operativo della struttura." [level=1] [ref=e16]
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - paragraph [ref=e19]: Schedine di Notifica e pensato per strutture ricettive che vogliono lavorare con piu ordine, piu velocita e meno passaggi ripetuti. Anagrafiche clienti, schedine, web check-in, Questura, Tabella A, tassa di soggiorno, presenze, calendario, notifiche e ticket restano dentro un percorso unico e coerente.
+          - generic [ref=e20]:
+            - generic [ref=e21]: gestione clienti
+            - generic [ref=e22]: schedine e bozze
+            - generic [ref=e23]: web check-in
+            - generic [ref=e24]: Questura
+            - generic [ref=e25]: Tabella A / ISTAT
+            - generic [ref=e26]: tassa di soggiorno
+          - generic [ref=e27]:
+            - link "Apri il percorso guidato" [ref=e28] [cursor=pointer]:
+              - /url: /demo
+            - link "Esplora i moduli" [ref=e29] [cursor=pointer]:
+              - /url: /moduli
+        - img "Illustrazione reception e software alberghiero" [ref=e32]
+    - generic [ref=e33]:
+      - article [ref=e34]:
+        - generic [ref=e35]: Posizionamento
+        - strong [ref=e36]: Reception, adempimenti ufficiali e controllo interno nello stesso ambiente
+      - article [ref=e37]:
+        - generic [ref=e38]: Per chi e pensato
+        - strong [ref=e39]: Hotel, residence, B&B e strutture che vogliono un flusso piu ordinato
+      - article [ref=e40]:
+        - generic [ref=e41]: Valore percepito
+        - strong [ref=e42]: Meno errori, piu continuita del dato e una reception piu professionale
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - paragraph [ref=e45]: Punti di forza reali
+        - 'heading "Non e solo un programma per registrare ospiti: accompagna la struttura dall''arrivo al controllo finale." [level=2] [ref=e46]'
+        - paragraph [ref=e47]: "Il sistema vale perche collega quello che normalmente resta spezzato: il dato del cliente, la schedina, il recupero da storico, il web check-in, la tassa di soggiorno, i flussi verso gli enti, il calendario interno e il supporto operativo."
+      - generic [ref=e48]:
+        - article [ref=e49]:
+          - heading "Clienti seguiti nel tempo" [level=3] [ref=e50]
+          - paragraph [ref=e51]: Le anagrafiche non servono solo a registrare un soggiorno. Servono a ritrovare i clienti, riutilizzare dati gia presenti e lavorare meglio sui ritorni successivi.
+        - article [ref=e52]:
+          - heading "Schedine veloci ma controllate" [level=3] [ref=e53]
+          - paragraph [ref=e54]: La schedina nasce da dati gia raccolti, recupera informazioni da clienti e storico, mantiene coerenza di compilazione e resta collegata agli adempimenti.
+        - article [ref=e55]:
+          - heading "Web check-in davvero utile" [level=3] [ref=e56]
+          - paragraph [ref=e57]: Non e un form isolato. E un canale operativo che anticipa i dati, alleggerisce il banco e prepara il lavoro della reception senza rompere il flusso interno.
+        - article [ref=e58]:
+          - heading "Invii telematici integrati" [level=3] [ref=e59]
+          - paragraph [ref=e60]: "Questura, Tabella A e tassa di soggiorno non restano fuori dal sistema: file, verifiche, ricevute, storico e report fanno parte del lavoro quotidiano."
+        - article [ref=e61]:
+          - heading "Storico, cestino e ripristino" [le
+TEST interrotto senza fallback: playwright fallito: 1
+mysql-error.log:
+2026-10-20 11:08:24 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 57
+2026-10-20 11:08:24 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-20 11:08:24 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-20 11:08:24 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-20 11:08:24 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-20 11:08:24 0 [Note] InnoDB: Using Linux native AIO
+2026-10-20 11:08:24 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-20 11:08:24 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-20 11:08:24 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-20 11:08:24 0 [Note] InnoDB: End of log at LSN=45093
+2026-10-20 11:08:24 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-20 11:08:24 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-20 11:08:24 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-20 11:08:24 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-20 11:08:24 0 [Note] InnoDB: log sequence number 45093; transaction id 14
+2026-10-20 11:08:24 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-20 11:08:24 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-20 11:08:24 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-1srqutek/mysql-data/ib_buffer_pool
+2026-10-20 11:08:24 0 [Note] InnoDB: Buffer pool(s) load completed at 261020 11:08:24
+2026-10-20 11:08:25 0 [Note] Server socket created on IP: '127.0.0.1', port: '58669'.
+2026-10-20 11:08:25 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-20 11:08:25 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-1srqutek/mysql.sock'  port: 58669  MariaDB Server
+
+http.log:
+.0.1:60240 [200]: GET /web-html-fixture.json
+[Tue Oct 20 11:11:10 2026] 127.0.0.1:60240 Closing
+[Tue Oct 20 11:11:10 2026] 127.0.0.1:60250 Accepted
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60250 Closing
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60266 Accepted
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60266 Closing
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60280 Accepted
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60280 [200]: GET /site-assets/img/illustration-hospitality.svg
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60292 Accepted
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60306 Accepted
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60292 [200]: GET /site-assets/img/logo-tango.png
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60320 Accepted
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60280 Closing
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60306 [200]: GET /site-assets/styles.css
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60322 Accepted
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60320 [200]: GET /site-assets/img/illustration-modules.svg
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60336 Accepted
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60322 [200]: GET /site-assets/app.js
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60340 Accepted
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60306 Closing
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60336 [200]: GET /site-assets/img/screen-sidebar-telematico.png
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60346 Accepted
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60320 Closing
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60340 [200]: GET /site-assets/img/screen-sidebar-clienti.png
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60322 Closing
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60346 [200]: GET /site-assets/img/illustration-support.svg
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60336 Closing
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60340 Closing
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60346 Closing
+[Tue Oct 20 11:11:11 2026] 127.0.0.1:60292 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34448 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34448 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34464 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34464 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34468 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34468 [200]: GET /web-html-fixture.json
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34468 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34472 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34472 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34486 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34486 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34496 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34496 [200]: GET /site-assets/styles.css
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34502 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34516 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34502 [200]: GET /site-assets/img/illustration-hospitality.svg
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34532 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34496 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34516 [200]: GET /site-assets/img/illustration-modules.svg
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34544 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34532 [200]: GET /site-assets/img/logo-tango.png
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34560 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34544 [200]: GET /site-assets/img/screen-sidebar-telematico.png
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34502 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34574 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34516 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34560 [200]: GET /site-assets/img/screen-sidebar-clienti.png
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34590 Accepted
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34574 [200]: GET /site-assets/app.js
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34590 [200]: GET /site-assets/img/illustration-support.svg
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34544 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34560 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34574 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34590 Closing
+[Tue Oct 20 11:11:17 2026] 127.0.0.1:34532 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-1srqutek
