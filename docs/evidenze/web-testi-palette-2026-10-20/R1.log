@@ -1,0 +1,262 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20 21:47:22 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-s49xe0zm; database=test_geo_9cb14e84445f754cd3758e75a567012e; MySQL pid=57, porta=54191; HTTP pid=80, porta=55221
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+
+> velzon@4.3.0 build
+> npm run clean && vite build && npm run verify-architecture
+
+
+> velzon@4.3.0 clean
+> rimraf public/build
+
+vite v5.2.8 building for production...
+transforming...
+✓ 154 modules transformed.
+rendering chunks...
+computing gzip size...
+public/build/icons/modal-bg.png                           1.09 kB
+public/build/icons/new.png                                4.20 kB
+public/build/icons/chat-bg-pattern.png                    5.56 kB
+public/build/.vite/manifest.json                          7.62 kB │ gzip:   0.83 kB
+public/build/icons/la-regular-400.woff2                  12.90 kB
+public/build/icons/la-regular-400.woff                   15.49 kB
+public/build/icons/us.svg                                16.29 kB │ gzip:   1.36 kB
+public/build/icons/cover-pattern.png                     21.58 kB
+public/build/icons/la-regular-400.ttf                    33.72 kB
+public/build/icons/la-regular-400.eot                    33.92 kB
+public/build/icons/hkgrotesk-light.woff                  40.94 kB
+public/build/icons/hkgrotesk-medium.woff                 42.17 kB
+public/build/icons/hkgrotesk-regular.woff                61.07 kB
+public/build/icons/hkgrotesk-bold.woff                   61.18 kB
+public/build/icons/hkgrotesk-semibold.woff               62.69 kB
+public/build/icons/file.png                              78.62 kB
+public/build/icons/la-brands-400.woff2                   84.77 kB
+public/build/icons/hkgrotesk-light.eot                   93.73 kB
+public/build/icons/hkgrotesk-medium.eot                  94.58 kB
+public/build/icons/la-solid-900.woff2                    96.75 kB
+public/build/icons/la-brands-400.woff                    98.67 kB
+public/build/icons/bg-pattern.png                       102.94 kB
+public/build/icons/img-2.jpg                            109.30 kB
+public/build/icons/la-regular-400.svg                   113.54 kB │ gzip:  29.45 kB
+public/build/icons/boxicons.woff2                       115.68 kB
+public/build/icons/la-solid-900.woff                    125.42 kB
+public/build/icons/img-4.jpg                            126.08 kB
+public/build/icons/hkgrotesk-regular.eot                139.64 kB
+public/build/icons/hkgrotesk-semibold.eot               141.12 kB
+public/build/icons/remixicon.woff2                      145.96 kB
+public/build/icons/la-brands-400.ttf                    156.07 kB
+public/build/icons/la-brands-400.eot                    156.26 kB
+public/build/icons/marketplace.png                      157.98 kB
+public/build/icons/img-3.jpg                            181.72 kB
+public/build/icons/remixicon.woff                       201.26 kB
+public/build/icons/img-1.jpg                            210.93 kB
+public/build/icons/la-solid-900.ttf                     226.13 kB
+public/build/icons/la-solid-900.eot                     226.31 kB
+public/build/icons/auth-one-bg.jpg                      239.96 kB
+public/build/icons/boxicons.ttf                         320.94 kB
+public/build/icons/boxicons.woff                        321.02 kB
+public/build/icons/materialdesignicons-webfont.woff2    396.73 kB
+public/build/icons/boxicons.eot                         405.67 kB
+public/build/icons/remixicon.ttf                        470.16 kB
+public/build/icons/remixicon.eot                        470.34 kB
+public/build/icons/materialdesignicons-webfont.woff     576.75 kB
+public/build/icons/bg-home.jpg                          624.07 kB
+public/build/icons/la-solid-900.svg                     923.15 kB │ gzip: 296.57 kB
+public/build/icons/la-brands-400.svg                    927.34 kB │ gzip: 304.36 kB
+public/build/icons/boxicons.svg                       1,242.12 kB │ gzip: 354.03 kB
+public/build/icons/materialdesignicons-webfont.ttf    1,279.99 kB
+public/build/icons/materialdesignicons-webfont.eot    1,280.21 kB
+public/build/icons/remixicon.svg                      2,314.16 kB │ gzip: 522.59 kB
+public/build/css/custom.min.css                          11.84 kB │ gzip:   2.87 kB
+public/build/css/bootstrap.min.css                      237.78 kB │ gzip:  32.11 kB
+public/build/css/app.min.css                            327.17 kB │ gzip:  52.08 kB
+public/build/css/icons.min.css                          551.40 kB │ gzip:  95.66 kB
+public/build/js/app2.js                                 590.53 kB │ gzip: 183.11 kB
+✓ built in 7.66s
+
+> velzon@4.3.0 verify-architecture
+> node scripts/verify-architecture.mjs
+
+DEPRECATION WARNING: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+DEPRECATION WARNING: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+DEPRECATION WARNING: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+DEPRECATION WARNING: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+DEPRECATION WARNING: red() is deprecated. Suggestion:
+
+color.channel($color, red)
+
+More info: https://sass-lang.com/d/color-functions
+
+    ╷
+185 │     "r": red($color),
+    │          ^^^^^^^^^^^
+    ╵
+    node_modules/bootstrap/scss/_functions.scss 185:10  luminance()
+    node_modules/bootstrap/scss/_functions.scss 174:8   contrast-ratio()
+    node_modules/bootstrap/scss/_functions.scss 159:22  color-contrast()
+    node_modules/bootstrap/scss/_variables.scss 846:42  @import
+    resources/scss/app.scss 16:9                        root stylesheet
+
+DEPRECATION WARNING: green() is deprecated. Suggestion:
+
+color.channel($color, green)
+
+More info: https://sass-lang.com/d/color-functions
+
+    ╷
+186 │     "g": green($color),
+    │          ^^^^^^^^^^^^^
+    ╵
+    node_modules/bootstrap/scss/_functions.scss 186:10  luminance()
+    node_modules/bootstrap/scss/_functions.scss 174:8   contrast-ratio()
+    node_modules/bootstrap/scss/_functions.scss 159:22  color-contrast()
+    node_modules/bootstrap/scss/_variables.scss 846:42  @import
+    resources/scss/app.scss 16:9                        root stylesheet
+
+DEPRECATION WARNING: blue() is deprecated. Suggestion:
+
+color.channel($color, blue)
+
+More info: https://sass-lang.com/d/color-functions
+
+    ╷
+187 │     "b": blue($color)
+    │          ^^^^^^^^^^^^
+    ╵
+    node_modules/bootstrap/scss/_functions.scss 187:10  luminance()
+    node_modules/bootstrap/scss/_functions.scss 174:8   contrast-ratio()
+    node_modules/bootstrap/scss/_functions.scss 159:22  color-contrast()
+    node_modules/bootstrap/scss/_variables.scss 846:42  @import
+    resources/scss/app.scss 16:9                        root stylesheet
+
+DEPRECATION WARNING: red() is deprecated. Suggestion:
+
+color.channel($color, red)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ╷
+37 │   @return red($value), green($value), blue($value);
+   │           ^^^^^^^^^^^
+   ╵
+    node_modules/bootstrap/scss/_functions.scss 37:11   to-rgb()
+    node_modules/bootstrap/scss/_variables.scss 846:31  @import
+    resources/scss/app.scss 16:9                        root stylesheet
+
+DEPRECATION WARNING: green() is deprecated. Suggestion:
+
+color.channel($color, green)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ╷
+37 │   @return red($value), green($value), blue($value);
+   │                        ^^^^^^^^^^^^^
+   ╵
+    node_modules/bootstrap/scss/_functions.scss 37:24   to-rgb()
+    node_modules/bootstrap/scss/_variables.scss 846:31  @import
+    resources/scss/app.scss 16:9                        root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ╷
+349 │ ┌         @media (min-width: 1024.1px) {
+350 │ │             margin-top: $header-height;
+351 │ │         }
+    │ └─── nested rule
+... │
+357 │           padding: calc(45px + #{$grid-gutter-width}) calc(#{$grid-gutter-width} * 0.5) $footer-height calc(#{$grid-gutter-width} * 0.5);
+    │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ declaration
+    ╵
+    resources/scss/structure/_topbar.scss 357:9  @import
+    resources/scss/app.scss 24:9                 root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ╷
+353 │ ┌         @media (max-width: 1024.1px) {
+354 │ │             padding: calc(45px + #{$grid-gutter-width} * 1.8) calc(#{$grid-gutter-width} * 0.5) $footer-height calc(#{$grid-gutter-width} * 0.5);
+355 │ │         }
+    │ └─── nested rule
+... │
+357 │           padding: calc(45px + #{$grid-gutter-width}) calc(#{$grid-gutter-width} * 0.5) $footer-height calc(#{$grid-gutter-width} * 0.5);
+    │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ declaration
+    ╵
+    resources/scss/structure/_topbar.scss 357:9  @import
+    resources/scss/app.scss 24:9                 root stylesheet
+
+WARNING: 79 repetitive deprecation warnings omitted.
+
+DEPRECATION WARNING: red() is deprecated. Suggestion:
+
+color.channel($color, red)
+
+More info: https://sass-lang.com/d/color-functions
+
+    ╷
+185 │     "r": red($color),
+    │          ^^^^^^^^^^^
+    ╵
+    node_modules/bootstrap/scss/_functions.scss 185:10  luminance()
+    node_modules/bootstrap/scss/_functions.scss 174:8   contrast-ratio()
+    node_modules/bootstrap/scss/_functions.scss 159:22  color-contrast()
+    node_modules/bootstrap/scss/_variables.scss 846:42  @import
+    resources/scss/bootstrap.scss 13:9                  root stylesheet
+
+DEPRECATION WARNING: green() is deprecated. Suggestion:
+
+color.channel($color, green)
+
+More info: https://sass-lang
+TEST interrotto senza fallback: build fallito: 1
+mysql-error.log:
+2026-10-20 21:47:33 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 57
+2026-10-20 21:47:33 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-20 21:47:33 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-20 21:47:33 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-20 21:47:33 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-20 21:47:33 0 [Note] InnoDB: Using Linux native AIO
+2026-10-20 21:47:33 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-20 21:47:33 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-20 21:47:33 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-20 21:47:33 0 [Note] InnoDB: End of log at LSN=45093
+2026-10-20 21:47:33 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-20 21:47:33 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-20 21:47:33 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-20 21:47:33 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-20 21:47:33 0 [Note] InnoDB: log sequence number 45093; transaction id 14
+2026-10-20 21:47:33 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-s49xe0zm/mysql-data/ib_buffer_pool
+2026-10-20 21:47:33 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-20 21:47:33 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-20 21:47:33 0 [Note] InnoDB: Buffer pool(s) load completed at 261020 21:47:33
+2026-10-20 21:47:33 0 [Note] Server socket created on IP: '127.0.0.1', port: '54191'.
+2026-10-20 21:47:33 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-20 21:47:33 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-s49xe0zm/mysql.sock'  port: 54191  MariaDB Server
+
+http.log:
+[Tue Oct 20 21:47:33 2026] PHP 8.3.33 Development Server (http://127.0.0.1:55221) started
+[Tue Oct 20 21:47:33 2026] 127.0.0.1:33094 Accepted
+[Tue Oct 20 21:47:33 2026] 127.0.0.1:33094 Closed without sending a request; it was probably just an unused speculative preconnection
+[Tue Oct 20 21:47:33 2026] 127.0.0.1:33094 Closing
+[Tue Oct 20 21:47:34 2026] 127.0.0.1:33096 Accepted
+[Tue Oct 20 21:47:34 2026] 127.0.0.1:33096 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-s49xe0zm

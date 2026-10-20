@@ -820,19 +820,19 @@ class SchedinaController extends Controller
             'beds' => ['required', 'integer', 'min:1', 'max:999'],
             'observation' => ['nullable', 'string', $byteText],
             'oa_country' => ['required', 'string', 'max:100'],
-            'oa_city' => ['required', 'string', 'max:150'],
+            'oa_city' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('oa_country'))), 'nullable', 'string', 'max:150'],
             'oa_region' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('oa_country'))), 'nullable', 'string', 'max:150'],
             'oa_prov' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('oa_country'))), 'nullable', 'string', 'max:150'],
             'oa_city_nac' => ['required', 'string', 'max:150'],
             'oa_date_nac' => ['required', 'date', 'before_or_equal:today', 'before_or_equal:arrive'],
             'or_country' => ['required', 'string', 'max:100'],
-            'or_city' => ['required', 'string', 'max:150'],
+            'or_city' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:150'],
             'or_region' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:150'],
             'or_prov' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:150'],
             'or_cap' => ['nullable', 'string', 'max:20'],
-            'or_typeaway' => ['required', 'string', 'max:100'],
-            'or_address' => ['required', 'string', 'max:150'],
-            'or_num' => ['required', 'string', 'max:20'],
+            'or_typeaway' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:100'],
+            'or_address' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:150'],
+            'or_num' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:20'],
             'or_doc' => ['required', 'string', 'max:150'],
             'or_doctype' => ['required', 'string', 'max:100'],
             'or_published_date' => ['required', 'date', 'before_or_equal:today', 'before_or_equal:or_expire', 'after_or_equal:oa_date_nac'],
@@ -898,7 +898,7 @@ class SchedinaController extends Controller
         $request->validate($rules, $this->schedinaValidationMessages(), $this->schedinaValidationAttributes());
         if (!$complete) return;
         $currentId = $webStrutturaId ?? StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
-        app(\App\Services\SchedinaAnagraficaValidation::class)->validate($request, (int) $currentId);
+        app(\App\Services\SchedinaAnagraficaValidation::class)->validate($request, (int) $currentId, true);
         app(\App\Services\SchedinaSoggiornoValidation::class)->validate(
             Struttura::query()->findOrFail($currentId), $request->input('arrive'), $request->input('departure')
         );

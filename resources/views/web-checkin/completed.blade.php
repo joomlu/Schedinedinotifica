@@ -1,12 +1,24 @@
 @extends('layouts.master-without-nav')
 @section('title', $richiesta->compilato_at ? 'Compilazione conclusa' : 'Dati parziali salvati')
 
+@php
+$palette = \App\Services\WebCheckinIdentita::palette($identitaHotel['colore']);
+@endphp
 @section('body')
-<body>
+<body class="web-checkin-completed" style="--hotel-colore:{{ $identitaHotel['colore'] }};--hotel-testo:{{ $identitaHotel['testo_colore'] }};--hotel-sfondo:{{ $palette['sfondo'] }};--hotel-tenue:{{ $palette['tenue'] }};--hotel-bordo:{{ $palette['bordo'] }};--hotel-inchiostro:{{ $palette['inchiostro'] }}">
 @endsection
 
 @section('content')
-<style>body{background:#f3f5f4}.btn-primary{background:{{ $identitaHotel['colore'] }};border-color:{{ $identitaHotel['colore'] }};color:{{ $identitaHotel['testo_colore'] }}}</style>
+<style>
+.web-checkin-completed{background:var(--hotel-sfondo)}
+.web-checkin-completed .btn-primary{background:var(--hotel-colore);border-color:var(--hotel-colore);color:var(--hotel-testo);box-shadow:0 4px 12px var(--hotel-bordo)}
+.web-checkin-completed .btn-light,.web-checkin-completed .alert-info{background:var(--hotel-tenue);border-color:var(--hotel-bordo);color:var(--hotel-inchiostro)}
+.web-checkin-completed .bg-light-subtle,.web-checkin-completed .bg-success-subtle{background:var(--hotel-tenue)!important}
+.web-checkin-completed .text-primary,.web-checkin-completed .text-success{color:var(--hotel-inchiostro)!important}
+.web-checkin-completed .border,.web-checkin-completed .ricevuta-print__line{border-color:var(--hotel-bordo)!important}
+.web-checkin-completed :focus-visible{outline:2px solid var(--hotel-inchiostro);outline-offset:2px}
+.web-checkin-completed .btn-outline-secondary{--vz-btn-color:var(--hotel-inchiostro);--vz-btn-border-color:var(--hotel-bordo);--vz-btn-hover-color:var(--hotel-testo);--vz-btn-hover-bg:var(--hotel-colore);--vz-btn-hover-border-color:var(--hotel-colore);--vz-btn-active-color:var(--hotel-testo);--vz-btn-active-bg:var(--hotel-colore);--vz-btn-active-border-color:var(--hotel-colore)}
+</style>
 <div class="auth-page-wrapper pt-5 pb-5">
     <div class="auth-page-content">
         <div class="container">

@@ -1,0 +1,21 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20 22:29:02 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-i6w0479b; database=test_geo_0ddddd3bb4c6ff87ae3b63aaa9fc5fd9; MySQL pid=57, porta=49381; HTTP pid=81, porta=56613
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+
+Running 9 tests using 1 worker
+
+  ✓  1 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 1440 (19.4s)
+  ✓  2 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 768 (16.9s)
+  ✓  3 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 390 (16.7s)
+  ✓  4 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 1440 (23.4s)
+  ✓  5 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 768 (23.1s)
+  ✓  6 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 390 (23.6s)
+  ✓  7 tests/Feature/web-testi-palette.playwright.spec.js:42:35 › Palette chiara e scura completa 1440 (15.9s)
+  ✓  8 tests/Feature/web-testi-palette.playwright.spec.js:42:35 › Palette chiara e scura completa 768 (14.9s)
+  ✓  9 tests/Feature/web-testi-palette.playwright.spec.js:42:35 › Palette chiara e scura completa 390 (17.0s)
+
+  9 passed (2.9m)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-i6w0479b

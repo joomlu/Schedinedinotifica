@@ -1,3 +1,6 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>Dati ricevuti · {{ $identitaHotel['nome'] }}</title></head><body style="margin:0;background:#f3f5f4;font-family:Arial,sans-serif;color:#263238"><main style="max-width:580px;margin:8vh auto;padding:28px;background:white;border-radius:16px;text-align:center;border-top:6px solid {{ $identitaHotel['colore'] }}">
+@php
+$palette = \App\Services\WebCheckinIdentita::palette($identitaHotel['colore']);
+@endphp
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>Dati ricevuti · {{ $identitaHotel['nome'] }}</title></head><body style="margin:0;background:{{ $palette['sfondo'] }};font-family:Arial,sans-serif;color:#263238"><main style="max-width:580px;margin:8vh auto;padding:28px;background:white;border-radius:16px;text-align:center;border-top:6px solid {{ $identitaHotel['colore'] }}">
 @if($identitaHotel['logo_url'])<img src="{{ $identitaHotel['logo_url'] }}" width="{{ $identitaHotel['logo_width'] }}" height="{{ $identitaHotel['logo_height'] }}" alt="{{ $identitaHotel['nome'] }}" style="max-width:200px;max-height:90px;object-fit:contain">@endif
 <h1>{{ $identitaHotel['nome'] }}</h1><h2>Grazie! Abbiamo ricevuto i tuoi dati.</h2><p>La reception li verificherà prima del tuo arrivo.</p><p>Per correggerli contatta direttamente la struttura.</p></main></body></html>

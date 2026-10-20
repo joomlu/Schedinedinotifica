@@ -296,7 +296,7 @@ class WebCheckinComunicazioniTest extends TestCase
         $this->cataloghiSchedina($r->struttura_id);
         $r->update(['quantita_persone' => $member ? 2 : 1]);
         $payload = array_replace($this->validSchedinaPayload(), ['arrive' => $r->arrivo->toDateString(), 'departure' => $r->partenza->toDateString(), 'relationship' => $head, 'cant_people' => $member ? 2 : 1, 'save_mode' => 'web_complete']);
-        if ($member) $payload['componenti'] = [['name' => 'Componente', 'surname' => 'Sintetico', 'sex' => 'F', 'relationship' => $member, 'exent' => 'NO', 'country_nac' => 'ITALIA', 'city_nac' => 'ITALIANA', 'province_nac' => 'RM', 'regione_nac' => 'Lazio', 'comune_nac' => 'Roma', 'date_nac' => '2000-01-01']];
+        if ($member) $payload['componenti'] = [['name' => 'Componente', 'surname' => 'Sintetico', 'sex' => 'F', 'relationship' => $member, 'exent' => 'NO', 'country_nac' => 'ITALIA', 'city_nac' => 'ITALIANA', 'province_nac' => 'RM', 'regione_nac' => 'Lazio', 'comune_nac' => 'Roma', 'date_nac' => '2000-01-01', 'country'=>'ITALIA', 'regione'=>'Lazio', 'province'=>'RM', 'city'=>'Roma']];
         $this->postWeb('/checkin/'.$r->token, $payload)->assertSessionHasNoErrors()->assertOk();
         $this->assertSame('compilato', $r->fresh()->stato);
         $this->assertSame(0, Schedina::effettive()->count());
