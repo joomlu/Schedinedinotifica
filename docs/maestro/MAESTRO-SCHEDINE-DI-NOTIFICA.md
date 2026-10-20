@@ -1,5 +1,11 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Testi editor e palette completa Web Check-in — proposta del 20 ottobre 2026
+
+**PARZIALE: correzione preparata su ramo dedicato, collaudo VM e C5 non eseguiti. BASELINE IN AUDIT invariata.** [Rapporto](../WEB-CHECKIN-TESTI-PALETTE-2026-10-20.md). Riscontrati online segnaposto tecnici nell'editor e colori verdi fissi nei fondi/bordi. Proposta con etichette leggibili, serializzazione canonica dei modelli e palette derivata dal colore esistente anche negli snapshot. Sintassi JS e whitespace controllati; nessuna attestazione PHP/Blade/browser della nuova proposta, runtime ufficiale non disponibile nella sessione.
+Prova reale esplicitamente richiesta, singolo invio sulla richiesta 134 alla casella già configurata dell'utente: accettazione trasporto attestata alle 15:01:01 Europe/Rome; ricezione Gmail non verificata. Testi di quella comunicazione personalizzati, nessun cambiamento ospiti/modelli/colore. La prova riguarda la versione già online, non la proposta. Nessun deploy.
+
+
 ## Modulo ospite a sezioni e colore hotel — pubblicato e verificato online, 20 ottobre 2026
 
 **Applicativo `1be29e8a55dea841c9c486ea1c5b44d14c249ba1` online; PR #3 integrata in main, C5, QA, pulizia e monitor finali PASS. BASELINE IN AUDIT invariata.** [Rapporto](../WEB-CHECKIN-SEZIONI-COLORE-2026-10-20.md), [ricevuta](../evidenze/web-checkin-sezioni-colore-2026-10-20/rilascio.json).

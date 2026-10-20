@@ -1,6 +1,7 @@
 @extends('layouts.master-without-nav')
 @section('title', 'Web Check-in · '.$identitaHotel['nome'])
-@section('body')<body>@endsection
+@php($palette = \App\Services\WebCheckinIdentita::palette($identitaHotel['colore']))
+@section('body')<body class="web-checkin-public" style="--hotel-colore:{{ $identitaHotel['colore'] }};--hotel-testo:{{ $identitaHotel['testo_colore'] }};--hotel-sfondo:{{ $palette['sfondo'] }};--hotel-tenue:{{ $palette['tenue'] }};--hotel-bordo:{{ $palette['bordo'] }};--hotel-inchiostro:{{ $palette['inchiostro'] }}">@endsection
 @section('content')
 @php
 $hasOthers = (int)$webCheckinRichiesta->quantita_persone > 1 || $componenti->isNotEmpty();
@@ -45,14 +46,29 @@ $publicMessages = $errors->getMessages();
 <p class="small text-muted mt-4">Accesso disponibile fino al {{ $webCheckinRichiesta->link_expires_at?->timezone('Europe/Rome')->format('d/m/Y H:i:s T') }}. Dopo la scadenza contatta la reception: i dati restano conservati.</p>
 </div></div></main>
 <style>
-body{background:#f3f5f4}#web-ospite .componente-row[hidden]{display:none!important}#web-ospite.web-guidato .tab-content .tab-pane[data-web-tassa-riservata]{display:none!important}#web-ospite .hotel-logo{max-height:90px;max-width:220px;object-fit:contain}#web-ospite .hotel-nome{color:#263238;border-left:4px solid var(--hotel-colore);padding-left:12px;font-weight:700}#web-ospite .hotel-riepilogo{display:flex;flex-wrap:wrap;gap:20px;background:#f4f7f7;padding:20px;border:1px solid #dce5e4;border-radius:10px}#web-ospite .hotel-riepilogo>span{flex:1;min-width:110px}#web-ospite .btn-primary,#web-ospite .btn-success{background:var(--hotel-colore);border-color:var(--hotel-colore);color:var(--hotel-testo)}#web-ospite.web-guidato .step-arrow-nav,#web-ospite.web-guidato .tab-content .nexttab,#web-ospite.web-guidato .tab-content .prevtab,#web-ospite.web-guidato .tab-content button[name=save_mode]{display:none!important}#web-ospite.web-guidato .tab-pane[hidden]{display:none!important}#web-ospite.web-guidato .tab-pane:not([hidden]){display:block!important;opacity:1}#web-ospite .web-azioni{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:18px 0 0;border-top:1px solid #dce5e4;margin-top:24px}@media(max-width:575px){#web-ospite .web-azioni .btn{flex:1 1 100%}#web-ospite .hotel-riepilogo{gap:12px;padding:14px}}
+body{background:var(--hotel-sfondo)}#web-ospite .componente-row[hidden]{display:none!important}#web-ospite.web-guidato .tab-content .tab-pane[data-web-tassa-riservata]{display:none!important}#web-ospite .hotel-logo{max-height:90px;max-width:220px;object-fit:contain}#web-ospite .hotel-nome{color:#263238;border-left:4px solid var(--hotel-colore);padding-left:12px;font-weight:700}#web-ospite .hotel-riepilogo{display:flex;flex-wrap:wrap;gap:20px;background:var(--hotel-tenue);padding:20px;border:1px solid var(--hotel-bordo);border-radius:10px}#web-ospite .hotel-riepilogo>span{flex:1;min-width:110px}#web-ospite .btn-primary,#web-ospite .btn-success{background:var(--hotel-colore);border-color:var(--hotel-colore);color:var(--hotel-testo)}#web-ospite.web-guidato .step-arrow-nav,#web-ospite.web-guidato .tab-content .nexttab,#web-ospite.web-guidato .tab-content .prevtab,#web-ospite.web-guidato .tab-content button[name=save_mode]{display:none!important}#web-ospite.web-guidato .tab-pane[hidden]{display:none!important}#web-ospite.web-guidato .tab-pane:not([hidden]){display:block!important;opacity:1}#web-ospite .web-azioni{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:18px 0 0;border-top:1px solid var(--hotel-bordo);margin-top:24px}@media(max-width:575px){#web-ospite .web-azioni .btn{flex:1 1 100%}#web-ospite .hotel-riepilogo{gap:12px;padding:14px}}
 
-#web-ospite .web-sezioni{display:flex;flex-wrap:wrap;gap:8px;padding:8px;background:#f4f7f7;border:1px solid #dce5e4;border-radius:12px}
+#web-ospite .web-sezioni{display:flex;flex-wrap:wrap;gap:8px;padding:8px;background:var(--hotel-tenue);border:1px solid var(--hotel-bordo);border-radius:12px}
 #web-ospite .web-sezioni .btn{flex:1 1 145px;white-space:normal;min-height:46px;border-radius:8px}
 #web-ospite [hidden],#web-passaggi[hidden]{display:none!important}
 #web-ospite .web-sezioni .btn:focus-visible{outline:3px solid #263238;outline-offset:2px}
 #web-ospite .web-azioni #web-conferma{margin-left:auto}
 @media(max-width:575px){#web-ospite .web-sezioni .btn{flex:1 1 calc(50% - 8px)}#web-ospite .web-azioni #web-conferma{margin-left:0}}
+/* La palette resta confinata al modulo ospite, senza cambiare i colori di errore/avviso. */
+#web-ospite{--vz-primary:var(--hotel-colore);--vz-success:var(--hotel-colore);--vz-link-color:var(--hotel-inchiostro)}
+#web-ospite a,#web-ospite .text-primary,#web-ospite .text-success{color:var(--hotel-inchiostro)!important}
+#web-ospite .btn-light{background:var(--hotel-tenue);border-color:var(--hotel-bordo);color:var(--hotel-inchiostro)}
+#web-ospite .btn-primary:hover,#web-ospite .btn-success:hover{background:var(--hotel-colore);border-color:var(--hotel-colore);color:var(--hotel-testo);filter:brightness(.95)}
+#web-ospite .border-start{border-color:var(--hotel-bordo)!important}
+#web-ospite .card-header,#web-ospite .bg-light-subtle{background:var(--hotel-tenue)!important;border-color:var(--hotel-bordo)!important}
+#web-ospite .card,#web-ospite .form-control,#web-ospite .form-select,#web-ospite .select2-selection{border-color:var(--hotel-bordo)}
+#web-ospite .btn-soft-primary,#web-ospite .btn-soft-success{background:var(--hotel-tenue);border-color:var(--hotel-bordo);color:var(--hotel-inchiostro)}
+#web-ospite .alert-info{background:var(--hotel-tenue);border-color:var(--hotel-bordo);color:var(--hotel-inchiostro)}
+#web-ospite .form-control:focus,#web-ospite .form-select:focus,#web-ospite .select2-container--focus .select2-selection{border-color:var(--hotel-colore);box-shadow:0 0 0 3px var(--hotel-tenue)}
+#web-ospite .form-check-input:checked{background-color:var(--hotel-colore);border-color:var(--hotel-colore)}
+#web-ospite :focus-visible{outline:2px solid var(--hotel-inchiostro);outline-offset:2px}
+body.web-checkin-public .flatpickr-day.selected,body.web-checkin-public .flatpickr-day.startRange,body.web-checkin-public .flatpickr-day.endRange{background:var(--hotel-colore);border-color:var(--hotel-colore);color:var(--hotel-testo)}
+body.web-checkin-public .flatpickr-day.today{border-color:var(--hotel-colore)}
 </style>
 @endsection
 @section('script')

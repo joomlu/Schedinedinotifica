@@ -7,6 +7,22 @@ use Illuminate\Support\Facades\Storage;
 
 class WebCheckinIdentita
 {
+    /** Tonalità derivate dal colore salvato; utilizzabili anche dagli snapshot precedenti. */
+    public static function palette(string $color): array
+    {
+        $color = preg_match('/\\A#[a-fA-F0-9]{6}\\z/D', $color) ? $color : '#245563';
+        $channels = array_map('hexdec', str_split(substr($color, 1), 2));
+        $mix = static function (int $target, float $weight) use ($channels): string {
+            return '#'.implode('', array_map(
+                static fn ($channel) => sprintf('%02x', (int) round($channel * (1 - $weight) + $target * $weight)),
+                $channels
+            ));
+        };
+
+        return ['sfondo' => $mix(255, .96), 'tenue' => $mix(255, .91),
+            'bordo' => $mix(255, .68), 'inchiostro' => $mix(0, .60)];
+    }
+
     public function of(Struttura $s): array
     {
         $logo = null;

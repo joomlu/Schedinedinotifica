@@ -43,8 +43,8 @@
 <div class="{{ in_array($key, ['saluto','pulsante']) ? 'col-md-6' : 'col-12' }}"><label class="form-label" for="email-{{ $key }}">{{ $label }}</label><textarea class="form-control" name="impostazioni[{{ $key }}]" id="email-{{ $key }}" rows="{{ in_array($key, ['testo','firma']) ? 3 : 1 }}" maxlength="{{ $max }}" required></textarea></div>
 @endforeach
 <div class="col-12"><p class="small text-muted">Logo, riepilogo prenotazione e destinazione del pulsante provengono sempre dalla richiesta e dalla sua struttura. Un modello non assegna il tipo alloggiato. Il testo sotto il pulsante si adatta al numero degli ospiti.</p></div>
-<details class="col-12"><summary>Condivisione esterna e variabili</summary><div class="col-12"><label class="form-label" for="invito-corpo">Testo da copiare o condividere su WhatsApp</label><textarea class="form-control" id="invito-corpo" name="corpo" rows="5" maxlength="12000" required></textarea><button class="btn btn-sm btn-light mt-2" type="button" id="whatsapp-breve">Usa testo breve WhatsApp</button></div>
-<div class="col-12 small text-muted">Variabili disponibili (testo semplice): @foreach($variabili as $v)<code>{{ '{'.'{'.$v.'}'.'}' }}</code> @endforeach</div>
+<details class="col-12"><summary>Testo per WhatsApp e dati automatici</summary><div class="col-12"><label class="form-label" for="invito-corpo">Testo da copiare o condividere su WhatsApp</label><textarea class="form-control" id="invito-corpo" name="corpo" rows="5" maxlength="12000" required></textarea><button class="btn btn-sm btn-light mt-2" type="button" id="whatsapp-breve">Usa testo breve WhatsApp</button></div>
+<div class="col-12 small text-muted">Dati automatici: @foreach(['Nome cliente', 'Nome struttura', 'Numero prenotazione', 'Data arrivo', 'Data partenza', 'Numero ospiti', 'Link check-in', 'Scadenza link', 'Email struttura', 'Telefono struttura', 'Messaggio ospite'] as $label)<span class="me-2">«{{ $label }}»</span> @endforeach</div>
 </details><div class="col-12 d-flex flex-wrap gap-2">
 @if($richiesta->stato !== 'convertito' && app(\App\Services\WebCheckinLink::class)->valid($richiesta))<button class="btn btn-primary" type="submit" data-confirm-ignore id="visualizza-email">Visualizza email</button>@else<p>Accesso scaduto, revocato o già preso in carico. <a href="{{ route('web_checkin.attivita',[$richiesta->id,'link']) }}">Gestisci link</a> per l’eventuale nuova emissione esplicita.</p>@endif
 <details class="w-100 mt-3"><summary>Salva o aggiorna un modello</summary><div class="col-md-6"><label class="form-label" for="invito-nome">Nome del modello riutilizzabile</label><input class="form-control" id="invito-nome" name="nome" maxlength="191"></div>
@@ -73,11 +73,20 @@
 document.addEventListener('DOMContentLoaded', () => {
 const defaults=@json($layoutDefaults), previous=@json($previousInput), select=document.getElementById('invito-modello');if(!select)return;
 const breve=@json($testoBreve), oggettoDefault=@json($oggettoDefault);
+// L'editor mostra nomi leggibili; i modelli e il trasporto conservano il formato canonico.
+const labels={referente:'Nome cliente',struttura:'Nome struttura',prenotazione:'Numero prenotazione',arrivo:'Data arrivo',partenza:'Data partenza',persone:'Numero ospiti',link:'Link check-in',scadenza:'Scadenza link',email_struttura:'Email struttura',telefono_struttura:'Telefono struttura',messaggio_ospite:'Messaggio ospite'};
+const readable=text=>String(text??'').replace(/\{\{\s*([a-z_]+)\s*\}\}/g,(match,key)=>Object.hasOwn(labels,key)?'«'+labels[key]+'»':match);
+const canonical=text=>Object.entries(labels).reduce((value,[key,label])=>value.split('«'+label+'»').join('{'+ '{'+key+'}'+ '}'),String(text??''));
+const editorFields=['oggetto','corpo','impostazioni[saluto]','impostazioni[testo]','impostazioni[pulsante]','impostazioni[firma]'];
+const makeReadable=()=>{for(const name of editorFields){const field=document.getElementById('invito-form').elements.namedItem(name);if(field)field.value=readable(field.value);}};
+document.getElementById('invito-form').addEventListener('formdata',event=>{for(const name of editorFields)if(event.formData.has(name))event.formData.set(name,canonical(event.formData.get(name)));});
+select.addEventListener('change',()=>queueMicrotask(makeReadable));
 const load=()=>{const o=select.selectedOptions[0];for(const key of ['nome','oggetto','corpo'])document.getElementById('invito-'+key).value=o?.dataset[key]??({nome:'',oggetto:oggettoDefault,corpo:breve}[key]);document.getElementById('modello-versione').value=o?.dataset.versione??1;const layout=o?.dataset.impostazioni?JSON.parse(o.dataset.impostazioni):defaults;for(const key of Object.keys(defaults))document.getElementById('email-'+key).value=layout[key]??defaults[key];};
-if(previous.modello_id)select.value=previous.modello_id;select.addEventListener('change',load);load();document.getElementById('whatsapp-breve').addEventListener('click',()=>{document.getElementById('invito-corpo').value=breve;document.getElementById('invito-canale').value='whatsapp';document.getElementById('invito-canale').dispatchEvent(new Event('change'));});
+if(previous.modello_id)select.value=previous.modello_id;select.addEventListener('change',load);load();document.getElementById('whatsapp-breve').addEventListener('click',()=>{document.getElementById('invito-corpo').value=readable(breve);document.getElementById('invito-canale').value='whatsapp';document.getElementById('invito-canale').dispatchEvent(new Event('change'));});
 document.querySelectorAll('#invito-form button[name="azione"]').forEach(b=>b.addEventListener('click',()=>document.getElementById('modello-azione').value=b.value));
 for(const key of ['nome','oggetto','corpo','canale'])if(Object.hasOwn(previous,key))document.getElementById('invito-'+key).value=previous[key]??'';
 for(const[key,value]of Object.entries(previous.impostazioni??{}))if(Object.hasOwn(defaults,key))document.getElementById('email-'+key).value=value;
+makeReadable();
 document.getElementById('invito-canale').dispatchEvent(new Event('change'));document.getElementById('web-email-fields').disabled=false;document.getElementById('invito-form').removeAttribute('aria-busy');
 });
 </script>
