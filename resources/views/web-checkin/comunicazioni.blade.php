@@ -36,8 +36,8 @@
 <div class="{{ in_array($key, ['saluto','pulsante']) ? 'col-md-6' : 'col-12' }}"><label class="form-label" for="email-{{ $key }}">{{ $label }}</label><textarea class="form-control" name="impostazioni[{{ $key }}]" id="email-{{ $key }}" rows="{{ in_array($key, ['testo','firma']) ? 3 : 1 }}" maxlength="{{ $max }}" required></textarea></div>
 @endforeach
 <div class="col-12"><p class="small text-muted">Logo, riepilogo prenotazione e destinazione del pulsante provengono sempre dalla richiesta e dalla sua struttura. Un modello non assegna il tipo alloggiato. Il testo sotto il pulsante si adatta al numero degli ospiti.</p></div>
-<details class="col-12"><summary>Condivisione esterna e variabili</summary><div class="col-12"><label class="form-label" for="invito-corpo">Testo da copiare o condividere su WhatsApp</label><textarea class="form-control" id="invito-corpo" name="corpo" rows="5" maxlength="12000" required></textarea><button class="btn btn-sm btn-light mt-2" type="button" id="whatsapp-breve">Usa testo breve WhatsApp</button></div>
-<div class="col-12 small text-muted">Variabili disponibili (testo semplice): @foreach($variabili as $v)<code>{{ '{'.'{'.$v.'}'.'}' }}</code> @endforeach</div>
+<details class="col-12"><summary>Testo per WhatsApp e condivisione</summary><div class="col-12"><label class="form-label" for="invito-corpo">Testo da copiare o condividere su WhatsApp</label><textarea class="form-control" id="invito-corpo" name="corpo" rows="5" maxlength="12000" required></textarea><button class="btn btn-sm btn-light mt-2" type="button" id="whatsapp-breve">Usa testo breve WhatsApp</button></div>
+<div class="col-12"><p class="small text-muted mb-2">I dati tra parentesi vengono compilati automaticamente. Seleziona un campo del messaggio, poi il dato da inserire.</p><div id="web-dati-messaggio" class="d-flex flex-wrap gap-2" aria-label="Dati da inserire nel messaggio"></div></div>
 </details><div class="col-12 d-flex flex-wrap gap-2">
 @if($richiesta->stato !== 'convertito' && app(\App\Services\WebCheckinLink::class)->valid($richiesta))<button class="btn btn-primary" type="submit" data-confirm-ignore id="visualizza-email">Visualizza email</button>@else<p>Accesso scaduto, revocato o già preso in carico. <a href="{{ route('web_checkin.attivita',[$richiesta->id,'link']) }}">Gestisci link</a> per l’eventuale nuova emissione esplicita.</p>@endif
 <details class="w-100 mt-3"><summary>Salva o aggiorna un modello</summary><div class="col-md-6"><label class="form-label" for="invito-nome">Nome del modello riutilizzabile</label><input class="form-control" id="invito-nome" name="nome" maxlength="191"></div>
@@ -66,12 +66,24 @@
 document.addEventListener('DOMContentLoaded', () => {
 const defaults=@json($layoutDefaults), previous=@json($previousInput), select=document.getElementById('invito-modello');if(!select)return;
 const breve=@json($testoBreve), oggettoDefault=@json($oggettoDefault);
-const load=()=>{const o=select.selectedOptions[0];for(const key of ['nome','oggetto','corpo'])document.getElementById('invito-'+key).value=o?.dataset[key]??({nome:'',oggetto:oggettoDefault,corpo:breve}[key]);document.getElementById('modello-versione').value=o?.dataset.versione??1;const layout=o?.dataset.impostazioni?JSON.parse(o.dataset.impostazioni):defaults;for(const key of Object.keys(defaults))document.getElementById('email-'+key).value=layout[key]??defaults[key];};
-if(previous.modello_id)select.value=previous.modello_id;select.addEventListener('change',load);load();document.getElementById('whatsapp-breve').addEventListener('click',()=>{document.getElementById('invito-corpo').value=breve;document.getElementById('invito-canale').value='whatsapp';document.getElementById('invito-canale').dispatchEvent(new Event('change'));});
+
+const dataLabels={"struttura":"Nome struttura","referente":"Nome cliente","prenotazione":"Numero prenotazione","arrivo":"Data di arrivo","partenza":"Data di partenza","persone":"Numero ospiti","link":"Link web check-in","scadenza":"Scadenza del link","email_struttura":"Email struttura","telefono_struttura":"Telefono struttura","messaggio_ospite":"Messaggio per l’ospite"};
+const friendly=value=>String(value??'').replace(/\{\{\s*([a-z_]+)\s*\}\}/g,(match,key)=>dataLabels[key]?'['+dataLabels[key]+']':match);
+const technical=value=>String(value??'').replace(/\[([^\]]+)\]/g,(match,label)=>{const key=Object.keys(dataLabels).find(key=>dataLabels[key]===label);return key?'{{'+key+'}}':match;});
+const editorFields=()=>[document.getElementById('invito-oggetto'),document.getElementById('invito-corpo'),...document.querySelectorAll('#invito-form textarea[name^="impostazioni["]')];
+const showFriendly=()=>editorFields().forEach(field=>{field.value=friendly(field.value);});
+const editorForm=document.getElementById('invito-form');
+editorForm.addEventListener('formdata',event=>{for(const field of editorFields())event.formData.set(field.name,technical(field.value));});
+let activeEditor=document.getElementById('invito-oggetto');
+editorFields().forEach(field=>field.addEventListener('focus',()=>{activeEditor=field;}));
+for(const label of Object.values(dataLabels)){const button=document.createElement('button');button.type='button';button.className='btn btn-sm btn-light';button.textContent=label;button.addEventListener('click',()=>{activeEditor.setRangeText('['+label+']',activeEditor.selectionStart,activeEditor.selectionEnd,'end');activeEditor.focus();activeEditor.dispatchEvent(new Event('input',{bubbles:true}));});document.getElementById('web-dati-messaggio').append(button);}
+
+const load=()=>{const o=select.selectedOptions[0];for(const key of ['nome','oggetto','corpo'])document.getElementById('invito-'+key).value=o?.dataset[key]??({nome:'',oggetto:oggettoDefault,corpo:breve}[key]);document.getElementById('modello-versione').value=o?.dataset.versione??1;const layout=o?.dataset.impostazioni?JSON.parse(o.dataset.impostazioni):defaults;for(const key of Object.keys(defaults))document.getElementById('email-'+key).value=layout[key]??defaults[key];showFriendly();};
+if(previous.modello_id)select.value=previous.modello_id;select.addEventListener('change',load);load();document.getElementById('whatsapp-breve').addEventListener('click',()=>{document.getElementById('invito-corpo').value=friendly(breve);document.getElementById('invito-canale').value='whatsapp';document.getElementById('invito-canale').dispatchEvent(new Event('change'));});
 document.querySelectorAll('#invito-form button[name="azione"]').forEach(b=>b.addEventListener('click',()=>document.getElementById('modello-azione').value=b.value));
 for(const key of ['nome','oggetto','corpo','canale'])if(Object.hasOwn(previous,key))document.getElementById('invito-'+key).value=previous[key]??'';
 for(const[key,value]of Object.entries(previous.impostazioni??{}))if(Object.hasOwn(defaults,key))document.getElementById('email-'+key).value=value;
-document.getElementById('invito-canale').dispatchEvent(new Event('change'));document.getElementById('web-email-fields').disabled=false;document.getElementById('invito-form').removeAttribute('aria-busy');
+showFriendly();document.getElementById('invito-canale').dispatchEvent(new Event('change'));document.getElementById('web-email-fields').disabled=false;document.getElementById('invito-form').removeAttribute('aria-busy');
 });
 </script>
 @endpush
