@@ -214,7 +214,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let firstError = null;
     for (const [key, errors] of Object.entries(messages)) {
         const name = key.replace(/\.(\w+)/g, '[$1]');
-        const field = [...form.elements].find(element => element.name === name);
+        const matches = [...form.elements].filter(element => element.name === name);
+        const field = matches.find(element => !element.disabled) ?? matches[0];
         if (!field) continue;
         field.classList.add('is-invalid');
         field.setAttribute('aria-invalid', 'true');
@@ -222,6 +223,8 @@ document.addEventListener('DOMContentLoaded', () => {
         feedback.className = 'invalid-feedback d-block';
         feedback.textContent = errors.join(' ');
         field.insertAdjacentElement('afterend', feedback);
+        const details = field.closest('details');
+        if (details) details.open = true;
         firstError ??= field;
     }
     if (firstError) {

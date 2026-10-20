@@ -591,6 +591,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <x-geo.italia
+                                        :foreignOptionalDetails="true"
                                         title="Geo anagrafica"
                                         icon="ri-map-pin-user-line"
                                         prefix="birth"
@@ -607,7 +608,7 @@
                                             'cap_text' => 'oa_cap',
                                             'manual_flag' => 'oa_geo_manual',
                                         ]"
-                                        :value="[
+                                        :value="app(\App\Services\CustomerWizardValidation::class)->initial([
                                             'nazione' => $valueOf('oa_country'),
                                             'regione_text' => $valueOf('oa_region'),
                                             'provincia_text' => $valueOf('oa_prov'),
@@ -615,9 +616,9 @@
                                             'cap' => $valueOf('oa_cap'),
                                             'cap_text' => $valueOf('oa_cap'),
                                             'manual' => (bool) old('oa_geo_manual', false),
-                                        ]"
+                                        ], true)"
                                     />
-                                    <div class="form-text mt-2">Indica nazione e località di nascita. Per l’Italia seleziona anche regione e provincia coerenti con il comune.</div>
+                                    <div class="form-text mt-2">Se sei nato all’estero basta la nazione di nascita. Per l’Italia seleziona regione, provincia e comune. Cittadinanza e data di nascita restano separate.</div>
                                 </div>
                             </div>
                         </div>
@@ -673,8 +674,9 @@
                             <div class="row">
                                 <div class="col-12">
                                     <x-geo.italia
+                                        :foreignOptionalDetails="true"
                                         title="Geo residenza"
-                                        :value="[
+                                        :value="app(\App\Services\CustomerWizardValidation::class)->initial([
                                             'nazione' => $valueOf('or_country'),
                                             'regione_text' => $valueOf('or_region'),
                                             'provincia_text' => $valueOf('or_prov'),
@@ -682,7 +684,7 @@
                                             'cap' => $valueOf('or_cap'),
                                             'cap_text' => $valueOf('or_cap'),
                                             'manual' => (bool) old('or_geo_manual', $schedina->or_geo_manual ?? false),
-                                        ]"
+                                        ], true)"
                                         :names="[
                                             'nazione_id' => 'or_country',
                                             'regione_id' => 'or_region',
@@ -696,7 +698,7 @@
                                             'manual_flag' => 'or_geo_manual',
                                         ]"
                                     />
-                                    <div class="form-text mt-2">Per salvare i dati sono obbligatori: nazione, regione, provincia e città della residenza.</div>
+                                    <div class="form-text mt-2">Per una residenza estera basta la nazione; gli altri dati di localizzazione e indirizzo sono facoltativi. Per l’Italia seleziona regione, provincia e comune.</div>
                                 </div>
                             </div>
                         </div>
@@ -705,13 +707,13 @@
                     <div class="card border-0 shadow-sm mb-3">
                         <div class="card-header border-0 bg-light-subtle d-flex align-items-center">
                             <i class="ri-road-map-line me-2 text-primary"></i>
-                            <h5 class="card-title mb-0">Indirizzo residenza</h5>
+                            <h5 class="card-title mb-0">Indirizzo residenza <small class="text-muted fw-normal">(obbligatorio solo per residenza in Italia)</small></h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-2">
                                     <div class="mb-3">
-                                        <label class="form-label">Tipo via <span class="text-danger">*</span></label>
+                                        <label class="form-label">Tipo via</label>
                                         <x-ui.select name="or_typeaway">
                                             @foreach($tipiVia as $typestreet)
                                                 <option value="{{ $typestreet->name }}" {{ $valueOf('or_typeaway') === $typestreet->name ? 'selected' : '' }}>{{ $typestreet->name }}</option>
@@ -724,13 +726,13 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        <label class="form-label">Indirizzo <span class="text-danger">*</span></label>
+                                        <label class="form-label">Indirizzo</label>
                                         <input type="text" class="form-control" name="or_address" value="{{ $valueOf('or_address') }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="mb-3">
-                                        <label class="form-label">Numero civico <span class="text-danger">*</span></label>
+                                        <label class="form-label">Numero civico</label>
                                         <input type="text" class="form-control" name="or_num" value="{{ $valueOf('or_num') }}">
                                     </div>
                                 </div>
@@ -1089,6 +1091,7 @@
                                                         Nazione nascita, cittadinanza e data di nascita sono sempre obbligatorie. Provincia e Città nascita sono obbligatorie solo per nati in Italia.
                                                     </div>
                                                     <x-geo.italia
+                                                        :foreignOptionalDetails="true"
                                                         prefix="componente_anag_{{ $index }}"
                                                         title="Geo anagrafica componente"
                                                         :showCap="true"
@@ -1107,7 +1110,7 @@
                                                             'cap_text' => 'componenti['.$index.'][cap_nac]',
                                                             'manual_flag' => 'componenti['.$index.'][geo_anag_manual]',
                                                         ]"
-                                                        :value="[
+                                                        :value="app(\App\Services\CustomerWizardValidation::class)->initial([
                                                             'nazione' => $rowVal('country_nac'),
                                                             'regione_text' => $rowVal('regione_nac'),
                                                             'provincia_text' => $rowVal('province_nac'),
@@ -1115,7 +1118,7 @@
                                                             'cap' => $rowVal('cap_nac'),
                                                             'cap_text' => $rowVal('cap_nac'),
                                                             'manual' => (bool) $rowVal('geo_anag_manual', false),
-                                                        ]"
+                                                        ], true)"
                                                     />
 
                                                     <div class="card border-0 bg-body mt-3 mb-0 shadow-sm">
@@ -1158,6 +1161,7 @@
                                                 </div>
                                                 <div class="card-body pt-2">
                                                     <x-geo.italia
+                                                        :foreignOptionalDetails="true"
                                                         prefix="componente_res_{{ $index }}"
                                                         title="Geo residenza componente"
                                                         :showCap="true"
@@ -1176,7 +1180,7 @@
                                                             'cap_text' => 'componenti['.$index.'][cap]',
                                                             'manual_flag' => 'componenti['.$index.'][geo_res_manual]',
                                                         ]"
-                                                        :value="[
+                                                        :value="app(\App\Services\CustomerWizardValidation::class)->initial([
                                                             'nazione' => $rowVal('country'),
                                                             'regione_text' => $rowVal('regione'),
                                                             'provincia_text' => $rowVal('province'),
@@ -1184,7 +1188,7 @@
                                                             'cap' => $rowVal('cap'),
                                                             'cap_text' => $rowVal('cap'),
                                                             'manual' => (bool) $rowVal('geo_res_manual', false),
-                                                        ]"
+                                                        ], true)"
                                                     />
 
                                                     <div class="card border-0 bg-body mt-3 mb-0 shadow-sm">

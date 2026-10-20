@@ -14,7 +14,7 @@ Aggiunta palette derivata dal colore esistente: sfondo, tono tenue, bordo e inch
 ## Prova reale esplicitamente richiesta
 Richiesta 134, destinatario già configurato nella casella controllata dell'utente. Verificati logo, referente, soggiorno, destinatario e anteprima completa. Personalizzati oggetto, saluto e firma per questa sola comunicazione. Un solo invio, eseguito tramite la conferma del destinatario nell'interfaccia.
 Alle 15:01:01 Europe/Rome l'applicazione ha attestato: «Inviato: accettato dal trasporto email; consegna non confermata».
-Non verificata la ricezione nella casella Gmail. Questa prova usa l'applicativo già online, NON la nuova palette proposta. Nessun secondo invio automatico. Nessun dato degli ospiti, modello riutilizzabile o colore della struttura modificato; creata la sola comunicazione richiesta con il suo tentativo.
+Ricezione nella casella Gmail confermata esplicitamente dall'utente nel messaggio successivo; non ispezionata autonomamente la casella. Questa prova usa l'applicativo già online, NON la nuova palette proposta. Nessun secondo invio automatico. Nessun dato degli ospiti, modello riutilizzabile o colore della struttura modificato; creata la sola comunicazione richiesta con il suo tentativo.
 
 ## Verifiche e limiti
 - Revisione completa dei quattro diff applicativi.

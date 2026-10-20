@@ -722,6 +722,8 @@ class GeoItaliaUI {
             }
         });
 
+        this.root.querySelector('[data-role="estero-extra"]')?.classList.toggle('d-none', !this.manualMode);
+
         this.nodes.esteroBlocks.forEach((el) => {
             el.classList.toggle('d-none', !this.manualMode);
             const input = el.querySelector('input');
@@ -821,9 +823,9 @@ class GeoItaliaUI {
             this.updateCittadinanza(initial.cittadinanza);
         }
 
-        if (initial.cap) {
+        if (!initial.manual && initial.cap) {
             this.resolve({ cap: initial.cap });
-        } else if (initial.comune_id) {
+        } else if (!initial.manual && initial.comune_id) {
             this.resolve({ geo_comune_id: initial.comune_id });
         }
 

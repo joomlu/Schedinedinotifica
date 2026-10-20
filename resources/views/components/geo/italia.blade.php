@@ -15,6 +15,7 @@
     'showCap' => true,
     'showIndirizzo' => false,
     'showCittadinanza' => false,
+    'foreignOptionalDetails' => false,
     'labels' => [
         'title' => 'Localizzazione',
         'nazione' => 'Nazione',
@@ -203,6 +204,12 @@
                 </x-ui.select>
             </div>
 
+            @if($foreignOptionalDetails)
+            <details class="col-12 d-none" data-role="estero-extra">
+                <summary>Altri dati esteri (facoltativi)</summary>
+                <div class="row mt-2">
+            @endif
+
             @if($showRegione)
             <div class="col-md-3 d-none" data-role="estero-block">
                 <label class="form-label">{{ $placeholders['regione_manual'] }}</label>
@@ -261,6 +268,11 @@
                     @if($disabled) disabled @endif
                 >
             </div>
+            @endif
+
+            @if($foreignOptionalDetails)
+                </div>
+            </details>
             @endif
 
             @if($showIndirizzo)

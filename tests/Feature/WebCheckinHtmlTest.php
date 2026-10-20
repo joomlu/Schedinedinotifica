@@ -281,4 +281,51 @@ class WebCheckinHtmlTest extends TestCase
         $this->get(route('web_checkin.comunicazione.anteprima',[$r->id,$c->id]))->assertOk()->assertSeeText('Personalizzazione verificata');
     }
 
+
+    public function test_conferma_pubblica_estera_senza_localita_o_indirizzo_e_ripresa_con_nome_nazione(): void
+    {
+        $r = $this->scenario();
+        $nation = \App\Models\GeoNazione::forceCreate(['nome'=>'FRANCIA', 'codice_iso2'=>'FR', 'cittadinanza'=>'FRANCESE', 'is_italia'=>false]);
+        $data = array_replace($this->validSchedinaPayload(), [
+            'arrive'=>$r->arrivo->toDateString(), 'departure'=>$r->partenza->toDateString(),
+            'relationship'=>'OSPITE SINGOLO', 'save_mode'=>'web_complete',
+            'oa_country'=>(string)$nation->id, 'oa_region'=>null, 'oa_prov'=>null, 'oa_city'=>null, 'oa_cap'=>null,
+            'oa_city_nac'=>'FRANCESE', 'or_country'=>(string)$nation->id,
+            'or_region'=>null, 'or_prov'=>null, 'or_city'=>null, 'or_cap'=>null,
+            'or_typeaway'=>null, 'or_address'=>null, 'or_num'=>null,
+            'or_published_country'=>(string)$nation->id, 'or_published_city'=>null,
+        ]);
+        unset($data['room'], $data['beds']);
+        $this->postJsonWeb('/checkin/'.$r->token, $data)->assertOk()->assertSeeText('Grazie! Abbiamo ricevuto i tuoi dati.');
+        $this->assertNotNull($r->fresh()->compilato_at);
+        $sheet = $r->schedina->fresh();
+        $this->assertSame('FRANCIA', $sheet->oa_country);
+        $this->assertSame('FRANCIA', $sheet->or_country);
+        $this->assertNull($sheet->oa_city);
+        $this->assertNull($sheet->or_city);
+        $this->get('/checkin/'.$r->token)->assertOk()->assertSee('"nazione_text":"FRANCIA"', false);
+    }
+
+    public function test_errore_pubblico_con_id_nazione_conserva_etichetta_legibile(): void
+    {
+        $r = $this->scenario();
+        $nation = \App\Models\GeoNazione::forceCreate(['nome'=>'FRANCIA', 'codice_iso2'=>'FR', 'cittadinanza'=>'FRANCESE', 'is_italia'=>false]);
+        $this->postWeb('/checkin/'.$r->token, [
+            'save_mode'=>'web_complete', 'oa_country'=>(string)$nation->id, 'oa_geo_manual'=>'1',
+        ])->assertSessionHasErrors();
+        $this->get('/checkin/'.$r->token)->assertOk()->assertSee('"nazione_text":"FRANCIA"', false);
+    }
+
+
+    public function test_salvataggio_parziale_estero_con_id_nazione_e_ripresa_senza_numero_visibile(): void
+    {
+        $r = $this->scenario();
+        $nation = \App\Models\GeoNazione::forceCreate(['nome'=>'FRANCIA', 'codice_iso2'=>'FR', 'cittadinanza'=>'FRANCESE', 'is_italia'=>false]);
+        $this->postJsonWeb('/checkin/'.$r->token, [
+            'save_mode'=>'web', 'oa_country'=>(string)$nation->id, 'oa_city'=>null,
+            'or_country'=>(string)$nation->id, 'or_city'=>null,
+        ])->assertOk()->assertSeeText('Dati parziali salvati');
+        $this->assertNull($r->fresh()->compilato_at);
+        $this->get('/checkin/'.$r->token)->assertOk()->assertSee('"nazione_text":"FRANCIA"', false);
+    }
 }

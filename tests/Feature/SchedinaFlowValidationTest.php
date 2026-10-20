@@ -79,4 +79,44 @@ class SchedinaFlowValidationTest extends TestCase
         $this->assertSame(1,Schedina::count());
     }
 
+
+    public function test_nascita_e_residenza_estere_ammettono_la_sola_nazione(): void
+    {
+        [$s, $payload] = $this->contesto();
+        $nation = \App\Models\GeoNazione::forceCreate(['nome'=>'FRANCIA', 'codice_iso2'=>'FR', 'cittadinanza'=>'FRANCESE', 'is_italia'=>false]);
+        $payload = array_replace($payload, [
+            'oa_country'=>(string)$nation->id, 'oa_region'=>null, 'oa_prov'=>null, 'oa_city'=>null, 'oa_cap'=>null,
+            'oa_city_nac'=>'FRANCESE', 'or_country'=>(string)$nation->id,
+            'or_region'=>null, 'or_prov'=>null, 'or_city'=>null, 'or_cap'=>null,
+            'or_typeaway'=>null, 'or_address'=>null, 'or_num'=>null,
+            'or_published_country'=>(string)$nation->id, 'or_published_city'=>null,
+        ]);
+        $this->post(route('schedina.store'), $payload)->assertSessionHasNoErrors()->assertRedirect(route('schedina'));
+        $sheet = Schedina::sole();
+        $this->assertSame('FRANCIA', $sheet->oa_country);
+        $this->assertSame('FRANCIA', $sheet->or_country);
+        $this->assertNull($sheet->oa_city);
+        $this->assertNull($sheet->or_city);
+        $this->assertNull($sheet->or_address);
+    }
+
+    public function test_italia_continua_a_richiedere_comune_nascita_e_residenza(): void
+    {
+        [$s, $payload] = $this->contesto();
+        $this->postJson(route('schedina.store'), array_replace($payload, ['oa_city'=>null, 'or_city'=>null]))
+            ->assertUnprocessable()->assertJsonValidationErrors(['oa_city', 'or_city']);
+        $this->assertSame(0, Schedina::withoutGlobalScopes()->count());
+    }
+
+    public function test_ripresa_geo_risolve_id_nazione_con_nome_e_modalita_estero(): void
+    {
+        [$s, $payload] = $this->contesto();
+        $nation = \App\Models\GeoNazione::forceCreate(['nome'=>'FRANCIA', 'codice_iso2'=>'FR', 'cittadinanza'=>'FRANCESE', 'is_italia'=>false]);
+        $initial = app(\App\Services\CustomerWizardValidation::class)->initial(['nazione'=>(string)$nation->id], true);
+        $this->assertSame('FRANCIA', $initial['nazione']);
+        $this->assertSame($nation->id, $initial['nazione_id']);
+        $this->assertTrue($initial['manual']);
+        $this->get(route('newschedina'))->assertOk()->assertSee('Altri dati esteri (facoltativi)');
+    }
+
 }
