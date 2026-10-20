@@ -18,9 +18,16 @@
 @else
 <img class="mb-3" src="{{ $identita['logo_url'] }}" alt="{{ $identita['nome'] }}" style="max-width:180px;max-height:80px;object-fit:contain">
 @endif
-<details class="mb-3"><summary>Identità della struttura</summary><form method="post" action="{{ route('web_checkin.identita', $richiesta->id) }}" class="mb-4 d-flex flex-wrap align-items-end gap-2">
-@csrf <div><label class="form-label" for="invito-colore">Colore dell’hotel per email e modulo</label><input type="color" id="invito-colore" name="colore" value="{{ $identita['colore'] }}" class="form-control form-control-color"></div><button class="btn btn-light" type="submit">Salva colore della struttura</button>
-</form></details>
+<section class="border rounded-3 p-3 mb-4 bg-light-subtle" aria-labelledby="hotel-colore-title">
+<h3 class="h6 mb-2" id="hotel-colore-title">Colore dell’hotel</h3>
+<p class="small text-muted mb-3" id="hotel-colore-help">Scegli un colore coordinato al logo: sarà usato nelle email e nel modulo ospite di questa struttura. Salvalo prima di personalizzare il messaggio.</p>
+<form method="post" action="{{ route('web_checkin.identita', $richiesta->id) }}" class="d-flex flex-wrap align-items-end gap-3">
+@csrf
+<div><label class="form-label" for="invito-colore">Colore principale</label><input type="color" id="invito-colore" name="colore" value="{{ $identita['colore'] }}" class="form-control form-control-color" aria-describedby="hotel-colore-help"></div>
+<button class="btn btn-light" type="submit">Salva colore della struttura</button>
+</form>
+<p class="small text-muted mt-2 mb-0">Gli inviti già preparati conservano il loro aspetto. Dopo il salvataggio genera una nuova anteprima email.</p>
+</section>
 <form method="post" action="{{ route('web_checkin.prepara', $richiesta->id) }}" id="invito-form" aria-busy="true"><fieldset id="web-email-fields" disabled>
 @csrf
 @if($comunicazioneUI['ultimo']?->stato === 'esito_incerto')<div class="alert alert-warning"><label><input type="checkbox" name="conferma_nuovo_tentativo" value="1" required> Ho verificato il tentativo incerto con l’amministratore e richiedo un nuovo invio volontario, consapevole del possibile duplicato.</label></div>@endif
@@ -75,3 +82,4 @@ document.getElementById('invito-canale').dispatchEvent(new Event('change'));docu
 });
 </script>
 @endpush
+
