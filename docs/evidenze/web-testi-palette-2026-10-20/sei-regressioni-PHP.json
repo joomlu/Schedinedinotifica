@@ -1,0 +1,36 @@
+{
+  "esito": "PASS_SEI_REGRESSIONI_ORIGINARIE_PR4",
+  "fonte": "JUnit R12 nella VM ufficiale",
+  "test": [
+    {
+      "classe": "Tests\\Feature\\SchedinaFlowValidationTest",
+      "metodo": "test_nascita_e_residenza_estere_ammettono_la_sola_nazione",
+      "esito": "PASS"
+    },
+    {
+      "classe": "Tests\\Feature\\SchedinaFlowValidationTest",
+      "metodo": "test_italia_continua_a_richiedere_comune_nascita_e_residenza",
+      "esito": "PASS"
+    },
+    {
+      "classe": "Tests\\Feature\\SchedinaFlowValidationTest",
+      "metodo": "test_ripresa_geo_risolve_id_nazione_con_nome_e_modalita_estero",
+      "esito": "PASS"
+    },
+    {
+      "classe": "Tests\\Feature\\WebCheckinHtmlTest",
+      "metodo": "test_conferma_pubblica_estera_senza_localita_o_indirizzo_e_ripresa_con_nome_nazione",
+      "esito": "PASS"
+    },
+    {
+      "classe": "Tests\\Feature\\WebCheckinHtmlTest",
+      "metodo": "test_errore_pubblico_con_id_nazione_conserva_etichetta_legibile",
+      "esito": "PASS"
+    },
+    {
+      "classe": "Tests\\Feature\\WebCheckinHtmlTest",
+      "metodo": "test_salvataggio_parziale_estero_con_id_nazione_e_ripresa_senza_numero_visibile",
+      "esito": "PASS"
+    }
+  ]
+}

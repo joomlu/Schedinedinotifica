@@ -1,0 +1,9 @@
+{
+  "esito": "PASS_PRESIDIO_TEMPORANEO_TERMINATO",
+  "PID_proprio": 17730,
+  "processo_assente": true,
+  "asserzioni_proprie_rimosse": true,
+  "nessuna_impostazione_permanente_modificata": true,
+  "osservatore_VM_terminato": true,
+  "log_finale_sha256": "a41b5097a66ae4a974450cd33f12028cd9763a5bf0c2920b598976753039a021"
+}

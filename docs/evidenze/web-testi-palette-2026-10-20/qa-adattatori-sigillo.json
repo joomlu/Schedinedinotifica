@@ -1,0 +1,14 @@
+{
+  "esito": "PASS_ADATTATORI_HOST_VM_IDENTICI",
+  "ambiente_esecuzione": "VM ufficiale schedine-sviluppo-interno",
+  "SHA256": {
+    "online-html.mjs": "55bf8fc07f2eb6191745612e9e4e07636e7eb48ace25ea38ac0d485d0d683509",
+    "online-testi-palette.mjs": "1f2dd62373e2ad72b1597757b52f84b68cd5710bc12ef9186741c4b4f18393bf",
+    "online-circuito.mjs": "ee718123395612c2e5ba702e2b670b29579989b0cb7708e9b8c347e583044fa4",
+    "online-accessi.mjs": "5fa42d383c2531f9b1a57422f5a5add1507d94528266bc73fff1bcbdc379c1fb",
+    "online-regressioni.mjs": "0a270ad4303c87f565ba704b92a866347dc96b2291212f0cb966763d30c129c9"
+  },
+  "POST_email_bloccati": true,
+  "origini_esterne_bloccate": true,
+  "R1_NONPASS_conservato": "Attesa networkidle sul primo login editor; elenco pronto nella schermata, zero errori Laravel/FPM, nessuna modifica modelli. Ora attese load/font/caratteri/render e tabella visibile; asserzioni invariate."
+}

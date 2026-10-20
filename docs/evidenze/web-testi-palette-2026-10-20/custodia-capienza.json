@@ -1,0 +1,38 @@
+{
+  "dedupe-copie-chiuse.json": {
+    "esito": "PASS_DEDUPLICAZIONE_KERNEL_BYTE_METADATI_INODE_IDENTICI",
+    "file": 4983,
+    "liberi_prima": 1879564288,
+    "liberi_dopo": 3101687808,
+    "nessun_file_rimosso": true,
+    "ricevuta_integrale_sha256": "c7e30916629b3ba6d3ac97ecca2c569f8258a3597af44f589dcf44966e987721"
+  },
+  "dedupe-cache-db-chiuse.json": {
+    "esito": "PASS_BLOCCHI_CACHE_DB_BYTE_INODE_METADATI_IDENTICI",
+    "file_verificati": 1011,
+    "liberi_prima": 3098472448,
+    "liberi_dopo": 3105267712,
+    "nessun_file_rimosso": true,
+    "ricevuta_integrale_sha256": "14b4cdbdc5634f4a8904a20fa0ac4b5bd2fa736963832cef77f4c44f97e0daf3"
+  },
+  "dedupe-dipendenze-temporanee.json": {
+    "esito": "PASS_DIPENDENZE_TEMPORANEE_BYTE_INODE_METADATI_IDENTICI",
+    "file": 36450,
+    "liberi_prima": 3105144832,
+    "liberi_dopo": 3105144832,
+    "nessun_file_rimosso": true,
+    "daily_solo_riferimento_immutato": "/home/collaudo.guest/schedine-sviluppo",
+    "ricevuta_integrale_sha256": "58f53eb2556045d1e86d091ab8a0c1c0ff29f9cbd80e09c3382749c11c19e45b"
+  },
+  "dedupe-sql-duplicati-chiusi.json": {
+    "esito": "PASS_SQL_DUPLICATI_CHIUSI_BYTE_INODE_METADATI_IDENTICI",
+    "recuperi_chiusi": 96,
+    "file_preservati": 192,
+    "file_con_blocchi_condivisi": 169,
+    "liberi_prima": 3105181696,
+    "liberi_dopo": 6857248768,
+    "nessun_file_rimosso": true,
+    "nessuna_esecuzione_SQL": true,
+    "ricevuta_integrale_sha256": "5114daae0dbc75be46ff41079ddfcbd1bdffc77c0a6e97351cfcaf89d1939713"
+  }
+}

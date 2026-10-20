@@ -1,0 +1,23 @@
+{
+  "inizio": "2026-10-20T21:21:58.430Z",
+  "prove": [
+    {
+      "scenario": "GEO condiviso estero, transizioni e componenti 1440",
+      "esito": "PASS",
+      "errori_JS": 0
+    },
+    {
+      "scenario": "GEO condiviso estero, transizioni e componenti 768",
+      "esito": "PASS",
+      "errori_JS": 0
+    },
+    {
+      "scenario": "GEO condiviso estero, transizioni e componenti 390",
+      "esito": "PASS",
+      "errori_JS": 0
+    }
+  ],
+  "POST_invii": 0,
+  "esito": "NONPASS",
+  "errore": "TimeoutError: page.waitForLoadState: Timeout 30000ms exceeded."
+}

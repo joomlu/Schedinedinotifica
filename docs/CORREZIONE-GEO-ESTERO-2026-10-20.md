@@ -1,8 +1,10 @@
 # Correzione GEO estero — Schedina e Web Check-in, 20 ottobre 2026
 
-## Stato: collaudo isolato PASS — integrazione e C5 pendenti
-Ramo: codex/web-checkin-testi-palette-2026-10-20, PR #4; estensione del candidato f518345c050abc66c19c827be7133cc8dedff729.
-BASELINE IN AUDIT invariata. La palette completa resta inclusa nel candidato, non dichiarata online.
+## Stato: pubblicato e verificato online — `5e01d7b1153daac8de96a6281cd6203ff92c034d`
+
+Le sezioni iniziali conservano la proposta e le verifiche storiche; gli esiti attuali sono nel consuntivo conclusivo e nella ricevuta.
+Ramo: codex/web-checkin-testi-palette-2026-10-20, PR #4. Candidato iniziale f518345c050abc66c19c827be7133cc8dedff729; correzioni e SHA pubblicato nel consuntivo conclusivo.
+BASELINE IN AUDIT invariata. GEO, editor e palette sono pubblicati e verificati; il consuntivo conclusivo e la ricevuta riportano gli esiti effettivi.
 
 ## Evidenza reale e causa
 Ispezione in sola lettura del modulo pubblico già aperto dall'utente, senza cambiare campi o inviare il form.
@@ -47,7 +49,7 @@ CONFIGURAZIONE MODIFICATA: NO. SCHEMA/DATI REALI MODIFICATI: NO.
 TEST FUNZIONALI DEL CANDIDATO ESEGUITI: NO. CONTROLLI STATICI: SI.
 COMMIT/PUSH: SI sul solo ramo della PR. DEPLOY: NO. TRASMISSIONI ESTERNE: NO.
 
-## Collaudo conclusivo nella VM ufficiale — PASS, pubblicazione pendente
+## Sigillo del collaudo isolato precedente al rilascio
 
 R12 PHP e dodici browser storici; R13 nove browser dedicati sullo stesso applicativo: **351 test PHP / 3546 asserzioni e 21 scenari Playwright PASS** (6 circuito, 6 HTML, 9 GEO/editor/palette). Incluse le sei regressioni originarie, clienti, Schedina, Componenti, comunicazioni, isolamento tra strutture, Questura e ISTAT. 17 guardie, 23 tentativi di override rifiutati, build Vite/GEO e rendering Blade PASS. Larghezze 1440/768/390; colori #123456 e #ffffee; parziale, riapertura, conferma, errori visibili, modelli riutilizzati su una seconda richiesta e FormData canonico. Rimane una sola deprecazione preesistente nei metadati di IstatConformitaTest. Nessun test Laravel/PHPUnit/Playwright sul Mac; nessuna email reale. [Sigillo e schermate](evidenze/web-testi-palette-2026-10-20/verifica.json).
 
@@ -57,4 +59,18 @@ R1 STOP per sigillo GEO; R2 18 errori Blade. R3 PHP349/3522 PASS, browser interr
 
 Capacità VM recuperata con FIDEDUPERANGE su sole copie temporanee chiuse: contenuti, inode e metadati verificati prima/dopo, nessun file cancellato e nessuna esecuzione dei dump SQL. Conservati anche tutti i 192 dump/ridump verificati; i duplicati condividono soltanto blocchi XFS. Nessun resize/arresto VM, daily, dato operativo, env, upload, backup, cifrato o chiave alterato. Ultima misura prima del C5 da riconfermare. Riserve e budget invariati. Il minimo storico PR3 di 1243488256 byte evidenzia un consumo campionato di 1794150400 byte: il nuovo gate terrà conto anche di questo picco osservato, oltre al recupero completo, prima del RUN.
 
-Integrazione main, C5, QA online, rimozione fixture e monitor finali autorizzati dall’utente e ancora pendenti al momento del sigillo. Ricezione dell’email della richiesta134 già confermata dall’utente; nessun nuovo invio da eseguire. **BASELINE IN AUDIT** invariata.
+Integrazione main, C5, QA online, rimozione fixture e monitor finali autorizzati dall’utente e ancora pendenti al momento del sigillo. Ricezione dell’email della richiesta 134 già confermata dall’utente; nessun nuovo invio da eseguire. **BASELINE IN AUDIT** invariata.
+
+## Integrazione, pubblicazione e verifica effettive
+
+PR #4 integrata in main dopo le correzioni `797abf7cb36fd25910f51c2b963ef8110fa342b4`. **SHA integrato e realmente online: `5e01d7b1153daac8de96a6281cd6203ff92c034d`**. Verificati commit qualificato, integrazione GitHub e HEAD produttivo pulito; 111 sorgenti della task e 168 sorgenti/protetti conformi. [Ricevuta](evidenze/web-testi-palette-2026-10-20/rilascio.json), [QA](evidenze/web-testi-palette-2026-10-20/qa-online.json), [comandi](evidenze/web-testi-palette-2026-10-20/comandi-collaudo.txt).
+
+C5 esistente, 68 file conformi salvo parametri SHA/tree: nuovo PREPARE, nuovo T0/S0 e recuperi indipendenti PASS. Unico RUN di questa task PASS: S0 131.975 s, RUN 215.217 s; 159 migrazioni / 66 tabelle, nessuna DDL. Tutti i sei nuovi cifrati PREPARE/S0 su Extra autenticati e decifrati integralmente, chiave separata. 55 campioni di quiete PASS; guardiano concluso/disarmato/inattivo/disabilitato. DB byte-identico a S0 prima della QA e 92 persistenti conservati. Gate dopo PREPARE rafforzato al massimo fra recupero+cifrati completi e consumo storico campionato aumentato per crescita, con 32 MiB e riserva 1 GiB: stima 2907930624 byte contro 5464162304 liberi prima RUN. Nuovo campionamento: minimo 3705212928 byte / 2528 campioni, sempre oltre 1 GiB. Nessun limite ridotto.
+
+QA online eseguita dalla VM: sei circuito, sei HTML e nove GEO/editor/palette, tutte a 1440/768/390 PASS; colori chiaro/scuro, calendario, ricevute, errori visibili, parziale/riapertura/conferma, Schedina e Componenti, modelli duplicati/aggiornati e riutilizzati senza dati della prima richiesta, FormData canonico. Anche clienti/Bozze/ripresa, isolamento A/B, 24 navigazioni responsive e accessi scaduti/revocati/rigenerati PASS. Nessun POST invio, nessuna email o modifica a ospiti reali; richiesta 134 non inviata nuovamente. Anteprima HTML effettiva verificata online, trasporto e MIME provati soltanto nel runtime sintetico. Primo adattatore online dedicato: tre GEO PASS, poi NONPASS per attesa networkidle sul primo login editor, prima di modificare modelli. Schermata con elenco pronto e zero errori Laravel/FPM dall’intero T0; causa del traffico residuo non attribuita. Conservati log, risultato e schermata; sostituita soltanto l’attesa generica con load, font, render e tabella visibile. Ripetuti tutti i nove casi: PASS sul medesimo applicativo. Adeguata soltanto la selezione alle maiuscole effettive del catalogo e attese le animazioni nelle schermate, senza force o riduzione delle asserzioni.
+
+Fixture, account e loghi sintetici rimossi: HMAC di tutte le righe preesistenti delle 66 tabelle e 92 persistenti/env/key/upload/loghi PASS; nessun restore o reset AUTO_INCREMENT, sola eccezione mtime directory dei loghi. Monitor conclusivo dopo pulizia: server 918.376 s / 31 campioni / 279 sonde e Mac 921.526 s / 31 campioni / 93 richieste HTTPS con DNS/TLS ordinari PASS. Zero errori Laravel/FPM dall’intero T0, senza azzerare i log.
+
+Soglie Mac 8 GiB / Extra 40 GiB, riserva VM 1 GiB e budget 1800/600/1379/421 invariati. Daily 945ef553, disco 36 GiB / XFS 37290283008, SELinux Enforcing, configurazioni/credenziali/backup e checkout originario preservati. Capacità recuperata soltanto condividendo blocchi kernel di copie temporanee chiuse e verificate: nessun file cancellato, tutti i dump/ridump conservati e nessun SQL eseguito; fase vendor/node_modules senza guadagno misurato distinta dalle fasi con guadagno reale. Presidio caffeinate temporaneo terminato e verificato, nessuna impostazione permanente cambiata. Il commit documentale successivo è distinto dallo SHA applicativo online.
+
+Nessun pendente reale nello scope verificato. Rimangono una deprecazione PHPUnit preesistente, differenza PHP VM 8.3.33 / produzione 8.3.35 e audit generale/DNS/DKIM storici separati. **BASELINE IN AUDIT** invariata.

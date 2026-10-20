@@ -231,5 +231,9 @@
       "esito": "PASS_SQL_DUPLICATI_CHIUSI_BYTE_INODE_METADATI_IDENTICI",
       "nessun_file_eliminato": true
     }
-  }
+  },
+  "pubblicazione_produzione": "PASS_C5_QA_PULIZIA_MONITOR",
+  "produzione_SHA_letto": "5e01d7b1153daac8de96a6281cd6203ff92c034d",
+  "SHA_codice_qualificato": "797abf7cb36fd25910f51c2b963ef8110fa342b4",
+  "ricevuta_rilascio": "rilascio.json"
 }

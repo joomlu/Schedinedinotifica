@@ -1,0 +1,13 @@
+{
+  "recupero_PREPARE_allocato": 977076224,
+  "ingresso_PREPARE_cifrato": 391299072,
+  "liberi_VM": 5464162304,
+  "data_UTC": "2026-10-20T21:09:46.316713+00:00",
+  "margine_invariato": 1073741824,
+  "consumo_storico_campionato": 1794150400,
+  "proiezione_storica_con_crescita": 1800634368,
+  "fabbisogno_residuo_stimato": 2907930624,
+  "liberi_Mac": 13638512640,
+  "esito": "PASS_STIMA_RESIDUA_S0",
+  "limite": "Massimo fra recupero+cifrati completi e consumo storico misurato1794150400byte aumentato per crescita, piu32MiB e riserva1GiB; nessuna stima promossa a misura del nuovo S0."
+}
