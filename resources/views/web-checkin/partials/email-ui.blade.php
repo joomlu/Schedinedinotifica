@@ -1,0 +1,26 @@
+@once
+<style>
+.web-email-modal .modal-dialog{width:calc(100% - 32px);max-width:1140px;margin:16px auto;height:calc(100dvh - 32px)}.web-email-modal .modal-content{max-height:100%;height:100%;overflow:hidden}.web-email-modal .modal-header,.web-email-modal .modal-footer{flex-shrink:0}.web-email-modal .modal-header p{overflow-wrap:anywhere}.web-email-canvas{flex:1;min-height:120px;overflow:auto;background:#e9edeb;overscroll-behavior:contain;padding:16px}.web-email-paper{width:680px;max-width:none;margin:0 auto;background:white}.web-email-preview{display:block;width:100%;height:1200px;border:0;pointer-events:none}.web-email-paper.is-mobile{width:min(375px,100%)}.web-email-modal .modal-footer form{max-width:100%;overflow-wrap:anywhere}.web-email-modal .btn{min-height:44px}.web-email-steps{display:flex;gap:12px;flex-wrap:wrap;padding:0;list-style:none}.web-email-steps li{padding:7px 12px;border-radius:6px;background:#f2f4f3}.web-email-steps .active{background:#751329;color:#fff}
+@media(max-width:575px){.web-email-modal .modal-dialog{width:calc(100% - 12px);height:calc(100dvh - 12px);margin:6px}.web-email-modal .modal-header,.web-email-modal .modal-footer{padding:12px}.web-email-canvas{padding:6px}.web-email-modal .modal-footer .btn{width:100%}.web-email-modal .modal-footer form{width:100%}}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+const form=document.getElementById('invito-form'),slot=document.getElementById('web-email-slot');
+let preparing=false;
+const signature=()=>form?new URLSearchParams(new FormData(form)).toString():'';
+function install(dialog,original=null){
+ if(dialog.dataset.emailInstalled==='1'){bootstrap.Modal.getOrCreateInstance(dialog).show();return;}dialog.dataset.emailInstalled='1';
+ const iframe=dialog.querySelector('iframe'),paper=dialog.querySelector('.web-email-paper');let observer;
+ function measure(){try{const doc=iframe.contentDocument;if(!doc?.body)return;iframe.style.height=Math.ceil(doc.body.scrollHeight)+'px';}catch(_){}}
+ iframe?.addEventListener('load',()=>{const doc=iframe.contentDocument;if(!doc)return;doc.addEventListener('click',e=>e.preventDefault(),true);doc.addEventListener('submit',e=>e.preventDefault(),true);observer=new ResizeObserver(measure);observer.observe(doc.body);doc.querySelectorAll('img').forEach(img=>img.addEventListener('load',measure));measure();});
+ dialog.querySelectorAll('[data-email-width]').forEach(b=>b.addEventListener('click',()=>{paper.classList.toggle('is-mobile',b.dataset.emailWidth==='mobile');dialog.querySelectorAll('[data-email-width]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b));});requestAnimationFrame(measure);}));
+ dialog.querySelector('[data-web-invio]')?.addEventListener('submit',e=>{if((original!==null && original!==signature()) || !e.currentTarget.checkValidity()){e.preventDefault();return;}const b=e.currentTarget.querySelector('[type=submit]');if(b.disabled){e.preventDefault();return;}b.disabled=true;b.textContent='Invio in corso…';});
+ if(!form)dialog.querySelector('[data-email-edit]')?.addEventListener('click',e=>location.assign(e.currentTarget.dataset.emailEdit));
+ const modal=bootstrap.Modal.getOrCreateInstance(dialog);dialog.addEventListener('shown.bs.modal',()=>{if(innerWidth<576)dialog.querySelector('[data-email-width=mobile]').click();measure();});dialog.addEventListener('hidden.bs.modal',()=>{observer?.disconnect();if(form){dialog.remove();document.getElementById('visualizza-email')?.focus();}});modal.show();
+}
+if(form){document.getElementById('invito-canale').addEventListener('change',e=>{document.getElementById('visualizza-email')?.replaceChildren(document.createTextNode(e.target.value==='email'?'Visualizza email':'Visualizza testo'));if(e.target.value!=='email')document.getElementById('invito-corpo').closest('details').open=true;});form.addEventListener('submit',async e=>{if(e.submitter?.id!=='visualizza-email'||document.getElementById('invito-canale').value!=='email')return;if(e.defaultPrevented||!form.checkValidity())return;e.preventDefault();if(preparing)return;preparing=true;const error=document.getElementById('email-preview-error'),button=e.submitter;error.hidden=true;button.disabled=true;button.textContent='Preparazione email…';form.querySelector('[name=idempotenza]').value=crypto.randomUUID();const original=signature();
+try{const payload=new FormData(form);payload.set('vista_modale','1');const response=await fetch(form.action,{method:'POST',headers:{Accept:'application/json','X-Requested-With':'XMLHttpRequest'},body:payload});const data=await response.json();if(!response.ok)throw new Error(Object.values(data.errors??{}).flat().join(' ')||data.message||'Impossibile preparare l’email.');if(original!==signature())throw new Error('Personalizzazione modificata. Premi nuovamente Visualizza email.');slot.innerHTML=data.dialogo;install(slot.querySelector('.modal'),original);}catch(err){error.textContent=err.message;error.hidden=false;error.focus();}finally{preparing=false;button.disabled=false;button.textContent='Visualizza email';delete form.dataset.submitting;}});
+}else{const dialog=document.getElementById('web-email-dialog');document.getElementById('apri-email')?.addEventListener('click',()=>install(dialog));if(dialog)install(dialog);}
+});
+</script>
+@endonce

@@ -1,0 +1,62 @@
+{
+  "stato": "PASS_PREFLIGHT_C5_E_CAPIENZA_CONCLUSIVA",
+  "riserva_VM": 1073741824,
+  "ritiri": [
+    {
+      "ricevuta_sha256": "19961ce60f91cf03200f2e53432e27f4af235c443c4b29d7b4c4dd79d8b965f0",
+      "prima": 1560936448,
+      "dopo": 3215568896,
+      "cache": 8,
+      "SQL_backup_chiavi_preservati": true
+    },
+    {
+      "ricevuta_sha256": "679b9cc5bb7f9bae52bf1788d49a70f9b4b2e8de3e3b2f4ef2f878b7c63fe612",
+      "prima": 3215032320,
+      "dopo": 3979030528,
+      "cache": 4,
+      "SQL_backup_chiavi_preservati": true
+    }
+  ],
+  "UTC": "2026-10-19T21:06:27.049239+00:00",
+  "Mac": 20643999744,
+  "Extra": 601075138560,
+  "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+  "ritiri_cache_verificati": 12,
+  "pre_prepare": {
+    "VM": 4438966272,
+    "Mac": 20960686080,
+    "Extra": 601075138560,
+    "minimo_VM_prudenziale": 3725107200,
+    "UTC": "2026-10-19T21:21:51.278416+00:00",
+    "esito": "PASS_STIMA_PRE_PREPARE"
+  },
+  "dopo_prepare": {
+    "recupero_PREPARE_allocato": 956452864,
+    "ingresso_PREPARE_cifrato": 373272576,
+    "liberi_VM": 3095830528,
+    "data_UTC": "2026-10-19T21:27:25.877665+00:00",
+    "margine_invariato": 1073741824,
+    "fabbisogno_residuo_stimato": 2420244480,
+    "liberi_Mac": 17711091712,
+    "esito": "PASS_STIMA_RESIDUA_S0",
+    "limite": "Stima prudenziale dal massimo fra nuova misura e consumo storico completo, con16MiB aggiuntivi e riserva1GiB invariati; S0 ancora da catturare fresco, nessuna stima promossa a misura del suo picco."
+  },
+  "risorse_finali": {
+    "UTC": "2026-10-19T21:58:03.190768+00:00",
+    "Mac_liberi": 14159007744,
+    "Extra_liberi": 600671817728,
+    "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+    "VM": {
+      "liberi": 2089549824,
+      "filesystem_totale": 37290283008,
+      "tipo_filesystem": "xfs",
+      "SELinux": "Enforcing",
+      "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7"
+    },
+    "disco_VM": "36GiB, invariato",
+    "riserva_VM": 1073741824,
+    "soglia_Mac": 8589934592,
+    "soglia_Extra": 42949672960,
+    "nessuna_crescita_o_arresto_VM": true
+  }
+}

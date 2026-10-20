@@ -1,0 +1,97 @@
+{
+  "esito": "PASS_PUBBLICATO_VERIFICATO_ONLINE_E_MONITORATO",
+  "UTC": "2026-10-19T23:47:50.510703+00:00",
+  "SHA_codice_qualificato": "69da0a3b9f35d9236bc5bbdd113c5743bb9b9250",
+  "SHA_applicativo_online": "8edeb15104e8c8a1c9a61e0415ec207e2bacd202",
+  "baseline": "42deeaf399910d8e6ac913348306756a9c566277",
+  "C5": {
+    "kit": "edd839470e60ebbc1272a26057076cae14470b54c9be561e01ab455e4294d523",
+    "S0_secondi": 130.374,
+    "RUN_secondi": 214.687,
+    "decisione": "CANDIDATO_ACCETTATO",
+    "DDL": false,
+    "migrazioni": 159,
+    "tabelle": 66,
+    "guardiano": "Concluso, disarmato, inattivo e disabilitato",
+    "soglie_e_budget_invariati": true
+  },
+  "custodie": [
+    {
+      "tipo": "PREPARE",
+      "cifrati": 3,
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "6917b24e0bb3d39f30306e87eeb63c61727558bfe4bde2df9026bca250853118"
+    },
+    {
+      "tipo": "S0",
+      "cifrati": 3,
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "4bf64e02621ae7d42121e9c6663cff6ccbd196f0439a06797465e753ea463def"
+    }
+  ],
+  "collaudo_isolato": {
+    "completo_PHP_R4": [
+      265,
+      3097
+    ],
+    "finale_PHP_R9": [
+      67,
+      651
+    ],
+    "browser_modale_R9": 3,
+    "browser_storici_R8_PASS": 21,
+    "browser_interfaccia_finali_R11": 3,
+    "guardie": 17,
+    "override_rifiutati": 23,
+    "invii_soltanto_intercettati": 3,
+    "esecuzioni_non_sommate": true
+  },
+  "QA_online": [
+    "online-modale",
+    "online-circuito",
+    "online-interfaccia",
+    "online-completo",
+    "online-accessi",
+    "online-modelli"
+  ],
+  "nessun_invio_reale": true,
+  "nessuna_modifica_ospiti_reali": true,
+  "DB_byte_identico_S0_prima_QA": true,
+  "pulizia": {
+    "tabelle_HMAC_identiche": 66,
+    "persistenti": 75,
+    "nessun_restore_o_reset_contatori": true
+  },
+  "monitor": {
+    "server_secondi": 917.9504010858946,
+    "server_campioni": 31,
+    "server_sonde": 279,
+    "Mac_secondi": 920.980524625,
+    "Mac_campioni": 31,
+    "Mac_richieste": 93
+  },
+  "errori_applicativi_e_FPM_dall_intero_T0": 0,
+  "sorgenti_task_conformi": 102,
+  "sorgenti_e_protetti": 161,
+  "GitHub": "Solo ramo codex/web-checkin-email-modale-2026-10-20; main non aggiornato e precedente rifiuto automatico non aggirato",
+  "pendente_separato": "Allineamento di main non eseguito, precedente richiesta rifiutata perché fuori dall’autorizzazione; nessun nuovo tentativo",
+  "risorse_finali": {
+    "UTC": "2026-10-19T23:47:34.638843+00:00",
+    "Mac_liberi": 21954879488,
+    "Extra_liberi": 600259387392,
+    "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+    "VM": {
+      "liberi": 1875619840,
+      "filesystem_totale": 37290283008,
+      "tipo_filesystem": "xfs",
+      "SELinux": "Enforcing",
+      "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7"
+    },
+    "disco_VM": "36GiB, invariato",
+    "riserva_VM": 1073741824,
+    "soglia_Mac": 8589934592,
+    "soglia_Extra": 42949672960,
+    "nessuna_crescita_o_arresto_VM": true
+  },
+  "lavoro_estraneo_preservato": true
+}

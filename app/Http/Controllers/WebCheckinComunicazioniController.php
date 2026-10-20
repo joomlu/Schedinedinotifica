@@ -120,6 +120,12 @@ class WebCheckinComunicazioniController extends Controller
 
         if ($c->nascosta_at) return redirect()->route('web_checkin.comunicazioni', $id)->with('success', 'Preparazione già registrata e rimossa dalla cronologia visibile. Nessun duplicato creato.');
 
+        if ($request->boolean('vista_modale') && $request->expectsJson() && $c->canale === 'email') {
+            return response()->json(['dialogo' => view('web-checkin.partials.email-dialog', [
+                'richiesta' => $r, 'comunicazione' => $c,
+                'impedimentoEmail' => app(\App\Services\WebCheckinComunicazioneStato::class)->impedimento($r, $c),
+            ])->render()])->header('Cache-Control', 'no-store');
+        }
         return redirect()->route('web_checkin.comunicazione', [$id, $c->id]);
     }
 
@@ -247,7 +253,7 @@ class WebCheckinComunicazioniController extends Controller
         if (! $c) return [];
         $content = $c->contenuto;
         // Le vecchie preparazioni conservano il testo personalizzato; il link viene sempre risolto nuovamente.
-        return ($content['sorgente'] ?? ['oggetto' => $content['oggetto'], 'corpo' => 'Apri {{link}}', 'impostazioni' => $content['layout'] ?? WebCheckinMessaggio::layoutIniziale()]) + ['canale' => 'email'];
+        return ($content['sorgente'] ?? ['oggetto' => $content['oggetto'], 'corpo' => 'Apri {{link}}', 'impostazioni' => $content['layout'] ?? WebCheckinMessaggio::layoutIniziale()]) + ['canale' => 'email', 'modello_id' => $c->modello_id];
     }
 
     private function owned(Request $request, int $id): WebCheckinRichiesta

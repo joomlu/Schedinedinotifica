@@ -40,7 +40,7 @@ for (const width of [1440, 768, 390]) { const saved={};test.describe.serial(`Ope
     await page.getByRole('button', {name: 'Crea richiesta', exact: true}).click(); await conferma(page);
     await expect(page).toHaveURL(/\/web-checkin$/);
     const row = page.locator('.web-elenco tr').filter({hasText: `WEB-OPERATIVO-${width}`});
-    const manage = await row.getByRole('link', {name: 'Apri richiesta', exact: true}).getAttribute('href'); const id = manage.match(/web-checkin\/(\d+)/)[1];
+    const manage = await row.getByRole('link', {name: 'Modifica', exact: true}).getAttribute('href'); const id = manage.match(/web-checkin\/(\d+)/)[1];
     await page.goto(`${BASE_URL}/web-checkin/${id}/comunicazioni`);
     await page.locator('#invito-canale').selectOption('testo');
     const countBefore = await page.locator('#invito-modello option').count(); expect(countBefore).toBeGreaterThanOrEqual(3);
@@ -49,8 +49,8 @@ for (const width of [1440, 768, 390]) { const saved={};test.describe.serial(`Ope
     const original = await page.locator('#invito-corpo').inputValue();
     await page.locator('#invito-oggetto').fill(`Invito personalizzato ${width} {{referente}}`);
     await page.locator('#invito-corpo').fill(original + '\nMessaggio personalizzato sintetico.');
-    await page.getByRole('button', {name: 'Prepara e verifica anteprima', exact: true}).click(); await conferma(page);
-    await expect(page.getByRole('heading', {name: 'Anteprima della comunicazione preparata'})).toBeVisible();
+    await page.getByRole('button', {name: 'Visualizza testo', exact: true}).click();
+    await expect(page.locator('#testo-invito')).toBeVisible();
     await expect(page.locator('#testo-invito')).toHaveValue(/Referente sintetico/);
     await expect(page.locator('#testo-invito')).toHaveValue(/12\/11\/2026 00:00:00/);
     await expect(page.locator('body')).not.toContainText('NOTA-INTERNA-SINTETICA');
@@ -60,7 +60,7 @@ for (const width of [1440, 768, 390]) { const saved={};test.describe.serial(`Ope
     await page.goto(`${BASE_URL}/web-checkin/${id}/comunicazioni`);
     await page.locator('#invito-modello').selectOption({label: 'Invito Web Check-in — Famiglia / referente familiare'});
     await expect(page.locator('#invito-corpo')).toHaveValue(original);
-    await page.locator('#invito-nome').fill(`Copia sintetica ${width}`);
+    await page.getByText('Salva o aggiorna un modello',{exact:true}).click();await page.locator('#invito-nome').fill(`Copia sintetica ${width}`);
     await page.getByRole('button', {name: 'Duplica modello', exact: true}).click(); await conferma(page);
     await expect(page.locator('#invito-modello option')).toHaveCount(countBefore + 1);
     Object.assign(saved,{manage,id,publicUrl});expect(errors).toEqual([]);
@@ -92,11 +92,11 @@ test(`Salvataggio parziale e ripresa ${width}px`,async({page})=>{
 });
 test(`Revisione separata ${width}px`,async({page})=>{
     await page.setViewportSize({width,height:950});const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());await login(page);const {manage,id,publicUrl}=saved;
-    await page.goto(manage);
-    await page.getByRole('link', {name: 'Rivedi e correggi i dati ospiti', exact: true}).click();
+    await page.goto(manage.replace('/modifica','/attivita/ospiti'));
+    await page.getByRole('link', {name: 'Correggi dati ospiti', exact: true}).click();
     const sheetUrl = page.url();
     await page.locator('button[name="save_mode"][value="review_web"]:visible').first().click(); await conferma(page);
-    await expect(page).toHaveURL(new RegExp('/web-checkin/'+id+'/modifica$'));
+    await expect(page).toHaveURL(new RegExp('/web-checkin/'+id+'/attivita/ospiti$'));
     await expect(page.locator('body')).toContainText('Da effettuare');
     await page.goto(sheetUrl);
     await expect(page.locator('[name="name"]').first()).toHaveValue(`Ospite parziale ${width}`);
