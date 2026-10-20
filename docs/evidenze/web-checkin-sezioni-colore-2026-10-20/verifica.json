@@ -197,5 +197,9 @@
     "R4.log": "26103b5cfc1e68c10fe614d24992553317a2b6aa62051f226ef30bf6c7bff83c",
     "R5.log": "72c7e38efcd797da3b33ae52a83c522455c4a17658bfc9d5404762e49b0cb5d3",
     "guardie-finali.log": "6f65572f6d3e0538afd8665e26f94891bd8edce447c4b8312df0711182e6c95c"
-  }
+  },
+  "pubblicazione_produzione": "PASS_C5_QA_PULIZIA_MONITOR",
+  "produzione_SHA_letto": "1be29e8a55dea841c9c486ea1c5b44d14c249ba1",
+  "SHA_codice_qualificato": "af25b6e4f857fafa2acdac0b6745fda3a4f93b73",
+  "ricevuta_rilascio": "rilascio.json"
 }

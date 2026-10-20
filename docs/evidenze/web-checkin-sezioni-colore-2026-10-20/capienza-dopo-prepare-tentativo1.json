@@ -1,0 +1,11 @@
+{
+  "recupero_PREPARE_allocato": 982962176,
+  "ingresso_PREPARE_cifrato": 384737280,
+  "liberi_VM": 2511171584,
+  "data_UTC": "2026-10-20T09:27:21.349099+00:00",
+  "margine_invariato": 1073741824,
+  "fabbisogno_residuo_stimato": 2458218496,
+  "liberi_Mac": 13301338112,
+  "esito": "PASS_STIMA_RESIDUA_S0",
+  "limite": "Stima prudenziale dal massimo fra nuova misura e consumo storico completo, con16MiB aggiuntivi e riserva1GiB invariati; S0 ancora da catturare fresco, nessuna stima promossa a misura del suo picco."
+}

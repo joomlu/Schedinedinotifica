@@ -1,0 +1,123 @@
+{
+  "custodie_entrambi_tentativi_cifrati_verificati": 12,
+  "esito": "PASS_PUBBLICATO_VERIFICATO_ONLINE_E_MONITORATO",
+  "UTC": "2026-10-20T10:59:26.273442+00:00",
+  "PR": 3,
+  "PR_integrata_in_main": true,
+  "SHA_codice_qualificato": "af25b6e4f857fafa2acdac0b6745fda3a4f93b73",
+  "SHA_applicativo_online": "1be29e8a55dea841c9c486ea1c5b44d14c249ba1",
+  "baseline": "8edeb15104e8c8a1c9a61e0415ec207e2bacd202",
+  "C5": {
+    "kit": "4df40df506ff323f627d11d0da0c4a8c56735015e49102e6ddbaafa353d3aba7",
+    "S0_secondi": 138.154,
+    "RUN_secondi": 236.433,
+    "decisione": "CANDIDATO_ACCETTATO",
+    "DDL": false,
+    "migrazioni": 159,
+    "tabelle": 66,
+    "guardiano": "Concluso, disarmato, inattivo e disabilitato",
+    "budget_invariati": [
+      1800,
+      600,
+      1379,
+      421
+    ]
+  },
+  "primo_RUN": {
+    "esito": "NONPASS_STANDBY_MAC",
+    "decisione": "BASELINE_NON_MODIFICATA",
+    "applicazione_candidato": false,
+    "DDL": false,
+    "riapertura_guardiano_secondi_T0": 575.4481434822083,
+    "salute_e_sonde_PASS": true,
+    "picco_VM_durante_sospensione_non_attestato": true,
+    "nuovo_PREPARE_T0_S0_distinto_per_RUN2": true
+  },
+  "custodie_finali": [
+    {
+      "tipo": "PREPARE",
+      "cifrati": 3,
+      "destinazione": "/Volumes/extra/Schedinedinotifica-Web-Sezioni-Colore-20261020/C5-layout-PREPARE-tentativo2",
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "4cf8b735ccd206a0743c6b4f35f6b5a37b07711df8b57c54f8589c60487e2733"
+    },
+    {
+      "tipo": "S0",
+      "cifrati": 3,
+      "destinazione": "/Volumes/extra/Schedinedinotifica-Web-Sezioni-Colore-20261020/C5-layout-S0-tentativo2",
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "029147747b88bd60a66d318fb42e5ffb34c446c6e20bf28fa78504f769fb8d4f"
+    }
+  ],
+  "collaudo_isolato": {
+    "PHP_principale": [
+      265,
+      3097
+    ],
+    "PHP_fiscale": [
+      15,
+      121
+    ],
+    "browser_distinti": 15,
+    "guardie": 17,
+    "override_rifiutati": 23,
+    "esecuzioni_ripetute_non_sommate": true
+  },
+  "QA_online": [
+    "online-circuito",
+    "online-completo",
+    "online-accessi",
+    "online-html"
+  ],
+  "nessun_POST_invio_email": true,
+  "nessuna_email_o_modifica_a_ospiti_reali": true,
+  "DB_byte_identico_S0_prima_QA": true,
+  "pulizia": {
+    "tabelle_HMAC_identiche": 66,
+    "persistenti": 75,
+    "nessun_restore_o_reset_contatori": true
+  },
+  "riserva_VM_RUN2_campionata": {
+    "esito": "PASS_RISERVA_VM_CAMPIONATA",
+    "UTC": "2026-10-20T10:36:10.796769+00:00",
+    "campioni": 371,
+    "minimo_byte": 1243488256,
+    "soglia_invariata": 1073741824,
+    "intervallo_secondi": 1,
+    "stop_richiesto": true
+  },
+  "monitor": {
+    "server_secondi": 918.1353611391969,
+    "server_campioni": 31,
+    "server_sonde": 279,
+    "Mac_secondi": 921.0540940410001,
+    "Mac_campioni": 31,
+    "Mac_richieste": 93
+  },
+  "errori_applicativi_FPM_da_primo_T0": 0,
+  "sorgenti_task_conformi": 104,
+  "sorgenti_e_protetti": 163,
+  "risorse_finali": {
+    "UTC": "2026-10-20T10:59:22.468693+00:00",
+    "Mac_liberi": 15004401664,
+    "Extra_liberi": 599401205760,
+    "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+    "VM": {
+      "liberi": 1999020032,
+      "filesystem_totale": 37290283008,
+      "tipo_filesystem": "xfs",
+      "SELinux": "Enforcing",
+      "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7"
+    },
+    "disco_VM": "36GiB, invariato",
+    "riserva_VM": 1073741824,
+    "soglia_Mac": 8589934592,
+    "soglia_Extra": 42949672960,
+    "nessuna_crescita_o_arresto_VM": true
+  },
+  "stato_generale": "BASELINE IN AUDIT",
+  "limiti": [
+    "Validazione nello scope PR3, audit generale e questioni DNS/DKIM storiche distinti",
+    "Commit documentale conclusivo successivo e distinto dal candidato applicativo online"
+  ]
+}

@@ -1,8 +1,18 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
-## Modulo ospite a sezioni e colore hotel — proposta del 20 ottobre 2026
+## Modulo ospite a sezioni e colore hotel — pubblicato e verificato online, 20 ottobre 2026
 
-**Collaudo isolato PASS; integrazione main e C5 autorizzate e pendenti. BASELINE IN AUDIT invariata.** [Rapporto](../WEB-CHECKIN-SEZIONI-COLORE-2026-10-20.md), [sigillo](../evidenze/web-checkin-sezioni-colore-2026-10-20/verifica.json). Due sole viste, nessuna modifica backend/schema/SMTP. R2 PHP265/3097 e R4 fiscale15/121 PASS;15scenari distinti finali (6circuitoR3,6HTML/coloreR4,3TassaR5),17guardie/23override/buildGEO PASS soloVM. Corretto il pulsante Aggiungi nascosto dopo rimozione ultimo Componente; selettore Dettagli dello spec corretto per il glifo accessibile. R1/R2 interrotti dopo diagnosi e puliti; R4treNONPASS per fixture fiscale incompleta, corretta e ripetutaR5. Parziale/ripresa,Componenti salvati,errori nascosti,colore persistito/contrasto,tastiera,Tassa disponibile/riservata e regressioni PASS.26immagini/104sorgenti host/clone sigillati. Sette sole cache DB storiche ricostruibili ritirate dopo sigilli/inutilizzo; SQL/cifrati/backup/chiavi/upload conservati,nessuna crescitaVM. Checkout originario e daily preservati. Nessuna email reale; C5 e QAonline ancora pendenti.
+**Applicativo `1be29e8a55dea841c9c486ea1c5b44d14c249ba1` online; PR #3 integrata in main, C5, QA, pulizia e monitor finali PASS. BASELINE IN AUDIT invariata.** [Rapporto](../WEB-CHECKIN-SEZIONI-COLORE-2026-10-20.md), [ricevuta](../evidenze/web-checkin-sezioni-colore-2026-10-20/rilascio.json).
+
+Due sole viste applicative: sezioni singole del formulario canonico e colore hotel visibile. Corretto il pulsante Aggiungi dopo la rimozione dell’ultimo Componente; nessun cambio backend, schema o SMTP. Nella VM ufficiale: PHP 265 test / 3097 asserzioni e fiscale 15 / 121; 15 scenari browser distinti a 1440/768/390, 17 guardie, 23 override rifiutati e build GEO PASS. Le ripetizioni non sono sommate. R1/R2 interrotti dopo diagnosi; selettore Dettagli corretto; R4: tre NONPASS per fixture fiscale incompleta, ripetuti in R5 PASS. Conformi 104 sorgenti della task e 163 sorgenti/protetti; conservate 26 immagini isolate.
+
+Primo RUN NONPASS per Idle Sleep del Mac: BASELINE_NON_MODIFICATA riaperta dal guardiano a T0+575.448 s, nessun execute o DDL. Picco VM durante la sospensione non attestato. Dopo il presidio temporaneo anti-sospensione, PREPARE, T0, S0, recuperi, custodie Extra e 55 campioni di quiete tutti nuovi. Secondo RUN PASS: S0 138.154 s, RUN 236.433 s; 159 migrazioni / 66 tabelle, nessuna DDL. Verificati integralmente tutti i 12 cifrati dei due tentativi con chiave separata.
+
+Gate di capacità rispettato dopo il ritiro di otto sole cache DB ricostruibili e CoW di copie temporanee identiche, con date delle directory riallineate. SQL, cifrati, backup, chiavi, env, upload e lavoro estraneo preservati. Riserva VM campionata: minimo 1243488256 byte su 371 campioni, soglia 1 GiB invariata. DB identico a S0 prima della QA; 75 persistenti e nove sonde PASS. Entrambi i guardiani conclusi, inattivi e disabilitati.
+
+QA online PASS: sei percorsi circuito, sei HTML/colore, clienti, Bozze, ripresa, tenancy, 24 navigazioni responsive, modelli e accessi. Zero POST di invio, email e ospiti reali modificati. Fixture rimosse: HMAC delle 66 tabelle e 75 persistenti PASS, senza restore o reset. Monitor dopo pulizia: server 918.135 s / 31 campioni / 279 sonde; Mac 921.054 s / 31 campioni / 93 richieste, PASS. Zero errori Laravel/FPM dall’intero primo T0.
+
+Soglie Mac 8 GiB / Extra 40 GiB, riserva VM 1 GiB, budget 1800/600/1379/421, daily 945ef553, disco 36 GiB, XFS e SELinux Enforcing preservati. Il commit documentale successivo è distinto dall’applicativo online. Audit generale e questioni DNS/DKIM storiche restano separati.
 
 
 ## Modale email Web Check-in — pubblicata e verificata online, 20 ottobre 2026
