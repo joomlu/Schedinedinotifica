@@ -1,17 +1,12 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
-## GEO estero in Schedina e Web Check-in — difetto confermato, proposta del 20 ottobre 2026
+## PR #4 — GEO Italia/estero, editor e palette, 20 ottobre 2026
 
-**PARZIALE: difetto condiviso confermato online; correzione aggiunta al candidato PR #4, non pubblicata. BASELINE IN AUDIT invariata.** [Rapporto](../CORREZIONE-GEO-ESTERO-2026-10-20.md).
-Nel DOM reale: nazione mostrata come 156 e oa_city invalido «Il campo città anagrafica è obbligatorio». Controller condiviso imponeva città anche all'estero; formulario non risolveva l'ID nazionale dopo errore. Candidato: obbligatorietà città/indirizzo condizionata all'Italia, iniziali GEO risolti, dati esteri aggiuntivi facoltativi e richiudibili, errori sul controllo abilitato, nessun resolve italiano da CAP estero. Sei regressioni predisposte, non eseguite. Sintassi JS e whitespace verificati; PHP/VM ufficiale indisponibili, nessuna attestazione Blade/PHPUnit/browser/build/C5. Nessun dato reale o trasmissione modificati. Palette completa già inclusa nella stessa PR.
-Ricezione dell'email reale della richiesta 134 confermata esplicitamente dall'utente; nessun nuovo invio. Conferma utente distinta dalle evidenze del trasporto.
+**Collaudo isolato PASS; integrazione main e pubblicazione C5 autorizzate e pendenti. BASELINE IN AUDIT invariata.** [Rapporto](../WEB-CHECKIN-TESTI-PALETTE-2026-10-20.md), [GEO](../CORREZIONE-GEO-ESTERO-2026-10-20.md), [sigillo](../evidenze/web-testi-palette-2026-10-20/verifica.json).
 
+R12 PHP351/3546 e12browser storici, R13 9dedicati:21browser distinti (6circuito,6HTML,9dedicati) PASS soloVM ufficiale,17guardie/23override/buildGEO/BladePASS. GEO titolare e Componenti: estero senza comune obbligatorio, dettagli facoltativi conservati, nomi nazioni risolti, nessun CAPestero nel catalogoitaliano, errori nel campo visibile con sezioneaperta; Italia/cataloghi, cittadinanza/date/documenti indipendenti. Editor leggibile/FormData canonico/modello su seconda richiesta e palette chiara/scura incluse ricevute/calendario a1440/768/390PASS. Corretti sigillo omesso, Blade500, errore associato a controllo nascosto, asincronie/cittadinanza, completezza Componenti, tipo via involontario e ombre verdi. Tentativi NONPASS conservati, fixture/adattatori corretti senza indebolire controlli. Una deprecazione PHPUnit preesistente. Questura/ISTAT e tenancy verificati, nessuna DDL/config/SMTP/email reale. Ricezione134 già confermata dall’utente, nessuna ripetizione.
 
-## Testi editor e palette completa Web Check-in — proposta del 20 ottobre 2026
-
-**PARZIALE: correzione preparata su ramo dedicato, collaudo VM e C5 non eseguiti. BASELINE IN AUDIT invariata.** [Rapporto](../WEB-CHECKIN-TESTI-PALETTE-2026-10-20.md). Riscontrati online segnaposto tecnici nell'editor e colori verdi fissi nei fondi/bordi. Proposta con etichette leggibili, serializzazione canonica dei modelli e palette derivata dal colore esistente anche negli snapshot. Sintassi JS e whitespace controllati; nessuna attestazione PHP/Blade/browser della nuova proposta, runtime ufficiale non disponibile nella sessione.
-Prova reale esplicitamente richiesta, singolo invio sulla richiesta 134 alla casella già configurata dell'utente: accettazione trasporto attestata alle 15:01:01 Europe/Rome; ricezione Gmail non verificata. Testi di quella comunicazione personalizzati, nessun cambiamento ospiti/modelli/colore. La prova riguarda la versione già online, non la proposta. Nessun deploy.
-
+Capienza recuperata soltanto tramite condivisione kernel di blocchi di copie temporanee chiuse: tutti i file, dump/ridump, inode e metadati conservati e verificati; nessun SQL eseguito o file eliminato. Daily/disco36GiB/XFS/SELinux e lavoro estraneo preservati. Nuovo gateC5 deve includere il consumo storico campionato1794150400byte oltre a recupero/cifrati e riserva1GiB, soglie8/40GiB e budget invariati. C5/QAonline/pulizia/monitor ancora pendenti.
 
 ## Modulo ospite a sezioni e colore hotel — pubblicato e verificato online, 20 ottobre 2026
 

@@ -1,6 +1,8 @@
 @extends('layouts.master-without-nav')
 @section('title', 'Web Check-in · '.$identitaHotel['nome'])
-@php($palette = \App\Services\WebCheckinIdentita::palette($identitaHotel['colore']))
+@php
+$palette = \App\Services\WebCheckinIdentita::palette($identitaHotel['colore']);
+@endphp
 @section('body')<body class="web-checkin-public" style="--hotel-colore:{{ $identitaHotel['colore'] }};--hotel-testo:{{ $identitaHotel['testo_colore'] }};--hotel-sfondo:{{ $palette['sfondo'] }};--hotel-tenue:{{ $palette['tenue'] }};--hotel-bordo:{{ $palette['bordo'] }};--hotel-inchiostro:{{ $palette['inchiostro'] }}">@endsection
 @section('content')
 @php
@@ -58,17 +60,39 @@ body{background:var(--hotel-sfondo)}#web-ospite .componente-row[hidden]{display:
 #web-ospite{--vz-primary:var(--hotel-colore);--vz-success:var(--hotel-colore);--vz-link-color:var(--hotel-inchiostro)}
 #web-ospite a,#web-ospite .text-primary,#web-ospite .text-success{color:var(--hotel-inchiostro)!important}
 #web-ospite .btn-light{background:var(--hotel-tenue);border-color:var(--hotel-bordo);color:var(--hotel-inchiostro)}
+#web-ospite .btn-primary,#web-ospite .btn-success,#web-ospite .btn-primary:focus,#web-ospite .btn-success:focus{box-shadow:0 4px 12px var(--hotel-bordo)}
 #web-ospite .btn-primary:hover,#web-ospite .btn-success:hover{background:var(--hotel-colore);border-color:var(--hotel-colore);color:var(--hotel-testo);filter:brightness(.95)}
 #web-ospite .border-start{border-color:var(--hotel-bordo)!important}
 #web-ospite .card-header,#web-ospite .bg-light-subtle{background:var(--hotel-tenue)!important;border-color:var(--hotel-bordo)!important}
-#web-ospite .card,#web-ospite .form-control,#web-ospite .form-select,#web-ospite .select2-selection{border-color:var(--hotel-bordo)}
+#web-ospite .card{border-color:var(--hotel-bordo)}
+#web-ospite .form-control,#web-ospite .form-select,#web-ospite .select2-selection{border-color:var(--hotel-inchiostro)}
 #web-ospite .btn-soft-primary,#web-ospite .btn-soft-success{background:var(--hotel-tenue);border-color:var(--hotel-bordo);color:var(--hotel-inchiostro)}
 #web-ospite .alert-info{background:var(--hotel-tenue);border-color:var(--hotel-bordo);color:var(--hotel-inchiostro)}
 #web-ospite .form-control:focus,#web-ospite .form-select:focus,#web-ospite .select2-container--focus .select2-selection{border-color:var(--hotel-colore);box-shadow:0 0 0 3px var(--hotel-tenue)}
 #web-ospite .form-check-input:checked{background-color:var(--hotel-colore);border-color:var(--hotel-colore)}
 #web-ospite :focus-visible{outline:2px solid var(--hotel-inchiostro);outline-offset:2px}
 body.web-checkin-public .flatpickr-day.selected,body.web-checkin-public .flatpickr-day.startRange,body.web-checkin-public .flatpickr-day.endRange{background:var(--hotel-colore);border-color:var(--hotel-colore);color:var(--hotel-testo)}
-body.web-checkin-public .flatpickr-day.today{border-color:var(--hotel-colore)}
+body.web-checkin-public .flatpickr-day.today{border-color:var(--hotel-inchiostro);background:var(--hotel-tenue);color:var(--hotel-inchiostro)}
+body.web-checkin-public .flatpickr-day.selected{border-color:var(--hotel-inchiostro)}
+#web-ospite .btn-outline-primary,#web-ospite .btn-outline-secondary{--vz-btn-color:var(--hotel-inchiostro);--vz-btn-border-color:var(--hotel-bordo);--vz-btn-hover-color:var(--hotel-testo);--vz-btn-hover-bg:var(--hotel-colore);--vz-btn-hover-border-color:var(--hotel-colore);--vz-btn-active-color:var(--hotel-testo);--vz-btn-active-bg:var(--hotel-colore);--vz-btn-active-border-color:var(--hotel-colore)}
+#web-ospite .form-control.is-invalid,#web-ospite .form-select.is-invalid,#web-ospite .select2-selection.is-invalid{border-color:var(--vz-danger)}
+body.web-checkin-public .select2-container--default .select2-results__option--highlighted[aria-selected],body.web-checkin-public .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{background:var(--hotel-colore);color:var(--hotel-testo)}
+body.web-checkin-public .select2-dropdown{border-color:var(--hotel-bordo)}
+body.web-checkin-public .flatpickr-current-month .flatpickr-monthDropdown-months,body.web-checkin-public .flatpickr-months .flatpickr-month,body.web-checkin-public .flatpickr-weekdays,body.web-checkin-public span.flatpickr-weekday{background:var(--hotel-tenue);color:var(--hotel-inchiostro)}
+body.web-checkin-public .flatpickr-months .flatpickr-prev-month,body.web-checkin-public .flatpickr-months .flatpickr-next-month{color:var(--hotel-inchiostro);fill:var(--hotel-inchiostro)}
+body.web-checkin-public .flatpickr-day:not(.flatpickr-disabled):hover,body.web-checkin-public .flatpickr-day:not(.flatpickr-disabled):focus{background:var(--hotel-tenue);border-color:var(--hotel-bordo);color:var(--hotel-inchiostro)}
+body.web-checkin-public .flatpickr-day.selected:hover,body.web-checkin-public .flatpickr-day.selected:focus{background:var(--hotel-colore);border-color:var(--hotel-inchiostro);color:var(--hotel-testo)}
+body.web-checkin-public .flatpickr-day:focus-visible{outline:2px solid var(--hotel-inchiostro);outline-offset:-2px}
+body.web-checkin-public .flatpickr-months{background:var(--hotel-tenue)}
+body.web-checkin-public .flatpickr-current-month input.cur-year,body.web-checkin-public .flatpickr-current-month span.cur-month,body.web-checkin-public .flatpickr-current-month .flatpickr-monthDropdown-months{color:var(--hotel-inchiostro);-webkit-text-fill-color:var(--hotel-inchiostro)}
+body.web-checkin-public .flatpickr-current-month .arrowUp::after{border-bottom-color:var(--hotel-inchiostro)}
+body.web-checkin-public .flatpickr-current-month .arrowDown::after{border-top-color:var(--hotel-inchiostro)}
+body.web-checkin-public .flatpickr-calendar.arrowTop::before,body.web-checkin-public .flatpickr-calendar.arrowTop::after{border-bottom-color:var(--hotel-tenue)}
+body.web-checkin-public .flatpickr-calendar.arrowBottom::before,body.web-checkin-public .flatpickr-calendar.arrowBottom::after{border-top-color:var(--hotel-bordo)}
+body.web-checkin-public .flatpickr-day.inRange{background:var(--hotel-tenue);border-color:var(--hotel-tenue);box-shadow:-5px 0 0 var(--hotel-tenue),5px 0 0 var(--hotel-tenue)}
+body.web-checkin-public .select2-container--default .select2-results__option[aria-selected=true]:hover,body.web-checkin-public .select2-selection__choice{background:var(--hotel-colore);color:var(--hotel-testo)}
+
+
 </style>
 @endsection
 @section('script')
@@ -215,14 +239,18 @@ document.addEventListener('DOMContentLoaded', () => {
     for (const [key, errors] of Object.entries(messages)) {
         const name = key.replace(/\.(\w+)/g, '[$1]');
         const matches = [...form.elements].filter(element => element.name === name);
-        const field = matches.find(element => !element.disabled) ?? matches[0];
+        const field = matches.find(element => element.dataset.role?.startsWith('manual-') && element.closest('[data-ui=geo-italia]')?.querySelector('[data-role=manual-flag]')?.value === '1') ?? matches.find(element => !element.disabled) ?? matches[0];
         if (!field) continue;
         field.classList.add('is-invalid');
         field.setAttribute('aria-invalid', 'true');
+        const selectContainer = field.nextElementSibling?.classList.contains('select2') ? field.nextElementSibling : null;
+        const visible = selectContainer?.querySelector('.select2-selection') ?? field;
+        visible.classList.add('is-invalid'); visible.setAttribute('aria-invalid', 'true');
+        requestAnimationFrame(() => { if (field.tagName === 'SELECT') { const selection = field.parentElement.querySelector('.select2-selection'); selection?.classList.add('is-invalid'); selection?.setAttribute('aria-invalid', 'true'); } });
         const feedback = document.createElement('div');
         feedback.className = 'invalid-feedback d-block';
         feedback.textContent = errors.join(' ');
-        field.insertAdjacentElement('afterend', feedback);
+        (selectContainer ?? field).insertAdjacentElement('afterend', feedback);
         const details = field.closest('details');
         if (details) details.open = true;
         firstError ??= field;

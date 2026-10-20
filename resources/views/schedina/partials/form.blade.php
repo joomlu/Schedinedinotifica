@@ -715,6 +715,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">Tipo via</label>
                                         <x-ui.select name="or_typeaway">
+                                            <option value="" @selected(blank($valueOf('or_typeaway')))>Seleziona tipo via</option>
                                             @foreach($tipiVia as $typestreet)
                                                 <option value="{{ $typestreet->name }}" {{ $valueOf('or_typeaway') === $typestreet->name ? 'selected' : '' }}>{{ $typestreet->name }}</option>
                                             @endforeach

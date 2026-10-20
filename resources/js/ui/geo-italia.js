@@ -651,6 +651,7 @@ class GeoItaliaUI {
     enterEsteroMode(opts = {}) {
         const { preserveNation = false, skipEmit = false } = opts;
         this.manualMode = true;
+        this.resolveSeq++; // Invalida risposte italiane avviate prima del cambio nazione.
         // No limpiar nación/cittadinanza si venimos de un resolve extranjero
         if (!preserveNation) {
             this.state.nazione = null;
@@ -694,6 +695,7 @@ class GeoItaliaUI {
     prefillItalia() {
         this.fetchGeo('/nazioni', { is_italia: 1, page: 1, per_page: 1 })
             .then((resp) => {
+                if (this.manualMode) return;
                 const { results } = normalizeSelect2Response(resp);
                 const it = Array.isArray(results) ? results[0] : null;
                 if (it && this.nodes.nazione) {
@@ -836,10 +838,11 @@ class GeoItaliaUI {
     }
 
     resolve(params) {
+        if (this.manualMode) return;
         const seq = ++this.resolveSeq;
         this.fetchGeo('/resolve', params)
             .then((data) => {
-                if (seq !== this.resolveSeq) return; // respuesta obsoleta
+                if (this.manualMode || seq !== this.resolveSeq) return; // risposta non più pertinente
                 this.hydrateFromResolve(data || {});
                 this.emitChange();
             })

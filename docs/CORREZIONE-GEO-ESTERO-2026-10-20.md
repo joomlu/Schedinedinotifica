@@ -1,6 +1,6 @@
 # Correzione GEO estero — Schedina e Web Check-in, 20 ottobre 2026
 
-## Stato: PARZIALE — difetto confermato online, correzione proposta non pubblicata
+## Stato: collaudo isolato PASS — integrazione e C5 pendenti
 Ramo: codex/web-checkin-testi-palette-2026-10-20, PR #4; estensione del candidato f518345c050abc66c19c827be7133cc8dedff729.
 BASELINE IN AUDIT invariata. La palette completa resta inclusa nel candidato, non dichiarata online.
 
@@ -46,3 +46,15 @@ CODICE MODIFICATO: SI. TEST MODIFICATI: SI. DOCUMENTAZIONE MODIFICATA: SI.
 CONFIGURAZIONE MODIFICATA: NO. SCHEMA/DATI REALI MODIFICATI: NO.
 TEST FUNZIONALI DEL CANDIDATO ESEGUITI: NO. CONTROLLI STATICI: SI.
 COMMIT/PUSH: SI sul solo ramo della PR. DEPLOY: NO. TRASMISSIONI ESTERNE: NO.
+
+## Collaudo conclusivo nella VM ufficiale — PASS, pubblicazione pendente
+
+R12 PHP e dodici browser storici; R13 nove browser dedicati sullo stesso applicativo: **351 test PHP / 3546 asserzioni e 21 scenari Playwright PASS** (6 circuito, 6 HTML, 9 GEO/editor/palette). Incluse le sei regressioni originarie, clienti, Schedina, Componenti, comunicazioni, isolamento tra strutture, Questura e ISTAT. 17 guardie, 23 tentativi di override rifiutati, build Vite/GEO e rendering Blade PASS. Larghezze 1440/768/390; colori #123456 e #ffffee; parziale, riapertura, conferma, errori visibili, modelli riutilizzati su una seconda richiesta e FormData canonico. Rimane una sola deprecazione preesistente nei metadati di IstatConformitaTest. Nessun test Laravel/PHPUnit/Playwright sul Mac; nessuna email reale. [Sigillo e schermate](evidenze/web-testi-palette-2026-10-20/verifica.json).
+
+Corretti durante il collaudo: sigillo GEO omesso dalla proposta; direttiva Blade che inglobava il blocco successivo e causava completedGuests non definito; associazione errore al controllo italiano nascosto invece del campo estero; risposte asincrone italiane non più pertinenti; cittadinanza manuale sovrascritta al cambio nazione; completezza/coerenza residenza dei Componenti solo alla conferma completa; prima voce del tipo via assegnata involontariamente a un estero senza indirizzo; ombre verdi e palette di calendario/ricevute. Validazioni italiane e guardie mantenute. Nessun contratto di esportazione, schema, configurazione o trasporto modificato.
+
+R1 STOP per sigillo GEO; R2 18 errori Blade. R3 PHP349/3522 PASS, browser interrotto dopo selettore Italia non corrispondente all’etichetta Italia (IT). R4 3 errori su separazione parziale/completo e fixture complete prive di residenza, corretti mantenendo le asserzioni originarie. R5 PHP350/3536 PASS, browser interrotto dopo clic sul campo data originale nascosto. R6 difetto reale errore estero nascosto; R7 aspettativa errata sulla riapertura prima della conversione; R8 avviso di selezione struttura da chiudere; R9 componente assente nella fixture per scope tenant; R10 richiesta di seconda anteprima riutilizzata tra prove; adattatori/fixture corretti. R11 nove dedicati PASS, R12: PHP e 19 browser PASS, un NONPASS tablet per calendario rimasto aperto dopo jumpToDate e Escape, ultimo scenario non eseguito. Corretto soltanto l’adattatore con normale clic esterno e verifica di chiusura, senza force o timeout diversi; R13 tutti i nove dedicati PASS. Applicativo identico fra R12 e R13, unica differenza nello spec dedicato. Nessun NONPASS intermedio promosso a PASS; log conservati.
+
+Capacità VM recuperata con FIDEDUPERANGE su sole copie temporanee chiuse: contenuti, inode e metadati verificati prima/dopo, nessun file cancellato e nessuna esecuzione dei dump SQL. Conservati anche tutti i 192 dump/ridump verificati; i duplicati condividono soltanto blocchi XFS. Nessun resize/arresto VM, daily, dato operativo, env, upload, backup, cifrato o chiave alterato. Ultima misura prima del C5 da riconfermare. Riserve e budget invariati. Il minimo storico PR3 di 1243488256 byte evidenzia un consumo campionato di 1794150400 byte: il nuovo gate terrà conto anche di questo picco osservato, oltre al recupero completo, prima del RUN.
+
+Integrazione main, C5, QA online, rimozione fixture e monitor finali autorizzati dall’utente e ancora pendenti al momento del sigillo. Ricezione dell’email della richiesta134 già confermata dall’utente; nessun nuovo invio da eseguire. **BASELINE IN AUDIT** invariata.

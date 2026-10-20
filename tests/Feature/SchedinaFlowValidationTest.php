@@ -51,7 +51,7 @@ class SchedinaFlowValidationTest extends TestCase
     public function test_errore_su_componente_annulla_tutto(): void
     {
         [$s,$payload]=$this->contesto();
-        $payload=array_replace($payload,['relationship'=>'CAPO FAMIGLIA','cant_people'=>2,'componenti'=>[['name'=>'QA','surname'=>'Schedina','sex'=>'M','date_nac'=>'1990-01-01','relationship'=>'FAMILIARE','exent'=>'NO','country_nac'=>'ITALIA','city_nac'=>'ITALIANA','province_nac'=>'RM','comune_nac'=>'Roma']]]);
+        $payload=array_replace($payload,['relationship'=>'CAPO FAMIGLIA','cant_people'=>2,'componenti'=>[['name'=>'QA','surname'=>'Schedina','sex'=>'M','date_nac'=>'1990-01-01','relationship'=>'FAMILIARE','exent'=>'NO','country_nac'=>'ITALIA','city_nac'=>'ITALIANA','province_nac'=>'RM','comune_nac'=>'Roma','country'=>'ITALIA','regione'=>'Lazio','province'=>'RM','city'=>'Roma']]]);
         $this->postJson(route('schedina.store'),$payload)->assertUnprocessable()->assertJsonValidationErrors('componenti.0.name');
         $this->assertSame(0,Schedina::withoutGlobalScopes()->count());
     }
@@ -98,6 +98,7 @@ class SchedinaFlowValidationTest extends TestCase
         $this->assertNull($sheet->oa_city);
         $this->assertNull($sheet->or_city);
         $this->assertNull($sheet->or_address);
+        $this->assertNull($sheet->or_typeaway);
     }
 
     public function test_italia_continua_a_richiedere_comune_nascita_e_residenza(): void
@@ -119,4 +120,32 @@ class SchedinaFlowValidationTest extends TestCase
         $this->get(route('newschedina'))->assertOk()->assertSee('Altri dati esteri (facoltativi)');
     }
 
+
+    public function test_geo_componenti_conferma_nazioni_e_coerenza_italiana_senza_perdere_dati_esteri(): void
+    {
+        [$s, $payload] = $this->contesto();
+        $fr = \App\Models\GeoNazione::forceCreate(['nome'=>'FRANCIA', 'codice_iso2'=>'FR', 'cittadinanza'=>'FRANCESE', 'is_italia'=>false]);
+        $row = ['name'=>'Componente', 'surname'=>'Sintetico', 'sex'=>'F', 'relationship'=>'FAMILIARE', 'exent'=>'NO', 'country_nac'=>(string)$fr->id, 'city_nac'=>'FRANCESE', 'date_nac'=>'2000-01-01', 'country'=>(string)$fr->id, 'city'=>'Parigi', 'cap'=>'75001', 'address'=>'Rue preservata', 'number'=>'8'];
+        $payload = array_replace($payload, ['relationship'=>'CAPO FAMIGLIA', 'cant_people'=>2, 'beds'=>2, 'componenti'=>[$row]]);
+        $bad = $payload; $bad['componenti'][0]['country'] = null;
+        $this->postJson(route('schedina.store'), $bad)->assertUnprocessable()->assertJsonValidationErrors('componenti.0.country');
+        $bad['componenti'][0]['country']='ITALIA';
+        $this->postJson(route('schedina.store'), $bad)->assertUnprocessable()->assertJsonValidationErrors(['componenti.0.regione','componenti.0.province','componenti.0.city']);
+        $this->post(route('schedina.store'), $payload)->assertSessionHasNoErrors()->assertRedirect(route('schedina'));
+        $member=\App\Models\Componenti::sole();
+        $this->assertSame('75001',$member->cap); $this->assertSame('Rue preservata',$member->address);
+        $this->assertSame('FRANCIA',$member->country_nac);
+    }
+
+    public function test_nascita_residenza_cittadinanza_e_paese_documento_restano_indipendenti(): void
+    {
+        [$s,$payload]=$this->contesto();
+        \App\Models\GeoNazione::forceCreate(['nome'=>'FRANCIA','codice_iso2'=>'FR','cittadinanza'=>'FRANCESE','is_italia'=>false]);
+        $payload=array_replace($payload,['oa_country'=>'FRANCIA','oa_region'=>null,'oa_prov'=>null,'oa_city'=>null,'oa_cap'=>null]);
+        $this->post(route('schedina.store'),$payload)->assertSessionHasNoErrors()->assertRedirect(route('schedina'));
+        $row=Schedina::sole();
+        $this->assertSame('FRANCIA',$row->oa_country);$this->assertSame('ITALIA',$row->or_country);
+        $this->assertSame('ITALIANA',$row->oa_city_nac);$this->assertSame('ITALIA',$row->or_published_country);
+        $this->assertSame('Roma',$row->or_city);$this->assertSame($payload['oa_date_nac'],\Carbon\Carbon::parse($row->oa_date_nac)->toDateString());
+    }
 }

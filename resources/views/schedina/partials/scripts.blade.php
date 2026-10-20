@@ -141,7 +141,7 @@
             if (!anagCittadinanzaSelect || !autoCit) return;
 
             const currentCit = String(anagCittadinanzaSelect.value || '').trim();
-            const canOverride = !currentCit || !lastAutoCittadinanza || currentCit.toLowerCase() === lastAutoCittadinanza.toLowerCase();
+            const canOverride = !currentCit || (lastAutoCittadinanza && currentCit.toLowerCase() === lastAutoCittadinanza.toLowerCase());
             if (!canOverride) {
                 return;
             }
@@ -221,7 +221,7 @@
 
                 const lastAuto = String(row.dataset.autoCittadinanza || '').trim();
                 const current = String(cittadinanzaSelect.value || '').trim();
-                const canOverride = !current || !lastAuto || current.toLowerCase() === lastAuto.toLowerCase();
+                const canOverride = !current || (lastAuto && current.toLowerCase() === lastAuto.toLowerCase());
                 if (!canOverride) return;
 
                 ensureSelectValue(cittadinanzaSelect, autoCit, autoCit);
@@ -1170,9 +1170,15 @@
         let firstErrorTab = null;
         Object.entries(serverErrors).forEach(([key, messages], index) => {
             const name = key.replace(/\.([^.]*)/g, '[$1]');
-            const field = Array.from(document.querySelectorAll('[name]')).find(element => element.name === name);
+            const matches = Array.from(document.querySelectorAll('[name]')).filter(element => element.name === name);
+            const field = matches.find(element => element.dataset.role?.startsWith('manual-') && element.closest('[data-ui=geo-italia]')?.querySelector('[data-role=manual-flag]')?.value === '1') ?? matches.find(element => !element.disabled) ?? matches[0];
             if (!field) return;
             field.classList.add('is-invalid'); field.setAttribute('aria-invalid','true');
+            const visible = field.nextElementSibling?.classList.contains('select2') ? field.nextElementSibling.querySelector('.select2-selection') : field;
+            visible?.classList.add('is-invalid'); visible?.setAttribute('aria-invalid','true');
+            requestAnimationFrame(() => {if (field.tagName === 'SELECT') {const selection=field.parentElement.querySelector('.select2-selection');selection?.classList.add('is-invalid');selection?.setAttribute('aria-invalid','true');}});
+            const details = field.closest('details'); if (details) details.open = true;
+            const row = field.closest('.componente-row'); if (row) {row.classList.remove('d-none','componente-empty-row');row.querySelector('.componente-details')?.classList.remove('d-none');}
             const feedback = document.createElement('div'); feedback.id = `schedina-field-error-${index}`;
             feedback.className = 'invalid-feedback d-block'; feedback.textContent = messages.join(' ');
             field.parentElement.appendChild(feedback);

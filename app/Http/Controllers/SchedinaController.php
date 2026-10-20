@@ -898,7 +898,7 @@ class SchedinaController extends Controller
         $request->validate($rules, $this->schedinaValidationMessages(), $this->schedinaValidationAttributes());
         if (!$complete) return;
         $currentId = $webStrutturaId ?? StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
-        app(\App\Services\SchedinaAnagraficaValidation::class)->validate($request, (int) $currentId);
+        app(\App\Services\SchedinaAnagraficaValidation::class)->validate($request, (int) $currentId, true);
         app(\App\Services\SchedinaSoggiornoValidation::class)->validate(
             Struttura::query()->findOrFail($currentId), $request->input('arrive'), $request->input('departure')
         );

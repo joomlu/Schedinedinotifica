@@ -1,0 +1,370 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20 22:16:00 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-9kszcs4j; database=test_geo_1cde2c5c3cc3b0fa9a6d53b5f8829901; MySQL pid=57, porta=49187; HTTP pid=84, porta=50251
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+
+Running 9 tests using 1 worker
+
+  ✘  1 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 1440 (16.6s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 1440
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('body')
+    Timeout: 5000ms
+    [32m- Expected substring  -    1[39m
+    [31m+ Received string     + 1586[39m
+
+    [32m- Grazie! Abbiamo ricevuto i tuoi dati.[39m
+    [31m+[39m
+    [31m+                     [39m
+    [31m+     [39m
+    [31m+[39m
+    [31m+[39m
+    [31m+ Hotel BrowserBenvenuto, Referente GEO 1440[39m
+    [31m+ Compila la scheda una sezione alla volta. Puoi salvare anche se mancano dei dati: la reception potrà completarli con te.[39m
+    [31m+ PrenotazioneGEO-1440Arrivo10/11/2026Partenza13/11/2026Ospiti2[39m
+    [31m+ Referente della prenotazione: Referente GEO 1440. I dati sotto appartengono all’ospite titolare, che può essere una persona diversa.[39m
+    [31m+[39m
+    [31m+ Ultimo salvataggio: Ospiti completati 2 di 2. Il conteggio si aggiorna al salvataggio; la conferma rivalida tutti i dati.[39m
+    [31m+[39m
+    [31m+[39m
+    [31m+ Soggiorno e ospite[39m
+    [31m+ Anagrafica[39m
+    [31m+ Residenza e documento[39m
+    [31m+ Contatti e consensi[39m
+    [31m+ Componenti[39m
+    [31m+ Tassa di soggiorno[39m
+    [31m+[39m
+    [31m+[39m
+    [31m+[39m
+    [31m+     [39m
+    [31m+         I dati degli ospiti[39m
+    [31m+     [39m
+    [31m+     [39m
+    [31m+         [39m
+    [31m+                                                 [39m
+    [31m+             [39m
+    [31m+                                                     [39m
+    [31m+                 Puoi salvare anche dati incompleti e riprendere dallo stesso link. «Conferma dati» verifica tutti i dati; la reception confermerà la registrazione. Il soggiorno previsto resta quello indicato nell’invito.[39m
+    [31m+                                     [39m
+    [31m+             [39m
+    [31m+             [39m
+    [31m+[39m
+    [31m+             [39m
+    [31m+             [39m
+    [31m+                 [39m
+    [31m+                     [39m
+    [31m+                         Schedina[39m
+    [31m+                     [39m
+    [31m+                     [39m
+    [31m+                         Anagrafica[39m
+    [31m+                     [39m
+    [31m+                     [39m
+    [31m+                         Residenza / Doc.[39m
+    [31m+                     [39m
+    [31m+                     [39m
+    [31m+                         Contatti[39m
+    [31m+                     [39m
+    [31m+                     [39m
+    [31m+                         Componenti[39m
+    [31m+                     [39m
+    [31m+                     [39m
+    [31m+                         Tassa di soggiorno[39m
+    [31m+                     [39m
+    [31m+                 [39m
+    [31m+             [39m
+    [31m+[39m
+    [31m+             [39m
+    [31m+                 [39m
+    [31m+                                         [39m
+    [31m+                         [39m
+    [31m+                             [39m
+    [31m+                             Dati soggiorno[39m
+    [31m+                         [39m
+    [31m+                         [39m
+    [31m+                             [39m
+    [31m+                                 [39m
+    [31m+                                     [39m
+    [31m+                                         Arrivo *[39m
+    [31m+                                         [39m
+    [31m+                                     [39m
+    [31m+                                 [39m
+    [31m+                                 [39m
+    [31m+                                     [39m
+    [31m+                                         Partenza *[39m
+    [31m+                                         [39m
+    [31m+                                     [39m
+    [31m+                                 [39m
+    [31m+                                 [39m
+    [31m+                                     [39m
+    [31m+                                         Tipo alloggiato *[39m
+    [31m+                                                                                 [39m
+    [31m+     OSPITE SINGOLO[39m
+    [31m+                                                                                             CAPO FAMIGLIA[39m
+    [31m+                                                                                             CAPO GRUPPO[39m
+    [31m+ CAPO FAMIGLIA[39m
+    [31m+                                     [39m
+    [31m+                                 [39m
+    [31m+                                 [39m
+    [31m+                                     [39m
+    [31m+                                         Esente *[39m
+    [31m+                                             [39m
+    [31m+     [39m
+    [31m+[39m
+    [31m+                                         [39m
+    [31m+                                                                                 [39m
+    [31m+     Nessuna esenzione[39m
+    [31m+ Nessuna esenzione[39m
+    [31m+                                     [39m
+    [31m+                                 [39m
+    [31m+                             [39m
+    [31m+                         [39m
+    [31m+                     [39m
+    [31m+[39m
+    [31m+                     [39m
+    [31m+                         [39m
+    [31m+                             [39m
+    [31m+                             Dati cliente[39m
+    [31m+                         [39m
+    [31m+                         [39m
+    [31m+                             [39m
+    [31m+                                                                 [39m
+    [31m+                                 [39m
+    [31m+                                     Quantità persone *[39m
+    [31m+                                         [39m
+    [31m+     [39m
+    [31m+[39m
+    [31m+                                     [39m
+    [31m+                                     [39m
+    [31m+                                 [39m
+    [31m+                                 [39m
+    [31m+                                     Camera *[39m
+    [31m+                                         [39m
+    [31m+     [39m
+    [31m+[39m
+    [31m+                                     [39m
+    [31m+                                     [39m
+    [31m+                                 [39m
+    [31m+                                 [39m
+    [31m+                                     Letti *[39m
+    [31m+                                         [39m
+    [31m+     [39m
+    [31m+[39m
+    [31m+                                     [39m
+    [31m+                                     [39m
+    [31m+                                 [39m
+    [31m+                                 [39m
+    [31m+                             [39m
+    [31m+                             [39m
+    [31m+                             [39m
+    [31m+                                                                 [39m
+    [31m+                                     Titolo[39m
+    [31m+                                     [39m
+    [31m+     Amm.[39m
+    [31m+                                                                                     Arch.[39m
+    [31m+                                                                                     Avv.[39m
+    [31m+                                                                                     Barone[39m
+    [31m+                                                                                     Baronessa[39m
+    [31m+                                                                                     Baronetto[39m
+    [31m+                                                                                     Cap.[39m
+    [31m+                                                                                     Cav.[39m
+    [31m+                                                                                     Cav. Lav.[39m
+    [31m+                                                                                     Cav. Uff.[39m
+    [31m+                                                                                     Ch.mo[39m
+    [31m+                                                                                     Cliente[39m
+    [31m+                                                                                     Col.[39m
+    [31m+                                                                                     Comm.[39m
+    [31m+                                                                                     Cons.[39m
+    [31m+                                                                                     Cons.re[39m
+    [31m+                                                                                     Conte[39m
+    [31m+                                                                                     Contessa[39m
+    [31m+                                                                                     Dama[39m
+    [31m+                                                                                     Dir.[39m
+    [31m+                                                                                     Ditta[39m
+    [31m+                                                                                     Don[39m
+    [31m+                                                                                     Dott.[39m
+    [31m+                                                                                     Dott.ssa[39m
+    [31m+
+web-testi-palette.playwrig-fa9a7-ansizioni-e-componenti-1440:
+# Page snapshot
+
+```yaml
+- main [ref=e2]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - img "Hotel Browser" [ref=e6]
+      - generic [ref=e7]: Hotel Browser
+      - heading "Benvenuto, Referente GEO 1440" [level=1] [ref=e8]
+      - paragraph [ref=e9]: "Compila la scheda una sezione alla volta. Puoi salvare anche se mancano dei dati: la reception potrà completarli con te."
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - strong [ref=e12]: Prenotazione
+          - text: GEO-1440
+        - generic [ref=e13]:
+          - strong [ref=e14]: Arrivo
+          - text: 10/11/2026
+        - generic [ref=e15]:
+          - strong [ref=e16]: Partenza
+          - text: 13/11/2026
+        - generic [ref=e17]:
+          - strong [ref=e18]: Ospiti
+          - text: "2"
+      - paragraph [ref=e19]: "Referente della prenotazione: Referente GEO 1440. I dati sotto appartengono all’ospite titolare, che può essere una persona diversa."
+    - paragraph [ref=e20]:
+      - text: "Ultimo salvataggio:"
+      - strong [ref=e21]: Ospiti completati 2 di 2
+      - text: . Il conteggio si aggiorna al salvataggio; la conferma rivalida tutti i dati.
+    - navigation "Sezioni della scheda ospite" [ref=e22]:
+      - tablist "Dati del soggiorno e degli ospiti" [ref=e23]:
+        - tab "Soggiorno e ospite" [selected] [ref=e24] [cursor=pointer]
+        - tab "Anagrafica" [ref=e25] [cursor=pointer]
+        - tab "Residenza e documento" [ref=e26] [cursor=pointer]
+        - tab "Contatti e consensi" [ref=e27] [cursor=pointer]
+        - tab "Componenti" [ref=e28] [cursor=pointer]
+    - group [ref=e29]:
+      - generic [ref=e30]:
+        - heading "I dati degli ospiti" [level=4] [ref=e32]
+        - generic [ref=e34]:
+          - generic [ref=e35]: Puoi salvare anche dati incompleti e riprendere dallo stesso link. «Conferma dati» verifica tutti i dati; la reception confermerà la registrazione. Il soggiorno previsto resta quello indicato nell’invito.
+          - generic [ref=e36]:
+            - tabpanel "Soggiorno e ospite" [ref=e37]:
+              - generic [ref=e38]:
+                - generic [ref=e39]:
+                  - generic [ref=e40]: 
+                  - heading "Dati soggiorno" [level=5] [ref=e41]
+                - generic [ref=e43]:
+                  - generic [ref=e45]:
+                    - generic [ref=e46]: Arrivo *
+                    - textbox "gg/mm/aaaa" [disabled] [ref=e47]: 10/11/2026
+                  - generic [ref=e49]:
+                    - generic [ref=e50]: Partenza *
+                    - textbox "gg/mm/aaaa" [disabled] [ref=e51]: 13/11/2026
+                  - generic [ref=e53]:
+                    - generic [ref=e54]: Tipo alloggiato *
+                    - combobox [ref=e55]
+                    - combobox "CAPO FAMIGLIA" [ref=e58] [cursor=pointer]:
+                      - textbox "CAPO FAMIGLIA" [ref=e59]
+                  - generic [ref=e61]:
+                    - generic [ref=e62]:
+                      - text: Esente *
+                      - button "Esente" [ref=e63] [cursor=pointer]:
+                        - generic [ref=e64]: 
+                    - combobox [ref=e65]
+                    - combobox "Nessuna esenzione" [ref=e68] [cursor=pointer]:
+                      - textbox "Nessuna esenzione" [ref=e69]
+              - generic [ref=e70]:
+                - generic [ref=e71]:
+                  - generic [ref=e72]: 
+                  - heading "Dati cliente" [level=5] [ref=e73]
+                - generic [ref=e74]:
+                  - generic [ref=e75]:
+                    - generic [ref=e76]:
+                      - generic [ref=e77]:
+                        - text: Quantità persone *
+                        - button "Quantità persone" [ref=e78] [cursor=pointer]:
+                          - generic [ref=e79]: 
+                      - spinbutton [ref=e80]: "2"
+                    - text:  
+                  - generic [ref=e81]:
+                    - generic [ref=e82]:
+                      - generic [ref=
+TEST interrotto senza fallback: playwright fallito: 1
+mysql-error.log:
+2026-10-20 22:16:14 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 57
+2026-10-20 22:16:14 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-20 22:16:14 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-20 22:16:14 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-20 22:16:14 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-20 22:16:14 0 [Note] InnoDB: Using Linux native AIO
+2026-10-20 22:16:14 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-20 22:16:14 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-20 22:16:14 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-20 22:16:14 0 [Note] InnoDB: End of log at LSN=45093
+2026-10-20 22:16:14 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-20 22:16:14 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-20 22:16:14 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-20 22:16:14 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-20 22:16:14 0 [Note] InnoDB: log sequence number 45093; transaction id 14
+2026-10-20 22:16:14 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-20 22:16:14 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-20 22:16:14 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-9kszcs4j/mysql-data/ib_buffer_pool
+2026-10-20 22:16:14 0 [Note] InnoDB: Buffer pool(s) load completed at 261020 22:16:14
+2026-10-20 22:16:15 0 [Note] Server socket created on IP: '127.0.0.1', port: '49187'.
+2026-10-20 22:16:15 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-20 22:16:15 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-9kszcs4j/mysql.sock'  port: 49187  MariaDB Server
+
+http.log:
+] 127.0.0.1:46564 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46592 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46606 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46600 [200]: GET /build/libs/jquery/jquery.min.js
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46618 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46606 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46630 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46618 [200]: GET /build/libs/select2/js/select2.full.min.js
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46646 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46600 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46630 [200]: GET /build/libs/bootstrap/js/bootstrap.bundle.min.js
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46662 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46568 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46646 [200]: GET /build/css/bootstrap.min.css
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46668 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46662 [200]: GET /build/css/icons.min.css
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46582 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46618 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46682 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46630 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46668 [200]: GET /build/libs/select2/css/select2.min.css
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46688 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46682 [200]: GET /build/css/app.min.css
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46696 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46688 [200]: GET /build/libs/flatpickr/flatpickr.min.css
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46646 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46702 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46696 [200]: GET /build/css/custom.min.css
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46668 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46704 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46702 [200]: GET /build/js/app2.js
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46704 [200]: GET /build/libs/jquery/jquery.min.js
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46688 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46716 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46662 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46682 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46696 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46716 Closing
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46728 Accepted
+[Tue Oct 20 22:17:03 2026] 127.0.0.1:46704 Closing
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46728 [200]: GET /build/libs/select2/js/select2.full.min.js
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46736 Accepted
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46752 Accepted
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46702 Closing
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46736 [200]: GET /build/libs/bootstrap/js/bootstrap.bundle.min.js
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46760 Accepted
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46728 Closing
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46752 [200]: GET /build/libs/simplebar/simplebar.min.js
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46762 Accepted
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46760 [200]: GET /build/libs/node-waves/waves.min.js
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46764 Accepted
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46762 [200]: GET /build/libs/feather-icons/feather.min.js
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46736 Closing
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46766 Accepted
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46752 Closing
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46764 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46782 Accepted
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46766 [200]: GET /build/icons/remixicon.woff2?t=1718271040674
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46760 Closing
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46762 Closing
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46782 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46764 Closing
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46766 Closing
+[Tue Oct 20 22:17:04 2026] 127.0.0.1:46782 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-9kszcs4j
