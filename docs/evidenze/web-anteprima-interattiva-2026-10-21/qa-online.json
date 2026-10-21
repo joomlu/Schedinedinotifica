@@ -1,0 +1,307 @@
+{
+  "online-circuito": {
+    "inizio": "2026-10-21T12:10:07.001Z",
+    "prove": [
+      {
+        "scenario": "Compilazione, revisione e check-in OSPITE SINGOLO 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Storico e Cestino OSPITE SINGOLO 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Compilazione, revisione e check-in CAPO FAMIGLIA 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Storico e Cestino CAPO FAMIGLIA 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Compilazione, revisione e check-in CAPO GRUPPO 390px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Storico e Cestino CAPO GRUPPO 390px",
+        "esito": "PASS"
+      }
+    ],
+    "POST_invii": 0,
+    "esito": "PASS_SCENARI_ONLINE",
+    "fine": "2026-10-21T12:12:34.999Z"
+  },
+  "online-html": {
+    "inizio": "2026-10-21T12:12:44.247Z",
+    "prove": [
+      {
+        "scenario": "Email HTML e modulo guidato OSPITE SINGOLO 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Cronologia e gestione modelli OSPITE SINGOLO 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Email HTML e modulo guidato CAPO FAMIGLIA 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Cronologia e gestione modelli CAPO FAMIGLIA 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Email HTML e modulo guidato CAPO GRUPPO 390px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Cronologia e gestione modelli CAPO GRUPPO 390px",
+        "esito": "PASS"
+      }
+    ],
+    "POST_invii": 0,
+    "esito": "PASS_SCENARI_ONLINE",
+    "fine": "2026-10-21T12:14:50.319Z"
+  },
+  "online-completo": {
+    "inizio": "2026-10-21T12:15:19.092Z",
+    "SHA": "f414900b9626240dc34f1de0a449615b66d7413a",
+    "prove": [
+      {
+        "regressione_Nuova_schedina": true,
+        "ricerca_nome_cognome": true,
+        "selezione_cliente": true,
+        "bozza_e_ripresa": true
+      },
+      {
+        "creazione_reale_struttura_B_senza_collisioni": true,
+        "modelli_B_indipendenti": true,
+        "richiesta_B_negata_ad_A404": true
+      },
+      {
+        "ricerca_struttura_B_solo_proprio_cliente": true
+      }
+    ],
+    "responsive": [
+      {
+        "width": 1440,
+        "pagina": "/web-checkin",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/web-checkin/nuovo",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/web-checkin/storico",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/cestino?tipo=Web%20Check-in",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/schedine/nuova",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/schedine",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/schedine/bozze",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/arrivi",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/web-checkin",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/web-checkin/nuovo",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/web-checkin/storico",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/cestino?tipo=Web%20Check-in",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/schedine/nuova",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/schedine",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/schedine/bozze",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/arrivi",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/web-checkin",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/web-checkin/nuovo",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/web-checkin/storico",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/cestino?tipo=Web%20Check-in",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/schedine/nuova",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/schedine",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/schedine/bozze",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/arrivi",
+        "nessun_overflow": true
+      }
+    ],
+    "POST_invii": 0,
+    "esito": "PASS_ONLINE_REGRESSIONI_NUOVA_SCHEDINA_TENANCY",
+    "errori_JS": [],
+    "fine": "2026-10-21T12:16:04.701Z"
+  },
+  "online-accessi": {
+    "inizio": "2026-10-21T12:16:33.961Z",
+    "prove": [
+      {
+        "scaduto404": true,
+        "date_sintetiche_modificate_da_reception": true,
+        "clock_produzione_invariato": true,
+        "dati_conservati": true
+      },
+      {
+        "revoca_GET_POST404": true,
+        "rigenerazione_esplicita": true,
+        "vecchio_link404_nuovo200": true,
+        "scrittura_rifiutata_non_persistita": true,
+        "note_private": true,
+        "noindex_no_store": true
+      }
+    ],
+    "POST_invii": 0,
+    "esito": "PASS_ACCESSI_WEB_ONLINE",
+    "fine": "2026-10-21T12:17:01.560Z"
+  },
+  "online-testi-palette": {
+    "inizio": "2026-10-21T12:21:18.958Z",
+    "prove": [
+      {
+        "scenario": "GEO condiviso estero, transizioni e componenti 1440",
+        "esito": "PASS",
+        "errori_JS": 0
+      },
+      {
+        "scenario": "GEO condiviso estero, transizioni e componenti 768",
+        "esito": "PASS",
+        "errori_JS": 0
+      },
+      {
+        "scenario": "GEO condiviso estero, transizioni e componenti 390",
+        "esito": "PASS",
+        "errori_JS": 0
+      },
+      {
+        "scenario": "Editor riutilizzabile e FormData completo 1440",
+        "esito": "PASS",
+        "errori_JS": 0
+      },
+      {
+        "scenario": "Editor riutilizzabile e FormData completo 768",
+        "esito": "PASS",
+        "errori_JS": 0
+      },
+      {
+        "scenario": "Editor riutilizzabile e FormData completo 390",
+        "esito": "PASS",
+        "errori_JS": 0
+      },
+      {
+        "scenario": "Palette chiara e scura completa 1440",
+        "esito": "PASS",
+        "errori_JS": 0
+      },
+      {
+        "scenario": "Palette chiara e scura completa 768",
+        "esito": "PASS",
+        "errori_JS": 0
+      },
+      {
+        "scenario": "Palette chiara e scura completa 390",
+        "esito": "PASS",
+        "errori_JS": 0
+      }
+    ],
+    "POST_invii": 0,
+    "esito": "PASS_SCENARI_ONLINE",
+    "fine": "2026-10-21T12:24:31.991Z"
+  },
+  "online-anteprima": {
+    "inizio": "2026-10-21T12:24:48.079Z",
+    "prove": [
+      {
+        "scenario": "Anteprima temporanea selezionabile 1440",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Anteprima temporanea selezionabile 768",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Anteprima temporanea selezionabile 390",
+        "esito": "PASS"
+      }
+    ],
+    "POST_invii": 0,
+    "esito": "PASS_SCENARI_ONLINE",
+    "fine": "2026-10-21T12:25:14.816Z"
+  }
+}

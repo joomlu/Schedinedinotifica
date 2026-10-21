@@ -1,0 +1,28 @@
+{
+  "esito": "PASS_ISPEZIONE_VISIVA_CAMPIONATA",
+  "immagini_ispezionate": [
+    {
+      "nome": "web-checkin-anteprima-2026-10-21/diagnostici-R11/anteprima-R11/web-anteprima-interattiva.-ca2a7-emporanea-selezionabile-390/anteprima-390.png",
+      "sha256": "c672b3acdcac490d4ac1f18d3c9f6c35a8cc50d5a80a57c9e5727fadc5166aa0"
+    },
+    {
+      "nome": "web-checkin-anteprima-2026-10-21/diagnostici-R11/anteprima-R11/web-email-modal.playwright-b256e--e-invio-intercettato-390px/email-desktop-inizio-390.png",
+      "sha256": "ab1cd0d083da477a315a16d4a981ce2ae30343ab277d91c9170379d43459a3da"
+    },
+    {
+      "nome": "output/web-checkin-componenti-mobile-2026-10-21/qa-vm-risultati/qa/anteprima-390.png",
+      "sha256": "e69af69bbf0049f1ae72187bfa5d1bf9812711638211a8f73cb7f4eacb757b93"
+    },
+    {
+      "nome": "output/web-checkin-anteprima-2026-10-21/qa-vm-risultati/qa/palette-calendario-390-123456.png",
+      "sha256": "f7073571caa7da002f597b809305e4c30592cc16228cbd46ca2621e42bc86780"
+    }
+  ],
+  "rilievi": [
+    "Nome lungo e comandi Componenti entro390px dopo correzione",
+    "Banner e spiegazione dimostrativa visibili",
+    "Intestazione e azioni modal email entro390px",
+    "Calendario e GEO estero leggibili, logo non ricolorato"
+  ],
+  "limite": "Ispezione manuale campionata; tutte le larghezze1440/768/390 sono inoltre coperte da controlli automatici e geometria."
+}

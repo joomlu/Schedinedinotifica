@@ -1,0 +1,288 @@
+{
+  "esito": "PASS_MONITOR_DNS_HTTPS_MAC",
+  "inizio_UTC": "2026-10-21T12:26:18.715188+00:00",
+  "secondi": 921.119785834,
+  "campioni": [
+    {
+      "campione": 1,
+      "secondi": 0.921,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 2,
+      "secondi": 31.54,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 3,
+      "secondi": 62.268,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 4,
+      "secondi": 92.915,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 5,
+      "secondi": 123.606,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 6,
+      "secondi": 154.348,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 7,
+      "secondi": 185.025,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 8,
+      "secondi": 215.805,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 9,
+      "secondi": 246.452,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 10,
+      "secondi": 277.156,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 11,
+      "secondi": 307.797,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 12,
+      "secondi": 338.554,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 13,
+      "secondi": 369.24,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 14,
+      "secondi": 399.851,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 15,
+      "secondi": 430.52,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 16,
+      "secondi": 461.158,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 17,
+      "secondi": 491.877,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 18,
+      "secondi": 522.541,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 19,
+      "secondi": 553.185,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 20,
+      "secondi": 583.891,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 21,
+      "secondi": 614.558,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 22,
+      "secondi": 645.203,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 23,
+      "secondi": 675.882,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 24,
+      "secondi": 706.561,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 25,
+      "secondi": 737.216,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 26,
+      "secondi": 767.935,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 27,
+      "secondi": 798.588,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 28,
+      "secondi": 829.195,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 29,
+      "secondi": 859.814,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 30,
+      "secondi": 890.483,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    },
+    {
+      "campione": 31,
+      "secondi": 921.117,
+      "HTTPS_TLS_DNS_ordinario": {
+        "schedinedinotifica.tanggo.software": true,
+        "mail.schedinedinotifica.tanggo.software": true,
+        "www.schedinedinotifica.tanggo.software": true
+      }
+    }
+  ],
+  "richieste_HTTPS": 93,
+  "nessun_forzamento_IP_DNS_TLS": true
+}

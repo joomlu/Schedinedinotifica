@@ -1,0 +1,17 @@
+/home/collaudo.guest/web-anteprima-V5eDwHtk/node_modules/playwright/lib/matchers/expect.js:213
+        return matcher.call(target, ...args);
+                       ^
+
+A [Error]: expect(received).toBeTruthy()
+
+Received: false
+    at Proxy.<anonymous> (/home/collaudo.guest/web-anteprima-V5eDwHtk/node_modules/playwright/lib/matchers/expect.js:213:24)
+    at Object.fn (file:///tmp/schedine-anteprima-online-y1e450B4/qa/online-anteprima.mjs:14:621)
+    at async file:///tmp/schedine-anteprima-online-y1e450B4/qa/online-anteprima.mjs:17:557 {
+  matcherResult: {
+    message: 'expect(received).toBeTruthy()\n\nReceived: false',
+    pass: false
+  }
+}
+
+Node.js v20.18.2

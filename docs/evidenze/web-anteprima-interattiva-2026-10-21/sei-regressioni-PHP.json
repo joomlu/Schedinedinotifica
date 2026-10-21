@@ -1,6 +1,6 @@
 {
   "esito": "PASS_SEI_REGRESSIONI_ORIGINARIE_PR4",
-  "fonte": "JUnit R9 nella VM ufficiale",
+  "fonte": "JUnit R11 nella VM ufficiale, candidato finale del correttivo",
   "test": [
     {
       "classe": "Tests\\Feature\\SchedinaFlowValidationTest",

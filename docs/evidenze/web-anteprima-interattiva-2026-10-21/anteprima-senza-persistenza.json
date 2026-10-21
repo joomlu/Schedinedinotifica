@@ -1,0 +1,19 @@
+{
+  "esito": "PASS_DEMO_SENZA_PERSISTENZA_O_VISITE",
+  "SHA": "f414900b9626240dc34f1de0a449615b66d7413a",
+  "tabelle_sintetiche_identiche": {
+    "schedina": {
+      "righe": 22,
+      "HMAC": "c3bf8f56c0f7376ad318338e6e3aa9af825ecdbfefa2bc961bdb427be630f17c"
+    },
+    "componenti": {
+      "righe": 11,
+      "HMAC": "9265f4d2537a1ab9c2070bd0f465b8c6c377948370f657b2d828e1bd2e508ffa"
+    },
+    "web_checkin_richieste": {
+      "righe": 18,
+      "HMAC": "f1824bedf10512d51a0cae53435dc82aee1cffa024eae733366f3599a5d2ab8f"
+    }
+  },
+  "solo_le_strutture_della_task": true
+}

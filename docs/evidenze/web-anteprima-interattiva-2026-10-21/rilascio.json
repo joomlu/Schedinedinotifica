@@ -1,0 +1,203 @@
+{
+  "esito": "PASS_PUBBLICATO_VERIFICATO_ONLINE_E_MONITORATO",
+  "UTC": "2026-10-21T12:43:15.051436+00:00",
+  "PR_integrate": [
+    5,
+    6
+  ],
+  "SHA_codice_qualificato": "2400d14daf0affa882ab786a86d57fd4cceb04a6",
+  "SHA_integrato": "f414900b9626240dc34f1de0a449615b66d7413a",
+  "SHA_applicativo_online": "f414900b9626240dc34f1de0a449615b66d7413a",
+  "primo_rilascio": {
+    "SHA": "047a7a19e2fcda8a48d53a0f32ba47e01920f745",
+    "S0_secondi": 138.429,
+    "RUN_secondi": 233.703,
+    "C5_PASS_QA_mobile_NONPASS_conservato": true,
+    "fixture_rimosse_HMAC_66": true
+  },
+  "C5_correttivo": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "S0_secondi": 165.339,
+    "RUN_secondi": 258.963,
+    "DDL": false,
+    "migrazioni": 159,
+    "tabelle": 66,
+    "guardiano": "Concluso, disarmato, inattivo e disabilitato",
+    "core_68_file_invariati_salvo_SHA_tree": true
+  },
+  "custodie": [
+    {
+      "rilascio": "primo",
+      "tipo": "PREPARE",
+      "cifrati": 3,
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "d14e2b3c168363d694078648580744823d05405ec882e344e7fa3257795b401d"
+    },
+    {
+      "rilascio": "primo",
+      "tipo": "S0",
+      "cifrati": 3,
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "53207a3f6ffabfab61c44781d98585c7c5f58476756f084350e34260068c9eef"
+    },
+    {
+      "rilascio": "correttivo",
+      "tipo": "PREPARE",
+      "cifrati": 3,
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "77c65fc96f34cca2d367433b0663839e8b596045804018a4c17a14451b926eaa"
+    },
+    {
+      "rilascio": "correttivo",
+      "tipo": "S0",
+      "cifrati": 3,
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "21103e532884b7cffe6aad49db33f98946c05308b2c2f9897e58a0439284ffd1"
+    }
+  ],
+  "collaudo_isolato": {
+    "R11_test_PHP": 355,
+    "asserzioni": 3624,
+    "browser_R11": 9,
+    "browser_R12": 24,
+    "browser_distinti": 33,
+    "guardie": 17,
+    "override_rifiutati": 23,
+    "deprecazione_preesistente": 1,
+    "sorgenti_conformi": 113
+  },
+  "QA_online_finale_senza_invii": [
+    "online-circuito",
+    "online-html",
+    "online-completo",
+    "online-accessi",
+    "online-testi-palette",
+    "online-anteprima"
+  ],
+  "email": {
+    "invii_totali_task": 1,
+    "richiesta": 177,
+    "oggetto": "TEST Web Check-in — verifica circuito",
+    "HTML_logo_colore_link": "PASS",
+    "HTML_generato": {
+      "esito": "PASS_HTML_GENERATO_UNICO_INVIO",
+      "richiesta": 177,
+      "SHA_applicativo_invio": "047a7a19e2fcda8a48d53a0f32ba47e01920f745",
+      "SHA_finale": "f414900b9626240dc34f1de0a449615b66d7413a",
+      "HTML_generato_byte": 2511,
+      "HTML_generato_sha256": "d19c941428254421649afc9b99b1cca5e718be9cf69a3a828abe76beefb1ef0f",
+      "colore": "#812db5",
+      "testo_personalizzato": true,
+      "logo_struttura_presente_e_self_hosted": true,
+      "href_pulsante_identico_link_collaudato": true,
+      "codice_email_immutato_dopo_invio": true,
+      "delta_applicativo_successivo": [
+        "resources/views/web-checkin/public.blade.php"
+      ],
+      "limite": "HTML dell’anteprima inviata conservato privatamente; identità con il trasporto verificata in VM salvo CID/CRLF. MIME ricevuto e rendering inbox non ispezionati autonomamente; ricezione confermata dall’utente."
+    },
+    "SMTP": {
+      "esito": "PASS_UNICO_MESSAGGIO_ACCETTATO_DA_GOOGLE_SMTP",
+      "messaggi": [
+        {
+          "coda_sha256": "8161ae87fca9f45864aeb42c58bb90d01e8a497460bedccbc58576bdf8852bcf",
+          "ora_registro_UTC": "2026-10-21 09:16:13",
+          "oggetto_correlato_se_presente": false,
+          "Google_SMTP_250": true,
+          "differimenti": 0,
+          "rifiuti_permanenti": 0,
+          "transazione_conclusa": true,
+          "diagnosi_rifiuti": []
+        }
+      ],
+      "limite": "Accettazione SMTP remota distinta dalla presenza nella casella e dalla visualizzazione del messaggio; nessun registro estraneo esportato."
+    },
+    "ricezione": {
+      "esito": "RICEZIONE_CONFERMATA_DALL_UTENTE",
+      "UTC_registrazione": "2026-10-21T11:21:17.106361+00:00",
+      "richiesta": 177,
+      "oggetto": "TEST Web Check-in — verifica circuito",
+      "evidenza": "Risposta esplicita dell’utente: Ricevuto",
+      "nessun_secondo_invio": true,
+      "limite": "Conferma umana di ricezione; rendering nella casella non ispezionato autonomamente"
+    },
+    "richiesta_134_non_riutilizzata": true,
+    "nessun_invio_per_correzione_solo_CSS": true
+  },
+  "demo_senza_persistenza": {
+    "esito": "PASS_DEMO_SENZA_PERSISTENZA_O_VISITE",
+    "SHA": "f414900b9626240dc34f1de0a449615b66d7413a",
+    "tabelle_sintetiche_identiche": {
+      "schedina": {
+        "righe": 22,
+        "HMAC": "c3bf8f56c0f7376ad318338e6e3aa9af825ecdbfefa2bc961bdb427be630f17c"
+      },
+      "componenti": {
+        "righe": 11,
+        "HMAC": "9265f4d2537a1ab9c2070bd0f465b8c6c377948370f657b2d828e1bd2e508ffa"
+      },
+      "web_checkin_richieste": {
+        "righe": 18,
+        "HMAC": "f1824bedf10512d51a0cae53435dc82aee1cffa024eae733366f3599a5d2ab8f"
+      }
+    },
+    "solo_le_strutture_della_task": true
+  },
+  "pulizia": {
+    "tabelle_HMAC_identiche": 66,
+    "persistenti": 92,
+    "nessun_restore_o_reset": true
+  },
+  "monitor": {
+    "server_secondi": 919.2891792729497,
+    "server_campioni": 31,
+    "server_sonde": 279,
+    "Mac_secondi": 921.119785834,
+    "Mac_campioni": 31,
+    "Mac_richieste": 93
+  },
+  "errori_applicativi_FPM_da_T0": 0,
+  "riserva_VM": {
+    "campioni": 14122,
+    "minimo_VM_libero": 2167029760,
+    "riserva_invariata": 1073741824,
+    "esito": "PASS"
+  },
+  "risorse": {
+    "UTC": "2026-10-21T12:42:54.045957+00:00",
+    "Mac_liberi": 16281276416,
+    "Extra_liberi": 598098976768,
+    "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+    "VM": {
+      "liberi": 6100701184,
+      "filesystem_totale": 37290283008,
+      "tipo_filesystem": "xfs",
+      "SELinux": "Enforcing",
+      "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7"
+    },
+    "disco_VM": "36GiB, invariato",
+    "riserva_VM": 1073741824,
+    "soglia_Mac": 8589934592,
+    "soglia_Extra": 42949672960,
+    "nessuna_crescita_o_arresto_VM": true
+  },
+  "anti_standby": {
+    "esito": "PASS_PRESIDIO_TEMPORANEO_TERMINATO",
+    "PID_proprio": 26838,
+    "processo_assente": true,
+    "asserzioni_proprie_rimosse": true,
+    "nessuna_impostazione_permanente_modificata": true,
+    "osservatore_VM_terminato": true,
+    "log_finale_sha256": "c82fdac8732bb7c03f2eaa85217cfff906e2da6de9e3ffaaaaedce85db1a2e19"
+  },
+  "stato_generale": "BASELINE IN AUDIT",
+  "pendenti_nello_scope": [],
+  "limiti": [
+    "Una deprecazione PHPUnit preesistente",
+    "PHP VM8.3.33 e produzione8.3.35",
+    "Ricezione attestata dall’utente; rendering nella casella non ispezionato autonomamente",
+    "Ritardo anomalo dello strumento Mail:7178secondi; nessun secondo invio",
+    "Audit generale e questioni DNS/DKIM storiche distinti",
+    "Commit documentale conclusivo separato dal candidato applicativo online"
+  ]
+}

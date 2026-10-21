@@ -1,0 +1,21 @@
+{
+  "esito": "PASS_ALLINEAMENTO_GIT_PRODUZIONE",
+  "UTC": "2026-10-21T12:31:28.672304+00:00",
+  "PR": {
+    "5": {
+      "stato": "MERGED",
+      "SHA_integrato": "047a7a19e2fcda8a48d53a0f32ba47e01920f745",
+      "url": "https://github.com/joomlu/Schedinedinotifica/pull/5"
+    },
+    "6": {
+      "stato": "MERGED",
+      "SHA_integrato": "f414900b9626240dc34f1de0a449615b66d7413a",
+      "url": "https://github.com/joomlu/Schedinedinotifica/pull/6"
+    }
+  },
+  "SHA_integrato_applicativo": "f414900b9626240dc34f1de0a449615b66d7413a",
+  "SHA_applicativo_produzione": "f414900b9626240dc34f1de0a449615b66d7413a",
+  "SHA_main": "f414900b9626240dc34f1de0a449615b66d7413a",
+  "solo_documentazione_dopo_applicativo": false,
+  "file_documentali": []
+}

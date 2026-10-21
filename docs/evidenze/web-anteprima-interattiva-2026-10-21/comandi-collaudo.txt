@@ -1,0 +1,23 @@
+R11 — eseguito esclusivamente nella VM ufficiale
+limactl shell schedine-sviluppo-interno sudo bash /opt/schedine-sviluppo/strumenti/namespace-selinux-visibile.sh runuser -u collaudo -- env -i HOME=/home/collaudo.guest PATH=/usr/local/bin:/opt/schedine-runner-runtime-Q4WIbkDa/node-v20.18.2-linux-arm64/bin:/usr/bin:/bin LANG=C.UTF-8 python3 /home/collaudo.guest/web-anteprima-V5eDwHtk/tests/Isolation/run.py --phpunit tests/Feature/WebCheckinCircuitoMigrationTest.php tests/Feature/WebCheckinLifecycleTest.php tests/Feature/WebCheckinComunicazioniTest.php tests/Feature/CestinoSecurityTest.php tests/Feature/WebCheckinHtmlTest.php tests/Feature/WebCheckinMigrationPreservationTest.php tests/Feature/WebCheckinConversionConcurrencyAudit.php tests/Feature/WebCheckinCircuitoTest.php tests/Feature/SchedinaStoreTest.php tests/Feature/SchedinaFlowValidationTest.php tests/Feature/SchedinaSoggiornoTest.php tests/Feature/SchedinaCustomerPickerTest.php tests/Feature/SchedinaCustomerReferenceSecurityTest.php tests/Feature/CustomerManagementTest.php tests/Feature/CustomerWizardTest.php tests/Feature/CustomerImportedFiltersDeleteTest.php tests/Feature/ArriviLifecycleTest.php tests/Feature/ArriviCustomerReferenceSecurityTest.php tests/Feature/WebCheckinSmtpCurlTest.php tests/Feature/WebCheckinInvioElencoTest.php tests/Feature/QuesturaPayloadCoherenceTest.php tests/Feature/IstatConformitaTest.php tests/Unit/DatiComponenteNormalizzatiTest.php --fixtures tests/Isolation/seed-web-anteprima.php --playwright tests/Feature/web-anteprima-interattiva.playwright.spec.js tests/Feature/web-email-modal.playwright.spec.js
+
+R12 — eseguito esclusivamente nella VM ufficiale
+limactl shell schedine-sviluppo-interno sudo bash /opt/schedine-sviluppo/strumenti/namespace-selinux-visibile.sh runuser -u collaudo -- env -i HOME=/home/collaudo.guest PATH=/usr/local/bin:/opt/schedine-runner-runtime-Q4WIbkDa/node-v20.18.2-linux-arm64/bin:/usr/bin:/bin LANG=C.UTF-8 python3 /home/collaudo.guest/web-anteprima-V5eDwHtk/tests/Isolation/run.py --fixtures tests/Isolation/seed-web-testi-palette.php --playwright tests/Feature/web-checkin-html.playwright.spec.js tests/Feature/web-checkin-circuito.playwright.spec.js tests/Feature/web-testi-palette.playwright.spec.js tests/Feature/web-checkin-interfaccia.playwright.spec.js
+
+QA online — circuito
+limactl shell schedine-sviluppo-interno env HOME=/home/collaudo.guest PLAYWRIGHT_BROWSERS_PATH=/home/collaudo.guest/Library/Caches/ms-playwright /opt/schedine-runner-runtime-Q4WIbkDa/node-v20.18.2-linux-arm64/bin/node /tmp/schedine-anteprima-online-Y92fLztR/qa/online-circuito.mjs
+
+QA online — html
+limactl shell schedine-sviluppo-interno env HOME=/home/collaudo.guest PLAYWRIGHT_BROWSERS_PATH=/home/collaudo.guest/Library/Caches/ms-playwright /opt/schedine-runner-runtime-Q4WIbkDa/node-v20.18.2-linux-arm64/bin/node /tmp/schedine-anteprima-online-Y92fLztR/qa/online-html.mjs
+
+QA online — regressioni
+limactl shell schedine-sviluppo-interno env HOME=/home/collaudo.guest PLAYWRIGHT_BROWSERS_PATH=/home/collaudo.guest/Library/Caches/ms-playwright /opt/schedine-runner-runtime-Q4WIbkDa/node-v20.18.2-linux-arm64/bin/node /tmp/schedine-anteprima-online-Y92fLztR/qa/online-regressioni.mjs
+
+QA online — accessi
+limactl shell schedine-sviluppo-interno env HOME=/home/collaudo.guest PLAYWRIGHT_BROWSERS_PATH=/home/collaudo.guest/Library/Caches/ms-playwright /opt/schedine-runner-runtime-Q4WIbkDa/node-v20.18.2-linux-arm64/bin/node /tmp/schedine-anteprima-online-Y92fLztR/qa/online-accessi.mjs
+
+QA online — testi-palette
+limactl shell schedine-sviluppo-interno env HOME=/home/collaudo.guest PLAYWRIGHT_BROWSERS_PATH=/home/collaudo.guest/Library/Caches/ms-playwright /opt/schedine-runner-runtime-Q4WIbkDa/node-v20.18.2-linux-arm64/bin/node /tmp/schedine-anteprima-online-Y92fLztR/qa/online-testi-palette.mjs
+
+QA online — anteprima
+limactl shell schedine-sviluppo-interno env HOME=/home/collaudo.guest PLAYWRIGHT_BROWSERS_PATH=/home/collaudo.guest/Library/Caches/ms-playwright /opt/schedine-runner-runtime-Q4WIbkDa/node-v20.18.2-linux-arm64/bin/node /tmp/schedine-anteprima-online-Y92fLztR/qa/online-anteprima.mjs

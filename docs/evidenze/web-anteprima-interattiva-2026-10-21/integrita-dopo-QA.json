@@ -1,0 +1,30 @@
+{
+  "fixture": {
+    "esito": "PASS_FIXTURE_RIMOSSA_E_DATI_PREESISTENTI_IDENTICI",
+    "tabelle_differenti": [],
+    "strutture_sintetiche_rimosse": [
+      53,
+      54
+    ],
+    "nessun_restore_DB": true,
+    "limite": "Confronto HMAC di tutte le righe, non dei contatori AUTO_INCREMENT; eventuali scritture concorrenti reali da riconciliare senza ripristini obsoleti"
+  },
+  "persistenti": {
+    "esito": "PASS_PERSISTENTI_DOPO_PULIZIA",
+    "voci": 92,
+    "env_upload_loghi_contenuti_e_metadati_identici_S0": true,
+    "eccezione": "Solo mtime delle directory, inevitabilmente aggiornato dalla creazione/rimozione dei soli loghi sintetici; ogni altro metadato/file invariato."
+  },
+  "errori": {
+    "inizio_locale": "2026-10-21T11:03:08",
+    "nuovi_errori_applicativi": {
+      "laravel-2026-09-29.log": 0,
+      "laravel-2026-10-18.log": 0,
+      "laravel.log": 0
+    },
+    "totale_errori": 0,
+    "FPM_errori_journal": 0,
+    "nessun_contenuto_log_personale_esportato": true,
+    "primo_T0_task_e_secondo_RUN_inclusi_integralmente": true
+  }
+}

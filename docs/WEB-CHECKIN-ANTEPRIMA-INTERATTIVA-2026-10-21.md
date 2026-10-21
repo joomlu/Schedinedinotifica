@@ -1,8 +1,10 @@
 # Web Check-in — anteprima interattiva e aggiornamento colore, 21 ottobre 2026
 
-## Stato: primo rilascio online; correttivo mobile in qualificazione
+## Stato: pubblicato, verificato online e monitorato
 
-BASELINE IN AUDIT invariata. Base main e7b12d3ae9f989cfbdd140a2243c5650254ca9a2; produzione riletta in sola lettura 5e01d7b1153daac8de96a6281cd6203ff92c034d. La PR4 è già integrata; questo intervento prosegue sul nuovo ramo codex/web-checkin-anteprima-interattiva-2026-10-21 nel worktree separato. Checkout originario, quattro documenti modificati e tutto il lavoro preesistente preservati.
+SHA finale integrato e online: **`f414900b9626240dc34f1de0a449615b66d7413a`**. PR #5 e #6 integrate; qualificazione, QA, pulizia e monitor finali PASS. Gli stati intermedi riportati sotto sono storici.
+
+BASELINE IN AUDIT invariata. All’avvio della task: base main e7b12d3ae9f989cfbdd140a2243c5650254ca9a2; produzione riletta in sola lettura 5e01d7b1153daac8de96a6281cd6203ff92c034d. La PR4 è già integrata; questo intervento prosegue sul nuovo ramo codex/web-checkin-anteprima-interattiva-2026-10-21 nel worktree separato. Checkout originario, quattro documenti modificati e tutto il lavoro preesistente preservati.
 
 ## Cause e correzioni circoscritte
 
@@ -14,11 +16,11 @@ Intestazione e piè di pagina del modal email hanno limiti e scorrimento propri,
 
 ## Evidenze intermedie e limiti
 
-Solo VM ufficiale schedine-sviluppo-interno, namespace senza rete esterna, database/storage/sessioni effimeri e posta intercettata. R1 riproduce Esente disabilitato; R2 PHP22/226 PASS, browser fermo per opzione Esente mancante nella fixture; aggiunto il solo codice sintetico990. R3 PHP22/226 PASS e anteprima desktop PASS, scenario colore fermo dal messaggio visibile di selezione struttura, da chiudere normalmente nell’adattatore. R5 PHP22/230 e9browser PASS: anteprima temporanea, colore senza ricarica, risposta ritardata, HTML effettivamente trasportato e modali a1440/768/390. Successiva correzione CSS pubblica per Reset GEO e controllo geometrico ancora da qualificare con le prove finali. Nessuna asserzione, validazione, soglia o guardia indebolita. Le vecchie aspettative di campo disabilitato sono aggiornate al nuovo contratto interattivo, aggiungendo il controllo della destinazione dimostrativa.
+Solo VM ufficiale schedine-sviluppo-interno, namespace senza rete esterna, database/storage/sessioni effimeri e posta intercettata. R1 riproduce Esente disabilitato; R2 PHP22/226 PASS, browser fermo per opzione Esente mancante nella fixture; aggiunto il solo codice sintetico990. R3 PHP22/226 PASS e anteprima desktop PASS, scenario colore fermo dal messaggio visibile di selezione struttura, da chiudere normalmente nell’adattatore. R5 PHP22/230 e9browser PASS: anteprima temporanea, colore senza ricarica, risposta ritardata, HTML effettivamente trasportato e modali a1440/768/390. La correzione CSS pubblica per Reset GEO e il controllo geometrico sono stati poi qualificati nelle prove finali. Nessuna asserzione, validazione, soglia o guardia indebolita. Le vecchie aspettative di campo disabilitato sono aggiornate al nuovo contratto interattivo, aggiungendo il controllo della destinazione dimostrativa.
 
 Le esecuzioni diagnostiche sul vecchio main sono distinte dai collaudi del candidato. Nessun loro NONPASS viene promosso a PASS. Nessun test Laravel/PHPUnit/Playwright sul Mac. Daily945ef553, disco36GiB/XFS e SELinux Enforcing preservati.
 
-## Pubblicazione e invio autorizzati, ancora pendenti
+## Pianificazione storica precedente ai rilasci
 
 Dopo collaudo esteso e revisione: PR dedicata, integrazione main e C5 con SHA esatto, nuovo preflight, PREPARE/T0/S0 e recuperi indipendenti, custodia Extra, quiete, guardiano e monitor finali secondo il protocollo vigente. Presidio caffeinate temporaneo da terminare alla chiusura. Soglie8GiB Mac/40GiB Extra, riservaVM1GiB e budget1800/600/1379/421 invariati.
 
@@ -30,9 +32,9 @@ R9 **355 test PHP / 3624 asserzioni e9browser mirati PASS**, R10 **24browser sto
 
 R0 eR0b sono diagnostici incompleti degli adattatori, non prove accettate del difetto; R0c riproduce la perdita del testo dopo la conferma effettiva del vecchio salvataggio colore. R4 PHP353/3574 e24browser PASS; R7 PHP354/3605 e9browser eR8 24browser PASS prima del correttivo finale di contrasto. Gli esiti intermedi restano conservati e distinti dalla qualificazione R9/R10. R6 era solo predisposta, non eseguita. Nessun timeout, assert o guardrail indebolito. [Sigillo](evidenze/web-anteprima-interattiva-2026-10-21/verifica.json), log e schermate conservati; immagine mobile precedente classificata non conforme.
 
-Integrazione e C5 restano pendenti. Nessun invio reale ancora eseguito; la sola email futura alla casella autorizzata avrà il soggetto concordato. BASELINE IN AUDIT invariata.
+Al momento della prima qualificazione integrazione/C5/invio erano ancora pendenti; gli esiti effettivi sono riportati nelle sezioni successive.
 
-## Primo rilascio effettivo e correzione emersa dalla QA online
+## Fase storica — primo rilascio e correzione emersa dalla QA online
 
 PR #5 integrata e C5 applicato: `047a7a19e2fcda8a48d53a0f32ba47e01920f745`, S0 138.429s / RUN233.703s, nessuna DDL. Sei cifrati Extra verificati integralmente. DB byte-identicoS0 primaQA; guardiano concluso/disarmato e92persistenti preservati. Primo STOP di capacità primaRUN conservato; solo blocchi statici identici di recuperi storici chiusi condivisi, senza eliminare file o SQL. Gate invariato poi superato.
 
@@ -42,6 +44,26 @@ Anteprima online: controlli interattivi e assenza di POST PASS; HMAC di schedina
 
 Fixture del primo passaggio rimosse: HMAC di tutte le righe preesistenti delle66tabelle e92persistentiPASS, nessun restore/reset. Presidio temporaneo esteso dopo il ritardo Mail senza modifiche permanenti. Nessun dato reale o Questura/ISTAT toccato. Il solo invio autorizzato è già consumato e ricevuto; nessun ulteriore invio nelle prove successive. BASELINE IN AUDIT invariata.
 
-## Riqualificazione del correttivo mobile
+## Fase storica — riqualificazione del correttivo mobile
 
 R11 PHP355/3624 e9browser mirati PASS; R12 24browser storici PASS sul medesimo applicativo e113sorgenti identici. Nome del Componente esteso e controlli geometrici anche sull’intestazione, senza indebolire asserzioni o timeout. Tutti i33scenari distinti e buildVite/GEO/Blade qualificati esclusivamente nellaVM ufficiale, con guardie invariate. Una deprecazione preesistente. Primo NONPASS online conservato; modifica applicativa successiva al primo C5 limitata a tre regole CSS del modulo pubblico. Nuovo C5 e QA online senza ulteriori invii pendenti.
+
+## Pubblicazione e verifiche concluse
+
+**PR #5 e #6 integrate. SHA applicativo effettivamente pubblicato e verificato online: `f414900b9626240dc34f1de0a449615b66d7413a`.** Il correttivo qualificato è `2400d14daf0affa882ab786a86d57fd4cceb04a6`; l’albero di integrazione è identico. [Ricevuta](evidenze/web-anteprima-interattiva-2026-10-21/rilascio.json), [QA](evidenze/web-anteprima-interattiva-2026-10-21/qa-online.json), [comandi](evidenze/web-anteprima-interattiva-2026-10-21/comandi-collaudo.txt). BASELINE IN AUDIT invariata.
+
+Il primo C5 `047a7a19` (S0 138,429 s / RUN 233,703 s) resta storico. La QA successiva ha trovato l’overflow mobile: 409 px contro 390, riprodotto nei NONPASS R1/R2 e conservato. Corretti tre soli CSS del modulo pubblico e rafforzata la regressione. R11 PHP 355/3.624 e nove browser, R12 24 browser sul medesimo codice: 33 scenari distinti, senza sommare ripetizioni; 113 sorgenti conformi. Guardie 17, override rifiutati 23, build Vite/GEO e Blade PASS. Una deprecazione preesistente. Le immagini della qualificazione finale sono 104; quelle online sono 50. Storico e diagnostici restano separati.
+
+Secondo C5 con nuovi PREPARE/T0/S0 e recuperi indipendenti: **S0 165,339 s, RUN 258,963 s**, 159 migrazioni / 66 tabelle, zero DDL. Tutti i dodici cifrati delle quattro catene PREPARE/S0 sono autenticati e decifrati integralmente su Extra, con chiave separata. Guardiano concluso, disarmato, inattivo e disabilitato. DB byte-identico a S0 prima della QA, 92 persistenti conservati. I 68 file core del C5 sono invariati salvo SHA/tree.
+
+Conservati gli STOP di capacità di entrambi i passaggi. Il secondo gate di 3.005.329.408 byte è rimasto invariato ed è stato superato con 7.188.963.328 liberi. Condivisi solo blocchi kernel identici nei recuperi storici chiusi, dopo verifica dell’assenza di utilizzatori e dell’identità di byte, inode e metadati. Nessun file eliminato, nessun SQL eseguito; dati operativi, env, upload, chiavi, cifrati e nuovo recupero esclusi. L’ultima fase statica ha misurato 2.664.022.016 → 7.189.356.544 byte liberi, con 71.530 file verificati. Minimo VM dell’intera task: 2.167.029.760 byte su 14.122 campioni. Riserva 1 GiB, soglie Mac 8 GiB / Extra 40 GiB e budget 1800/600/1379/421 invariati.
+
+QA online finale dal browser nella VM: sei percorsi singolo/famiglia con bambino/gruppo, sei HTML/modelli, nove GEO/editor/palette e tre anteprima a 1440/768/390 px PASS. Anche clienti, Bozze/ripresa, isolamento A/B, 24 navigazioni, link scaduti/revocati/rigenerati e duplicati sono PASS. Colore salvato senza ricarica né perdita del testo; errori inline ricontrollati. Esente, tipo ospite, calendario, sezioni e componenti selezionabili nell’anteprima. Nome lungo e pulsanti entro la scheda; logo invariato. Nessun POST della demo, dati ripristinati alla ricarica e spiegazione delle azioni dimostrative. HMAC delle tre tabelle prima/dopo identici: nessuna visita, persistenza o variazione di stato. Snapshot storici e contratti Questura/ISTAT preservati, nessuna trasmissione agli enti.
+
+Il primo adattatore palette finale ha superato otto scenari, poi è terminato NONPASS sul colore chiaro a 390 px: ricaricava dopo due render senza attendere il termine del salvataggio asincrono. Log, risultato e immagine sono conservati separatamente. Aggiunte soltanto attese del messaggio «Colore salvato», dell’attributo `data-saved` e del pulsante riabilitato; timeout e tutti i controlli successivi conservati. Tutti i nove scenari ripetuti PASS sul medesimo applicativo, senza sommare le ripetizioni. Zero errori Laravel/FPM dall’intero primo T0.
+
+**Unico invio reale della task**, sull’applicativo `047a7a19`: nuova richiesta sintetica **177**, mai 134, sola casella autorizzata, oggetto «TEST Web Check-in — verifica circuito». Verificati HTML conservato, testo personalizzato, colore `#812db5`, logo della struttura e href identico al link collaudato. Il codice email è rimasto identico nel correttivo successivo. [Riscontro HTML](evidenze/web-anteprima-interattiva-2026-10-21/HTML-unico-invio.json). Trasporto applicativo accettato e Google SMTP 250, transazione conclusa senza differimenti o rifiuti. **Ricezione confermata esplicitamente dall’utente («Ricevuto»)**, evidenza distinta dal SMTP. MIME ricevuto e resa nella casella non ispezionati autonomamente: lo strumento Mail ha restituito una vecchia vista dopo 7.178 s, non usata come prova. Nessun reinvio per il correttivo CSS e zero POST di invio nella QA finale; nessun ospite reale coinvolto.
+
+Fixture, account e loghi di entrambi i passaggi rimossi: HMAC di tutte le righe preesistenti delle 66 tabelle e 92 persistenti/env/key/upload/loghi PASS, senza restore o reset dei contatori. Monitor dopo pulizia: **server 919,289 s / 31 campioni / 279 sonde** e **Mac 921,120 s / 31 campioni / 93 HTTPS**, PASS. Zero errori Laravel/FPM dall’intero primo T0, registri non azzerati. Daily `945ef553`, disco 36 GiB/XFS, SELinux Enforcing, FileVault, credenziali e checkout originario preservati. Presidi temporanei terminati, nessuna impostazione permanente cambiata.
+
+Commit documentale conclusivo distinto dallo SHA applicativo online. Nessun pendente nello scope. Limiti reali: Chromium alle larghezze indicate; una deprecazione PHPUnit preesistente; PHP VM 8.3.33 / produzione 8.3.35; MIME e resa nella casella non ispezionati autonomamente, ricezione attestata dall’utente. Audit generale e questioni DNS/DKIM storiche restano separati. **BASELINE IN AUDIT** invariata.
