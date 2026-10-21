@@ -51,6 +51,9 @@ $publicMessages = $errors->getMessages();
 <style>
 body{background:var(--hotel-sfondo)}#web-ospite .componente-row[hidden]{display:none!important}#web-ospite.web-guidato .tab-content .tab-pane[data-web-tassa-riservata]{display:none!important}#web-ospite .hotel-logo{max-height:90px;max-width:220px;object-fit:contain}#web-ospite .hotel-nome{color:#263238;border-left:4px solid var(--hotel-colore);padding-left:12px;font-weight:700}#web-ospite .hotel-riepilogo{display:flex;flex-wrap:wrap;gap:20px;background:var(--hotel-tenue);padding:20px;border:1px solid var(--hotel-bordo);border-radius:10px}#web-ospite .hotel-riepilogo>span{flex:1;min-width:110px}#web-ospite .btn-primary,#web-ospite .btn-success{background:var(--hotel-colore);border-color:var(--hotel-colore);color:var(--hotel-testo)}#web-ospite.web-guidato .step-arrow-nav,#web-ospite.web-guidato .tab-content .nexttab,#web-ospite.web-guidato .tab-content .prevtab,#web-ospite.web-guidato .tab-content button[name=save_mode]{display:none!important}#web-ospite.web-guidato .tab-pane[hidden]{display:none!important}#web-ospite.web-guidato .tab-pane:not([hidden]){display:block!important;opacity:1}#web-ospite .web-azioni{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:18px 0 0;border-top:1px solid var(--hotel-bordo);margin-top:24px}@media(max-width:575px){#web-ospite .web-azioni .btn{flex:1 1 100%}#web-ospite .hotel-riepilogo{gap:12px;padding:14px}}
 
+#web-ospite .componente-row > .card-header{flex-wrap:wrap;gap:8px}
+#web-ospite .componente-row > .card-header > .d-flex{min-width:0;max-width:100%;flex-wrap:wrap}
+#web-ospite .componente-summary-line{overflow-wrap:anywhere}
 #web-ospite [data-ui=geo-italia] > .card-header{flex-wrap:wrap;gap:8px}
 #web-ospite [data-ui=geo-italia] > .card-header > .d-flex{min-width:0;max-width:100%;flex-wrap:wrap}
 #web-ospite [data-ui=geo-italia] > .card-header .btn{min-height:44px}

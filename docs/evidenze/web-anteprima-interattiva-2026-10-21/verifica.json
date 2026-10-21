@@ -1,6 +1,6 @@
 {
   "stato": "PASS_WEB_ANTEPRIMA_INTERATTIVA_ISOLATO",
-  "UTC": "2026-10-21T08:38:09.288197+00:00",
+  "UTC": "2026-10-21T11:47:45.709966+00:00",
   "ambiente": {
     "VM": "schedine-sviluppo-interno",
     "PHP": "8.3.33",
@@ -98,7 +98,7 @@
     "resources/views/web-checkin/partials/email-ui.blade.php": "da081efa0bca0b8b5eeaf609b5bb8509054731722531b3e451e94347ac840b66",
     "resources/views/web-checkin/partials/navigation.blade.php": "daf5999a6d93e5543df5dd7309a3ffd069f3372c817aa1f93a6e23d2f1ca98ea",
     "resources/views/web-checkin/partials/persona.blade.php": "625a61f9f7045278383a67c31c8f7ec31f1762a224b26647d740716a0e32036c",
-    "resources/views/web-checkin/public.blade.php": "9fd96c95d954046815775c586d028a85d56e36394026351558df0e18b4a7569d",
+    "resources/views/web-checkin/public.blade.php": "8610779dbfdd1cc50409b26d383cd29a05f089f6bc413fdef190bac5f50f8402",
     "resources/views/web-checkin/received.blade.php": "5d29044f7279cfef8ecdaab092b9fed5756bf249a37b500af93e0810ee9b8ba7",
     "routes/web.php": "61badfd2c69175eb62491f332e6e68ed5373c80ef2ce8e89a8f294e10c0970dd",
     "scripts/geo-immutable.hashes.json": "5c89d180a4f995692653acbbebe0f4f97b01dc79d505cd6b4271e88f0b5b7704",
@@ -123,7 +123,7 @@
     "tests/Feature/WebCheckinShortLinkTest.php": "816dbab9677ce5d1a07d03bc6ad0f5d718bbb5e570e192fada997987d739580e",
     "tests/Feature/WebCheckinSmtpCurlTest.php": "9429da7d54052f871565d983cebf57592705e0f70e7a4d36034bf4325b1f9565",
     "tests/Feature/arrivi-lifecycle.playwright.spec.js": "e7c979254bc7604d3f4a6f2241e238a61ab00c621b362ff1d20dd031e7512b7c",
-    "tests/Feature/web-anteprima-interattiva.playwright.spec.js": "9ef7bb14284fd2738ea8e025aff4cc29d7de24ef4a0cbd6b6b35c6b1ece36ce5",
+    "tests/Feature/web-anteprima-interattiva.playwright.spec.js": "1d53a4f44c3e36d133cd34551ef0fbfa23cacec7d3757082bd50c1e8731d426e",
     "tests/Feature/web-checkin-circuito.playwright.spec.js": "7fa4e1b4b7827f810c33fab19d8c8296bfd82511a90ecf1db132b7ce5bd0c8fc",
     "tests/Feature/web-checkin-html.playwright.spec.js": "7fb4d9564d05eab71dc1b0daf69f01bc9e9cec45693f4d16a3ef1e90b3eb8d1a",
     "tests/Feature/web-checkin-interfaccia.playwright.spec.js": "4c65700f066a6a22f4ba859708ae07d9fcb1681d1878d3bc19f752b632162e2c",
@@ -256,9 +256,20 @@
   "lavoro_preesistente_preservato": true,
   "limiti": [
     "BASELINE IN AUDIT generale invariata",
-    "Solo Chromium alle larghezze indicate",
-    "Deprecazione PHPUnit preesistente nei metadati di IstatConformitaTest",
-    "PHP VM8.3.33; produzione da riconfermare nel preflight",
-    "Integrazione/C5/QA online, singolo invio autorizzato, pulizia e monitor ancora pendenti al momento del sigillo"
-  ]
+    "Chromium1440/768/390",
+    "Deprecazione PHPUnit preesistente; PHP VM8.3.33/produzione8.3.35",
+    "Secondo C5, nuova QA senza invii e monitor finali ancora pendenti"
+  ],
+  "qualificazione_definitiva": {
+    "PHP_R11": [
+      355,
+      3624
+    ],
+    "browser_R11": 9,
+    "browser_R12": 24,
+    "scenari_distinti": 33,
+    "sorgenti_identici": true,
+    "correzione": "Header Componenti pubblico a capo; nome lungo e geometria comandi verificati",
+    "nessun_invio_reale": true
+  }
 }

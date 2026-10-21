@@ -1,0 +1,16 @@
+{
+  "esito": "PASS_UNICO_MESSAGGIO_ACCETTATO_DA_GOOGLE_SMTP",
+  "messaggi": [
+    {
+      "coda_sha256": "8161ae87fca9f45864aeb42c58bb90d01e8a497460bedccbc58576bdf8852bcf",
+      "ora_registro_UTC": "2026-10-21 09:16:13",
+      "oggetto_correlato_se_presente": false,
+      "Google_SMTP_250": true,
+      "differimenti": 0,
+      "rifiuti_permanenti": 0,
+      "transazione_conclusa": true,
+      "diagnosi_rifiuti": []
+    }
+  ],
+  "limite": "Accettazione SMTP remota distinta dalla presenza nella casella e dalla visualizzazione del messaggio; nessun registro estraneo esportato."
+}
