@@ -1,0 +1,44 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-22  0:19:31 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-5292evcw; database=test_geo_568a59aca895b43374e904836a15c0e7; MySQL pid=57, porta=52677; HTTP pid=87, porta=51503
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+
+Running 6 tests using 1 worker
+
+  ✘  1 tests/Feature/web-anteprima-interattiva.playwright.spec.js:6:2 › Anteprima temporanea selezionabile 1440 (11.7s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests/Feature/web-anteprima-interattiva.playwright.spec.js:6:2 › Anteprima temporanea selezionabile 1440
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  locator('.componente-row:visible [name$="[date_nac]"]').first()
+    Expected: ""
+    Received: "2000-01-01"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" with timeout 5000ms
+      - waiting for locator('.componente-row:visible [name$="[date_nac]"]').first()
+        8 × locator resolved to <input type="hidden" data-alt-input="1" value="2000-01-01" data-ui="calendario" data-alt-format="d/m/Y" data-date-format="Y-m-d" placeholder="gg/mm/aaaa" data-init-calendario="1" data-provider="flatpickr" data-calendar-variant="birth" data-default-date="2000-01-01" data-deafult-date="2000-01-01" name="componenti[0][date_nac]" class="form-control flatpickr-input"/>
+          - unexpected value "2000-01-01"
+
+
+      14 |   await page.locator('.componente-row:visible .remove-componente').first().click();await expect(page.locator('.componente-row:visible')).toHaveCount(0);
+      15 |   const addAgain=page.getByRole('button',{name:'Aggiungi componente',exact:true});await expect(addAgain).toBeVisible();await addAgain.click();await expect(page.locator('.componente-row:visible')).toHaveCount(1);
+    > 16 |   const freshBirth=page.locator('.componente-row:visible [name$="[date_nac]"]').first();await expect(freshBirth).toHaveValue('');expect(await freshBirth.evaluate(el=>({date:el._flatpickr.selectedDates.length,visible:el._flatpickr.altInput.value}))).toEqual({date:0,visible:''});
+         |                                                                                                                  ^
+      17 |   await page.locator('.componente-row:visible [name$="[name]"]').fill('Riaggiunto dopo ultimo');
+      18 |   for(const selector of ['.web-azioni button[value=web]','#web-conferma']){await page.locator(selector).click();await expect(page.locator('#web-demo-esito')).toBeVisible();await expect(page.locator('#web-demo-esito')).toContainText('Nessun dato è stato salvato');await expect(page).toHaveURL(url);}
+      19 |   expect(writes).toEqual([]);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();await page.screenshot({path:info.outputPath(`anteprima-${width}.png`),fullPage:true});await page.reload();await expect(page.locator('[name=name]').first()).toHaveValue(initial);await expect(page.locator('[name=oa_date_nac]')).toHaveValue('1990-01-01');
+        at /tmp/schedine-test-5292evcw/checkout/tests/Feature/web-anteprima-interattiva.playwright.spec.js:16:114
+
+    Error Context: test-results/web-anteprima-interattiva.-90498-mporanea-selezionabile-1440/error-context.md
+
+  1 failed
+    tests/Feature/web-anteprima-interattiva.playwright.spec.js:6:2 › Anteprima temporanea selezionabile 1440
+  5 did not run
+  1 error was not a part of any test, see above for details
