@@ -25,7 +25,8 @@ $publicMessages = $errors->getMessages();
 <div class="hotel-riepilogo"><span><strong>Prenotazione</strong><br>{{ $webCheckinRichiesta->numero_prenotazione }}</span><span><strong>Arrivo</strong><br>{{ $webCheckinRichiesta->arrivo->format('d/m/Y') }}</span><span><strong>Partenza</strong><br>{{ $webCheckinRichiesta->partenza->format('d/m/Y') }}</span><span><strong>Ospiti</strong><br>{{ $webCheckinRichiesta->quantita_persone }}@if($webCheckinRichiesta->numero_adulti!==null)<small class="d-block">{{ $webCheckinRichiesta->numero_adulti }} adulti · {{ $webCheckinRichiesta->numero_bambini }} bambini</small>@endif</span></div>
 <p class="small text-muted mt-3">Referente della prenotazione: {{ $webCheckinRichiesta->nome_referente }}. I dati sotto appartengono all’ospite titolare, che può essere una persona diversa.</p>
 </header>
-@if($webPreview ?? false)<div class="alert alert-info">Anteprima riservata alla reception: nessuna visita dell’ospite registrata e nessun salvataggio disponibile. <a href="{{ route('web_checkin.edit', $webCheckinRichiesta->id) }}">Torna alla richiesta</a></div>@endif
+@if($webPreview ?? false)<div class="alert alert-info">Anteprima interattiva: le modifiche non vengono salvate <a href="{{ route('web_checkin.edit', $webCheckinRichiesta->id) }}">Torna alla richiesta</a></div>@endif
+@if(($webPreview ?? false) && request()->boolean('dimostrazione'))<div class="alert alert-info" role="status">Modalità dimostrazione. Nessun dato è stato salvato e nessun check-in è stato eseguito.</div>@endif
 @if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
 @if($errors->any())<div class="alert alert-danger" role="alert">Controlla i campi segnalati. I dati inseriti sono ancora nel modulo.</div>@endif
 <p id="ospiti-completati" class="small">Ultimo salvataggio: <strong>Ospiti completati {{ $completedGuests }} di {{ $webCheckinRichiesta->quantita_persone }}</strong>. Il conteggio si aggiorna al salvataggio; la conferma rivalida tutti i dati.</p>
@@ -36,7 +37,7 @@ $publicMessages = $errors->getMessages();
 <button type="button" role="tab" id="web-tab-{{ $section }}" aria-controls="schedina-step-{{ $section }}-pane" aria-selected="false" tabindex="-1" class="btn btn-light" data-web-section="{{ $section }}">{{ $label }}</button>
 @endforeach
 </div></nav>
-<fieldset @disabled($webPreview ?? false) class="border-0 p-0 m-0">
+<fieldset class="border-0 p-0 m-0">
 @include('schedina.partials.form', [
 'schedina'=>$schedina, 'titoli'=>$titoli, 'tipiVia'=>$tipiVia, 'tipiDocumento'=>$tipiDocumento,
 'nations'=>$nations, 'regions'=>$regions, 'provinces'=>$provinces, 'ciudades'=>$ciudades,
@@ -50,6 +51,9 @@ $publicMessages = $errors->getMessages();
 <style>
 body{background:var(--hotel-sfondo)}#web-ospite .componente-row[hidden]{display:none!important}#web-ospite.web-guidato .tab-content .tab-pane[data-web-tassa-riservata]{display:none!important}#web-ospite .hotel-logo{max-height:90px;max-width:220px;object-fit:contain}#web-ospite .hotel-nome{color:#263238;border-left:4px solid var(--hotel-colore);padding-left:12px;font-weight:700}#web-ospite .hotel-riepilogo{display:flex;flex-wrap:wrap;gap:20px;background:var(--hotel-tenue);padding:20px;border:1px solid var(--hotel-bordo);border-radius:10px}#web-ospite .hotel-riepilogo>span{flex:1;min-width:110px}#web-ospite .btn-primary,#web-ospite .btn-success{background:var(--hotel-colore);border-color:var(--hotel-colore);color:var(--hotel-testo)}#web-ospite.web-guidato .step-arrow-nav,#web-ospite.web-guidato .tab-content .nexttab,#web-ospite.web-guidato .tab-content .prevtab,#web-ospite.web-guidato .tab-content button[name=save_mode]{display:none!important}#web-ospite.web-guidato .tab-pane[hidden]{display:none!important}#web-ospite.web-guidato .tab-pane:not([hidden]){display:block!important;opacity:1}#web-ospite .web-azioni{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:18px 0 0;border-top:1px solid var(--hotel-bordo);margin-top:24px}@media(max-width:575px){#web-ospite .web-azioni .btn{flex:1 1 100%}#web-ospite .hotel-riepilogo{gap:12px;padding:14px}}
 
+#web-ospite [data-ui=geo-italia] > .card-header{flex-wrap:wrap;gap:8px}
+#web-ospite [data-ui=geo-italia] > .card-header > .d-flex{min-width:0;max-width:100%;flex-wrap:wrap}
+#web-ospite [data-ui=geo-italia] > .card-header .btn{min-height:44px}
 #web-ospite .web-sezioni{display:flex;flex-wrap:wrap;gap:8px;padding:8px;background:var(--hotel-tenue);border:1px solid var(--hotel-bordo);border-radius:12px}
 #web-ospite .web-sezioni .btn{flex:1 1 145px;white-space:normal;min-height:46px;border-radius:8px}
 #web-ospite [hidden],#web-passaggi[hidden]{display:none!important}
@@ -102,6 +106,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const root = document.getElementById('web-ospite');
     const form = document.getElementById('schedina-form');
     if (!form) return;
+    const preview = @json($webPreview ?? false);
+    if (preview) {
+        const demo = document.createElement('div');
+        demo.id = 'web-demo-esito'; demo.className = 'alert alert-info mt-3';
+        demo.setAttribute('role', 'status'); demo.setAttribute('tabindex', '-1'); demo.hidden = true;
+        form.after(demo);
+        const explain = event => {
+            event.preventDefault(); event.stopImmediatePropagation();
+            demo.textContent = 'Modalità dimostrazione. Nessun dato è stato salvato e nessun check-in è stato eseguito. Nel modulo ospite questi pulsanti salvano i dati parziali o li confermano per la reception.';
+            demo.hidden = false; demo.focus();
+        };
+        // Capture precede i gestori canonici; anche Invio da tastiera resta dimostrativo.
+        form.addEventListener('submit', explain, true);
+        form.addEventListener('click', event => {
+            if (event.target.closest('button[type=submit], input[type=submit]')) explain(event);
+        }, true);
+    }
     const messages = @json($publicMessages);
     const hasOthers = @json($hasOthers);
     const panes = [...form.querySelectorAll('.tab-content > .tab-pane')];

@@ -30,23 +30,23 @@ class WebCheckinMessaggio
             'email_struttura' => $request->struttura?->email,
             'telefono_struttura' => $request->struttura?->telefono,
         ];
-        $replace = function (string $text) use ($values): string {
+        $replace = function (string $text, string $field) use ($values): string {
             if (preg_match('/\{!!|<\?(?:php|=)|@(?:php|include|extends|inject)\b/i', $text)) {
-                throw ValidationException::withMessages(['messaggio' => 'Usa testo semplice e le variabili disponibili.']);
+                throw ValidationException::withMessages([$field => 'Usa testo semplice e le variabili disponibili.', 'messaggio' => 'Usa testo semplice e le variabili disponibili.']);
             }
-            $rendered = preg_replace_callback('/\{\{\s*([a-z_]+)\s*\}\}/', function ($match) use ($values) {
+            $rendered = preg_replace_callback('/\{\{\s*([a-z_]+)\s*\}\}/', function ($match) use ($values, $field) {
                 $name = $match[1];
                 if (! array_key_exists($name, $values)) {
-                    throw ValidationException::withMessages(['messaggio' => 'Variabile sconosciuta: '.$name.'.']);
+                    throw ValidationException::withMessages([$field => 'Variabile sconosciuta: '.$name.'.', 'messaggio' => 'Variabile sconosciuta: '.$name.'.']);
                 }
                 if (blank($values[$name])) {
-                    throw ValidationException::withMessages(['messaggio' => 'Dato mancante per la variabile '.$name.'.']);
+                    throw ValidationException::withMessages([$field => 'Dato mancante per la variabile '.$name.'.', 'messaggio' => 'Dato mancante per la variabile '.$name.'.']);
                 }
 
                 return (string) $values[$name];
             }, $text);
             if (str_contains($rendered, '{{') || str_contains($rendered, '}}')) {
-                throw ValidationException::withMessages(['messaggio' => 'Sintassi di una variabile non valida.']);
+                throw ValidationException::withMessages([$field => 'Sintassi di una variabile non valida.', 'messaggio' => 'Sintassi di una variabile non valida.']);
             }
 
             return $rendered;
@@ -56,13 +56,13 @@ class WebCheckinMessaggio
         }
 
         $layout = array_replace(self::layoutIniziale(), array_intersect_key($layout, self::layoutIniziale()));
-        foreach ($layout as $key => $text) $layout[$key] = $replace($text);
-        $renderedSubject = $replace($subject);
+        foreach ($layout as $key => $text) $layout[$key] = $replace($text, 'impostazioni.'.$key);
+        $renderedSubject = $replace($subject, 'oggetto');
         if (strpbrk($renderedSubject, "\r\n") !== false || mb_strlen($renderedSubject) > 255) throw ValidationException::withMessages(['oggetto' => 'L’oggetto deve stare su una sola riga, entro255 caratteri.']);
         if (blank(trim($layout['pulsante'])) || mb_strlen($layout['pulsante']) > 80) throw ValidationException::withMessages(['impostazioni.pulsante' => 'Inserisci un’etichetta del pulsante entro80 caratteri.']);
         $values['link'] = route('web_checkin.public.show', ['token' => $request->token]);
 
-        return ['oggetto' => $renderedSubject, 'corpo' => $replace($body), 'layout' => $layout,
+        return ['oggetto' => $renderedSubject, 'corpo' => $replace($body, 'corpo'), 'layout' => $layout,
             'dati' => $values, 'identita' => app(WebCheckinIdentita::class)->of($request->struttura)];
     }
 

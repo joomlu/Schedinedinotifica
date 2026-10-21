@@ -1,0 +1,247 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-21  9:50:16 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-m7ixyghp; database=test_geo_f4ec1ea404bc36c5cbb94c91e9c5ab7b; MySQL pid=57, porta=54867; HTTP pid=81, porta=50251
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+
+Running 1 test using 1 worker
+
+  ✘  1 tests/Feature/web-anteprima-interattiva.playwright.spec.js:6:2 › Colore senza ricarica e HTML trasportato 1440 (20.2s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests/Feature/web-anteprima-interattiva.playwright.spec.js:6:2 › Colore senza ricarica e HTML trasportato 1440
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveValue[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('#email-testo')
+    Timeout: 5000ms
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 3[39m
+
+    [32m- Personalizzazione da conservare 1440[39m
+    [31m+ il tuo soggiorno a «Nome struttura» si avvicina![39m
+    [31m+ Completa il check-in online prima dell’arrivo:[39m
+    [31m+ ci aiuterai ad accoglierti più velocemente.[39m
+
+    Call log:
+    [2m  - Expect "toHaveValue" with timeout 5000ms[22m
+    [2m  - waiting for locator('#email-testo')[22m
+    [2m    9 × locator resolved to <textarea rows="3" required="" id="email-testo" maxlength="4000" class="form-control" name="impostazioni[testo]"></textarea>[22m
+    [2m      - unexpected value "il tuo soggiorno a «Nome struttura» si avvicina![22m
+    [2mCompleta il check-in online prima dell’arrivo:[22m
+    [2mci aiuterai ad accoglierti più velocemente."[22m
+
+
+       6 |  test(`Colore senza ricarica e HTML trasportato ${width}`,async({page},info)=>{
+       7 |   test.setTimeout(120000);await page.setViewportSize({width,height:1000});await login(page);const f=await(await page.request.get(BASE_URL+'/testi-palette-fixture.json')).json();const url=BASE_URL+`/web-checkin/${f.links[width].palette_richiesta}/comunicazioni`;await page.goto(url);await settled(page);await page.locator('#email-testo').fill('Personalizzazione da conservare '+width);let navigations=0;page.on('framenavigated',fr=>{if(fr===page.mainFrame())navigations++;});
+    >  8 |   await page.locator('#invito-colore').fill('#812db5');await page.getByRole('button',{name:'Salva colore della struttura',exact:true}).click();await settled(page);await expect(page.locator('#email-testo')).toHaveValue('Personalizzazione da conservare '+width);expect(navigations).toBe(0);await expect(page.locator('#email-testo')).toHaveValue('Personalizzazione da conservare '+width);
+         |                                                                                                                                                                                                               ^
+       9 |   await page.getByRole('button',{name:'Visualizza email',exact:true}).click();const dialog=page.locator('#web-email-dialog');await expect(dialog).toBeVisible();const frame=page.frameLocator('#web-email-dialog iframe');await expect(frame.getByRole('link',{name:'Completa il web check-in',exact:true})).toHaveCSS('background-color','rgb(129, 45, 181)');const source=await dialog.locator('iframe').getAttribute('src');const html=await(await page.request.get(source)).text();await page.screenshot({path:info.outputPath(`email-colore-${width}.png`)});
+      10 |   await dialog.locator('[name=conferma_destinatario]').check();await dialog.getByRole('button',{name:'Conferma e invia',exact:true}).click();await settled(page);const mails=(await(await page.request.get(BASE_URL+'/email-intercettate-fixture')).json()).messaggi;const mail=mails.at(-1);expect(mail.html).toContain('#812db5');const logo=html.match(/<img src="([^"]+)"/)[1];expect(mail.html.replace(/src="cid:[^"]+"/,`src="${logo}"`).replace(/\r\n/g,'\n')).toBe(html.replace(/\r\n/g,'\n'));
+      11 |   await page.goto(url);await settled(page);await page.locator('#invito-colore').fill('#ffffee');await page.getByRole('button',{name:'Salva colore della struttura',exact:true}).click();await expect(page.locator('#hotel-colore-esito')).toContainText('Colore salvato');expect(await(await page.request.get(source)).text()).toBe(html);await page.getByRole('button',{name:'Visualizza email',exact:true}).click();await expect(frame.getByRole('link',{name:'Completa il web check-in',exact:true})).toHaveCSS('background-color','rgb(255, 255, 238)');
+        at /tmp/schedine-test-m7ixyghp/checkout/tests/Feature/web-anteprima-interattiva.playwright.spec.js:8:207
+
+    Error Context: test-results/web-anteprima-interattiva.-bb68d-ica-e-HTML-trasportato-1440/error-context.md
+
+  1 failed
+    tests/Feature/web-anteprima-interattiva.playwright.spec.js:6:2 › Colore senza ricarica e HTML trasportato 1440
+  1 error was not a part of any test, see above for details
+web-anteprima-interattiva.-bb68d-ica-e-HTML-trasportato-1440:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - button [ref=e7] [cursor=pointer]
+      - generic [ref=e12]:
+        - generic [ref=e14]:
+          - 'button " Struttura: Hotel Browser " [ref=e15] [cursor=pointer]':
+            - generic [ref=e16]: 
+            - text: "Struttura: Hotel Browser"
+            - generic [ref=e17]: 
+          - text: 
+        - link "" [ref=e19] [cursor=pointer]:
+          - /url: http://127.0.0.1:50251/calendario
+          - generic [ref=e20]: 
+        - generic [ref=e21]:
+          - button "" [ref=e22] [cursor=pointer]:
+            - generic [ref=e23]: 
+          - text:  
+        - button "" [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]: 
+        - generic [ref=e27]:
+          - button "Avatar Utente Super Admin" [ref=e28] [cursor=pointer]:
+            - generic [ref=e29]:
+              - img "Avatar" [ref=e31]
+              - generic [ref=e32]:
+                - generic [ref=e33]: Utente
+                - generic [ref=e34]: Super Admin
+          - text: 󰀉      󰍃
+  - generic [ref=e35]:
+    - link "Tango" [ref=e37] [cursor=pointer]:
+      - /url: http://127.0.0.1:50251/dashboard
+      - img "Tango" [ref=e39]
+    - list [ref=e42]:
+      - listitem [ref=e43]:
+        - generic [ref=e44]: Menu
+      - listitem [ref=e45]:
+        - link "Dashboard" [ref=e46] [cursor=pointer]:
+          - /url: http://127.0.0.1:50251/dashboard
+          - generic [ref=e47]: Dashboard
+      - listitem [ref=e48]:
+        - button "SuperAdmin 󰅂" [ref=e49] [cursor=pointer]:
+          - generic [ref=e50]: SuperAdmin
+          - text: 󰅂
+      - listitem [ref=e51]:
+        - link "Dati struttura" [ref=e52] [cursor=pointer]:
+          - /url: http://127.0.0.1:50251/struttura
+          - generic [ref=e53]: Dati struttura
+      - listitem [ref=e54]:
+        - button "Configurazioni 󰅂" [ref=e55] [cursor=pointer]:
+          - generic [ref=e56]: Configurazioni
+          - text: 󰅂
+      - listitem [ref=e57]:
+        - button "Clienti 󰅂" [ref=e58] [cursor=pointer]:
+          - generic [ref=e59]: Clienti
+          - text: 󰅂
+      - listitem [ref=e60]:
+        - button "Schedine 󰅂" [expanded] [ref=e61] [cursor=pointer]:
+          - generic [ref=e62]: Schedine
+          - text: 󰅂
+        - list [ref=e64]:
+          - listitem [ref=e65]:
+            - link "Nuova / Elenco / Bozze" [ref=e66] [cursor=pointer]:
+              - /url: http://127.0.0.1:50251/schedine/nuova
+          - listitem [ref=e67]:
+            - link "Schedine arrivi" [ref=e68] [cursor=pointer]:
+              - /url: http://127.0.0.1:50251/arrivi
+      - listitem [ref=e69]:
+        - link "Web Check-in" [ref=e70] [cursor=pointer]:
+          - /url: http://127.0.0.1:50251/web-checkin
+          - generic [ref=e71]: Web Check-in
+      - listitem [ref=e72]:
+        - button "Invio telematico 󰅂" [ref=e73] [cursor=pointer]:
+          - generic [ref=e74]: Invio telematico
+          - text: 󰅂
+      - listitem [ref=e75]:
+        - button "Statistica 󰅂" [ref=e76] [cursor=pointer]:
+          - generic [ref=e77]: Statistica
+          - text: 󰅂
+      - listitem [ref=e78]:
+        - link "Calendario" [ref=e79] [cursor=pointer]:
+          - /url: http://127.0.0.1:50251/calendario
+          - generic [ref=e80]: Calendario
+      - listitem [ref=e81]:
+        - link "Cestino" [ref=e82] [cursor=pointer]:
+          - /url: http://127.0.0.1:50251/cestino
+          - generic [ref=e83]: Cestino
+  - generic [ref=e85]:
+    - generic [ref=e89]:
+      - banner [ref=e90]:
+        - generic [ref=e91]:
+          - generic [ref=e92]:
+            - link "← Elenco Web Check-in" [ref=e93] [cursor=pointer]:
+              - /url: http://127.0.0.1:50251/web-checkin
+            - heading "Referente GEO 1440" [level=1] [ref=e94]
+            - paragraph [ref=e95]: GEO-1440 · 10/11/2026 – 13/11/2026 · 2 ospiti
+            - generic [ref=e96]: In attesa dei dati ospiti
+          - group [ref=e97]:
+            - generic "Altre azion
+TEST interrotto senza fallback: playwright fallito: 1
+mysql-error.log:
+2026-10-21  9:50:27 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 57
+2026-10-21  9:50:27 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-21  9:50:27 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-21  9:50:27 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-21  9:50:27 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-21  9:50:27 0 [Note] InnoDB: Using Linux native AIO
+2026-10-21  9:50:27 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-21  9:50:27 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-21  9:50:27 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-21  9:50:27 0 [Note] InnoDB: End of log at LSN=45093
+2026-10-21  9:50:27 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-21  9:50:27 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-21  9:50:27 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-21  9:50:27 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-21  9:50:27 0 [Note] InnoDB: log sequence number 45093; transaction id 14
+2026-10-21  9:50:27 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-m7ixyghp/mysql-data/ib_buffer_pool
+2026-10-21  9:50:27 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-21  9:50:27 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-21  9:50:27 0 [Note] InnoDB: Buffer pool(s) load completed at 261021  9:50:27
+2026-10-21  9:50:27 0 [Note] Server socket created on IP: '127.0.0.1', port: '54867'.
+2026-10-21  9:50:27 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-21  9:50:27 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-m7ixyghp/mysql.sock'  port: 54867  MariaDB Server
+
+http.log:
+1:54964 Closing
+[Wed Oct 21 09:51:13 2026] 127.0.0.1:54968 Accepted
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:54968 Closing
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:54976 Accepted
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:54976 Closing
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:54986 Accepted
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:54986 [200]: GET /build/css/bootstrap.min.css
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:54996 Accepted
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:54998 Accepted
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:54996 [200]: GET /build/css/icons.min.css
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:55002 Accepted
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:54998 [200]: GET /build/libs/select2/css/select2.min.css
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:55010 Accepted
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:54986 Closing
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:55002 [200]: GET /build/css/app.min.css
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:55024 Accepted
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:55010 [200]: GET /build/libs/flatpickr/flatpickr.min.css
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:55034 Accepted
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:55024 [200]: GET /build/css/custom.min.css
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:54998 Closing
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:55046 Accepted
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:55034 [200]: GET /build/js/app2.js
+[Wed Oct 21 09:51:14 2026] 127.0.0.1:55048 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55046 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55010 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55054 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55024 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:54996 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55002 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55048 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55066 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55054 [200]: GET /build/libs/jquery/jquery.min.js
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55068 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55066 [200]: GET /build/libs/select2/js/select2.full.min.js
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55082 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55068 [200]: GET /build/libs/bootstrap/js/bootstrap.bundle.min.js
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55090 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55054 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55082 [200]: GET /build/libs/simplebar/simplebar.min.js
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55100 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55066 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55090 [200]: GET /build/libs/node-waves/waves.min.js
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55034 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55112 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55068 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55100 [200]: GET /build/libs/feather-icons/feather.min.js
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55116 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55112 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55082 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55126 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55116 [200]: GET /build/icons/remixicon.woff2?t=1718271040674
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55090 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55130 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55126 [200]: GET /build/icons/boxicons.woff2
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55100 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55140 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55130 [200]: GET /build/icons/materialdesignicons-webfont.woff2?v=7.2.96
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55112 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55144 Accepted
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55140 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55126 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55144 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55116 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55144 Closing
+[Wed Oct 21 09:51:15 2026] 127.0.0.1:55130 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-m7ixyghp

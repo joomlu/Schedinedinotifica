@@ -152,7 +152,7 @@ class WebCheckinHtmlTest extends TestCase
         $this->assertStringContainsString(route('web_checkin.public.show',$r->token),$response->getContent());
         foreach (['{{ignota}}','',str_repeat('x',81)] as $label) {
             $layout['pulsante']=$label;
-            $this->postJsonWeb(route('web_checkin.prepara',$r->id),['oggetto'=>'Invito','corpo'=>'{{link}}','canale'=>'email','idempotenza'=>(string)Str::uuid(),'impostazioni'=>$layout])->assertUnprocessable();
+            $this->postJsonWeb(route('web_checkin.prepara',$r->id),['oggetto'=>'Invito','corpo'=>'{{link}}','canale'=>'email','idempotenza'=>(string)Str::uuid(),'impostazioni'=>$layout])->assertUnprocessable()->assertJsonValidationErrors('impostazioni.pulsante');
         }
         $this->postJsonWeb(route('web_checkin.prepara',$r->id),['oggetto'=>"Invito\r\nBcc: altro@example.invalid",'corpo'=>'{{link}}','canale'=>'email','idempotenza'=>(string)Str::uuid()])->assertUnprocessable();
     }
@@ -183,12 +183,70 @@ class WebCheckinHtmlTest extends TestCase
         $this->assertSame($before,$r->fresh()->getAttributes());$this->assertSame($sheet,$r->schedina->fresh()->getAttributes());
     }
 
+    public function test_tinta_intermedia_usa_testo_con_contrasto_sufficiente_senza_mutare_snapshot(): void
+    {
+        $r = $this->scenario(); $old = $this->prepara($r); $snapshot = $old->contenuto;
+        foreach (['#cc5522' => '#000000', '#ffffee' => '#142025', '#123456' => '#ffffff'] as $color => $text) {
+            $this->postJsonWeb(route('web_checkin.identita', $r->id), ['colore' => $color])->assertOk();
+            $new = $this->prepara($r);
+            $this->assertSame($text, $new->contenuto['identita']['testo_colore']);
+            $this->get(route('web_checkin.anteprima_modulo', $r->id))->assertOk()->assertSee('--hotel-testo:'.$text, false);
+            $this->assertSame($snapshot, $old->fresh()->contenuto);
+        }
+    }
+
+    public function test_errori_di_modello_indicano_il_campo_senza_perdere_il_messaggio_precedente(): void
+    {
+        $r = $this->scenario();
+        foreach (['oggetto', 'corpo', 'saluto', 'testo', 'pulsante', 'firma'] as $field) {
+            $data = ['oggetto' => 'Invito', 'corpo' => '{{link}}', 'canale' => 'email', 'idempotenza' => (string) Str::uuid(), 'impostazioni' => WebCheckinMessaggio::layoutIniziale()];
+            if (in_array($field, ['oggetto', 'corpo'])) $data[$field] = '{{ignota}} {{link}}';
+            else $data['impostazioni'][$field] = '{{ignota}}';
+            $key = in_array($field, ['oggetto', 'corpo']) ? $field : 'impostazioni.'.$field;
+            $this->postJsonWeb(route('web_checkin.prepara', $r->id), $data)->assertUnprocessable()->assertJsonValidationErrors([$key, 'messaggio']);
+        }
+        $this->assertSame(0, WebCheckinComunicazione::where('richiesta_id', $r->id)->count());
+    }
+
     public function test_anteprima_reception_non_registra_visita_e_alias_ospite_la_registra(): void
     {
         $r=$this->scenario();$before=$r->fresh()->getAttributes();
-        $this->get(route('web_checkin.anteprima_modulo',$r->id))->assertOk()->assertSeeText('Anteprima riservata alla reception')->assertSee('<fieldset disabled',false);
+        $this->get(route('web_checkin.anteprima_modulo',$r->id))->assertOk()->assertSeeText('Anteprima interattiva: le modifiche non vengono salvate')->assertDontSee('<fieldset disabled',false)->assertSee(route('web_checkin.anteprima_modulo.demo',$r->id),false);
         $this->assertSame($before,$r->fresh()->getAttributes());
         $this->app['auth']->forgetGuards();$this->get('/checkin/'.$r->token)->assertOk()->assertDontSeeText('Configura prima la tassa')->assertDontSeeText('Configurazione fiscale');$this->assertNotNull($r->fresh()->ultimo_accesso_at);
+    }
+
+    public function test_dimostrazione_non_salva_ne_visite_ne_componenti_anche_senza_javascript(): void
+    {
+        $r = $this->scenario(2);
+        $requestBefore = $r->fresh()->getAttributes(); $sheetBefore = $r->schedina->fresh()->getAttributes();
+        $membersBefore = DB::table('componenti')->where('schedina_id', $r->schedina_id)->get()->toJson();
+        foreach (['web', 'web_complete'] as $mode) {
+            $this->postJsonWeb(route('web_checkin.anteprima_modulo.demo', $r->id), ['name' => 'Non salvare', 'save_mode' => $mode, 'componenti' => [['name' => 'Temporaneo']]])
+                ->assertOk()->assertJsonPath('messaggio', 'Modalità dimostrazione. Nessun dato è stato salvato e nessun check-in è stato eseguito.');
+        }
+        $this->postWeb(route('web_checkin.anteprima_modulo.demo', $r->id), ['name' => 'Senza JavaScript'])->assertRedirect(route('web_checkin.anteprima_modulo', ['id' => $r->id, 'dimostrazione' => 1]));
+        $this->get(route('web_checkin.anteprima_modulo', ['id' => $r->id, 'dimostrazione' => 1]))->assertOk()->assertSeeText('Nessun dato è stato salvato');
+        $this->assertSame($requestBefore, $r->fresh()->getAttributes());
+        $this->assertSame($sheetBefore, $r->schedina->fresh()->getAttributes());
+        $this->assertSame($membersBefore, DB::table('componenti')->where('schedina_id', $r->schedina_id)->get()->toJson());
+        $this->scenario();
+        $this->postJsonWeb(route('web_checkin.anteprima_modulo.demo', $r->id), [])->assertNotFound();
+    }
+
+    public function test_nuova_palette_salvata_usa_identita_corrente_e_conserva_snapshot_inviato(): void
+    {
+        $r = $this->scenario(); $old = $this->prepara($r); $content = $old->contenuto;
+        $other = $this->structureFor(null); $otherColor = $other->web_checkin_colore;
+        $this->postJsonWeb(route('web_checkin.identita', $r->id), ['colore' => '#812db5'])->assertOk()->assertJsonPath('colore', '#812db5');
+        $new = $this->prepara($r);
+        $this->assertSame('#812db5', $new->contenuto['identita']['colore']);
+        $this->assertSame($content, $old->fresh()->contenuto);
+        $this->assertSame($otherColor, $other->fresh()->web_checkin_colore);
+        $this->get(route('web_checkin.comunicazione.anteprima', [$r->id, $new->id]))->assertOk()->assertSee('#812db5', false);
+        $this->get(route('web_checkin.anteprima_modulo', $r->id))->assertOk()->assertSee('--hotel-colore:#812db5', false);
+        $this->postJsonWeb(route('web_checkin.identita', $r->id), ['colore' => 'non-colore'])->assertUnprocessable()->assertJsonValidationErrors('colore');
+        $this->assertSame('#812db5', $r->struttura->fresh()->web_checkin_colore);
     }
 
     public function test_html_e_logo_restano_nel_tenant_corretto_con_sessione_estranea(): void

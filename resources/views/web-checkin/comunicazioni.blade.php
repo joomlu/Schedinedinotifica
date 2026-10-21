@@ -21,12 +21,13 @@
 <section class="border rounded-3 p-3 mb-4 bg-light-subtle" aria-labelledby="hotel-colore-title">
 <h3 class="h6 mb-2" id="hotel-colore-title">Colore dell’hotel</h3>
 <p class="small text-muted mb-3" id="hotel-colore-help">Scegli un colore coordinato al logo: sarà usato nelle email e nel modulo ospite di questa struttura. Salvalo prima di personalizzare il messaggio.</p>
-<form method="post" action="{{ route('web_checkin.identita', $richiesta->id) }}" class="d-flex flex-wrap align-items-end gap-3">
+<form method="post" action="{{ route('web_checkin.identita', $richiesta->id) }}" id="hotel-colore-form" class="d-flex flex-wrap align-items-end gap-3" data-confirm-ignore>
 @csrf
-<div><label class="form-label" for="invito-colore">Colore principale</label><input type="color" id="invito-colore" name="colore" value="{{ $identita['colore'] }}" class="form-control form-control-color" aria-describedby="hotel-colore-help"></div>
+<div><label class="form-label" for="invito-colore">Colore principale</label><input type="color" id="invito-colore" name="colore" value="{{ $identita['colore'] }}" data-saved="{{ $identita['colore'] }}" class="form-control form-control-color" aria-describedby="hotel-colore-help hotel-colore-errore"><div id="hotel-colore-errore" class="invalid-feedback" role="alert"></div></div>
 <button class="btn btn-light" type="submit">Salva colore della struttura</button>
 </form>
-<p class="small text-muted mt-2 mb-0">Gli inviti già preparati conservano il loro aspetto. Dopo il salvataggio genera una nuova anteprima email.</p>
+<p id="hotel-colore-esito" class="small mt-2 mb-0" role="status"></p>
+<p class="small text-muted mt-2 mb-0">Le email già inviate conservano il loro aspetto. Dopo il salvataggio genera una nuova anteprima email.</p>
 </section>
 <form method="post" action="{{ route('web_checkin.prepara', $richiesta->id) }}" id="invito-form" aria-busy="true"><fieldset id="web-email-fields" disabled>
 @csrf
@@ -87,6 +88,22 @@ document.querySelectorAll('#invito-form button[name="azione"]').forEach(b=>b.add
 for(const key of ['nome','oggetto','corpo','canale'])if(Object.hasOwn(previous,key))document.getElementById('invito-'+key).value=previous[key]??'';
 for(const[key,value]of Object.entries(previous.impostazioni??{}))if(Object.hasOwn(defaults,key))document.getElementById('email-'+key).value=value;
 makeReadable();
+const colorForm=document.getElementById('hotel-colore-form'), colorField=document.getElementById('invito-colore'), colorError=document.getElementById('hotel-colore-errore'), colorStatus=document.getElementById('hotel-colore-esito');
+colorForm.addEventListener('submit',async event=>{
+ event.preventDefault(); if(colorForm.dataset.saving==='1')return;
+ colorForm.dataset.saving='1'; const button=colorForm.querySelector('[type=submit]'), previewButton=document.getElementById('visualizza-email');
+ button.disabled=true; if(previewButton)previewButton.disabled=true; colorField.classList.remove('is-invalid'); colorField.removeAttribute('aria-invalid'); colorError.textContent='';colorStatus.textContent='';
+ try {
+  const response=await fetch(colorForm.action,{method:'POST',headers:{Accept:'application/json','X-Requested-With':'XMLHttpRequest'},body:new FormData(colorForm)});const data=await response.json();
+  if(!response.ok)throw new Error(data.errors?.colore?.[0]??data.message??'Impossibile salvare il colore.');
+  colorField.value=data.colore;colorField.dataset.saved=data.colore;colorStatus.textContent=data.messaggio;
+  // Elimina soltanto la vista corrente: gli snapshot persistenti restano immutati.
+  const dialog=document.querySelector('#web-email-slot .modal');
+  if(dialog){const modal=bootstrap.Modal.getInstance(dialog);if(dialog.classList.contains('show'))modal?.hide();else dialog.remove();}
+  colorForm.dispatchEvent(new CustomEvent('web-colore-salvato',{bubbles:true}));
+ } catch(error){colorField.classList.add('is-invalid');colorField.setAttribute('aria-invalid','true');colorError.textContent=error.message;colorField.focus();}
+ finally{button.disabled=false;if(previewButton)previewButton.disabled=false;delete colorForm.dataset.saving;delete colorForm.dataset.submitting;}
+});
 document.getElementById('invito-canale').dispatchEvent(new Event('change'));document.getElementById('web-email-fields').disabled=false;document.getElementById('invito-form').removeAttribute('aria-busy');
 });
 </script>

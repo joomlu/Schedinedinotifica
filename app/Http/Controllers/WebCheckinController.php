@@ -338,7 +338,7 @@ class WebCheckinController extends SchedinaController
                     'prefilledCustomer' => null,
                     'nextSchedaCode' => null,
                     'circuitoCorrente' => 'web',
-                    'formAction' => route('web_checkin.public.store', ['token' => $richiesta->token]),
+                    'formAction' => $preview ? route('web_checkin.anteprima_modulo.demo', $richiesta->id) : route('web_checkin.public.store', ['token' => $richiesta->token]),
                     'formTitle' => 'Web Check-in',
                     'showCircuitSaveButtons' => false,
                     'primarySaveLabel' => 'Salva Web Check-in',
@@ -586,6 +586,16 @@ class WebCheckinController extends SchedinaController
     {
         $r = $this->findOwnedRichiesta($id);
         return $this->publicShow($r->token, true);
+    }
+
+    /** Destinazione dimostrativa: non interpreta né persiste i dati del formulario. */
+    public function anteprimaDimostrazione(Request $request, int $id)
+    {
+        $this->findOwnedRichiesta($id);
+        $message = 'Modalità dimostrazione. Nessun dato è stato salvato e nessun check-in è stato eseguito.';
+        if ($request->expectsJson()) return response()->json(['messaggio' => $message])->header('Cache-Control', 'no-store');
+
+        return redirect()->route('web_checkin.anteprima_modulo', ['id' => $id, 'dimostrazione' => 1]);
     }
 
     public function revoke(int $id)
