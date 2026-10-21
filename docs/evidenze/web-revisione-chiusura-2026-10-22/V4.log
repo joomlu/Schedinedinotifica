@@ -1,0 +1,41 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-22  0:20:48 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-_udlo89w; database=test_geo_7160e68b438f568fd540a73c2dc52e74; MySQL pid=57, porta=50363; HTTP pid=82, porta=60385
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /tmp/schedine-test-_udlo89w/checkout/phpunit.xml
+
+...............................................................  63 / 355 ( 17%)
+............................................................... 126 / 355 ( 35%)
+............................................................... 189 / 355 ( 53%)
+............................................................... 252 / 355 ( 70%)
+...........\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n................................................ 315 / 355 ( 88%)
+........................................                        355 / 355 (100%)
+
+Time: 01:16.152, Memory: 102.50 MB
+
+There was 1 PHPUnit test runner deprecation:
+
+1) Metadata found in doc-comment for method Tests\Feature\IstatConformitaTest::test_invalid_guest_data_blocks_export(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+OK, but there were issues!
+Tests: 355, Assertions: 3624, PHPUnit Deprecations: 1.
+
+Running 9 tests using 1 worker
+
+  ✓  1 tests/Feature/web-anteprima-interattiva.playwright.spec.js:6:2 › Anteprima temporanea selezionabile 1440 (7.9s)
+  ✓  2 tests/Feature/web-anteprima-interattiva.playwright.spec.js:21:2 › Colore senza ricarica e HTML trasportato 1440 (20.9s)
+  ✓  3 tests/Feature/web-anteprima-interattiva.playwright.spec.js:6:2 › Anteprima temporanea selezionabile 768 (7.7s)
+  ✓  4 tests/Feature/web-anteprima-interattiva.playwright.spec.js:21:2 › Colore senza ricarica e HTML trasportato 768 (15.9s)
+  ✓  5 tests/Feature/web-anteprima-interattiva.playwright.spec.js:6:2 › Anteprima temporanea selezionabile 390 (7.7s)
+  ✓  6 tests/Feature/web-anteprima-interattiva.playwright.spec.js:21:2 › Colore senza ricarica e HTML trasportato 390 (21.2s)
+  ✓  7 tests/Feature/web-email-modal.playwright.spec.js:4:35 › Email realmente visibile e invio intercettato 1440px (29.8s)
+  ✓  8 tests/Feature/web-email-modal.playwright.spec.js:4:35 › Email realmente visibile e invio intercettato 768px (28.6s)
+  ✓  9 tests/Feature/web-email-modal.playwright.spec.js:4:35 › Email realmente visibile e invio intercettato 390px (28.0s)
+
+  9 passed (2.8m)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-_udlo89w

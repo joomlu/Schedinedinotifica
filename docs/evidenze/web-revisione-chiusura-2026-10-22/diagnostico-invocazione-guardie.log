@@ -1,0 +1,18 @@
+.....E..
+======================================================================
+ERROR: test_database_policy (unittest.loader._FailedTest.test_database_policy)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_database_policy
+Traceback (most recent call last):
+  File "/usr/lib64/python3.12/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/collaudo.guest/revisione-chiusura-BZnKBvCs/tests/Isolation/test_database_policy.py", line 10, in <module>
+    import database_policy as policy
+ModuleNotFoundError: No module named 'database_policy'
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.682s
+
+FAILED (errors=1)

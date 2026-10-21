@@ -1,0 +1,5 @@
+{
+  "esito": "PASS_BYTE_IDENTICI",
+  "sha256": "42bee03f2a4182ace93bf04e8c406145089ccc35dcda9d6e678b2ac9c5472def",
+  "nota": "Il trasferimento durante prepara aveva gi\u00e0 incluso il file; secondo trasferimento rifiutato correttamente da O_EXCL, nessuna sovrascrittura."
+}

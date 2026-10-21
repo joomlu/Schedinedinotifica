@@ -719,6 +719,12 @@
         const clearComponenteRow = (row) => {
             row.dataset.cityLabel = '';
             row.querySelectorAll('input, select, textarea').forEach((field) => {
+                if (field.matches('[data-ui="calendario"][data-provider="flatpickr"]')) {
+                    // La riga riutilizzata deve perdere anche lo stato e la data iniziale del calendario.
+                    field.setAttribute('data-default-date', '');
+                    field.setAttribute('data-deafult-date', '');
+                    field._flatpickr?.clear();
+                }
                 if (field.type === 'hidden') {
                     field.value = '';
                     return;

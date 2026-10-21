@@ -1,5 +1,11 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Revisione conclusiva Web Check-in — 22 ottobre 2026, QUALIFICATO; C5 PENDENTE
+
+**BASELINE IN AUDIT invariata. Data residua dopo rimozione dell’ultimo Componente corretta e qualificata; nuova integrazione/pubblicazione e QA finali pendenti.** [Rapporto](../WEB-CHECKIN-REVISIONE-CHIUSURA-2026-10-22.md), [evidenze](../evidenze/web-revisione-chiusura-2026-10-22/verifica.json). PR#5/#6 e SHA online f414900b riconfermati con GitHub,SSH,170digest,FPM autenticato e noveHTTPS. L’ispezione visiva ha trovato un difetto non coperto dalla precedente verifica del pulsante: flatpickr riproponeva la data del componente eliminato nella riga riaggiunta. V3-repro NONPASS atteso vuoto/ricevuto2000-01-01 conservato prima della correzione. Sei righe nel reset canonico e sei nella regressione, nessun cambiamento a validazioni/schema/configurazione/export/trasporti.
+
+V4 definitivo soloVM:PHP355/3624+novebrowser; V5 24browser sullo stesso codice,113sorgenti e33scenari distinti. Sei regressioni PR4,17guardie,23rifiuti per runtime, buildVite/GEO e renderingBlade interessato superati. Nessuna prova indebolita. Qualificazione di base positiva ma insufficiente per il difetto, QA di base sospesa tra scenari e tutte le sole fixture rimosse con HMAC66/persistenti92 identici. Nessun nuovo invio reale autorizzato/eseguito, mai134. Deprecazione PHPUnit e SyntaxWarning Python conservati; VM8.3.33/produzione8.3.36. Warning del nuovo error_log coincidenti con l’aggiornamento pacchetti18:25UTC; processoFPM e51moduli correnti verificati. Nuova custodia del diagnostico e nuovo C5 con preflight/recuperi/Extra/guardiano/QA/pulizia/monitor ancora pendenti. Lavoro locale preesistente preservato.
+
 ## Web Check-in — anteprima interattiva e colore pubblicati, 21 ottobre 2026
 
 **Applicativo `f414900b9626240dc34f1de0a449615b66d7413a` online; PR #5 e #6 integrate, C5, QA, pulizia e monitor PASS. BASELINE IN AUDIT invariata.** [Rapporto](../WEB-CHECKIN-ANTEPRIMA-INTERATTIVA-2026-10-21.md), [ricevuta](../evidenze/web-anteprima-interattiva-2026-10-21/rilascio.json).
