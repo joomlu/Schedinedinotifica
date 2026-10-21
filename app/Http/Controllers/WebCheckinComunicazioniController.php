@@ -202,11 +202,12 @@ class WebCheckinComunicazioniController extends Controller
     public function identita(Request $request, int $id)
     {
         $r = $this->owned($request, $id);
-        $data = $request->validate(['colore' => ['required', 'regex:/\A#[a-fA-F0-9]{6}\z/D']]);
+        $data = $request->validate(['colore' => ['required', 'regex:/\A#[a-fA-F0-9]{6}\z/D']], ['colore.required' => 'Scegli il colore della struttura.', 'colore.regex' => 'Scegli un colore valido nel formato #RRGGBB.']);
         DB::transaction(function () use ($r, $data) {
             $s = Struttura::whereKey($r->struttura_id)->lockForUpdate()->firstOrFail();
             $s->forceFill(['web_checkin_colore' => $data['colore']])->save();
         });
+        if ($request->expectsJson()) return response()->json(['colore' => $data['colore'], 'messaggio' => 'Colore salvato. Genera una nuova anteprima email.'])->header('Cache-Control', 'no-store');
         return redirect()->route('web_checkin.comunicazioni', $id)->with('success', 'Colore dell’invito e del modulo aggiornato per la sola struttura corrente. Prepara nuovamente gli inviti precedenti.');
     }
 

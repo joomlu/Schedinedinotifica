@@ -1,5 +1,9 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Web Check-in — anteprima interattiva e colore, 21 ottobre 2026
+
+**Collaudo isolato PASS; integrazione e C5 autorizzate e pendenti. BASELINE IN AUDIT invariata.** [Rapporto](../WEB-CHECKIN-ANTEPRIMA-INTERATTIVA-2026-10-21.md), [sigillo](../evidenze/web-anteprima-interattiva-2026-10-21/verifica.json). R9 PHP355/3624 e9browser mirati, R10 24storici sullo stesso codice:33percorsi distinti1440/768/390PASS soloVM ufficiale;17guardie/23override/buildVite-GEO/BladePASS, una deprecazione preesistente. Anteprima ospite interattiva con avviso esplicito e destinazione dimostrativa autenticata: nessuna persistenza/visita/check-in, anche senzaJavaScript. Colore salvato senza ricarica/perdita testo, risposte anteprima obsolete rifiutate, snapshot storici conservati; contrasto sicuro anche per tinte intermedie. Errori accanto al campo, dettagli aperti, modal contenuto nella schermata e ResetGEO mobile riallineato. Tentativi e immagini precedenti conservati; nessuna validazione/guardia indebolita. Otto soli file applicativi Web, nessuna DDL/config/trasporto/export modificata. Worktree separato, lavoro preesistente preservato. Integrazione/C5/QAonline, singolo invio alla sola casella autorizzata con nuova richiesta diversa da134, pulizia e monitor finali ancora pendenti.
+
 ## PR #4 — GEO Italia/estero, editor e palette pubblicati e verificati online, 20 ottobre 2026
 
 **Applicativo `5e01d7b1153daac8de96a6281cd6203ff92c034d` online; PR #4 integrata in main, C5, QA, pulizia e monitor finali PASS. BASELINE IN AUDIT invariata.** [Rapporto](../WEB-CHECKIN-TESTI-PALETTE-2026-10-20.md), [GEO](../CORREZIONE-GEO-ESTERO-2026-10-20.md), [ricevuta](../evidenze/web-testi-palette-2026-10-20/rilascio.json).

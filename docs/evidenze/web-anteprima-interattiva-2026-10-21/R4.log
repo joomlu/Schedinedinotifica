@@ -1,0 +1,62 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-21  9:51:51 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-29sfbxru; database=test_geo_bdddf33fa1a1fb22371713225ebc62f2; MySQL pid=57, porta=55475; HTTP pid=82, porta=60909
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /tmp/schedine-test-29sfbxru/checkout/phpunit.xml
+
+...............................................................  63 / 353 ( 17%)
+............................................................... 126 / 353 ( 35%)
+............................................................... 189 / 353 ( 53%)
+............................................................... 252 / 353 ( 71%)
+.........\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.................................................. 315 / 353 ( 89%)
+......................................                          353 / 353 (100%)
+
+Time: 01:51.751, Memory: 102.50 MB
+
+There was 1 PHPUnit test runner deprecation:
+
+1) Metadata found in doc-comment for method Tests\Feature\IstatConformitaTest::test_invalid_guest_data_blocks_export(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+OK, but there were issues!
+Tests: 353, Assertions: 3574, PHPUnit Deprecations: 1.
+
+Running 24 tests using 1 worker
+
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-9xwoiI
+  ✓   1 tests/Feature/web-checkin-circuito.playwright.spec.js:11:205 › Circuito OSPITE SINGOLO 1440px › Compilazione, revisione e check-in OSPITE SINGOLO 1440px (36.7s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-u04cHC
+  ✓   2 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito OSPITE SINGOLO 1440px › Storico e Cestino OSPITE SINGOLO 1440px (19.6s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-J02Gwm
+  ✓   3 tests/Feature/web-checkin-circuito.playwright.spec.js:11:205 › Circuito CAPO FAMIGLIA 768px › Compilazione, revisione e check-in CAPO FAMIGLIA 768px (43.5s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-kncsAp
+  ✓   4 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito CAPO FAMIGLIA 768px › Storico e Cestino CAPO FAMIGLIA 768px (17.3s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-tjTHo0
+  ✓   5 tests/Feature/web-checkin-circuito.playwright.spec.js:11:205 › Circuito CAPO GRUPPO 390px › Compilazione, revisione e check-in CAPO GRUPPO 390px (32.1s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-VEjerG
+  ✓   6 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito CAPO GRUPPO 390px › Storico e Cestino CAPO GRUPPO 390px (13.3s)
+  ✓   7 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML OSPITE SINGOLO 1440px › Email HTML e modulo guidato OSPITE SINGOLO 1440px (21.0s)
+  ✓   8 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML OSPITE SINGOLO 1440px › Cronologia e gestione modelli OSPITE SINGOLO 1440px (18.6s)
+  ✓   9 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML CAPO FAMIGLIA 768px › Email HTML e modulo guidato CAPO FAMIGLIA 768px (23.9s)
+  ✓  10 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML CAPO FAMIGLIA 768px › Cronologia e gestione modelli CAPO FAMIGLIA 768px (15.5s)
+  ✓  11 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML CAPO GRUPPO 390px › Email HTML e modulo guidato CAPO GRUPPO 390px (24.2s)
+  ✓  12 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML CAPO GRUPPO 390px › Cronologia e gestione modelli CAPO GRUPPO 390px (18.1s)
+  ✓  13 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 1440 (18.1s)
+  ✓  14 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 768 (17.0s)
+  ✓  15 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 390 (18.4s)
+  ✓  16 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 1440 (23.8s)
+  ✓  17 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 768 (24.2s)
+  ✓  18 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 390 (24.1s)
+  ✓  19 tests/Feature/web-testi-palette.playwright.spec.js:42:35 › Palette chiara e scura completa 1440 (14.4s)
+  ✓  20 tests/Feature/web-testi-palette.playwright.spec.js:42:35 › Palette chiara e scura completa 768 (13.4s)
+  ✓  21 tests/Feature/web-testi-palette.playwright.spec.js:42:35 › Palette chiara e scura completa 390 (13.5s)
+  ✓  22 tests/Feature/web-checkin-interfaccia.playwright.spec.js:4:35 › Percorsi separati Web Check-in a 1440px (23.3s)
+  ✓  23 tests/Feature/web-checkin-interfaccia.playwright.spec.js:4:35 › Percorsi separati Web Check-in a 768px (22.9s)
+  ✓  24 tests/Feature/web-checkin-interfaccia.playwright.spec.js:4:35 › Percorsi separati Web Check-in a 390px (22.3s)
+
+  24 passed (8.7m)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-29sfbxru
