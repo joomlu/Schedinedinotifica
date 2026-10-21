@@ -1,0 +1,42 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-21 13:35:41 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-d9wex52_; database=test_geo_df01b4a4751710559f2506bd1d34adf1; MySQL pid=57, porta=56221; HTTP pid=82, porta=60819
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+
+Running 24 tests using 1 worker
+
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-GH1dt4
+  ✓   1 tests/Feature/web-checkin-circuito.playwright.spec.js:11:205 › Circuito OSPITE SINGOLO 1440px › Compilazione, revisione e check-in OSPITE SINGOLO 1440px (37.1s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-DHMSmS
+  ✓   2 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito OSPITE SINGOLO 1440px › Storico e Cestino OSPITE SINGOLO 1440px (23.3s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-oL9ZXq
+  ✓   3 tests/Feature/web-checkin-circuito.playwright.spec.js:11:205 › Circuito CAPO FAMIGLIA 768px › Compilazione, revisione e check-in CAPO FAMIGLIA 768px (47.9s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-qyqYQR
+  ✓   4 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito CAPO FAMIGLIA 768px › Storico e Cestino CAPO FAMIGLIA 768px (16.4s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-Q78yzX
+  ✓   5 tests/Feature/web-checkin-circuito.playwright.spec.js:11:205 › Circuito CAPO GRUPPO 390px › Compilazione, revisione e check-in CAPO GRUPPO 390px (46.3s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-VwVpdG
+  ✓   6 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito CAPO GRUPPO 390px › Storico e Cestino CAPO GRUPPO 390px (16.8s)
+  ✓   7 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML OSPITE SINGOLO 1440px › Email HTML e modulo guidato OSPITE SINGOLO 1440px (35.0s)
+  ✓   8 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML OSPITE SINGOLO 1440px › Cronologia e gestione modelli OSPITE SINGOLO 1440px (22.6s)
+  ✓   9 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML CAPO FAMIGLIA 768px › Email HTML e modulo guidato CAPO FAMIGLIA 768px (37.7s)
+  ✓  10 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML CAPO FAMIGLIA 768px › Cronologia e gestione modelli CAPO FAMIGLIA 768px (22.0s)
+  ✓  11 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML CAPO GRUPPO 390px › Email HTML e modulo guidato CAPO GRUPPO 390px (32.2s)
+  ✓  12 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML CAPO GRUPPO 390px › Cronologia e gestione modelli CAPO GRUPPO 390px (23.0s)
+  ✓  13 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 1440 (24.6s)
+  ✓  14 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 768 (22.4s)
+  ✓  15 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 390 (24.1s)
+  ✓  16 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 1440 (28.0s)
+  ✓  17 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 768 (29.6s)
+  ✓  18 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 390 (31.3s)
+  ✓  19 tests/Feature/web-testi-palette.playwright.spec.js:42:35 › Palette chiara e scura completa 1440 (17.9s)
+  ✓  20 tests/Feature/web-testi-palette.playwright.spec.js:42:35 › Palette chiara e scura completa 768 (19.6s)
+  ✓  21 tests/Feature/web-testi-palette.playwright.spec.js:42:35 › Palette chiara e scura completa 390 (18.7s)
+  ✓  22 tests/Feature/web-checkin-interfaccia.playwright.spec.js:4:35 › Percorsi separati Web Check-in a 1440px (30.0s)
+  ✓  23 tests/Feature/web-checkin-interfaccia.playwright.spec.js:4:35 › Percorsi separati Web Check-in a 768px (27.0s)
+  ✓  24 tests/Feature/web-checkin-interfaccia.playwright.spec.js:4:35 › Percorsi separati Web Check-in a 390px (30.6s)
+
+  24 passed (11.1m)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-d9wex52_

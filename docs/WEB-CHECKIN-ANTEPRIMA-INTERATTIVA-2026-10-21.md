@@ -1,6 +1,6 @@
 # Web Check-in — anteprima interattiva e aggiornamento colore, 21 ottobre 2026
 
-## Stato: collaudo isolato PASS — integrazione e C5 pendenti
+## Stato: primo rilascio online; correttivo mobile in qualificazione
 
 BASELINE IN AUDIT invariata. Base main e7b12d3ae9f989cfbdd140a2243c5650254ca9a2; produzione riletta in sola lettura 5e01d7b1153daac8de96a6281cd6203ff92c034d. La PR4 è già integrata; questo intervento prosegue sul nuovo ramo codex/web-checkin-anteprima-interattiva-2026-10-21 nel worktree separato. Checkout originario, quattro documenti modificati e tutto il lavoro preesistente preservati.
 
@@ -31,3 +31,17 @@ R9 **355 test PHP / 3624 asserzioni e9browser mirati PASS**, R10 **24browser sto
 R0 eR0b sono diagnostici incompleti degli adattatori, non prove accettate del difetto; R0c riproduce la perdita del testo dopo la conferma effettiva del vecchio salvataggio colore. R4 PHP353/3574 e24browser PASS; R7 PHP354/3605 e9browser eR8 24browser PASS prima del correttivo finale di contrasto. Gli esiti intermedi restano conservati e distinti dalla qualificazione R9/R10. R6 era solo predisposta, non eseguita. Nessun timeout, assert o guardrail indebolito. [Sigillo](evidenze/web-anteprima-interattiva-2026-10-21/verifica.json), log e schermate conservati; immagine mobile precedente classificata non conforme.
 
 Integrazione e C5 restano pendenti. Nessun invio reale ancora eseguito; la sola email futura alla casella autorizzata avrà il soggetto concordato. BASELINE IN AUDIT invariata.
+
+## Primo rilascio effettivo e correzione emersa dalla QA online
+
+PR #5 integrata e C5 applicato: `047a7a19e2fcda8a48d53a0f32ba47e01920f745`, S0 138.429s / RUN233.703s, nessuna DDL. Sei cifrati Extra verificati integralmente. DB byte-identicoS0 primaQA; guardiano concluso/disarmato e92persistenti preservati. Primo STOP di capacità primaRUN conservato; solo blocchi statici identici di recuperi storici chiusi condivisi, senza eliminare file o SQL. Gate invariato poi superato.
+
+Sei circuito, seiHTML, noveGEO/editor/palette, clienti/Bozze/tenancy/24navigazioni e accessi PASS. Unico invio autorizzato nuova richiesta177 (mai134), oggetto concordato: HTML/logo/colore/linkPASS, GoogleSMTP250, transazione conclusa senza differimenti/rifiuti. Ricezione confermata esplicitamente dall’utente. Rendering nella casella non ispezionato autonomamente: lo strumento Mail ha restituito una vecchia vista dopo7178secondi, senza evidenza utile; nessun reinvio.
+
+Anteprima online: controlli interattivi e assenza di POST PASS; HMAC di schedina/componenti/richieste delle strutture sintetiche identici prima/dopo, nessuna visita o persistenza. Controllo geometrico NONPASS a390px (tablet768PASS): cognome sintetico lungo e nome modificato spingono Rimuovi fuori dal viewport, scrollWidth409 contro390. Log, misure e immagine conservati. Correzione limitata a tre regole CSS nel modulo pubblico per andare a capo e spezzare il riepilogo; regressione rafforzata con nome lungo e geometria anche dell’intestazione dei Componenti. Applicativo già pubblicato non dichiarato conclusivo: nuova qualificazione e nuovo C5 richiesti.
+
+Fixture del primo passaggio rimosse: HMAC di tutte le righe preesistenti delle66tabelle e92persistentiPASS, nessun restore/reset. Presidio temporaneo esteso dopo il ritardo Mail senza modifiche permanenti. Nessun dato reale o Questura/ISTAT toccato. Il solo invio autorizzato è già consumato e ricevuto; nessun ulteriore invio nelle prove successive. BASELINE IN AUDIT invariata.
+
+## Riqualificazione del correttivo mobile
+
+R11 PHP355/3624 e9browser mirati PASS; R12 24browser storici PASS sul medesimo applicativo e113sorgenti identici. Nome del Componente esteso e controlli geometrici anche sull’intestazione, senza indebolire asserzioni o timeout. Tutti i33scenari distinti e buildVite/GEO/Blade qualificati esclusivamente nellaVM ufficiale, con guardie invariate. Una deprecazione preesistente. Primo NONPASS online conservato; modifica applicativa successiva al primo C5 limitata a tre regole CSS del modulo pubblico. Nuovo C5 e QA online senza ulteriori invii pendenti.

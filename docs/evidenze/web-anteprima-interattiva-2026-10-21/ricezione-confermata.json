@@ -1,0 +1,9 @@
+{
+  "esito": "RICEZIONE_CONFERMATA_DALL_UTENTE",
+  "UTC_registrazione": "2026-10-21T11:21:17.106361+00:00",
+  "richiesta": 177,
+  "oggetto": "TEST Web Check-in — verifica circuito",
+  "evidenza": "Risposta esplicita dell’utente: Ricevuto",
+  "nessun_secondo_invio": true,
+  "limite": "Conferma umana di ricezione; rendering nella casella non ispezionato autonomamente"
+}
