@@ -1,10 +1,12 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
-## Revisione conclusiva Web Check-in — 22 ottobre 2026, QUALIFICATO; C5 PENDENTE
+## Revisione conclusiva Web Check-in — 22 ottobre 2026, PR #7 INTEGRATA; PUBBLICAZIONE BLOCCATA
 
 **BASELINE IN AUDIT invariata. Data residua dopo rimozione dell’ultimo Componente corretta e qualificata; nuova integrazione/pubblicazione e QA finali pendenti.** [Rapporto](../WEB-CHECKIN-REVISIONE-CHIUSURA-2026-10-22.md), [evidenze](../evidenze/web-revisione-chiusura-2026-10-22/verifica.json). PR#5/#6 e SHA online f414900b riconfermati con GitHub,SSH,170digest,FPM autenticato e noveHTTPS. L’ispezione visiva ha trovato un difetto non coperto dalla precedente verifica del pulsante: flatpickr riproponeva la data del componente eliminato nella riga riaggiunta. V3-repro NONPASS atteso vuoto/ricevuto2000-01-01 conservato prima della correzione. Sei righe nel reset canonico e sei nella regressione, nessun cambiamento a validazioni/schema/configurazione/export/trasporti.
 
 V4 definitivo soloVM:PHP355/3624+novebrowser; V5 24browser sullo stesso codice,113sorgenti e33scenari distinti. Sei regressioni PR4,17guardie,23rifiuti per runtime, buildVite/GEO e renderingBlade interessato superati. Nessuna prova indebolita. Qualificazione di base positiva ma insufficiente per il difetto, QA di base sospesa tra scenari e tutte le sole fixture rimosse con HMAC66/persistenti92 identici. Nessun nuovo invio reale autorizzato/eseguito, mai134. Deprecazione PHPUnit e SyntaxWarning Python conservati; VM8.3.33/produzione8.3.36. Warning del nuovo error_log coincidenti con l’aggiornamento pacchetti18:25UTC; processoFPM e51moduli correnti verificati. Nuova custodia del diagnostico e nuovo C5 con preflight/recuperi/Extra/guardiano/QA/pulizia/monitor ancora pendenti. Lavoro locale preesistente preservato.
+
+**Aggiornamento operativo:** PR#7 integrata in `67b4c45f94a349d0b27c7874aacbbe770bc1cf00`, nuovo kit68file sigillato e depositato inattivo. Produzione ancora `f414900b`,170digest/FPM/159migrazioni/66tabelle/noveHTTPS conformi. Revisione automatica: copia integrale log sul Mac rifiutata per potenziale sensibilità; custodia sul server rifiutata come modifica di percorso operativo senza consenso specifico. File4733byte/SHA26186b79… intatto,zero descrittori aperti; richiesta autorizzazione alla sola rinomina in storage/logs/php-avvio-20261021-custodito.log. Guardie Git/C5 invariate. Nessun PREPARE/T0/S0/RUN, manutenzione o nuovo deploy; QA finale e monitor900s non eseguiti. [Blocco concreto](../evidenze/web-revisione-chiusura-2026-10-22/blocco-pubblicazione.json).
 
 ## Web Check-in — anteprima interattiva e colore pubblicati, 21 ottobre 2026
 

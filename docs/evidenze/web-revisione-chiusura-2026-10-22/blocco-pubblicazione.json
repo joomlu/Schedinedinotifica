@@ -1,0 +1,40 @@
+{
+  "stato": "BLOCCO_AUTOREVIEW_CUSTODIA_LOG",
+  "UTC": "2026-10-21T22:47:11.651639+00:00",
+  "PR": 7,
+  "SHA_integrato": "67b4c45f94a349d0b27c7874aacbbe770bc1cf00",
+  "SHA_online_verificato": "f414900b9626240dc34f1de0a449615b66d7413a",
+  "rifiuti": [
+    {
+      "azione": "Copia integrale del log sul Mac",
+      "motivo": "Payload potenzialmente sensibile e nessun consenso specifico sulla destinazione",
+      "eseguita": false
+    },
+    {
+      "azione": "Custodia tramite rinomina nello storage/logs sullo stesso server",
+      "motivo": "Modifica di un percorso operativo non esplicitamente autorizzata",
+      "eseguita": false
+    }
+  ],
+  "log_metadati": {
+    "percorso": "/home/tanggosoftware/repos/schedinedinotifica/error_log",
+    "byte": 4733,
+    "sha256": "26186b792a8320495991923c8624dc62f592bbbb7602608fc63bea23e36f8aa4",
+    "uid": 1002,
+    "gid": 1003,
+    "permessi": "0o600",
+    "mtime_UTC": "2026-10-21T18:25:01.172699+00:00",
+    "processi_con_file_aperto": [],
+    "processi_non_ispezionabili": []
+  },
+  "destinazione_proposta": "/home/tanggosoftware/repos/schedinedinotifica/storage/logs/php-avvio-20261021-custodito.log",
+  "consenso_specifico_richiesto": true,
+  "file_server_invariato": true,
+  "nessun_payload_del_log_copiato_sul_Mac": true,
+  "core_C5_68_file_invariato_salvo_SHA_tree": true,
+  "nuovo_PREPARE_eseguito": false,
+  "nuovo_T0_S0_RUN_eseguito": false,
+  "nuova_QA_finale_e_monitor_non_eseguiti": true,
+  "kit_depositato_inattivo": true,
+  "nessuna_manutenzione_o_nuovo_deploy": true
+}

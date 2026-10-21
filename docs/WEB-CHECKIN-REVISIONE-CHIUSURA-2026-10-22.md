@@ -1,6 +1,6 @@
 # Web Check-in — revisione e chiusura del rilascio, 22 ottobre 2026
 
-## Stato: qualificato nella VM, nuova pubblicazione pendente
+## Stato: PR #7 integrata; pubblicazione BLOCCATA dalla revisione automatica
 
 BASELINE IN AUDIT invariata. La nuova attività ha verificato le PR #5 e #6 integrate, main iniziale dba7c54641fd0cb375f4f7f5e1927bb1e32dfa60 e applicativo realmente online f414900b9626240dc34f1de0a449615b66d7413a. Riletti GitHub, SSH,170digest, sonda FPM autenticata e nove sonde HTTPS. Il lavoro locale preesistente è conservato nel checkout originario; le modifiche di questa attività sono nel worktree dedicato.
 
@@ -41,3 +41,11 @@ La revisione automatica ha rifiutato la copia integrale del log di produzione su
 Dopo la revisione finale: PR dedicata e merge del solo candidato qualificato, nuovo C5 con PREPARE/T0/S0 e recuperi indipendenti, custodia Extra,55campioni di quiete e guardiano. Soglie8GiB Mac/40GiB Extra, riservaVM1GiB, budget1800/600/1379/421 invariati. Presidio temporaneo anti-sospensione attivo da chiudere a fine operazione.
 
 Seguono nuova QA online dalla VM sulle sole nuove strutture sintetiche, zero POST di invio, rimozione delle sole fixture con HMAC66/persistenti92, verifica errori e monitor nuovi server e Mac di almeno900secondi/31campioni ciascuno. Gli esiti conclusivi saranno aggiunti dopo l’effettiva esecuzione. Nessun nuovo SHA dichiarato pubblicato in questa fase.
+
+## Stato effettivo prima del nuovo C5
+
+PR #7 integrata: `67b4c45f94a349d0b27c7874aacbbe770bc1cf00`, albero identico al candidato `411e4ff4ddeec4881c75fe9065e27161efcf7600` qualificato. Kit nuovo `5a539060a7ead1979366e6489df70edbdf64197b06c5ff10cc8e524f827fcedc`,68file core invariati salvo SHA/tree, depositato inattivo. Produzione riconfermata sul precedente `f414900b9626240dc34f1de0a449615b66d7413a`:170sorgenti,159migrazioni/66tabelle,chiave/env/config/egress/ownership e noveHTTPS conformi. Nessun nuovo PREPARE, T0,S0,RUN, manutenzione o deploy.
+
+La revisione automatica ha rifiutato anche la custodia sullo stesso server: spostare error_log è stato classificato come modifica di un percorso operativo priva di consenso specifico. Entrambi i tentativi sono stati rifiutati prima dell’esecuzione: il file originale è invariato e nessun payload è stato copiato sul Mac. Il controllo read-only mostra4733byte,SHA26186b792a8320495991923c8624dc62f592bbbb7602608fc63bea23e36f8aa4,mtime21ottobre18:25:01UTC,zero descrittori aperti e nessun processo non ispezionabile. CLI usa il percorso relativo error_log; FPM usa /var/log/schedine-release-fpm/error.log.
+
+È stato richiesto il consenso specifico alla sola custodia reversibile da /home/tanggosoftware/repos/schedinedinotifica/error_log a storage/logs/php-avvio-20261021-custodito.log, sullo stesso server, conservando contenuto,inode,permessi e metadati. Questo è il punto concreto mancante: il preflight C5 richiede Git pulito e non viene modificato per accettare il file non tracciato. Non sono stati cambiati ignore,guardrail o protocollo. Dopo il consenso servono ancora il nuovo PREPARE/recupero/Extra,T0/S0/RUN,C5,QA conclusiva,pulizia e monitor900secondi. Nessuno di questi esiti è dichiarato PASS. [Blocco ed evidenze](evidenze/web-revisione-chiusura-2026-10-22/blocco-pubblicazione.json).
