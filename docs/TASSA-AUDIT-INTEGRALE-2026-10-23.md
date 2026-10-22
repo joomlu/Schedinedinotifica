@@ -72,7 +72,13 @@ Conteggi produttivi READ ONLY: dieci nascite assenti sulle Schedine, zero sui Co
 
 ## Git e rilascio
 
-Correzioni e collaudi locali completati; PR, integrazione e C5 in preparazione. Non si dichiara ancora una nuova versione online. Il dossier fiscale è distinto dal rilascio tecnico delle correzioni.
+Correzioni `1f4fab658696e5a0596df9a3f379367695d816f7` integrate mediante [PR10](https://github.com/joomlu/Schedinedinotifica/pull/10); candidato `118d5d20b309e15226ab63c2b84e40318d99b136`. Deposito e preflight C5 PASS, nove sonde positive e nessuna migrazione. Kit derivato da quello effettivo corrente, profili PHP8.3.36 verificati contro RPM e sigilli correnti, controlli e budget invariati. Il primo deposito era stato rifiutato dalla revisione automatica per autorizzazione non riconosciuta; ripresentata la stessa azione dopo rilettura del punto9 dell’allegato utente, approvata senza aggiramenti.
+
+**PREPARE NON PASS: recupero indipendente Linux non completato; nessun RUN/deploy.** Trasferimento cifrato completato, archivio decifrato parziale e nessun file estratto. Il messaggio del verificatore non espone il dettaglio dell’eccezione; una diagnosi separata sul medesimo cifrato verso `/dev/null` riproduce `TimeoutExpired` dopo90secondi, con chiave soltanto nella VM. La causa prestazionale sottostante non è attribuita. Nessun timeout o limite aumentato; questo tentativo non costituisce recuperabilità verificata. Cifrati e diagnostici conservati privatamente, nessuna custodia Extra di questo tentativo dichiarata valida.
+
+Rilettura produttiva successiva: Git `67b4c45f94a349d0b27c7874aacbbe770bc1cf00` pulito, FPM attivo, barriera assente, stato precedente accettato/concluso; nuovo piano RUN assente e nuovo PREPARE non verificato. Questa è evidenza del Git installato e della salute precedente, non attestazione del candidato servito. QA sintetica online preparata ma non eseguita, nessuna fixture online creata e nessuna pulizia dati necessaria; monitor900s del candidato non eseguito perché non pubblicato. [Ricevuta parziale](evidenze/tassa-audit-2026-10-23/rilascio-parziale.json).
+
+Ripresa necessaria: diagnosticare le prestazioni del verificatore senza indebolire i presidi, riconfermare capacità Mac/VM/Extra, nuovo PREPARE e recupero indipendente nei limiti, custodia Extra,55campioni quiete, nuovo S0/RUN, verifica SHA effettivamente servito e DB/S0, QA sintetica, pulizia verificata e monitor900s. Nessun vecchio checkpoint da promuovere. Il dossier fiscale resta distinto dal rilascio tecnico.
 
 ## Criteri di chiusura e pubblicazione
 
