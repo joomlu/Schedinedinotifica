@@ -36,10 +36,10 @@
   "dati_operativi_usati_come_fixture": false,
   "timeout_storico": "CAUSA NON DETERMINATA",
   "HTTPS_diagnostiche_pre_DNS": 279,
-  "SPF": "Unico e coerente; pass storico distinto",
-  "DKIM": "Pubblica propagata, chiave corrispondente leggibile dal trasporto; firma ricevuta non ancora provata",
-  "DMARC": "Policy p=none pubblicata; nessun destinatario di report aggiunto",
-  "nuove_email_reali": 0,
+  "SPF": "PASS attestato da Gmail sul nuovo messaggio autorizzato",
+  "DKIM": "PASS attestato da Gmail, dominio allineato al From e selettore default",
+  "DMARC": "PASS attestato da Gmail; policy p=none, nessun nuovo destinatario di report",
+  "nuove_email_reali": 1,
   "modifiche_applicative_schema_dati_operativi": false,
   "deploy_applicativo_eseguito": false,
   "stato_generale": "BASELINE IN AUDIT",
@@ -61,5 +61,20 @@
     "tests/Isolation/test_database_policy.py": "e177598f74abba176e9776863d935247bfde375e608e9318a717eee406ac38ae"
   },
   "diagnostico_eseguito_server_sha256": "b98044c8ece8cc77578a6cda4ef4e8279e0bb76ff7437d68883b4326797744b6",
-  "PR": 8
+  "PR": 8,
+  "firma_ricevuta": {
+    "esito": "PASS",
+    "fonte": "Gmail Mostra originale",
+    "SPF": "pass",
+    "DKIM": "pass",
+    "DMARC": "pass",
+    "selettore": "default",
+    "From_Envelope_DKIM_allineati": true,
+    "consenso_specifico_ricevuto": true,
+    "invii": 1,
+    "reinvii": 0,
+    "richieste_riutilizzate": 0,
+    "intestazioni_e_schermata": "Custodia privata, escluse dal repository pubblico"
+  },
+  "sigillo_manifest_verifica_firma_sha256": "82a8176fcf10d1fc7dcdf59feb8014de9d840b4de19a3ca565a60e2d46e56a95"
 }

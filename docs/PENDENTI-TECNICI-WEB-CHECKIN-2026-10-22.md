@@ -1,6 +1,6 @@
 # Pendenti tecnici Web Check-in — 22 ottobre 2026
 
-**BASELINE IN AUDIT.** Solo test, diagnostica e documentazione nel codice; nessuna modifica applicativa, di schema o di dati operativi. PHP della VM allineato e configurazione DKIM/DMARC completata separatamente. Nessun nuovo invio reale e nessun deploy applicativo necessario. [Riepilogo pubblicabile](evidenze/pendenti-tecnici-web-2026-10-22/riepilogo.json).
+**BASELINE IN AUDIT.** Solo test, diagnostica e documentazione nel codice; nessuna modifica applicativa, di schema o di dati operativi. PHP della VM allineato e configurazione DKIM/DMARC completata separatamente. Dopo consenso specifico, un solo invio sintetico con ricezione autenticata verificata; nessun deploy applicativo necessario. [Riepilogo pubblicabile](evidenze/pendenti-tecnici-web-2026-10-22/riepilogo.json).
 
 | Pendente | Causa comprovata | Azione realizzata | Evidenza | Stato |
 |---|---|---|---|---|
@@ -9,7 +9,7 @@
 | SyntaxWarning Python | Backslash PHP non escapati nella stringa Python | Escape corretti con PHP generato invariato; 17 guardie con SyntaxWarning trattato come errore | Diff e riepilogo | **RISOLTO E VERIFICATO** |
 | PHP VM | Versione precedente differente dalla produzione | Nove soli pacchetti aggiornati; 18 RPM custoditi e verificati; configurazioni e moduli conservati | Riepilogo; inventari integrali privati | **RISOLTO E VERIFICATO** |
 | SPF, DKIM e DMARC: configurazione | Chiave firmataria e due TXT mancanti | SPF unico preservato, pubblicati DKIM e DMARC, chiave corrispondente leggibile da Exim | Letture autoritative/resolver e verifica chiave custodite privatamente | **RISOLTO E VERIFICATO** per la configurazione |
-| Firma effettiva ricevuta | Il messaggio storico non era firmato; nuovo invio non autorizzato | Predisposta prova sintetica separata, senza richieste esistenti | Intestazioni storiche filtrate custodite privatamente | **PENDENTE DI ACCESSO O AUTORIZZAZIONE** per un nuovo messaggio |
+| Firma effettiva ricevuta | Il messaggio storico non era firmato | Dopo consenso specifico eseguito un solo invio sintetico, senza richieste esistenti | Gmail Mostra originale: SPF/DKIM/DMARC pass, firma allineata e selettore default; prova integrale privata | **RISOLTO E VERIFICATO** per il messaggio collaudato |
 
 ## Collaudo e correzioni
 
@@ -25,9 +25,9 @@ Versioni finali PHP CLI/FPM **8.3.36** sia nella VM sia in produzione. Restano d
 
 ## Posta, conservazione e pubblicazione
 
-SPF unico coerente, TLS e SMTP AUTH/NOOP verificati senza messaggi. Accesso Cloudflare completato personalmente dall’utente; aggiunti soltanto i due TXT del sottodominio. Pubblica RSA 2048 e privata corrispondenti, lettura con identità Exim verificata, nessuna chiave privata esportata. Record preesistenti e configurazioni applicative/FPM/Exim preservati. DMARC p=none senza nuovi destinatari di report. Non è ancora una prova di DKIM-Signature ricevuta o di DMARC pass Gmail. Gli header storici attestano soltanto SPF pass e assenza di firma.
+SPF unico coerente, TLS e SMTP AUTH/NOOP verificati senza messaggi. Accesso Cloudflare completato personalmente dall’utente; aggiunti soltanto i due TXT del sottodominio. Pubblica RSA 2048 e privata corrispondenti, lettura con identità Exim verificata, nessuna chiave privata esportata. Record preesistenti e configurazioni applicative/FPM/Exim preservati. DMARC p=none senza nuovi destinatari di report. Gli header storici attestavano soltanto SPF pass e assenza di firma. Dopo consenso specifico dell’utente è stato eseguito **un solo nuovo invio sintetico**, senza dati ospite, link o richieste riutilizzate. Accettazione SMTP attestata separatamente; messaggio effettivamente presente in Posta in arrivo Gmail. In Mostra originale: **SPF pass, DKIM pass e DMARC pass**, dominio firmatario allineato a From/EnvelopeFrom, selettore default e algoritmo rsa-sha256. Gmail indica consegna dopo un secondo. Intestazioni filtrate e schermata conservate privatamente; nel riepilogo pubblico soltanto esiti e sigillo. Nessuna garanzia universale di recapito futuro.
 
-Fixture esclusivamente sintetiche e temporanee, rimosse; nessuna richiesta esistente reinviata, mai 134. VM restituita spenta come all’inizio, senza crescita/tuning e con riserva rispettata. Lavoro preesistente preservato tramite confronto di HEAD/ramo/hash; connettività Git verificata. SHA applicativo precedente riconfermato tramite sonda privata firmata nel pool FPM reale e lettura Git: nessun nuovo deploy applicativo.
+Fixture esclusivamente sintetiche e temporanee, rimosse; nessuna richiesta esistente reinviata, mai 134. VM restituita spenta come all’inizio, senza crescita/tuning e con riserva rispettata. Lavoro preesistente preservato tramite confronto di HEAD/ramo/hash; connettività Git verificata. SHA applicativo precedente riconfermato tramite sonda privata firmata nel pool FPM reale e lettura Git: nessun nuovo deploy applicativo. Dopo l’invio, Git produzione ancora pulito, servizi attivi, sigilli delle configurazioni invariati e nessun helper temporaneo residuo. Nessuna nuova fixture operativa creata o da rimuovere; il messaggio di prova resta come evidenza. Le suite VM non sono state rieseguite per questo solo aggiornamento documentale.
 
 Il primo push è stato rifiutato dalla revisione automatica per l’esposizione delle evidenze operative in un repository pubblico. Nessun push di quel commit eseguito. Commit integrale e prove preservati privatamente; questo ramo deriva direttamente dalla base e include soltanto test, diagnostico e questo riepilogo senza log/configurazioni/IP di produzione. Il sigillo del manifest privato è nel riepilogo, per la tracciabilità senza pubblicare il deposito operativo.
 
