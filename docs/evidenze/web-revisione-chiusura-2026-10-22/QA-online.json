@@ -1,0 +1,99 @@
+{
+  "risultati": {
+    "online-anteprima.json": {
+      "esito": "PASS_SCENARI_ONLINE",
+      "prove": 3,
+      "POST_invii": 0,
+      "inizio": "2026-10-22T07:36:37.253Z",
+      "fine": "2026-10-22T07:37:06.516Z"
+    },
+    "online-testi-palette.json": {
+      "esito": "PASS_SCENARI_ONLINE",
+      "prove": 9,
+      "POST_invii": 0,
+      "inizio": "2026-10-22T07:44:07.414Z",
+      "fine": "2026-10-22T07:47:34.473Z"
+    },
+    "online-accessi.json": {
+      "esito": "PASS_ACCESSI_WEB_ONLINE",
+      "prove": 2,
+      "POST_invii": 0,
+      "inizio": "2026-10-22T07:43:23.157Z",
+      "fine": "2026-10-22T07:44:05.810Z"
+    },
+    "online-circuito.json": {
+      "esito": "PASS_SCENARI_ONLINE",
+      "prove": 6,
+      "POST_invii": 0,
+      "inizio": "2026-10-22T07:37:17.416Z",
+      "fine": "2026-10-22T07:39:42.716Z"
+    },
+    "online-completo.json": {
+      "esito": "PASS_ONLINE_REGRESSIONI_NUOVA_SCHEDINA_TENANCY",
+      "prove": 3,
+      "POST_invii": 0,
+      "inizio": "2026-10-22T07:42:23.198Z",
+      "fine": "2026-10-22T07:43:17.585Z"
+    },
+    "online-html.json": {
+      "esito": "PASS_SCENARI_ONLINE",
+      "prove": 6,
+      "POST_invii": 0,
+      "inizio": "2026-10-22T07:40:14.926Z",
+      "fine": "2026-10-22T07:42:21.992Z"
+    }
+  },
+  "immagini": {
+    "modulo-768.png": "0c7ed9b20a4e938c14d8caeb26a054b28616385088149f310dae100de8ba6071",
+    "dettaglio-768.png": "62f1f92d01cf7433f7389a80ad3c1763fc5e5f5714f2735d874b6ca764608e34",
+    "diagnostico-anteprima-390.png": "45df29c55ca59c7a4a9a931a4f2565b83d7e37dde20636946e39c3980ab796b1",
+    "modulo-390.png": "f1631e5919eb6190652d97bc37afe1ab0e33646f1297c58b832d97bbce65bb4a",
+    "dettaglio-390.png": "a9522312b02268bd80279fa61fa560961e5f808acbbefac3ff563b95122c6018",
+    "diagnostico-anteprima-768.png": "4bde7ad3f402cbda64e978c8b9e07517974a8acc821b00467fcc72b3069d336a",
+    "palette-ricevuta-390-ffffee.png": "251a7b72de4b72fe7eb8564beeb649e6c0e4f4474b72d320b245ab1f8867b5df",
+    "errore-sezione-768.png": "513185bd3e80cf8ed2d84c90d3c329f7c037efb62803797d4faac1fd407d66e3",
+    "storico-768.png": "cddb4f6320416237210c86a16b6fac92216f39195da7b3d9ac6ffb7e68394b03",
+    "storico-1440.png": "60accd4a7885cf41364eb610f08aa7dd9f2ef8bed3ce21a86ccaca77bf8a2e68",
+    "storico-390.png": "d49d986a3153502153805cf732a0bc5aaa872e548ce8bdbadea7973c2ae039fb",
+    "errore-sezione-390.png": "0a9fb6f644c03f8243cb5ce984fd2b1bf857736c769cfb6fde27fa10a8110183",
+    "palette-email-768-123456.png": "97db80896b951e24c8a3e0c199da9eace5e1947779087c9ff9300b1e7b2567fd",
+    "palette-calendario-390-123456.png": "f93089d42a1b134d2ecb3862f8fafe7998061bc26e9e015e82f902f57cb4e15a",
+    "geo-errore-1440.png": "8b23601761b3630665e674e245b3cfe1c48fca2f571de3186628c55ab2978f9c",
+    "palette-ricevuta-390-123456.png": "68e64f7ebbbc65a4b5b2aabe7581c9046aa25ec46cc79df32f2e047bac0c9a46",
+    "email-1440.png": "583c057d61d48f448c8a3e037086fe55c89c1fc7911988c3482f708cd641be23",
+    "editor-1440.png": "4482abbaeee9a1f48e28454707271c6c797314206ba3873bf411a8d62c03b50e",
+    "palette-calendario-390-ffffee.png": "75785503830e0443d38063a8594dcfa8d97f775284ed31ef495df8b62130586f",
+    "palette-email-768-ffffee.png": "413c6c2b0aa87a97bfeedbb006c251f1e649ea6376fab3a6a0788394832f2bd9",
+    "schedina-geo-390.png": "8055da873193dc146813e797d746973b3ecb7805bf12dd984edb73da255e6ccc",
+    "anteprima-1440.png": "6bbd4f4d08035b46f239ff2c953275689e854b6135a710e58aec7975b84e0138",
+    "email-768.png": "52bddaa60d7a1092e87847e93f364cc0d19f3a1e96b11679e3f9bc5fa26c5385",
+    "palette-calendario-768-123456.png": "bebb8904f0f502441951b329efb6db2e92939be4a07015021071e0a940e55ee5",
+    "palette-email-390-123456.png": "dd3532ada87679bfb660398e81f0198407f4e920868020d0427c746543227c09",
+    "editor-768.png": "80dd48dd87e4aac805b9aae760b28a625ef78ef55e7f3fc72447e17cb936f057",
+    "anteprima-768.png": "4bde7ad3f402cbda64e978c8b9e07517974a8acc821b00467fcc72b3069d336a",
+    "schedina-geo-768.png": "a7c97fd2599fcb84761f0d450d37e58f818510e655f4d27a1eb428a956aff949",
+    "editor-390.png": "52992cdc42e0806fe91bd70c63598004e46247013c0e38c7dc1b4530dcf02e70",
+    "palette-ricevuta-768-ffffee.png": "6456b3d663b7d3564f55e2161d0439305fc4db459a776e1a2eede8c75672ae83",
+    "anteprima-390.png": "45df29c55ca59c7a4a9a931a4f2565b83d7e37dde20636946e39c3980ab796b1",
+    "email-390.png": "e233d7d7029cf7d458e05fa6efaa763789193c1d66d85c17a3b0742c59f1bb99",
+    "palette-ricevuta-1440-ffffee.png": "584783a89d664d1cd5f196f73c8353d4775005a5374854b8cb4b77661858c448",
+    "palette-email-1440-ffffee.png": "2e7300560a86abb95af67053145e0aa9bccec2142042dfb3d5c7fe221a8d1ea6",
+    "palette-calendario-1440-ffffee.png": "041053a321544f34ee83fc31bbddd6723eac59f70586a2bd1d83f328085cca09",
+    "errore-sezione-1440.png": "dd0f668b56093f3146f7c5d9644a0afd763d3505e2bbf92fdfef78aee5c19799",
+    "palette-email-390-ffffee.png": "b5dc7745a00700a98abb7505639abe6941175d2f4d44780112d3eec3733c4937",
+    "palette-calendario-768-ffffee.png": "b9e5ae3b2d855e4949f176419b0d8315396a74db6570582c48ba34fe8f6d91f4",
+    "geo-errore-768.png": "abafbdc69f9c97b048fba739a361c91b525a5b1fb2f6a9f426e0f28e7fee2957",
+    "schedina-geo-1440.png": "58a444ba9bdd4bc370e79a2c87b0c39177ee004b8c0090883624c6856a7f1deb",
+    "geo-errore-390.png": "4b28d835fdb796b6d6ac1bd5c1e396ba4ae9003725570ae2718837f2acf20e0a",
+    "palette-ricevuta-1440-123456.png": "2de5d96ae69d6005eee2c9a7032c3fac633da78bf9405fad692776a21a06bda6",
+    "palette-ricevuta-768-123456.png": "3f56fb183ad4e7c33cc7a8c4368d37be6db29a699cccc2556cb0d310f0f61a12",
+    "diagnostico-anteprima-1440.png": "91983ff50ee29944b2b56ec1728a984b2bf2c735667686cce61f89f9c0ce1869",
+    "errore-componente-390.png": "14dcbadd171e83828adf879e8c1bd490b11ce30747184e7af85a904d59ce0d11",
+    "palette-email-1440-123456.png": "3358e3105795667136f85c1143992821f480aa41c1e88de4a10d059c28a3c792",
+    "palette-calendario-1440-123456.png": "560bd399b9efc348f4b2976bb06758838b09e23fc10ea440e470050467ddc188",
+    "errore-componente-768.png": "e4e031e3c3195394f14b9269e15de87441112ff3c5bed9d501bb769b932c9622",
+    "dettaglio-1440.png": "442f06f50a8564ecbb107dc6ebf81fc2ffd4861bc83f8cd6aa2701e6e20a1d28",
+    "modulo-1440.png": "8b34b45d02ebea795edf2ce6f7659fabce661294dfa7008da177b2f66f4a0f6b"
+  },
+  "nessuna_email_reale_inviata": true
+}

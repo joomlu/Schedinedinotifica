@@ -1,0 +1,61 @@
+{
+  "campioni_completi": 18,
+  "fallimento": "Timeout curl28 dopo15006ms al19esimo campione sul dominio principale",
+  "controlli_successivi": {
+    "UTC": "2026-10-22T07:59:55.520994+00:00",
+    "sonde": [
+      {
+        "host": "schedinedinotifica.tanggo.software",
+        "returncode": 0,
+        "misure": "200 0 217.174.149.23 0.055229 0.088726 0.251859",
+        "errore": ""
+      },
+      {
+        "host": "mail.schedinedinotifica.tanggo.software",
+        "returncode": 0,
+        "misure": "200 0 217.174.149.23 0.045209 0.083226 0.210193",
+        "errore": ""
+      },
+      {
+        "host": "www.schedinedinotifica.tanggo.software",
+        "returncode": 0,
+        "misure": "200 0 217.174.149.23 0.051701 0.089173 0.223561",
+        "errore": ""
+      }
+    ]
+  },
+  "rete_successiva": {
+    "UTC": "2026-10-22T08:00:49.339443+00:00",
+    "DNS": {
+      "schedinedinotifica.tanggo.software": {
+        "A": [
+          "217.174.149.23"
+        ],
+        "AAAA": []
+      },
+      "mail.schedinedinotifica.tanggo.software": {
+        "A": [
+          "217.174.149.23"
+        ],
+        "AAAA": []
+      },
+      "www.schedinedinotifica.tanggo.software": {
+        "A": [
+          "217.174.149.23"
+        ],
+        "AAAA": []
+      }
+    },
+    "proxy_variabili_presenti": {
+      "HTTPS_PROXY": false,
+      "HTTP_PROXY": false,
+      "ALL_PROXY": false,
+      "https_proxy": false,
+      "http_proxy": false,
+      "all_proxy": false
+    },
+    "limite": "Controllo puntuale successivo: non attribuisce retroattivamente la causa del timeout TCP/HTTPS."
+  },
+  "causa": "Non attribuita; campione fallito conservato, non sommato al nuovo monitor completo",
+  "nessun_timeout_o_controllo_indebolito": true
+}

@@ -1,0 +1,6 @@
+{"esito": "PASS_STATO_FINALE_ONLINE", "SHA": "67b4c45f94a349d0b27c7874aacbbe770bc1cf00", "Git_pulito": true, "sorgenti_e_protetti_conformi": true, "FPM_attivo": true, "barriere_assenti": true, "key_provider_mail_conformi": true, "sonde9": {"mail.schedinedinotifica.tanggo.software/": true, "mail.schedinedinotifica.tanggo.software/login": true, "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true, "schedinedinotifica.tanggo.software/": true, "schedinedinotifica.tanggo.software/login": true, "schedinedinotifica.tanggo.software/build/css/app.min.css": true, "www.schedinedinotifica.tanggo.software/": true, "www.schedinedinotifica.tanggo.software/login": true, "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true}, "verifica_solo_lettura": true}
+{"esito": "PASS_SORGENTI_ARRIVI_ONLINE", "file": 29}
+{"esito": "PASS_SORGENTI_WEB_CHECKIN_ONLINE", "file": 57}
+{"esito": "PASS_SORGENTI_HTML_ONLINE", "file": 76}
+{"esito": "PASS_SCHEMA_E_MAILER_FINALI", "migrazioni": 159, "tabelle": 66, "SMTP_dedicato": true, "funzioni_PHP_bloccate_preservate": true}
+{"esito": "PASS_SORGENTI_CIRCUITO_ONLINE", "file": 113}

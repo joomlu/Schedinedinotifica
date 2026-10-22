@@ -36,5 +36,7 @@
   "nuovo_T0_S0_RUN_eseguito": false,
   "nuova_QA_finale_e_monitor_non_eseguiti": true,
   "kit_depositato_inattivo": true,
-  "nessuna_manutenzione_o_nuovo_deploy": true
+  "nessuna_manutenzione_o_nuovo_deploy": true,
+  "stato_storico": true,
+  "superato_da": "consenso-custodia-log.json e rilascio.json"
 }
