@@ -1,5 +1,16 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Pendenti tecnici Web Check-in — 22 ottobre 2026
+
+**BASELINE IN AUDIT.** [Rapporto pubblicabile](../PENDENTI-TECNICI-WEB-CHECKIN-2026-10-22.md), [riepilogo](../evidenze/pendenti-tecnici-web-2026-10-22/riepilogo.json). Evidenze operative integrali custodite privatamente, escluse da questo repository pubblico dopo rifiuto automatico del primo push; il relativo commit locale è preservato e non fa parte della storia di questo ramo.
+
+Corretti cinque metadati PHPUnit e gli escape Python, stessi 404 test scoperti. Finale404 test/3.992 asserzioni e 33 browser distinti 1440/768/390PASS, 17 guardie, 23 override per runtime,buildVite/GEO/Blade e 126 sorgenti conformi. Zero skip/deprecazioni PHPUnit; NONPASS e correzioni della fixture senza PDO documentati. Pressione GC del fetch rimossa prima della ripetizione invariata; non è causa provata del timeout Mac storico, che resta **CAUSA NON DETERMINATA** dopo 279 sonde senza guasto. Nessun timeout o controllo ridotto.
+
+PHP VM allineato a CLI/FPM 8.3.36 produttivi con nove soli RPM e 18 pacchetti custoditi/verificati dopo correzione della custodia DNF; differenze residue esplicite. Configurazioni/moduli/daily/lavoro locale preservati, runtime sintetici rimossi, VM restituita spenta come all’inizio, riserva rispettata. Nessun codice applicativo/schema/dato operativo cambiato e nessun deploy necessario; versione servita precedente riconfermata nel pool FPM.
+
+SPF unico verificato; pubblicati soltanto DKIM/default e DMARC p=none del sottodominio dopo accesso Cloudflare completato dall’utente. Chiave corrispondente leggibile da Exim, configurazioni preesistenti intatte. **Firma ricevuta pendente di consenso specifico per un nuovo messaggio sintetico**; nessun nuovo invio e mai 134. Gli header storici attestano SPFpass ma nessuna DKIM-Signature. Monitor dopo DNS da completare prima dell’integrazione. Audit generale Tassa/ISTAT/Questura distinto e aperto, con gate nel rapporto.
+
+
 ## Revisione conclusiva Web Check-in — 22 ottobre 2026, PR #7 pubblicata e verificata
 
 **Applicativo `67b4c45f94a349d0b27c7874aacbbe770bc1cf00` online; C5, QA sintetica, pulizia e monitor conclusivi superati. BASELINE IN AUDIT invariata.** [Rapporto](../WEB-CHECKIN-REVISIONE-CHIUSURA-2026-10-22.md), [ricevuta](../evidenze/web-revisione-chiusura-2026-10-22/rilascio.json), [qualificazione](../evidenze/web-revisione-chiusura-2026-10-22/verifica.json).

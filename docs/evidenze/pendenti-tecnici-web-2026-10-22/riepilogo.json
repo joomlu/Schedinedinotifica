@@ -1,0 +1,49 @@
+{
+  "esito_qualificazione": "PASS",
+  "PHPUnit": {
+    "casi": 404,
+    "asserzioni": 3992,
+    "identita_prima_dopo_identiche": true,
+    "errori": 0,
+    "fallimenti": 0,
+    "saltati": 0,
+    "deprecazioni": 0
+  },
+  "Python": {
+    "guardie_superate": 17,
+    "SyntaxWarning": 0,
+    "SyntaxWarning_trattato_come_errore": true
+  },
+  "browser": {
+    "scenari_distinti": 33,
+    "viewport_px": [
+      1440,
+      768,
+      390
+    ],
+    "saltati": 0,
+    "invii_reali": 0
+  },
+  "build_Vite_GEO": "PASS",
+  "rifiuti_override_per_runtime": 23,
+  "sorgenti_confrontati_host_runtime": 126,
+  "PHP_VM_CLI_FPM": "8.3.36",
+  "PHP_produzione_CLI_FPM": "8.3.36",
+  "pacchetti_aggiornati": 9,
+  "RPM_custoditi_verificati": 18,
+  "riserva_VM_rispettata": true,
+  "fixture_temporanee_rimosse": true,
+  "dati_operativi_usati_come_fixture": false,
+  "timeout_storico": "CAUSA NON DETERMINATA",
+  "HTTPS_diagnostiche_pre_DNS": 279,
+  "SPF": "Unico e coerente; pass storico distinto",
+  "DKIM": "Pubblica propagata, chiave corrispondente leggibile dal trasporto; firma ricevuta non ancora provata",
+  "DMARC": "Policy p=none pubblicata; nessun destinatario di report aggiunto",
+  "nuove_email_reali": 0,
+  "modifiche_applicative_schema_dati_operativi": false,
+  "deploy_applicativo_eseguito": false,
+  "stato_generale": "BASELINE IN AUDIT",
+  "evidenze_integrali": "Custodia privata; non incluse in questo repository pubblico",
+  "sigillo_manifest_privato_sha256": "e740e9e0c3f30fe178327a723a6cd8a844a87f8e21e93ada8e0bc963a3b71a9b",
+  "monitor_dopo_DNS": "IN_CORSO"
+}
