@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Support\StrutturaFixtures;
 use Tests\TestCase;
 
@@ -160,7 +161,7 @@ class IstatConformitaTest extends TestCase
         $this->expectException(ValidationException::class); $this->xml($s);
     }
 
-    /** @dataProvider invalidGuestData */
+    #[DataProvider('invalidGuestData')]
     public function test_invalid_guest_data_blocks_export(string $field, mixed $value, string $reason): void
     {
         $s = $this->setupStructure(); $this->stay($s, [$field => $value]);

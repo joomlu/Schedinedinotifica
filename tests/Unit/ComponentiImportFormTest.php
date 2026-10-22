@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Session\ArraySessionHandler;
 use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Facade;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /** Rendering dei componenti reali, senza bootstrap applicativo, .env, kernel o database. */
@@ -94,7 +95,7 @@ class ComponentiImportFormTest extends TestCase
         return new \DOMXPath($dom);
     }
 
-    /** @dataProvider cataloghiEsenzioni */
+    #[DataProvider('cataloghiEsenzioni')]
     public function test_catalogo_esenzioni_accetta_array_collection_e_null($catalogo, bool $popolato): void
     {
         $dom = $this->render(new Schedina, ['esenzioni' => $catalogo]);
@@ -212,7 +213,7 @@ class ComponentiImportFormTest extends TestCase
 
     private function prepareController(?\App\Services\ComponentiImportService $service = null): \App\Http\Controllers\ComponentiImportController
     {
-        // Nessun PDO: sono ammesse esclusivamente letture della struttura sintetica.
+        // Nessun PDO: solo struttura e nazione esplicitamente sintetiche.
         $connection = new class extends \Illuminate\Database\Connection
         {
             public function __construct()
@@ -224,6 +225,11 @@ class ComponentiImportFormTest extends TestCase
             {
                 if (str_contains($query, 'from "struttura"')) {
                     return [(object) ['id' => 7, 'nome_struttura' => 'Struttura test']];
+                }
+                if ($query === 'select * from "geo_nazioni" where ("nome" = ? or "codice_iso2" = ?) limit 2'
+                    && $bindings === ['Francia', 'Francia']) {
+                    return [(object) ['id' => 2, 'nome' => 'Francia', 'cittadinanza' => 'Francese',
+                        'codice_iso2' => 'FR', 'is_italia' => false]];
                 }
                 throw new \LogicException('Lettura DB inattesa: '.$query);
             }
@@ -258,7 +264,7 @@ class ComponentiImportFormTest extends TestCase
         $this->assertSame(['name' => 'Prova'], $this->session->get('componenti_import_new_schedina.11.7'));
     }
 
-    /** @dataProvider formati */
+    #[DataProvider('formati')]
     public function test_download_nuova_restituisce_file_e_header(string $format, string $type): void
     {
         $controller = $this->prepareController();
@@ -334,6 +340,8 @@ class ComponentiImportFormTest extends TestCase
             $this->assertSame($rows, $this->session->getOldInput('componenti'));
             $dom = $this->render(new Schedina, ['schedinaContext' => 'new', 'usePutMethod' => false]);
             $this->assertSame(1, $dom->query('//input[@name="componenti[0][name]"][@value="Prova"]')->length);
+            $this->assertSame('Francia', $rows[0]['country_nac']);
+            $this->assertSame(1, $dom->query('//select[@name="componenti[0][country_nac]"]/option[@selected and @value="2" and text()="Francia"]')->length);
             $controller->newConfirm($confirm);
             $this->assertCount(1, $this->session->get('componenti_import_new_schedina.11.7.componenti'));
         } finally {

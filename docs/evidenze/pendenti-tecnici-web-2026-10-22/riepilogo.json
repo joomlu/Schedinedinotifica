@@ -1,0 +1,65 @@
+{
+  "esito_qualificazione": "PASS",
+  "PHPUnit": {
+    "casi": 404,
+    "asserzioni": 3992,
+    "identita_prima_dopo_identiche": true,
+    "errori": 0,
+    "fallimenti": 0,
+    "saltati": 0,
+    "deprecazioni": 0
+  },
+  "Python": {
+    "guardie_superate": 17,
+    "SyntaxWarning": 0,
+    "SyntaxWarning_trattato_come_errore": true
+  },
+  "browser": {
+    "scenari_distinti": 33,
+    "viewport_px": [
+      1440,
+      768,
+      390
+    ],
+    "saltati": 0,
+    "invii_reali": 0
+  },
+  "build_Vite_GEO": "PASS",
+  "rifiuti_override_per_runtime": 23,
+  "sorgenti_confrontati_host_runtime": 126,
+  "PHP_VM_CLI_FPM": "8.3.36",
+  "PHP_produzione_CLI_FPM": "8.3.36",
+  "pacchetti_aggiornati": 9,
+  "RPM_custoditi_verificati": 18,
+  "riserva_VM_rispettata": true,
+  "fixture_temporanee_rimosse": true,
+  "dati_operativi_usati_come_fixture": false,
+  "timeout_storico": "CAUSA NON DETERMINATA",
+  "HTTPS_diagnostiche_pre_DNS": 279,
+  "SPF": "Unico e coerente; pass storico distinto",
+  "DKIM": "Pubblica propagata, chiave corrispondente leggibile dal trasporto; firma ricevuta non ancora provata",
+  "DMARC": "Policy p=none pubblicata; nessun destinatario di report aggiunto",
+  "nuove_email_reali": 0,
+  "modifiche_applicative_schema_dati_operativi": false,
+  "deploy_applicativo_eseguito": false,
+  "stato_generale": "BASELINE IN AUDIT",
+  "evidenze_integrali": "Custodia privata; non incluse in questo repository pubblico",
+  "sigillo_manifest_privato_sha256": "1255af8fd4e5e5c4362f7cbd5ca55e71dba88d79172cbbfafe7bdf5c74abb1bd",
+  "monitor_dopo_DNS": {
+    "esito": "PASS_SONDE",
+    "campioni": 31,
+    "sonde_HTTPS": 93,
+    "secondi": 921.858,
+    "timeout_secondi": 15,
+    "pausa_secondi": 30,
+    "causa_timeout_storico": "CAUSA NON DETERMINATA"
+  },
+  "test_modificati_qualificati_sha256": {
+    "tests/Feature/IstatConformitaTest.php": "f5db62b1939d83ff53e0b399124b56230c3efa0035d32471a98550f2eced2509",
+    "tests/Feature/IstatCycleTest.php": "38cada98b044e42d5597978d7df545643a280d1bfc3277afaad9020d018bc659",
+    "tests/Unit/ComponentiImportFormTest.php": "bf8d2bd6ed60dc4055798e466682c8963886ca2b90f0caac24c1aa3caee0aabd",
+    "tests/Isolation/test_database_policy.py": "e177598f74abba176e9776863d935247bfde375e608e9318a717eee406ac38ae"
+  },
+  "diagnostico_eseguito_server_sha256": "b98044c8ece8cc77578a6cda4ef4e8279e0bb76ff7437d68883b4326797744b6",
+  "PR": 8
+}

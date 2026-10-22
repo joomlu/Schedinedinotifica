@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Support\StrutturaFixtures;
 use Tests\TestCase;
 
@@ -329,7 +330,7 @@ class IstatCycleTest extends TestCase
         }
     }
 
-    /** @dataProvider postTransmissionChanges */
+    #[DataProvider('postTransmissionChanges')]
     public function test_post_transmission_changes_are_detected_and_restore_keeps_duplicate_block(string $change): void
     {
         $s = $this->configured();
@@ -433,7 +434,7 @@ class IstatCycleTest extends TestCase
         $this->get('/istat-tabella-a?mese=2026-04')->assertOk()->assertSee('Annullamento sul portale')->assertDontSee('SYNTHETIC_SECRET');
     }
 
-    /** @dataProvider activeCommunicationStates */
+    #[DataProvider('activeCommunicationStates')]
     public function test_reconciliation_protects_each_new_communication(string $state): void
     {
         $s = $this->configured();

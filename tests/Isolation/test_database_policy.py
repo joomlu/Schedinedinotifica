@@ -87,7 +87,7 @@ class DatabasePolicyTests(unittest.TestCase):
         source = Path(__file__).resolve().parents[1]/'Support/TestingEnvironment.php'
         code = '<?php require '+json.dumps(str(source))+''';
         foreach (json_decode($argv[1], true) as $v) {
-            try { echo \Tests\Support\TestingEnvironment::databaseVendor($v)."\\n"; }
+            try { echo \\Tests\\Support\\TestingEnvironment::databaseVendor($v)."\\n"; }
             catch (RuntimeException $e) { echo "BLOCK\\n"; }
         }'''
         result = subprocess.run(['php', '-d', 'opcache.enable_cli=0', '--', json.dumps(values)], input=code, text=True, capture_output=True, check=True)

@@ -1,26 +1,21 @@
-# Isolamento dei test locali
+# Isolamento dei test — VM ufficiale
 
 ## Stato e avvio
 
 PHPUnit e Playwright restano bloccati con `TEST_ISOLATION_REQUIRED` fuori dal runtime creato da `tests/Isolation/run.py`. Nessun flag, nome di database, URL o file marker sblocca i test.
 
-Prerequisiti: PHP con PDO MySQL, Python 3, Node/npm, dipendenze già installate, binari `mysqld` e `mysql`. Per Playwright serve Chromium già installato. Su questa macchina viene usato MySQL 8.0.36, lo stesso motore supportato dalle migrazioni, in una **nuova istanza**, senza riutilizzare il servizio Herd. Non vengono installati servizi o modificati quelli esistenti.
+Il runtime autorizzato è esclusivamente la VM Lima `schedine-sviluppo-interno`, Rocky Linux, con avviatore attestato e namespace previsto dal Maestro. Gli esempi seguenti descrivono selezioni da passare all’avviatore ufficiale **dentro la VM**, non comandi da eseguire sul Mac o contro Herd. Si veda [il protocollo Rocky](ROCKY_PROCESS_ISOLATION.md) e il [Maestro](maestro/MAESTRO-SCHEDINE-DI-NOTIFICA.md), che prevalgono sulle descrizioni storiche.
 
-```sh
-# Verifica il rifiuto fuori dal runtime, senza database o browser.
-python3 -B tests/Isolation/test_guards.py
+Dal 22 ottobre 2026: PHP CLI e binario FPM **8.3.36**, MariaDB **11.8.9**, Node **20.18.2** del runtime autorizzato. Il precedente riferimento Mac/MySQL 8.0.36 descrive prove storiche e non autorizza quel percorso. Nuove istanze MariaDB effimere, rete confinata, fixture sintetiche, nessun servizio o database operativo riutilizzato. PHP-FPM installato nella VM resta inattivo; i browser attraversano il server PHP dedicato dell’avviatore.
 
-# Fixture e test specifici dei loghi.
-python3 -B tests/Isolation/run.py --phpunit tests/Feature/GeoComuneLogoTest.php
+Esempi di selezione, da comporre nel comando VM ufficiale con namespace e utente `collaudo`:
 
-# Loghi, rendering, regressioni di autorizzazione e browser.
-python3 -B tests/Isolation/run.py \
-  --phpunit tests/Feature/GeoComuneLogoTest.php \
-  tests/Feature/TopbarRenderingTest.php \
-  tests/Feature/StrutturaAuthorizationTest.php \
-  --fixtures tests/Isolation/seed-geo.php \
-  --playwright tests/Feature/geo-logo.playwright.spec.js
+```text
+--phpunit tests/Feature/GeoComuneLogoTest.php
+--phpunit tests/Feature/GeoComuneLogoTest.php tests/Feature/TopbarRenderingTest.php tests/Feature/StrutturaAuthorizationTest.php --fixtures tests/Isolation/seed-geo.php --playwright tests/Feature/geo-logo.playwright.spec.js
 ```
+
+PHP 8.3.36 allineato alla produzione senza aggiornamenti estranei: nove soli RPM Rocky esistenti, configurazioni e moduli invariati, copie dei nove RPM precedenti e nuovi con firme verificate, archivio configurazioni e sigilli custoditi nella VM. Il ripristino richiede il confronto dello stato corrente, stop dei soli servizi interessati già attivi, reinstallazione controllata dei nove RPM precedenti e verifica dei sigilli; non eseguirlo come pulizia automatica. Differenze ARM/x86, CLI/FPM, moduli e limiti restano esplicite: versione uguale non significa configurazione identica. [Consuntivo e confronto](PENDENTI-TECNICI-WEB-CHECKIN-2026-10-22.md).
 
 Senza suite selezionate l'avviatore verifica soltanto l'infrastruttura, il build e le migrazioni. Gli spec browser devono essere selezionati esplicitamente; le fixture sono uno script esplicito, senza seeder impliciti.
 
@@ -28,7 +23,7 @@ L'avviatore stampa identità, PID e porte, interrompe al primo errore e pulisce 
 
 ## Risorse e attestazione
 
-Ogni esecuzione crea una directory privata `/private/tmp/schedine-test-*` con:
+Ogni esecuzione crea una directory privata temporanea nella VM (`/tmp/schedine-test-*`) con:
 
 - copia del codice versionato e dei file di test pertinenti, senza `.env*`, dati di storage, cache di sviluppo, immagini pubbliche o upload reali;
 - copie separate di vendor e node_modules; asset compilati nella copia temporanea;
