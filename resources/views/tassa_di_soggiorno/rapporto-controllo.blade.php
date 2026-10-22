@@ -73,7 +73,7 @@
 
                 <div class="alert alert-info">
                     <strong>Struttura:</strong> {{ $struttura->nome_struttura ?? '—' }}
-                    — <strong>Aliquota:</strong> {{ number_format((float) ($config->tassa_soggiorno ?? 0), 2, ',', '.') }} €
+                    — <strong>Aliquota:</strong> {{ isset($config->tassa_soggiorno) ? number_format((float) $config->tassa_soggiorno, 2, ',', '.').' €' : 'n/d' }}
                     — <strong>Giorni max:</strong> {{ $config->giorni_massimo ?? 'n/d' }}
                     — <strong>Età max bimbi:</strong> {{ $config->max_age_children ?? 'n/d' }}
                     — <strong>Età min adulti:</strong> {{ $config->min_age_adult ?? 'n/d' }}

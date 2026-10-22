@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 
 test.use({headless:true});
 for (const mode of ['senza', 'con', 'gruppo']) {
-  test(`Ricevuta A4 e periodo, modalità ${mode} immagine`, async ({page}) => {
+  test(`Ricevuta A4 e periodo, modalità ${mode} immagine`, async ({page}, testInfo) => {
     await page.goto(`${BASE_URL}/login`);
     await page.getByLabel(/Nome di accesso o email/i).fill(`tassa-${mode}`);
     await page.getByLabel(/Password personale/i).fill('Password-tassa-fixture-123!');
@@ -17,9 +17,9 @@ for (const mode of ['senza', 'con', 'gruppo']) {
     await page.emulateMedia({media:'print'});
     await expect(page.locator('.no-print')).toBeHidden();
     await expect(page.locator('.ricevuta-software .footer')).toBeVisible();
-    await page.locator('#ricevuta-tassa-card').screenshot({path:`/private/tmp/ids-ricevuta-${mode}.png`});
-    await page.pdf({path:`/private/tmp/ids-ricevuta-${mode}.pdf`,format:'A4',printBackground:true,preferCSSPageSize:true});
-    const pdf = await readFile(`/private/tmp/ids-ricevuta-${mode}.pdf`);
+    await page.locator('#ricevuta-tassa-card').screenshot({path:testInfo.outputPath(`ids-ricevuta-${mode}.png`)});
+    await page.pdf({path:testInfo.outputPath(`ids-ricevuta-${mode}.pdf`),format:'A4',printBackground:true,preferCSSPageSize:true});
+    const pdf = await readFile(testInfo.outputPath(`ids-ricevuta-${mode}.pdf`));
     expect(pdf.length).toBeGreaterThan(1000);
     await page.emulateMedia({media:'screen'});
     await page.goto(`${BASE_URL}/tassa_di_soggiorno/rapporto?data_da=2026-06-01&data_a=2026-06-30`);
