@@ -44,6 +44,22 @@
   "deploy_applicativo_eseguito": false,
   "stato_generale": "BASELINE IN AUDIT",
   "evidenze_integrali": "Custodia privata; non incluse in questo repository pubblico",
-  "sigillo_manifest_privato_sha256": "e740e9e0c3f30fe178327a723a6cd8a844a87f8e21e93ada8e0bc963a3b71a9b",
-  "monitor_dopo_DNS": "IN_CORSO"
+  "sigillo_manifest_privato_sha256": "1255af8fd4e5e5c4362f7cbd5ca55e71dba88d79172cbbfafe7bdf5c74abb1bd",
+  "monitor_dopo_DNS": {
+    "esito": "PASS_SONDE",
+    "campioni": 31,
+    "sonde_HTTPS": 93,
+    "secondi": 921.858,
+    "timeout_secondi": 15,
+    "pausa_secondi": 30,
+    "causa_timeout_storico": "CAUSA NON DETERMINATA"
+  },
+  "test_modificati_qualificati_sha256": {
+    "tests/Feature/IstatConformitaTest.php": "f5db62b1939d83ff53e0b399124b56230c3efa0035d32471a98550f2eced2509",
+    "tests/Feature/IstatCycleTest.php": "38cada98b044e42d5597978d7df545643a280d1bfc3277afaad9020d018bc659",
+    "tests/Unit/ComponentiImportFormTest.php": "bf8d2bd6ed60dc4055798e466682c8963886ca2b90f0caac24c1aa3caee0aabd",
+    "tests/Isolation/test_database_policy.py": "e177598f74abba176e9776863d935247bfde375e608e9318a717eee406ac38ae"
+  },
+  "diagnostico_eseguito_server_sha256": "b98044c8ece8cc77578a6cda4ef4e8279e0bb76ff7437d68883b4326797744b6",
+  "PR": 8
 }
