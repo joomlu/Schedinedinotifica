@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Tassa di soggiorno — PR10 integrata, C5 fermo al recupero — 23 ottobre 2026
+
+**PARZIALE; candidato118d5d20 non pubblicato. BASELINE IN AUDIT invariata.** [Rapporto](../TASSA-AUDIT-INTEGRALE-2026-10-23.md), [ricevuta parziale](../evidenze/tassa-audit-2026-10-23/rilascio-parziale.json). Correzioni1f4fab65 integrate in [PR10](https://github.com/joomlu/Schedinedinotifica/pull/10); R8 isolato290test/4528asserzioni,7browser,15guardie e23overridePASS. Deposito/preflightC5/nove sondePASS senzaDDL; nuovoPREPARE NONPASS al verificatore Linux, decifratura diagnostica verso/dev/null oltre90s. Limiti invariati e causa prestazionale sottostante non attribuita; nessun RUN, manutenzione o deploy, nessun dato reale modificato/fixture online creata. Produzione riletta67b4c45f pulita/FPMattivo/barriera assente, precedente operazione conclusa. Nuovo recupero, Extra, S0, QA e monitor900s ancora pendenti; non dichiarare versione candidata servita. Restano fonti/vigenze e450 da chiarire, accettazioneStayTour non verificata, tre classificazioni e una nascita operativa da completare senza valori inventati. Ripresa con nuovi preflight e checkpoint, nessun riuso del tentativo non passato.
+
+
 ## Tassa di soggiorno — audit e correzioni qualificate, 23 ottobre 2026
 
 **BASELINE IN AUDIT. Correzioni tecniche verificate in isolamento; pubblicazione in preparazione, conformità municipale parziale e accettazione StayTour non attestata.** [Rapporto](../TASSA-AUDIT-INTEGRALE-2026-10-23.md), [verifica minimizzata](../evidenze/tassa-audit-2026-10-23/verifica.json).
