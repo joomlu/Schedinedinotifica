@@ -15,6 +15,8 @@ use Tests\TestCase;
 
 class TassaBellariaConfigurazioneAutomaticaTest extends TestCase
 {
+    use \Tests\Support\ImmaginiTassaFixtures;
+
     use DatabaseTransactions, StrutturaFixtures;
 
     private function hotel(): Struttura
@@ -110,7 +112,7 @@ class TassaBellariaConfigurazioneAutomaticaTest extends TestCase
         $this->assertSame($prima, $cfg->fresh()->getAttributes());
         $cfg->update(['tassa_soggiorno' => 2.5, 'giorni_massimo' => 6, 'inizio' => '2026-03-01', 'fine' => '2026-10-01']);
         $prima = $cfg->fresh()->getAttributes();
-        $this->get('/tassa_di_soggiorno')->assertOk()->assertViewHas('diagnosi', fn ($d) => $d['stato'] === 'configurazione_legacy_discordante')->assertSee('Configurazione legacy conservata');
+        $this->get('/tassa_di_soggiorno')->assertOk()->assertViewHas('diagnosi', fn ($d) => $d['stato'] === 'configurazione_legacy_discordante')->assertSee('Record conservato, calcolo non disponibile.')->assertDontSee('Configurazione legacy conservata');
         foreach ([6, 7] as $mese) {
             $this->getJson('/tassa_di_soggiorno/rapporto/csv?mese='.$mese.'&anno=2026')->assertUnprocessable();
             $this->postJson('/tassa_di_soggiorno/rapporto/consolida', ['mese' => $mese, 'anno' => 2026])->assertUnprocessable();
@@ -122,28 +124,25 @@ class TassaBellariaConfigurazioneAutomaticaTest extends TestCase
 
     public function test_upload_formati_limite_sostituzione_rimozione_e_tenant(): void
     {
-        if (! extension_loaded('gd')) {
-            $this->markTestSkipped('Prova immagini non eseguibile: GD assente nel runtime isolato.');
-        }
         Storage::fake('local');
         $a = $this->hotel();
         $this->ospite($a);
         foreach (['jpg', 'png', 'webp'] as $estensione) {
-            $this->put('/tassa_di_soggiorno', ['ricevuta_foto' => UploadedFile::fake()->image('prova.'.$estensione)])->assertSessionHasNoErrors()->assertRedirect();
+            $this->put('/tassa_di_soggiorno', ['ricevuta_foto' => $this->immagineTassa('prova.'.$estensione)])->assertSessionHasNoErrors()->assertRedirect();
             $path = TassaDiSoggiorno::firstOrFail()->ricevuta_immagine;
             $this->assertStringStartsWith('tassa-ricevute/'.$a->id.'/', $path);
             Storage::disk('local')->assertExists($path);
             $this->get('/tassa_di_soggiorno/immagine')->assertOk()->assertHeader('Cache-Control', 'no-store, private');
         }
         $path = TassaDiSoggiorno::firstOrFail()->ricevuta_immagine;
-        foreach ([UploadedFile::fake()->image('troppo.png')->size(2049), UploadedFile::fake()->create('non-immagine.txt', 10, 'text/plain'), UploadedFile::fake()->create('non-ammesso.svg', 10, 'image/svg+xml')] as $foto) {
+        foreach ([$this->immagineTassa('troppo.png')->size(2049), UploadedFile::fake()->create('non-immagine.txt', 10, 'text/plain'), UploadedFile::fake()->create('non-ammesso.svg', 10, 'image/svg+xml')] as $foto) {
             $this->putJson('/tassa_di_soggiorno', ['ricevuta_foto' => $foto])->assertUnprocessable()->assertJsonValidationErrors('ricevuta_foto');
             $this->assertSame($path, TassaDiSoggiorno::firstOrFail()->ricevuta_immagine);
         }
         $csv = $this->get('/tassa_di_soggiorno/rapporto/csv?mese=6&anno=2026')->getContent();
         $this->post('/tassa_di_soggiorno/rapporto/consolida', ['mese' => 6, 'anno' => 2026])->assertRedirect();
         $export = TassaExport::firstOrFail();
-        $this->put('/tassa_di_soggiorno', ['ricevuta_foto' => UploadedFile::fake()->image('sostituzione.png')])->assertRedirect();
+        $this->put('/tassa_di_soggiorno', ['ricevuta_foto' => $this->immagineTassa('sostituzione.png')])->assertRedirect();
         $this->assertNotSame($path, TassaDiSoggiorno::firstOrFail()->ricevuta_immagine);
         Storage::disk('local')->assertExists($path);
         $this->put('/tassa_di_soggiorno', ['ricevuta_senza_immagine' => 1])->assertRedirect();

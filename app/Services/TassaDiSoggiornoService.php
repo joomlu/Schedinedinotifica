@@ -374,13 +374,16 @@ class TassaDiSoggiornoService
     {
         // Tariffa/periodo pertinenti a ciascuna notte; contatore unico per il soggiorno.
         $nascita = $this->parseDate($persona['nascita'] ?? null)?->startOfDay();
+        $esenzione = $this->resolveEsenzione($persona['exent'] ?? null, $esenzioni);
+        if (! $nascita && (! $esenzione || (string) $esenzione->codice === '400')) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['nascita' => 'Data di nascita mancante o non valida: completare i dati dell’ospite prima di determinare l’esenzione per età e il calcolo Tassa.']);
+        }
         if ($nascita && $arrivo && $nascita->gt($arrivo)) {
             throw \Illuminate\Validation\ValidationException::withMessages(['nascita' => 'Data di nascita successiva all’arrivo: verificare prima del calcolo Tassa.']);
         }
         $persona['eta'] = $nascita && $arrivo && $nascita->lte($arrivo)
             ? (int) $nascita->diffInYears($arrivo->copy()->startOfDay()) : null;
         $base = $this->calcolaPersona($persona, $arrivo, $partenza, $giorniMax, $aliquota, $config, $esenzioni);
-        $esenzione = $this->resolveEsenzione($persona['exent'] ?? null, $esenzioni);
         // Il codice 400 è una condizione d'età, non un'esenzione permanente dopo il compleanno.
         if ($nascita && (string) $esenzione?->codice === '400') {
             $esenzione = null;

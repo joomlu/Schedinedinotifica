@@ -105,6 +105,7 @@ class TassaReportController extends Controller
         }
 
         $dataset = $this->buildControlDataset($mese, $anno, (int) $struttura->id, $struttura, $config, $esenzioni);
+        $config = $this->configurazionePeriodo ?? $config;
         if ($q !== '') {
             $dataset = $this->filterControlDataset($dataset, $q);
         }
@@ -149,6 +150,7 @@ class TassaReportController extends Controller
         }
 
         $dataset = $this->buildControlDataset($mese, $anno, (int) $struttura->id, $struttura, $config, $esenzioni);
+        $config = $this->configurazionePeriodo ?? $config;
         $lines = [
             implode(';', [
                 'arrivo',
@@ -224,6 +226,7 @@ class TassaReportController extends Controller
         }
 
         $dataset = $this->buildControlDataset($mese, $anno, (int) $struttura->id, $struttura, $config, $esenzioni);
+        $config = $this->configurazionePeriodo ?? $config;
 
         return view('tassa_di_soggiorno.rapporto-print', array_merge($dataset, [
             'mese' => $mese,
@@ -320,6 +323,7 @@ class TassaReportController extends Controller
 
     private function loadContext(Request $request, bool $automatico = true): array
     {
+        $this->configurazionePeriodo = null;
         $validated = $request->validate([
             'data_da' => 'nullable|required_with:data_a|date_format:Y-m-d|after_or_equal:2015-01-01|before_or_equal:2100-12-31',
             'data_a' => 'nullable|required_with:data_da|date_format:Y-m-d|after_or_equal:data_da|before_or_equal:2100-12-31',
@@ -376,6 +380,7 @@ class TassaReportController extends Controller
         $rows = [];
         $schedeSummary = [];
         $reconciliationErrors = [];
+        $esenzioniMovimenti = [];
 
         foreach ($schedine as $schedina) {
             $arrivo = $this->service->parseDate($schedina->arrive);
@@ -391,12 +396,33 @@ class TassaReportController extends Controller
             }
             $dettaglio = $this->service->dettaglioSchedina($schedina, $componenti, $configMovimento, $esenzioni, $struttura);
 
+            $this->configurazionePeriodo ??= $configMovimento;
+            if ($this->configurazionePeriodo->regola_versione !== $configMovimento->regola_versione || count($dettaglio['profili_fiscali'] ?? []) > 1) {
+                $this->configurazionePeriodo = new TassaDiSoggiorno(['struttura_id' => $strutturaId, 'ricevuta_immagine' => $config?->ricevuta_immagine]);
+            }
+
             $movimenti = $this->service->exportRows($dettaglio, $arrivo, $partenza);
             $nottiMovimenti = array_sum(array_column($movimenti, 'pernottamenti'));
             $importoMovimenti = array_sum(array_map(fn ($r) => $r['pernottamenti'] * $r['tariffa'], $movimenti));
             if ($nottiMovimenti !== array_sum(array_column($dettaglio['righe'], 'notti_periodo'))
                 || round($importoMovimenti * 100) !== round($dettaglio['totale'] * 100)) {
                 $reconciliationErrors[] = $schedina->id;
+            }
+
+            // Ogni motivo considera solo le sue notti, anche per esenzioni parziali.
+            // Le notti oltre il tetto sono già classificate separatamente come 777.
+            foreach ($dettaglio['righe'] as $indice => $persona) {
+                foreach ($persona['segmenti'] ?? [$persona] as $segmento) {
+                    if (empty($segmento['esente']) || (int) $segmento['notti_imponibili'] === 0) {
+                        continue;
+                    }
+                    $esenzioniMovimenti[] = [
+                        'codice' => $segmento['codice'],
+                        'motivo' => $segmento['motivo'],
+                        'notti_periodo' => (int) $segmento['notti_imponibili'],
+                        'persona' => $schedina->id.':'.$indice,
+                    ];
+                }
             }
 
             $dettaglioRows = collect($dettaglio['righe'] ?? [])->map(function (array $riga) {
@@ -485,17 +511,16 @@ class TassaReportController extends Controller
             'totale_tassa' => (float) $rowsCollection->sum('tassa'),
         ];
 
-        $esenzioniSummary = $rowsCollection
-            ->filter(fn (array $row) => $row['esente'])
-            ->groupBy(fn (array $row) => (string) $row['codice_export'])
+        $esenzioniSummary = collect($esenzioniMovimenti)
+            ->groupBy(fn (array $row) => (string) $row['codice'])
             ->map(function (Collection $group) {
                 $first = $group->first();
 
                 return [
-                    'codice' => $first['codice_export'],
+                    'codice' => $first['codice'],
                     'motivo' => $first['motivo'] ?? 'Esenzione',
                     'notti_periodo' => (int) $group->sum('notti_periodo'),
-                    'quantita' => $group->count(),
+                    'quantita' => $group->pluck('persona')->unique()->count(),
                 ];
             })
             ->sortBy('codice')

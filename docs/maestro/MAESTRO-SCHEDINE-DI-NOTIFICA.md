@@ -1,5 +1,18 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Tassa di soggiorno — audit e correzioni qualificate, 23 ottobre 2026
+
+**BASELINE IN AUDIT. Correzioni tecniche verificate in isolamento; pubblicazione in preparazione, conformità municipale parziale e accettazione StayTour non attestata.** [Rapporto](../TASSA-AUDIT-INTEGRALE-2026-10-23.md), [verifica minimizzata](../evidenze/tassa-audit-2026-10-23/verifica.json).
+
+Riletti GitHub main9a3c9e64 e Git installato67b4c45, senza ripristinare il checkout locale6a652b72 o i quattro documenti preesistenti. Sette strutture Bellaria/Hotel: quattro classificate3stelle/superior, tre senza classificazione; letturaSQL READ ONLY, nessun export consolidato operativo. Ricostruito circuito configurazione/ospiti/calcolo/controllo/stampa/CSV/consolidamento e distinto da incassi, riversamento, Questura e ISTAT.
+
+Riprodotti e corretti: riepilogo che ometteva esenzione parziale e ricontava le notti777; dicitura mensile da versare su selezione per arrivo; overflow dei nomi in stampa; intestazione senza profilo effettivo; nascita assente trattata implicitamente da adulto. Ora età non verificabile blocca la determinazione relativa, preservando esenzioni esplicite indipendenti dall’età e storico. Una Schedina effettiva con nascita assente richiede completamento operativo; altri nove record incompleti in Arrivi/Bozze, dati invariati.
+
+R8 **290test/4528asserzioni e7browser PASS**, zero salti/errori/fallimenti;15guardie,23override/runtime,buildVite/GEO e sintassiPASS.13PDF/14pagine; riepilogo/zero/immagine/gruppo ispezionati senza tagli. Sei regressioni PHP e tre percorsi1440/768/390 nuovi; vecchi spec resi portabili e fixture immagini valide senzaGD, asserzioni conservate. NONPASS/STOP di preparazione, overflow e dati incompleti documentati. Tariffe, età, tetti, periodi, mapping normativi, schema e contrattiCSV invariati.
+
+Dossier utente recuperato e letto: specifica CSV Bellaria con arrivo/partenza ammessi come registrazione, ma due elenchi discordanti sul450 e provenienza/versione da attestare; documenti Rimini2024 separati, mai applicati a Bellaria. Fonti2026 dell’albo non riaccessibili nella nuova consultazione, efficacia ministeriale e accettazione esterna restano aperte. Nessuna dichiarazione, trasmissione reale o modifica di ospiti/configurazioni operative. Evidenze integrali private, pubblicate solo metriche/digest e immagini sintetiche. Nessuna chiusura generale del modulo.
+
+
 ## Pendenti tecnici Web Check-in — 22 ottobre 2026
 
 **BASELINE IN AUDIT.** [Rapporto pubblicabile](../PENDENTI-TECNICI-WEB-CHECKIN-2026-10-22.md), [riepilogo](../evidenze/pendenti-tecnici-web-2026-10-22/riepilogo.json). Evidenze operative integrali custodite privatamente, escluse da questo repository pubblico dopo rifiuto automatico del primo push; il relativo commit locale è preservato e non fa parte della storia di questo ramo.

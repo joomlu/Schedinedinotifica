@@ -14,6 +14,8 @@ use Tests\TestCase;
 
 class TassaBellariaVersionamentoTest extends TestCase
 {
+    use \Tests\Support\ImmaginiTassaFixtures;
+
     use DatabaseTransactions, StrutturaFixtures;
 
     private function hotel()
@@ -131,9 +133,6 @@ class TassaBellariaVersionamentoTest extends TestCase
 
     public function test_failure_upload_preserva_precedente_e_rimuove_solo_file_nuovo(): void
     {
-        if (! extension_loaded('gd')) {
-            $this->markTestSkipped('Prova immagini non eseguibile: GD assente nel runtime isolato.');
-        }
         Storage::fake('local');
         $s = $this->hotel();
         foreach ([false, true] as $conPrecedente) {
@@ -151,7 +150,7 @@ class TassaBellariaVersionamentoTest extends TestCase
             TassaDiSoggiorno::setEventDispatcher($temporaneo);
             TassaDiSoggiorno::saved(fn () => throw new \RuntimeException('Failure sintetico dopo scrittura DB'));
             try {
-                $this->putJson('/tassa_di_soggiorno', ['ricevuta_foto' => UploadedFile::fake()->image('nuova.png')])->assertStatus(500);
+                $this->putJson('/tassa_di_soggiorno', ['ricevuta_foto' => $this->immagineTassa('nuova.png')])->assertStatus(500);
             } finally {
                 TassaDiSoggiorno::setEventDispatcher($dispatcher);
             }

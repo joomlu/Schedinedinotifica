@@ -2,7 +2,7 @@ import { test, expect, BASE_URL } from '../Support/playwright.js';
 import { readFile } from 'node:fs/promises';
 
 test.use({headless:true});
-test('Anteprime visibili da configurazione, elenco, Schedina e storico; zero e PDF', async ({page}) => {
+test('Anteprime visibili da configurazione, elenco, Schedina e storico; zero e PDF', async ({page}, testInfo) => {
   test.setTimeout(90000);
   await page.goto(`${BASE_URL}/login`);
   await page.getByLabel(/Nome di accesso o email/i).fill('tassa-anteprima');
@@ -31,8 +31,8 @@ test('Anteprime visibili da configurazione, elenco, Schedina e storico; zero e P
     await doc.emulateMedia({media:'print'});
     await expect(doc.locator('.no-print')).toBeHidden();
     await expect(doc.locator('.ricevuta-software')).toBeVisible();
-    await doc.pdf({path:`/private/tmp/ids-anteprima-${caso}.pdf`,format:'A4',printBackground:true,preferCSSPageSize:true});
-    expect((await readFile(`/private/tmp/ids-anteprima-${caso}.pdf`)).length).toBeGreaterThan(1000);
+    await doc.pdf({path:testInfo.outputPath(`ids-anteprima-${caso}.pdf`),format:'A4',printBackground:true,preferCSSPageSize:true});
+    expect((await readFile(testInfo.outputPath(`ids-anteprima-${caso}.pdf`))).length).toBeGreaterThan(1000);
     await doc.close();
   }
   await page.goto(`${BASE_URL}/schedine`);

@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="utf-8">
-    <title>Rapporto mensile tassa di soggiorno {{ ($vista ?? 'schede') === 'persone' ? 'per persona' : 'per schedina' }}</title>
+    <title>Rapporto tassa di soggiorno del periodo {{ ($vista ?? 'schede') === 'persone' ? 'per persona' : 'per schedina' }}</title>
     <style>
         @page { size: A4 portrait; margin: 16mm 14mm 16mm 14mm; }
         body {
@@ -32,14 +32,14 @@
         }
         th, td {
             border: 1px solid #d7d7d7;
-            padding: 4px 5px;
+            padding: 4px 3px;
             text-align: center;
             vertical-align: top;
             word-break: normal;
-            overflow-wrap: normal;
-            white-space: nowrap;
+            overflow-wrap: anywhere;
+            white-space: normal;
         }
-        th { background: #f3f3f3; }
+        th { background: #f3f3f3; font-size: 9px; }
         th:first-child, td:first-child, .text-left { text-align: left; }
         .text-right { text-align: right; }
         .section { margin-top: 14px; }
@@ -78,7 +78,7 @@
             page-break-inside: avoid;
         }
         .muted {
-            white-space: nowrap;
+            white-space: normal;
         }
     </style>
 </head>
@@ -88,11 +88,11 @@
         $fmtData = static fn ($value) => $value ? \Carbon\Carbon::parse($value)->format('dmy') : '—';
     @endphp
     <div class="head">
-        <h1>Rapporto mensile tassa di soggiorno {{ ($vista ?? 'schede') === 'persone' ? 'per persona' : 'per schedina' }}</h1>
+        <h1>Rapporto tassa di soggiorno del periodo {{ ($vista ?? 'schede') === 'persone' ? 'per persona' : 'per schedina' }}</h1>
         <div class="muted">{{ $struttura->nome_struttura ?? 'Struttura' }}</div>
         <div class="muted">
             Periodo: {{ \Carbon\Carbon::parse($dataDa)->format('d/m/Y') }} — {{ \Carbon\Carbon::parse($dataA)->format('d/m/Y') }}
-            | Aliquota: {{ number_format((float) ($config->tassa_soggiorno ?? 0), 2, ',', '.') }} €
+            | Aliquota: {{ isset($config->tassa_soggiorno) ? number_format((float) $config->tassa_soggiorno, 2, ',', '.').' €' : 'n/d' }}
             | Giorni max: {{ $config->giorni_massimo ?? 'n/d' }}
         </div>
     </div>
@@ -100,7 +100,7 @@
     <div class="summary-grid">
         <div class="summary-card"><div class="summary-card__label">Schedine</div><div class="summary-card__value">{{ $summary['totale_schedine'] ?? 0 }}</div></div>
         <div class="summary-card"><div class="summary-card__label">Ospiti</div><div class="summary-card__value">{{ $summary['totale_ospiti'] ?? 0 }}</div></div>
-        <div class="summary-card"><div class="summary-card__label">Paganti</div><div class="summary-card__value">{{ $summary['totale_paganti'] ?? 0 }}</div></div>
+        <div class="summary-card"><div class="summary-card__label">Con imposta</div><div class="summary-card__value">{{ $summary['totale_paganti'] ?? 0 }}</div></div>
         <div class="summary-card"><div class="summary-card__label">Esenti</div><div class="summary-card__value">{{ $summary['totale_esenti'] ?? 0 }}</div></div>
         <div class="summary-card"><div class="summary-card__label">Notti imponibili</div><div class="summary-card__value">{{ $summary['totale_notti_imponibili'] ?? 0 }}</div></div>
         <div class="summary-card"><div class="summary-card__label">Totale tassa</div><div class="summary-card__value">{{ number_format((float) ($summary['totale_tassa'] ?? 0), 2, ',', '.') }} €</div></div>
@@ -119,7 +119,7 @@
                         <th>Persone</th>
                         <th>Adulti</th>
                         <th>Minori</th>
-                        <th>Paganti</th>
+                        <th>Con imposta</th>
                         <th>Esenti</th>
                         <th>Notti tassate</th>
                         <th>Oltre max</th>
@@ -223,7 +223,7 @@
     </div>
 
     <div class="epilogo">
-        <div class="epilogo-head">Epilogo mensile da versare</div>
+        <div class="epilogo-head">Riepilogo del calcolo nel periodo</div>
         <div class="epilogo-body">
             <div class="epilogo-grid">
                 <div class="epilogo-item">
@@ -239,7 +239,7 @@
                     <div class="epilogo-item__value">{{ $epilogo['totale_notti_oltre_max'] ?? 0 }}</div>
                 </div>
                 <div class="epilogo-item">
-                    <div class="epilogo-item__label">Persone paganti</div>
+                    <div class="epilogo-item__label">Persone con imposta</div>
                     <div class="epilogo-item__value">{{ $epilogo['totale_persone_paganti'] ?? 0 }}</div>
                 </div>
                 <div class="epilogo-item">
@@ -247,21 +247,23 @@
                     <div class="epilogo-item__value">{{ $epilogo['totale_persone_esenti'] ?? 0 }}</div>
                 </div>
                 <div class="epilogo-item">
-                    <div class="epilogo-item__label">Schedine del mese</div>
+                    <div class="epilogo-item__label">Schedine del periodo</div>
                     <div class="epilogo-item__value">{{ $summary['totale_schedine'] ?? 0 }}</div>
                 </div>
             </div>
 
             <div class="epilogo-total">
-                Totale mensile da versare al Comune:
+                Totale imposta calcolata sui soggiorni selezionati:
                 {{ number_format((float) ($epilogo['totale_da_versare'] ?? 0), 2, ',', '.') }} €
             </div>
         </div>
     </div>
 
     <div class="note-box">
-        Il presente prospetto riepiloga il totale mensile dell'imposta di soggiorno da riversare al Comune,
-        con dettaglio per schedina e per persona. Le righe con pernottamenti oltre il limite massimo
+        Inclusione per data di arrivo: ogni soggiorno è riportato integralmente nel periodo del suo arrivo.
+        Il presente prospetto riepiloga il calcolo per schedina e per persona.
+        Non attesta incassi o versamenti al Comune. Il riversamento mensile richiede una verifica distinta
+        secondo il regolamento comunale, in particolare per i soggiorni a cavallo di mese. Le righe con pernottamenti oltre il limite massimo
         sono conteggiate separatamente e non generano importo.
     </div>
     </div>
