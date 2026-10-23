@@ -10,12 +10,13 @@ use Illuminate\Http\Request;
 final class StrutturaAccess
 {
     public const ATTRIBUTE = 'authorized_struttura';
+
     public const ORIGINAL_SELECTION = 'original_struttura_selection';
 
     public static function query(?User $user, bool $operational = false): Builder
     {
         $query = Struttura::query();
-        if (!$user) {
+        if (! $user || ! $user->attivo) {
             return $query->whereRaw('1 = 0');
         }
         if ($user->isSuperAdmin()) {
@@ -34,8 +35,14 @@ final class StrutturaAccess
             return $query->where('proprietario_id', $user->proprietario_id);
         }
         if ($user->isStrutturaUser() && (int) $user->struttura_id > 0) {
-            return $query->whereKey($user->struttura_id);
+            return $query->whereKey($user->struttura_id)->where(function ($q) use ($user) {
+                if (! $user->proprietario_id) {
+                    return;
+                }
+                $q->where('proprietario_id', $user->proprietario_id);
+            });
         }
+
         return $query->whereRaw('1 = 0');
     }
 
@@ -60,8 +67,9 @@ final class StrutturaAccess
         $query = self::query($user, true);
         $struttura = $selected !== null
             ? $query->whereKey(self::id($selected))->first()
-            : $query->orderBy('id')->first();
+            : null;
         abort_unless($struttura, 403);
+
         return $struttura;
     }
 
@@ -70,6 +78,7 @@ final class StrutturaAccess
         abort_unless((is_int($value) || is_string($value))
             && preg_match('/^[1-9][0-9]*$/D', (string) $value)
             && filter_var($value, FILTER_VALIDATE_INT) !== false, 403);
+
         return (int) $value;
     }
 
@@ -79,6 +88,7 @@ final class StrutturaAccess
         abort_unless($struttura instanceof Struttura, 403);
         // Defense in depth: never trust an ID/object without current membership.
         abort_unless(self::query($request->user(), true)->whereKey($struttura->id)->exists(), 403);
+
         return $struttura;
     }
 }

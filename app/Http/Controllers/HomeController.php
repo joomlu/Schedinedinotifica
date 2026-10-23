@@ -63,8 +63,7 @@ class HomeController extends Controller
         }
         $strutturaId = StrutturaCorrente::getId() ?? $user?->struttura_id;
         $strutturaDashboard = $strutturaId
-            ? Struttura::query()->with(['proprietario.admin'])
-                ->when($user?->isAdmin(), fn ($query) => $query->whereHas('proprietario', fn ($owner) => $owner->where('admin_id', $user->id)))
+            ? \App\Support\StrutturaAccess::query($user)->with(['proprietario.admin'])
                 ->find($strutturaId)
             : null;
 
@@ -333,7 +332,7 @@ class HomeController extends Controller
 
         if ($request->file('avatar')) {
             $avatar = $request->file('avatar');
-            $avatarName = time() . '.' . $avatar->getClientOriginalExtension();
+            $avatarName = (string) \Illuminate\Support\Str::uuid().'.'.$avatar->getClientOriginalExtension();
             $avatarPath = public_path('/images/');
             $avatar->move($avatarPath, $avatarName);
             $user->avatar =  $avatarName;

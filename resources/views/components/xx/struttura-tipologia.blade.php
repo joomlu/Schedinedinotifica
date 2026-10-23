@@ -12,19 +12,21 @@
     'requiredClassificazione' => false,
 ])
 
+@php $selezioni = app(\App\Services\AnagraficaStruttura::class)->selections($entity ?? new \App\Models\Struttura()); @endphp
+
 <div
     data-ui="tipologie-filtro"
     data-tipologie-lock="strict-v1"
 >
     <div class="row g-3 mb-3">
         <div class="col-md-4">
-            <label class="form-label">Tipologia generale *</label>
+            <label for="{{ $generaleId }}" class="form-label">Tipologia generale *</label>
             <x-ui.select id="{{ $generaleId }}" name="{{ $generaleName }}" required data-role="tipologia-generale">
                 <option value="">Seleziona tipologia generale</option>
                 @foreach($tipologieGenerali as $gen)
                     <option
                         value="{{ $gen->id }}"
-                        @selected(old($generaleName, optional($entity)->tipologia_generale_id) == $gen->id)
+                        @selected(old($generaleName, $selezioni['tipologia_generale_id']) == $gen->id)
                     >
                         {{ $gen->nome }}
                     </option>
@@ -33,14 +35,14 @@
         </div>
 
         <div class="col-md-4">
-            <label class="form-label">Tipologia struttura *</label>
+            <label for="{{ $strutturaId }}" class="form-label">Tipologia struttura *</label>
             <x-ui.select id="{{ $strutturaId }}" name="{{ $strutturaName }}" required data-role="tipologia-struttura">
                 <option value="">Seleziona tipologia struttura</option>
                 @foreach($tipologieStruttura as $ts)
                     <option
                         value="{{ $ts->id }}"
                         data-generale="{{ $ts->tipologia_generale_id }}"
-                        @selected(old($strutturaName, optional($entity)->tipologia_struttura_id) == $ts->id)
+                        @selected(old($strutturaName, $selezioni['tipologia_struttura_id']) == $ts->id)
                     >
                         {{ $ts->nome }}
                     </option>
@@ -59,7 +61,7 @@
                         <option
                             value="{{ $cl->id }}"
                             data-tipologie="{{ $cl->tipologieStruttura->pluck('id')->implode(',') }}"
-                            @selected(old($classificazioneName, optional($entity)->classificazione_id) == $cl->id)
+                            @selected(old($classificazioneName, $selezioni['classificazione_id']) == $cl->id)
                         >
                             {{ $cl->nome }}
                         </option>
@@ -72,7 +74,7 @@
                         <option
                             value="{{ $cl->id }}"
                             data-tipologie="{{ $cl->tipologieStruttura->pluck('id')->implode(',') }}"
-                            @selected(old($classificazioneName, optional($entity)->classificazione_id) == $cl->id)
+                            @selected(old($classificazioneName, $selezioni['classificazione_id']) == $cl->id)
                         >
                             {{ $cl->nome }}
                         </option>
@@ -82,6 +84,9 @@
         </div>
     </div>
 
+    @foreach(['tipologia_generale_id', 'tipologia_struttura_id', 'classificazione_id'] as $campo)
+        @error($campo)<div class="text-danger" role="alert">{{ $message }}</div>@enderror
+    @endforeach
     <p class="text-muted small mb-0">
         Selezione a cascata: la classificazione proposta dipende dalla tipologia struttura scelta.
     </p>

@@ -126,16 +126,18 @@ class QuesturaCredentialEncryptionTest extends TestCase
         $model = $this->structureFor(null);
         $model->update(['questura_password' => 'prima-sintetica', 'questura_wskey' => 'chiave-prima']);
         $before = $model->fresh()->getRawOriginal('questura_password');
-        $this->actingAs($this->actor('struttura_user', null, $model->id));
-        $data = $this->validStructurePayload($model) + ['questura_password' => '', 'questura_wskey' => ''];
+        $u = $this->actor('struttura_user', null, $model->id);
+        $u->update(['ruolo_operativo' => 'proprietario']);
+        $this->actingAs($u);
+        $data = ['questura_password' => '', 'questura_wskey' => ''];
         $this->put('/struttura', $data)->assertSessionHasNoErrors();
         $this->assertSame($before, $model->fresh()->getRawOriginal('questura_password'));
         $data['questura_password'] = 'nuova-sintetica';
         $this->put('/struttura', $data)->assertSessionHasNoErrors();
         $this->assertSame('nuova-sintetica', $model->fresh()->questura_password);
         $this->assertNotSame('nuova-sintetica', $model->fresh()->getRawOriginal('questura_password'));
-        $data['nome_struttura'] = '';
-        $this->put('/struttura', $data)->assertSessionHasErrors('nome_struttura');
+        $data['questura_username'] = str_repeat('x', 101);
+        $this->put('/struttura', $data)->assertSessionHasErrors('questura_username');
         $this->assertNull(session('_old_input.questura_password'));
         $this->assertNull(session('_old_input.questura_wskey'));
     }

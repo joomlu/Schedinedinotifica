@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Struttura;
 use App\Models\User;
-use App\Support\StrutturaCorrente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,7 +13,7 @@ class StrutturaUserController extends Controller
     {
         $user = $request->user();
         $struttura = $this->resolveStrutturaCorrente($user);
-        $utenti = User::where('struttura_id', $struttura->id)->orderBy('id', 'desc')->get();
+        $utenti = User::where('struttura_id', $struttura->id)->where('ruolo', 'struttura_user')->orderBy('id', 'desc')->get();
 
         return view('struttura.utenti.index', [
             'struttura' => $struttura,
@@ -34,6 +33,7 @@ class StrutturaUserController extends Controller
 
     public function store(Request $request)
     {
+        abort_if($request->hasAny(['id', 'struttura_id', 'proprietario_id', 'admin_id', 'ruolo']), 403);
         $struttura = $this->resolveStrutturaCorrente($request->user());
         abort_unless($request->user()->isProprietario() || $request->user()->canManageGestioneOperativa($struttura->id), 403, 'Operazione riservata alla gestione della struttura.');
 
@@ -50,6 +50,9 @@ class StrutturaUserController extends Controller
             'password' => Hash::make($data['password']),
             'ruolo' => 'struttura_user',
             'struttura_id' => $struttura->id,
+            'proprietario_id' => $struttura->proprietario_id,
+            'ruolo_operativo' => 'reception',
+            'attivo' => true,
         ]);
 
         return redirect()->route('strutture.utenti.index')->with('success', 'Utente creato.');
@@ -59,7 +62,7 @@ class StrutturaUserController extends Controller
     {
         $struttura = $this->resolveStrutturaCorrente($request->user());
         abort_unless($request->user()->isProprietario() || $request->user()->canManageGestioneOperativa($struttura->id), 403, 'Operazione riservata alla gestione della struttura.');
-        $utente = User::where('struttura_id', $struttura->id)->where('id', $id)->firstOrFail();
+        $utente = User::where('struttura_id', $struttura->id)->where('ruolo', 'struttura_user')->where('id', $id)->firstOrFail();
 
         $data = $request->validate([
             'password' => 'required|string|min:8',
@@ -73,50 +76,6 @@ class StrutturaUserController extends Controller
 
     protected function resolveStrutturaCorrente($user): Struttura
     {
-        if (! $user) {
-            abort(403);
-        }
-
-        if (method_exists($user, 'isStrutturaUser') && $user->isStrutturaUser()) {
-            $struttura = $user->struttura;
-            if (! $struttura) {
-                abort(403, 'Struttura non trovata.');
-            }
-            StrutturaCorrente::setId($struttura->id);
-
-            return $struttura;
-        }
-
-        $currentId = StrutturaCorrente::getId();
-        if (! $currentId) {
-            abort(403, 'Seleziona una struttura.');
-        }
-
-        $struttura = Struttura::find($currentId);
-        if (! $struttura) {
-            abort(403, 'Struttura non trovata.');
-        }
-
-        // Permessi per admin/proprietario/super_admin
-        if (method_exists($user, 'isSuperAdmin') && $user->isSuperAdmin()) {
-            return $struttura;
-        }
-
-        if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
-            $ok = Struttura::where('id', $struttura->id)
-                ->whereHas('proprietario', fn ($q) => $q->where('admin_id', $user->id))
-                ->exists();
-            if ($ok) {
-                return $struttura;
-            }
-        }
-
-        if (method_exists($user, 'isProprietario') && $user->isProprietario()) {
-            if ($struttura->proprietario_id === $user->proprietario_id) {
-                return $struttura;
-            }
-        }
-
-        abort(403, 'Struttura non autorizzata.');
+        return \App\Support\StrutturaAccess::resolve(request());
     }
 }

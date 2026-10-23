@@ -22,7 +22,7 @@ class GestioneOperativaController extends Controller
     {
         $user = $request->user();
         $struttura = $this->resolveStruttura($user);
-        $canManage = $user->canManageGestioneOperativa($struttura->id);
+        $canManage = $user->isProprietario() || $user->canManageGestioneOperativa($struttura->id);
         $sharedUsername = User::query()
             ->where('struttura_id', $struttura->id)
             ->whereNotNull('username')
@@ -75,6 +75,7 @@ class GestioneOperativaController extends Controller
 
     public function updateProfile(Request $request)
     {
+        abort_if($request->hasAny(['id', 'struttura_id', 'proprietario_id', 'admin_id', 'ruolo', 'ruolo_operativo']), 403);
         $user = $request->user();
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -92,13 +93,13 @@ class GestioneOperativaController extends Controller
         $user->fill([
             'name' => $data['name'],
             'display_name' => $data['display_name'],
-            'telefono' => $data['telefono'] ?? null,
+            'telefono' => array_key_exists('telefono', $data) ? $data['telefono'] : $user->telefono,
             'email' => $data['email'] ?? $user->email,
         ]);
 
         if ($request->file('avatar')) {
             $avatar = $request->file('avatar');
-            $avatarName = time() . '.' . $avatar->getClientOriginalExtension();
+            $avatarName = (string) \Illuminate\Support\Str::uuid().'.'.$avatar->getClientOriginalExtension();
             $avatar->move(public_path('/images/'), $avatarName);
             $user->avatar = $avatarName;
         }
@@ -136,6 +137,8 @@ class GestioneOperativaController extends Controller
 
     public function storeUtente(Request $request)
     {
+        abort_if($request->hasAny(['id', 'struttura_id', 'proprietario_id', 'admin_id', 'ruolo']), 403);
+        return \DB::transaction(function () use ($request) {
         $struttura = $this->resolveStruttura($request->user());
         $this->ensureCanManage($request->user(), $struttura->id);
 
@@ -159,7 +162,7 @@ class GestioneOperativaController extends Controller
             'email.unique' => 'Questa email e gia in uso.',
         ]);
 
-        User::query()->where('struttura_id', $struttura->id)->update([
+        User::query()->where('struttura_id', $struttura->id)->where('ruolo', 'struttura_user')->update([
             'username' => $data['shared_username'],
         ]);
 
@@ -173,18 +176,23 @@ class GestioneOperativaController extends Controller
             'ruolo' => 'struttura_user',
             'ruolo_operativo' => $data['ruolo_operativo'],
             'struttura_id' => $struttura->id,
+            'proprietario_id' => $struttura->proprietario_id,
             'attivo' => $request->boolean('attivo', true),
             'avatar' => '',
         ]);
 
         return redirect()->route('gestione.operativa.index', ['tab' => 'utenti'])->with('success', 'Persona creata.');
+
+        });
     }
 
     public function updateUtente(Request $request, int $id)
     {
+        abort_if($request->hasAny(['id', 'struttura_id', 'proprietario_id', 'admin_id', 'ruolo']), 403);
+        return \DB::transaction(function () use ($request, $id) {
         $struttura = $this->resolveStruttura($request->user());
         $this->ensureCanManage($request->user(), $struttura->id);
-        $utente = User::query()->where('struttura_id', $struttura->id)->findOrFail($id);
+        $utente = User::query()->where('struttura_id', $struttura->id)->where('ruolo', 'struttura_user')->findOrFail($id);
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -196,7 +204,7 @@ class GestioneOperativaController extends Controller
             'attivo' => ['nullable', 'boolean'],
         ]);
 
-        User::query()->where('struttura_id', $struttura->id)->update([
+        User::query()->where('struttura_id', $struttura->id)->where('ruolo', 'struttura_user')->update([
             'username' => $data['shared_username'],
         ]);
 
@@ -211,13 +219,15 @@ class GestioneOperativaController extends Controller
         ])->save();
 
         return redirect()->route('gestione.operativa.index', ['tab' => 'utenti'])->with('success', 'Persona aggiornata.');
+
+        });
     }
 
     public function resetPassword(Request $request, int $id)
     {
         $struttura = $this->resolveStruttura($request->user());
         $this->ensureCanManage($request->user(), $struttura->id);
-        $utente = User::query()->where('struttura_id', $struttura->id)->findOrFail($id);
+        $utente = User::query()->where('struttura_id', $struttura->id)->where('ruolo', 'struttura_user')->findOrFail($id);
 
         $data = $request->validate([
             'password' => ['required', 'string', 'min:8'],
@@ -281,19 +291,12 @@ class GestioneOperativaController extends Controller
 
     private function resolveStruttura(User $user): Struttura
     {
-        if ($user->struttura_id) {
-            StrutturaCorrente::setId($user->struttura_id);
-            return Struttura::query()->findOrFail($user->struttura_id);
-        }
-
-        $strutturaId = StrutturaCorrente::getId();
-        abort_unless($strutturaId, 403, 'Struttura non selezionata.');
-        return Struttura::query()->findOrFail($strutturaId);
+        return \App\Support\StrutturaAccess::resolve(request());
     }
 
     private function ensureCanManage(User $user, int $strutturaId): void
     {
-        abort_unless($user->canManageGestioneOperativa($strutturaId), 403, 'Operazione riservata al proprietario della struttura.');
+        abort_unless(($user->isProprietario() || $user->canManageGestioneOperativa($strutturaId)) && \App\Support\StrutturaAccess::query($user)->whereKey($strutturaId)->exists(), 403, 'Operazione riservata al proprietario della struttura.');
     }
 
     private function redirectAfterComandaAction(Request $request, string $message)

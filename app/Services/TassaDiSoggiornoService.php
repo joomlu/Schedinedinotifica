@@ -14,8 +14,9 @@ class TassaDiSoggiornoService
 {
     public function regolaAlbergoBellaria(Struttura $struttura): ?array
     {
-        $tipo = mb_strtolower(trim((string) ($struttura->tipologia_struttura ?: $struttura->tipologiaStruttura?->nome)));
-        $classe = mb_strtolower(trim((string) ($struttura->classificazione ?: $struttura->classificazioneRef?->nome)));
+        $fiscali = app(AnagraficaStruttura::class)->fiscal($struttura);
+        $tipo = mb_strtolower(trim((string) $fiscali['tipologia_struttura']));
+        $classe = mb_strtolower(trim((string) $fiscali['classificazione']));
         if (! in_array($tipo, ['albergo', 'alberghi', 'hotel'], true)
             || ! preg_match('/^([1-5])\s*stell[ae](?:\s+superior)?$/u', $classe, $match)) {
             return null;
@@ -56,12 +57,7 @@ class TassaDiSoggiornoService
 
     public function datiStrutturaFiscali(Struttura $struttura): array
     {
-        return [
-            'comune' => trim((string) $struttura->citta),
-            'tipologia_generale' => trim((string) ($struttura->tipologia_generale ?: $struttura->tipologiaGenerale?->nome)),
-            'tipologia_struttura' => trim((string) ($struttura->tipologia_struttura ?: $struttura->tipologiaStruttura?->nome)),
-            'classificazione' => trim((string) ($struttura->classificazione ?: $struttura->classificazioneRef?->nome)),
-        ];
+        return ['comune' => trim((string) $struttura->citta)] + array_map(fn ($value) => trim((string) $value), app(AnagraficaStruttura::class)->fiscal($struttura));
     }
 
     protected function profiliFiscaliBellaria(): array
@@ -74,12 +70,17 @@ class TassaDiSoggiornoService
         try {
             return $this->risolviProfiloFiscale($struttura, Carbon::create($anno, 1, 1));
         } catch (\Illuminate\Validation\ValidationException $exception) {
-            if (!isset($exception->errors()['regola_non_disponibile'])) { throw $exception; }
+            if (! isset($exception->errors()['regola_non_disponibile'])) {
+                throw $exception;
+            }
             // Un profilo nuovo può entrare in vigore dopo gennaio: mostrarne la
             // decorrenza effettiva, senza applicarlo a notti precedenti.
             $archivio = app(\App\Services\TassaConfig\ProfiloTassaRepository::class);
             $nuovo = collect($this->profiliFiscaliBellaria())->filter(fn ($p) => substr($p['valida_dal'], 0, 4) == $anno && $archivio->gestito($p['regola_versione']))->sortBy('valida_dal')->first();
-            if (!$nuovo) { throw $exception; }
+            if (! $nuovo) {
+                throw $exception;
+            }
+
             return $this->risolviProfiloFiscale($struttura, Carbon::parse($nuovo['valida_dal']));
         }
     }
@@ -277,7 +278,9 @@ class TassaDiSoggiornoService
 
     public function dettaglioSchedina(Schedina $schedina, Collection $componenti, ?TassaDiSoggiorno $config, Collection $esenzioni, ?Struttura $struttura = null): array
     {
-        if ($schedina->isInArrivi()) return ['righe' => [], 'totale' => 0, 'notti_oltre_max' => 0, 'notti_totali' => 0, 'bellaria' => false, 'profili_fiscali' => [], 'esclusa_arrivi' => true];
+        if ($schedina->isInArrivi()) {
+            return ['righe' => [], 'totale' => 0, 'notti_oltre_max' => 0, 'notti_totali' => 0, 'bellaria' => false, 'profili_fiscali' => [], 'esclusa_arrivi' => true];
+        }
         $arrivo = $this->parseDate($schedina->arrive);
         $partenza = $this->parseDate($schedina->departure);
         $giorniMax = $config && $config->giorni_massimo !== null ? (int) $config->giorni_massimo : null;

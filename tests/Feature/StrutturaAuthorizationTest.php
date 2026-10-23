@@ -67,16 +67,16 @@ class StrutturaAuthorizationTest extends TestCase
         $this->assertSame($before, $mine->fresh()->getRawOriginal());
     }
 
-    public function test_legitimate_owner_can_read_and_update(): void
+    public function test_legitimate_owner_reads_master_and_cannot_update_protected_fields(): void
     {
         $owner = $this->ownerFor($this->actor('admin'));
         $mine = $this->structureFor($owner);
+        $before = $mine->getRawOriginal();
         $this->actingAs($this->actor('proprietario', $owner->id));
-        $this->get('/struttura')->assertOk();
-        $this->get('/struttura/zone-suggestions')->assertOk();
-        $this->put('/struttura', $this->validStructurePayload($mine))
-            ->assertSessionHasNoErrors()->assertRedirect();
-        $this->assertSame('Hotel Aggiornato', $mine->fresh()->nome_struttura);
+        $this->get('/struttura?sid='.$mine->id)->assertOk();
+        $this->get('/struttura/zone-suggestions?sid='.$mine->id)->assertOk();
+        $this->put('/struttura?sid='.$mine->id, $this->validStructurePayload($mine))->assertForbidden();
+        $this->assertSame($before, $mine->fresh()->getRawOriginal());
     }
 
     public function test_admin_operational_legacy_exception_does_not_expand_selector_or_crud(): void
@@ -336,7 +336,7 @@ class StrutturaAuthorizationTest extends TestCase
         $owner = $this->ownerFor($this->actor('admin'));
         $mine = $this->structureFor($owner);
         $emptyOwner = $this->ownerFor($this->actor('admin'));
-        $this->actingAs($this->actor('proprietario', $owner->id))->get('/struttura')->assertOk();
+        $this->actingAs($this->actor('proprietario', $owner->id))->get('/struttura?sid='.$mine->id)->assertOk();
         $this->assertNull(StrutturaCorrente::getId());
         // Simulate leaked static state: middleware must clear it before the next request.
         StrutturaCorrente::setId($mine->id);

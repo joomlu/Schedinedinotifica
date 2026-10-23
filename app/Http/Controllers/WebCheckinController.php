@@ -754,6 +754,9 @@ class WebCheckinController extends SchedinaController
             return null;
         }
 
+        // Un riferimento esistente a un altro tenant non è una schedina mancante riparabile.
+        abort_if(Schedina::withoutGlobalScopes()->whereKey($richiesta->schedina_id)
+            ->where('struttura_id', '<>', $richiesta->struttura_id)->exists(), 404);
         $schedina = Schedina::withoutGlobalScopes()->where('struttura_id', $richiesta->struttura_id)->find($richiesta->schedina_id);
 
         return $schedina;
