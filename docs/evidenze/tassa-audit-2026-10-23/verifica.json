@@ -1,12 +1,12 @@
 {
   "stato": "PASS_CORREZIONI_TASSA_ISOLATE",
   "data": "2026-10-23",
-  "base_main": "46736ee26f692376d7c3bc8e95a8e0ae5ae96b2e",
+  "base_main": "74300449d4704619259b2d7ba8b40291f26e94c2",
   "PHP": "8.3.36",
   "database": "MariaDB 11.8.9 effimero nel namespace ufficiale senza rete esterna",
   "PHPUnit": {
-    "test": 293,
-    "asserzioni": 4557,
+    "test": 294,
+    "asserzioni": 4593,
     "errori": 0,
     "fallimenti": 0,
     "salti": 0
@@ -43,9 +43,10 @@
   },
   "sorgenti_applicativi_modificati": {
     "app/Http/Controllers/TassaReportController.php": "0b62d99c43d2c6f907ec3f7af328bc9e64536336f195e4d8a0d9fbf5adeb61d3",
-    "app/Services/TassaDiSoggiornoService.php": "21362a648e6f604fabe3c144880f085c9880d83aa97441f26020ecdb6b8f5045",
+    "app/Services/TassaDiSoggiornoService.php": "92d24697777acfd23a308f8ae0259e84f6fac35f489121978b10bf327af5db3f",
     "resources/views/tassa_di_soggiorno/rapporto-controllo.blade.php": "d3ac36a98784414c926ec802963506bbe47c001479952beaa90a2c8249d1617a",
-    "resources/views/tassa_di_soggiorno/rapporto-print.blade.php": "47ffa775fddcefec3bf718bbca042d5a4b68e19b178af4b2e462361e139cbd45"
+    "resources/views/tassa_di_soggiorno/rapporto-print.blade.php": "47ffa775fddcefec3bf718bbca042d5a4b68e19b178af4b2e462361e139cbd45",
+    "app/Http/Controllers/WebCheckinController.php": "2112375a495738f4bbb5141f53cedbcc2b97d9afca2c7cc5fefce1b3b5c9e3e7"
   },
   "sorgenti_sha256": {
     "app/Http/Controllers/Superadmin/ConfigurazioneTassaController.php": "ff20270e230bdaf6007a55d5b7823b1c17e2a81d1f842c37a633ed2e711fb29b",
@@ -89,7 +90,9 @@
     "tests/Support/ImmaginiTassaFixtures.php": "1b0fa2810ce23eb1163babdc184f4d21e41efe16cd8fb9a400abf85a649ef85a",
     "tests/Feature/TassaRiepilogoEsenzioniAuditTest.php": "3ac685dc2d152f39218db15b838debdd5dbc5e137a58d9553e733e394557b83a",
     "tests/Isolation/tassa-riepilogo-audit-fixtures.php": "ce99639bb531769bf2022075b047806ef9c2abf77c666d7620499e22bd676eb4",
-    "tests/Feature/tassa-riepilogo-audit.playwright.spec.js": "115e097e2bb24adb8602bc42787464195f16135b2d268ebed88c47abc7ea059e"
+    "tests/Feature/tassa-riepilogo-audit.playwright.spec.js": "115e097e2bb24adb8602bc42787464195f16135b2d268ebed88c47abc7ea059e",
+    "app/Http/Controllers/WebCheckinController.php": "2112375a495738f4bbb5141f53cedbcc2b97d9afca2c7cc5fefce1b3b5c9e3e7",
+    "tests/Feature/WebCheckinHtmlTest.php": "74d5fb4fcaae07691c0b5f50e4e0b9221ffee270ab8657bbdfe85c0f347e51bd"
   },
   "adattamento_solo_stile_test_dopo_R8": "Pint: spaziatura e rimozione dell’import Struttura non utilizzato; contenuto restante identico ignorando gli spazi, metodi e asserzioni invariati",
   "tentativi_precedenti": {
@@ -106,5 +109,5 @@
   "nessuna_modifica_dati_reali": true,
   "accettazione_StayTour": "NON VERIFICATA",
   "stato_generale": "BASELINE IN AUDIT",
-  "ripresa": "R12; residenza titolare/componente, omonimo estero, fuori stagione, storico consolidato immutabile"
+  "ripresa": "R17; regressione completa dopo errore fiscale nella visualizzazione Web Bellaria, R14 RED conservato"
 }
