@@ -1,0 +1,85 @@
+{
+  "stato": "STOP_C5_PRIMA_MANUTENZIONE",
+  "data": "2026-10-23",
+  "PR": "https://github.com/joomlu/Schedinedinotifica/pull/16",
+  "commit_applicativo": "ec2d9784b5dd93148f800fe912e89afb0b529104",
+  "commit_fixture_e_prove": "b82bc9b0b234aa50dba083452c607dc6995a619d",
+  "candidato_integrato": "1b0f877a14e5e65f3bef0ff7dc327c53d86b9dc9",
+  "tentativi": [
+    {
+      "esito": "FAIL_CLIENT_C5",
+      "trasferimenti": [
+        {
+          "file": "fs.tar.gz.enc",
+          "returncode": null,
+          "failure": "TimeoutExpired",
+          "seconds": 109.631854291,
+          "partial_bytes": 392364032
+        },
+        {
+          "file": "db.sql.enc",
+          "returncode": 0,
+          "failure": null,
+          "seconds": 10.544639750000002,
+          "partial_bytes": 23342848
+        }
+      ],
+      "numero": 1
+    },
+    {
+      "esito": "FAIL_CLIENT_C5",
+      "trasferimenti": [
+        {
+          "file": "fs.tar.gz.enc",
+          "returncode": null,
+          "failure": "TimeoutExpired",
+          "seconds": 116.530529708,
+          "partial_bytes": 354484224
+        },
+        {
+          "file": "db.sql.enc",
+          "returncode": 0,
+          "failure": null,
+          "seconds": 3.5567017079999914,
+          "partial_bytes": 23342848
+        }
+      ],
+      "numero": 2
+    }
+  ],
+  "limite_trasporto_secondi": 120,
+  "limiti_modificati": false,
+  "stop_verificato": {
+    "esito": "PASS_STOP_SICURO_PRIMA_MANUTENZIONE",
+    "epoch": 1792786652.7780967,
+    "SHA_online": "4a9c0c55ce9319bef89dea97b9a1885c1ace5e66",
+    "SHA_candidato_non_pubblicato": "1b0f877a14e5e65f3bef0ff7dc327c53d86b9dc9",
+    "Git_pulito": true,
+    "barriere_assenti": true,
+    "FPM_attivo": true,
+    "sonde9": {
+      "mail.schedinedinotifica.tanggo.software/": true,
+      "mail.schedinedinotifica.tanggo.software/login": true,
+      "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "schedinedinotifica.tanggo.software/": true,
+      "schedinedinotifica.tanggo.software/login": true,
+      "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "www.schedinedinotifica.tanggo.software/": true,
+      "www.schedinedinotifica.tanggo.software/login": true,
+      "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+    },
+    "env_key_preservati": true,
+    "tabelle": 66,
+    "questura_istat_disabilitati": true,
+    "mail_generale_array": true,
+    "stato_operazione_precedente_chiuso": true,
+    "nuovo_RUN_non_avviato": true,
+    "recupero_PREPARE_non_attestato": true,
+    "QA_nuovo_candidato_non_eseguito": true
+  },
+  "schema_modificato": false,
+  "fixture_online_create": false,
+  "trasmissioni_reali": false,
+  "limite": "Prebuild e backup sorgente creati; recupero indipendente non attestato. Nessun RUN, deploy o QA del candidato online.",
+  "VM_finale": "Stopped"
+}
