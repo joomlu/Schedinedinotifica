@@ -63,11 +63,13 @@
     "tests/Feature/QuesturaCredentialEncryptionTest.php": "6408f16e77a8f803daf54248306b212bd38c347755ae56e228c1b1a9d32b8f35",
     "tests/Feature/StrutturaAuthorizationTest.php": "5d4fdb3ac55cd37b2c20ca8c098f5c24f1700233ab5d20090b4439c1e1bbfe10",
     "tests/Feature/WebCheckinFiscalContextTest.php": "2198e1b46c004e53cb347b68402383421a18b13aea9e4421677a23471f425a36",
-    "tests/Support/StrutturaFixtures.php": "414e7e8e322da981debfdb2f7979c9e31f6a542d0e904fef9e1691885c1b9c2f"
+    "tests/Support/StrutturaFixtures.php": "414e7e8e322da981debfdb2f7979c9e31f6a542d0e904fef9e1691885c1b9c2f",
+    "tests/Feature/IstatCycleTest.php": "f0b0e328ad661b238f3eb9fd264300778131544b1adc00d6615cb2d5ec11f1fa"
   },
   "log_sha256": {
     "R11-finale.log": "0a6b402f0f5b3aa896a822d8b8c74e3d1bdc598a8d81e4184a367ad094c0bf23",
-    "guardie-finali.log": "30b3b18d23e5c4cc9b86405123a2b75c4a89073f3a1c87daa6a1639de08e68d1"
+    "guardie-finali.log": "30b3b18d23e5c4cc9b86405123a2b75c4a89073f3a1c87daa6a1639de08e68d1",
+    "R14-consumatori-contesto.log": "3a1f8841357b7be6e885c9dcd04f0702d2224a4f109396923c997791334ac354"
   },
   "deduplicazione": {
     "esito": "PASS_DEDUPLICAZIONE_KERNEL_BYTE_METADATI_INODE_IDENTICI",
@@ -79,5 +81,19 @@
     "sigillo_registro": "cdb574d75654ec8c3d313e935ccaa26648af8cca15558336fe3b03d1b1fb8982",
     "nessun_file_rimosso": true,
     "env_storage_upload_loghi_SQL_cifrati_chiavi_configurazione_reali_esclusi": true
+  },
+  "consumatori_aggiuntivi": {
+    "esito": "PASS",
+    "test": 76,
+    "verifiche": 742,
+    "selezione": [
+      "GeoLogoAtomicitaTest",
+      "TassaBellariaAnteprimaTest",
+      "ConfigurazioneTassaSuperadminTest",
+      "CustomerManagementTest",
+      "ArriviCustomerReferenceSecurityTest",
+      "IstatCycleTest"
+    ],
+    "limiti": "R12 fermato dalla guardia SHA; R13 fallimenti fixture ISTAT senza selezione esplicita, R14 PASS con selezione esplicita; nessun cambio delle attese ISTAT"
   }
 }

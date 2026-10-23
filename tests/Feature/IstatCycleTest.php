@@ -30,6 +30,7 @@ class IstatCycleTest extends TestCase
         $structure = $this->structureFor($owner);
         $structure->update(['regione' => 'Emilia-Romagna', 'camere_disponibili' => 10, 'letti_disponibili' => 20, 'istat_codice_struttura' => 'TEST-ISOLATO']);
         $this->actingAs($this->actor('proprietario', $owner->id, $structure->id));
+        $this->withSession(['struttura_corrente_id' => $structure->id]);
 
         return $structure->fresh();
     }

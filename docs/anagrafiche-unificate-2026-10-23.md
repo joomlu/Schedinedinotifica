@@ -137,3 +137,5 @@ Nessuna migrazione storica modificata, nessuna DDL o riconciliazione reale. Ness
 ## Pubblicazione
 
 Commit, PR, C5 e SHA pubblicato: PENDENTI. Il diagnostico non certifica accettazione StayTour. Le classificazioni mancanti richiedono un dato certo del gestore. Deduplicazione autorizzata PASS: 99.688 file, nessuna eliminazione, byte/inode/metadati invariati; liberi da 1.985.691.648 a 5.778.370.560 byte. Necessario ripetere il gate residuo dopo PREPARE.
+
+R14 consumatori aggiuntivi: 76 test / 742 verifiche PASS (loghi, anteprima/configurazione Tassa, Clienti, Arrivi e ciclo ISTAT simulato). R12 correttamente fermato dalla guardia SHA dopo il commit; sincronizzatore allineato agli oggetti del commit senza alterare la guardia. R13 ha rilevato una fixture ISTAT senza selezione esplicita della struttura; R14 rende esplicita la sessione e conserva tutte le attese del canale. Nessun nuovo cambiamento applicativo. PR #16, integrazione espressamente autorizzata dall’utente dopo il primo rifiuto automatico; deploy sempre subordinato a C5.
