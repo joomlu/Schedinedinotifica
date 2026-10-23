@@ -1,6 +1,41 @@
 # Tassa di soggiorno — audit integrale iniziato il 22 ottobre 2026
 
-**BASELINE IN AUDIT. Attività in corso; nessuna chiusura fiscale o accettazione StayTour attestata.**
+## Esito corrente — 23 ottobre 2026
+
+**Applicativo `4a9c0c55ce9319bef89dea97b9a1885c1ace5e66` pubblicato mediante C5 e verificato online. BASELINE IN AUDIT; chiusura integrale del settore non attestata per i pendenti esterni e operativi elencati sotto.**
+
+### A — Funzionamento tecnico verificato
+
+PR #10 e #11 riconfermate integrate rispettivamente in `118d5d20b309e15226ab63c2b84e40318d99b136` e `46736ee26f692376d7c3bc8e95a8e0ae5ae96b2e`. La produzione iniziale era `67b4c45f94a349d0b27c7874aacbbe770bc1cf00`. PR #12 integra la protezione del residente (`74300449d4704619259b2d7ba8b40291f26e94c2`); PR #13 integra la correzione Web Bellaria (`4a9c0c55ce9319bef89dea97b9a1885c1ace5e66`). Revisione automatica del codice delle ultime due PR completata senza rilievi.
+
+Qualificazione definitiva R17 nella VM ufficiale: **294 test PHP / 4.593 asserzioni, sette browser, 15 guardie pure, 23 override rifiutati, build Vite/GEO PASS**, senza errori, fallimenti o salti. Tredici PDF / 14 pagine. I 44 digest qualificati coincidono con il candidato integrato. Nessun test Laravel sull’host o sul DB operativo.
+
+C5 finale: nuovi preflight, PREPARE, recupero indipendente, custodia Extra autenticata e decifrata con chiave separata, 55 campioni di quiete e nuovo S0/RUN. **S0 145,390 s / RUN 248,253 s**, zero DDL, 159 migrazioni e 66 tabelle. Gate prima RUN 3.165.569.024 byte liberi contro 3.092.901.888 necessari, comprensivi della riserva di 1 GiB. Limiti 90/240 s e budget 1800/600/1379/421 invariati. Il medesimo timeout storico di decifratura non è ricomparso nei nuovi recuperi; la contesa Git osservata è stata rimossa sul solo worker identificato, ma la causa esclusiva storica resta non dimostrata.
+
+SHA servito attestato da Git pulito, sonda FPM autenticata, 205 digest e nove sonde HTTPS/TLS/CSS. Prima della QA, DB byte-identico a S0 e 92 persistenti conformi. Guardiano concluso, disarmato, inattivo e disabilitato.
+
+QA definitiva: **29 scenari Web e tre percorsi Tassa a 1440/768/390 px**, 62 immagini e tre PDF fiscali di una pagina. Compilazione, salvataggio parziale, revisione/conversione, Storico/Cestino, HTML, GEO, editor/palette, anteprima senza scritture, revoca/scadenza/rigenerazione e isolamento A/B superati. Tassa: 20 notti = 10 esenti + 8 oltre limite + 2 imponibili, €3; stampa/CSV riconciliati, consolidamento e rettifica con versione precedente immutata. Nascita assente e residente bloccano gli output fiscali; il modulo Web resta compilabile. Tariffa arbitraria respinta422, modifica catalogo hotel403, accessi incrociati404, configurazione centralizzata riservata al Superadmin. Questura e ISTAT verificati anche in sola lettura online. Zero POST di invio o dichiarazioni, nessun CSV fittizio trasmesso a StayTour.
+
+Tentativi NONPASS conservati: prima QA743 ha dimostrato il difetto Web corretto in PR13; prima QA4a9 interrotta da `socket hang up` dopo il ripristino dal Cestino, causa non attribuita, poi ripetizione integrale con nuove fixture e identici timeout/controlli PASS. Il primo adattatore della prova Tassa cercava un meta CSRF assente: corretto il solo selettore sul token del modulo reale e ripetuta la prova fiscale, asserzioni invariate. Nessuna modifica applicativa dopo PR13.
+
+Tutte le fixture dei diversi tentativi sono state rimosse: HMAC delle 66 tabelle preesistenti identici e 92 persistenti conformi. Nessun restore/reset dei dati o dei contatori AUTO_INCREMENT. Sorgenti, SQL/ridump, chiavi, backup, estratti dei recuperi e diagnostici preservati; ritirate soltanto cache chiuse o repliche già verificate su Extra, con prove di inutilizzo e sigilli. Condivisione dei soli blocchi di codice identici tramite FIDEDUPERANGE con byte e metadati invariati.
+
+Monitor finali dopo pulizia: **server 918.372 s / 31 campioni / 279 sonde; Mac 920.258 s / 31 campioni / 93 HTTPS, entrambi PASS**. Zero errori Laravel/FPM dall’intero primo T0 della task (2026-10-23T10:41:55 locali). Il diagnostico root precedente al T0 resta custodito e non è contato come errore nuovo. Campionamento capienza: 10686 misure, minimo VM 1140035584 byte sopra la riserva di 1 GiB. Daily945ef553, XFS/SELinux, HEAD originale6a652b72 e quattro documenti preesistenti preservati; VM restituita spenta come all’inizio e soli presidi temporanei propri conclusi. [Ricevuta minimizzata](evidenze/tassa-audit-2026-10-23/rilascio.json), [stampa online](evidenze/tassa-audit-2026-10-23/stampa-online.png), [controllo mobile](evidenze/tassa-audit-2026-10-23/controllo-mobile-online.png).
+
+### B — Corrispondenza municipale verificata e limiti
+
+CC29/2026, allegato regolamento e tariffe GC184/2025 recuperati dall’albo ufficiale; pubblicazione MEF della CC29 il 14 agosto 2026, decorrenza 1 ottobre 2026 secondo l’atto. Confermati tariffe alberghiere, stagione giugno–settembre, sei notti, esclusione residenti/day-use, esenzioni e documentazione esterna. Comunicazione/riversamento entro 15 giorni dalla fine del mese; soggiorni a cavallo nel mese di conclusione per il riversamento, distinti dal CSV applicativo per arrivo. Dichiarazione annuale ministeriale entro il 30 giugno successivo; rimozione del Modello21 nella CC29. Il report applicativo attesta il calcolo selezionato, non incasso, saldo o versamento: non esiste un registro degli incassi.
+
+Il familiare convivente è previsto dall’art.5.1.i; resta da attestare la mappatura tecnica **450** della versione StayTour Bellaria, perché i due elenchi del dossier sono discordanti. Nessun codice inventato o modifica arbitraria al catalogo. Il compleanno incluso resta la conferma operativa umana storica, non una nuova attestazione comunale. Tre strutture senza classificazione e una Schedina effettiva senza nascita pertinente alla stagione richiedono dati reali dell’operatore; soli identificativi conservati privatamente, nessuna correzione fittizia.
+
+### C — Accettazione StayTour non verificata
+
+Manca una sessione gestore autenticata SPID/CIE oppure un ambiente ufficiale di test senza effetti fiscali. Il login pubblico riserva le credenziali ordinarie agli operatori comunali; nessun validatore pubblico individuato. Non è stato possibile ispezionare l’importazione autenticata, quindi non si afferma che consenta soltanto importazioni fiscali. Nessun invio al portale e nessuna dichiarazione presentata. Servono il tracciato vigente con il raccordo450 e la verifica mediante validatore ufficiale o modalità di prova comprovata. Generazione e riconciliazione locale del CSV non equivalgono ad accettazione esterna.
+
+Le sezioni seguenti conservano lo storico dell’audit e dei tentativi; per lo stato corrente prevale questo consuntivo.
+
+
+**BASELINE IN AUDIT. Storico dell’audit; per l’esito corrente vedere il consuntivo iniziale.**
 
 ## Identità e preservazione
 
