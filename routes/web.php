@@ -136,6 +136,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('tassa_esenzioni', TassaEsenzioneController::class)->only(['store', 'update', 'destroy'])->names('tassa_esenzioni');
 
+    Route::get('/strutture/nuova', [\App\Http\Controllers\RegistrazioneStrutturaController::class, 'create'])->name('struttura.create');
+    Route::post('/strutture', [\App\Http\Controllers\RegistrazioneStrutturaController::class, 'store'])->name('struttura.store');
     Route::get('/struttura', [StrutturaController::class, 'edit'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('struttura.edit');
     Route::put('/struttura', [StrutturaController::class, 'update'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('struttura.update');
     Route::get('/struttura/zone-suggestions', [StrutturaController::class, 'zoneSuggestions'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('struttura.zone_suggestions');

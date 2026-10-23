@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Models\Struttura;
 use App\Support\StrutturaCorrente;
+use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,7 +13,7 @@ class VerificaServizioStruttura
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
-        if (!$user) {
+        if (! $user) {
             return $next($request);
         }
 
@@ -23,10 +23,14 @@ class VerificaServizioStruttura
         }
 
         $knownRoles = ['super_admin', 'admin', 'proprietario', 'struttura_user'];
-        if (!in_array((string) ($user->ruolo ?? ''), $knownRoles, true)) {
+        if (! in_array((string) ($user->ruolo ?? ''), $knownRoles, true)) {
             return $next($request);
         }
 
+        if ($request->routeIs('struttura.create', 'struttura.store', 'strutture.seleziona.index', 'strutture.seleziona', 'proprietario.strutture.index')
+            || ($request->isMethod('get') && $request->routeIs('struttura.edit'))) {
+            return $next($request);
+        }
         $currentId = StrutturaCorrente::getId();
         if ($currentId === null && method_exists($user, 'isStrutturaUser') && $user->isStrutturaUser()) {
             $currentId = $user->struttura_id;
@@ -40,11 +44,11 @@ class VerificaServizioStruttura
         }
 
         $struttura = Struttura::find($currentId);
-        if (!$struttura) {
+        if (! $struttura) {
             abort(403, 'Servizio non disponibile per questa struttura.');
         }
 
-        if (method_exists($struttura, 'servizioAttivo') && !$struttura->servizioAttivo()) {
+        if (method_exists($struttura, 'servizioAttivo') && ! $struttura->servizioAttivo()) {
             abort(403, 'Servizio sospeso o scaduto per questa struttura.');
         }
 

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return response()->json($request->user()->only(['id', 'name', 'display_name', 'email', 'username', 'avatar', 'telefono', 'qualifica', 'ruolo', 'ruolo_operativo', 'struttura_id', 'proprietario_id']));
 });
 
 Route::prefix('geo')->group(function () {

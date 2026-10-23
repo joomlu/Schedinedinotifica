@@ -11,6 +11,7 @@
         <div class="alert alert-success">{{ session('status') }}</div>
     @endif
 
+    <a class="btn btn-primary mb-3" href="{{ route('struttura.create') }}">Registra struttura</a>
     <p class="text-muted">Seleziona la struttura da gestire. La struttura corrente è evidenziata in verde.</p>
     <div class="row g-3">
         @forelse($strutture as $struttura)

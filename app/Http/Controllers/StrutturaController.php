@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Struttura;
-use App\Http\Requests\StrutturaRequest;
-use App\Models\TipologiaGenerale;
-use App\Models\TipologiaStruttura;
 use App\Models\Classificazione;
-use App\Models\GeoNazione;
-use App\Models\GeoRegione;
-use App\Models\GeoProvincia;
 use App\Models\GeoComune;
 use App\Models\GeoComuneCap;
+use App\Models\GeoNazione;
+use App\Models\GeoProvincia;
+use App\Models\GeoRegione;
+use App\Models\Struttura;
 use App\Models\StrutturaZona;
-use Illuminate\Http\Request;
+use App\Models\TipologiaGenerale;
+use App\Models\TipologiaStruttura;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -24,7 +23,11 @@ class StrutturaController extends Controller
     public function edit(Request $request)
     {
         $struttura = \App\Support\StrutturaAccess::authorized($request);
-        $this->hydrateTipologiaCascadeIds($struttura);
+
+        if (! (($request->user()->isAdmin() || $request->user()->isSuperAdmin()) && \App\Support\StrutturaAccess::query($request->user())->whereKey($struttura->id)->exists())) {
+            return view('struttura.consulta', ['struttura' => $struttura,
+                'puoGestireOperativo' => $request->user()->isProprietario() || $request->user()->canManageGestioneOperativa($struttura->id)]);
+        }
         $tipologieGenerali = TipologiaGenerale::all();
         $tipologieStruttura = TipologiaStruttura::with('generale')->get();
         $classificazioni = Classificazione::with('tipologieStruttura')->get();
@@ -32,70 +35,63 @@ class StrutturaController extends Controller
         $zoneOptions = $this->buildZoneOptions($struttura, $geoComuneId, 'zona');
         $localitaOptions = $this->buildZoneOptions($struttura, $geoComuneId, 'localita');
 
-        return view('struttura.edit', [
+        return view('struttura.edit', array_merge(app(\App\Services\AnagraficaStruttura::class)->formData($struttura), [
             'struttura' => $struttura,
             'tipologieGenerali' => $tipologieGenerali,
             'tipologieStruttura' => $tipologieStruttura,
             'classificazioni' => $classificazioni,
             'zoneOptions' => $zoneOptions,
             'localitaOptions' => $localitaOptions,
-        ]);
+        ]));
     }
 
     public function update(\App\Http\Requests\StrutturaRequest $request)
     {
-        $struttura = \App\Support\StrutturaAccess::authorized($request);
-        $data = $request->validated();
+        return \DB::transaction(function () use ($request) {
+            $struttura = \App\Support\StrutturaAccess::authorized($request);
+            $data = app(\App\Services\AnagraficaStruttura::class)->payload($request->domainData(), $struttura);
 
-        // Allinea le colonne legacy string con le scelte FK
-        if (!empty($data['tipologia_generale_id'])) {
-            $generale = TipologiaGenerale::find($data['tipologia_generale_id']);
-            $data['tipologia_generale'] = $generale?->nome;
-        }
-        if (!empty($data['tipologia_struttura_id'])) {
-            $tipStr = TipologiaStruttura::find($data['tipologia_struttura_id']);
-            $data['tipologia_struttura'] = $tipStr?->nome;
-        }
-        if (array_key_exists('classificazione_id', $data)) {
-            $class = $data['classificazione_id'] ? Classificazione::find($data['classificazione_id']) : null;
-            $data['classificazione'] = $class?->nome;
-        }
+            // Allinea le colonne legacy string con le scelte FK
+            if (! empty($data['tipologia_generale_id'])) {
+                $generale = TipologiaGenerale::find($data['tipologia_generale_id']);
+                $data['tipologia_generale'] = $generale?->nome;
+            }
+            if (! empty($data['tipologia_struttura_id'])) {
+                $tipStr = TipologiaStruttura::find($data['tipologia_struttura_id']);
+                $data['tipologia_struttura'] = $tipStr?->nome;
+            }
+            if (array_key_exists('classificazione_id', $data)) {
+                $class = $data['classificazione_id'] ? Classificazione::find($data['classificazione_id']) : null;
+                $data['classificazione'] = $class?->nome;
+            }
 
-        $data = $this->normalizeGeoLabels($data);
-        $data = $this->preserveExistingQuesturaSecrets($data, $struttura);
+            $data = $this->normalizeGeoLabels($data);
+            $data = $this->preserveExistingQuesturaSecrets($data, $struttura);
 
-        // Gestione upload logo struttura
-        if ($request->hasFile('logo')) {
-            $file = $request->file('logo');
-            $path = $file->store('uploads/loghi', 'public');
-            $data['logo'] = 'storage/' . $path;
-        } else {
-            unset($data['logo']); // Non sovrascrivere se non caricato
-        }
+            // Gestione upload logo struttura
+            if ($request->hasFile('logo')) {
+                $file = $request->file('logo');
+                $path = $file->store('uploads/loghi', 'public');
+                $data['logo'] = 'storage/'.$path;
+            } else {
+                unset($data['logo']); // Non sovrascrivere se non caricato
+            }
 
-        $data = $this->storeCityLogoUpload($request, $data, $struttura);
+            $data = $this->storeCityLogoUpload($request, $data, $struttura);
 
-        // Gestione switch tipo_apertura
-        if ($request->filled('tipo_apertura')) {
-            $data['tipo_apertura'] = $request->input('tipo_apertura') === 'Annuale' ? 'Annuale' : 'Stagionale';
-        } else {
-            $data['tipo_apertura'] = 'Stagionale';
-        }
+            unset($data['questura_ws_simulazione'], $data['questura_codici'], $data['questura_puk']);
 
-        // Flag gestione camere reali dal gestionale
-        $data['camere_reali_enabled'] = $request->boolean('camere_reali_enabled');
-        unset($data['questura_ws_simulazione'], $data['questura_codici'], $data['questura_puk']);
+            // Compatibilità schema legacy: citta/localita/logo_citta vs città/località/logo_città
+            $data = $this->normalizeLegacyColumnNames($data);
 
-        // Compatibilità schema legacy: citta/localita/logo_citta vs città/località/logo_città
-        $data = $this->normalizeLegacyColumnNames($data);
-        $data = $this->fillMissingCoordinates($data, $request);
+            $struttura->update($data);
+            $geoComuneId = $this->resolveGeoComuneId($request->input('citta') ?: ($data['citta'] ?? null));
+            $this->persistZoneSuggestion($struttura, $geoComuneId, 'zona', $data['zona'] ?? null);
+            $this->persistZoneSuggestion($struttura, $geoComuneId, 'localita', $data['localita'] ?? null);
 
-        $struttura->update($data);
-        $geoComuneId = $this->resolveGeoComuneId($request->input('citta') ?: ($data['citta'] ?? null));
-        $this->persistZoneSuggestion($struttura, $geoComuneId, 'zona', $data['zona'] ?? null);
-        $this->persistZoneSuggestion($struttura, $geoComuneId, 'localita', $data['localita'] ?? null);
+            return redirect()->back()->with('success', 'Struttura aggiornata con successo.');
 
-        return redirect()->back()->with('success', 'Struttura aggiornata con successo.');
+        });
     }
 
     public function zoneSuggestions(Request $request)
@@ -114,7 +110,7 @@ class StrutturaController extends Controller
 
     private function normalizeGeoLabels(array $data): array
     {
-        if (!array_key_exists('nazione', $data) || !array_key_exists('regione', $data) || !array_key_exists('provincia', $data) || !array_key_exists('citta', $data)) {
+        if (! array_key_exists('nazione', $data) || ! array_key_exists('regione', $data) || ! array_key_exists('provincia', $data) || ! array_key_exists('citta', $data)) {
             return $data;
         }
 
@@ -183,12 +179,13 @@ class StrutturaController extends Controller
 
             unset($data[$plain], $data[$accent]);
 
-            if (!$hasValue) {
+            if (! $hasValue) {
                 continue;
             }
 
             if (Schema::hasColumn('struttura', $plain)) {
                 $data[$plain] = $value;
+
                 continue;
             }
 
@@ -203,30 +200,33 @@ class StrutturaController extends Controller
     private function storeCityLogoUpload(Request $request, array $data, ?Struttura $struttura = null): array
     {
         $file = $request->file('logo_citta') ?: $request->file('logo_citta_upload');
-        if (!$file) {
+        if (! $file) {
             unset($data['logo_citta']);
+
             return $data;
         }
 
         $geoComuneId = $this->resolveGeoComuneId($data['citta'] ?? ($struttura->citta ?? null));
-        if (!$geoComuneId) {
+        if (! $geoComuneId) {
             $path = $file->store('uploads/loghi_citta', 'public');
-            $data['logo_citta'] = 'storage/' . $path;
+            $data['logo_citta'] = 'storage/'.$path;
+
             return $data;
         }
 
         $comune = GeoComune::find($geoComuneId);
-        if (!$comune) {
+        if (! $comune) {
             $path = $file->store('uploads/loghi_citta', 'public');
-            $data['logo_citta'] = 'storage/' . $path;
+            $data['logo_citta'] = 'storage/'.$path;
+
             return $data;
         }
 
         $slug = Str::slug($comune->nome) ?: 'comune';
-        $filename = $comune->id . '-' . $slug . '.' . $file->getClientOriginalExtension();
+        $filename = $comune->id.'-'.$slug.'.'.$file->getClientOriginalExtension();
         Storage::disk('public')->makeDirectory('geo_comuni/logo');
         $storedPath = $file->storeAs('geo_comuni/logo', $filename, 'public');
-        $publicPath = 'storage/' . $storedPath;
+        $publicPath = 'storage/'.$storedPath;
 
         $oldComuneLogo = $comune->logo_citta ?? $comune->logo;
         if ($oldComuneLogo && $oldComuneLogo !== $publicPath) {
@@ -275,23 +275,23 @@ class StrutturaController extends Controller
         $latMissing = blank($data['latitudine'] ?? null);
         $lngMissing = blank($data['longitudine'] ?? null);
 
-        if (!$latMissing && !$lngMissing) {
+        if (! $latMissing && ! $lngMissing) {
             return $data;
         }
 
         $geoComuneId = $request->input('citta');
 
-        if (!is_numeric($geoComuneId)) {
+        if (! is_numeric($geoComuneId)) {
             $geoComuneId = $this->resolveGeoComuneId($data['citta'] ?? $request->input('citta'));
         }
 
-        if (!$geoComuneId) {
+        if (! $geoComuneId) {
             return $data;
         }
 
         $comune = GeoComune::query()->find($geoComuneId, ['lat', 'lng']);
 
-        if (!$comune) {
+        if (! $comune) {
             return $data;
         }
 
@@ -304,39 +304,6 @@ class StrutturaController extends Controller
         }
 
         return $data;
-    }
-
-    private function hydrateTipologiaCascadeIds(Struttura $struttura): void
-    {
-        if (blank($struttura->tipologia_generale_id) && filled($struttura->tipologia_generale)) {
-            $struttura->tipologia_generale_id = TipologiaGenerale::query()
-                ->whereRaw('LOWER(nome) = ?', [mb_strtolower(trim((string) $struttura->tipologia_generale))])
-                ->value('id');
-        }
-
-        if (blank($struttura->tipologia_struttura_id) && filled($struttura->tipologia_struttura)) {
-            $tipologiaQuery = TipologiaStruttura::query()
-                ->whereRaw('LOWER(nome) = ?', [mb_strtolower(trim((string) $struttura->tipologia_struttura))]);
-
-            if (filled($struttura->tipologia_generale_id)) {
-                $tipologiaQuery->where('tipologia_generale_id', $struttura->tipologia_generale_id);
-            }
-
-            $struttura->tipologia_struttura_id = $tipologiaQuery->value('id');
-        }
-
-        if (blank($struttura->classificazione_id) && filled($struttura->classificazione)) {
-            $classificazioneQuery = Classificazione::query()
-                ->whereRaw('LOWER(nome) = ?', [mb_strtolower(trim((string) $struttura->classificazione))]);
-
-            if (filled($struttura->tipologia_struttura_id)) {
-                $classificazioneQuery->whereHas('tipologieStruttura', function ($query) use ($struttura) {
-                    $query->where('tipologie_struttura.id', $struttura->tipologia_struttura_id);
-                });
-            }
-
-            $struttura->classificazione_id = $classificazioneQuery->value('id');
-        }
     }
 
     private function buildZoneOptions(Struttura $struttura, ?int $geoComuneId, string $tipo): array
@@ -441,14 +408,14 @@ class StrutturaController extends Controller
     {
         foreach (array_unique([$this->resolveStrutturaCityColumn(), 'citta', 'città']) as $cityColumn) {
             try {
-                return Struttura::query()
+                return \App\Support\StrutturaAccess::query(auth()->user())
                     ->where('id', '<>', $struttura->id)
                     ->where($cityColumn, $cityName)
                     ->whereNotNull($tipo)
                     ->where($tipo, '<>', '')
                     ->pluck($tipo);
             } catch (QueryException $e) {
-                if (!$this->isMissingColumnException($e)) {
+                if (! $this->isMissingColumnException($e)) {
                     throw $e;
                 }
             }

@@ -1,0 +1,99 @@
+{
+  "stato": "PASS_ANAGRAFICHE_UNIFICATE_ISOLATE",
+  "data": "2026-10-23",
+  "base_sha": "2ad0436559daa789f91a9d56201d1acc1ee4b613",
+  "ambiente": "VM Rocky ufficiale, namespace rete isolata, PHP 8.3.36, risorse effimere",
+  "phpunit": {
+    "test": 112,
+    "verifiche": 836,
+    "esito": "PASS"
+  },
+  "browser": {
+    "test": 4,
+    "viewport": [
+      1440,
+      768,
+      390
+    ],
+    "esito": "PASS"
+  },
+  "guardie_pure": {
+    "test": 15,
+    "esito": "PASS"
+  },
+  "override_rifiutati": 23,
+  "geo_immutabile": "PASS",
+  "trasmissioni_reali": false,
+  "sorgenti_sha256": {
+    "app/Http/Controllers/RegistrazioneStrutturaController.php": "005a478d6587bd93e5c8786fcaf1e076c12d1e0290a62852392b4a929551d9fa",
+    "app/Services/AnagraficaGeografia.php": "86c86cc2aa993aeed041473f9d49de8d837622d818d55d62da55c9736d41e804",
+    "app/Services/AnagraficaProprietario.php": "5b1291edc3afe161da1ffdd7b277a5cb8b2962459c495384a2362bae13020496",
+    "app/Services/AnagraficaStruttura.php": "6f7494c160678ed7b4a15bd20e62e394accac00deba9044501e5a20da744788a",
+    "resources/views/shared/anagrafica-geografia.blade.php": "794bb942a2e88593a5a8dae4732213b74413eb22048f05f35be691e3595bf1e4",
+    "resources/views/shared/strutture/campi-maestri.blade.php": "b50f73887d4b05e4b866109392918816c4ecf3a3e33f6ebecb1da11cb46ee02c",
+    "resources/views/shared/strutture/conflitti-anagrafici.blade.php": "ed0c15858c50020979f81fdf3ed2c3b5fd4fe55a240a098b04e81a543bd9104a",
+    "resources/views/struttura/consulta.blade.php": "4554f079e22479ffb58618f5be2ea7bfc7de030ad5c472b2b495346e33016a74",
+    "resources/views/struttura/nuova.blade.php": "26ba0573e8b7b3aab8d07ddd158736b7369cdcafae1d5eebe570385f1a6261cc",
+    "tests/Feature/AnagraficheUnificateTest.php": "6f3badf8241a49ba26dcaaf8a08c3361dd3f43063460aa0db0851c7b2b783b5d",
+    "tests/Feature/anagrafiche-unificate.playwright.spec.js": "8d2f9ad6a0c656aa4ff9388e5a111e08ed399aabee56b96b756b9f2298c6dfe7",
+    "tests/Isolation/seed-anagrafiche.php": "4d2a19efec38d085eb9867254f1d5aa00f06c2fee241ad9d4217626060bf4cbb",
+    "app/Http/Controllers/Admin/ProprietariController.php": "8ef5f76c38d10b4f3fe31c0778f112b42199026bedd62dab7bce682b83a7ac3c",
+    "app/Http/Controllers/Admin/StruttureController.php": "fb3209b4f0b98689b1e6cd29d2067bbe6f7c38f293caf4ce85ab782a8536a2cd",
+    "app/Http/Controllers/GestioneOperativaController.php": "8974f19e66f2f77613dfcd4c4f17ddfe58c082861ef6bf29abfea151aac329c7",
+    "app/Http/Controllers/HomeController.php": "5ba337783890644a9f8c6dc2c4523eaef2d3c644ffb83dfb79426186d3d7e25e",
+    "app/Http/Controllers/StrutturaController.php": "21588d567e71103c3f1228e8e2071b792511002937f68deb57954e93150519f6",
+    "app/Http/Controllers/StrutturaUserController.php": "febaa56b2226afb2014719b0710ef3990135e397e024838946552b4a0e2e8ae0",
+    "app/Http/Controllers/Superadmin/ProprietariController.php": "baa1f40f21dec64e779bbe859e118894ba5bce6ccbb86738ab13eb216d44b4e0",
+    "app/Http/Controllers/Superadmin/StruttureController.php": "4bbb7348a966144b5e8b20a4625dde4e564d640c340673763726a534b3b72bdf",
+    "app/Http/Controllers/WebCheckinController.php": "72d60df02baa6b80f4493202c7a26819edb459d1dc937aac55dac751636413bd",
+    "app/Http/Middleware/ImpostaStrutturaCorrente.php": "49f7aed142ebade73ac6ad9f568ce06898239e4184798d4a66d2353fc3bb0dcb",
+    "app/Http/Middleware/VerificaServizioStruttura.php": "d85d0968157be3671044f80da19cff5b53ccf08212801fbd9a45d4b284526322",
+    "app/Http/Requests/StrutturaRequest.php": "ae45f17c52969b5f4c24deae3022eb315a37988f97cc9903a34f01203e057c4d",
+    "app/Models/Struttura.php": "14ebb5934186a2e191755d69f3697cbdee6d648f1f6bb46a9374899bea10920a",
+    "app/Services/TassaDiSoggiornoService.php": "7afb840b5c48cc91ba62255b8731080d0011ed984660e20e44a0629647170fba",
+    "app/Support/StrutturaAccess.php": "61b51eb1873ffb371a25dbc88570cebe2c562ceef87495c4deb83c0f065bd349",
+    "resources/views/components/xx/struttura-tipologia.blade.php": "190d6dd40d701a0b72cdc62c8a85efb8a554d4aa6d4081f468fe821a0b359c4d",
+    "resources/views/proprietario/strutture/index.blade.php": "9e5ee1a005e939ab4fee6ec35c45c238cc0ac5296b60997d03223fdb64a46585",
+    "resources/views/shared/proprietari/form-panels.blade.php": "303e0929182a0259159fe34e673fdd1bd38d5d760896bd4eb264543e0b8b558c",
+    "resources/views/shared/strutture/admin-form-panels-admin.blade.php": "76ab97ed736eacdff0cc24658a2054c77a901cdd491d5f187550c88182a7fed7",
+    "resources/views/shared/strutture/admin-form-panels.blade.php": "9f1d7d1d2aca77a2079e3314857d7e3ec24d224739060ba43da8bb391b6b1f91",
+    "resources/views/struttura/form.blade.php": "6e830cd987bb58b438c7d5f29114d09d0550fae66cb58f62c6f88b0cb73a3da8",
+    "routes/api.php": "63ae309e60e807b31bfcde65813c6a6a0b60968316789a84232a0c952c4f857a",
+    "routes/web.php": "e7e5252327d78404541058fab20e86a61877b9f20811dfed69961d9ac4824d0e",
+    "tests/Feature/QuesturaCredentialEncryptionTest.php": "6408f16e77a8f803daf54248306b212bd38c347755ae56e228c1b1a9d32b8f35",
+    "tests/Feature/StrutturaAuthorizationTest.php": "5d4fdb3ac55cd37b2c20ca8c098f5c24f1700233ab5d20090b4439c1e1bbfe10",
+    "tests/Feature/WebCheckinFiscalContextTest.php": "2198e1b46c004e53cb347b68402383421a18b13aea9e4421677a23471f425a36",
+    "tests/Support/StrutturaFixtures.php": "414e7e8e322da981debfdb2f7979c9e31f6a542d0e904fef9e1691885c1b9c2f",
+    "tests/Feature/IstatCycleTest.php": "f0b0e328ad661b238f3eb9fd264300778131544b1adc00d6615cb2d5ec11f1fa"
+  },
+  "log_sha256": {
+    "R11-finale.log": "0a6b402f0f5b3aa896a822d8b8c74e3d1bdc598a8d81e4184a367ad094c0bf23",
+    "guardie-finali.log": "30b3b18d23e5c4cc9b86405123a2b75c4a89073f3a1c87daa6a1639de08e68d1",
+    "R14-consumatori-contesto.log": "3a1f8841357b7be6e885c9dcd04f0702d2224a4f109396923c997791334ac354"
+  },
+  "deduplicazione": {
+    "esito": "PASS_DEDUPLICAZIONE_KERNEL_BYTE_METADATI_INODE_IDENTICI",
+    "file": 99688,
+    "verifica_kernel_uguaglianza_byte": true,
+    "byte_nominali_non_equiparati_a_recupero": 32181510144,
+    "liberi_prima": 1985691648,
+    "liberi_dopo": 5778370560,
+    "sigillo_registro": "cdb574d75654ec8c3d313e935ccaa26648af8cca15558336fe3b03d1b1fb8982",
+    "nessun_file_rimosso": true,
+    "env_storage_upload_loghi_SQL_cifrati_chiavi_configurazione_reali_esclusi": true
+  },
+  "consumatori_aggiuntivi": {
+    "esito": "PASS",
+    "test": 76,
+    "verifiche": 742,
+    "selezione": [
+      "GeoLogoAtomicitaTest",
+      "TassaBellariaAnteprimaTest",
+      "ConfigurazioneTassaSuperadminTest",
+      "CustomerManagementTest",
+      "ArriviCustomerReferenceSecurityTest",
+      "IstatCycleTest"
+    ],
+    "limiti": "R12 fermato dalla guardia SHA; R13 fallimenti fixture ISTAT senza selezione esplicita, R14 PASS con selezione esplicita; nessun cambio delle attese ISTAT"
+  }
+}

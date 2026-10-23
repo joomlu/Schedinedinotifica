@@ -6,7 +6,6 @@ use App\Models\Struttura;
 use App\Support\StrutturaCorrente;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class ImpostaStrutturaCorrente
@@ -26,7 +25,7 @@ class ImpostaStrutturaCorrente
     private function handleContext(Request $request, Closure $next): Response
     {
         $user = $request->user();
-        if (!$user) {
+        if (! $user) {
             return $next($request);
         }
 
@@ -36,38 +35,44 @@ class ImpostaStrutturaCorrente
             if ($selected) {
                 StrutturaCorrente::setId((int) $selected);
             }
+
             return $next($request);
         }
 
         if (method_exists($user, 'isStrutturaUser') && $user->isStrutturaUser()) {
             StrutturaCorrente::setId($user->struttura_id);
+
             return $next($request);
         }
 
         if (method_exists($user, 'isProprietario') && $user->isProprietario()) {
-            if (!(int) $user->proprietario_id || !\Schema::hasTable('proprietari')) {
+            if (! (int) $user->proprietario_id || ! \Schema::hasTable('proprietari')) {
                 $request->session()->forget('struttura_corrente_id');
                 StrutturaCorrente::clear();
+
                 return $next($request);
             }
             $allowed = Struttura::where('proprietario_id', $user->proprietario_id)->pluck('id')->all();
             if (empty($allowed)) {
                 $request->session()->forget('struttura_corrente_id');
                 StrutturaCorrente::clear();
+
                 return $next($request);
             }
             $currentId = $this->resolveCurrentId($request, $allowed);
             if ($currentId === null) {
                 $request->session()->forget('struttura_corrente_id');
                 StrutturaCorrente::clear();
+
                 return $next($request);
             }
             StrutturaCorrente::setId($currentId);
+
             return $next($request);
         }
 
         if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
-            if (!\Schema::hasTable('proprietari')) {
+            if (! \Schema::hasTable('proprietari')) {
                 return $next($request); // evita errore se migrazioni non eseguite
             }
             $allowed = Struttura::where(function ($q) use ($user) {
@@ -78,15 +83,18 @@ class ImpostaStrutturaCorrente
             if (empty($allowed)) {
                 $request->session()->forget('struttura_corrente_id');
                 StrutturaCorrente::clear();
+
                 return $next($request);
             }
             $currentId = $this->resolveCurrentId($request, $allowed);
             if ($currentId === null) {
                 $request->session()->forget('struttura_corrente_id');
                 StrutturaCorrente::clear();
+
                 return $next($request);
             }
             StrutturaCorrente::setId($currentId);
+
             return $next($request);
         }
 
@@ -104,6 +112,7 @@ class ImpostaStrutturaCorrente
         if ($requestedId && in_array((int) $requestedId, $allowed, true)) {
             $request->session()->put('struttura_corrente_id', (int) $requestedId);
             StrutturaCorrente::setId((int) $requestedId);
+
             return (int) $requestedId;
         }
 
@@ -117,12 +126,6 @@ class ImpostaStrutturaCorrente
             return (int) $selected;
         }
 
-        $firstActive = Struttura::whereIn('id', $allowed)->where('attiva', true)->orderBy('id')->value('id');
-        if ($firstActive !== null) {
-            return (int) $firstActive;
-        }
-
-        $firstAny = Struttura::whereIn('id', $allowed)->orderBy('id')->value('id');
-        return $firstAny !== null ? (int) $firstAny : null;
+        return null;
     }
 }

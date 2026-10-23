@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Proprietario;
 
 class Struttura extends Model
 {
@@ -153,7 +152,11 @@ class Struttura extends Model
 
     public function setCittaAttribute($value): void
     {
-        $this->attributes['città'] = $value;
+        foreach (['citta', 'città'] as $column) {
+            if (\Schema::hasColumn($this->getTable(), $column)) {
+                $this->attributes[$column] = $value;
+            }
+        }
     }
 
     public function getLocalitaAttribute($value)
@@ -163,12 +166,23 @@ class Struttura extends Model
 
     public function setLocalitaAttribute($value): void
     {
-        $this->attributes['località'] = $value;
+        foreach (['localita', 'località'] as $column) {
+            if (\Schema::hasColumn($this->getTable(), $column)) {
+                $this->attributes[$column] = $value;
+            }
+        }
     }
 
     public function getLogoCittaAttribute($value)
     {
         return $value ?? ($this->attributes['logo_città'] ?? null);
+    }
+
+    public function setLogoCittaAttribute($value): void
+    {
+        foreach (['logo_citta', 'logo_città'] as $column) {
+            if (\Schema::hasColumn($this->getTable(), $column)) $this->attributes[$column] = $value;
+        }
     }
 
     public function getLogoAttribute($value)

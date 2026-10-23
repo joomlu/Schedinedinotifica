@@ -223,31 +223,7 @@
                             <div class="card-body">
                                 <div class="row g-3">
                                     <div class="col-12">
-                                        <x-geo.italia
-                                            prefix="proprietario_geo"
-                                            title="GEO proprietario"
-                                            :required="false"
-                                            :value="[
-                                                'nazione_text' => old('nazione', $proprietario->nazione ?? 'Italia'),
-                                                'regione_text' => old('regione', $proprietario->regione),
-                                                'provincia_text' => old('provincia', $proprietario->provincia),
-                                                'comune_text' => old('citta', $proprietario->citta),
-                                                'cap' => old('cap', $proprietario->cap),
-                                                'cap_text' => old('cap', $proprietario->cap),
-                                            ]"
-                                            :names="[
-                                                'nazione_id' => 'nazione',
-                                                'regione_id' => 'regione',
-                                                'provincia_id' => 'provincia',
-                                                'comune_id' => 'citta',
-                                                'cap' => 'cap',
-                                                'regione_text' => 'regione',
-                                                'provincia_text' => 'provincia',
-                                                'citta_text' => 'citta',
-                                                'cap_text' => 'cap',
-                                                'manual_flag' => 'geo_manual',
-                                            ]"
-                                        />
+                                        @include('shared.anagrafica-geografia', ['entity' => $proprietario, 'geoPrefix' => 'proprietario_geo'])
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="form-label">Indirizzo</label>

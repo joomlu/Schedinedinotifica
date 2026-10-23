@@ -122,14 +122,14 @@
                             <div class="card-header bg-light-subtle border-0">
                                 <h5 class="card-title mb-1">Anagrafica struttura</h5>
                                 <p class="text-muted mb-0">
-                                    {{ $isCreateMode ? 'Dati iniziali per creare e assegnare la struttura al proprietario. Il resto può essere completato poi dalla struttura dentro il programma.' : 'Dati letti dalla scheda struttura principale del programma, qui mostrati in sola consultazione.' }}
+                                    Dati della scheda unica della struttura. Le modifiche autorizzate sono visibili anche negli altri pannelli.
                                 </p>
                             </div>
                             <div class="card-body">
                                 <div class="row g-3">
                                     <div class="col-12">
                                         <label class="form-label">Nome struttura</label>
-                                        <input type="text" name="nome_struttura" class="form-control" value="{{ old('nome_struttura', $struttura->nome_struttura) }}" required {{ $isCreateMode ? '' : 'readonly' }}>
+                                        <input type="text" name="nome_struttura" class="form-control" value="{{ old('nome_struttura', $struttura->nome_struttura) }}" required>
                                     </div>
                                     <div class="col-12">
                                         <label class="form-label">Logo struttura</label>
@@ -143,48 +143,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        @if($isCreateMode)
-                                            <x-geo.italia
-                                                prefix="struttura_geo_admin"
-                                                title="GEO struttura"
-                                                :required="false"
-                                                :value="[
-                                                    'nazione_text' => old('nazione', $struttura->nazione ?? 'Italia'),
-                                                    'regione_text' => old('regione', $struttura->regione),
-                                                    'provincia_text' => old('provincia', $struttura->provincia),
-                                                    'comune_text' => old('citta', $struttura->citta),
-                                                    'cap' => old('cap', $struttura->cap),
-                                                    'cap_text' => old('cap', $struttura->cap),
-                                                ]"
-                                                :names="[
-                                                    'nazione_id' => 'nazione',
-                                                    'regione_id' => 'regione',
-                                                    'provincia_id' => 'provincia',
-                                                    'comune_id' => 'citta',
-                                                    'cap' => 'cap',
-                                                    'regione_text' => 'regione',
-                                                    'provincia_text' => 'provincia',
-                                                    'citta_text' => 'citta',
-                                                    'cap_text' => 'cap',
-                                                    'manual_flag' => 'geo_manual',
-                                                ]"
-                                            />
-                                        @else
-                                            <input type="hidden" name="nazione" value="{{ old('nazione', $struttura->nazione) }}">
-                                            <input type="hidden" name="regione" value="{{ old('regione', $struttura->regione) }}">
-                                            <input type="hidden" name="provincia" value="{{ old('provincia', $struttura->provincia) }}">
-                                            <input type="hidden" name="citta" value="{{ old('citta', $struttura->citta) }}">
-                                            <input type="hidden" name="cap" value="{{ old('cap', $struttura->cap) }}">
-                                            <div class="border rounded-3 p-3 bg-light-subtle">
-                                                <div class="row g-3">
-                                                    <div class="col-md-2"><div class="text-muted small">Nazione</div><div class="fw-medium">{{ old('nazione', $struttura->nazione ?: '—') }}</div></div>
-                                                    <div class="col-md-3"><div class="text-muted small">Regione</div><div class="fw-medium">{{ old('regione', $struttura->regione ?: '—') }}</div></div>
-                                                    <div class="col-md-2"><div class="text-muted small">Provincia</div><div class="fw-medium">{{ old('provincia', $struttura->provincia ?: '—') }}</div></div>
-                                                    <div class="col-md-3"><div class="text-muted small">Città</div><div class="fw-medium">{{ old('citta', $struttura->citta ?: '—') }}</div></div>
-                                                    <div class="col-md-2"><div class="text-muted small">CAP</div><div class="fw-medium">{{ old('cap', $struttura->cap ?: '—') }}</div></div>
-                                                </div>
-                                            </div>
-                                        @endif
+                                        @include('shared.anagrafica-geografia', ['entity' => $struttura, 'geoPrefix' => 'struttura_geo_admin'])
                                     </div>
                                 </div>
                             </div>
@@ -200,12 +159,6 @@
                             <div class="card-body">
                                 <div class="row g-4 align-items-start">
                                     <div class="col-lg-3">
-                                        @unless($isCreateMode)
-                                            <input type="hidden" name="numero_civico" value="{{ old('numero_civico', $struttura->numero_civico) }}">
-                                            <input type="hidden" name="indirizzo" value="{{ old('indirizzo', $struttura->indirizzo) }}">
-                                            <input type="hidden" name="latitudine" value="{{ old('latitudine', $struttura->latitudine) }}">
-                                            <input type="hidden" name="longitudine" value="{{ old('longitudine', $struttura->longitudine) }}">
-                                        @endunless
                                         <input type="hidden" id="struttura_admin_logo_citta" name="logo_citta" value="{{ old('logo_citta', $struttura->logo_citta) }}">
                                         <div id="strutturaAdminLogoBox" class="border rounded-3 p-3 h-100 d-flex align-items-center justify-content-center bg-light-subtle">
                                             @if($struttura->logo_citta)
@@ -287,20 +240,20 @@
                                                 <label class="form-label">Numero civico</label>
                                                 <input
                                                     type="text"
-                                                    name="{{ $isCreateMode ? 'numero_civico' : '' }}"
+                                                    name="numero_civico"
                                                     class="form-control"
                                                     value="{{ old('numero_civico', $struttura->numero_civico) }}"
-                                                    {{ $isCreateMode ? '' : 'readonly' }}
+
                                                 >
                                             </div>
                                             <div class="col-md-8">
                                                 <label class="form-label">Indirizzo</label>
                                                 <input
                                                     type="text"
-                                                    name="{{ $isCreateMode ? 'indirizzo' : '' }}"
+                                                    name="indirizzo"
                                                     class="form-control"
                                                     value="{{ old('indirizzo', $struttura->indirizzo) }}"
-                                                    {{ $isCreateMode ? '' : 'readonly' }}
+
                                                 >
                                             </div>
                                             <div class="col-md-2">
@@ -308,10 +261,10 @@
                                                 <input
                                                     type="text"
                                                     id="struttura_admin_latitudine"
-                                                    name="{{ $isCreateMode ? 'latitudine' : '' }}"
+                                                    name="latitudine"
                                                     class="form-control"
                                                     value="{{ old('latitudine', $struttura->latitudine) }}"
-                                                    {{ $isCreateMode ? '' : 'readonly' }}
+
                                                 >
                                             </div>
                                             <div class="col-md-2">
@@ -319,10 +272,10 @@
                                                 <input
                                                     type="text"
                                                     id="struttura_admin_longitudine"
-                                                    name="{{ $isCreateMode ? 'longitudine' : '' }}"
+                                                    name="longitudine"
                                                     class="form-control"
                                                     value="{{ old('longitudine', $struttura->longitudine) }}"
-                                                    {{ $isCreateMode ? '' : 'readonly' }}
+
                                                 >
                                             </div>
                                         </div>
@@ -565,7 +518,6 @@
     </div>
 </div>
 
-@if($isCreateMode)
     @push('scripts')
         <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -715,7 +667,6 @@
         });
         </script>
     @endpush
-@endif
 
 @once
     @push('scripts')
@@ -734,3 +685,5 @@
         </script>
     @endpush
 @endonce
+
+@include('shared.strutture.campi-maestri')

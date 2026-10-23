@@ -219,6 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 <img src="{{ asset($struttura->logo) }}" alt="Logo struttura" class="img-fluid mb-3" style="max-height: 90px; display: block;">
                                             @endif
                                         </div>
+                                        @include('shared.strutture.conflitti-anagrafici')
                                         <x-xx.struttura-tipologia :tipologie-generali="$tipologieGenerali" :tipologie-struttura="$tipologieStruttura" :classificazioni="$classificazioni" :entity="$struttura" />
                                         <div class="row g-3 align-items-end">
                                             <div class="col-md-6">
@@ -338,31 +339,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                             <!-- Ubicazione -->
                             <div class="col-12">
-                                <x-geo.italia
-                                    title="Ubicazione"
-                                    :required="true"
-                                    :value="[
-                                        'nazione_text' => old('nazione', $struttura->nazione ?? 'Italia'),
-                                        'regione_text' => old('regione', $struttura->regione),
-                                        'provincia_text' => old('provincia', $struttura->provincia),
-                                        'comune_text' => old('citta', $struttura->citta),
-                                        'cap' => old('cap', $struttura->cap),
-                                        'cap_text' => old('cap', $struttura->cap),
-                                        'manual' => (bool) old('geo_manual', $struttura->geo_manual ?? false),
-                                    ]"
-                                    :names="[
-                                        'nazione_id' => 'nazione',
-                                        'regione_id' => 'regione',
-                                        'provincia_id' => 'provincia',
-                                        'comune_id' => 'citta',
-                                        'cap' => 'cap',
-                                        'regione_text' => 'regione',
-                                        'provincia_text' => 'provincia',
-                                        'citta_text' => 'citta',
-                                        'cap_text' => 'cap',
-                                        'manual_flag' => 'geo_manual',
-                                    ]"
-                                />
+                                @include('shared.anagrafica-geografia', ['entity' => $struttura, 'geoPrefix' => 'geo'])
                             </div>
 
                             <div class="col-12">

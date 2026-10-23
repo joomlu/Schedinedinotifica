@@ -26,10 +26,10 @@ trait StrutturaFixtures
     private function structureFor(?Proprietario $owner): Struttura
     {
         $general = TipologiaGenerale::firstOrCreate(['nome' => 'Alberghiera']);
-        $type = TipologiaStruttura::firstOrCreate(['nome' => 'Fixture hotel', 'tipologia_generale_id' => $general->id]);
+        $type = TipologiaStruttura::firstOrCreate(['nome' => 'Albergo', 'tipologia_generale_id' => $general->id]);
         return Struttura::forceCreate([
             'proprietario_id' => $owner?->id, 'nome_struttura' => 'Fixture Hotel '.\Illuminate\Support\Str::uuid(),
-            'tipologia_generale' => 'Alberghiera', 'tipologia_struttura' => 'Fixture hotel',
+            'tipologia_generale' => 'Alberghiera', 'tipologia_struttura' => 'Albergo',
             'tipologia_generale_id' => $general->id, 'tipologia_struttura_id' => $type->id,
             'tipo_apertura' => 'Annuale', 'nazione' => 'Italia', 'regione' => 'Lazio',
             'provincia' => 'RM', 'citta' => 'Roma', 'indirizzo' => 'Via Test', 'cap' => '00100',

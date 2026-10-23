@@ -104,9 +104,15 @@ class WebCheckinFiscalContextTest extends TestCase
             $cfg->update(['tassa_soggiorno' => 9]);
         }
         $before = $this->fiscale();
-        $this->getJson('/checkin/'.$r->token)->assertStatus(422)->assertJsonValidationErrors(match ($case) {
-            'assente' => 'configurazione_tassa', 'aliquota' => 'categoria_tassa',
-        })->assertDontSee('PERSONA-SINTETICA-A07');
+        $this->getJson('/checkin/'.$r->token)->assertOk()->assertSee('schedina-form')
+            ->assertViewHas('tassaDettaglio', fn ($d) => $d['totale'] === null && $d['righe'] === [] && filled($d['errore']))
+            ->assertViewHas('tassaConfig', fn ($c) => $case === 'assente' ? $c === null : $c->id === $cfg->id);
+        try {
+            app(\App\Services\TassaDiSoggiornoService::class)->dettaglioSchedina($p, collect(), $case === 'assente' ? null : $cfg->fresh(), collect(), $s);
+            $this->fail('Il calcolo fiscale deve restare bloccato.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertArrayHasKey($case === 'assente' ? 'configurazione_tassa' : 'categoria_tassa', $e->errors());
+        }
         $this->assertSame($before, $this->fiscale());
     }
 
@@ -145,7 +151,14 @@ class WebCheckinFiscalContextTest extends TestCase
     {
         [$s, $cfg, $p, $r] = $this->contesto($start, $end);
         $before = $this->fiscale();
-        $this->getJson('/checkin/'.$r->token)->assertStatus(422)->assertJsonValidationErrors('regola_non_disponibile')->assertDontSee('PERSONA-SINTETICA-A07');
+        $this->getJson('/checkin/'.$r->token)->assertOk()->assertSee('schedina-form')
+            ->assertViewHas('tassaDettaglio', fn ($d) => $d['totale'] === null && $d['righe'] === [] && filled($d['errore']));
+        try {
+            app(\App\Services\TassaDiSoggiornoService::class)->dettaglioSchedina($p, collect(), $cfg, collect(), $s);
+            $this->fail('Il profilo fiscale mancante deve restare bloccante.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->assertArrayHasKey('regola_non_disponibile', $e->errors());
+        }
         $this->assertSame($before, $this->fiscale());
     }
 

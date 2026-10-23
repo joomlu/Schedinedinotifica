@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminServizio;
+use App\Models\CustomerImportBatch;
 use App\Models\GeoComune;
 use App\Models\GeoNazione;
 use App\Models\GeoProvincia;
 use App\Models\GeoRegione;
-use App\Models\AdminServizio;
-use App\Models\CustomerImportBatch;
 use App\Models\LicenzaAssegnazione;
 use App\Models\Proprietario;
 use App\Models\ProprietarioFatturazione;
 use App\Models\ProprietarioFatturazioneRiga;
 use App\Models\Struttura;
-use Carbon\Carbon;
 use App\Models\User;
 use App\Services\CestinoService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -32,11 +32,11 @@ class ProprietariController extends Controller
             ->with(['proprietario', 'righe.struttura'])
             ->when($q !== '', function ($query) use ($q) {
                 $query->where(function ($subquery) use ($q) {
-                    $subquery->where('numero', 'like', '%' . $q . '%')
-                        ->orWhere('intestazione', 'like', '%' . $q . '%')
-                        ->orWhere('stato', 'like', '%' . $q . '%')
-                        ->orWhereHas('proprietario', fn ($ownerQuery) => $ownerQuery->where('nome', 'like', '%' . $q . '%')->orWhere('ragione_sociale', 'like', '%' . $q . '%'))
-                        ->orWhereHas('righe.struttura', fn ($structureQuery) => $structureQuery->where('nome_struttura', 'like', '%' . $q . '%')->orWhere('citta', 'like', '%' . $q . '%'));
+                    $subquery->where('numero', 'like', '%'.$q.'%')
+                        ->orWhere('intestazione', 'like', '%'.$q.'%')
+                        ->orWhere('stato', 'like', '%'.$q.'%')
+                        ->orWhereHas('proprietario', fn ($ownerQuery) => $ownerQuery->where('nome', 'like', '%'.$q.'%')->orWhere('ragione_sociale', 'like', '%'.$q.'%'))
+                        ->orWhereHas('righe.struttura', fn ($structureQuery) => $structureQuery->where('nome_struttura', 'like', '%'.$q.'%')->orWhere('citta', 'like', '%'.$q.'%'));
                 });
             })
             ->orderByDesc('data_documento')
@@ -69,7 +69,7 @@ class ProprietariController extends Controller
         $admins = User::where('ruolo', 'admin')->orderBy('name')->get();
 
         return view('superadmin.proprietari.form', $this->buildFormViewData(
-            new Proprietario(),
+            new Proprietario,
             $admins,
             'create'
         ));
@@ -77,17 +77,20 @@ class ProprietariController extends Controller
 
     public function store(Request $request)
     {
-        $data = $this->validateFormData($request);
+        return \DB::transaction(function () use ($request) {
+            $data = $this->validateFormData($request);
 
-        $proprietario = Proprietario::create($this->extractProprietarioPayload($data) + [
-            'admin_id' => $data['admin_id'] ?? null,
-            'attivo' => true,
-        ]);
-        $this->syncProprietarioAccessUser($proprietario, $data);
+            $proprietario = Proprietario::create($this->extractProprietarioPayload($data) + [
+                'admin_id' => $data['admin_id'] ?? null,
+                'attivo' => true,
+            ]);
+            $this->syncProprietarioAccessUser($proprietario, $data);
 
-        return redirect()->route('superadmin.proprietari.index')->with('status', $this->resolveAccessUser($proprietario->fresh())
-            ? 'Proprietario creato'
-            : 'Proprietario salvato senza accesso al portale. Per configurarlo, inserisci username e password.');
+            return redirect()->route('superadmin.proprietari.index')->with('status', $this->resolveAccessUser($proprietario->fresh())
+                ? 'Proprietario creato'
+                : 'Proprietario salvato senza accesso al portale. Per configurarlo, inserisci username e password.');
+
+        });
     }
 
     public function edit(int $id)
@@ -104,23 +107,26 @@ class ProprietariController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $proprietario = Proprietario::findOrFail($id);
+        return \DB::transaction(function () use ($request, $id) {
+            $proprietario = Proprietario::findOrFail($id);
 
-        $data = $this->validateFormData($request, $this->resolveAccessUser($proprietario));
-        $passwordAggiornata = filled($data['accesso_password'] ?? null);
+            $data = $this->validateFormData($request, $this->resolveAccessUser($proprietario));
+            $passwordAggiornata = filled($data['accesso_password'] ?? null);
 
-        $proprietario->update($this->extractProprietarioPayload($data, $proprietario) + [
-            'admin_id' => $data['admin_id'] ?? $proprietario->admin_id,
-        ]);
-        $this->syncProprietarioAccessUser($proprietario->fresh(), $data);
+            $proprietario->update($this->extractProprietarioPayload($data, $proprietario) + [
+                'admin_id' => $data['admin_id'] ?? $proprietario->admin_id,
+            ]);
+            $this->syncProprietarioAccessUser($proprietario->fresh(), $data);
 
-        return redirect()
-            ->route('superadmin.proprietari.index')
-            ->with('status', !$this->resolveAccessUser($proprietario->fresh())
-                ? 'Proprietario salvato senza accesso al portale. Per configurarlo, inserisci username e password.'
-                : ($passwordAggiornata
-                ? 'Proprietario aggiornato. Password di accesso salvata correttamente.'
-                : 'Proprietario aggiornato'));
+            return redirect()
+                ->route('superadmin.proprietari.index')
+                ->with('status', ! $this->resolveAccessUser($proprietario->fresh())
+                    ? 'Proprietario salvato senza accesso al portale. Per configurarlo, inserisci username e password.'
+                    : ($passwordAggiornata
+                    ? 'Proprietario aggiornato. Password di accesso salvata correttamente.'
+                    : 'Proprietario aggiornato'));
+
+        });
     }
 
     public function disable(int $id)
@@ -158,7 +164,7 @@ class ProprietariController extends Controller
     {
         $proprietario = Proprietario::findOrFail($id);
         $data = $request->validate([
-            'admin_id' => ['nullable', 'integer', 'exists:users,id'],
+            'admin_id' => ['sometimes', 'nullable', 'integer', \Illuminate\Validation\Rule::exists('users', 'id')->where('ruolo', 'admin')->whereNull('deleted_at')],
         ]);
         $proprietario->admin_id = $data['admin_id'] ?? null;
         $proprietario->save();
@@ -349,7 +355,7 @@ class ProprietariController extends Controller
             ->first()?->data_scadenza;
         $serviziAttiviCount = $licenze
             ->filter(function ($licenza) {
-                if (!$licenza->data_scadenza) {
+                if (! $licenza->data_scadenza) {
                     return true;
                 }
 
@@ -376,30 +382,11 @@ class ProprietariController extends Controller
 
     private function validateFormData(Request $request, ?User $accessoPrincipale = null): array
     {
-        return $request->validate([
-            'nome' => ['required', 'string', 'max:255'],
-            'email' => ['nullable', 'email', 'max:255'],
-            'telefono' => ['nullable', 'string', 'max:50'],
-            'cellulare' => ['nullable', 'string', 'max:50'],
-            'admin_id' => ['nullable', 'integer', 'exists:users,id'],
-            'ragione_sociale' => ['nullable', 'string', 'max:180'],
-            'codice_fiscale' => ['nullable', 'string', 'max:32'],
-            'partita_iva' => ['nullable', 'string', 'max:32'],
-            'codice_destinatario' => ['nullable', 'string', 'max:32'],
-            'codice_unico' => ['nullable', 'string', 'max:7'],
-            'pec' => ['nullable', 'email', 'max:180'],
-            'indirizzo' => ['nullable', 'string', 'max:180'],
-            'numero_civico' => ['nullable', 'string', 'max:20'],
-            'cap' => ['nullable', 'string', 'max:16'],
-            'citta' => ['nullable', 'string', 'max:120'],
-            'provincia' => ['nullable', 'string', 'max:8'],
-            'regione' => ['nullable', 'string', 'max:120'],
-            'nazione' => ['nullable', 'string', 'max:120'],
-            'latitudine' => ['nullable', 'string', 'max:50'],
-            'longitudine' => ['nullable', 'string', 'max:50'],
-            'note' => ['nullable', 'string'],
-            'note_amministrative' => ['nullable', 'string'],
-            'accesso_nome' => ['nullable', 'string', 'max:255'],
+        abort_if($request->hasAny(['id', 'struttura_id', 'proprietario_id', 'ruolo', 'ruolo_operativo']), 403);
+
+        return $request->validate(array_merge(\App\Services\AnagraficaProprietario::rules($request->isMethod('post')), [
+'admin_id' => ['sometimes', 'nullable', 'integer', Rule::exists('users', 'id')->where('ruolo', 'admin')->whereNull('deleted_at')],
+'accesso_nome' => ['nullable', 'string', 'max:255'],
             'accesso_username' => [
                 'nullable',
                 'required_with:accesso_password',
@@ -413,8 +400,8 @@ class ProprietariController extends Controller
                 'max:255',
                 Rule::unique('users', 'email')->whereNull('deleted_at')->ignore($accessoPrincipale?->id),
             ],
-            'accesso_password' => ['nullable', Rule::requiredIf(!$accessoPrincipale && filled($request->input('accesso_username'))), 'string', 'min:8'],
-        ], [
+            'accesso_password' => ['nullable', Rule::requiredIf(! $accessoPrincipale && filled($request->input('accesso_username'))), 'string', 'min:8'],
+        ]), [
             'required' => 'Il campo :attribute è obbligatorio.',
             'string' => 'Il campo :attribute deve contenere testo.',
             'max' => 'Il campo :attribute non può superare :max caratteri.',
@@ -424,7 +411,7 @@ class ProprietariController extends Controller
             'accesso_password.required' => 'Inserisci la password per creare l’accesso del proprietario.',
             'accesso_username.required_with' => 'Inserisci lo username di accesso del proprietario.',
             'accesso_username.unique' => 'Lo username di accesso è già utilizzato da un altro utente.',
-            'accesso_email.unique' => "L’email di accesso è già utilizzata da un altro utente.",
+            'accesso_email.unique' => 'L’email di accesso è già utilizzata da un altro utente.',
             'accesso_password.min' => 'La password di accesso deve contenere almeno 8 caratteri.',
         ], [
             'nome' => 'nome', 'email' => 'email', 'telefono' => 'telefono', 'cellulare' => 'cellulare',
@@ -442,48 +429,26 @@ class ProprietariController extends Controller
 
     private function extractProprietarioPayload(array $data, ?Proprietario $proprietario = null): array
     {
-        return $this->enrichGeoDefaults($this->normalizeGeoLabels([
-            'nome' => $data['nome'],
-            'email' => $data['email'] ?? ($proprietario->email ?? null),
-            'telefono' => $data['telefono'] ?? ($proprietario->telefono ?? null),
-            'cellulare' => $data['cellulare'] ?? ($proprietario->cellulare ?? null),
-            'ragione_sociale' => $data['ragione_sociale'] ?? ($proprietario->ragione_sociale ?? null),
-            'codice_fiscale' => $data['codice_fiscale'] ?? ($proprietario->codice_fiscale ?? null),
-            'partita_iva' => $data['partita_iva'] ?? ($proprietario->partita_iva ?? null),
-            'codice_destinatario' => $data['codice_destinatario'] ?? ($proprietario->codice_destinatario ?? null),
-            'codice_unico' => $data['codice_unico'] ?? ($proprietario->codice_unico ?? null),
-            'pec' => $data['pec'] ?? ($proprietario->pec ?? null),
-            'indirizzo' => $data['indirizzo'] ?? ($proprietario->indirizzo ?? null),
-            'numero_civico' => $data['numero_civico'] ?? ($proprietario->numero_civico ?? null),
-            'cap' => $data['cap'] ?? ($proprietario->cap ?? null),
-            'citta' => $data['citta'] ?? ($proprietario->citta ?? null),
-            'provincia' => $data['provincia'] ?? ($proprietario->provincia ?? null),
-            'regione' => $data['regione'] ?? ($proprietario->regione ?? null),
-            'nazione' => $data['nazione'] ?? ($proprietario->nazione ?? null),
-            'latitudine' => $data['latitudine'] ?? ($proprietario->latitudine ?? null),
-            'longitudine' => $data['longitudine'] ?? ($proprietario->longitudine ?? null),
-            'note' => $data['note'] ?? ($proprietario->note ?? null),
-            'note_amministrative' => $data['note_amministrative'] ?? ($proprietario->note_amministrative ?? null),
-        ]));
+        return $this->normalizeGeoLabels(\App\Services\AnagraficaProprietario::payload($data));
     }
 
     private function enrichGeoDefaults(array $data): array
     {
         $geoComuneId = $this->resolveGeoComuneId($data['citta'] ?? null);
-        if (!$geoComuneId) {
+        if (! $geoComuneId) {
             return $data;
         }
 
         $comune = GeoComune::query()->find($geoComuneId, ['id', 'lat', 'lng']);
-        if (!$comune) {
+        if (! $comune) {
             return $data;
         }
 
-        if (blank($data['latitudine'] ?? null) && !blank($comune->lat)) {
+        if (blank($data['latitudine'] ?? null) && ! blank($comune->lat)) {
             $data['latitudine'] = $comune->lat;
         }
 
-        if (blank($data['longitudine'] ?? null) && !blank($comune->lng)) {
+        if (blank($data['longitudine'] ?? null) && ! blank($comune->lng)) {
             $data['longitudine'] = $comune->lng;
         }
 
@@ -510,50 +475,16 @@ class ProprietariController extends Controller
 
     private function resolveAccessUser(Proprietario $proprietario): ?User
     {
-        if (!$proprietario->exists) {
-            return null;
-        }
-
-        $accesso = $proprietario->accessoPrincipale()->first();
-        if ($accesso) {
-            return $accesso;
-        }
-
-        $email = trim((string) ($proprietario->email ?? ''));
-        if ($email !== '') {
-            $byEmail = User::query()
-                ->where('ruolo', 'proprietario')
-                ->where('email', $email)
-                ->orderByDesc('attivo')
-                ->orderByDesc('id')
-                ->first();
-
-            if ($byEmail) {
-                return $byEmail;
-            }
-        }
-
-        $name = trim((string) ($proprietario->nome ?? ''));
-        if ($name !== '') {
-            $matches = User::query()
-                ->where('ruolo', 'proprietario')
-                ->where('name', $name)
-                ->orderByDesc('attivo')
-                ->orderByDesc('id')
-                ->get();
-
-            if ($matches->count() === 1) {
-                return $matches->first();
-            }
-        }
-
-        return null;
+        return $proprietario->exists ? $proprietario->accessoPrincipale()->first() : null;
     }
 
     private function syncProprietarioAccessUser(Proprietario $proprietario, array $data): void
     {
+        if (! array_intersect(array_keys($data), ['accesso_nome', 'accesso_username', 'accesso_email', 'accesso_password'])) {
+            return;
+        }
         $accesso = $this->resolveAccessUser($proprietario);
-        if (!$accesso && (!filled($data['accesso_username'] ?? null) || !filled($data['accesso_password'] ?? null))) {
+        if (! $accesso && (! filled($data['accesso_username'] ?? null) || ! filled($data['accesso_password'] ?? null))) {
             return;
         }
 
@@ -563,7 +494,7 @@ class ProprietariController extends Controller
         }
 
         $name = trim((string) ($data['accesso_nome'] ?? $accesso?->name ?? $proprietario->nome));
-        $email = trim((string) ($data['accesso_email'] ?? $accesso?->email ?? $proprietario->email ?? ''));
+        $email = trim((string) ($data['accesso_email'] ?? $accesso?->email ?? ''));
         if ($email === '') {
             $email = preg_replace('/[^a-z0-9]+/i', '.', strtolower($username));
             $email = trim((string) $email, '.').'.'.$proprietario->id.'@tanggo.local';
@@ -586,10 +517,11 @@ class ProprietariController extends Controller
                 $accesso->password = Hash::make((string) $data['accesso_password']);
             }
             $accesso->save();
+
             return;
         }
 
-        if (!filled($data['accesso_password'] ?? null)) {
+        if (! filled($data['accesso_password'] ?? null)) {
             return;
         }
 
@@ -640,7 +572,7 @@ class ProprietariController extends Controller
 
     private function loadCatalogoServizi(Proprietario $proprietario)
     {
-        if (!$proprietario->admin_id) {
+        if (! $proprietario->admin_id) {
             return collect();
         }
 
@@ -658,7 +590,7 @@ class ProprietariController extends Controller
         if ($proforma) {
             $righe = $proforma->righe->map(function (ProprietarioFatturazioneRiga $riga) {
                 return [
-                    'key' => 'existing-' . $riga->id,
+                    'key' => 'existing-'.$riga->id,
                     'selected' => true,
                     'struttura_id' => $riga->struttura_id,
                     'struttura_nome' => $riga->struttura?->nome_struttura ?: 'Servizio generale',
@@ -671,7 +603,7 @@ class ProprietariController extends Controller
                     'aliquota_iva' => (float) $riga->aliquota_iva,
                     'totale' => (float) $riga->totale,
                     'note' => $riga->note,
-                    'is_generale' => !$riga->struttura_id,
+                    'is_generale' => ! $riga->struttura_id,
                 ];
             })->values();
         } else {
@@ -699,7 +631,7 @@ class ProprietariController extends Controller
                 $totale = $quantita * $prezzo * 1.22;
 
                 $righe->push([
-                    'key' => 'licenza-' . $licenza->id,
+                    'key' => 'licenza-'.$licenza->id,
                     'selected' => true,
                     'struttura_id' => $licenza->struttura_id,
                     'struttura_nome' => $licenza->struttura?->nome_struttura ?: 'Servizio generale',
@@ -712,7 +644,7 @@ class ProprietariController extends Controller
                     'aliquota_iva' => 22,
                     'totale' => $totale,
                     'note' => $licenza->note,
-                    'is_generale' => !$licenza->struttura_id,
+                    'is_generale' => ! $licenza->struttura_id,
                 ]);
             }
 
@@ -723,7 +655,7 @@ class ProprietariController extends Controller
                 $struttura = $strutture->firstWhere('id', $servizio->pivot->struttura_id);
 
                 $righe->push([
-                    'key' => 'servizio-' . $servizio->id . '-' . ($servizio->pivot->struttura_id ?: 'generale'),
+                    'key' => 'servizio-'.$servizio->id.'-'.($servizio->pivot->struttura_id ?: 'generale'),
                     'selected' => true,
                     'struttura_id' => $servizio->pivot->struttura_id,
                     'struttura_nome' => $struttura?->nome_struttura ?: 'Servizio generale',
@@ -736,15 +668,16 @@ class ProprietariController extends Controller
                     'aliquota_iva' => 22,
                     'totale' => $totale,
                     'note' => $servizio->pivot->note,
-                    'is_generale' => !$servizio->pivot->struttura_id,
+                    'is_generale' => ! $servizio->pivot->struttura_id,
                 ]);
             }
         }
 
         $singleStrutturaId = (int) $request->query('struttura_id');
-        if (!$proforma && $singleStrutturaId > 0) {
+        if (! $proforma && $singleStrutturaId > 0) {
             $righe = $righe->map(function (array $riga) use ($singleStrutturaId) {
                 $riga['selected'] = (int) ($riga['struttura_id'] ?? 0) === $singleStrutturaId;
+
                 return $riga;
             });
         }
@@ -757,13 +690,13 @@ class ProprietariController extends Controller
 
     private function extractCustomRows(?ProprietarioFatturazione $proforma): array
     {
-        if (!$proforma) {
+        if (! $proforma) {
             return [];
         }
 
         return $proforma->righe
-            ->filter(fn (ProprietarioFatturazioneRiga $riga) => !$riga->admin_servizio_id)
-            ->filter(fn (ProprietarioFatturazioneRiga $riga) => !str_starts_with((string) $riga->descrizione, 'Licenza'))
+            ->filter(fn (ProprietarioFatturazioneRiga $riga) => ! $riga->admin_servizio_id)
+            ->filter(fn (ProprietarioFatturazioneRiga $riga) => ! str_starts_with((string) $riga->descrizione, 'Licenza'))
             ->map(function (ProprietarioFatturazioneRiga $riga) {
                 return [
                     'catalogo_servizio_id' => null,
@@ -840,8 +773,8 @@ class ProprietariController extends Controller
         $totaleIva = $imponibile * $aliquota / 100;
 
         return [
-            'struttura_id' => !empty($riga['struttura_id']) ? (int) $riga['struttura_id'] : null,
-            'admin_servizio_id' => !empty($riga['admin_servizio_id']) ? (int) $riga['admin_servizio_id'] : null,
+            'struttura_id' => ! empty($riga['struttura_id']) ? (int) $riga['struttura_id'] : null,
+            'admin_servizio_id' => ! empty($riga['admin_servizio_id']) ? (int) $riga['admin_servizio_id'] : null,
             'descrizione' => $descrizione,
             'quantita' => $quantita,
             'prezzo_unitario' => $prezzo,
@@ -875,6 +808,7 @@ class ProprietariController extends Controller
             'imponibile' => (float) $righe->sum('imponibile'),
             'sconto' => (float) $righe->sum(function ($riga) {
                 $subtotale = ((float) $riga['quantita']) * ((float) $riga['prezzo_unitario']);
+
                 return max(0, $subtotale - (float) $riga['imponibile']);
             }),
             'iva' => (float) $righe->sum('totale_iva'),
@@ -887,7 +821,7 @@ class ProprietariController extends Controller
         $strutturaIds = $righe->pluck('struttura_id')->filter()->unique()->values();
         $hasGeneralRows = $righe->contains(fn ($riga) => empty($riga['struttura_id']));
 
-        if ($strutturaIds->count() === 1 && !$hasGeneralRows) {
+        if ($strutturaIds->count() === 1 && ! $hasGeneralRows) {
             $struttura = $proprietario->strutture()->find($strutturaIds->first());
             if ($struttura) {
                 return [
@@ -920,7 +854,7 @@ class ProprietariController extends Controller
         $prefix = 'PRO-P-';
         $last = ProprietarioFatturazione::query()
             ->where('proprietario_id', $proprietario->id)
-            ->where('numero', 'like', $prefix . '%')
+            ->where('numero', 'like', $prefix.'%')
             ->orderByDesc('numero')
             ->value('numero');
 
@@ -929,6 +863,6 @@ class ProprietariController extends Controller
             $next = ((int) $matches[1]) + 1;
         }
 
-        return $prefix . str_pad((string) $next, 5, '0', STR_PAD_LEFT);
+        return $prefix.str_pad((string) $next, 5, '0', STR_PAD_LEFT);
     }
 }

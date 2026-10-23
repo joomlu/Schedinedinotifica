@@ -128,31 +128,7 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <x-geo.italia
-                            prefix="admin_struttura_geo"
-                            title="GEO struttura"
-                            :required="false"
-                            :value="[
-                                'nazione_text' => old('nazione', $struttura->nazione ?? 'Italia'),
-                                'regione_text' => old('regione', $struttura->regione),
-                                'provincia_text' => old('provincia', $struttura->provincia),
-                                'comune_text' => old('citta', $struttura->citta),
-                                'cap' => old('cap', $struttura->cap),
-                                'cap_text' => old('cap', $struttura->cap),
-                            ]"
-                            :names="[
-                                'nazione_id' => 'nazione',
-                                'regione_id' => 'regione',
-                                'provincia_id' => 'provincia',
-                                'comune_id' => 'citta',
-                                'cap' => 'cap',
-                                'regione_text' => 'regione',
-                                'provincia_text' => 'provincia',
-                                'citta_text' => 'citta',
-                                'cap_text' => 'cap',
-                                'manual_flag' => 'geo_manual',
-                            ]"
-                        />
+                        @include('shared.anagrafica-geografia', ['entity' => $struttura, 'geoPrefix' => 'admin_struttura_geo'])
                     </div>
                 </div>
                             </div>
@@ -427,3 +403,5 @@
         </script>
     @endpush
 @endonce
+
+@include('shared.strutture.campi-maestri')
