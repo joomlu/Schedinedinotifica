@@ -85,6 +85,48 @@ class TassaRiepilogoEsenzioniAuditTest extends TestCase
         }
     }
 
+    public function test_residente_bellaria_non_viene_addebitato_senza_raccordo_fiscale(): void
+    {
+        foreach (['titolare', 'componente'] as $tipo) {
+            $p = $this->soggiorno('1980-01-01');
+            if ($tipo === 'titolare') {
+                $p->update(['or_country' => 'ITALIA', 'or_city' => 'BELLARIA-IGEA MARINA']);
+            } else {
+                \App\Models\Componenti::forceCreate(['struttura_id' => $p->struttura_id, 'schedina_id' => $p->id,
+                    'name' => 'Residente sintetico', 'surname' => 'Audit', 'date_nac' => '1980-01-01',
+                    'country' => 'Italia', 'city' => 'Bellaria Igea Marina', 'exent' => 'NO']);
+            }
+            // Il residente non è soggetto passivo (art.3); non inventare un codice StayTour.
+            $this->getJson('/schedine/'.$p->id.'/tassa/print')->assertUnprocessable()->assertJsonValidationErrors('residenza');
+            $this->getJson('/tassa_di_soggiorno/rapporto/csv?mese=6&anno=2026')->assertUnprocessable()->assertJsonValidationErrors('residenza');
+            $this->postJson('/tassa_di_soggiorno/rapporto/consolida', ['mese' => 6, 'anno' => 2026])->assertUnprocessable();
+            $this->assertSame(0, \App\Models\TassaExport::count());
+        }
+    }
+
+    public function test_omonimo_estero_e_residente_fuori_stagione_non_vengono_bloccati(): void
+    {
+        $p = $this->soggiorno('1980-01-01');
+        $p->update(['or_country' => 'FRANCIA', 'or_city' => 'Bellaria Igea Marina']);
+        $this->get('/schedine/'.$p->id.'/tassa/print')->assertOk()->assertViewHas('dettaglio', fn ($d) => $d['totale'] == 9);
+        $p->update(['or_country' => 'ITALIA', 'arrive' => '2026-05-10', 'departure' => '2026-05-12']);
+        $this->get('/schedine/'.$p->id.'/tassa/print')->assertOk()->assertViewHas('dettaglio', fn ($d) => $d['totale'] == 0);
+    }
+
+    public function test_snapshot_consolidato_resta_immutato_dopo_correzione_residenza(): void
+    {
+        $p = $this->soggiorno('1980-01-01');
+        $csv = $this->get('/tassa_di_soggiorno/rapporto/csv?mese=6&anno=2026')->assertOk()->getContent();
+        $this->post('/tassa_di_soggiorno/rapporto/consolida', ['mese' => 6, 'anno' => 2026])->assertRedirect();
+        $export = \App\Models\TassaExport::firstOrFail();
+        $p->update(['or_country' => 'ITALIA', 'or_city' => 'Bellaria-Igea Marina']);
+        $this->getJson('/tassa_di_soggiorno/rapporto/csv?mese=6&anno=2026')->assertUnprocessable();
+        $this->get('/tassa_di_soggiorno/export/'.$export->id)->assertOk()->assertContent($csv);
+        $this->get('/tassa_di_soggiorno/rapporto?export_id='.$export->id)->assertOk()->assertViewHas('totalePeriodo', 9);
+        $this->assertSame($export->sha256, $export->fresh()->sha256);
+        $this->assertSame(1, \App\Models\TassaExport::count());
+    }
+
     public function test_esenzione_esplicita_indipendente_dall_eta_non_viene_rimossa(): void
     {
         $p = $this->soggiorno('1980-01-01', '410');

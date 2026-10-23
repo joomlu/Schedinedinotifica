@@ -1,12 +1,12 @@
 {
   "stato": "PASS_CORREZIONI_TASSA_ISOLATE",
   "data": "2026-10-23",
-  "base_main": "9a3c9e64f3db3272f763e7adc5390d7bf4a42015",
+  "base_main": "46736ee26f692376d7c3bc8e95a8e0ae5ae96b2e",
   "PHP": "8.3.36",
   "database": "MariaDB 11.8.9 effimero nel namespace ufficiale senza rete esterna",
   "PHPUnit": {
-    "test": 290,
-    "asserzioni": 4528,
+    "test": 293,
+    "asserzioni": 4557,
     "errori": 0,
     "fallimenti": 0,
     "salti": 0
@@ -61,7 +61,7 @@
     "app/Services/TassaConfig/GestioneProfiliTassa.php": "6fbdd38495dd4931051d5c5fcf1de3793e852e38e2bcafccd5a5ca67a41d62a1",
     "app/Services/TassaConfig/ProfiloTassaRepository.php": "036e88a7255c30a7632ef84fd78df78b7db44c5e572821a028898d10a36d7235",
     "app/Services/TassaConfig/RichiesteVerificaTassa.php": "465fc08c0ca5c26d7fa1ceb12d076d53648b1c143ff03de766baf52a2494d502",
-    "app/Services/TassaDiSoggiornoService.php": "21362a648e6f604fabe3c144880f085c9880d83aa97441f26020ecdb6b8f5045",
+    "app/Services/TassaDiSoggiornoService.php": "92d24697777acfd23a308f8ae0259e84f6fac35f489121978b10bf327af5db3f",
     "config/tassa_fonti.php": "19e8ae95affff3eb2eb3626ddd98f8f18f76c07cf4d9a5144236c0c08159faa0",
     "config/tassa_profili.php": "79de91ae3464b69526c2a1ca43c8a94e2f7322f6f6d344f423c11d75bdc4be6c",
     "resources/views/schedina/print-tassa.blade.php": "0a161adc089d52a05a29357efcf6848f0fd0ffe983a07222fc10e57d16b138de",
@@ -87,7 +87,7 @@
     "tests/Isolation/tassa-anteprima-fixtures.php": "19adc2ba9d63e3670becbc32c64d19096eb53ae313ee37cae48c8f31b8154e0f",
     "tests/Isolation/tassa-bellaria-fixtures.php": "1625c97680084387629fe730e58e5d6913eb57f1da0fc37e55134d8213cca5b2",
     "tests/Support/ImmaginiTassaFixtures.php": "1b0fa2810ce23eb1163babdc184f4d21e41efe16cd8fb9a400abf85a649ef85a",
-    "tests/Feature/TassaRiepilogoEsenzioniAuditTest.php": "5addc564adfd83a8d8784521012938d956c3748bfaf3e4a9c83f56034aeb0ed7",
+    "tests/Feature/TassaRiepilogoEsenzioniAuditTest.php": "3ac685dc2d152f39218db15b838debdd5dbc5e137a58d9553e733e394557b83a",
     "tests/Isolation/tassa-riepilogo-audit-fixtures.php": "ce99639bb531769bf2022075b047806ef9c2abf77c666d7620499e22bd676eb4",
     "tests/Feature/tassa-riepilogo-audit.playwright.spec.js": "115e097e2bb24adb8602bc42787464195f16135b2d268ebed88c47abc7ea059e"
   },
@@ -105,5 +105,6 @@
   "nessun_invio_enti_o_email": true,
   "nessuna_modifica_dati_reali": true,
   "accettazione_StayTour": "NON VERIFICATA",
-  "stato_generale": "BASELINE IN AUDIT"
+  "stato_generale": "BASELINE IN AUDIT",
+  "ripresa": "R12; residenza titolare/componente, omonimo estero, fuori stagione, storico consolidato immutabile"
 }
