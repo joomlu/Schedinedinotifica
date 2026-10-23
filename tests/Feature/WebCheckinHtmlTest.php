@@ -216,6 +216,37 @@ class WebCheckinHtmlTest extends TestCase
         $this->app['auth']->forgetGuards();$this->get('/checkin/'.$r->token)->assertOk()->assertDontSeeText('Configura prima la tassa')->assertDontSeeText('Configurazione fiscale');$this->assertNotNull($r->fresh()->ultimo_accesso_at);
     }
 
+    public function test_bellaria_incompleta_o_non_calcolabile_consente_anteprima_e_compilazione_parziale(): void
+    {
+        $this->travelTo(\Carbon\Carbon::parse('2026-06-10'));
+        foreach (['nascita', 'residente', 'categoria'] as $caso) {
+            $r = $this->scenario();
+            $r->struttura->update(['citta' => 'Bellaria-Igea Marina', 'tipologia_struttura' => 'Albergo',
+                'classificazione' => $caso === 'categoria' ? null : '3 stelle']);
+            \App\Models\TassaDiSoggiorno::forceCreate(['struttura_id' => $r->struttura_id, 'tassa_soggiorno' => '1.50',
+                'giorni_massimo' => 6, 'inizio' => '2026-06-01', 'fine' => '2026-09-30', 'max_age_children' => 17, 'min_age_adult' => 18]);
+            if ($caso !== 'nascita') {
+                $r->schedina->update(['oa_date_nac' => '1980-01-01', 'or_country' => 'ITALIA',
+                    'or_city' => $caso === 'residente' ? 'Bellaria-Igea Marina' : 'Roma']);
+            }
+            $prima = $r->fresh()->getAttributes();
+            $this->get(route('web_checkin.anteprima_modulo', $r->id))->assertOk()
+                ->assertSeeText('Anteprima interattiva: le modifiche non vengono salvate')
+                ->assertViewHas('tassaDettaglio', fn ($d) => $d['totale'] === null && $d['righe'] === [] && filled($d['errore']));
+            $this->assertSame($prima, $r->fresh()->getAttributes());
+            $effettiva = $r->schedina->replicate();
+            $effettiva->circuito = null;
+            $effettiva->save();
+            $this->getJson('/schedine/'.$effettiva->id.'/tassa/print')->assertUnprocessable();
+            $this->app['auth']->forgetGuards();
+            $this->get('/checkin/'.$r->token)->assertOk()->assertDontSeeText('Data di nascita mancante')
+                ->assertDontSeeText('Residente a Bellaria-Igea Marina: non soggetto');
+            $this->assertNotNull($r->fresh()->ultimo_accesso_at);
+            $this->postWeb(route('web_checkin.public.store', $r->token), ['name' => 'Ospite parziale sintetico', 'save_mode' => 'web'])->assertOk()->assertSeeText('Dati parziali salvati');
+            $this->assertSame('Ospite parziale sintetico', $r->schedina->fresh()->name);
+        }
+    }
+
     public function test_dimostrazione_non_salva_ne_visite_ne_componenti_anche_senza_javascript(): void
     {
         $r = $this->scenario(2);

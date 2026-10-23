@@ -323,7 +323,15 @@ class WebCheckinController extends SchedinaController
             $schedina->setRelation('camere', $this->camereForSchedina($schedina)->get());
             $componenti = $this->componentiForSchedina($schedina)->get();
             [$tassaConfig, $esenzioni] = $this->loadPublicTassaContext($richiesta);
-            $tassaDettaglio = $this->tassaService->dettaglioSchedina($schedina, $componenti, $tassaConfig, $esenzioni, $richiesta->struttura);
+            try {
+                $tassaDettaglio = $this->tassaService->dettaglioSchedina($schedina, $componenti, $tassaConfig, $esenzioni, $richiesta->struttura);
+            } catch (\Illuminate\Validation\ValidationException $exception) {
+                $tassaDettaglio = [
+                    'totale' => null,
+                    'righe' => [],
+                    'errore' => 'Il calcolo della tassa di soggiorno richiede la verifica della reception.',
+                ];
+            }
 
             return view('web-checkin.public', array_merge(
                 $this->commonFormData((int) $richiesta->struttura_id),
