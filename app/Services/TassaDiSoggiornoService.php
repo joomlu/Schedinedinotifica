@@ -305,12 +305,14 @@ class TassaDiSoggiornoService
             }
         }
         $persone = collect();
-        $persone->push(['persona_id' => $schedina->id, 'persona_tipo' => 'schedina', 'nome' => trim(($schedina->surname ? $schedina->surname.' ' : '').($schedina->name ?? '')), 'exent' => $schedina->exent, 'nascita' => $schedina->oa_date_nac, 'eta' => $bellaria ? null : $this->etaFromString($schedina->oa_date_nac ?? null)]);
+        $persone->push(['persona_id' => $schedina->id, 'persona_tipo' => 'schedina', 'nome' => trim(($schedina->surname ? $schedina->surname.' ' : '').($schedina->name ?? '')), 'residenza_nazione' => $schedina->or_country, 'residenza_comune' => $schedina->or_city, 'exent' => $schedina->exent, 'nascita' => $schedina->oa_date_nac, 'eta' => $bellaria ? null : $this->etaFromString($schedina->oa_date_nac ?? null)]);
         foreach ($componenti as $comp) {
             $persone->push([
                 'persona_id' => $comp->id,
                 'persona_tipo' => 'componente',
                 'nome' => trim(($comp->surname ? $comp->surname.' ' : '').($comp->name ?? '')),
+                'residenza_nazione' => $comp->country,
+                'residenza_comune' => $comp->city,
                 'exent' => $comp->exent,
                 'nascita' => $comp->date_nac,
                 'eta' => $bellaria ? null : $this->etaFromString($comp->date_nac ?? null),
@@ -373,6 +375,14 @@ class TassaDiSoggiornoService
     private function calcolaPersonaBellaria(array $persona, ?Carbon $arrivo, ?Carbon $partenza, ?int $giorniMax, float $aliquota, ?TassaDiSoggiorno $config, Collection $esenzioni, array $profiliNotti): array
     {
         // Tariffa/periodo pertinenti a ciascuna notte; contatore unico per il soggiorno.
+        $comuneResidenza = preg_replace('/[\s-]+/u', ' ', mb_strtolower(trim((string) ($persona['residenza_comune'] ?? ''))));
+        $nazioneResidenza = mb_strtolower(trim((string) ($persona['residenza_nazione'] ?? '')));
+        $residente = in_array($nazioneResidenza, ['italia', 'it', 'italy'], true) && $comuneResidenza === 'bellaria igea marina';
+        $haNottiFiscali = collect($profiliNotti)->contains(fn ($profilo, $data) => $data >= $profilo['inizio'] && $data <= $profilo['fine']);
+        if ($residente && $haNottiFiscali) {
+            // Art.3: non soggetto passivo. Nessun codice CSV comunale viene inventato.
+            throw \Illuminate\Validation\ValidationException::withMessages(['residenza' => 'Residente a Bellaria-Igea Marina: non soggetto all’imposta. Calcolo ed esportazione sospesi: manca un raccordo documentato per i residenti nel tracciato comunale.']);
+        }
         $nascita = $this->parseDate($persona['nascita'] ?? null)?->startOfDay();
         $esenzione = $this->resolveEsenzione($persona['exent'] ?? null, $esenzioni);
         if (! $nascita && (! $esenzione || (string) $esenzione->codice === '400')) {
