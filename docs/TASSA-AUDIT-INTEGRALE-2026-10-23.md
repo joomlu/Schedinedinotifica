@@ -1,5 +1,16 @@
 # Tassa di soggiorno — audit integrale iniziato il 22 ottobre 2026
 
+## Conferme operative espresse dell’utente — 23 ottobre 2026
+
+Aggiornamento successivo al consuntivo di rilascio: l’utente conferma espressamente il raccordo operativo del **codice 450**, riferito nel dossier alla condizione dei familiari del gestore anagraficamente conviventi, e riconferma il criterio del **compleanno incluso nell’esenzione: imposizione dal giorno successivo al compimento dei 18 anni**, entro stagione e limite di notti applicabili. Questi due punti non sono più in attesa di conferma dell’utente. La fonte è la dichiarazione dell’utente in conversazione; non è una nuova attestazione del Comune, un catalogo ufficiale acquisito o una prova di accettazione StayTour.
+
+La richiesta autorizza il completamento dei dati mancanti e del circuito fiscale con dati reali verificati. Le tre classificazioni e la data di nascita restano materialmente da completare: questa sessione dispone del repository GitHub, ma non del file privato con gli identificativi, del DB operativo o della VM del Mac. Nessun valore è stato inventato, nessun dato reale modificato. L’operatore locale deve recuperare le fonti reali, registrare i valori corretti tramite il flusso applicativo e verificarne gli output, senza riscrivere snapshot consolidati.
+
+L’accettazione tecnica esterna del CSV resta **NON VERIFICATA**: la conferma del codice non dimostra l’importazione. Occorre sessione gestore autenticata o validatore/ambiente ufficiale di prova comprovato. Nessuna dichiarazione o CSV sintetico è stato inviato. La chiusura integrale resta **PARZIALE**, BASELINE IN AUDIT; le evidenze storiche sotto conservano lo stato alla rispettiva data e sono superate soltanto quanto all’attesa delle due conferme utente.
+
+Intervento presente esclusivamente documentale: nessuna modifica applicativa, prova VM/browser, nuova verifica online o deploy eseguiti; SHA applicativo pubblicato riportato dal precedente consuntivo invariato, non nuovamente attestato da questa sessione.
+
+
 ## Esito corrente — 23 ottobre 2026
 
 **Applicativo `4a9c0c55ce9319bef89dea97b9a1885c1ace5e66` pubblicato mediante C5 e verificato online. BASELINE IN AUDIT; chiusura integrale del settore non attestata per i pendenti esterni e operativi elencati sotto.**
