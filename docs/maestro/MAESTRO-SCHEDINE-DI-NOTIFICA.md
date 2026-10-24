@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Tassa — terzo difetto riprodotto nella QA pubblicata — 24 ottobre 2026
+
+**BASELINE IN AUDIT; PARZIALE.** ca1ead9c pubblicato con C5 PASS (S0 153,794s/RUN 252,083s), calcolo Tassa e 29 scenari Web PASS, fixture rimosse/HMAC66 identici. Successiva QA anagrafica completa ha riprodotto due 500 sintetici: AnagraficaGeografia interrogava la colonna inesistente cap del pivot geo_comuni_cap. R8b riproduce, correttivo tramite relazione geo_cap senza DDL; R9 28/161 e R10 333/4829+7browser e R11 24/118+4browser PASS. Nuovo C5 necessario e ancora pendente. Nessun dato reale corretto per supposizione, nessun invio. Deduplicazione verificata di soli blocchi statici in cinque recuperi chiusi autorizzata espressamente dopo rifiuto automatico: 11.154 file, byte/inode/metadati identici e nessuna rimozione. [Rapporto](../TASSA-VERIFICA-INTEGRALE-2026-10-24.md).
+
+
 ## Tassa — nuova verifica integrale e correttivi qualificati — 24 ottobre 2026
 
 **BASELINE IN AUDIT; settore PARZIALE, nuovo rilascio ancora da attestare.** [Rapporto](../TASSA-VERIFICA-INTEGRALE-2026-10-24.md), [prove](../evidenze/tassa-verifica-2026-10-24/verifica.json). GitHub main `2fd17c80` distinto dalla produzione `4a9c0c55`, riconfermata con Git pulito, 1.710 digest, sonda FPM e nove HTTPS. Recuperate le conferme utente del 23 ottobre su 450 e compleanno incluso: nessuna nuova autorizzazione richiesta. Riprodotti due difetti: 450 assente nel catalogo automatico senza record legacy e nascita impossibile normalizzata da Carbon; corretti nel solo servizio, senza DDL o copie persistenti.

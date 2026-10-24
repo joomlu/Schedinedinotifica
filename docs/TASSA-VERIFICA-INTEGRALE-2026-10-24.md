@@ -1,6 +1,6 @@
 # Tassa di soggiorno: verificación integral del 24 de octubre de 2026
 
-Estado: **PARCIAL**, BASELINE IN AUDIT. Correcciones calificadas en VM; integración y nueva publicación pendientes. Este informe se actualizará con el resultado real del procedimiento C5.
+Estado: **PARCIAL**, BASELINE IN AUDIT. Primeras correcciones publicadas en `ca1ead9cebb53e2e92da0bf2e34df461b4cf8a65`; el circuito Tassa y 29 escenarios Web online pasan. La comprobación anagráfica posterior reprodujo un error GEO, corregido en VM y pendiente de nueva publicación C5.
 
 La versión online inicial es `4a9c0c55ce9319bef89dea97b9a1885c1ace5e66`: Git limpio, 1.710 digest conformes, sonda FPM autenticada y nueve sondas HTTPS positivas. GitHub main es `2fd17c8076b6631cc61852aa0bd4f0439706548a`; incorpora anagrafiche unificadas que aún no están publicadas. El checkout original `6a652b72` y sus cambios se preservan; trabajo en rama `codex/tassa-verifica-2026-10-24`.
 
@@ -46,3 +46,13 @@ Para cerrar: aceptación del CSV mediante validador oficial o modalidad de prueb
 Aviso técnico separado: primer arranque de la VM con error vsock, parada ordenada y segundo arranque correcto; no se cambiaron recursos, discos, SELinux ni daily. Se conserva el diagnóstico. No demuestra un defecto fiscal.
 
 **¿Puedo considerar cerrado el módulo Tassa di soggiorno y utilizarlo operativamente? No: la clausura integral todavía no está acreditada.**
+
+## Correttivo GEO detectado en la comprobación publicada
+
+C5 sobre ca1ead9c: PREPARE y recuperaciones independientes PASS, S0 153,794 s / RUN 252,083 s, cero DDL; Git limpio, FPM y 242 digest conformes. Primer PREPARE detenido por destino symlink: preservado; segundo intento usa una custodia interna física, con nueve controles y límites invariados.
+
+El circuito publicado pasó 29 escenarios Web y tres Tassa a 1440/768/390. Tras eliminar sus fixtures, HMAC de las 66 tablas idénticos. La anagrafica con Comune y CAP completos produjo dos errores 500 sintéticos: `AnagraficaGeografia` interrogaba `geo_comuni_cap.cap`, columna inexistente; el CAP pertenece a `geo_cap` mediante `geo_cap_id`. No es una migración pendiente. Corregida la consulta mediante la relación ya existente, sin alterar catálogos, esquema ni datos. Fixtures del intento fallido eliminadas con HMAC idénticos.
+
+R8 inicial rechazado por invocación incompleta antes de ejecutar tests; R8b reproduce el error SQL (1 test / 0 aserciones / 1 error). R9 verde: 28 tests / 161 aserciones. R10: 333 tests / 4.829 aserciones y 7 browser PASS. R11: 24 tests / 118 aserciones y 4 browser de anagrafiche PASS. Se verifican resolución del CAP, su pertenencia al Comune y páginas Admin/Superadmin. Causa del anterior corte de transporte no atribuida: repetición sobre la misma fixture produjo una precondición duplicada; ejecución completa con fixture nueva pasó, sin ampliar límites o relajar selectores.
+
+Deduplicación de bloques estáticos de cinco recuperaciones cerradas ejecutada tras autorización expresa: 11.154 archivos, bytes/inodos/metadatos idénticos, ningún archivo eliminado. La primera solicitud fue rechazada por revisión automática y no se ejecutó hasta recibir el consentimiento. Nuevo C5 y monitor final todavía pendientes; no se declara cierre integral.
