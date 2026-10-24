@@ -178,5 +178,7 @@
     "tests/Support/StrutturaFixtures.php": "414e7e8e322da981debfdb2f7979c9e31f6a542d0e904fef9e1691885c1b9c2f",
     "tests/Feature/AnagraficaGeografiaAuditTest.php": "a51c4aaf84b18daaa4a4de9b92da95c62c9ce07c3141384dc9b08cb3d93b9541"
   },
-  "stato_pubblicazione_corrente": "ca1ead9cebb53e2e92da0bf2e34df461b4cf8a65; calcolo Tassa online PASS, anagrafica GEO NONPASS, correttivo successivo in qualificazione"
+  "stato_pubblicazione_corrente": "dda6b24ed40a3257ad5226ec3459a52f149b95fa; C5, QA, pulizia e monitor finali PASS; modulo PARCIAL per dati reali e accettazione esterna",
+  "candidato_finale_qualificato": "dda6b24ed40a3257ad5226ec3459a52f149b95fa",
+  "ricevuta_pubblicazione": "rilascio.json"
 }

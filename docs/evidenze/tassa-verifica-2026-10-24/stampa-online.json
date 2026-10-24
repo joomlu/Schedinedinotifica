@@ -1,0 +1,13 @@
+{
+  "esito": "PASS_ISPEZIONE_VISUALE_PDF_ONLINE",
+  "SHA_online": "dda6b24ed40a3257ad5226ec3459a52f149b95fa",
+  "PDF": 4,
+  "pagine": 4,
+  "riepiloghi_1440_768_390_render_identici": true,
+  "totali": {
+    "riepilogo_EUR": 3,
+    "codice450_EUR": 0
+  },
+  "nessuna_sovrapposizione_o_troncamento_rilevata": true,
+  "dati_solo_sintetici": true
+}
