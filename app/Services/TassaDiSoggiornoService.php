@@ -210,8 +210,10 @@ class TassaDiSoggiornoService
             '410' => 'Soggetti invalidi e accompagnatore', '415' => 'Volontari in eventi organizzati o di emergenza',
             '420' => 'Soggetti in eventi calamitosi o di emergenza', '425' => 'Autisti di pullman e accompagnatori turistici',
             '430' => 'Personale dipendente della struttura', '440' => 'Forze Armate e Vigili del Fuoco in servizio',
+            // Raccordo operativo confermato dall'utente il 23 ottobre 2026 (art.5.1.i).
+            '450' => 'Familiari del gestore se anagraficamente conviventi',
         ];
-        $catalogo = collect($ufficiali)->map(fn ($descrizione, $codice) => new TassaEsenzione(['struttura_id' => $struttura->id, 'codice' => (string) $codice, 'descrizione' => $descrizione, 'attivo' => true, 'richiede_nota' => in_array((string) $codice, ['405', '410', '415', '420', '440'], true)]));
+        $catalogo = collect($ufficiali)->map(fn ($descrizione, $codice) => new TassaEsenzione(['struttura_id' => $struttura->id, 'codice' => (string) $codice, 'descrizione' => $descrizione, 'attivo' => true, 'richiede_nota' => in_array((string) $codice, ['405', '410', '415', '420', '440', '450'], true)]));
 
         return $catalogo->values()->concat($esistenti->filter(fn ($voce) => ! array_key_exists((string) $voce->codice, $ufficiali) && (string) $voce->codice !== '777'))->values();
     }
@@ -222,19 +224,20 @@ class TassaDiSoggiornoService
             return null;
         }
 
-        foreach (['Y-m-d', 'd/m/Y', 'd-m-Y', Carbon::ISO8601] as $format) {
+        foreach (['Y-m-d', 'd/m/Y', 'd-m-Y', 'Y-m-d H:i:s', Carbon::ISO8601, Carbon::ATOM] as $format) {
             try {
-                return Carbon::createFromFormat($format, $value);
+                $date = Carbon::createFromFormat('!'.$format, $value);
+                // Carbon normalizza anche date impossibili: il confronto esatto
+                // impedisce di determinare l'età da una nascita corretta implicitamente.
+                if ($date && $date->format($format) === $value) {
+                    return $date;
+                }
             } catch (\Throwable $e) {
                 continue;
             }
         }
 
-        try {
-            return Carbon::parse($value);
-        } catch (\Throwable $e) {
-            return null;
-        }
+        return null;
     }
 
     public function diffNotti(?Carbon $arrivo, ?Carbon $partenza): int

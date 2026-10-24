@@ -87,7 +87,7 @@ class TassaBellariaConfigurazioneAutomaticaTest extends TestCase
     {
         foreach (['RTA', 'Villaggio turistico'] as $tipo) {
             $a = $this->hotel();
-            $a->update(['tipologia_struttura' => $tipo]);
+            $a->update(['tipologia_struttura' => $tipo, 'tipologia_struttura_id' => null]);
             $p = $this->ospite($a);
             $this->get('/tassa_di_soggiorno')->assertOk()->assertViewHas('diagnosi', fn ($d) => $d['stato'] === 'categoria_tassa_non_certificata');
             $this->get('/schedine/'.$p->id.'/modifica')->assertOk()->assertViewHas('tassaDettaglio', fn ($d) => $d['totale'] === null);
