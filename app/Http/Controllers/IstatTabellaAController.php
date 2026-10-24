@@ -47,6 +47,15 @@ class IstatTabellaAController extends Controller
         );
         $storico = IstatExport::query()->where('struttura_id', $struttura->id)->latest('id')->limit(10)->get();
         $trasmissioni = IstatTransmission::query()->where('struttura_id', $struttura->id)->latest('id')->limit(10)->get();
+        $exportReviews = $storico->mapWithKeys(function ($export) use ($struttura) {
+            $source = $this->service->schedinePerPeriodo($struttura->id, $export->dal, $export->al);
+            $current = (new \App\Services\IstatSnapshot())->matches($export, $source, $struttura);
+            return [$export->id => [
+                'formato' => $export->snapshot['@formato'] ?? 'Versione non registrata (storico)',
+                'stato' => $export->minimized_at ? 'Copia minimizzata' : ($current ?
+                    (isset($export->snapshot['@struttura']) ? 'Origine invariata' : 'Contesto storico da verificare') : 'Dati modificati: rigenerare e verificare lo storico'),
+            ]];
+        });
         $attemptActors = \Illuminate\Support\Facades\DB::table('istat_transmission_events')
             ->where('struttura_id', $struttura->id)->whereIn('istat_transmission_id', $trasmissioni->pluck('id'))
             ->where('status', 'pending')->orderByDesc('id')->get()->groupBy('istat_transmission_id')
@@ -68,6 +77,7 @@ class IstatTabellaAController extends Controller
         }
 
         return response()->view('istat_tabella_a.index', [
+            'exportReviews' => $exportReviews,
             'previewHash' => $previewHash,
             'previewRecords' => $previewRecords,
             'reconciliations' => $reconciliations,
@@ -175,6 +185,7 @@ class IstatTabellaAController extends Controller
         $export = (new IstatPayloadStore())->store($struttura->id, $request->user()?->id, $dal, $al, $filename, $xml, $analysis['schedine']);
 
         return response($xml, 200, [
+            'Cache-Control' => 'private, no-store',
             'Content-Type' => 'application/xml; charset=UTF-8',
             'Content-Disposition' => 'attachment; filename="' . $export->filename . '"',
         ]);
@@ -191,7 +202,7 @@ class IstatTabellaAController extends Controller
         } catch (ValidationException $e) {
             return redirect()->route('istat.tabella_a.index')->withErrors($e->errors());
         }
-        return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8',
+        return response($xml, 200, ['Cache-Control' => 'private, no-store', 'Content-Type' => 'application/xml; charset=UTF-8',
             'Content-Disposition' => 'attachment; filename="istat_export_'.(int) $export->id.'.xml"']);
     }
 
@@ -214,6 +225,7 @@ class IstatTabellaAController extends Controller
         // Historical PDFs/details may contain remote secrets. Keep them untouched,
         // but generate a safe local summary without reading or merging that material.
         return response($this->buildOperatorReceiptPdf($struttura, $transmission), 200, [
+            'Cache-Control' => 'private, no-store',
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="riepilogo_locale_istat_' . (int) $transmission->id . '.pdf"',
         ]);
@@ -231,12 +243,7 @@ class IstatTabellaAController extends Controller
         [$dal, $al] = $this->resolvePeriodo($request);
         $analysis = $this->service->analysePeriodo($struttura, $dal, $al);
 
-        $provenienze = $analysis['schedine']
-            ->groupBy(fn (Schedina $schedina) => trim((string) ($schedina->or_country ?: $schedina->or_city ?: 'Non indicata')))
-            ->map(fn ($group, $label) => ['label' => $label, 'count' => $group->count()])
-            ->sortByDesc('count')
-            ->take(10)
-            ->values();
+        $provenienze = $analysis['provenienze'];
 
         return view('istat_tabella_a.print-summary', [
             'struttura' => $struttura,

@@ -24,10 +24,11 @@ final class IstatPayloadStore
         $createdPath = null;
         try {
             return DB::transaction(function () use ($strutturaId, $userId, $dal, $al, $filename, $xml, $schedine, &$createdPath) {
-                \App\Models\Struttura::whereKey($strutturaId)->lockForUpdate()->firstOrFail();
+                $struttura = \App\Models\Struttura::whereKey($strutturaId)->lockForUpdate()->firstOrFail();
+                $snapshot = (new IstatSnapshot)->forExport($schedine, $struttura);
                 $prior = IstatExport::where('struttura_id', $strutturaId)->where('sha256', hash('sha256', $xml))
-                    ->whereNull('minimized_at')->where('expires_at', '>', now())->first();
-                if ($prior) {
+                    ->whereNull('minimized_at')->where('expires_at', '>', now())->latest('id')->first();
+                if ($prior && isset($prior->snapshot['@formato']) && (new IstatSnapshot)->matches($prior, $schedine, $struttura)) {
                     $this->read($prior);
 
                     return $prior;
@@ -40,7 +41,7 @@ final class IstatPayloadStore
                 $export = IstatExport::create([
                     'struttura_id' => $strutturaId, 'user_id' => $userId, 'dal' => $dal, 'al' => $al,
                     'filename' => $filename, 'path' => $path, 'sha256' => hash('sha256', $xml), 'encrypted_file' => true,
-                    'snapshot' => (new IstatSnapshot)->make($schedine),
+                    'snapshot' => $snapshot,
                     'expires_at' => now()->addDays((int) config('istat.payload_days', 30)),
                     'schedine_count' => $schedine->count(), 'movimenti_count' => $dal->diffInDays($al) + 1,
                     'schedina_ids' => $schedine->pluck('id')->values()->all(),

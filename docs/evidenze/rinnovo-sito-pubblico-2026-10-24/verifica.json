@@ -1,0 +1,286 @@
+{
+  "stato": "CANDIDATO PRONTO A REVISIONE; NON INTEGRATO E NON PUBBLICATO",
+  "baseline": "BASELINE IN AUDIT",
+  "base_git": "455a792cfc163d9cd52ff3964bc9629222ac5810",
+  "sha_candidato_qualificato": "459ca0d72e0bf82a22cfe32da007d376bdc62eb2",
+  "ramo": "codex/rinnovo-sito-pubblico-2026-10-24",
+  "verifica_finale": {
+    "run": "R4",
+    "codice_uscita": 0,
+    "phpunit": {
+      "test": 32,
+      "asserzioni": 252,
+      "selezione": [
+        "PublicSiteRenewalTest",
+        "TassaVerificaIntegraleTest",
+        "AnagraficaGeografiaAuditTest",
+        "StrutturaAuthorizationTest"
+      ]
+    },
+    "browser": {
+      "percorsi": 6,
+      "secondi": 32.5,
+      "pagine": 5,
+      "larghezze": [
+        1440,
+        768,
+        390
+      ],
+      "combinazioni_pagina_larghezza": 15,
+      "overflow": 0,
+      "errori_javascript": 0,
+      "errori_asset": 0,
+      "hash_http_css_js": "PASS",
+      "menu_tastiera_focus_modale": "PASS",
+      "contatto_CRM_sintetico": "PASS"
+    },
+    "override_rifiutati": 23,
+    "build_asset_GEO": "PASS",
+    "sorgenti_attestate": 4383,
+    "runtime": "VM ufficiale schedine-sviluppo-interno; namespace e database effimeri attestati",
+    "pulizia": "Processi e directory del runtime R4 fermati e rimossi; VM lasciata accesa al coordinamento principale/ISTAT"
+  },
+  "tentativi_precedenti": [
+    {
+      "run": "R1",
+      "sha": "45b0f790c3fa36fb648967d5880416e5ac102fda",
+      "phpunit": [
+        32,
+        250
+      ],
+      "browser_pass": 0,
+      "browser_nonpass": 6,
+      "diagnosi": "HTML nuovo con copie statiche CSS/JS precedenti; sintomi overflow/focus. Log conservato privatamente."
+    },
+    {
+      "run": "R2",
+      "sha": "cd1843b83064427550fb6227604a855fcdc29336",
+      "browser_pass": 0,
+      "browser_nonpass": 6,
+      "diagnosi": "10px di overflow e focus iniziale assente; screenshot dimostra vecchi CSS/JS serviti da public/site-assets. Nessun difetto del nuovo CSS dedotto."
+    },
+    {
+      "run": "R3",
+      "sha": "1a33685c4ae8f2a922de6513579fcd84435c559f",
+      "phpunit": [
+        32,
+        252
+      ],
+      "browser_pass": 1,
+      "browser_nonpass": 5,
+      "diagnosi": "Parità asset e assenza overflow confermate; spec con locator menu dal nome dinamico e calendario aperto sul checkbox. Corretti soltanto locator/interazione ordinaria; nessun force o riduzione di timeout/asserzioni."
+    }
+  ],
+  "conteggi": "Esecuzioni sovrapposte non sommate. Esito conclusivo soltanto R4.",
+  "immagini_finali_ispezionate": [
+    {
+      "file": "sito-conferma-390.png",
+      "larghezza": 390,
+      "altezza": 1000,
+      "sha256": "5690703fa35df8c57985c2ab9a1e9b3ba441c075b2419ee4c0020fa6bfa33e0c",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-contatti-768.png",
+      "larghezza": 768,
+      "altezza": 2270,
+      "sha256": "862d4fc96674ac0f7a68773b364c67acde6f4856c5deb2005eeb6024df4c5678",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-demo-768.png",
+      "larghezza": 768,
+      "altezza": 2401,
+      "sha256": "5b4d48d6dcef82b2ba78dfd722added45b65df65e9ad4bf48cbfcd03dd283aa5",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-home-768.png",
+      "larghezza": 768,
+      "altezza": 3480,
+      "sha256": "46b80b5c626f2ab4a4449077b172c287360bd662b944b5bf6aa5a8a6ac8e6c3e",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-moduli-768.png",
+      "larghezza": 768,
+      "altezza": 3242,
+      "sha256": "f9fc7c16f9155a0a0548c90e0050c028a494bfe4d9259c946da3a314b3d42f4d",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-prezzi-768.png",
+      "larghezza": 768,
+      "altezza": 1827,
+      "sha256": "2ba742f43e8fd94d256a78d9d6868152c82831fa3b48c4a6cc97a50a5385294d",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-conferma-1440.png",
+      "larghezza": 1440,
+      "altezza": 1000,
+      "sha256": "0f9dcb328bfa48210e448539a2382ec5236e7a17813c36557015c9d83cdf720d",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-conferma-768.png",
+      "larghezza": 768,
+      "altezza": 1000,
+      "sha256": "2f03b25892e0cc41e1f77899f676a983a32a7d1b3209174c2248358feae83eb4",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-contatti-390.png",
+      "larghezza": 390,
+      "altezza": 2837,
+      "sha256": "326edc24f70b8497e30aa49822c73f40a29ef7f42c87551a20cb686bf9508e64",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-demo-390.png",
+      "larghezza": 390,
+      "altezza": 2645,
+      "sha256": "2053b95ca264f2ca3828b05a0fbb56d3fbf97b302205f8d02f0f135ec5d617b0",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-home-390.png",
+      "larghezza": 390,
+      "altezza": 4138,
+      "sha256": "da56241b75dca243b0355db828d6a3876870b2460448b13311f65407a562f6e9",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-moduli-390.png",
+      "larghezza": 390,
+      "altezza": 3561,
+      "sha256": "8549ce58b6e057a110ff7ba0bf4e34ccf1534fffa60819584a12be1ac9b2fd20",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-prezzi-390.png",
+      "larghezza": 390,
+      "altezza": 2351,
+      "sha256": "5cc0cb0a324e45fff7e580a04f6e8aa50408acc49602addc656502c81dc4b419",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-contatti-1440.png",
+      "larghezza": 1440,
+      "altezza": 1999,
+      "sha256": "5701459c8883df95750193b0d308d1cf024e685e3f3ef1890fb1ff0459af051e",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-demo-1440.png",
+      "larghezza": 1440,
+      "altezza": 2441,
+      "sha256": "b5f5f9fc42d2566c9af8d4ca30672fb16f96e4b8d4e80d2269c79c59b57ab8e6",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-home-1440.png",
+      "larghezza": 1440,
+      "altezza": 2953,
+      "sha256": "bf9b3227ea85fa141c4e07b11d32f739924d64478b60abda9c727fc2e17a23e8",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-moduli-1440.png",
+      "larghezza": 1440,
+      "altezza": 3031,
+      "sha256": "927d6c402451dc39263b0ddd2671b6fc3625acd080458d3fe68f1440c2bc868e",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    },
+    {
+      "file": "sito-prezzi-1440.png",
+      "larghezza": 1440,
+      "altezza": 1791,
+      "sha256": "cb3970f4fe47a1360082a2505fd2fa8f036561f330102679755b62875d45b56c",
+      "ispezione": "PASS: nessun taglio o sovrapposizione rilevato"
+    }
+  ],
+  "immagini_consegna": {
+    "home-desktop.png": {
+      "origine_R4": "sito-home-1440.png",
+      "sha256": "bf9b3227ea85fa141c4e07b11d32f739924d64478b60abda9c727fc2e17a23e8"
+    },
+    "home-mobile.png": {
+      "origine_R4": "sito-home-390.png",
+      "sha256": "da56241b75dca243b0355db828d6a3876870b2460448b13311f65407a562f6e9"
+    },
+    "contatti-tablet.png": {
+      "origine_R4": "sito-contatti-768.png",
+      "sha256": "862d4fc96674ac0f7a68773b364c67acde6f4856c5deb2005eeb6024df4c5678"
+    },
+    "conferma-mobile.png": {
+      "origine_R4": "sito-conferma-390.png",
+      "sha256": "5690703fa35df8c57985c2ab9a1e9b3ba441c075b2419ee4c0020fa6bfa33e0c"
+    }
+  },
+  "provenienza_visuali": "Soltanto 15 sito-{pagina}-{larghezza}.png e 3 sito-conferma-{larghezza}.png riscritti dal test verde R4. Esclusi diagnostico-overflow ed error-context residui dei tentativi precedenti nel collettore cumulativo; originali conservati. Nessun log integrale pubblicato.",
+  "sha256_sorgenti_modificati": {
+    "public/site-assets/app.js": "3108c97bbb178a95164816ff22d6780dcbbcfef259244b4948fc4bfa84298dcb",
+    "public/site-assets/styles.css": "d330156b3044f9c7dae56a5dd914ed94fccaebbe421410ed98d85bf68c403419",
+    "tests/Feature/PublicSiteRenewalTest.php": "3309a22fbb9fb7b77a7fea6992834f8723b69f497669e829b61fdbaf22bbd809",
+    "tests/Feature/public-site-renewal.playwright.spec.js": "60d33d21a6f4279877ec3ddc26f8bf69731ee8e82fe28ea793c6e24a0b6a6a85",
+    "web/accesso.html": "77d1582cf3c482614cf8fa021424ef54cc2b333e8c47d294c263a0d13fe8a205",
+    "web/assets/app.js": "3108c97bbb178a95164816ff22d6780dcbbcfef259244b4948fc4bfa84298dcb",
+    "web/assets/styles.css": "d330156b3044f9c7dae56a5dd914ed94fccaebbe421410ed98d85bf68c403419",
+    "web/contatti.html": "9d652a4ba9791c2ee8fdfb8bc312728e8416ff7a0eff5f2a15b8a6521ef3c744",
+    "web/demo.html": "5c7874e4772b3b41bc181b1953b6861411ce00d4c2f1ed9754f5a5e8bacda900",
+    "web/index.html": "bee19112c675dc9723cbfc48b3ad8dca70e07de64db014ff74759ee7ef765a0d",
+    "web/moduli.html": "0da235e7b74a77c34f8a7275b4f097bf5f1f011c62ec4dac029dca403b2e9fb6",
+    "web/prezzi.html": "f33a084f5e950188015cef39f9dda8e76a1303950a434aab2bb8af5fc971f722"
+  },
+  "parita_copie": {
+    "styles.css": {
+      "web": "d330156b3044f9c7dae56a5dd914ed94fccaebbe421410ed98d85bf68c403419",
+      "public": "d330156b3044f9c7dae56a5dd914ed94fccaebbe421410ed98d85bf68c403419",
+      "uguali": true
+    },
+    "app.js": {
+      "web": "3108c97bbb178a95164816ff22d6780dcbbcfef259244b4948fc4bfa84298dcb",
+      "public": "3108c97bbb178a95164816ff22d6780dcbbcfef259244b4948fc4bfa84298dcb",
+      "uguali": true
+    }
+  },
+  "capacita_osservata_fino_fine_R4": {
+    "campioni": 42,
+    "minimo_byte_VM": 1198927872,
+    "riserva_byte_VM": 1073741824,
+    "tutti_oltre_riserva": true,
+    "minimo_byte_Mac": 33817255936
+  },
+  "url": {
+    "origine_ufficiale": "https://schedinedinotifica.tanggo.software/",
+    "home_login": "HTTP200/TLS0 riscontro sola lettura agente principale",
+    "registrazione_online": "GET/HEAD403 osservato; nessuna attribuzione applicativa; route/controller preservati",
+    "dominio_storico": "www.tangoschedine.com non risolve nel controllo autorizzato principale; eliminato dal marketing",
+    "autore": {
+      "url": "https://www.cv.joomlu.com/",
+      "GET": 200,
+      "TLS_verify": 0,
+      "url_finale": "https://www.cv.joomlu.com/",
+      "nota": "Il primo tentativo nel sandbox senza rete non è stato interpretato come esito DNS reale."
+    }
+  },
+  "pendenti_prima_pubblicazione": [
+    "Dati societari e Partita IVA",
+    "Informativa privacy e trattamento del modulo",
+    "Recapiti correnti",
+    "Listino approvato e condizioni commerciali",
+    "Gestione dominio storico e politica registrazione online"
+  ],
+  "operazioni_escluse": [
+    "Nessuna modifica a logica interna, autenticazione, route, migrazioni, config o database condiviso",
+    "Nessun invio email, Questura, ISTAT o portali fiscali",
+    "Nessun push, merge o deploy"
+  ],
+  "data_verifica": "2026-10-24",
+  "consuntivo_solo_documentale": [
+    "web/README.md",
+    "docs/RINNOVO-SITO-PUBBLICO-2026-10-24.md",
+    "docs/evidenze/rinnovo-sito-pubblico-2026-10-24/"
+  ]
+}

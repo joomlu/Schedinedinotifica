@@ -78,23 +78,23 @@
     </div>
 
     <div class="section">
-        <h3>Principali provenienze</h3>
+        <h3>Provenienze per residenza</h3>
         <table>
             <thead>
                 <tr>
                     <th>Provenienza</th>
-                    <th class="text-end">Schedine</th>
+                    <th class="text-end">Arrivi</th><th class="text-end">Presenze</th><th class="text-end">Partenze</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($provenienze as $item)
                     <tr>
                         <td>{{ $item['label'] }}</td>
-                        <td class="text-end">{{ $item['count'] }}</td>
+                        <td class="text-end">{{ $item['arrivi'] }}</td><td class="text-end">{{ $item['presenze'] }}</td><td class="text-end">{{ $item['partenze'] }}</td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="2" class="muted">Nessuna provenienza disponibile nel periodo selezionato.</td>
+                        <td colspan="4" class="muted">Nessuna provenienza disponibile nel periodo selezionato.</td>
                     </tr>
                 @endforelse
             </tbody>

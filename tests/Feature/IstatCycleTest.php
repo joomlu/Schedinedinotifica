@@ -252,7 +252,7 @@ class IstatCycleTest extends TestCase
         Http::assertNothingSent();
     }
 
-    public function test_retention_keeps_uncertain_payload_and_preserves_metadata_when_pruned(): void
+    public function test_retention_keeps_communicated_payload_even_after_portal_reconciliation(): void
     {
         $s = $this->configured();
         Http::fake(['*' => Http::response('<malformed/>', 200)]);
@@ -262,12 +262,11 @@ class IstatCycleTest extends TestCase
         $retention = new \App\Services\IstatRetention;
         $this->assertSame(0, $retention->minimize(true));
         $this->post('/istat-tabella-a/riconcilia/'.\App\Models\IstatTransmission::first()->id, ['conferma_portale' => 1]);
-        $this->assertSame(1, $retention->minimize(false));
+        $this->assertSame(0, $retention->minimize(false));
+        $this->assertSame(0, $retention->minimize(true));
         $this->assertNull($export->fresh()->minimized_at);
-        $this->assertSame(1, $retention->minimize(true));
-        $this->assertNotNull($export->fresh()->minimized_at);
         $this->assertNotEmpty($export->fresh()->snapshot);
-        $this->assertFalse(\Illuminate\Support\Facades\Storage::disk('local')->exists($export->path));
+        $this->assertTrue(\Illuminate\Support\Facades\Storage::disk('local')->exists($export->path));
     }
 
     public function test_certain_pre_transport_failure_allows_single_controlled_retry(): void
@@ -524,4 +523,94 @@ class IstatCycleTest extends TestCase
         $this->assertSame('manual_registered', \App\Models\IstatTransmission::first()->status);
         Http::assertNothingSent();
     }
+
+    public function test_communicated_month_can_be_reviewed_as_unchanged_subperiod(): void
+    {
+        $s = $this->setupStructure();
+        $this->stay($s);
+        $this->stay($s, ['arrive' => '2026-04-10', 'departure' => '2026-04-12']);
+        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $export = IstatExport::firstOrFail();
+        (new \App\Services\IstatOperationService())->finalize(
+            (new \App\Services\IstatOperationService())->reserve($s, $export, 'manual', auth()->id()),
+            \App\Services\EsitoTrasmissioneIstat::crea('manual_registered', 'manual')
+        );
+        $analysis = (new IstatTabellaAService())->analysePeriodo($s, Carbon::parse('2026-04-01'), Carbon::parse('2026-04-02'));
+        $this->assertSame([], $analysis['errors']);
+        $this->assertSame(1, $analysis['totale_presenze']);
+    }
+
+    public function test_structure_changes_after_communication_require_reconciliation(): void
+    {
+        $s = $this->setupStructure();
+        $this->stay($s);
+        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $export = IstatExport::firstOrFail();
+        $ops = new \App\Services\IstatOperationService();
+        $ops->finalize($ops->reserve($s, $export, 'manual', auth()->id()), \App\Services\EsitoTrasmissioneIstat::crea('manual_registered', 'manual'));
+        $s->update(['camere_disponibili' => 12]);
+        $analysis = (new IstatTabellaAService())->analysePeriodo($s->fresh(), Carbon::parse('2026-04-01'), Carbon::parse('2026-04-30'));
+        $this->assertFalse($analysis['valida']);
+        $this->assertStringContainsString('configurazione modificati', implode(' ', $analysis['errors']));
+        $this->assertSame($export->snapshot, $export->fresh()->snapshot);
+    }
+
+    public function test_pending_export_exposes_staleness_without_rewriting_original(): void
+    {
+        $s = $this->setupStructure();
+        $stay = $this->stay($s);
+        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $export = IstatExport::firstOrFail();
+        $original = (new \App\Services\IstatPayloadStore())->read($export);
+        $this->assertSame(\App\Services\IstatSnapshot::FORMAT, $export->snapshot['@formato']);
+        $this->get('/istat-tabella-a?mese=2026-04')->assertOk()->assertSee('Origine invariata');
+        $stay->update(['departure' => '2026-04-03']);
+        $this->get('/istat-tabella-a?mese=2026-04')->assertOk()->assertSee('Dati modificati: rigenerare');
+        $this->assertSame($original, (new \App\Services\IstatPayloadStore())->read($export->fresh()));
+        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $this->assertSame(2, IstatExport::count());
+        $this->assertNotSame($export->sha256, IstatExport::latest('id')->first()->sha256);
+        Http::assertNothingSent();
+    }
+    public function test_residence_summary_counts_people_and_nights_across_month_boundary(): void
+    {
+        $s = $this->setupStructure();
+        $stay = $this->stay($s, ['cant_people' => 2, 'relationship' => '17']);
+        $this->fixtureComponent($stay);
+        $analysis = (new IstatTabellaAService())->analysePeriodo($s, Carbon::parse('2026-04-01'), Carbon::parse('2026-04-30'));
+        $summary = $analysis['provenienze'];
+        $this->assertSame(2, $summary->count());
+        $this->assertSame($analysis['totale_arrivi'], $summary->sum('arrivi'));
+        $this->assertSame($analysis['totale_presenze'], $summary->sum('presenze'));
+        $this->assertSame($analysis['totale_partenze'], $summary->sum('partenze'));
+        $this->assertSame([0, 2, 2], [$summary->sum('arrivi'), $summary->sum('presenze'), $summary->sum('partenze')]);
+        $this->get(route('istat.tabella_a.print.summary', ['mese' => '2026-04']))->assertOk()->assertSee('Provenienze per residenza');
+    }
+
+    public function test_unused_copy_can_be_minimized_but_communication_evidence_is_kept(): void
+    {
+        $s = $this->setupStructure();
+        $this->stay($s);
+        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $export = IstatExport::firstOrFail();
+        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $this->assertSame(1, IstatExport::count());
+        $export->update(['expires_at' => now()->subDay()]);
+        $retention = new \App\Services\IstatRetention();
+        $this->assertSame(1, $retention->minimize(false));
+        $this->assertSame(1, $retention->minimize(true));
+        $this->assertNotNull($export->fresh()->minimized_at);
+        $this->assertFalse(\Illuminate\Support\Facades\Storage::disk('local')->exists($export->path));
+        $this->assertNotEmpty($export->fresh()->snapshot);
+    }
+
+    public function test_inverted_season_is_an_error_even_without_movements(): void
+    {
+        $s = $this->setupStructure();
+        $s->update(['tipo_apertura' => 'Stagionale', 'data_apertura' => '2026-10-01', 'data_chiusura' => '2026-04-01']);
+        $analysis = (new IstatTabellaAService())->analysePeriodo($s->fresh(), Carbon::parse('2026-04-01'), Carbon::parse('2026-04-30'));
+        $this->assertFalse($analysis['valida']);
+        $this->assertStringContainsString('chiusura precede', implode(' ', $analysis['errors']));
+    }
+
 }

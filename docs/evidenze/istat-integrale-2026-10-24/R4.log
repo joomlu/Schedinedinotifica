@@ -1,0 +1,6 @@
+usage: run.py [-h] [--phpunit [PHPUNIT ...]] [--phpunit-global]
+              [--phpunit-repeat {1,2,3}] [--phpunit-discovery]
+              [--phpunit-random-seed PHPUNIT_RANDOM_SEED]
+              [--playwright [PLAYWRIGHT ...]] [--fixtures FIXTURES]
+              [--include [INCLUDE ...]]
+run.py: error: File di test relativo e sotto tests/ richiesto: tests/Feature/QuesturaTransmissionSecurityTest.php
