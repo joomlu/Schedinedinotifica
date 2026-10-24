@@ -1,6 +1,18 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
-## ISTAT — qualifica locale e gate di pubblicazione — 24 ottobre 2026
+## ISTAT — pubblicato e verificato online, 25 ottobre 2026
+
+**Applicativo `a90d63aa6bd85f668d1ba61a4a5d776e5529cb98` online; C5, QA, pulizia e monitor finali PASS. Circuito statistico reale PARZIALE; BASELINE IN AUDIT invariata.** [Rapporto](../ISTAT-INTEGRALE-2026-10-24.md), [ricevuta](../evidenze/istat-integrale-2026-10-24/rilascio.json). PR21 revisionata senza rilievi e integrata dopo consensi espliciti distinti a push/PR pubblici e merge/rilascio. Codice qualificato `31f5bdf3`, documentale `f836b068`, albero applicativo servito identico. Sito affidato al secondo agente in un worktree indipendente, escluso da questo rilascio e ancora in revisione.
+
+Qualifica isolata R5: 171 test / 1.647 asserzioni e 3 browser PASS; R6: stesso codice, 3 browser e 6 schermate PASS. Cinque guardie pure, 23 rifiuti di override e build GEO PASS. Nuovi PREPARE/S0, recuperi indipendenti completi e custodie Extra PASS; 55 campioni di quiete. S0: 158,611 s; RUN: 267,519 s e 421 campioni, zero DDL. Budget 1800/600/1379/421 e trasferimento 120 s invariati. Guardiano concluso, disarmato, inattivo e disabilitato. SHA, Git pulito, FPM, 250 digest e nove sonde conformi; 159 migrazioni / 66 tabelle. DB byte-identico al S0 prima della QA.
+
+QA online a 1440/768/390 PASS: XML con 30 giornate, 2 arrivi e 2 partenze; 4 presenze nel riepilogo, provenienze Italia-Lazio e Germania con 1 arrivo / 2 presenze / 1 partenza ciascuna. Copia e SHA dello storico conformi, cache privata senza memorizzazione, tenancy 403/404 e reception verificati; invio disabilitato. Sei immagini ispezionate. Primo NONPASS dello spec per testo delle celle concatenato, conservato; confronto delle tre celle esatte e ripetizione completa PASS, senza cambiare applicazione o ridurre asserzioni/timeout. Fixture rimosse: HMAC di tutte le 66 tabelle e 92 persistenti conformi, senza restore/reset. Monitor dopo pulizia: server 919.130 s / 31 campioni / 279 sonde; Mac 921.020 s / 31 campioni / 93 richieste HTTPS, PASS. Zero nuovi errori Laravel/FPM dall’intero T0.
+
+VM da 36 a 40 GiB dopo consenso risorse: backup AES256-GCM completo di 20.422.355.234 byte / 12 file autenticati e decifrati, originali riletti identici, chiave separata. XFS da 37.290.283.008 a 41.585.250.304 byte; DB, 84 file protetti, daily `945ef553` e SELinux Enforcing preservati. Tre PREPARE respinti e conservati (recupero oltre 240 s, trasferimento oltre 120 s, base mutata); quarto PASS. Ritirati soltanto 1.024.708.608 byte di proprie ricostruzioni temporanee verificate; cifrati, SQL, chiavi, backup e log preservati. Timeout della revisione automatica prima della custodia Extra, unico retry riuscito. Minimo VM 2.170.011.648 byte e minimo Mac 17.026.891.776 byte; riserve 1/8/40 GiB invariate. VM restituita spenta, soli presidi propri conclusi.
+
+Ross1000 Emilia-Romagna / XML-WS 2.4, WSDL e codifiche ufficiali riscontrati; GIES confermato, “GSBU” non identificato. SOAP con double e validazione locale distinti da accettazione dell’ente; PDF solo riepilogo locale, nessuna API di stato o ricevuta inventata. Lettura finale READ ONLY: quattro strutture attive in Emilia-Romagna, zero codici Ross1000, zero coppie di credenziali, zero export e trasmissioni reali. Servono codici/abilitazione e collaudo ufficiale dedicato; nessuna dichiarazione o email reale. Conferma concreta di struttura, periodo e contenuto obbligatoria prima di dichiarazioni. Consuntivo documentale distinto dallo SHA applicativo online.
+
+## ISTAT — stato storico superato: qualifica locale e gate — 24 ottobre 2026
 
 Commit locale `31f5bdf3`; push verso il repository pubblico verificato `joomlu/Schedinedinotifica` respinto dalla revisione automatica per necessità di consenso esplicito a destinazione e payload pubblici. Richiesta all’utente inviata; nessuna PR o modifica main, nessun aggiramento.
 

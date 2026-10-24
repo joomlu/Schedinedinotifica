@@ -1,6 +1,6 @@
-# ISTAT — verifica integrale e completamenti del 24 ottobre 2026
+# ISTAT — verifica integrale e pubblicazione, 24–25 ottobre 2026
 
-**STATO: PARZIALE. BASELINE IN AUDIT invariata.** Codice qualificato in isolamento; pubblicazione in attesa del gate di capienza C5. Nessuna accettazione statistica reale attestata. Questo rapporto aggiorna il quadro ISTAT del 7 ottobre senza trasformarne le prove storiche in prove correnti.
+**MODULO PUBBLICATO E VERIFICATO ONLINE; CIRCUITO REALE PARZIALE. BASELINE IN AUDIT invariata.** SHA produttivo `a90d63aa6bd85f668d1ba61a4a5d776e5529cb98`; C5, QA sintetica, pulizia e monitor finali PASS. Nessuna accettazione statistica reale attestata: mancano codici/credenziali/abilitazione delle strutture. Questo rapporto aggiorna il quadro ISTAT del 7 ottobre senza trasformarne le prove storiche in prove correnti.
 
 ## Ambito e responsabilità
 
@@ -89,18 +89,34 @@ python3 -B /private/tmp/istat-evidenze-20261024/collaudo.py R5 --phpunit tests/F
 
 Ricevuta aggregata e digest: `evidenze/istat-integrale-2026-10-24/verifica.json`. Log completi e diagnostici conservati nella directory privata `/private/tmp/istat-evidenze-20261024`; schermate sintetiche selezionate nelle evidenze versionate. Nessuna prova simulata viene promossa a test ufficiale.
 
-## Rilascio e punto di ripresa
+## Git, autorizzazioni e rilascio effettivo
 
-Pubblicazione autorizzata dall'incarico, ma gate risorse C5 non soddisfatto: ultimo libero a riposo 2.072.559.616 byte, contro almeno 3.097.755.648 byte residui del C5 precedente dopo PREPARE. Occorre anche spazio per la nuova base completa. Soglia di riserva 1 GiB e budget originali invariati; nessun PREPARE/S0, armamento, manutenzione o deploy iniziato. [Piano concreto proposto 36→40 GiB](ISTAT-PIANO-CAPIENZA-2026-10-24.md), autorizzazione specifica richiesta. Stima non promossa a misura del nuovo recupero.
+Commit applicativo `31f5bdf38e18e556266abd217e6c82bf62db4970`, aggiornamento documentale `f836b0687abe02a83a4ebde1c47ff7b39df6b985`, [PR21](https://github.com/joomlu/Schedinedinotifica/pull/21) revisionata automaticamente senza rilievi e integrata su `main`. Merge e SHA realmente servito: **`a90d63aa6bd85f668d1ba61a4a5d776e5529cb98`**, con albero applicativo identico al candidato qualificato. Il consuntivo documentale successivo è distinto dalla versione servita e non richiede un nuovo deploy applicativo.
 
-SHA produttivo precedente documentato `dda6b24ed40a3257ad5226ec3459a52f149b95fa`; il candidato di questa attività non è online. Confermare nuovamente SHA, sorgenti e dati al futuro preflight, senza riutilizzare S0 o approvazioni esecutive storiche. Il prossimo C5 dovrà includere nuovi backup/recuperi verificati e monitor; test online autenticati solo dopo pubblicazione, senza dichiarazioni reali. Non attestati in questo rapporto.
+I primi push e il primo merge erano stati respinti dal controllo automatico per necessità di consenso esplicito al repository pubblico e, separatamente, all'integrazione `main`. L'utente ha poi autorizzato espressamente «Autorizzo push e PR pubblici» e «Autorizzo merge PR21 e rilascio ISTAT con C5». Operazioni eseguite dopo i consensi, nessun aggiramento. Autorizzazione risorse distinta: «Autorizzo il piano 36 → 40 GiB».
 
-## Stato di chiusura
+La VM è stata arrestata ordinatamente, copiata integralmente con AES256-GCM su Extra e chiave fisicamente separata. Decifratura integrale dei 12 file e rilettura degli originali identici: **20.422.355.234 byte cifrati**. Disco da 36 a 40 GiB; XFS da 37.290.283.008 a 41.585.250.304 byte. Solo il campo disco nella configurazione Lima è variato. DB logico e 84 file protetti identici prima/dopo, daily `945ef553` e SELinux Enforcing preservati. Nessun backup precedente eliminato. [Consuntivo risorse](ISTAT-PIANO-CAPIENZA-2026-10-24.md).
 
-Implementazione e qualifica locale: VERIFICATE nello scope delle correzioni. Generazione/validazione/download XML: VERIFICATI nel runtime isolato. Trasporto SOAP: provato con double ufficialmente isolato, non con credenziali reali. Demo: solo accesso e ricognizione. Pubblicazione e verifica del candidato online: PENDENTI per capienza. Accettazione dell'ente e ricevute ufficiali: NON VERIFICATE per codici/credenziali/abilitazione mancanti.
+Nuovi PREPARE/S0 cifrati e recuperi indipendenti completi, custodie Extra rilette/autenticate/decifrate con chiave separata PASS. PREPARE finale dopo tre STOP conservati: recupero oltre 240 s, trasferimento oltre 120 s, base cambiata durante preparazione. La diagnosi del terzo confronta il tar con lo stato successivo: nessuna causa puntuale retroattiva inventata. Ripetizioni con nuovi nonce/depositi, nessun vecchio S0 o limite riutilizzato impropriamente. Prima custodia Extra non avviata per timeout della revisione automatica, unico retry consentito riuscito. Ritirati soltanto 1.024.708.608 byte di proprie ricostruzioni temporanee del primo PREPARE, dopo verifica integrale di contenuti/metadati/ridump e file chiusi; cifrati, SQL, chiavi, manifest e log preservati.
 
-Codice modificato SÌ; test modificati SÌ; documentazione modificata SÌ; configurazione applicativa modificata NO; schema/dati reali modificati NO; test eseguiti SÌ; commit/push: registrati nei successivi riscontri Git; deploy NO; dichiarazioni statistiche esterne NO. Accessi esterni effettuati: fonti pubbliche, demo con utenza fittizia e letture aggregate produttive, senza trasmissioni di ospiti.
+Misura dopo PREPARE: 4.126.760.960 byte liberi contro 3.096.907.776 byte richiesti dalla stima conservativa inclusa riserva di 1 GiB. 55 campioni di quiete PASS, nessun logout o intervento sul pool condiviso. **S0 158.611 s / RUN 267.519 s**, zero DDL; budget 1800/600/1379/421 e trasferimento di 120 s invariati. Guardiano concluso/disarmato/inattivo/disabilitato. Git pulito, 250 digest, FPM/SMTP/provider e nove sonde conformi, 159 migrazioni/66 tabelle; DB byte-identico al S0 prima QA e 92 persistenti conformi.
 
-### Riscontro Git successivo alla qualifica
+## Verifica online e chiusura delle fixture
 
-Commit locale applicativo `31f5bdf38e18e556266abd217e6c82bf62db4970`, ramo dedicato pulito dopo il commit. Push al remoto verificato `https://github.com/joomlu/Schedinedinotifica` respinto due volte dalla revisione automatica: prima per destinazione non verificata, poi perché il repository è pubblico e viene richiesta autorizzazione esplicita per destinazione/payload pubblici. Verificata proprietà e permessi admin/push tramite connettore; nessun aggiramento eseguito. Richiesta specifica inviata all’utente. Nessuna PR o integrazione main, nessun deploy. Questo aggiornamento è solo documentale e non cambia i sorgenti qualificati.
+Tre larghezze 1440/768/390, login con account sintetici dedicati, due strutture e due ospiti. XML del mese aprile: 30 giornate/2 arrivi/2 partenze; 4 presenze e una camera occupata per ciascuna delle due notti nel riepilogo, provenienze Italia-Lazio e Germania, ciascuna con 1 arrivo, 2 presenze e 1 partenza. Validazione locale, stesso contenuto e SHA nello storico, origine invariata e download con cache `private, no-store` verificati. Credenziali non esposte, invio disabilitato, struttura estranea con HTTP 403, download di altro tenant con HTTP 404, reception in lettura, zero errori JS e nessun POST estraneo. Nessuna route di trasmissione statistica o email consentita nello spec; nessuna dichiarazione inviata. Sei schermate autentiche sintetiche ispezionate e conservate nelle evidenze.
+
+Primo NONPASS dello spec: testo HTML delle celle concatenato `121`, confronto atteso `1 2 1`; corretta lettura delle tre celle esatte e ripetuto integralmente il percorso, senza ridurre asserzioni/timeout né cambiare l'applicazione. Diagnostici preservati. Precondizione di doppio trasferimento della fixture respinta da O_EXCL: copia già presente identica e permessi 0600 verificata senza sovrascrittura.
+
+Fixture proprie rimosse; **HMAC di tutte le 66 tabelle identici**, nessun restore/reset dei contatori. **92 persistenti** identici al S0 per contenuti e metadati, sola eccezione mtime delle directory. Runtime browser proprio rimosso dopo confronto SHA dei 14 artefatti con la copia privata host; clone e backup conservati. VM finale: daily `945ef553`/SELinux Enforcing/DB e 84 file protetti preservati, arresto coordinato concluso; solo i presidi propri terminati.
+
+Monitor avviati dopo tutte le pulizie: **server 919.130 s/31 campioni/279 sonde**, **Mac 921.020 s/31 campioni/93 richieste HTTPS** con DNS e TLS ordinari PASS. Zero errori Laravel/FPM dall'intero T0 del RUN. Capacità: 119 campioni, minimo VM 2.170.011.648 byte e minimo Mac 17.026.891.776 byte, riserve rispettate. Protezione temporanea dallo standby limitata alla task e poi terminata, impostazioni persistenti invariate.
+
+Ricevuta aggregata: [rilascio.json](evidenze/istat-integrale-2026-10-24/rilascio.json). Verifica locale precedente e relativi NONPASS restano conservati separatamente; suite sovrapposte non sommate. Schermate `online-istat-*`, script QA e ricevute monitor nelle stesse evidenze; credenziali e chiavi fuori Git.
+
+## Stato finale e dipendenze concrete
+
+Implementazione e qualifica isolata: VERIFICATE. Generazione/validazione/download XML e storico: VERIFICATI anche online con dati sintetici. Pubblicazione: CONCLUSA sullo SHA indicato. SOAP: implementato e provato con double isolato; demo ufficiale solo consultata, nessun import/WS ufficiale di prova. **Accettazione dell'ente e ricevute ufficiali: NON VERIFICATE**.
+
+Lettura aggregata READ ONLY finale dopo pulizia: 4 strutture attive, 4 in Emilia-Romagna, 0 codici Ross1000, 0 coppie di credenziali presenti, 0 export e 0 trasmissioni reali conservate. Servono codice assegnato per ciascuna struttura anche per l’upload; credenziali WS e abilitazione per l'invio diretto; utenza/struttura di collaudo dedicata o riscontro ufficiale per dimostrare accettazione. Configurare i segreti nel percorso protetto esistente, senza pubblicarli in chat o Git.
+
+Prima di ogni dichiarazione reale resta obbligatoria la conferma umana su struttura, periodo e contenuto concreti. Sito rinnovato su altro worktree, escluso da questo deploy e ancora in revisione. Checkout originario e lavoro estraneo preservati. Stato generale BASELINE IN AUDIT; pubblicazione del modulo e accettazione statistica sono esiti distinti.
