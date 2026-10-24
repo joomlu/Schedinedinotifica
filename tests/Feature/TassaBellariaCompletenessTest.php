@@ -269,7 +269,7 @@ class TassaBellariaCompletenessTest extends TestCase
     private function verificaCategoriaNonCertificata(?string $tipo, ?string $classe): void
     {
         $a = $this->contesto();
-        $a->update(['tipologia_struttura' => $tipo, 'classificazione' => $classe, 'classificazione_id' => null]);
+        $a->update(['tipologia_struttura' => $tipo, 'tipologia_struttura_id' => null, 'classificazione' => $classe, 'classificazione_id' => null]);
         $payload = array_replace($this->payloadSchedina(), ['relationship' => 'OSPITE SINGOLO', 'exent' => 'NO', 'oa_date_nac' => '1980-01-01', 'arrive' => '2026-06-10', 'departure' => '2026-06-20']);
         $this->get('/schedine/nuova')->assertOk();
         $this->post('/schedine', $payload)->assertSessionHasNoErrors()->assertRedirect();

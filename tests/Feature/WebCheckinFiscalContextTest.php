@@ -69,8 +69,9 @@ class WebCheckinFiscalContextTest extends TestCase
     {
         [$a, $cfgA, $pA, $rA] = $this->contesto();
         [$b, $cfgB, $pB, $rB] = $this->contesto();
-        TassaEsenzione::create(['struttura_id' => $a->id, 'codice' => '450', 'descrizione' => 'ESENZIONE-TENANT-A', 'attivo' => true]);
-        TassaEsenzione::create(['struttura_id' => $b->id, 'codice' => '450', 'descrizione' => 'RISERVATO-ESENZIONE-B', 'attivo' => true]);
+        // Un codice canonico come 450 ha descrizione condivisa, non personalizzabile per tenant.
+        TassaEsenzione::create(['struttura_id' => $a->id, 'codice' => 'LEGACY-AUDIT', 'descrizione' => 'ESENZIONE-TENANT-A', 'attivo' => true]);
+        TassaEsenzione::create(['struttura_id' => $b->id, 'codice' => 'LEGACY-AUDIT', 'descrizione' => 'RISERVATO-ESENZIONE-B', 'attivo' => true]);
         TassaEsenzione::create(['struttura_id' => $a->id, 'codice' => '777', 'descrizione' => 'NON-SELEZIONABILE', 'attivo' => true]);
         TassaEsenzione::create(['struttura_id' => $a->id, 'codice' => '999', 'descrizione' => 'INATTIVA', 'attivo' => false]);
         $before = $this->fiscale();

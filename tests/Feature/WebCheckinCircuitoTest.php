@@ -191,7 +191,7 @@ class WebCheckinCircuitoTest extends TestCase
         $r=$this->scenario();$other=$this->structureFor(null);$foreign=$r->schedina->replicate();$foreign->forceFill(['struttura_id'=>$other->id,'name'=>'SEGRETO-ALTRA-STRUTTURA'])->save();
         $legacy=$r->replicate();$legacy->forceFill(['struttura_id'=>$other->id,'schedina_id'=>$foreign->id,'codice'=>'WC1','token'=>Str::random(64),'short_token'=>null])->save();
         $r->forceFill(['schedina_id'=>$foreign->id])->save();
-        $this->get(route('web_checkin.edit',$r->id))->assertOk()->assertDontSee('SEGRETO-ALTRA-STRUTTURA');
+        $this->get(route('web_checkin.edit',$r->id))->assertNotFound()->assertDontSee('SEGRETO-ALTRA-STRUTTURA');
         $item=app(CestinoService::class)->archiveModel($r);$r->delete();
         $restored=app(CestinoService::class)->restoreItem($item);$this->assertNull($restored->schedina_id);$this->assertMatchesRegularExpression('/^WC[0-9A-Z]{26}$/',$restored->codice);$this->assertSame('SEGRETO-ALTRA-STRUTTURA',$foreign->fresh()->name);
         $this->assertDatabaseHas('web_checkin_richieste',['id'=>$legacy->id,'codice'=>'WC1']);
