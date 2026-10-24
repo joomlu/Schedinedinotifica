@@ -106,6 +106,9 @@ class IstatTabellaAService
         if (($struttura->tipo_apertura ?? 'Annuale') !== 'Annuale' && (!$this->date($struttura->data_apertura) || !$this->date($struttura->data_chiusura))) {
             $errors[] = 'Struttura stagionale: date di apertura/chiusura mancanti o non valide.';
         }
+        if (($struttura->tipo_apertura ?? 'Annuale') !== 'Annuale' && $this->date($struttura->data_apertura) && $this->date($struttura->data_chiusura)?->lt($this->date($struttura->data_apertura))) {
+            $errors[] = 'Struttura stagionale: la chiusura precede l’apertura.';
+        }
         $schedine = $this->schedinePerPeriodo($struttura->id, $dal, $al);
         $codes = new IstatCodifiche();
         $identifiers = [];
@@ -195,7 +198,33 @@ class IstatTabellaAService
         }
         return ['rows' => $rows, 'schedine' => $schedine, 'errors' => array_values(array_unique($errors)),
             'valida' => !$errors, 'totale_schedine' => $schedine->count(), 'totale_arrivi' => (int) $rows->sum('arrivi'),
-            'totale_presenze' => (int) $rows->sum('presenti'), 'totale_partenze' => (int) $rows->sum('partenze')];
+            'totale_presenze' => (int) $rows->sum('presenti'), 'totale_partenze' => (int) $rows->sum('partenze'),
+            'provenienze' => $this->provenienze($schedine, $dal, $al)];
+    }
+
+    private function provenienze(Collection $schedine, Carbon $dal, Carbon $al): Collection
+    {
+        $codes = new IstatCodifiche();
+        $totals = [];
+        foreach ($schedine as $stay) {
+            $arrival = $this->date($stay->arrive);
+            $departure = $this->date($stay->departure);
+            $first = $arrival?->max($dal);
+            $last = $departure?->min($al->copy()->addDay());
+            $nights = $first && $last && $last->gt($first) ? (int) $first->diffInDays($last) : 0;
+            foreach ($this->guests($stay) as $guest) {
+                $country = $codes->country($guest['statoresidenza']);
+                $region = (string) $guest['regione_residenza'];
+                if (ctype_digit($region)) $region = \App\Models\GeoRegione::find((int) $region)?->nome ?? '';
+                $key = $country === '100000100' ? $country.'|'.IstatCodifiche::normalize($region) : ($country ?? 'NON_RISOLTA');
+                $label = $country === '100000100' ? 'Italia - '.($region ?: 'Regione non indicata') : ($codes->table('stati')[$country]['Descrizione'] ?? 'Provenienza non risolta');
+                $totals[$key] ??= ['label' => $label, 'arrivi' => 0, 'presenze' => 0, 'partenze' => 0];
+                $totals[$key]['arrivi'] += (int) ($arrival?->betweenIncluded($dal, $al) ?? false);
+                $totals[$key]['partenze'] += (int) ($departure?->betweenIncluded($dal, $al) ?? false);
+                $totals[$key]['presenze'] += $nights;
+            }
+        }
+        return collect($totals)->sortKeys()->values();
     }
 
     public function previewRecords(string $xml): array

@@ -1,7 +1,7 @@
 import { test, expect, BASE_URL } from '../Support/playwright.js';
 
-for (const [name, width] of [['desktop', 1440], ['mobile', 390]]) {
-  test(`ISTAT ${name}: configurazione protetta, trasporto OFF e storico`, async ({ page }) => {
+for (const [name, width] of [['desktop', 1440], ['tablet', 768], ['mobile', 390]]) {
+  test(`ISTAT ${name}: configurazione protetta, trasporto OFF e storico`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto(`${BASE_URL}/login`);
     await page.locator('input[name="login"]').fill('istat-ui');
@@ -21,6 +21,11 @@ for (const [name, width] of [['desktop', 1440], ['mobile', 390]]) {
     await page.locator('#istat-preview summary').click();
     await expect(page.locator('#istat-preview')).toContainText('C9000001');
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-    await page.screenshot({ path: `/private/tmp/istat-cycle-${name}.png` });
+    await page.screenshot({ path: testInfo.outputPath(`istat-cycle-${name}.png`) });
+    await page.goto(`${BASE_URL}/istat-tabella-a/stampa-riepilogo?mese=2026-04`);
+    await expect(page.getByRole('heading', { name: 'Provenienze per residenza' })).toBeVisible();
+    await expect(page.locator('body')).toContainText('GERMANIA');
+    await expect(page.locator('body')).toContainText('Italia - Lazio');
+    await page.screenshot({ path: testInfo.outputPath(`istat-riepilogo-${name}.png`), fullPage: true });
   });
 }

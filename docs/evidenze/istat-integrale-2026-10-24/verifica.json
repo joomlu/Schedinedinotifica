@@ -1,0 +1,53 @@
+{
+  "stato": "PASS_ISTAT_INTEGRALE_ISOLATO",
+  "base": "455a792cfc163d9cd52ff3964bc9629222ac5810",
+  "sorgenti_sha256": {
+    "app/Http/Controllers/IstatTabellaAController.php": "5d20fec14e00b9f684ca339d3614dc600904d2c4b1321d366fc0907e9c0d5e36",
+    "app/Services/IstatPayloadStore.php": "4f4fecff73b75727dcc028a0d383d0f050beae56f84ce0be4da151e721dcc7c1",
+    "app/Services/IstatRetention.php": "3f4630dd345ac1ef5d73e4a0630a90f03494ac134caf071ec6c40fdf87d9b435",
+    "app/Services/IstatSnapshot.php": "6b9ea25c61c723eb71b2339be8919be2eea52808f87bb182073b324d79930ac1",
+    "app/Services/IstatStoricoValidator.php": "d514f7c476b173ef0eb5204a8cbf2a3485eb3bc17a6b0c06dcc112d7e2976c4e",
+    "app/Services/IstatTabellaAService.php": "1252ec74a82985f4c36b936209aebacd9ed68747968431818ecb3c9436d2a4e9",
+    "resources/views/istat_tabella_a/index.blade.php": "0f7f615cd1ddb007ec7e09edcb95431cd6ae93cec056cf7a620a3b49db9e8f5a",
+    "resources/views/istat_tabella_a/print-summary.blade.php": "a445bd916bb3d8ec74bbaa5c943e6580afcab2a12daf9b464ae77a78bf344169",
+    "tests/Feature/IstatCycleTest.php": "d1552cb782c83bccb08ba11183aa146b2d03c38714574732abe715578dfc11cb",
+    "tests/Feature/istat-cycle.playwright.spec.js": "3f314a175d245f6cadcc03fcfbfa05737ce41b436be18c3353a72808ae8d11d2"
+  },
+  "R5": {
+    "test": 171,
+    "asserzioni": 1647,
+    "browser": 3
+  },
+  "R6": {
+    "browser": 3,
+    "schermate": 6,
+    "solo_test_browser_aggiuntivo": true
+  },
+  "guardie_pure": 5,
+  "override_rifiutati_per_runtime": 23,
+  "build_GEO_PASS": true,
+  "ambiente": {
+    "PHP": "8.3.36",
+    "MariaDB": "11.8.9",
+    "PHPUnit": "11.5.57",
+    "VM": "schedine-sviluppo-interno",
+    "SELinux": "Enforcing"
+  },
+  "capienza": {
+    "campioni": 27,
+    "minimo_VM": 1656004608,
+    "minimo_Mac": 31662931968,
+    "riserva": 1073741824,
+    "tutti_PASS": true
+  },
+  "esiti_conservati": {
+    "R1": "65/410 PASS",
+    "R2": "68/428 PASS,2browserNONPASSperpath",
+    "R3": "91/517+3browserPASS",
+    "R4": "rifiutato_nome_suite_inesistente",
+    "guardie_primo_avvio": "13errori_processo_Node_assente_PATH"
+  },
+  "invii_statistici_reali": 0,
+  "migrazioni_nuove": 0,
+  "deploy": false
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "file": "comuni.txt",
+    "identico_normalizzato": true,
+    "sha256_download": "a9d0f21fc5511b3e05bca881914251ee18c1310a2351abc636bae432f47b6454",
+    "byte": 369511
+  },
+  {
+    "file": "stati.txt",
+    "identico_normalizzato": true,
+    "sha256_download": "77f4bb0b0df6bcf10385b9b8892d876a6023c2da40abea72c569b2beb205ced4",
+    "byte": 6113
+  },
+  {
+    "file": "tipi.txt",
+    "identico_normalizzato": true,
+    "sha256_download": "3cf46914cf9806e9b0d2307c27bfcf67f849de1432c65ff7e8603cd74b69f4cd",
+    "byte": 105
+  }
+]

@@ -1,0 +1,17 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-24 23:22:45 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-31x2k_p5; database=test_geo_b67c0ac12e2c360573acb01eb199f76d; MySQL pid=57, porta=52667; HTTP pid=82, porta=51439
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PASS: fixture nota, arrivi=2, partenze=2, presenze=2; XSD e confronto XML sintetico.
+PASS: due processi/connessioni MySQL simultanei, una sola prenotazione ISTAT; zero trasporti.
+
+Running 3 tests using 1 worker
+
+  ✓  1 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT desktop: configurazione protetta, trasporto OFF e storico (4.6s)
+  ✓  2 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT tablet: configurazione protetta, trasporto OFF e storico (3.2s)
+  ✓  3 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT mobile: configurazione protetta, trasporto OFF e storico (2.6s)
+
+  3 passed (12.2s)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-31x2k_p5

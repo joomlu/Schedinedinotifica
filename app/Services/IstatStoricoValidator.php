@@ -37,18 +37,16 @@ final class IstatStoricoValidator
                 continue;
             }
             if ($export->snapshot !== null) {
-                $snapshot = $export->snapshot;
-                ksort($snapshot);
-                $actual = (new IstatSnapshot())->make($schedine);
                 $overlap = $export->dal->lte($al) && $export->al->gte($dal);
-                if (!$overlap) {
-                    // Anche un soggiorno iniziato nel mese già comunicato può
-                    // essere modificato mentre si prepara la sua partenza successiva.
-                    $snapshot = array_intersect_key($snapshot, $actual);
-                    $actual = array_intersect_key($actual, $snapshot);
-                }
-                if ($communicated && $snapshot !== $actual) {
-                    $errors[] = 'Export storico #'.$export->id.': ospiti o soggiorno modificati dopo una comunicazione. Verificare e rettificare sul portale Ross1000 prima di generare un nuovo XML.';
+                $related = array_intersect_key($export->snapshot, (new IstatSnapshot())->make($schedine));
+                // Confrontare l'intero periodo originale: un sottointervallo non
+                // dimostra la cancellazione degli ospiti degli altri giorni.
+                if ($communicated && ($overlap || $related)) {
+                    $source = (new IstatTabellaAService())->schedinePerPeriodo($strutturaId, $export->dal, $export->al);
+                    $struttura = \App\Models\Struttura::withoutGlobalScopes()->findOrFail($strutturaId);
+                    if (!(new IstatSnapshot())->matches($export, $source, $struttura)) {
+                        $errors[] = 'Export storico #'.$export->id.': ospiti, soggiorno o configurazione modificati dopo una comunicazione. Verificare e rettificare sul portale Ross1000 prima di generare un nuovo XML.';
+                    }
                 }
                 continue;
             }

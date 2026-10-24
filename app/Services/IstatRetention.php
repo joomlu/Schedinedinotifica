@@ -20,7 +20,7 @@ final class IstatRetention
                         \App\Models\Struttura::whereKey($export->struttura_id)->lockForUpdate()->firstOrFail();
                         $locked = IstatExport::whereKey($export->id)->lockForUpdate()->firstOrFail();
                         if ($locked->minimized_at || IstatTransmission::where('istat_export_id', $locked->id)
-                            ->whereNull('reconciled_at')->whereIn('status', ['pending', 'uncertain', 'partial'])->exists()) {
+                            ->where('mode', '!=', 'verify')->whereNotIn('status', ['disabled', 'not_delivered'])->exists()) {
                             return;
                         }
                         $prefix = 'istat/struttura_'.(int) $locked->struttura_id.'/';

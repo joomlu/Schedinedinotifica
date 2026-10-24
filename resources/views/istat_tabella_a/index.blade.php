@@ -430,7 +430,11 @@
                                         @foreach($storico as $item)
                                             <tr>
                                                 <td>{{ $item->created_at?->format('d/m/Y H:i') }}</td>
-                                                <td>{{ $item->dal?->format('d/m/Y') }} - {{ $item->al?->format('d/m/Y') }}</td>
+                                                <td>{{ $item->dal?->format('d/m/Y') }} - {{ $item->al?->format('d/m/Y') }}
+                                                    <div class="small text-muted">{{ $exportReviews[$item->id]['formato'] }}</div>
+                                                    <div class="small">{{ $exportReviews[$item->id]['stato'] }}</div>
+                                                    <div class="small text-break">SHA256: {{ $item->sha256 ?: 'Non registrato' }}</div>
+                                                </td>
                                                 <td>{{ $item->schedine_count }}</td>
                                                 <td>{{ $item->movimenti_count }}</td>
                                                 <td class="text-end"><a href="{{ route('istat.tabella_a.download.storico', ['id' => $item->id]) }}" class="btn btn-soft-secondary">Scarica XML</a></td>
