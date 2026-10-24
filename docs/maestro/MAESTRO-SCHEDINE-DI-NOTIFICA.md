@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Tassa — delimitazione dei pendenti reali — 24 ottobre 2026, prosecuzione
+
+**PARZIALE; BASELINE IN AUDIT invariata.** [Approfondimento corrente](../TASSA-PENDENTI-OPERATIVI-2026-10-24.md). SHA produttivo `dda6b24ed40a3257ad5226ec3459a52f149b95fa` riconfermato con lettura Git. Nuove transazioni DB READ ONLY, solo aggregati: due classificazioni mancanti in strutture attive Bellaria; zero conflitti. La nascita effettiva mancante globale appartiene a una struttura cancellata logicamente: zero titolari e zero componenti senza nascita nel perimetro Bellaria non cancellato in stagione. Questo supera l’attribuzione precedente della nascita mancante ai blocchi operativi correnti, senza cancellare il dato storico o dichiarare nuovi dati completati. Prima query di approfondimento respinta per colonna `citta` assente; metadati e fallback legacy `città` del modello rispettati nella ripetizione, nessuna DDL. Restano due classificazioni da fornire correttamente nelle schede canoniche Admin/Superadmin e accettazione StayTour non verificabile senza sessione/validatore. Zero export reali consolidati. Nessuna modifica applicativa, dato reale, invio o rilascio in questa prosecuzione. Rinnovo del sito delegato a un secondo agente su worktree indipendente; nessuna commistione con i pendenti fiscali.
+
+
 ## Tassa — correttivi pubblicati e verifica conclusiva — 24 ottobre 2026
 
 **Applicativo `dda6b24ed40a3257ad5226ec3459a52f149b95fa` online; settore PARZIALE, BASELINE IN AUDIT.** [Rapporto in spagnolo richiesto](../TASSA-VERIFICA-INTEGRALE-2026-10-24.md), [ricevuta aggregata](../evidenze/tassa-verifica-2026-10-24/rilascio.json), [qualifica e digest](../evidenze/tassa-verifica-2026-10-24/verifica.json). Questo consuntivo supera gli stati preliminari del 24 ottobre conservati nella cronologia; non attesta chiusura fiscale integrale.

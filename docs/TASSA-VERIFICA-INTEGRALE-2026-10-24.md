@@ -90,3 +90,8 @@ VM devuelta **apagada**, daily `945ef553aab29ac437ff194f7cfad081fb7ab7c7`, SELin
 | Transmisiones fiscales o mensajes reales | NO |
 
 **¿Puedo considerar cerrado el módulo Tassa di soggiorno y utilizarlo operativamente? No. El circuito técnico publicado está comprobado, pero los pendientes externos y de datos reales impiden acreditar el cierre integral y considerarlo apto para un uso fiscal general sin reservas.**
+
+
+## Precisión posterior del perímetro — 24 de octubre de 2026
+
+La nueva lectura agregada relaciona la única fecha de nacimiento ausente con una estructura eliminada lógicamente. En Bellaria, para estructuras no eliminadas y estancias efectivas del período, hay cero titulares y cero acompañantes sin nacimiento. Se rectifica su consideración como bloqueo operativo actual; el dato histórico permanece intacto. Las dos clasificaciones pendientes sí pertenecen a estructuras activas de Bellaria. Continúan pendientes esas clasificaciones y la aceptación externa StayTour: el veredicto PARCIAL y la respuesta de no cierre integral se mantienen. [Detalle y evidencia nueva](TASSA-PENDENTI-OPERATIVI-2026-10-24.md). SHA productivo reconfirmado: `dda6b24ed40a3257ad5226ec3459a52f149b95fa`; ninguna modificación real ni publicación nueva.
