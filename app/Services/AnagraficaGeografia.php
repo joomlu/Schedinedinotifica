@@ -17,7 +17,7 @@ class AnagraficaGeografia
         $city = $rows->first(); $province = $city->provincia; $region = $province?->regione; $country = $region?->nazione;
         if (! $country || mb_strtolower(trim((string) $country->nome)) !== mb_strtolower(trim((string) $entity->nazione))
             || mb_strtolower(trim((string) $region->nome)) !== mb_strtolower(trim((string) $entity->regione))) return null;
-        if (! GeoComuneCap::where('geo_comune_id', $city->id)->where('cap', $entity->cap)->exists()) return null;
+        if (! GeoComuneCap::where('geo_comune_id', $city->id)->whereHas('cap', fn ($q) => $q->where('cap', $entity->cap))->exists()) return null;
         return ['nazione_id' => $country->id, 'nazione' => $country->nome,
             'regione_id' => $region->id, 'regione_text' => $region->nome,
             'provincia_id' => $province->id, 'provincia_text' => $province->sigla,

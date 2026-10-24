@@ -5,7 +5,8 @@
   "rischio": "ALTO",
   "modifiche": [
     "450 canonico senza dipendenza da record legacy, conferma umana recuperata dal commit68fa1cd5",
-    "Date impossibili e relative rifiutate, nessuna normalizzazione implicita della nascita"
+    "Date impossibili e relative rifiutate, nessuna normalizzazione implicita della nascita",
+    "AnagraficaGeografia: CAP verificato tramite relazione geo_cap del pivot, senza interrogare una colonna inesistente e senza DDL"
   ],
   "prove": {
     "R1_RED": {
@@ -42,7 +43,31 @@
     "override_rifiutati_per_runtime": 23,
     "PDF": 13,
     "pagine": 14,
-    "somma_esecuzioni_sovrapposte_non_effettuata": true
+    "somma_esecuzioni_sovrapposte_non_effettuata": true,
+    "R8b_RED": {
+      "test": 1,
+      "asserzioni": 0,
+      "errori": 1,
+      "difetto": "Colonna cap inesistente nel pivot geo_comuni_cap"
+    },
+    "R8_invocazione_respinta": {
+      "test_eseguiti": 0,
+      "causa": "Mancava il selettore --phpunit richiesto dal runner"
+    },
+    "R9": {
+      "test": 28,
+      "asserzioni": 161
+    },
+    "R10": {
+      "test": 333,
+      "asserzioni": 4829,
+      "browser": 7
+    },
+    "R11": {
+      "test": 24,
+      "asserzioni": 118,
+      "browser": 4
+    }
   },
   "runtime": {
     "VM": "schedine-sviluppo-interno",
@@ -120,7 +145,7 @@
     "app/Http/Middleware/VerificaServizioStruttura.php": "d85d0968157be3671044f80da19cff5b53ccf08212801fbd9a45d4b284526322",
     "app/Http/Requests/StrutturaRequest.php": "ae45f17c52969b5f4c24deae3022eb315a37988f97cc9903a34f01203e057c4d",
     "app/Models/Struttura.php": "14ebb5934186a2e191755d69f3697cbdee6d648f1f6bb46a9374899bea10920a",
-    "app/Services/AnagraficaGeografia.php": "86c86cc2aa993aeed041473f9d49de8d837622d818d55d62da55c9736d41e804",
+    "app/Services/AnagraficaGeografia.php": "044f24cde7630a78bd086b9f68e5eafcad54aa6b42e4d9aced4d62d6d1d784a2",
     "app/Services/AnagraficaProprietario.php": "5b1291edc3afe161da1ffdd7b277a5cb8b2962459c495384a2362bae13020496",
     "app/Services/AnagraficaStruttura.php": "6f7494c160678ed7b4a15bd20e62e394accac00deba9044501e5a20da744788a",
     "app/Services/TassaDiSoggiornoService.php": "142fefbdc7d87c7c57d1da8ea7e7d93d5c356ed031d62a51769a50518ab70fa7",
@@ -150,6 +175,8 @@
     "tests/Feature/WebCheckinFiscalContextTest.php": "0ce1e4533e3ede0ce37f5983056bdbae6e95d40b40870fe1597a4f89b645f2dd",
     "tests/Feature/anagrafiche-unificate.playwright.spec.js": "8d2f9ad6a0c656aa4ff9388e5a111e08ed399aabee56b96b756b9f2298c6dfe7",
     "tests/Isolation/seed-anagrafiche.php": "4d2a19efec38d085eb9867254f1d5aa00f06c2fee241ad9d4217626060bf4cbb",
-    "tests/Support/StrutturaFixtures.php": "414e7e8e322da981debfdb2f7979c9e31f6a542d0e904fef9e1691885c1b9c2f"
-  }
+    "tests/Support/StrutturaFixtures.php": "414e7e8e322da981debfdb2f7979c9e31f6a542d0e904fef9e1691885c1b9c2f",
+    "tests/Feature/AnagraficaGeografiaAuditTest.php": "a51c4aaf84b18daaa4a4de9b92da95c62c9ce07c3141384dc9b08cb3d93b9541"
+  },
+  "stato_pubblicazione_corrente": "ca1ead9cebb53e2e92da0bf2e34df461b4cf8a65; calcolo Tassa online PASS, anagrafica GEO NONPASS, correttivo successivo in qualificazione"
 }
