@@ -397,6 +397,8 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
           [...field.options].forEach(option => { option.defaultSelected = option.value === ''; });
         });
         delete form.dataset.contactRestored;
+        const previousFeedback = form.previousElementSibling;
+        if (previousFeedback?.matches('[data-contact-feedback]')) previousFeedback.remove();
         form.reset();
         if (window.jQuery && window.jQuery.fn && typeof window.jQuery.fn.select2 === 'function') {
           window.jQuery(form.querySelector('[data-ui="contact-city-select"]')).val(null).trigger('change');

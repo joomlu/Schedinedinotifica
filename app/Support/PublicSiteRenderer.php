@@ -12,9 +12,9 @@ final class PublicSiteRenderer
         $feedback = '';
         if (request()->hasSession()) {
             if (request()->session()->get('sito-richiesta-registrata') === true) {
-                $feedback = '<p class="form-status is-success" role="status">Richiesta registrata. Grazie per averci contattato.</p>';
+                $feedback = '<p data-contact-feedback class="form-status is-success" role="status">Richiesta registrata. Grazie per averci contattato.</p>';
             } elseif ($errors = request()->session()->get('errors')) {
-                $feedback = '<p class="form-status is-error" role="alert">La richiesta non è stata registrata. '.htmlspecialchars((string) $errors->first(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8').'</p>';
+                $feedback = '<p data-contact-feedback class="form-status is-error" role="alert">La richiesta non è stata registrata. '.htmlspecialchars((string) $errors->first(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8').'</p>';
             }
         }
         $html = $this->restoreContactInput(str_replace('{{contact.feedback}}', $feedback, $html));

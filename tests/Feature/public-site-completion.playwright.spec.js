@@ -102,6 +102,7 @@ test('form: errore nativo conserva dati, piano, servizio, interesse e motivo anc
   await page.getByRole('button', { name: 'Invia la richiesta', exact: true }).click();
   const receipt = await stored; expect(receipt.status()).toBe(200); expect((await receipt.json()).ok).toBe(true);
   await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.locator('[data-contact-feedback]')).toHaveCount(0);
   for (const name of ['company', 'name', 'email', 'message']) await expect(page.locator(`[name=${name}]`)).toHaveValue('');
   await expect(page.locator('[data-commercial-plan]')).toHaveValue('');
   await expect(page.locator('[data-commercial-interest]')).toHaveValue('');
