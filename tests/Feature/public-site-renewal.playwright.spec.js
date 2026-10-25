@@ -67,6 +67,7 @@ for (const width of [1440, 768, 390]) {
       await expect(page.locator('body')).toHaveCSS('font-size', width <= 600 ? '17px' : '18px');
       await expect(page.locator('.brand-logo')).toHaveCount(2);
       await expect(page.locator('.brand strong')).toHaveText(['Tanggo Software', 'Tanggo Software']);
+      expect(await page.locator('.site-nav a').evaluateAll(links => links.map(a => a.getAttribute('href')))).toEqual(['/', '/moduli', '/ampliamenti', '/prezzi', '/#adatto-per', '/#faq', '/demo', '/login', '/contatti#demo']);
       if (url === '/') await expect(page.locator('.hero')).toHaveCSS('display', 'grid');
       if (width === 1440) {
         const cta = page.locator('.site-nav .nav-cta');
