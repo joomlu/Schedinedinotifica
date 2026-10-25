@@ -28,10 +28,10 @@ class PublicSiteRenewalTest extends TestCase
             }
         }
         $home = preg_replace('/\s+/u', ' ', strip_tags(preg_replace('/<br\s*\/?\s*>/i', ' ', $this->get('/')->getContent())));
-        $this->assertStringContainsString('Meno burocrazia. Più tempo per i tuoi ospiti.', $home);
-        $this->assertStringContainsString('Schedine di Notifica è il software per reception, gestori di appartamenti e strutture ricettive: organizza gli arrivi, raccogli i dati degli ospiti e segui gli adempimenti nel contesto della tua struttura.', $home);
+        $this->assertStringContainsString('Il software per accogliere meglio. Schedine di Notifica.', $home);
+        $this->assertStringContainsString('Accogli meglio, ogni giorno. Organizza gli arrivi, ricevi i dati degli ospiti prima del check-in e gestisci schedine e adempimenti da un unico ambiente, pensato per hotel, B&B e appartamenti.', $home);
         $this->assertStringContainsString('Richiedi una demo', $home);
-        $this->assertStringContainsString('Scopri le funzioni', $home);
+        $this->assertStringContainsString('Confronta i piani', $home);
     }
 
     public function test_url_storiche_e_accessi_privati_restano_preservati(): void

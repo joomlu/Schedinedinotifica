@@ -6,7 +6,7 @@ const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 
 const catalog = JSON.parse(readFileSync(new URL('../../web/assets/catalogo-commerciale.json', import.meta.url), 'utf8'));
 
-const pages = [['/', 'Meno burocrazia.'], ['/moduli', 'Ogni attività ha il suo spazio.'], ['/ampliamenti', 'Il percorso giusto.'], ['/demo', 'Dai primi dati'], ['/prezzi', 'Il piano giusto.'], ['/contatti', 'La tua prossima accoglienza'], ['/note-legali', 'Note legali'], ['/privacy', 'Informativa privacy'], ['/cookie', 'Cookie tecnici']];
+const pages = [['/', 'Il software per'], ['/moduli', 'Ogni attività ha il suo spazio.'], ['/ampliamenti', 'Il percorso giusto.'], ['/demo', 'Dai primi dati'], ['/prezzi', 'Il piano giusto.'], ['/contatti', 'La tua prossima accoglienza'], ['/note-legali', 'Note legali'], ['/privacy', 'Informativa privacy'], ['/cookie', 'Cookie tecnici']];
 
 for (const width of [1440, 768, 390]) {
   test(`sito pubblico: nove pagine, navigazione e accessi a ${width}`, async ({ page }, info) => {
@@ -63,6 +63,9 @@ for (const width of [1440, 768, 390]) {
       await expect(page.locator('h1')).toContainText(title);
       await expect(page.locator('h1')).toHaveCount(1);
       await expect(page.locator('main')).toBeVisible();
+      await expect(page.locator('body')).toHaveCSS('font-size', width <= 600 ? '17px' : '18px');
+      await expect(page.locator('.brand-logo')).toHaveCount(2);
+      await expect(page.locator('.brand strong')).toHaveText(['Tanggo Software', 'Tanggo Software']);
       if (url === '/') await expect(page.locator('.hero')).toHaveCSS('display', 'grid');
       if (width === 1440) {
         const cta = page.locator('.site-nav .nav-cta');
