@@ -6,7 +6,7 @@ const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 
 const catalog = JSON.parse(readFileSync(new URL('../../web/assets/catalogo-commerciale.json', import.meta.url), 'utf8'));
 
-const pages = [['/', 'Meno burocrazia.'], ['/moduli', 'Ogni attività ha il suo spazio.'], ['/ampliamenti', 'Il percorso giusto.'], ['/demo', 'Dai primi dati'], ['/prezzi', 'Il piano giusto.'], ['/contatti', 'La tua prossima accoglienza'], ['/note-legali', 'Note legali'], ['/privacy', 'Informativa privacy'], ['/cookie', 'Cookie tecnici']];
+const pages = [['/', 'Il software per'], ['/moduli', 'Ogni attività ha il suo spazio.'], ['/ampliamenti', 'Il percorso giusto.'], ['/demo', 'Dai primi dati'], ['/prezzi', 'Il piano giusto.'], ['/contatti', 'La tua prossima accoglienza'], ['/note-legali', 'Note legali'], ['/privacy', 'Informativa privacy'], ['/cookie', 'Cookie tecnici']];
 
 for (const width of [1440, 768, 390]) {
   test(`sito pubblico: nove pagine, navigazione e accessi a ${width}`, async ({ page }, info) => {
@@ -41,7 +41,8 @@ for (const width of [1440, 768, 390]) {
             return rect.left >= 0 && rect.right <= innerWidth && rect.left < innerWidth / 2;
           });
           expect(copyFits).toBe(true);
-          await expect(page.locator('.hero-photo')).toHaveCSS('background-image', /foto-reception\.webp/);
+          await expect(page.locator('.hero-photo')).toHaveCSS('background-image', /radial-gradient/);
+          await expect(page.locator('.hospitality-story-image img')).toHaveAttribute('src', '/site-assets/img/ospitalita-checkin.webp');
         }
         await page.getByRole('button', { name: 'Apri menu', exact: true }).click();
         const cta = page.locator('.site-nav .nav-cta');
@@ -63,6 +64,10 @@ for (const width of [1440, 768, 390]) {
       await expect(page.locator('h1')).toContainText(title);
       await expect(page.locator('h1')).toHaveCount(1);
       await expect(page.locator('main')).toBeVisible();
+      await expect(page.locator('body')).toHaveCSS('font-size', width <= 600 ? '17px' : '18px');
+      await expect(page.locator('.brand-logo')).toHaveCount(2);
+      await expect(page.locator('.brand strong')).toHaveText(['Tanggo Software', 'Tanggo Software']);
+      expect(await page.locator('.site-nav a').evaluateAll(links => links.map(a => a.getAttribute('href')))).toEqual(['/', '/moduli', '/ampliamenti', '/prezzi', '/#adatto-per', '/#faq', '/demo', ...(url === '/contatti' ? ['/contatti'] : []), '/login', '/contatti#demo']);
       if (url === '/') await expect(page.locator('.hero')).toHaveCSS('display', 'grid');
       if (width === 1440) {
         const cta = page.locator('.site-nav .nav-cta');
