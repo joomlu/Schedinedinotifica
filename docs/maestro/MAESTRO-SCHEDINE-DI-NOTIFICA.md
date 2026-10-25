@@ -1,5 +1,12 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Sito integrale — rilievo PR25 corretto e qualifica R10 PASS — 25 ottobre 2026
+
+**193PHP/2121asserzioni e19browserPASS; pubblicazione ancora NON ESEGUITA. BASELINE IN AUDIT invariata.** [Rapporto](../SITO-INTEGRALE-2026-10-25.md), [ricevuta corrente](../evidenze/sito-integrale-2026-10-25/verifica.json). PR25: corretto P2 sul timeout lock del form nativo, ora303+errore+oldinput, JSON503RetryAfter2 preservato; nuovo test nessuna scrittura. Dopo salvataggio JS valido rimosso il vecchio errore nativo, senza falsa conferma.
+
+R10 su1a6bc6bcb5845023ff03da1d3fa80ca42fbdf02f, otto suitePHP e19browser incluse12figure/15catture; build/GEO,23override e4403digestPASS. R6/R8 conservati separati e superati quanto a candidato, R9 non sommato. CapacitàVM e autorizzazione specifica al ritiro derivati restano gate prima del nuovo PREPARE/S0/C5; nessuna rimozione, dato reale, DDL o invio. Produzione ancora sul precedente applicativo1edf0495.
+
+
 ## Sito integrale — qualifica PASS e nuovo C5 in attesa della capacità — 25 ottobre 2026
 
 **192PHP/2103asserzioni e16browserPASS; nuova pubblicazione NON ESEGUITA. BASELINE IN AUDIT invariata.** [Rapporto](../SITO-INTEGRALE-2026-10-25.md), [ricevuta](../evidenze/sito-integrale-2026-10-25/verifica.json), [confronto](../CONFRONTO-SITO-2026-10-25.md). Sei pagine e /ampliamenti autonoma, contenuti prodotto verificati, prezzi approvati preservati; interesse/piano/MaxFull nelCRM, consenso server, retry senza duplicati e salvataggio transazionale. Falsa conferma HTTP200 riprodotta e corretta; formPOST/303 e dati restaurati escapati. Risorse con hash, marcatore comune e MIME esplicito. Segnalazione originaria non riprodotta e causa cache non dimostrata.
