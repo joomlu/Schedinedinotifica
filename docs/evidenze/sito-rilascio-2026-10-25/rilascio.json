@@ -1,0 +1,216 @@
+{
+  "stato": "PASS_SITO_PUBBLICATO_C5_QA_MONITOR",
+  "data_UTC": "2026-10-25T12:08:40.877464+00:00",
+  "URL": "https://schedinedinotifica.tanggo.software/",
+  "SHA_applicativo_servito": "1edf049550e624d393d4d8278f3ea541b89dcdf6",
+  "PR_applicativa": "https://github.com/joomlu/Schedinedinotifica/pull/23",
+  "qualifica_integrata": {
+    "PHP_test": 183,
+    "asserzioni": 1879,
+    "browser": 9,
+    "digest_sorgenti": 4396,
+    "override_rifiutati": 23,
+    "build_GEO": "PASS",
+    "ricevuta": "verifica.json"
+  },
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "S0_secondi": 146.494,
+    "RUN_secondi": 250.491,
+    "DDL": false,
+    "decisione": "CANDIDATO_ACCETTATO"
+  },
+  "sorgenti_e_protetti_verificati": 279,
+  "DB_byte_identico_S0_prima_QA": true,
+  "migrazioni": 159,
+  "tabelle": 66,
+  "guardiano_concluso_disarmato_inattivo_disabilitato": true,
+  "custodie_cifrate_Extra": {
+    "PREPARE": {
+      "esito": "PASS_PREPARE_EXTRA_INTEGRITA_RECUPERO",
+      "byte_cifrati": 489911424,
+      "file": [
+        {
+          "nome": "db.sql",
+          "byte": 23342896,
+          "cipher_sha256": "d5d39684d3cd1abdc01896a5ecc3bffc7456b8f0b38ec97784044b3f922b0e91",
+          "decifratura_integrale": true
+        },
+        {
+          "nome": "fs.tar.gz",
+          "byte": 459871632,
+          "cipher_sha256": "10791ab8733b469180b854121aea7e07847ff2b4fbfdc2c3bbc6a648f97efd1c",
+          "decifratura_integrale": true
+        },
+        {
+          "nome": "inventory.json",
+          "byte": 6696896,
+          "cipher_sha256": "bc79c94b31117788cc4521ef8480be982c009d41a7b26540ba7732906fb7cc4f",
+          "decifratura_integrale": true
+        }
+      ]
+    },
+    "S0": {
+      "esito": "PASS_S0_EXTRA_INTEGRITA_RECUPERO",
+      "byte_cifrati": 30050544,
+      "file": [
+        {
+          "nome": "db.sql",
+          "byte": 23342896,
+          "cipher_sha256": "9bfb3875c41010ef53bec35e495d05eee996cbe03e369e041726573bc4e0811d",
+          "decifratura_integrale": true
+        },
+        {
+          "nome": "fs.tar.gz",
+          "byte": 2432,
+          "cipher_sha256": "22ebab6ccd6d8515b1c89f72924d37c716ec23862e72dd242b30966b3c36cb11",
+          "decifratura_integrale": true
+        },
+        {
+          "nome": "inventory.json",
+          "byte": 6705216,
+          "cipher_sha256": "4a56f072a9a38017748752ef931262f98268c36f356667e4fc6ce582d2002de6",
+          "decifratura_integrale": true
+        }
+      ]
+    }
+  },
+  "QA": {
+    "esito": "PASS_SITO_ONLINE",
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "pagine": 15,
+    "digest_risorse_per_larghezza": 11,
+    "richieste_CRM": 3,
+    "attivita_CRM": 3,
+    "dati_sintetici_rimossi": true,
+    "HMAC_tutte_66_tabelle_identici": true,
+    "nessun_restore_o_reset": true,
+    "PNG_ispezionate": 21,
+    "errori_JS_HTTP": 0
+  },
+  "tentativi_precedenti": [
+    {
+      "tentativo": "R1",
+      "esito": "NONPASS_ADATTATORE",
+      "causa": "Ricerca link accessibile nel menu ancora nascosto",
+      "righe_QA_rimosse": {
+        "richieste": 1,
+        "attivita": 1
+      },
+      "HMAC66": "PASS"
+    },
+    {
+      "tentativo": "R2",
+      "esito": "NONPASS_ADATTATORE",
+      "causa": "Locator legato al nome Apri menu dopo il cambio corretto a Chiudi menu",
+      "righe_QA_rimosse": {
+        "richieste": 1,
+        "attivita": 1
+      },
+      "HMAC66": "PASS"
+    }
+  ],
+  "codice_applicativo_invariato_durante_QA": true,
+  "persistenti": {
+    "voci": 92,
+    "conformi_S0": true,
+    "eccezione": "mtime directory escluso secondo protocollo; nessun upload o logo creato dalla QA sito"
+  },
+  "monitor_dopo_tutte_pulizie": {
+    "server": {
+      "secondi": 917.676595444791,
+      "campioni": 31,
+      "sonde": 279
+    },
+    "Mac": {
+      "secondi": 920.992012458,
+      "campioni": 31,
+      "richieste_HTTPS": 93,
+      "DNS_TLS_ordinari": true
+    }
+  },
+  "errori_dal_T0_intero_RUN": {
+    "inizio_locale": "2026-10-25T12:24:24",
+    "nuovi_errori_applicativi": {
+      "laravel-2026-09-29.log": 0,
+      "laravel-2026-10-18.log": 0,
+      "laravel-2026-10-21.log": 0,
+      "laravel-2026-10-23.log": 0,
+      "laravel.log": 0,
+      "php-avvio-20261021-custodito.log": 0,
+      "laravel-2026-10-24.log": 0
+    },
+    "totale_errori": 0,
+    "FPM_errori_journal": 0,
+    "nessun_contenuto_log_personale_esportato": true,
+    "intero_RUN_finale_incluso": true
+  },
+  "capacita": {
+    "campioni": 177,
+    "minimo_VM": 1426968576,
+    "minimo_Mac": 12316880896,
+    "riserva_VM": 1073741824,
+    "riserva_Mac": 8589934592,
+    "riserva_Extra": 42949672960,
+    "budget_invariati": [
+      1800,
+      600,
+      1379,
+      421
+    ],
+    "trasferimento_limite_s": 120,
+    "ricevente_limite_s": 240,
+    "interruzione_campionamento": "Pausa per VM spenta in attesa consenso; ripresa dopo riavvio riuscito, nessuna continuita inventata"
+  },
+  "ambiente_restituito": {
+    "VM": "Stopped",
+    "disco_GiB": 40,
+    "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+    "DB_logico_identico": true,
+    "file_protetti": 84,
+    "manifest_protetti_identico": true,
+    "SELinux": "Enforcing",
+    "soli_presidi_propri_conclusi": true
+  },
+  "anomalie_conservate": [
+    "Rifiuto automatico custodia, seguito da consenso umano specifico e ripresa",
+    "Errore forwarder Lima risolto con arresto ordinato e riavvio; log compresso verificato integralmente",
+    "Copia HTML precedente in scheda browser: normale reload conferma nuova home; nessun difetto origin dimostrato",
+    "GET urllib con UA predefinito403; curl e browser sulle cinque pagine200"
+  ],
+  "limiti": [
+    "Nessuna nuova trasmissione a enti o email reale",
+    "Nessun account, pagamento o dato ospite creato",
+    "HMAC per tabella non costituisce snapshot globale; nessuna differenza concorrente rilevata",
+    "Dati societari/Partita IVA, privacy, recapiti aggiuntivi e condizioni operative Max Full da confermare",
+    "Tour interattivo autentico disponibile; video non prodotto",
+    "BASELINE IN AUDIT; accettazione StayTour e circuito statistico reale non riqualificati da questa pubblicazione"
+  ],
+  "schermate_sha256": {
+    "online-sito-conferma-1440.png": "8d0cacedae6373bf592fc56837b26ee1b5f624e608e71cba1b938679a398b6e0",
+    "online-sito-conferma-390.png": "f342b5e062e2b966b2ae8a5434d68b7d271732394272bedf16336f4c464f99b5",
+    "online-sito-conferma-768.png": "0036d46a480ea81fc416a9229b4a80bea970173c8a36cc2d39d9dbd031fc2b6c",
+    "online-sito-contatti-1440.png": "6890e716bd86a21be5df2d3acc58465f002861f7b0d922dcd7013ac8cabbb092",
+    "online-sito-contatti-390.png": "2dc308908c014908166e9ec4a9b3c43e36bad76a7718ce6f9fbcf3b2cdb6e779",
+    "online-sito-contatti-768.png": "0b632e9c6d66d9b964bca8f8b53d388457db6a1e552455db0cf7b2d9b1b18ddb",
+    "online-sito-demo-1440.png": "0d3ca8b7a1b8ed7bb8da67e6e0eb7dca39701dfbbe8dd5ed8dea5f5c94e23009",
+    "online-sito-demo-390.png": "270f871ef8f79e79ffafacc83c8486947c32408bc5ed8931e4caa3ec20fc3e93",
+    "online-sito-demo-768.png": "e80f0a8143c93d29d913df7e6dd50283a0857286c0edef78a35426ebc9ddbf5d",
+    "online-sito-home-1440.png": "2018055e75798d36a69e819b857aefcda2e328dc21601efc3d512f0c275c8245",
+    "online-sito-home-390.png": "6bef20e6495ea874dd30c5d6bd27fe9f8361529031c0207605780d031b2c3b3e",
+    "online-sito-home-768.png": "e06cc0dcc79fc360b75ff983f20bfc6e41fc7b6bd1e8ae744a27db7716afde90",
+    "online-sito-max-full-1440.png": "18791d286e681b7a20b18a15a30862a5df030aac15d82533039109b84f29590d",
+    "online-sito-max-full-390.png": "efe4b968d81ee8a7cbbe201304b40ca9ee717641b5a7d7c2d30241368167efae",
+    "online-sito-max-full-768.png": "1c26800d0cc1890273d9a97943f3190a54ba00ca63c794e454d9c67f1d2cfc81",
+    "online-sito-moduli-1440.png": "ff1838ce9a3b0b88e7a0ba385d1c89cebbe261dcf6e5584ec9fcda9439a44a88",
+    "online-sito-moduli-390.png": "9492c74539cc17b53df3ee59c4d0c276def93e18a3ca554a7a9fc701cb624cfa",
+    "online-sito-moduli-768.png": "adc786ec62c589cbb38f59e62f0246a689160b696332a72ee3435aad569f7d51",
+    "online-sito-prezzi-1440.png": "448c17ed60266b69e2190f6e47031469e0fdfd398ebbaf32fc8b4ed0bcf3ea9f",
+    "online-sito-prezzi-390.png": "027f9e6937456d7d9b02eba3db6425dbfc2fae6feac09300aad12b75d93edede",
+    "online-sito-prezzi-768.png": "a9c9cc8948c2c64734db9fda1d754382a0f1c066a42a7407691e3ffe2e163cfc"
+  }
+}
