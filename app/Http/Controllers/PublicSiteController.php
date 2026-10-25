@@ -47,8 +47,12 @@ class PublicSiteController extends Controller
             404
         );
 
-        return response()->file($assetPath, [
-            'Cache-Control' => $versioned ? 'public, max-age=31536000, immutable' : 'no-cache',
-        ]);
+        $headers = ['Cache-Control' => $versioned ? 'public, max-age=31536000, immutable' : 'no-cache'];
+        $mime = ['css' => 'text/css', 'js' => 'application/javascript', 'json' => 'application/json'][pathinfo($assetPath, PATHINFO_EXTENSION)] ?? null;
+        if ($mime !== null) {
+            $headers['Content-Type'] = $mime.'; charset=UTF-8';
+        }
+
+        return response()->file($assetPath, $headers);
     }
 }

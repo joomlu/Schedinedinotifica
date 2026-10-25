@@ -32,6 +32,7 @@ class PublicSiteCompletionTest extends TestCase
                 $assetResponse = $this->get($versioned)->assertOk();
                 $this->assertStringContainsString('immutable', $assetResponse->headers->get('Cache-Control'));
                 $this->assertSame([], $assetResponse->headers->getCookies());
+                $this->assertStringStartsWith($asset === 'app.js' ? 'application/javascript' : 'text/css', $assetResponse->headers->get('Content-Type'));
             }
         }
         $this->get('/moduli#stato-funzionalita')->assertOk()->assertSee('id="stato-funzionalita"', false);

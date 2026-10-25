@@ -30,6 +30,7 @@ for (const width of [1440, 768, 390]) {
       const assets = await page.locator('script[src],link[rel=stylesheet]').evaluateAll(nodes => nodes.map(n => n.src || n.href));
       expect(assets.filter(x => /\/site-assets\/app\.[a-f0-9]{16}\.js$/.test(x))).toHaveLength(1);
       expect(assets.filter(x => /\/site-assets\/styles\.[a-f0-9]{16}\.css$/.test(x))).toHaveLength(1);
+      expect(await page.evaluate(() => [...document.styleSheets].find(s => /styles\.[a-f0-9]{16}\.css$/.test(s.href))?.cssRules.length)).toBeGreaterThan(0);
     }
     expect(versions.size).toBe(1);
     for (const link of links) { const u = new URL(link); if (u.origin === BASE_URL && targets.has(u.pathname) && u.hash) expect(targets.get(u.pathname), link).toContain(decodeURIComponent(u.hash.slice(1))); }
