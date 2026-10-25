@@ -1,5 +1,13 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Sito chiaro Tanggo Software — qualifica isolata PASS, rilascio pendente
+
+Nuovo design PR28 e correzioni di marca/logo/menu legale qualificati: CHIARO-R5,20browser/nove pagine×1440/768/390, menu intermedio, build/GEO/23guardie/4412digestPASS.25PHP/571asserzioniR4 sui medesimi sorgenti applicativi; regressioni113/1255R2 distinte, non sommate. Corpi legali e tariffe preservati; nessunaDDL/invio. [Rapporto](../PUBBLICAZIONE-SITO-CHIARO-2026-10-25.md), [qualifica](../evidenze/sito-chiaro-2026-10-25/verifica.json). Produzione ancora4a85dea2; nuovo C5 e aggiornamento locale pendenti. BASELINE IN AUDIT invariata.
+
+## Sito chiaro Tanggo Software — recupero verificato, nuova qualifica in corso
+
+PR28 integrata in main `88dc167aa067dc696420941d6ffe5d2db1ac3c9b`, verificata via GitHub e fetch. Produzione ancora `4a85dea2`; Herd HTTPS200 con sito precedente. Candidato separato, marca/logo delle tre pagine legali e brand catalogo allineati preservando testi e tariffe. Nuova qualifica isolata in corso; nessun rilascio attestato. [Rapporto corrente](../PUBBLICAZIONE-SITO-CHIARO-2026-10-25.md). Lavori precedenti preservati; BASELINE IN AUDIT invariata.
+
 ## Sito integrale — collegamenti esterni verificati, qualifica finale R17 PASS
 
 Tanggo.pro ewww.tanggo.pro non risolvibili in due verificheMac; rimosso il solo collegamento dalle note legali, tanggo.software ealtri5riferimentiHTTPS200. Nessun DNS modificato. R17 su98a4959f:196PHP/2218asserzioni e20browserPASS, nove pagine×1440/768/390 e43sorgenti conformi; unica differenza applicativa daR16 è il link. [Qualifica corrente](../evidenze/sito-integrale-2026-10-25/verifica.json). KitPR26/5ff5bba3 depositato epreflightPASS ma PREPARE/S0/RUN non avviati, conservato inattivo; nuovo rilascio finale ancora pendente. Produzione4a85dea2 verificata, BASELINE IN AUDIT invariata.
