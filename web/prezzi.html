@@ -1,184 +1,464 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Prezzi di Schedine di Notifica Tanggo Platform 2.0">
-  <title>Prezzi | Schedine di Notifica</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/site-assets/styles.css">
-</head>
-<body class="page-prezzi">
-  <div class="page-shell">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      Piani annuali e Max Full | Tango Soft Pro
+    </title>
+    <meta name="description" content="Piani annuali per appartamenti e strutture ricettive. Confronta le tariffe di Schedine di Notifica e scopri il servizio aggiuntivo Max Full.">
+    <meta name="theme-color" content="#102f45">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Tango Soft Pro · Schedine di Notifica">
+    <meta property="og:title" content="Piani annuali e Max Full">
+    <meta property="og:description" content="Piani annuali per appartamenti e strutture ricettive. Confronta le tariffe di Schedine di Notifica e scopri il servizio aggiuntivo Max Full.">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:url" content="https://schedinedinotifica.tanggo.software/prezzi">
+    <link rel="canonical" href="https://schedinedinotifica.tanggo.software/prezzi">
+    <link rel="stylesheet" href="/site-assets/styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#contenuto">
+      Vai al contenuto
+    </a>
     <header class="site-header">
-      <a class="brand" href="/">
-        <img src="/site-assets/img/logo-tango.png" alt="Logo Tanggo" class="brand-logo">
-        <span class="brand-copy">
-          <strong>Schedine di Notifica</strong>
-          <span>Tanggo Platform 2.0</span>
-        </span>
-      </a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-        <span></span>
-        <span></span>
-      </button>
-      <nav id="site-nav" class="site-nav">
-        <a href="/">Panoramica</a>
-        <a href="/moduli">Moduli</a>
-        <a href="/demo">Percorso guidato</a>
-        <a href="/prezzi" class="active">Prezzi</a>
-        <a href="/contatti">Contatti</a>
-        <a href="/login" class="nav-cta">Accesso</a>
-      </nav>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Tango Soft Pro — pagina iniziale">
+          <span class="brand-symbol" aria-hidden="true">
+            t
+            <span>
+              .
+            </span>
+          </span>
+          <span>
+            <strong>
+              Tango Soft Pro
+            </strong>
+            <small>
+              Schedine di Notifica
+            </small>
+          </span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Apri menu">
+          <span>
+          </span>
+          <span>
+          </span>
+        </button>
+        <nav id="site-nav" class="site-nav" aria-label="Navigazione principale">
+          <a href="/">
+            Home
+          </a>
+          <a href="/moduli">
+            Funzionalità
+          </a>
+          <a href="/moduli#stato-funzionalita">
+            Moduli e ampliamenti
+          </a>
+          <a href="/prezzi" aria-current="page">
+            Prezzi
+          </a>
+          <a href="/prezzi#max-full">
+            Max Full
+          </a>
+          <a href="/demo">
+            Demo
+          </a>
+          <a class="login-link" href="/login">
+            Accedi
+          </a>
+          <a class="nav-cta" href="/contatti#demo">
+            Richiedi una demo
+            <span aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        </nav>
+      </div>
     </header>
-
-    <main>
-      <section class="page-hero page-hero-compact prezzi-hero">
-        <p class="eyebrow">Catalogo prezzi</p>
-        <h1>Una pagina prezzi chiara deve far capire subito che il valore del software si vede gia nel lavoro quotidiano.</h1>
-        <p class="lead">Questa pagina e un impianto commerciale ordinato: canone, attivazione, servizi e percorso di vendita leggibili anche per chi vede il prodotto per la prima volta.</p>
-        <div class="hero-inline-points">
-          <span>canone chiaro</span>
-          <span>valore percepito</span>
-          <span>demo guidata</span>
-          <span>attivazione ordinata</span>
+    <main id="contenuto">
+      <section class="container page-hero">
+        <p class="eyebrow">
+          Piani e servizi
+        </p>
+        <h1>
+          Il piano giusto.
+          <br>
+          <em>
+            Il supporto che ti serve.
+          </em>
+        </h1>
+        <p class="lead">
+          Scegli in base al tuo contesto, poi concorda configurazione e servizi aggiuntivi. Prezzi chiari, criteri distinti per appartamenti e strutture ricettive.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#piani">
+            Confronta i piani ↓
+          </a>
+          <a class="text-link" href="#max-full">
+            Scopri Max Full →
+          </a>
         </div>
       </section>
-
-      <section class="section-block">
-        <div class="pricing-grid">
-          <article class="price-card">
-            <span class="card-label">Essenziale</span>
-            <h3>Basic</h3>
-            <div class="price-value">€ 200<span>/anno</span></div>
-            <ul>
-              <li>gestione clienti</li>
-              <li>schedine e bozze</li>
-              <li>utenti struttura</li>
-              <li>supporto base</li>
-            </ul>
-            <a href="/contatti" class="btn btn-secondary">Richiedi informazioni</a>
-          </article>
-          <article class="price-card featured-price">
-            <span class="card-label">Piu richiesto</span>
-            <h3>Professional Pro</h3>
-            <div class="price-value">€ 340<span>/anno</span></div>
-            <ul>
-              <li>tutto del piano Start</li>
-              <li>web check-in</li>
-              <li>Questura</li>
-              <li>Tabella A / ISTAT</li>
-              <li>tassa di soggiorno</li>
-            </ul>
-            <a href="/demo" class="btn btn-primary">Apri il percorso guidato</a>
-          </article>
-          <article class="price-card">
-            <span class="card-label">Strutture evolute</span>
-            <h3>Pro / Enterprise</h3>
-            <div class="price-value">su richiesta</div>
-            <ul>
-              <li>piu strutture</li>
-              <li>gestione amministrativa avanzata</li>
-              <li>workflow personalizzati</li>
-              <li>supporto dedicato</li>
-            </ul>
-            <a href="/contatti" class="btn btn-secondary">Parla con noi</a>
-          </article>
+      <section class="container section" id="piani">
+        <div class="section-heading">
+          <p class="eyebrow">
+            Un piano per il tuo contesto
+          </p>
+          <h2>
+            Appartamenti o strutture.
+            <br>
+            La scelta è chiara.
+          </h2>
+          <p>
+            {{catalog.annual_note}}
+          </p>
+        </div>
+        <div class="pricing-group" data-price-group="appartamenti">
+          <div class="pricing-label">
+            <span class="section-number">
+              01
+            </span>
+            <h3>
+              Appartamenti
+            </h3>
+            <p>
+              Scegli il piano in base agli appartamenti da gestire.
+            </p>
+          </div>
+          <div class="pricing-grid">
+            <article class="price-card" data-plan="solo">
+              <p class="plan-name">
+                {{catalog.solo.name}}
+              </p>
+              <h3>
+                {{catalog.solo.scope}}
+              </h3>
+              <p class="plan-price">
+                {{catalog.solo.price}}
+              </p>
+              <a class="btn btn-outline" href="/contatti?piano=solo#demo">
+                Richiedi informazioni
+                <span aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </article>
+            <article class="price-card" data-plan="duo">
+              <p class="plan-name">
+                {{catalog.duo.name}}
+              </p>
+              <h3>
+                {{catalog.duo.scope}}
+              </h3>
+              <p class="plan-price">
+                {{catalog.duo.price}}
+              </p>
+              <a class="btn btn-outline" href="/contatti?piano=duo#demo">
+                Richiedi informazioni
+                <span aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </article>
+            <article class="price-card featured" data-plan="multi">
+              <p class="plan-name">
+                {{catalog.multi.name}}
+              </p>
+              <h3>
+                {{catalog.multi.scope}}
+              </h3>
+              <p class="plan-price">
+                {{catalog.multi.price}}
+              </p>
+              <a class="btn btn-primary" href="/contatti?piano=multi#demo">
+                Richiedi informazioni
+                <span aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </article>
+          </div>
+          <div class="custom-plan" data-plan="oltre7">
+            <div>
+              <strong>
+                {{catalog.oltre7.name}}
+              </strong>
+              <span>
+                {{catalog.oltre7.scope}}
+              </span>
+            </div>
+            <p>
+              {{catalog.oltre7.price}}
+            </p>
+            <a href="/contatti?piano=oltre7#demo" class="text-link">
+              Parliamone →
+            </a>
+          </div>
+        </div>
+        <div class="pricing-group structures" data-price-group="strutture">
+          <div class="pricing-label">
+            <span class="section-number">
+              02
+            </span>
+            <h3>
+              Strutture ricettive
+            </h3>
+            <p>
+              Un importo complessivo per una o due strutture: il criterio è la struttura, non il numero di camere.
+            </p>
+          </div>
+          <div class="structures-plans">
+            <article class="price-card featured" data-plan="strutture">
+              <p class="plan-name">
+                {{catalog.strutture.name}}
+              </p>
+              <h3>
+                {{catalog.strutture.scope}}
+              </h3>
+              <p class="plan-price">
+                {{catalog.strutture.price}}
+              </p>
+              <a class="btn btn-primary" href="/contatti?piano=strutture#demo">
+                Richiedi informazioni
+                <span aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </article>
+            <article class="custom-structure" data-plan="oltre2">
+              <h3>
+                {{catalog.oltre2.name}}
+              </h3>
+              <p>
+                {{catalog.oltre2.scope}}
+              </p>
+              <strong>
+                {{catalog.oltre2.price}}
+              </strong>
+              <a class="text-link" href="/contatti?piano=oltre2#demo">
+                Richiedi un preventivo →
+              </a>
+            </article>
+          </div>
+        </div>
+        <p class="pricing-notes">
+          {{catalog.annual_note}}
+          <br>
+          {{catalog.extras_note}}
+        </p>
+      </section>
+      <section class="max-full-band" id="max-full">
+        <div class="container section max-full-layout">
+          <div class="photo-stack">
+            <img src="/site-assets/img/foto-assistenza.webp" alt="Assistenza e affiancamento nell’utilizzo del software" width="1280" height="720" loading="lazy">
+            <span class="photo-tag">
+              Un supporto costruito sulle tue esigenze
+            </span>
+          </div>
+          <div>
+            <p class="eyebrow">
+              Servizio aggiuntivo all’abbonamento
+            </p>
+            <h2>
+              Max Full
+            </h2>
+            <p class="large-copy">
+              {{catalog.max_full.subtitle}}
+            </p>
+            <p>
+              {{catalog.max_full.description}}
+            </p>
+            <p class="max-price">
+              {{catalog.max_full.price}}
+            </p>
+            <a class="btn btn-primary" href="/contatti?servizio=max-full#demo">
+              Richiedi il servizio Max Full
+              <span aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </div>
+        </div>
+        <div class="container max-full-detail">
+          <div>
+            <p class="eyebrow">
+              Dalle prime impostazioni al lavoro quotidiano
+            </p>
+            <h3>
+              Una presenza concordata,
+              <br>
+              un riferimento concreto.
+            </h3>
+            <p>
+              {{catalog.max_full.commercial_note}}
+            </p>
+          </div>
+          <ul class="service-list">
+            <li>
+              {{catalog.max_full.items.0}}
+            </li>
+            <li>
+              {{catalog.max_full.items.1}}
+            </li>
+            <li>
+              {{catalog.max_full.items.2}}
+            </li>
+            <li>
+              {{catalog.max_full.items.3}}
+            </li>
+            <li>
+              {{catalog.max_full.items.4}}
+            </li>
+            <li>
+              {{catalog.max_full.items.5}}
+            </li>
+            <li>
+              {{catalog.max_full.items.6}}
+            </li>
+          </ul>
         </div>
       </section>
-
-      <section class="section-block section-breathing">
-        <div class="two-col-grid">
-          <article class="info-card large-card">
-            <span class="card-label">Come venderlo</span>
-            <h3>Il prezzo va legato ai problemi che il software elimina.</h3>
-            <p>Tempo risparmiato, minori errori, migliore qualita del dato, meno ricostruzioni manuali, piu controllo sugli adempimenti e una reception piu ordinata.</p>
-            <ul>
-              <li>il canone va collegato al tempo recuperato nel lavoro quotidiano</li>
-              <li>il prezzo diventa piu credibile dopo una demo fatta nell'ordine giusto</li>
-              <li>la struttura deve percepire che non compra schermate, ma continuita operativa</li>
-              <li>gli extra vanno spiegati come supporto alla partenza, non come costi accessori confusi</li>
-            </ul>
-          </article>
-          <article class="info-card light-card">
-            <span class="card-label">Extra consigliati</span>
-            <p>Gli extra non vanno presentati come accessori casuali. Servono per facilitare l'attivazione, migliorare la partenza e aumentare la fiducia commerciale.</p>
-            <ul>
-              <li>attivazione e configurazione iniziale</li>
-              <li>migrazione dati</li>
-              <li>formazione struttura</li>
-              <li>supporto premium</li>
-            </ul>
-          </article>
+      <section class="container section faq-section">
+        <p class="eyebrow">
+          Prima di decidere
+        </p>
+        <h2>
+          Le domande più pratiche.
+        </h2>
+        <div class="commercial-faq">
+          <details>
+            <summary>
+              I prezzi sono annuali?
+            </summary>
+            <p>
+              {{catalog.annual_note}}
+            </p>
+          </details>
+          <details>
+            <summary>
+              Il piano Strutture si paga per ogni struttura?
+            </summary>
+            <p>
+              Il prezzo indicato è complessivo per una o due strutture ricettive. Per più di due strutture si prepara un preventivo personalizzato.
+            </p>
+          </details>
+          <details>
+            <summary>
+              Il programma gestisce il mio Comune?
+            </summary>
+            <p>
+              Indica Comune, categoria e operazioni da seguire. Verifichiamo i requisiti del contesto richiesto prima di configurare gli adempimenti.
+            </p>
+          </details>
+          <details>
+            <summary>
+              Cosa si definisce separatamente?
+            </summary>
+            <p>
+              {{catalog.extras_note}}
+            </p>
+          </details>
         </div>
       </section>
-
-      <section class="section-block section-breathing">
-        <div class="two-col-grid">
-          <article class="info-card">
-            <span class="card-label">Messaggio prezzo</span>
-            <h3>Presentalo come un investimento ordinato, non come una spesa tecnica.</h3>
-            <p>Quando la struttura capisce il valore di clienti, schedine, web check-in e adempimenti integrati, il prezzo smette di essere il centro del problema e diventa una scelta di metodo.</p>
-          </article>
-          <article class="info-card light-card">
-            <span class="card-label">Listino consigliato</span>
-            <p>Separare canone, attivazione, migrazione e formazione rende la proposta piu pulita, piu professionale e piu facile da spiegare anche in trattativa.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section-block section-breathing">
-        <div class="strength-grid">
-          <article class="info-card"><h3>Riduzione errori</h3><p>Meno dati dispersi, meno ricostruzioni manuali, meno passaggi improvvisati.</p></article>
-          <article class="info-card"><h3>Maggiore velocita</h3><p>Reception e amministrazione lavorano con un percorso piu continuo e leggibile.</p></article>
-          <article class="info-card"><h3>Adempimenti integrati</h3><p>Questura, ISTAT e tassa di soggiorno non restano fuori dal flusso operativo.</p></article>
+      <section class="container section">
+        <div class="closing-cta">
+          <div>
+            <p class="eyebrow">
+              Parliamo del tuo lavoro
+            </p>
+            <h2>
+              Una scelta chiara, per il tuo lavoro.
+            </h2>
+            <p>
+              Se hai dubbi sul piano, descrivi la tua struttura: approfondiamo insieme il contesto e i servizi utili.
+            </p>
+          </div>
+          <a class="btn btn-primary" href="/contatti#demo">
+            Richiedi una demo
+            <span aria-hidden="true">
+              ↗
+            </span>
+          </a>
         </div>
       </section>
     </main>
-
     <footer class="site-footer">
-      <div class="footer-brand">
-        <img src="/site-assets/img/logo-tango.png" alt="Logo Tanggo" class="footer-logo">
+      <div class="container footer-grid">
         <div>
-          <strong>Schedine di Notifica · Tanggo Platform 2.0</strong>
-          <p>Software ricettivo per clienti, schedine, invio telematico, tassa di soggiorno, calendario, notifiche e controllo operativo.</p>
+          <a class="brand" href="/">
+            <span class="brand-symbol" aria-hidden="true">
+              t
+              <span>
+                .
+              </span>
+            </span>
+            <span>
+              <strong>
+                Tango Soft Pro
+              </strong>
+              <small>
+                Schedine di Notifica
+              </small>
+            </span>
+          </a>
+          <p>
+            Il software e l’affiancamento per il lavoro della tua struttura.
+          </p>
+        </div>
+        <div>
+          <h2>
+            Esplora
+          </h2>
+          <a href="/moduli">
+            Funzionalità
+          </a>
+          <a href="/moduli#stato-funzionalita">
+            Moduli e ampliamenti
+          </a>
+          <a href="/demo">
+            Demo del programma
+          </a>
+        </div>
+        <div>
+          <h2>
+            Parliamone
+          </h2>
+          <a href="/prezzi">
+            Piani e prezzi
+          </a>
+          <a href="/prezzi#max-full">
+            Servizio Max Full
+          </a>
+          <a href="/contatti#demo">
+            Richiedi una demo
+          </a>
+        </div>
+        <div>
+          <h2>
+            La tua area
+          </h2>
+          <a href="/login">
+            Accedi al gestionale
+          </a>
+          <a href="/contatti">
+            Contatti e informazioni
+          </a>
+          <p>
+            Nessun dato degli ospiti nel modulo pubblico: per l’assistenza usa il tuo accesso riservato.
+          </p>
         </div>
       </div>
-      <div class="footer-cols">
-        <div>
-          <h4>Contatti</h4>
-          <p>Via Roma, 35 · 47814 Bellaria Igea Marina · RN</p>
-          <p>Tel. 05411796994 · Fax 05411792229</p>
-          <p>info@tanggo.org · www.tangoschedine.com</p>
-        </div>
-        <div>
-          <h4>Azienda</h4>
-          <p>Tanggo Experience</p>
-          <p>P. IVA: da inserire</p>
-          <p>Realizzato da Jorge Omar Luccitelli</p>
-        </div>
-        <div class="footer-links-compact">
-          <h4>Link rapidi</h4>
-          <div class="footer-link-grid">
-            <p><a href="/">Panoramica</a></p>
-            <p><a href="/demo">Percorso guidato</a></p>
-            <p><a href="/prezzi">Prezzi</a></p>
-            <p><a href="/login">Accedi alla piattaforma</a></p>
-            <p><a href="/contatti">Contatti</a></p>
-            <p class="footer-demo-row"><a class="footer-demo-cta" href="/contatti#demo">Richiedi una demo</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="footer-legal">
-        <p>&copy; 2026 Experience S.r.l. - Tutti i diritti riservati | tanggo.pro | tanggo.software</p>
+      <div class="container footer-bottom">
+        <span>
+          © 2026 Tango Soft Pro · Schedine di Notifica
+        </span>
+        <a href="https://www.cv.joomlu.com/" target="_blank" rel="noopener">
+          Realizzato da Jorge Omar Luccitelli
+        </a>
       </div>
     </footer>
-    <div class="site-signature">
-      <p>Ideato, studiato, progettato, realizzato, eseguito e architettato da <a href="https://www.cv.joomlu.com/" target="_blank" rel="noreferrer">Jorge Omar Luccitelli</a>.</p>
-    </div>
-  </div>
-  <script src="/site-assets/app.js"></script>
-</body>
+    <script src="/site-assets/app.js" defer>
+    </script>
+  </body>
 </html>

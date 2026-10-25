@@ -60,6 +60,7 @@ Route::get('/demo', fn () => app(PublicSiteController::class)->page('demo'))->na
 Route::get('/prezzi', fn () => app(PublicSiteController::class)->page('prezzi'))->name('site.prezzi');
 Route::get('/contatti', fn () => app(PublicSiteController::class)->page('contatti'))->name('site.contatti');
 Route::post('/contatti/richiesta', [WebsiteContactController::class, 'store'])
+    ->middleware('throttle:6,1,sito-contatti')
     ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])
     ->name('site.contatti.store');
 Route::redirect('/accesso', '/login')->name('site.accesso');

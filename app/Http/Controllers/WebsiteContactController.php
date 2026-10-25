@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\PublicSiteCatalog;
 use App\Models\CrmLead;
 use App\Models\CrmLeadActivity;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rule;
 
 class WebsiteContactController extends Controller
 {
-    public function store(Request $request): JsonResponse
+    public function store(Request $request, PublicSiteCatalog $catalog): JsonResponse
     {
         $data = $request->validate([
             'company' => ['required', 'string', 'max:100'],
@@ -27,12 +29,20 @@ class WebsiteContactController extends Controller
             'contact_anytime' => ['nullable', 'boolean'],
             'topic' => ['required', 'string', 'max:120'],
             'message' => ['required', 'string', 'max:5000'],
+            'plan' => ['nullable', 'string', Rule::in(array_keys($catalog->plans()))],
+            'max_full' => ['nullable', 'boolean'],
         ]);
 
         if (($request->string('website')->trim()->value()) !== '') {
             throw ValidationException::withMessages([
                 'website' => 'Richiesta non valida.',
             ]);
+        }
+
+        $selection = $catalog->selection($data['plan'] ?? null, (bool) ($data['max_full'] ?? false));
+        if ($selection !== '') {
+            // Snapshot della richiesta nel CRM esistente: nessuna modifica ai contratti storici.
+            $data['message'] = $selection."\n\nMessaggio del richiedente:\n".trim($data['message']);
         }
 
         $lead = DB::transaction(function () use ($data) {

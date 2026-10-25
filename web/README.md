@@ -1,36 +1,9 @@
-# Web commerciale Tanggo Platform 2.0
+# Sito pubblico Tango Soft Pro
 
-Cartella separata dal gestionale Laravel.
+Cinque pagine HTML nel medesimo progetto Laravel, servite dal controller pubblico. Fonti canoniche: `web/assets/styles.css` e `web/assets/app.js`; le copie in `public/site-assets` devono restare byte-identiche perché possono essere servite direttamente. Le altre risorse locali sono esposte dal percorso pubblico già esistente.
 
-## Pagine create
+`catalogo-commerciale.json` è la fonte unica di piani, tariffe e contenuti Max Full. Gli HTML usano segnaposto `{{catalog.…}}`, sostituiti e sottoposti a escaping dal controller; il form legge lo stesso JSON per il riepilogo e invia soltanto codici piano/servizio. Nessun pagamento.
 
-- `web/index.html`: panoramica commerciale principale
-- `web/moduli.html`: moduli spiegati in chiave commerciale
-- `web/demo.html`: pagina demo con screenshot reali e visual illustrativi
-- `web/prezzi.html`: catalogo prezzi base
-- `web/accesso.html`: area accesso con link al sistema
+Immagini fotografiche AI illustrative separate dalle cinque schermate autentiche del prodotto con dati sintetici. Nessun dato reale, tracciamento o font esterno aggiunto.
 
-## Asset
-
-- `web/assets/styles.css`: stile condiviso, palette vino + teal, tipografia Plus Jakarta Sans
-- `web/assets/app.js`: menu mobile + tabs
-- `web/assets/img/logo-tango.png`: logo Tanggo
-- `web/assets/img/screen-sidebar-telematico.png`: screenshot reale
-- `web/assets/img/screen-sidebar-clienti.png`: screenshot reale
-- `web/assets/img/illustration-hospitality.svg`: visual illustrativo hospitality
-- `web/assets/img/illustration-modules.svg`: visual illustrativo moduli
-- `web/assets/img/illustration-support.svg`: visual illustrativo supporto / reception
-
-## Fonti usate per il contenuto
-
-- manuale e documentazione del progetto
-- help interno del software
-- verbale di consegna tecnico del 18/03/2026
-- riferimento pubblico del Comune di Bellaria Igea Marina sull'imposta di soggiorno 2025
-
-## Da completare
-
-- P. IVA aziendale nel footer
-- ulteriori screenshot reali di dashboard, schedina, Questura e tassa
-- sostituzione dei poster video con video definitivi
-- link definitivo dell'area accesso se diverso da `../public/index.php`
+Verifiche Laravel/browser esclusivamente nell’infrastruttura isolata ufficiale. Rapporto corrente: `docs/SITO-TANGO-SOFT-PRO-2026-10-25.md`; gli esiti delle proposte precedenti non qualificano il nuovo candidato. Anteprima loopback coordinata dal principale: `http://127.0.0.1:63351/`, modulo esplicitamente dimostrativo senza database/email. Nessuna pubblicazione automatica.
