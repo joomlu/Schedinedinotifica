@@ -543,3 +543,105 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 .legal-copy { max-width: 54rem; overflow-wrap: anywhere; }
 .legal-copy h2 { margin-top: 2.5rem; margin-bottom: 1rem; }
 .footer-bottom nav { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+
+/* Tanggo Software: identità luminosa e percorso commerciale integrato. */
+:root { --ink:#243b43; --text:#48616a; --navy:#254b55; --navy-deep:#24444d; --teal:#087d79; --turquoise:#c2eee3; --soft:#eff9f6; --paper:#fff; --line:#dcebe6; }
+body { background:#fff; }
+.site-header { background:#fffffff5; border-bottom-color:var(--line); }
+.site-header .brand { color:var(--ink); }
+.brand-logo { width:56px; height:56px; object-fit:contain; flex-shrink:0; }
+.site-header .site-nav > a { color:var(--ink); }
+.site-header .site-nav > a:hover { color:var(--teal); }
+.site-header .site-nav .nav-cta,.btn-primary { background:#087d79; color:#fff; border-color:#087d79; box-shadow:0 6px 16px #087d7918; }
+.btn-primary:hover,.site-header .site-nav .nav-cta:hover { background:#076965; color:#fff; border-color:#076965; }
+.site-header .menu-toggle { background:white; border-color:var(--line); }
+.site-header .menu-toggle span { background:var(--ink); }
+.hero-stage { background:linear-gradient(115deg,#fff 15%,#f0fbf7 70%,#e4f5ef); color:var(--text); overflow:clip; }
+.hero-stage .hero-photo { background:radial-gradient(ellipse at 80% 15%,#d5f1e780,transparent 65%); }
+.hero-stage .hero { grid-template-columns:1fr 1fr; min-height:650px; padding-block:80px; gap:55px; }
+.hero h1 { color:var(--ink); font-size:clamp(2.5rem,4.2vw,4.3rem); }
+.hero h1 em,.hero .eyebrow { color:var(--teal); }
+.hero .lead,.hero-note { color:var(--text); }
+.btn-light { color:var(--teal); background:#fff; border-color:#a7d4c9; }
+.btn-light:hover { background:#eaf7f2; }
+.hero-dashboard { min-width:0; position:relative; padding:22px; border-radius:24px; border:1px solid #cde7de; background:#ffffffd9; box-shadow:0 25px 70px #1a6b5415; transform:rotate(-1deg); }
+.dashboard-label { display:flex; align-items:center; gap:15px; color:var(--teal); font-weight:700; font-size:.85rem; padding:0 0 20px; }
+.dashboard-preview { display:block; border-radius:12px; overflow:hidden; border:1px solid var(--line); }
+.dashboard-preview img { width:100%; }
+.hero-mini-cards { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+.hero-mini-cards a { padding:18px; background:#f0f9f5; border-radius:12px; text-decoration:none; }
+.hero-mini-cards a:nth-child(2) { background:#fff6e6; }
+.hero-mini-cards span { display:block; font-size:24px; color:var(--teal); }
+.hero-mini-cards strong,.hero-mini-cards small { display:block; }
+.hero-mini-cards strong { font-size:.9rem; color:var(--ink); }
+.hero-mini-cards small { font-size:.72rem; margin-top:4px; }
+.dashboard-tour { display:flex; justify-content:space-between; margin-top:18px; color:var(--teal); font-size:.85rem; font-weight:700; text-decoration:none; }
+.promise-band { background:#fff; }
+.promise-grid { padding-block:24px; }
+.module-showcase { background:#f4faf7; }
+.module-thumbnails > a { border-radius:18px; box-shadow:0 8px 28px #29584208; }
+.module-thumbnail { height:200px; background:#e6f3ed; padding:14px 14px 0; }
+.module-thumbnail img { border-radius:8px 8px 0 0; }
+.home-pricing { background:linear-gradient(135deg,#fffcf5,#f5faf7); }
+.home-support,.max-full-band { background:#edf8f3; color:var(--text); }
+.home-support h2,.home-support .eyebrow,.max-full-band h2,.max-full-band h3,.max-full-band .max-price,.max-full-band .eyebrow { color:var(--ink); }
+.max-full-band .service-list li { border-color:#c9dfd6; }
+.max-full-band .service-list li::before { color:var(--teal); }
+.closing-cta { background:linear-gradient(120deg,#e3f5ed,#f6fae9); color:var(--text); border:1px solid #cde6d8; }
+.closing-cta h2 { color:var(--ink); }
+.price-card.featured { background:#e6f6ee; color:var(--text); border:2px solid #16866e; }
+.price-card.featured h3,.featured .plan-price { color:var(--ink); }
+.product-introduction .floating-note { background:#e2f4ec; color:var(--ink); }
+.product-introduction .note-dot { background:var(--teal); }
+.site-footer { background:#f2f7f4; }
+.page-hero { padding-bottom:45px; }
+@media(max-width:1280px) { .site-header .site-nav { background:#fff; border-bottom-color:var(--line); } }
+@media(max-width:950px) { .hero-stage .hero { grid-template-columns:1fr; padding-block:55px; gap:35px; } .hero-dashboard { max-width:680px; width:100%; transform:none; } }
+@media(max-width:600px) { .hero-stage .hero { min-height:0; padding-block:42px; } .hero-dashboard { padding:14px; border-radius:18px; } .hero-mini-cards a { padding:12px; } .brand-logo { width:45px; height:45px; } .brand strong { font-size:16px; } .module-thumbnails { grid-template-columns:1fr; } .module-thumbnail { height:220px; } .closing-cta { padding:30px 24px; } }
+
+/* Seconda composizione: testi più leggibili e racconto visivo dell’ospitalità. */
+body { font-size:18px; line-height:1.75; }
+.container { width:min(calc(100% - 80px),1280px); }
+h2 { font-size:clamp(2.1rem,3.4vw,3.4rem); }
+h3 { font-size:1.5rem; }
+.lead { font-size:1.22rem; line-height:1.75; }
+.large-copy { font-size:1.4rem; line-height:1.6; }
+.eyebrow { font-size:.82rem; letter-spacing:.12em; }
+.btn,.text-link { font-size:1rem; }
+.site-nav > a,.site-header .site-nav > a { font-size:14px; }
+.brand small { font-size:11px; }
+.hero-note,.support-note { font-size:1rem; color:var(--text); }
+.promise-grid strong { font-size:1.1rem; }
+.promise-grid span { font-size:1rem; }
+.editorial-points p,.check-list li,.module-links p,.start-steps li,.pricing-label p,.module-thumbnail-copy p,.feature-grid p,.module-note,.contact-context p,.contact-help p,.contact-details > p { font-size:1.05rem; }
+.module-thumbnail-copy h3 { font-size:1.4rem; }
+.price-card p,.price-card li,.custom-plan,.home-custom-plans > div { font-size:1rem; }
+.home-pricing .price-card { min-height:360px; }
+.home-pricing .price-card .btn { font-size:.95rem; padding:13px 16px; }
+.home-pricing .plan-price { font-size:1.8rem; }
+.hero-mini-cards small { font-size:.9rem; }
+.hero-mini-cards strong,.dashboard-label,.dashboard-tour { font-size:1rem; }
+.form-field label,.form-field input,.form-field textarea,.form-field select { font-size:1rem; }
+.footer-grid > div > a:not(.brand),.footer-grid p,.footer-bottom { font-size:.95rem; }
+.closing-cta .eyebrow { color:var(--teal); }
+.hospitality-story { display:grid; grid-template-columns:1fr 1.05fr; gap:70px; align-items:center; }
+.hospitality-story-image { margin:0; position:relative; }
+.hospitality-story-image img { width:100%; aspect-ratio:1.25; object-fit:cover; border-radius:28px 28px 80px 28px; }
+.hospitality-story-image figcaption { margin: -35px 24px 0; position:relative; background:#fff; border:1px solid var(--line); padding:20px 25px; border-radius:14px; color:var(--teal); font-size:1rem; font-weight:700; box-shadow:0 12px 35px #224c3910; }
+.audience-band { background:#fff9ed; }
+.audience-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:26px; }
+.audience-cards > a { background:#fff; border:1px solid #eee5d4; border-radius:20px; overflow:hidden; text-decoration:none; transition:transform .2s,box-shadow .2s; }
+.audience-cards > a:hover { transform:translateY(-4px); box-shadow:0 16px 40px #73502a12; }
+.audience-cards img { width:100%; height:220px; object-fit:cover; object-position:top; }
+.audience-cards > a > div { padding:28px; }
+.audience-cards h3 { font-size:1.4rem; }
+.audience-cards p { font-size:1.05rem; }
+.audience-cards span { color:var(--teal); font-weight:700; font-size:1rem; }
+.page-hero-visual { display:grid; grid-template-columns:1.1fr 1fr; gap:60px; align-items:center; padding-top:65px; padding-bottom:65px; }
+.page-hero-visual h1 { font-size:clamp(2.5rem,4vw,4.2rem); }
+.page-hero-figure { margin:0; border:1px solid var(--line); background:#f0f8f3; border-radius:22px; padding:18px; min-width:0; }
+.page-hero-figure img { width:100%; height:auto; max-height:380px; object-fit:contain; border-radius:12px; }
+.page-hero-figure figcaption { padding:20px 8px 5px; color:var(--teal); font-weight:700; font-size:1rem; line-height:1.5; }
+@media(max-width:1100px) { .page-hero-visual { gap:30px; } .hospitality-story { gap:35px; } .audience-cards { gap:18px; } }
+@media(max-width:950px) { .page-hero-visual,.hospitality-story { grid-template-columns:1fr; } .page-hero-figure { max-width:700px; } .audience-cards { grid-template-columns:1fr; } .audience-cards > a { display:grid; grid-template-columns: .8fr 1fr; } .audience-cards img { height:100%; min-height:220px; } }
+@media(max-width:600px) { body { font-size:17px; } .container { width:calc(100% - 36px); } .section { padding-block:60px; } .lead { font-size:1.12rem; } .large-copy { font-size:1.25rem; } .page-hero-visual { padding-block:40px; gap:25px; } .page-hero-visual h1 { font-size:2.5rem; } .audience-cards > a { display:block; } .audience-cards img { height:210px; min-height:0; } .audience-cards > a > div { padding:24px; } .hero-mini-cards { grid-template-columns:1fr; } .hospitality-story-image img { border-radius:22px; } .hospitality-story-image figcaption { margin:-20px 12px 0; padding:16px; } .module-thumbnail-copy p { font-size:1rem; } .home-pricing .price-card { min-height:0; } }
