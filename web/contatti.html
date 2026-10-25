@@ -54,7 +54,7 @@
           <a href="/moduli">
             Funzionalità
           </a>
-          <a href="/moduli#stato-funzionalita">
+          <a href="/ampliamenti">
             Moduli e ampliamenti
           </a>
           <a href="/prezzi">
@@ -132,7 +132,8 @@
           </div>
         </aside>
         <div id="demo">
-          <form class="contact-form-card contact-form-page" data-demo-form novalidate aria-labelledby="form-title">
+          {{contact.feedback}}
+          <form class="contact-form-card contact-form-page" action="/contatti/richiesta" method="post" data-demo-form novalidate aria-labelledby="form-title">
             <input type="text" name="website" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
             <div class="contact-form-heading">
               <span class="card-label">
@@ -181,8 +182,24 @@
                     </option>
                   </select>
                 </label>
+                <label class="form-field">
+                  <span>Funzione o modulo di interesse</span>
+                  <select name="interest" data-commercial-interest>
+                    <option value="">Da valutare insieme</option>
+                    <option value="clienti">{{catalog.interests.clienti}}</option>
+                    <option value="strutture">{{catalog.interests.strutture}}</option>
+                    <option value="arrivi">{{catalog.interests.arrivi}}</option>
+                    <option value="schedine">{{catalog.interests.schedine}}</option>
+                    <option value="web-checkin">{{catalog.interests.web-checkin}}</option>
+                    <option value="alloggiati-web">{{catalog.interests.alloggiati-web}}</option>
+                    <option value="istat-ross1000">{{catalog.interests.istat-ross1000}}</option>
+                    <option value="tassa-soggiorno">{{catalog.interests.tassa-soggiorno}}</option>
+                    <option value="importazioni">{{catalog.interests.importazioni}}</option>
+                    <option value="organizzazione">{{catalog.interests.organizzazione}}</option>
+                  </select>
+                </label>
                 <label class="form-consent">
-                  <input type="checkbox" name="max_full" data-commercial-max>
+                  <input type="checkbox" name="max_full" value="1" data-commercial-max>
                   <span>
                     Aggiungi una richiesta per Max Full
                   </span>
@@ -192,7 +209,7 @@
                 Nessun piano selezionato. Definiamo insieme il tuo contesto.
               </div>
               <button type="button" class="text-button" data-commercial-clear>
-                Annulla piano e servizio selezionati
+                Annulla tutte le scelte
               </button>
             </fieldset>
             <div class="form-grid">
@@ -297,7 +314,7 @@
                 </div>
               </details>
               <label class="form-consent form-field-full">
-                <input type="checkbox" name="consent" required>
+                <input type="checkbox" name="consent" value="1" required>
                 <span>
                   Autorizzo il contatto commerciale in relazione alla mia richiesta.
                 </span>
@@ -365,7 +382,7 @@
           <a href="/moduli">
             Funzionalità
           </a>
-          <a href="/moduli#stato-funzionalita">
+          <a href="/ampliamenti">
             Moduli e ampliamenti
           </a>
           <a href="/demo">

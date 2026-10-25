@@ -1,5 +1,13 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Sito commerciale — completamento integrale autorizzato e candidato in qualifica — 25 ottobre 2026
+
+**SVILUPPO E PUBBLICAZIONE AUTORIZZATI; nuovo rilascio ancora da verificare. BASELINE IN AUDIT invariata.** Incarico umano integrale ricevuto dopo segnalazione di pagine/azioni non funzionanti. Nuovo worktree indipendente `sito-integrale-2026-10-25` da main1a2e5e1f; vecchi worktree web e rilascio, checkout originario e ISTAT preservati. [Confronto storico](../CONFRONTO-SITO-2026-10-25.md), [audit contenuti](../AUDIT-CONTENUTI-SITO-2026-10-25.md), [rapporto corrente](../SITO-INTEGRALE-2026-10-25.md). Sito sostituito identificato nello SHA realmente servito a90d63aa, distinto dal sito1edf0495 attualmente online e dalle altre proposte storiche.
+
+Rilettura online:28URL/105ancore conformi; cinque pagine e tour/menu/prezzi a1440/768/390 PASS in sola lettura, nessun POST reale. Segnalazione generica dell’utente non riprodotta e messaggio/browser non forniti: nessuna attribuzione dimostrata alla cache. Accesso diretto /ampliamenti302versologin per rotta pubblica assente; nuova pagina autonoma implementata conservando la vecchia ancora. CSS/JS senza versione nel sito precedente: introdotti URL con hash verificato e marcatore comune di versione, senza modifiche vhost/DNS.
+
+Difetto di falsa conferma riprodotto su baseline: tre risposteHTTP200 senza ricevuta valida mostrano successo; BASE-CONFERMA NONPASS conservato. Candidato richiede oktrue/lead_id positivo, mantiene dati su errore e non simula attivazioni. Interesse canonico nel CRM, consenso server, richieste identiche riusate entro10minuti sotto lock e transazione. Form nativo POST/303 con feedback e oldinput escapati, nessun dato nel querystring. Nessuna DDL o modifica interna statistica/fiscale. R1:190PHP/2039asserzioni,1fallimento del vecchio testo home; asserzione aggiornata al nuovo messaggio commerciale, browser non eseguiti in R1. Qualifica finale e nuovo C5/QA/pulizia/monitor ancora necessari; nessun PASS storico promosso a prova del candidato.
+
 ## Sito Tango Soft Pro — pubblicato, C5/QA/pulizia/monitor PASS — 25 ottobre 2026
 
 **Applicativo `1edf049550e624d393d4d8278f3ea541b89dcdf6` online; BASELINE IN AUDIT invariata.** [Rapporto](../PUBBLICAZIONE-SITO-2026-10-25.md), [ricevuta](../evidenze/sito-rilascio-2026-10-25/rilascio.json). PR23 revisionata senza rilievi e integrata dopo approvazione umana della pubblicazione. Qualifica INT1:183PHP/1.879asserzioni e9browser PASS; build/GEO,23override e4.396digest conformi.30file sito approvati identici e41main-only/ISTAT preservati. Nuovo consuntivo documentale distinto dallo SHA applicativo servito.

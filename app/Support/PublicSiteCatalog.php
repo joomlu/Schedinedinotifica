@@ -14,6 +14,11 @@ final class PublicSiteCatalog
         return $this->data()['plans'];
     }
 
+    public function interests(): array
+    {
+        return $this->data()['interests'];
+    }
+
     public function render(string $html): string
     {
         $tokens = [];
@@ -41,7 +46,7 @@ final class PublicSiteCatalog
         return $rendered;
     }
 
-    public function selection(?string $planCode, bool $maxFull): string
+    public function selection(?string $planCode, bool $maxFull, ?string $interest = null): string
     {
         $data = $this->data();
         $lines = [];
@@ -57,6 +62,10 @@ final class PublicSiteCatalog
             $lines[] = 'Servizio aggiuntivo richiesto: '.$data['max_full']['name'];
             $lines[] = $data['max_full']['price'];
             $lines[] = $data['max_full']['commercial_note'];
+        }
+
+        if ($interest !== null && $interest !== '') {
+            $lines[] = 'Interesse richiesto: '.$data['interests'][$interest].' ['.$interest.']';
         }
 
         return implode("\n", $lines);

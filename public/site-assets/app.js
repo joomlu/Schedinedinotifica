@@ -354,7 +354,9 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       contact_anytime: contactAnytime,
       topic,
       plan: String(formData.get('plan') || ''),
-      max_full: formData.get('max_full') === 'on',
+      interest: String(formData.get('interest') || ''),
+      consent: form.querySelector('[name=consent]')?.checked === true,
+      max_full: form.querySelector('[data-commercial-max]')?.checked === true,
       message,
       website: '',
     };
@@ -379,6 +381,9 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
         const data = await response.json().catch(() => ({}));
         if (!response.ok) {
           throw data;
+        }
+        if (data.ok !== true || !Number.isSafeInteger(data.lead_id) || data.lead_id <= 0) {
+          throw { message: 'La conferma di registrazione non è valida. I dati del modulo sono conservati: contattaci prima di ripetere la richiesta.' };
         }
         return data;
       })
@@ -418,7 +423,7 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       });
   });
 
-  if (topicField && window.location.hash === '#demo') {
+  if (topicField && window.location.hash === '#demo' && form.dataset.contactRestored !== 'true') {
     topicField.value = 'Richiesta demo';
     if (window.jQuery && window.jQuery.fn && typeof window.jQuery.fn.select2 === 'function') {
       window.jQuery(topicField).trigger('change');
@@ -428,7 +433,7 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
 
 window.addEventListener('hashchange', () => {
   const field = document.querySelector('[data-contact-topic]');
-  if (!field || location.hash !== '#demo') return;
+  if (!field || location.hash !== '#demo' || field.closest('form')?.dataset.contactRestored === 'true') return;
   field.value = 'Richiesta demo';
   field.dispatchEvent(new Event('change', { bubbles: true }));
   if (window.jQuery?.fn?.select2) window.jQuery(field).trigger('change');
@@ -473,13 +478,17 @@ document.querySelectorAll('[data-product-tour]').forEach(tour => {
 document.querySelectorAll('[data-demo-form]').forEach(form => {
   const plan = form.querySelector('[data-commercial-plan]');
   const maxFull = form.querySelector('[data-commercial-max]');
+  const interest = form.querySelector('[data-commercial-interest]');
   const summary = form.querySelector('[data-commercial-summary]');
   const clear = form.querySelector('[data-commercial-clear]');
-  if (!plan || !maxFull || !summary || !clear) return;
+  if (!plan || !maxFull || !interest || !summary || !clear) return;
   const validPlans = ['solo', 'duo', 'multi', 'oltre7', 'strutture', 'oltre2'];
   const params = new URLSearchParams(location.search);
-  plan.value = validPlans.includes(params.get('piano')) ? params.get('piano') : '';
-  maxFull.checked = params.get('servizio') === 'max-full';
+  if (form.dataset.contactRestored !== 'true') {
+    plan.value = validPlans.includes(params.get('piano')) ? params.get('piano') : '';
+    maxFull.checked = params.get('servizio') === 'max-full';
+    interest.value = [...interest.options].some(option => option.value === params.get('interesse')) ? params.get('interesse') : '';
+  }
   let catalog = null;
   const update = () => {
     summary.replaceChildren();
@@ -488,14 +497,15 @@ document.querySelectorAll('[data-demo-form]').forEach(form => {
       node.textContent = text;
       summary.append(node);
     };
-    if (!plan.value && !maxFull.checked) {
+    if (!plan.value && !maxFull.checked && !interest.value) {
       add('Nessun piano o servizio selezionato. Definiamo insieme il tuo contesto.');
       return;
     }
     if (!catalog) {
-      add('Scelta conservata. I dettagli del piano e del servizio saranno confermati nella risposta.');
+      add('Scelta conservata. I dettagli del piano, del modulo e del servizio saranno confermati nella risposta.');
       return;
     }
+    if (interest.value && catalog.interests?.[interest.value]) add(`Interesse richiesto: ${catalog.interests[interest.value]}`, true);
     const selected = catalog.plans[plan.value];
     if (selected) {
       add(`${selected.name} · ${selected.scope}`, true);
@@ -511,8 +521,10 @@ document.querySelectorAll('[data-demo-form]').forEach(form => {
   };
   plan.addEventListener('change', update);
   maxFull.addEventListener('change', update);
-  clear.addEventListener('click', () => { plan.value = ''; maxFull.checked = false; update(); });
+  interest.addEventListener('change', update);
+  clear.addEventListener('click', () => { plan.value = ''; maxFull.checked = false; interest.value = ''; update(); });
   form.addEventListener('reset', () => queueMicrotask(update));
+  window.addEventListener('pageshow', update);
   update();
   fetch('/site-assets/catalogo-commerciale.json', { cache: 'no-store', headers: { Accept: 'application/json' } })
     .then(response => { if (!response.ok) throw new Error('Catalogo non disponibile'); return response.json(); })

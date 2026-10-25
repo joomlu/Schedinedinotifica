@@ -56,5 +56,17 @@
       "Affiancamento per Alloggiati Web, ISTAT/Ross1000 e altri servizi effettivamente attivi.",
       "Follow-up concordato con la struttura."
     ]
+  },
+  "interests": {
+    "clienti": "Clienti e anagrafiche",
+    "strutture": "Strutture, proprietari e accessi",
+    "arrivi": "Arrivi e completamento check-in",
+    "schedine": "Schedine, famiglie e gruppi",
+    "web-checkin": "Web Check-in",
+    "alloggiati-web": "Alloggiati Web",
+    "istat-ross1000": "Statistiche, Tabella A e ISTAT/Ross1000",
+    "tassa-soggiorno": "Tassa di soggiorno",
+    "importazioni": "Importazioni, esportazioni e stampe",
+    "organizzazione": "Presenze, storico e organizzazione"
   }
 }

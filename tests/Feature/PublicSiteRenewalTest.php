@@ -14,7 +14,7 @@ class PublicSiteRenewalTest extends TestCase
 
     public function test_pagine_pubbliche_renderizzano_catalogo_e_marchio_senza_offerte_superate(): void
     {
-        foreach (['/', '/moduli', '/demo', '/prezzi', '/contatti'] as $url) {
+        foreach (['/', '/moduli', '/ampliamenti', '/demo', '/prezzi', '/contatti'] as $url) {
             $response = $this->get($url)->assertOk();
             $html = $response->getContent();
             $this->assertSame(1, preg_match_all('/<h1\b/i', $html));
@@ -29,14 +29,14 @@ class PublicSiteRenewalTest extends TestCase
         }
         $home = preg_replace('/\s+/u', ' ', strip_tags(preg_replace('/<br\s*\/?\s*>/i', ' ', $this->get('/')->getContent())));
         $this->assertStringContainsString('Meno burocrazia. Più tempo per i tuoi ospiti.', $home);
-        $this->assertStringContainsString('Organizza gli arrivi, raccogli i dati degli ospiti e gestisci gli adempimenti della tua struttura con Schedine di Notifica.', $home);
+        $this->assertStringContainsString('Schedine di Notifica è il software per reception, gestori di appartamenti e strutture ricettive: organizza gli arrivi, raccogli i dati degli ospiti e segui gli adempimenti nel contesto della tua struttura.', $home);
         $this->assertStringContainsString('Richiedi una demo', $home);
         $this->assertStringContainsString('Scopri le funzioni', $home);
     }
 
     public function test_url_storiche_e_accessi_privati_restano_preservati(): void
     {
-        foreach (['/index.html' => '/', '/moduli.html' => '/moduli', '/demo.html' => '/demo', '/prezzi.html' => '/prezzi', '/contatti.html' => '/contatti', '/accesso' => '/login', '/accesso.html' => '/login'] as $old => $new) {
+        foreach (['/index.html' => '/', '/moduli.html' => '/moduli', '/ampliamenti.html' => '/ampliamenti', '/demo.html' => '/demo', '/prezzi.html' => '/prezzi', '/contatti.html' => '/contatti', '/accesso' => '/login', '/accesso.html' => '/login'] as $old => $new) {
             $this->get($old)->assertRedirect($new);
         }
         $this->get('/login')->assertOk()->assertSee('name="password"', false);
@@ -156,7 +156,9 @@ class PublicSiteRenewalTest extends TestCase
         $before = CrmLead::count();
         $this->withServerVariables(['REMOTE_ADDR' => '203.0.113.77']);
         for ($i = 0; $i < 6; $i++) {
-            $this->postJson('/contatti/richiesta', $this->payload())->assertOk();
+            $payload = $this->payload();
+            $payload['email'] = 'limite-'.$i.'@example.invalid';
+            $this->postJson('/contatti/richiesta', $payload)->assertOk();
         }
         $this->postJson('/contatti/richiesta', $this->payload())->assertStatus(429)->assertHeader('Retry-After');
         $this->assertSame($before + 6, CrmLead::count());
@@ -168,7 +170,7 @@ class PublicSiteRenewalTest extends TestCase
     public function test_SEO_canonico_e_sitemap_coerenti_sul_dominio_ufficiale(): void
     {
         $titles = $descriptions = [];
-        foreach (['index', 'moduli', 'demo', 'prezzi', 'contatti'] as $page) {
+        foreach (['index', 'moduli', 'ampliamenti', 'demo', 'prezzi', 'contatti'] as $page) {
             $html = $this->get($page === 'index' ? '/' : '/'.$page)->getContent();
             preg_match('/<title>\s*(.*?)\s*<\/title>/s', $html, $title);
             preg_match('/<meta name="description" content="([^"]+)">/', $html, $description);
@@ -180,17 +182,17 @@ class PublicSiteRenewalTest extends TestCase
             $this->assertStringContainsString('rel="canonical" href="'.$canonical.'"', $html);
             $this->assertStringContainsString('property="og:url" content="'.$canonical.'"', $html);
         }
-        $this->assertCount(5, array_unique($titles));
-        $this->assertCount(5, array_unique($descriptions));
+        $this->assertCount(6, array_unique($titles));
+        $this->assertCount(6, array_unique($descriptions));
         $xml = simplexml_load_file(public_path('sitemap.xml'));
         $this->assertNotFalse($xml);
         $xml->registerXPathNamespace('s', 'http://www.sitemaps.org/schemas/sitemap/0.9');
-        $this->assertCount(5, $xml->xpath('//s:loc'));
+        $this->assertCount(6, $xml->xpath('//s:loc'));
         $this->assertStringContainsString('https://schedinedinotifica.tanggo.software/sitemap.xml', file_get_contents(public_path('robots.txt')));
     }
 
     private function payload(): array
     {
-        return ['company' => 'Hotel Sintetico', 'name' => 'Referente Demo', 'email' => 'sito@example.invalid', 'topic' => 'Richiesta demo', 'message' => 'Messaggio sintetico per il collaudo.', 'website' => ''];
+        return ['company' => 'Hotel Sintetico', 'name' => 'Referente Demo', 'email' => 'sito@example.invalid', 'topic' => 'Richiesta demo', 'message' => 'Messaggio sintetico per il collaudo.', 'website' => '', 'consent' => true];
     }
 }

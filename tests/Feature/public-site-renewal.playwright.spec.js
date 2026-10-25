@@ -6,10 +6,10 @@ const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 
 const catalog = JSON.parse(readFileSync(new URL('../../web/assets/catalogo-commerciale.json', import.meta.url), 'utf8'));
 
-const pages = [['/', 'Meno burocrazia.'], ['/moduli', 'Ogni attività ha il suo spazio.'], ['/demo', 'Dai primi dati'], ['/prezzi', 'Il piano giusto.'], ['/contatti', 'La tua prossima accoglienza']];
+const pages = [['/', 'Meno burocrazia.'], ['/moduli', 'Ogni attività ha il suo spazio.'], ['/ampliamenti', 'Il percorso giusto.'], ['/demo', 'Dai primi dati'], ['/prezzi', 'Il piano giusto.'], ['/contatti', 'La tua prossima accoglienza']];
 
 for (const width of [1440, 768, 390]) {
-  test(`sito pubblico: cinque pagine, navigazione e accessi a ${width}`, async ({ page }, info) => {
+  test(`sito pubblico: sei pagine, navigazione e accessi a ${width}`, async ({ page }, info) => {
     await page.setViewportSize({ width, height: 1000 });
     const errors = [];
     const failed = [];

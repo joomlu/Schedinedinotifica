@@ -529,3 +529,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
   .site-header .site-nav { background: var(--navy); border-bottom-color: #ffffff25; }
   .site-header .site-nav > a[aria-current] { box-shadow: none; border-left-color: var(--turquoise); }
 }
+
+/* Percorsi di ampliamento: dettagli e immagini autentiche nel medesimo sistema visivo. */
+.extension-screen { margin: 30px 0; padding: 16px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+.extension-screen img { width: 100%; }
+.extension-screen figcaption { padding-top: 12px; font-size: .8rem; }
+.extension-support { background: var(--soft); }
+.extension-support .two-col { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 60px; align-items: center; }
+#strutture-proprietari { scroll-margin-top: 110px; }
+@media (max-width: 950px) { .extension-support .two-col { grid-template-columns: minmax(0,1fr); gap: 30px; } }
