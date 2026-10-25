@@ -394,6 +394,7 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       .then(() => {
         // Dopo il salvataggio eliminare anche i valori predefiniti ripristinati dal server.
         form.querySelectorAll('input, textarea').forEach(field => {
+          if (field.name === '_token') return;
           if (field.type === 'checkbox' || field.type === 'radio') field.defaultChecked = false;
           else if (!['submit', 'button'].includes(field.type)) field.defaultValue = '';
         });

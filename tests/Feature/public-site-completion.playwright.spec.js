@@ -115,3 +115,33 @@ test('form: errore nativo conserva dati, piano, servizio, interesse e motivo anc
   await expect(page.locator('[name=consent]')).not.toBeChecked();
   await expect(page.locator('[data-commercial-summary]')).toContainText('Nessun piano o servizio selezionato');
 });
+
+
+test('form: due richieste consecutive conservano il token CSRF senza ricarica', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.goto(`${BASE_URL}/contatti`, { waitUntil: 'load' });
+  const csrf = page.locator('input[name="_token"]');
+  const token = await csrf.inputValue();
+  expect(token.length).toBeGreaterThan(0);
+  const ids = [];
+  for (const number of [1, 2]) {
+    await page.getByLabel('Struttura *', { exact: true }).fill('Hotel CSRF sintetico');
+    await page.getByLabel('Nome e cognome *', { exact: true }).fill('Referente sintetico');
+    await page.getByLabel('Email *', { exact: true }).fill(`csrf-${number}@example.invalid`);
+    await page.locator('select[name="topic"]').selectOption('Richiesta demo', { force: true });
+    await page.locator('[name="message"]').fill(`Richiesta sintetica distinta ${number}`);
+    await page.getByLabel('Autorizzo il contatto commerciale').check();
+    const saved = page.waitForResponse(r => r.url().endsWith('/contatti/richiesta') && r.request().method() === 'POST');
+    await page.getByRole('button', { name: 'Invia la richiesta', exact: true }).click();
+    const response = await saved;
+    expect(response.status()).toBe(200);
+    const receipt = await response.json();
+    expect(receipt.ok).toBe(true);
+    expect(receipt.lead_id).toBeGreaterThan(0);
+    ids.push(receipt.lead_id);
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await page.getByRole('button', { name: 'Torna alla pagina', exact: true }).click();
+    await expect(csrf).toHaveValue(token);
+  }
+  expect(new Set(ids).size).toBe(2);
+});
