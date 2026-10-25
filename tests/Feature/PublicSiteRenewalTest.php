@@ -170,7 +170,7 @@ class PublicSiteRenewalTest extends TestCase
     public function test_SEO_canonico_e_sitemap_coerenti_sul_dominio_ufficiale(): void
     {
         $titles = $descriptions = [];
-        foreach (['index', 'moduli', 'ampliamenti', 'demo', 'prezzi', 'contatti'] as $page) {
+        foreach (['index', 'moduli', 'ampliamenti', 'demo', 'prezzi', 'contatti', 'note-legali', 'privacy', 'cookie'] as $page) {
             $html = $this->get($page === 'index' ? '/' : '/'.$page)->getContent();
             preg_match('/<title>\s*(.*?)\s*<\/title>/s', $html, $title);
             preg_match('/<meta name="description" content="([^"]+)">/', $html, $description);
@@ -182,12 +182,12 @@ class PublicSiteRenewalTest extends TestCase
             $this->assertStringContainsString('rel="canonical" href="'.$canonical.'"', $html);
             $this->assertStringContainsString('property="og:url" content="'.$canonical.'"', $html);
         }
-        $this->assertCount(6, array_unique($titles));
-        $this->assertCount(6, array_unique($descriptions));
+        $this->assertCount(9, array_unique($titles));
+        $this->assertCount(9, array_unique($descriptions));
         $xml = simplexml_load_file(public_path('sitemap.xml'));
         $this->assertNotFalse($xml);
         $xml->registerXPathNamespace('s', 'http://www.sitemaps.org/schemas/sitemap/0.9');
-        $this->assertCount(6, $xml->xpath('//s:loc'));
+        $this->assertCount(9, $xml->xpath('//s:loc'));
         $this->assertStringContainsString('https://schedinedinotifica.tanggo.software/sitemap.xml', file_get_contents(public_path('robots.txt')));
     }
 

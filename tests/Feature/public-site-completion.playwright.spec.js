@@ -83,8 +83,11 @@ for (const width of [1440, 768, 390]) {
 
 test('form: errore nativo conserva dati, piano, servizio, interesse e motivo anche con hash demo', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 1000 });
+  await page.goto(`${BASE_URL}/contatti`, { waitUntil: 'load' });
+  const token = await page.locator('input[name="_token"]').inputValue();
+  expect(token.length).toBeGreaterThan(0);
   const response = await page.request.post(`${BASE_URL}/contatti/richiesta`, {
-    form: { company: 'Hotel $1 <Nativo>', name: 'Referente Sintetico', email: 'non-email', topic: 'Informazioni generali', message: 'Richiesta nativa sintetica.', plan: 'strutture', max_full: '1', interest: 'web-checkin', consent: '1', website: '' },
+    form: { _token: token, company: 'Hotel $1 <Nativo>', name: 'Referente Sintetico', email: 'non-email', topic: 'Informazioni generali', message: 'Richiesta nativa sintetica.', plan: 'strutture', max_full: '1', interest: 'web-checkin', consent: '1', website: '' },
     headers: { Accept: 'text/html', Referer: `${BASE_URL}/contatti` }, maxRedirects: 0,
   });
   expect(response.status()).toBe(302);

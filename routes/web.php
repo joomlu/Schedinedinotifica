@@ -60,6 +60,9 @@ Route::get('/ampliamenti', fn () => app(PublicSiteController::class)->page('ampl
 Route::get('/demo', fn () => app(PublicSiteController::class)->page('demo'))->name('site.demo');
 Route::get('/prezzi', fn () => app(PublicSiteController::class)->page('prezzi'))->name('site.prezzi');
 Route::get('/contatti', fn () => app(PublicSiteController::class)->page('contatti'))->name('site.contatti');
+Route::get('/note-legali', fn () => app(PublicSiteController::class)->page('note-legali'))->name('site.note-legali');
+Route::get('/privacy', fn () => app(PublicSiteController::class)->page('privacy'))->name('site.privacy');
+Route::get('/cookie', fn () => app(PublicSiteController::class)->page('cookie'))->name('site.cookie');
 Route::post('/contatti/richiesta', [WebsiteContactController::class, 'store'])
     ->middleware('throttle:6,1,sito-contatti')
     ->name('site.contatti.store');

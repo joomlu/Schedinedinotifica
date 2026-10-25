@@ -36,6 +36,16 @@ class PublicSiteCompletionTest extends TestCase
         $this->get('/login')->assertOk();
     }
 
+    public function test_informazioni_legali_accessibili_e_senza_coordinate_bancarie(): void
+    {
+        foreach (['/note-legali', '/privacy', '/cookie'] as $path) {
+            $this->get($path)->assertOk()->assertSee('Experience S.r.l.')
+                ->assertSee('04451860409')->assertSee('experience-srl@pec.it')->assertDontSee('IBAN');
+        }
+        $this->get('/privacy')->assertSee('Conservazione')->assertSee('I tuoi diritti');
+        $this->get('/contatti')->assertSee('href="/privacy"', false)->assertSee('informativa privacy');
+    }
+
     public function test_sei_pagine_condividono_versione_link_nominati_e_asset_autenticati(): void
     {
         $version = app(PublicSiteRenderer::class)->version();

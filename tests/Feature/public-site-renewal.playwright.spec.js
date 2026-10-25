@@ -6,10 +6,10 @@ const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 
 const catalog = JSON.parse(readFileSync(new URL('../../web/assets/catalogo-commerciale.json', import.meta.url), 'utf8'));
 
-const pages = [['/', 'Meno burocrazia.'], ['/moduli', 'Ogni attività ha il suo spazio.'], ['/ampliamenti', 'Il percorso giusto.'], ['/demo', 'Dai primi dati'], ['/prezzi', 'Il piano giusto.'], ['/contatti', 'La tua prossima accoglienza']];
+const pages = [['/', 'Meno burocrazia.'], ['/moduli', 'Ogni attività ha il suo spazio.'], ['/ampliamenti', 'Il percorso giusto.'], ['/demo', 'Dai primi dati'], ['/prezzi', 'Il piano giusto.'], ['/contatti', 'La tua prossima accoglienza'], ['/note-legali', 'Note legali'], ['/privacy', 'Informativa privacy'], ['/cookie', 'Cookie tecnici']];
 
 for (const width of [1440, 768, 390]) {
-  test(`sito pubblico: sei pagine, navigazione e accessi a ${width}`, async ({ page }, info) => {
+  test(`sito pubblico: nove pagine, navigazione e accessi a ${width}`, async ({ page }, info) => {
     await page.setViewportSize({ width, height: 1000 });
     const errors = [];
     const failed = [];
@@ -75,7 +75,7 @@ for (const width of [1440, 768, 390]) {
         expect(fits).toBe(true);
       }
 
-      await expect(page.locator('.site-nav [aria-current="page"]')).toHaveCount(1);
+      await expect(page.locator((['/note-legali', '/privacy', '/cookie'].includes(url) ? '.footer-bottom' : '.site-nav') + ' [aria-current="page"]')).toHaveCount(1);
       const layout = await page.evaluate(() => ({ viewport: innerWidth, scroll: document.documentElement.scrollWidth, elementi: [...document.querySelectorAll('body *')].map(el => ({ tag: el.tagName, classe: el.className, x: el.getBoundingClientRect().x, destra: el.getBoundingClientRect().right, larghezza: el.getBoundingClientRect().width })).filter(el => el.destra > innerWidth + 1 || el.x < -1).slice(0, 30) }));
       console.log('Misure layout', url, width, JSON.stringify(layout));
       if (layout.scroll > layout.viewport) await page.screenshot({ path: info.outputPath(`diagnostico-overflow-${width}.png`), fullPage: true });
