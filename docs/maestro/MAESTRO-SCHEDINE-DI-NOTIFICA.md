@@ -1,5 +1,9 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Sito integrale — P2 sul reset CSRF corretto, qualifica R16 PASS
+
+PR26 sul47cf2bfe: rilievoP2 sul reset del nuovo tokenCSRF, individuato anche nella revisione propria. Corretto in entrambe le copieJS; nuova prova due richieste distinte senza ricarica, duelead e token invariato dopo ogni reset. R16 sulf873ed52:196PHP/2218asserzioni e20browserPASS, nove pagine×1440/768/390,23override/buildGEO/4408digest. [Qualifica corrente](../evidenze/sito-integrale-2026-10-25/verifica.json), [rapporto](../COMPLETAMENTO-LEGALE-SITO-2026-10-25.md). R15 conservata separatamente; nuovo C5 ancora pendente, produzione4a85dea2 gia verificata. BASELINE IN AUDIT invariata.
+
 ## Sito integrale — rilascio4a85dea2 PASS, correzioni e pagine legali qualificate R15
 
 Rilascio4a85dea2 concluso: S0144,710s/RUN253,001s/zeroDDL, QA sei pagine×1440/768/390 e HMAC66 dopo rimozione3lead/3attività PASS; monitor server918,765s eMac920,509s, zero nuovi errori. [Ricevuta](../evidenze/sito-integrale-2026-10-25/rilascio-4a85dea2.json). Consenso specifico al ritiro originario acquisito ed eseguito; originali/SQL/cifrati/chiavi preservati.

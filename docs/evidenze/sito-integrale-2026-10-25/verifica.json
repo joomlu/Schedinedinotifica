@@ -1,15 +1,15 @@
 {
   "stato": "PASS_SITO_INTEGRALE_ISTAT_ISOLATO",
-  "data_UTC": "2026-10-25T18:36:04.744334+00:00",
-  "candidato_qualificato": "a8127069d3867cf6be0d34f52eae4f07b40c5edb",
+  "data_UTC": "2026-10-25T18:41:42.078469+00:00",
+  "candidato_qualificato": "f873ed52965f2e0745883f4a6e1863e60c8a7c10",
   "PHP": {
     "test": 196,
     "asserzioni": 2218,
-    "esecuzione": "R15"
+    "esecuzione": "R16"
   },
   "browser": {
-    "percorsi": 19,
-    "esecuzione": "R15",
+    "percorsi": 20,
+    "esecuzione": "R16",
     "larghezze": [
       1440,
       768,
@@ -17,7 +17,8 @@
     ],
     "pagine_pubbliche": 9,
     "ISTAT": 3,
-    "figure_decodificate": 12
+    "figure_decodificate": 12,
+    "due_inviisenza_reload": "PASS"
   },
   "guardie_override": 23,
   "build_GEO": "PASS",
@@ -29,7 +30,7 @@
     "app/Support/PublicSiteCatalog.php": "d88f167e78bb2da34071c1e92dcce2595d8690faddbbe6d3da83e61b8bde2e6d",
     "app/Support/PublicSiteRenderer.php": "a840fe6b8727e21aebfc65596e79ea5d3327362d28c60b754d475a0f452edcf6",
     "public/robots.txt": "24994e43a3da93168f77eaaa18ec69900d4ba4f2e3c8c2391e0bc4b6395d5acf",
-    "public/site-assets/app.js": "b3d4a16881143a20e45201f858137ccc79ca2e604f5252b799853c9e3ff68dec",
+    "public/site-assets/app.js": "1c240f761037e94112f03a55ad6aa78c6b53857de70504282e959736e65051c0",
     "public/site-assets/styles.css": "fd92670805f87218561be0970937f6b70a783887518a606b7cc4dbfa5f423f19",
     "public/sitemap.xml": "8df343dd4701ca2d226d214b35891540b33b32a662834d191fc8678cac09e90a",
     "resources/views/errors/404.blade.php": "cc70bf462abfc710b683e9003a3c943f5e49f28335efe2179e8ac62bb6d8bd31",
@@ -39,7 +40,7 @@
     "tests/Feature/PublicSiteRenewalTest.php": "f95729abf01890d0833d2bafbf49292a7b95ff0f36d099c371008053f7f1b395",
     "tests/Feature/public-contact-confirmation.playwright.spec.js": "0a3fcfce27c70bc42415f24d1f83c423f569238dc7b5983ed559d401fb52635e",
     "tests/Feature/public-product-capture.playwright.spec.js": "8562ae91a14038e6cf82f1db51f7af2a555fb4eeb426f84f9b5669fa8a33c46e",
-    "tests/Feature/public-site-completion.playwright.spec.js": "4875aac1fbef3acae0b09be69115206b08174be33e00e5a4ae6c359f2dcee007",
+    "tests/Feature/public-site-completion.playwright.spec.js": "bd2845b5e5ac93b844fef8308a1607f91a1ab2a22cf1addc4efd07064a786764",
     "tests/Feature/public-site-images.playwright.spec.js": "a85487f1c6bd012a68df8a1d029f4473ea129432d8dcde8aa593f557a6aede43",
     "tests/Feature/public-site-renewal.playwright.spec.js": "2208814cad08b77297f87dd47a8e9ec089e057280697632a7e0827f576979d0d",
     "tests/Isolation/public-product-demo-fixtures.php": "a3261364a27aafcd8b148d6bb40b3cf3c0c4740c3d37a673bd58235bdea66e5a",
@@ -47,7 +48,7 @@
     "web/README.md": "9689c1f8aa57dc800cae9a8d689b63527f1d24c8c71641373ee30af849f4fc66",
     "web/accesso.html": "77d1582cf3c482614cf8fa021424ef54cc2b333e8c47d294c263a0d13fe8a205",
     "web/ampliamenti.html": "772593294898c5f7b6432aebb3df7d764b8f443e4ff17f34fb171b7cae3c7f22",
-    "web/assets/app.js": "b3d4a16881143a20e45201f858137ccc79ca2e604f5252b799853c9e3ff68dec",
+    "web/assets/app.js": "1c240f761037e94112f03a55ad6aa78c6b53857de70504282e959736e65051c0",
     "web/assets/catalogo-commerciale.json": "f401cdc98f5afe6960fdd28d2e71ea561c598617ecf23dd9fae61b58f457435f",
     "web/assets/img/foto-assistenza.webp": "b2ad5f7b2aa4e24116a8b1dd1cb0962f88f28522bf923a387588c4ba2e2bbc05",
     "web/assets/img/foto-reception.webp": "b20caca7f494ef434b855a39b424b6897583912808adbfe3df9f1ccdcd7fda4a",
@@ -70,7 +71,7 @@
   "schermate_pagine_sha256": {
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-home-1440.png": "8ff1e0fa06ef0f0f7f8002980e33914aad6ec9327ff7aa864ab02653378460db",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-moduli-1440.png": "f6251c7d8ae6050ec78c860401b2380196229d60a7c0484e1a342ace22723fb8",
-    "docs/evidenze/sito-integrale-2026-10-25/finale/sito-ampliamenti-1440.png": "897cc44a30560334ea2536dbd779f689916f0110c3f2418f16200796d469a19b",
+    "docs/evidenze/sito-integrale-2026-10-25/finale/sito-ampliamenti-1440.png": "b9ed7354be6c67bf4bd4c5e138bc498c0ce7ae40020e21ef171ef24b1855764e",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-demo-1440.png": "4d29368e1ee1e5e196dd5b736594631d45ccecc4afb811a8198260243c44df0e",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-prezzi-1440.png": "506fba8ffdce0b1193b40322a174cf4b4da416c1d14bb99099b395891c9821ef",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-contatti-1440.png": "0179195bea79cf73334e1250b0cdd6169ee96971aa754303593001aa0d0217f8",
@@ -79,7 +80,7 @@
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-cookie-1440.png": "70760b35fbe8a605ce1b178df0f5a41080a079f5d70da64b09bdafb0220ca588",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-home-768.png": "c1c9c87b5403374f08c21405ebd89ffb3c6522d7720be7b26d5d5662cf19e99e",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-moduli-768.png": "d911666a88bf56b19b466f1d5f2cdfa678d465ba69ef31a2c22e81f2ee4922ab",
-    "docs/evidenze/sito-integrale-2026-10-25/finale/sito-ampliamenti-768.png": "1cb691a50dc31c9f18803fa993596062f8efefa4763b0ab98022146a834832e9",
+    "docs/evidenze/sito-integrale-2026-10-25/finale/sito-ampliamenti-768.png": "8395bba1cfd1dce81762dbdf9f88ca90558227a9b2a7cb5c03acced20fb5a9fd",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-demo-768.png": "3e5ba7fce83855ad793b0d1a76d1566105e389ea48ceb5c6e316fa7080dea915",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-prezzi-768.png": "5be29269bb27913e11b84ad1a0a3b320ea6aa34bfec1c0280400a799bd9665c2",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-contatti-768.png": "1d863ecae52f3f594cbcd0d2a0a7b5ff877c7dffb85f5768fd86ca59eeae0c6e",
@@ -88,7 +89,7 @@
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-cookie-768.png": "b9674d0ffe0f02202e910eb63e00fdb16def07bb0d7fa562c9b34344e06c70fc",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-home-390.png": "f0554440f2a2cb2da5387145fbeb5210fb8e40ec19b18d8e268fb1cf7f21edfa",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-moduli-390.png": "2aa5f383c0206bacdbef0bcb397df78d83b466d4e1fe6cd34c6cef32dc171ce5",
-    "docs/evidenze/sito-integrale-2026-10-25/finale/sito-ampliamenti-390.png": "bafdfdb0a7c7ffd35bad8adf383ffbc1e5cddb941d394c6ae81de7200b06db6b",
+    "docs/evidenze/sito-integrale-2026-10-25/finale/sito-ampliamenti-390.png": "34df9a77018fab433822669db5d6e5569a474b35e7121908e870da8724caee3a",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-demo-390.png": "bc283e23b8b35d82c431bdbd8edbdc2611075f833c581eeab07f82d5d3ea19c7",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-prezzi-390.png": "9e18672ae0cea58b07d61dd8c36d46428667f5622eb1fd4484440fdd4ee7a682",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-contatti-390.png": "d6dcd66d7aa282ad61fbe6c4cdbc521f4f1a28fea961ffe5378acf5a76cbbdb8",
@@ -101,7 +102,8 @@
     "R12": "1120fa17695b7460ef393152e352b36fd110857c86a989c40313bd2925d7b5b7",
     "R13": "81d9abf0bb9f8bfe934734abe07254be07b9b4e1da30d219a8918e53e78efebb",
     "R14": "7f466954e95002539338667034e1108bba41be7f7951f51177206e86d3377506",
-    "R15": "d6baf9ba39159999a1b27f75780238e808077c308296b4e63bdefaea66c7bf1a"
+    "R15": "d6baf9ba39159999a1b27f75780238e808077c308296b4e63bdefaea66c7bf1a",
+    "R16": "e7eb97864e07421b18d03c8b2e6be1657a23b23b509c0d51222bb3de2a98424f"
   },
   "CSRF": "Token di sessione nativo e JSON; vuoto/errato419 e zero scritture; messaggi italiani",
   "404": "Percorsi assenti404; rotte gestionali esistenti ancora protette",
@@ -120,7 +122,7 @@
       "https://www.garanteprivacy.it/faq/Cookie"
     ]
   },
-  "precedente_qualifica": "verifica-R10.json",
+  "precedente_qualifica": "verifica-R15.json",
   "precedente_rilascio": "rilascio-4a85dea2.json",
   "esiti_non_sommati": true,
   "nessuna_DDL": true,
@@ -129,5 +131,12 @@
   "limiti": [
     "Accettazione esterna Ross1000/StayTour non attestata dalle prove del sito",
     "Informative riferite al sito commerciale e ai flussi verificati; non costituiscono audit dei contratti dei fornitori o del trattamento ospiti nel gestionale"
-  ]
+  ],
+  "rilievo_PR26": {
+    "priorita": "P2",
+    "head_revisionata": "47cf2bfeeb9f970e427d3622ee1a4e1e685101dc",
+    "problema": "Reset del modulo svuotava anche il nuovo token CSRF",
+    "correzione": "Esclusione del solo _token dal reset dei default, entrambe le copie JS",
+    "prova": "Due lead distinti salvati senza ricarica e token invariato dopo ciascun reset"
+  }
 }
