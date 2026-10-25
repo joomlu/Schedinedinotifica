@@ -1,5 +1,11 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Sito Tango Soft Pro — pubblicazione autorizzata, qualifica combinata PASS — 25 ottobre 2026
+
+**PUBBLICAZIONE AUTORIZZATA; C5 PENDENTE. BASELINE IN AUDIT invariata.** [Rapporto](../PUBBLICAZIONE-SITO-2026-10-25.md), [qualifica integrata](../evidenze/sito-rilascio-2026-10-25/verifica.json). Riscontrato direttamente il messaggio umano «publica» nella chat principale dopo revisione dell’anteprima. Integrazione limitata a50file del sito approvato sulla base main9724daab; commit9da76e3f, tutti41file main-only e ISTAT preservati, Maestro corrente conservato. Revisione indipendente senza rilievi concreti bloccanti.
+
+INT1 combinato:183PHP/1.879asserzioni e9browser PASS,23override/buildGEO/4.396digest conformi; sette suite per sito/ISTAT/tenancy/Questura, nove percorsi1440/768/390 con soli dati sintetici e trasportiOFF. Produzione riletta sola lettura:a90d63aa/Gitpulito/FPMattivo. VM40GiB esclusiva dopo gate8/40GiB e identitàExtra; daily945ef553, DBlogico,84protetti eSELinuxEnforcing conformi. Prossimi passaggi Git/PR/revisione/merge e nuovoC5 conS0/recuperi/custodie/QA/monitor, senzaDDL o invii enti; nessuna pubblicazione già attestata. Originale e anteprima preservati.
+
 ## Sito Tango Soft Pro — nuovo design, listino e Max Full qualificati — 25 ottobre 2026
 
 **PRONTO A REVISIONE; NON PUBBLICATO. BASELINE IN AUDIT invariata.** [Rapporto](../SITO-TANGO-SOFT-PRO-2026-10-25.md), [ricevuta e quattro immagini](../evidenze/sito-commerciale-2026-10-25/verifica.json). Questa fase sostituisce la precedente proposta di prova di sette giorni e il suo contenuto commerciale corrente, preservandone rapporti ed evidenze storiche. Stesso Laravel, worktree e ramo web indipendenti; dominio ufficiale `schedinedinotifica.tanggo.software`. Identità Tango Soft Pro e listino forniti esplicitamente dal proprietario.
