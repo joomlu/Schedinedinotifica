@@ -1,5 +1,9 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Sito chiaro Tanggo Software — Herd aggiornato, C5 respinto prima del PREPARE
+
+PR29 integrata, candidato `fa75a1f05ec013e6338ef423f8dc9f5db3e18e11`,47sorgenti qualificati conformi. Herd HTTPS200/novepagine/risorse/CSRF/accessiPASS, buildVM3904file, precedente4132custodita; env e ramo precedente preservati,111collisioni documentali custodite. robots404 attribuito alla regolaHerd e corretto nel solo vhost locale, nuova accettazionePASS. KitC5/preflightPASS; PREPARE respinto dal revisore automatico per consenso non specifico al payloadbackup e destinazioniMac/VM, ora richiesto. Nessun nuovoPREPARE/S0/RUN/manutenzione. Produzione riletta `4a85dea22d600f52c5922c06fc209373d287c9c3`, Gitpulito,FPMattivo,HTTP200; nuovo designNONpubblicato. [Consuntivo](../PUBBLICAZIONE-SITO-CHIARO-2026-10-25.md), [stato](../evidenze/sito-chiaro-2026-10-25/stato-rilascio.json). BASELINE IN AUDIT invariata.
+
 ## Sito chiaro Tanggo Software — qualifica isolata PASS, rilascio pendente
 
 Nuovo design PR28 e correzioni di marca/logo/menu legale qualificati: CHIARO-R5,20browser/nove pagine×1440/768/390, menu intermedio, build/GEO/23guardie/4412digestPASS.25PHP/571asserzioniR4 sui medesimi sorgenti applicativi; regressioni113/1255R2 distinte, non sommate. Corpi legali e tariffe preservati; nessunaDDL/invio. [Rapporto](../PUBBLICAZIONE-SITO-CHIARO-2026-10-25.md), [qualifica](../evidenze/sito-chiaro-2026-10-25/verifica.json). Produzione ancora4a85dea2; nuovo C5 e aggiornamento locale pendenti. BASELINE IN AUDIT invariata.
