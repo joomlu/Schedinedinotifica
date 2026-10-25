@@ -14,6 +14,28 @@ class PublicSiteCompletionTest extends TestCase
 {
     use DatabaseTransactions, StrutturaFixtures;
 
+    public function test_token_csrf_errato_non_registra_richieste_e_form_espone_token_di_sessione(): void
+    {
+        $n = CrmLead::count();
+        $a = CrmLeadActivity::count();
+        $html = $this->get('/contatti')->assertOk()->getContent();
+        $this->assertStringContainsString('name="_token" value="'.session()->token().'"', $html);
+        foreach (['', 'token-esplicitamente-errato'] as $token) {
+            $this->postJson('/contatti/richiesta', $this->payload() + ['_token' => $token])->assertStatus(419);
+        }
+        $this->post('/contatti/richiesta', $this->payload() + ['_token' => 'errato'])->assertStatus(419)->assertSee('La richiesta non è stata registrata.');
+        $this->assertSame($n, CrmLead::count());
+        $this->assertSame($a, CrmLeadActivity::count());
+    }
+
+    public function test_pagina_pubblica_assente_restituisce_404_con_destinazioni_utili(): void
+    {
+        $this->get('/pagina-commerciale-inesistente')->assertNotFound()
+            ->assertSee('Torna alla Home')->assertSee('Contatti e demo')->assertSee('noindex');
+        $this->get('/clienti')->assertRedirect('/login');
+        $this->get('/login')->assertOk();
+    }
+
     public function test_sei_pagine_condividono_versione_link_nominati_e_asset_autenticati(): void
     {
         $version = app(PublicSiteRenderer::class)->version();

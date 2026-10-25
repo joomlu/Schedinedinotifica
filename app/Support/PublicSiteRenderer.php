@@ -9,6 +9,10 @@ final class PublicSiteRenderer
     public function render(string $html): string
     {
         $html = app(PublicSiteCatalog::class)->render($html);
+        if (str_contains($html, 'data-demo-form')) {
+            $token = htmlspecialchars(csrf_token(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            $html = preg_replace('~(<form\b[^>]*data-demo-form[^>]*>)~i', '$1<input type="hidden" name="_token" value="'.$token.'">', $html);
+        }
         $feedback = '';
         if (request()->hasSession()) {
             if (request()->session()->get('sito-richiesta-registrata') === true) {

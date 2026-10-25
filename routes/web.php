@@ -62,7 +62,6 @@ Route::get('/prezzi', fn () => app(PublicSiteController::class)->page('prezzi'))
 Route::get('/contatti', fn () => app(PublicSiteController::class)->page('contatti'))->name('site.contatti');
 Route::post('/contatti/richiesta', [WebsiteContactController::class, 'store'])
     ->middleware('throttle:6,1,sito-contatti')
-    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])
     ->name('site.contatti.store');
 Route::redirect('/accesso', '/login')->name('site.accesso');
 Route::redirect('/index.html', '/');
@@ -585,7 +584,7 @@ Route::get('/w/{token}', [WebCheckinController::class, 'publicShowShort'])->name
 Route::post('/w/{token}', [WebCheckinController::class, 'publicStoreShort'])->name('web_checkin.public.short.store');
 Route::get('/w/{token}/completato', [WebCheckinController::class, 'publicCompletedShort'])->name('web_checkin.public.short.completed');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware([\App\Http\Middleware\PublicSiteFallback::class, 'auth'])->group(function () {
     // Catch-all
     // Non intercettare richieste ad asset pubblici (es. /build/*), altrimenti
     // Laravel salva URL errati come "intended" durante il login.
