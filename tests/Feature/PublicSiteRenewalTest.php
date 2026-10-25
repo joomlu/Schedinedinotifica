@@ -18,7 +18,7 @@ class PublicSiteRenewalTest extends TestCase
             $response = $this->get($url)->assertOk();
             $html = $response->getContent();
             $this->assertSame(1, preg_match_all('/<h1\b/i', $html));
-            $this->assertStringContainsString('Tango Soft Pro', $html);
+            $this->assertStringContainsString('Tanggo Software', $html);
             $this->assertStringContainsString('Schedine di Notifica', $html);
             $this->assertStringContainsString('href="/login"', $html);
             $this->assertStringContainsString('aria-current="page"', $html);
