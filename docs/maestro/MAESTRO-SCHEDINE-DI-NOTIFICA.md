@@ -1,5 +1,13 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Sito chiaro — consenso backup acquisito; trasporto parallelo qualificato
+
+Consenso specificoMac/VM/Extra ricevuto. Primo PREPARE autorizzato fermato entro120s a290/545MB, produzione4a85dea2 aperta e invariata. Delta al solofetch:quattroflussi, stesso limite globale e SHA/HMAC/recupero/guardie;12componentiPASS e545MB cifrati integralmente verificati in45,322s. Nuovo kit sigillato, nessuna ricevutaC5 promossa dal tentativo precedente. [Rapporto](../PUBBLICAZIONE-SITO-CHIARO-2026-10-25.md), [delta](../evidenze/sito-chiaro-2026-10-25/trasporto-parallelo.json). NuovoPREPARE/S0/RUN/QA/monitor pendenti; BASELINE IN AUDIT invariata.
+
+## Sito chiaro — consenso specifico ai backup acquisito, C5 ripreso
+
+Il26ottobre2026 l’utente ha autorizzato i backup per la pubblicazione, in risposta alla richiesta specifica su payload cifrati DB/file/config e custodieMac/VM/Extra con chiave separataVM. Piano C5fa75a1f0 aggiornato preservando il precedente, nuovo preflightPASS; produzione ancora4a85dea2 e nessuna manutenzione prima delPREPARE. PREPARE autorizzato avviato; esito, custodie, S0/RUN/QA/monitor da attestare. Il blocco precedente resta evidenza storica, non consenso ancora pendente. BASELINE IN AUDIT invariata.
+
 ## Sito chiaro Tanggo Software — Herd aggiornato, C5 respinto prima del PREPARE
 
 PR29 integrata, candidato `fa75a1f05ec013e6338ef423f8dc9f5db3e18e11`,47sorgenti qualificati conformi. Herd HTTPS200/novepagine/risorse/CSRF/accessiPASS, buildVM3904file, precedente4132custodita; env e ramo precedente preservati,111collisioni documentali custodite. robots404 attribuito alla regolaHerd e corretto nel solo vhost locale, nuova accettazionePASS. KitC5/preflightPASS; PREPARE respinto dal revisore automatico per consenso non specifico al payloadbackup e destinazioniMac/VM, ora richiesto. Nessun nuovoPREPARE/S0/RUN/manutenzione. Produzione riletta `4a85dea22d600f52c5922c06fc209373d287c9c3`, Gitpulito,FPMattivo,HTTP200; nuovo designNONpubblicato. [Consuntivo](../PUBBLICAZIONE-SITO-CHIARO-2026-10-25.md), [stato](../evidenze/sito-chiaro-2026-10-25/stato-rilascio.json). BASELINE IN AUDIT invariata.
