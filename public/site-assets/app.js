@@ -358,6 +358,7 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       consent: form.querySelector('[name=consent]')?.checked === true,
       max_full: form.querySelector('[data-commercial-max]')?.checked === true,
       message,
+      _token: String(formData.get('_token') || ''),
       website: '',
     };
 
@@ -375,6 +376,9 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       body: JSON.stringify(payload),
     })
       .then(async (response) => {
+        if (response.status === 419) {
+          throw { message: 'La sessione è scaduta. Ricarica la pagina prima di riprovare.' };
+        }
         if (response.status === 429) {
           throw { message: 'Hai inviato diverse richieste in poco tempo. Attendi un minuto prima di riprovare.' };
         }
@@ -390,6 +394,7 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       .then(() => {
         // Dopo il salvataggio eliminare anche i valori predefiniti ripristinati dal server.
         form.querySelectorAll('input, textarea').forEach(field => {
+          if (field.name === '_token') return;
           if (field.type === 'checkbox' || field.type === 'radio') field.defaultChecked = false;
           else if (!['submit', 'button'].includes(field.type)) field.defaultValue = '';
         });

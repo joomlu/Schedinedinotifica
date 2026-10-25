@@ -538,3 +538,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 .extension-support .two-col { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 60px; align-items: center; }
 #strutture-proprietari { scroll-margin-top: 110px; }
 @media (max-width: 950px) { .extension-support .two-col { grid-template-columns: minmax(0,1fr); gap: 30px; } }
+
+/* Informazioni societarie e trattamento dei dati. */
+.legal-copy { max-width: 54rem; overflow-wrap: anywhere; }
+.legal-copy h2 { margin-top: 2.5rem; margin-bottom: 1rem; }
+.footer-bottom nav { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }

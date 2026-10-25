@@ -4,11 +4,15 @@ namespace App\Support;
 
 final class PublicSiteRenderer
 {
-    public const PAGES = ['index' => 'site.home', 'moduli' => 'site.moduli', 'ampliamenti' => 'site.ampliamenti', 'demo' => 'site.demo', 'prezzi' => 'site.prezzi', 'contatti' => 'site.contatti'];
+    public const PAGES = ['index' => 'site.home', 'moduli' => 'site.moduli', 'ampliamenti' => 'site.ampliamenti', 'demo' => 'site.demo', 'prezzi' => 'site.prezzi', 'contatti' => 'site.contatti', 'note-legali' => 'site.note-legali', 'privacy' => 'site.privacy', 'cookie' => 'site.cookie'];
 
     public function render(string $html): string
     {
         $html = app(PublicSiteCatalog::class)->render($html);
+        if (str_contains($html, 'data-demo-form')) {
+            $token = htmlspecialchars(csrf_token(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            $html = preg_replace('~(<form\b[^>]*data-demo-form[^>]*>)~i', '$1<input type="hidden" name="_token" value="'.$token.'">', $html);
+        }
         $feedback = '';
         if (request()->hasSession()) {
             if (request()->session()->get('sito-richiesta-registrata') === true) {
@@ -18,7 +22,7 @@ final class PublicSiteRenderer
             }
         }
         $html = $this->restoreContactInput(str_replace('{{contact.feedback}}', $feedback, $html));
-        $routes = ['/' => 'site.home', '/moduli' => 'site.moduli', '/ampliamenti' => 'site.ampliamenti', '/demo' => 'site.demo', '/prezzi' => 'site.prezzi', '/contatti' => 'site.contatti', '/contatti/richiesta' => 'site.contatti.store', '/login' => 'login'];
+        $routes = ['/' => 'site.home', '/moduli' => 'site.moduli', '/ampliamenti' => 'site.ampliamenti', '/demo' => 'site.demo', '/prezzi' => 'site.prezzi', '/contatti' => 'site.contatti', '/contatti/richiesta' => 'site.contatti.store', '/note-legali' => 'site.note-legali', '/privacy' => 'site.privacy', '/cookie' => 'site.cookie', '/login' => 'login'];
         $html = preg_replace_callback('~\b(href|action)=([\"\'])(/[^\"\']*)\2~i', function (array $m) use ($routes): string {
             preg_match('~^([^?#]*)(.*)$~s', $m[3], $parts);
             $path = $parts[1];
