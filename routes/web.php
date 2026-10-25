@@ -56,6 +56,7 @@ Auth::routes();
 
 Route::get('/', [PublicSiteController::class, 'home'])->name('site.home');
 Route::get('/moduli', fn () => app(PublicSiteController::class)->page('moduli'))->name('site.moduli');
+Route::get('/ampliamenti', fn () => app(PublicSiteController::class)->page('ampliamenti'))->name('site.ampliamenti');
 Route::get('/demo', fn () => app(PublicSiteController::class)->page('demo'))->name('site.demo');
 Route::get('/prezzi', fn () => app(PublicSiteController::class)->page('prezzi'))->name('site.prezzi');
 Route::get('/contatti', fn () => app(PublicSiteController::class)->page('contatti'))->name('site.contatti');
@@ -66,11 +67,24 @@ Route::post('/contatti/richiesta', [WebsiteContactController::class, 'store'])
 Route::redirect('/accesso', '/login')->name('site.accesso');
 Route::redirect('/index.html', '/');
 Route::redirect('/moduli.html', '/moduli');
+Route::redirect('/ampliamenti.html', '/ampliamenti');
 Route::redirect('/demo.html', '/demo');
 Route::redirect('/prezzi.html', '/prezzi');
 Route::redirect('/contatti.html', '/contatti');
 Route::redirect('/accesso.html', '/login');
 Route::get('/site-assets/{path}', [PublicSiteController::class, 'asset'])
+    // Risorse immutabili e senza stato: nessuna sessione o cookie nella risposta condivisibile.
+    ->withoutMiddleware([
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \App\Http\Middleware\VerifyCsrfToken::class,
+        \App\Http\Middleware\Localization::class,
+        \App\Http\Middleware\ImpostaStrutturaCorrente::class,
+        \App\Http\Middleware\AuthenticateAccountSession::class,
+        \App\Http\Middleware\VerificaServizioStruttura::class,
+        \App\Http\Middleware\LogOperativeAudit::class,
+    ])
     ->where('path', '.*')
     ->name('site.assets');
 
