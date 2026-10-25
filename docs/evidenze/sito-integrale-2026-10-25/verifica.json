@@ -71,7 +71,7 @@
   "schermate_pagine_sha256": {
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-home-1440.png": "8ff1e0fa06ef0f0f7f8002980e33914aad6ec9327ff7aa864ab02653378460db",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-moduli-1440.png": "f6251c7d8ae6050ec78c860401b2380196229d60a7c0484e1a342ace22723fb8",
-    "docs/evidenze/sito-integrale-2026-10-25/finale/sito-ampliamenti-1440.png": "b9ed7354be6c67bf4bd4c5e138bc498c0ce7ae40020e21ef171ef24b1855764e",
+    "docs/evidenze/sito-integrale-2026-10-25/finale/sito-ampliamenti-1440.png": "17b3b50f1f01ae597774dbfb7893ac2306180f1c3b9a6eadf72033c4a1b55382",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-demo-1440.png": "4d29368e1ee1e5e196dd5b736594631d45ccecc4afb811a8198260243c44df0e",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-prezzi-1440.png": "506fba8ffdce0b1193b40322a174cf4b4da416c1d14bb99099b395891c9821ef",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-contatti-1440.png": "0179195bea79cf73334e1250b0cdd6169ee96971aa754303593001aa0d0217f8",
@@ -89,7 +89,7 @@
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-cookie-768.png": "b9674d0ffe0f02202e910eb63e00fdb16def07bb0d7fa562c9b34344e06c70fc",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-home-390.png": "f0554440f2a2cb2da5387145fbeb5210fb8e40ec19b18d8e268fb1cf7f21edfa",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-moduli-390.png": "2aa5f383c0206bacdbef0bcb397df78d83b466d4e1fe6cd34c6cef32dc171ce5",
-    "docs/evidenze/sito-integrale-2026-10-25/finale/sito-ampliamenti-390.png": "34df9a77018fab433822669db5d6e5569a474b35e7121908e870da8724caee3a",
+    "docs/evidenze/sito-integrale-2026-10-25/finale/sito-ampliamenti-390.png": "4ba3bfc295fe8d520218118dacff7da260d3745e4238f2c5fe3862413dd502c3",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-demo-390.png": "bc283e23b8b35d82c431bdbd8edbdc2611075f833c581eeab07f82d5d3ea19c7",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-prezzi-390.png": "9e18672ae0cea58b07d61dd8c36d46428667f5622eb1fd4484440fdd4ee7a682",
     "docs/evidenze/sito-integrale-2026-10-25/finale/sito-contatti-390.png": "d6dcd66d7aa282ad61fbe6c4cdbc521f4f1a28fea961ffe5378acf5a76cbbdb8",
@@ -138,5 +138,6 @@
     "problema": "Reset del modulo svuotava anche il nuovo token CSRF",
     "correzione": "Esclusione del solo _token dal reset dei default, entrambe le copie JS",
     "prova": "Due lead distinti salvati senza ricarica e token invariato dopo ciascun reset"
-  }
+  },
+  "immagini_acquisizione": "Le tre catture ampliamenti provengono dalla spec R16 con scroll, decode e due frame per ciascuna delle quattro figure; escluse catture generiche precedenti alla pittura completa. Nessun cambiamento applicativo."
 }
