@@ -1,6 +1,7 @@
 import { test, expect, BASE_URL } from '../Support/playwright.js';
 
 async function menu(page, width, path) {
+  await page.waitForLoadState('load');
   if (width < 1281) {
     const button = page.locator('.menu-toggle');
     await expect(button).toHaveAccessibleName('Apri menu');
@@ -8,6 +9,7 @@ async function menu(page, width, path) {
   }
   await page.locator(`.site-nav a[href="${path}"]`).click();
   await expect(page).toHaveURL(`${BASE_URL}${path}`);
+  await page.waitForLoadState('load');
 }
 async function loaded(page) {
   await page.locator('img').evaluateAll(images => images.forEach(i => { i.loading = 'eager'; }));

@@ -30,6 +30,8 @@ R3:192PHP/2084asserzioni,1NONPASS nel nuovo test: il controllo asset con utente 
 
 R4:192PHP/2091asserzioniPASS,7/16browserPASS. DIAG-CSS ha confermato hash dei byte corretto ma Content-Type text/x-asm e zero regole CSS applicate per i nuovi URL Laravel: corretto MIME esplicito CSS/JS/JSON e aggiunte asserzioni header e cssRules nel browser. Difetto introdotto dal candidato, rilevato prima del rilascio; non attribuito al sito1edf o alla segnalazione originaria.
 
+R5:192PHP/2103asserzioniPASS,14/16browserPASS. CSS corretto e sei percorsi precedenti completamentePASS; i due nuovi percorsi tablet/mobile cliccavano il menu della pagina successiva prima del completamento della navigazione. Aggiunto waitForLoadState(load) nel solo helper, senza modifiche applicative, riduzione di asserzioni o aumento dei timeout.
+
 Qualifica finale prevista sul commit esatto: otto suitePHP (sito/CRM, ISTAT, tenancy e barriereQuestura), quattro specbrowser con sei pagine, risorse/link/ancore, percorsoHome→Funzionalità→Ampliamenti→Prezzi→MaxFull→contatti, accesso diretto/reload/indietro/avanti, demo, falsi successi, dati CRM e backoffice sintetico. SoloVM ufficiale, DB/filesystem effimeri e servizi finti. Seguono revisionePR, C5 con nuoviPREPARE/S0 e recuperi/custodie, QAonline identificabile e rimozione verificata, monitor900s. Nessuna trasmissione a enti o email reale autorizzata per le prove.
 
 ## Limiti esterni e dati mancanti
