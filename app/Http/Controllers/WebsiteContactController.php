@@ -109,6 +109,12 @@ class WebsiteContactController extends Controller
                 });
             });
         } catch (LockTimeoutException) {
+            if (! $request->expectsJson()) {
+                return redirect()->route('site.contatti', [], 303)
+                    ->withErrors(['request' => 'La richiesta è in elaborazione. Attendi qualche secondo prima di riprovare.'])
+                    ->withInput($request->except('website'));
+            }
+
             return response()->json(['ok' => false, 'message' => 'La richiesta è in elaborazione. Attendi qualche secondo prima di riprovare.'], 503)->header('Retry-After', '2');
         }
         $lead = $saved['lead'];

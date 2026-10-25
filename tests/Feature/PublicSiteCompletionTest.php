@@ -152,6 +152,25 @@ class PublicSiteCompletionTest extends TestCase
         $this->assertStringNotContainsString('Richiesta registrata. Grazie', $html);
     }
 
+    public function test_scadenza_lock_non_conferma_e_conserva_i_dati_del_form_nativo(): void
+    {
+        $lock = \Mockery::mock(\Illuminate\Contracts\Cache\Lock::class);
+        $lock->shouldReceive('block')->twice()->with(5, \Mockery::type(\Closure::class))
+            ->andThrow(new \Illuminate\Contracts\Cache\LockTimeoutException);
+        \Illuminate\Support\Facades\Cache::partialMock()->shouldReceive('lock')->twice()
+            ->with('sito-contatti-scrittura', 15)->andReturn($lock);
+        $payload = $this->payload(['plan' => 'strutture', 'interest' => 'web-checkin', 'max_full' => '1']);
+        $n = CrmLead::count();
+        $a = CrmLeadActivity::count();
+        $this->postJson('/contatti/richiesta', $payload)->assertStatus(503)->assertHeader('Retry-After', '2')->assertJsonPath('ok', false);
+        $this->from('/contatti')->post('/contatti/richiesta', $payload)->assertStatus(303)
+            ->assertRedirect('/contatti')->assertSessionHasErrors('request')->assertSessionHasInput('email', $payload['email']);
+        $this->get('/contatti')->assertOk()->assertSee('La richiesta non è stata registrata.')
+            ->assertSee('La richiesta è in elaborazione.')->assertSee('value="'.$payload['email'].'"', false);
+        $this->assertSame($n, CrmLead::count());
+        $this->assertSame($a, CrmLeadActivity::count());
+    }
+
     private function payload(array $change = []): array
     {
         return array_replace(['company' => 'Hotel Collaudo', 'name' => 'Referente Sintetico', 'email' => 'completamento@example.invalid', 'topic' => 'Richiesta demo', 'message' => 'Richiesta sintetica isolata.', 'website' => '', 'consent' => true], $change);
