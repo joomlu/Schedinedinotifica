@@ -34,12 +34,12 @@ class PublicSiteCompletionTest extends TestCase
                 $this->assertSame([], $assetResponse->headers->getCookies());
             }
         }
-        $this->actingAs($this->actor('struttura_user'))->get($versioned)->assertOk();
         $this->get('/moduli#stato-funzionalita')->assertOk()->assertSee('id="stato-funzionalita"', false);
         $this->get('/ampliamenti')->assertOk()->assertSee('Web Check-in')->assertSee('Max Full');
         $this->get('/site-assets/app.0000000000000000.js')->assertNotFound();
         $this->get('/site-assets/styles.0000000000000000.css')->assertNotFound();
         $this->get('/site-assets/app.0000000000000000.css')->assertNotFound();
+        $this->actingAs($this->actor('struttura_user'))->get($versioned)->assertOk();
     }
 
     public function test_interessi_canonici_salvati_nel_lead_e_nell_attivita(): void
