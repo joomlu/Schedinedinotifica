@@ -1,0 +1,60 @@
+{
+  "version": "2026-10-25",
+  "brand": "Tango Soft Pro",
+  "annual_note": "Abbonamento annuale. Tutti i prezzi sono IVA esclusa.",
+  "extras_note": "Configurazione iniziale, personalizzazioni, consulenza e servizi di affiancamento sono quotati separatamente.",
+  "plans": {
+    "solo": {
+      "name": "Solo",
+      "scope": "1 appartamento",
+      "price": "50 € + IVA / anno",
+      "group": "Appartamenti"
+    },
+    "duo": {
+      "name": "Duo",
+      "scope": "2 appartamenti",
+      "price": "100 € + IVA / anno",
+      "group": "Appartamenti"
+    },
+    "multi": {
+      "name": "Multi",
+      "scope": "Da 3 a 7 appartamenti",
+      "price": "200 € + IVA / anno",
+      "group": "Appartamenti"
+    },
+    "oltre7": {
+      "name": "Oltre 7 appartamenti",
+      "scope": "Oltre 7 appartamenti",
+      "price": "Preventivo personalizzato",
+      "group": "Appartamenti"
+    },
+    "strutture": {
+      "name": "Strutture",
+      "scope": "1 o 2 strutture ricettive",
+      "price": "320 € + IVA / anno complessivi",
+      "group": "Strutture ricettive"
+    },
+    "oltre2": {
+      "name": "Più di 2 strutture",
+      "scope": "Più di 2 strutture ricettive",
+      "price": "Preventivo personalizzato",
+      "group": "Strutture ricettive"
+    }
+  },
+  "max_full": {
+    "name": "Max Full",
+    "subtitle": "Un supporto completo per la gestione della tua struttura.",
+    "description": "Un servizio personalizzato di assistenza tecnica e affiancamento operativo, pensato per accompagnarti nell’utilizzo del software e nel controllo delle attività quotidiane.",
+    "price": "Prezzo personalizzato",
+    "commercial_note": "Attività, frequenza delle verifiche, canali e tempi di assistenza vengono definiti nel preventivo in base alle esigenze della struttura.",
+    "items": [
+      "Assistenza tecnica nell’utilizzo del software.",
+      "Affiancamento iniziale e supporto operativo.",
+      "Supporto alla configurazione dei flussi.",
+      "Verifica degli esiti e delle ricevute disponibili per gli invii telematici.",
+      "Supporto nell’individuazione di anomalie e invii da verificare.",
+      "Affiancamento per Alloggiati Web, ISTAT/Ross1000 e altri servizi effettivamente attivi.",
+      "Follow-up concordato con la struttura."
+    ]
+  }
+}

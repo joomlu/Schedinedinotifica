@@ -24,18 +24,42 @@ const fallbackCities = [
 ];
 
 if (toggle && nav) {
+  const closeMenu = () => {
+    nav.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Apri menu');
+    document.body.classList.remove('menu-open');
+  };
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && nav.classList.contains('open')) { closeMenu(); toggle.focus(); }
+  });
+  window.matchMedia('(min-width: 1281px)').addEventListener('change', closeMenu);
   toggle.addEventListener('click', () => {
     const open = nav.classList.toggle('open');
     toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+    document.body.classList.toggle('menu-open', open);
   });
 
   nav.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       nav.classList.remove('open');
       toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Apri menu');
+      document.body.classList.remove('menu-open');
     });
   });
 }
+
+// Collega anche il controllo Select2 generato all'etichetta del campo nativo.
+const labelContactSelect = select => {
+  const label = select.labels?.[0]?.querySelector('span');
+  const control = select.nextElementSibling?.querySelector('[role="combobox"]');
+  if (!label || !control) return;
+  label.id ||= `contact-${select.name}-label`;
+  const valueId = control.querySelector('.select2-selection__rendered')?.id;
+  control.setAttribute('aria-labelledby', [label.id, valueId].filter(Boolean).join(' '));
+};
 
 document.querySelectorAll('[data-ui="contact-city-select"]').forEach((select) => {
   const $ = window.jQuery;
@@ -108,6 +132,7 @@ document.querySelectorAll('[data-ui="contact-city-select"]').forEach((select) =>
       };
     },
   });
+  labelContactSelect(select);
 });
 
 document.querySelectorAll('[data-ui="contact-basic-select"]').forEach((select) => {
@@ -126,6 +151,7 @@ document.querySelectorAll('[data-ui="contact-basic-select"]').forEach((select) =
     minimumResultsForSearch: Infinity,
     theme: 'default',
   });
+  labelContactSelect(select);
 });
 
 document.querySelectorAll('input[data-ui="contact-datetime"]').forEach((input) => {
@@ -205,11 +231,14 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
   const topicField = form.querySelector('[data-contact-topic]');
   const confirmModal = document.querySelector('[data-contact-confirm]');
 
+  let previousFocus = null;
   const openConfirmModal = () => {
+    previousFocus = form.querySelector('[type=submit]') || document.activeElement;
     if (!confirmModal) return;
     confirmModal.hidden = false;
     confirmModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    confirmModal.querySelector('[role=dialog]').focus();
   };
 
   const closeConfirmModal = () => {
@@ -217,6 +246,7 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
     confirmModal.hidden = true;
     confirmModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    previousFocus?.focus();
   };
 
   if (confirmModal && !confirmModal.dataset.bound) {
@@ -226,6 +256,12 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
     });
 
     document.addEventListener('keydown', (event) => {
+      if (event.key === 'Tab' && !confirmModal.hidden) {
+        const buttons = [...confirmModal.querySelectorAll('button:not([disabled]), a[href]')];
+        const first = buttons[0], last = buttons[buttons.length - 1];
+        if (event.shiftKey && (document.activeElement === first || document.activeElement.matches('[role=dialog]'))) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
       if (event.key === 'Escape' && !confirmModal.hidden) {
         closeConfirmModal();
       }
@@ -263,13 +299,6 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
         status.classList.add('is-error');
       }
       return;
-    }
-
-    if (topicField && window.location.hash === '#demo') {
-      topicField.value = 'Richiesta demo';
-      if (window.jQuery && window.jQuery.fn && typeof window.jQuery.fn.select2 === 'function') {
-        window.jQuery(topicField).trigger('change');
-      }
     }
 
     const formData = new FormData(form);
@@ -324,10 +353,17 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       })() : null,
       contact_anytime: contactAnytime,
       topic,
+      plan: String(formData.get('plan') || ''),
+      max_full: formData.get('max_full') === 'on',
       message,
       website: '',
     };
 
+    const submitButton = form.querySelector('[type=submit]');
+    if (form.dataset.submitting === 'true') return;
+    form.dataset.submitting = 'true';
+    if (submitButton) submitButton.disabled = true;
+    form.setAttribute('aria-busy', 'true');
     fetch('/contatti/richiesta', {
       method: 'POST',
       headers: {
@@ -337,6 +373,9 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       body: JSON.stringify(payload),
     })
       .then(async (response) => {
+        if (response.status === 429) {
+          throw { message: 'Hai inviato diverse richieste in poco tempo. Attendi un minuto prima di riprovare.' };
+        }
         const data = await response.json().catch(() => ({}));
         if (!response.ok) {
           throw data;
@@ -371,6 +410,11 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
           status.classList.remove('is-success');
           status.classList.add('is-error');
         }
+      })
+      .finally(() => {
+        form.dataset.submitting = 'false';
+        form.removeAttribute('aria-busy');
+        if (submitButton) submitButton.disabled = false;
       });
   });
 
@@ -380,4 +424,102 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       window.jQuery(topicField).trigger('change');
     }
   }
+});
+
+window.addEventListener('hashchange', () => {
+  const field = document.querySelector('[data-contact-topic]');
+  if (!field || location.hash !== '#demo') return;
+  field.value = 'Richiesta demo';
+  field.dispatchEvent(new Event('change', { bubbles: true }));
+  if (window.jQuery?.fn?.select2) window.jQuery(field).trigger('change');
+});
+// Percorso del prodotto: i pannelli restano leggibili anche senza JavaScript.
+document.querySelectorAll('[data-product-tour]').forEach(tour => {
+  const tabs = [...tour.querySelectorAll('[role="tab"]')];
+  const panels = [...tour.querySelectorAll('[role="tabpanel"]')];
+  const previous = tour.querySelector('[data-tour-previous]');
+  const next = tour.querySelector('[data-tour-next]');
+  const counter = tour.querySelector('[data-tour-counter]');
+  let current = 0;
+  const activate = (index, focus = false) => {
+    current = index;
+    tabs.forEach((tab, i) => {
+      tab.setAttribute('aria-selected', String(i === current));
+      tab.tabIndex = i === current ? 0 : -1;
+      panels[i].hidden = i !== current;
+    });
+    previous.disabled = current === 0;
+    next.disabled = current === tabs.length - 1;
+    counter.textContent = `Passaggio ${current + 1} di ${tabs.length}`;
+    if (focus) tabs[current].focus();
+  };
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => activate(index));
+    tab.addEventListener('keydown', event => {
+      let target;
+      if (event.key === 'ArrowRight') target = (index + 1) % tabs.length;
+      if (event.key === 'ArrowLeft') target = (index + tabs.length - 1) % tabs.length;
+      if (event.key === 'Home') target = 0;
+      if (event.key === 'End') target = tabs.length - 1;
+      if (target !== undefined) { event.preventDefault(); activate(target, true); }
+    });
+  });
+  previous.addEventListener('click', () => activate(Math.max(0, current - 1), true));
+  next.addEventListener('click', () => activate(Math.min(tabs.length - 1, current + 1), true));
+  activate(0);
+});
+
+// Il catalogo condiviso è l'unica fonte di nomi, ambiti e prezzi nel riepilogo.
+document.querySelectorAll('[data-demo-form]').forEach(form => {
+  const plan = form.querySelector('[data-commercial-plan]');
+  const maxFull = form.querySelector('[data-commercial-max]');
+  const summary = form.querySelector('[data-commercial-summary]');
+  const clear = form.querySelector('[data-commercial-clear]');
+  if (!plan || !maxFull || !summary || !clear) return;
+  const validPlans = ['solo', 'duo', 'multi', 'oltre7', 'strutture', 'oltre2'];
+  const params = new URLSearchParams(location.search);
+  plan.value = validPlans.includes(params.get('piano')) ? params.get('piano') : '';
+  maxFull.checked = params.get('servizio') === 'max-full';
+  let catalog = null;
+  const update = () => {
+    summary.replaceChildren();
+    const add = (text, strong = false) => {
+      const node = document.createElement(strong ? 'strong' : 'p');
+      node.textContent = text;
+      summary.append(node);
+    };
+    if (!plan.value && !maxFull.checked) {
+      add('Nessun piano o servizio selezionato. Definiamo insieme il tuo contesto.');
+      return;
+    }
+    if (!catalog) {
+      add('Scelta conservata. I dettagli del piano e del servizio saranno confermati nella risposta.');
+      return;
+    }
+    const selected = catalog.plans[plan.value];
+    if (selected) {
+      add(`${selected.name} · ${selected.scope}`, true);
+      add(selected.price);
+      add(catalog.annual_note);
+    }
+    if (maxFull.checked) {
+      add(`${catalog.max_full.name} · ${catalog.max_full.price}`, true);
+      add('Servizio aggiuntivo all’abbonamento.');
+      add(catalog.max_full.commercial_note);
+    }
+    add(catalog.extras_note);
+  };
+  plan.addEventListener('change', update);
+  maxFull.addEventListener('change', update);
+  clear.addEventListener('click', () => { plan.value = ''; maxFull.checked = false; update(); });
+  form.addEventListener('reset', () => queueMicrotask(update));
+  update();
+  fetch('/site-assets/catalogo-commerciale.json', { cache: 'no-store', headers: { Accept: 'application/json' } })
+    .then(response => { if (!response.ok) throw new Error('Catalogo non disponibile'); return response.json(); })
+    .then(data => {
+      if (!data.plans || !data.max_full || !data.annual_note || !data.extras_note) throw new Error('Catalogo incompleto');
+      catalog = data;
+      update();
+    })
+    .catch(() => { catalog = null; update(); });
 });

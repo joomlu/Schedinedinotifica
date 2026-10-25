@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\PublicSiteCatalog;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PublicSiteController extends Controller
@@ -17,19 +19,21 @@ class PublicSiteController extends Controller
         'contatti',
     ];
 
-    public function home(): BinaryFileResponse
+    public function home(): Response
     {
         return $this->page('index');
     }
 
-    public function page(string $page): BinaryFileResponse
+    public function page(string $page): Response
     {
         abort_unless(in_array($page, $this->allowedPages, true), 404);
 
-        return response()->file(
-            base_path('web/' . $page . '.html'),
-            ['Content-Type' => 'text/html; charset=UTF-8']
-        );
+        $html = file_get_contents(base_path('web/' . $page . '.html'));
+
+        return response()->make(app(PublicSiteCatalog::class)->render($html), 200, [
+            'Content-Type' => 'text/html; charset=UTF-8',
+            'Cache-Control' => 'no-cache',
+        ]);
     }
 
     public function asset(string $path): BinaryFileResponse
@@ -46,7 +50,7 @@ class PublicSiteController extends Controller
         );
 
         return response()->file($assetPath, [
-            'Cache-Control' => 'public, max-age=3600',
+            'Cache-Control' => $path === 'catalogo-commerciale.json' ? 'no-cache' : 'public, max-age=3600',
         ]);
     }
 }
