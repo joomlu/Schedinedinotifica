@@ -388,6 +388,15 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
         return data;
       })
       .then(() => {
+        // Dopo il salvataggio eliminare anche i valori predefiniti ripristinati dal server.
+        form.querySelectorAll('input, textarea').forEach(field => {
+          if (field.type === 'checkbox' || field.type === 'radio') field.defaultChecked = false;
+          else if (!['submit', 'button'].includes(field.type)) field.defaultValue = '';
+        });
+        form.querySelectorAll('select').forEach(field => {
+          [...field.options].forEach(option => { option.defaultSelected = option.value === ''; });
+        });
+        delete form.dataset.contactRestored;
         form.reset();
         if (window.jQuery && window.jQuery.fn && typeof window.jQuery.fn.select2 === 'function') {
           window.jQuery(form.querySelector('[data-ui="contact-city-select"]')).val(null).trigger('change');

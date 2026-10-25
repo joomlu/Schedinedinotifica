@@ -24,6 +24,8 @@ Rilettura pubblica prima delle modifiche:28URL e105ancore conformi. Prova in sol
 
 `BASE-CONFERMA` sulla baseline1a2e5e1f:3browserNONPASS per falsa conferma riprodotta, zero scritture reali. `R1` sul primo candidato:190PHP/2039asserzioni,1NONPASS dovuto all’asserzione sul vecchio testo home. Backend nuovo senza altri rilievi in quella prova; browser non avviati dopo il fallimento. Runtimes effimeri rimossi; diagnostici conservati. Questi risultati non vengono sommati né presentati come qualifica finale.
 
+R2 sul commit946028fd:192PHP/1994asserzioni,2NONPASS per middleware di contesto ancora dipendenti dalla sessione nella rotta asset resa senza stato; browser non avviati. Corretta esclusione soltanto per GET delle risorse pubbliche. Revisione indipendente ha inoltre individuato reset dopo errore nativo che ripristinava i valori precedenti: rimossi i default solo dopo conferma valida e aggiunta prova errore→correzione→salvataggio→campi vuoti.
+
 Qualifica finale prevista sul commit esatto: otto suitePHP (sito/CRM, ISTAT, tenancy e barriereQuestura), quattro specbrowser con sei pagine, risorse/link/ancore, percorsoHome→Funzionalità→Ampliamenti→Prezzi→MaxFull→contatti, accesso diretto/reload/indietro/avanti, demo, falsi successi, dati CRM e backoffice sintetico. SoloVM ufficiale, DB/filesystem effimeri e servizi finti. Seguono revisionePR, C5 con nuoviPREPARE/S0 e recuperi/custodie, QAonline identificabile e rimozione verificata, monitor900s. Nessuna trasmissione a enti o email reale autorizzata per le prove.
 
 ## Limiti esterni e dati mancanti

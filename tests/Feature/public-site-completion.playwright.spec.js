@@ -94,4 +94,15 @@ test('form: errore nativo conserva dati, piano, servizio, interesse e motivo anc
   await expect(page.locator('[data-commercial-interest]')).toHaveValue('web-checkin');
   await expect(page.locator('select[name=topic]')).toHaveValue('Informazioni generali');
   await expect(page.getByRole('dialog')).not.toBeVisible();
+  await page.getByLabel('Email *', { exact: true }).fill('nativo-corretto@example.invalid');
+  const stored = page.waitForResponse(r => r.url().endsWith('/contatti/richiesta') && r.request().method() === 'POST');
+  await page.getByRole('button', { name: 'Invia la richiesta', exact: true }).click();
+  const receipt = await stored; expect(receipt.status()).toBe(200); expect((await receipt.json()).ok).toBe(true);
+  await expect(page.getByRole('dialog')).toBeVisible();
+  for (const name of ['company', 'name', 'email', 'message']) await expect(page.locator(`[name=${name}]`)).toHaveValue('');
+  await expect(page.locator('[data-commercial-plan]')).toHaveValue('');
+  await expect(page.locator('[data-commercial-interest]')).toHaveValue('');
+  await expect(page.locator('[data-commercial-max]')).not.toBeChecked();
+  await expect(page.locator('[name=consent]')).not.toBeChecked();
+  await expect(page.locator('[data-commercial-summary]')).toContainText('Nessun piano o servizio selezionato');
 });

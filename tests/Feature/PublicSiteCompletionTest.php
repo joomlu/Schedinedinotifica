@@ -34,6 +34,7 @@ class PublicSiteCompletionTest extends TestCase
                 $this->assertSame([], $assetResponse->headers->getCookies());
             }
         }
+        $this->actingAs($this->actor('struttura_user'))->get($versioned)->assertOk();
         $this->get('/moduli#stato-funzionalita')->assertOk()->assertSee('id="stato-funzionalita"', false);
         $this->get('/ampliamenti')->assertOk()->assertSee('Web Check-in')->assertSee('Max Full');
         $this->get('/site-assets/app.0000000000000000.js')->assertNotFound();

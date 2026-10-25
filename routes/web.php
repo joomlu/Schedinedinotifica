@@ -79,6 +79,11 @@ Route::get('/site-assets/{path}', [PublicSiteController::class, 'asset'])
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \App\Http\Middleware\VerifyCsrfToken::class,
+        \App\Http\Middleware\Localization::class,
+        \App\Http\Middleware\ImpostaStrutturaCorrente::class,
+        \App\Http\Middleware\AuthenticateAccountSession::class,
+        \App\Http\Middleware\VerificaServizioStruttura::class,
+        \App\Http\Middleware\LogOperativeAudit::class,
     ])
     ->where('path', '.*')
     ->name('site.assets');
