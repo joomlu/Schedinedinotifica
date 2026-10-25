@@ -1,5 +1,9 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Sito integrale — collegamenti esterni verificati, qualifica finale R17 PASS
+
+Tanggo.pro ewww.tanggo.pro non risolvibili in due verificheMac; rimosso il solo collegamento dalle note legali, tanggo.software ealtri5riferimentiHTTPS200. Nessun DNS modificato. R17 su98a4959f:196PHP/2218asserzioni e20browserPASS, nove pagine×1440/768/390 e43sorgenti conformi; unica differenza applicativa daR16 è il link. [Qualifica corrente](../evidenze/sito-integrale-2026-10-25/verifica.json). KitPR26/5ff5bba3 depositato epreflightPASS ma PREPARE/S0/RUN non avviati, conservato inattivo; nuovo rilascio finale ancora pendente. Produzione4a85dea2 verificata, BASELINE IN AUDIT invariata.
+
 ## Sito integrale — P2 sul reset CSRF corretto, qualifica R16 PASS
 
 PR26 sul47cf2bfe: rilievoP2 sul reset del nuovo tokenCSRF, individuato anche nella revisione propria. Corretto in entrambe le copieJS; nuova prova due richieste distinte senza ricarica, duelead e token invariato dopo ogni reset. R16 sulf873ed52:196PHP/2218asserzioni e20browserPASS, nove pagine×1440/768/390,23override/buildGEO/4408digest. [Qualifica corrente](../evidenze/sito-integrale-2026-10-25/verifica.json), [rapporto](../COMPLETAMENTO-LEGALE-SITO-2026-10-25.md). R15 conservata separatamente; nuovo C5 ancora pendente, produzione4a85dea2 gia verificata. BASELINE IN AUDIT invariata.

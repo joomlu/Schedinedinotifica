@@ -1,6 +1,6 @@
 # Completamento legale e protezioni del sito — 25 ottobre 2026
 
-**QUALIFICA R16 PASS; nuovo rilascio da eseguire. BASELINE IN AUDIT invariata.**
+**QUALIFICA R17 PASS; nuovo rilascio da eseguire. BASELINE IN AUDIT invariata.**
 
 Il rilascio4a85dea2 è concluso con S0 144,710s, RUN253,001s, zeroDDL; QA sei pagine×1440/768/390, tre richieste/attività sintetiche rimosse e HMAC66 conforme. Monitor server918,765s eMac920,509s PASS, zero nuovi errori Laravel/FPM. [Ricevuta separata](evidenze/sito-integrale-2026-10-25/rilascio-4a85dea2.json).
 
@@ -18,3 +18,8 @@ Conservati su Mac401file diagnostici propri R1–R14 con confronto SHA e metadat
 ## Revisione PR26 e qualifica R16
 
 La revisione propria e il bot sul47cf2bfe hanno rilevato lo stessoP2: dopo il primo invio il reset svuotava anche il nuovo tokenCSRF. Escluso soltanto _token dal reset in entrambe le copieJS; nuova prova esegue due richieste distinte senza ricarica, verifica duelead e conserva il token dopo ciascun reset. R16 sulf873ed52:196PHP/2218asserzioni e20browserPASS, nove pagine×1440/768/390,23override/buildGEO/4408digest. R15 resta conservata separatamente e superata quanto a candidato. Nuovo rilascio ancora da eseguire.
+
+
+## Verifica finale dei collegamenti e R17
+
+Il dominio tanggo.pro e la variante www non risolvono dalMac in due prove. Rimosso il link dalle note legali, mantenendo tanggo.software HTTP200/TLSconforme; anche CV, Garante, FAQcookie e diritti HTTP200. Nessuna modifica DNS. R17 su98a4959f:196PHP/2218asserzioni e20browserPASS, unica differenza applicativa daR16 nel link. Kit5ff5bba3 depositato ma mai avviato in PREPARE/S0/RUN, conservato inattivo. Nuova pubblicazione da eseguire sul successivo commit integrato.
