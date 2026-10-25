@@ -41,7 +41,8 @@ for (const width of [1440, 768, 390]) {
             return rect.left >= 0 && rect.right <= innerWidth && rect.left < innerWidth / 2;
           });
           expect(copyFits).toBe(true);
-          await expect(page.locator('.hero-photo')).toHaveCSS('background-image', /foto-reception\.webp/);
+          await expect(page.locator('.hero-photo')).toHaveCSS('background-image', /radial-gradient/);
+          await expect(page.locator('.hospitality-story-image img')).toHaveAttribute('src', '/site-assets/img/ospitalita-checkin.webp');
         }
         await page.getByRole('button', { name: 'Apri menu', exact: true }).click();
         const cta = page.locator('.site-nav .nav-cta');

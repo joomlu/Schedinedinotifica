@@ -44,7 +44,8 @@ for (const width of [1440, 768, 390]) {
     await page.goForward({ waitUntil: 'load' }); await expect(page).toHaveURL(`${BASE_URL}/ampliamenti`);
     await expect(page.locator('h1')).toContainText('Il percorso giusto.');
     await page.screenshot({ path: info.outputPath(`ampliamenti-${width}.png`), fullPage: true });
-    await menu(page, width, '/prezzi'); await menu(page, width, '/prezzi#max-full');
+    await menu(page, width, '/prezzi'); await page.locator('.site-footer a[href="/prezzi#max-full"]').click();
+    await expect(page).toHaveURL(`${BASE_URL}/prezzi#max-full`);
     await expect(page.locator('#max-full h2')).toBeInViewport(); await loaded(page);
     const headerBottom = await page.locator('.site-header').evaluate(e => e.getBoundingClientRect().bottom);
     await expect.poll(() => page.locator('#max-full h2').evaluate(e => e.getBoundingClientRect().top)).toBeGreaterThanOrEqual(headerBottom);

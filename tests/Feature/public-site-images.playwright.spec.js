@@ -4,10 +4,10 @@ for (const width of [1440, 768, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     const response = await page.goto(`${BASE_URL}/ampliamenti`, { waitUntil: 'load' });
     expect(response.status()).toBe(200);
-    const figures = page.locator('main figure'); await expect(figures).toHaveCount(4);
+    const figures = page.locator('main figure'); await expect(figures).toHaveCount(5);
     await figures.locator('img').evaluateAll(images => images.forEach(img => { img.loading = 'eager'; }));
     await expect.poll(() => figures.locator('img').evaluateAll(images => images.every(img => img.complete && img.naturalWidth > 0))).toBe(true);
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       const figure = figures.nth(i); const image = figure.locator('img');
       await image.scrollIntoViewIfNeeded();
       await image.evaluate(async img => { await img.decode(); await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))); });
