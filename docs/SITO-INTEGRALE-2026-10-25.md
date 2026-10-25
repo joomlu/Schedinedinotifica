@@ -50,3 +50,8 @@ AccettazioneRoss1000/StayTour non attestata dal sito né dai double; credenziali
 Il bot ha individuato un P2 reale sul commit5646a0ff: timeout del lock pubblico rispondevaJSON anche al form nativo, perdendo i dati. Corretto con303aicontatti, errore visibile e oldinput conservato; JSON503/RetryAfter2 invariato. Nuovo test PHP copre entrambi i circuiti e assenza di scritture. Rimosso inoltre il vecchio feedback nativo soltanto dopo un successivo salvataggio JS confermato; prova browser esplicita.
 
 R9:193PHP/2121asserzioni e19browserPASS sul primo correttivo; superato dalla nuova prova. **R10 sul commit1a6bc6bcb5845023ff03da1d3fa80ca42fbdf02f:193PHP/2121asserzioni e19browserPASS**, otto suitePHP e cinque specbrowser, build/GEO/23override/4403digest conformi. Include12figure viste/decodificate e15PNG. La ricevuta corrente verifica.json sostituisce la precedente, conservata in verifica-R6-R8.json; nessun esito ripetuto sommato. Nuova pubblicazione ancora pendente capacità/consenso specifico/C5. Nessuna DDL, dato reale, email o invio ente.
+
+
+## Ripresa, rilascio e completamento legale
+
+Il rilascio4a85dea2 è concluso con C5/QA/pulizia/monitor PASS. Le successive correzioni CSRF/404 e le tre pagine legali richieste dal titolare sono qualificate R15; nuova pubblicazione ancora pendente. Il [rapporto corrente](COMPLETAMENTO-LEGALE-SITO-2026-10-25.md) distingue le prove e prevale sugli stati storici precedenti.

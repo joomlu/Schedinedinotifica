@@ -1,0 +1,58 @@
+{
+  "stato": "PASS_RILASCIO_4a85dea2",
+  "SHA_produzione": "4a85dea22d600f52c5922c06fc209373d287c9c3",
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "S0_secondi": 144.71,
+    "RUN_secondi": 253.001,
+    "DDL": false,
+    "decisione": "CANDIDATO_ACCETTATO"
+  },
+  "sorgenti_protetti_verificati": 286,
+  "DB_byte_identico_S0_prima_QA": true,
+  "QA": {
+    "esito": "PASS_SITO_ONLINE",
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "pagine_per_larghezza": 6,
+    "ancore_per_larghezza": [
+      125,
+      125,
+      125
+    ],
+    "PNG_ispezionate": 24,
+    "richieste_sintetiche": 3,
+    "attivita_sintetiche": 3,
+    "contesto_conservato": true
+  },
+  "pulizia_QA": {
+    "esito": "PASS_SOLE_RICHIESTE_QA_RIMOSSE_E_PREESISTENTI_IDENTICI",
+    "tabelle_differenti": [],
+    "tabelle_confrontate": 66,
+    "richieste_rimosse": 3,
+    "attivita_rimosse": 3,
+    "nessun_restore_o_reset_contatori": true,
+    "limite": "HMAC di tutte le righe; contatoriAUTO_INCREMENT esclusi, modifiche reali concorrenti da riconciliare senza restore"
+  },
+  "monitor_server": {
+    "secondi": 918.7649829071015,
+    "campioni": 31,
+    "sonde": 279
+  },
+  "monitor_Mac": {
+    "secondi": 920.509062292,
+    "campioni": 31,
+    "sonde": 93
+  },
+  "errori_nuovi_applicativi_FPM": 0,
+  "custodie_PREPARE_S0_Extra": "PASS_INTEGRITA_DECIFRATURA_CHIAVE_SEPARATA",
+  "guardiano": "CONCLUSO_DISARMATO_INATTIVO_DISABILITATO",
+  "limiti": [
+    "Questo rilascio precede il correttivo CSRF/404 e le pagine legali, in qualifica separata",
+    "Accettazione esterna degli enti non attestata dal sito"
+  ],
+  "BASELINE": "IN_AUDIT"
+}

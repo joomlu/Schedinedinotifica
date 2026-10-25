@@ -1,5 +1,11 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Sito integrale — rilascio4a85dea2 PASS, correzioni e pagine legali qualificate R15
+
+Rilascio4a85dea2 concluso: S0144,710s/RUN253,001s/zeroDDL, QA sei pagine×1440/768/390 e HMAC66 dopo rimozione3lead/3attività PASS; monitor server918,765s eMac920,509s, zero nuovi errori. [Ricevuta](../evidenze/sito-integrale-2026-10-25/rilascio-4a85dea2.json). Consenso specifico al ritiro originario acquisito ed eseguito; originali/SQL/cifrati/chiavi preservati.
+
+Nuovo candidato: CSRF nativo/JSON,419italiano e404utile; /note-legali /privacy /cookie con dati di ExperienceS.r.l. forniti dall’utente e informative redatte su sua richiesta esplicita. Coordinate bancarie e dati del bar esclusi. Nove pagine e sitemap; controlli gestionali preservati. R15:a8127069,196PHP/2218asserzioni e19browserPASS,23override/buildGEO/4408digest;27PNG principali. [Rapporto](../COMPLETAMENTO-LEGALE-SITO-2026-10-25.md), [qualifica](../evidenze/sito-integrale-2026-10-25/verifica.json). R11–R14 distinti e non sommati. Nuovo rilascio ancora pendente; BASELINE IN AUDIT invariata.
+
 ## Sito integrale — rilievo PR25 corretto e qualifica R10 PASS — 25 ottobre 2026
 
 **193PHP/2121asserzioni e19browserPASS; pubblicazione ancora NON ESEGUITA. BASELINE IN AUDIT invariata.** [Rapporto](../SITO-INTEGRALE-2026-10-25.md), [ricevuta corrente](../evidenze/sito-integrale-2026-10-25/verifica.json). PR25: corretto P2 sul timeout lock del form nativo, ora303+errore+oldinput, JSON503RetryAfter2 preservato; nuovo test nessuna scrittura. Dopo salvataggio JS valido rimosso il vecchio errore nativo, senza falsa conferma.
