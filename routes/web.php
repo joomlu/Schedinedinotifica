@@ -584,7 +584,7 @@ Route::get('/w/{token}', [WebCheckinController::class, 'publicShowShort'])->name
 Route::post('/w/{token}', [WebCheckinController::class, 'publicStoreShort'])->name('web_checkin.public.short.store');
 Route::get('/w/{token}/completato', [WebCheckinController::class, 'publicCompletedShort'])->name('web_checkin.public.short.completed');
 
-Route::middleware([\App\Http\Middleware\PublicSiteFallback::class, 'auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     // Catch-all
     // Non intercettare richieste ad asset pubblici (es. /build/*), altrimenti
     // Laravel salva URL errati come "intended" durante il login.

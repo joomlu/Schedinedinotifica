@@ -21,7 +21,7 @@ class PublicSiteCompletionTest extends TestCase
         $html = $this->get('/contatti')->assertOk()->getContent();
         $this->assertStringContainsString('name="_token" value="'.session()->token().'"', $html);
         foreach (['', 'token-esplicitamente-errato'] as $token) {
-            $this->postJson('/contatti/richiesta', $this->payload() + ['_token' => $token])->assertStatus(419);
+            $this->postJson('/contatti/richiesta', $this->payload() + ['_token' => $token], ['X-CSRF-TOKEN' => 'token-esplicitamente-errato'])->assertStatus(419);
         }
         $this->post('/contatti/richiesta', $this->payload() + ['_token' => 'errato'])->assertStatus(419)->assertSee('La richiesta non è stata registrata.');
         $this->assertSame($n, CrmLead::count());
