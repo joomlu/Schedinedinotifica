@@ -1,5 +1,17 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Sito Tango Soft Pro — pubblicato, C5/QA/pulizia/monitor PASS — 25 ottobre 2026
+
+**Applicativo `1edf049550e624d393d4d8278f3ea541b89dcdf6` online; BASELINE IN AUDIT invariata.** [Rapporto](../PUBBLICAZIONE-SITO-2026-10-25.md), [ricevuta](../evidenze/sito-rilascio-2026-10-25/rilascio.json). PR23 revisionata senza rilievi e integrata dopo approvazione umana della pubblicazione. Qualifica INT1:183PHP/1.879asserzioni e9browser PASS; build/GEO,23override e4.396digest conformi.30file sito approvati identici e41main-only/ISTAT preservati. Nuovo consuntivo documentale distinto dallo SHA applicativo servito.
+
+Nuovi PREPARE/S0, recuperi indipendenti e custodie Extra espressamente autorizzate con integrità/decifratura e chiave separata PASS. S0 146,494s; RUN250,491s/481campioni, zeroDDL,159migrazioni/66tabelle. Guardiano concluso/disarmato/inattivo/disabilitato,279digest, Git pulito, FPM e9sonde PASS. DB byte-identico al S0 prima della QA,92persistenti conformi dopo pulizia.
+
+R3 online:5pagine×1440/768/390,11digest risorse, catalogo/listino/MaxFull/tour/menu/tastiera/conferme/errori/overflow PASS;21PNG ispezionate. Tre richiesteCRM/tre attività verificate e rimosse con blocco/HMAC/ID/conteggi nella stessa transazione;66tabelle identiche senza restore/reset. R1/R2NONPASS degli adattatori conservati e chiusi ciascuno con rimozione1lead/1attività eHMAC66PASS. Corretti solo ordine apertura menu e locator legato al nome dinamico; asserzioni/timeout preservati e R3 interamente ripetuto. Nessun cambiamento applicativo durante QA.
+
+Monitor dopo tutte le pulizie: server917.677s/31/279 eMac920.992s/31/93 PASS. Zero nuovi errori Laravel/FPM dall’intero RUN. Budget1800/600/1379/421 e120/240s invariati; riserve1/8/40GiB rispettate. Soli derivati di due recuperi chiusi ritirati dopo verifica completa; originali/cifrati/SQL/chiavi/manifest/log preservati. Rifiuto custodia seguito da consenso specifico, anomalia vsock risolta con arresto ordinato/riavvio e log compresso verificato; vecchia copia browser risolta con ricarica ordinaria, nessun difetto origin dimostrato.
+
+VM40GiB restituita spenta, daily945ef553/DBlogico/84protetti/SELinuxEnforcing invariati; soli presidi propri conclusi. Checkout originario6a652b72 e modifiche estranee preservati. Dati societari/PartitaIVA/privacy/recapiti aggiuntivi e condizioni MaxFull da confermare; tour autentico disponibile, nessun video. Nessun invio ente/email reale, account, pagamento o datoospite. Stato reale ISTAT e accettazioneStayTour invariati/parziali; nessuna certificazione nuova.
+
 ## Sito Tango Soft Pro — pubblicazione autorizzata, qualifica combinata PASS — 25 ottobre 2026
 
 **PUBBLICAZIONE AUTORIZZATA; C5 PENDENTE. BASELINE IN AUDIT invariata.** [Rapporto](../PUBBLICAZIONE-SITO-2026-10-25.md), [qualifica integrata](../evidenze/sito-rilascio-2026-10-25/verifica.json). Riscontrato direttamente il messaggio umano «publica» nella chat principale dopo revisione dell’anteprima. Integrazione limitata a50file del sito approvato sulla base main9724daab; commit9da76e3f, tutti41file main-only e ISTAT preservati, Maestro corrente conservato. Revisione indipendente senza rilievi concreti bloccanti.
