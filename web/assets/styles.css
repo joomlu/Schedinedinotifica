@@ -645,3 +645,31 @@ h3 { font-size:1.5rem; }
 @media(max-width:1100px) { .page-hero-visual { gap:30px; } .hospitality-story { gap:35px; } .audience-cards { gap:18px; } }
 @media(max-width:950px) { .page-hero-visual,.hospitality-story { grid-template-columns:1fr; } .page-hero-figure { max-width:700px; } .audience-cards { grid-template-columns:1fr; } .audience-cards > a { display:grid; grid-template-columns: .8fr 1fr; } .audience-cards img { height:100%; min-height:220px; } }
 @media(max-width:600px) { body { font-size:17px; } .container { width:calc(100% - 36px); } .section { padding-block:60px; } .lead { font-size:1.12rem; } .large-copy { font-size:1.25rem; } .page-hero-visual { padding-block:40px; gap:25px; } .page-hero-visual h1 { font-size:2.5rem; } .audience-cards > a { display:block; } .audience-cards img { height:210px; min-height:0; } .audience-cards > a > div { padding:24px; } .hero-mini-cards { grid-template-columns:1fr; } .hospitality-story-image img { border-radius:22px; } .hospitality-story-image figcaption { margin:-20px 12px 0; padding:16px; } .module-thumbnail-copy p { font-size:1rem; } .home-pricing .price-card { min-height:0; } }
+
+/* Gerarchia commerciale: proposta, benefici, funzioni, piani e richiesta demo. */
+.hero-stage .hero { grid-template-columns:1.05fr 1fr; gap:45px; padding-block:65px; }
+.hero-offer { margin-top:24px; padding:20px 24px; border-left:3px solid var(--teal); background:#fff; border-radius:0 14px 14px 0; box-shadow:0 8px 30px #245d4910; }
+.hero-offer-title { font-weight:700; font-size:1rem; margin-bottom:12px; color:var(--ink); }
+.hero-offer-options { display:grid; gap:12px; }
+.hero-offer-options p { margin:0; display:grid; gap:2px; }
+.hero-offer-options span { font-size:.9rem; }
+.hero-offer-options strong { font-size:1.1rem; color:var(--teal); line-height:1.5; }
+.hero-offer > a { display:inline-block; margin-top:12px; font-size:.95rem; color:var(--teal); font-weight:700; }
+.hero-offer > small { display:block; margin-top:8px; font-size:.85rem; }
+.hero-dashboard { transform:none; padding:22px; }
+.dashboard-preview img { min-height:300px; object-fit:contain; background:white; }
+.benefits-overview .section-heading { text-align:center; margin-inline:auto; }
+.benefit-columns { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px; }
+.benefit-columns article { padding:26px; border:1px solid var(--line); border-radius:18px; background:#fff; }
+.benefit-icon { display:inline-flex; width:50px; height:50px; align-items:center; justify-content:center; border-radius:14px; color:var(--teal); background:#e5f6ef; font-size:1rem; font-weight:700; margin-bottom:24px; }
+.benefit-columns .check-list { margin-bottom:0; }
+.capabilities-band { background:#f5faf8; }
+.capabilities-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; }
+.capabilities-grid article { padding:30px; border:1px solid var(--line); background:#fff; border-radius:16px; display:flex; flex-direction:column; align-items:flex-start; }
+.capability-number { color:var(--teal); background:#e8f6f0; border-radius:10px; padding:5px 13px; margin-bottom:20px; font-size:.9rem; font-weight:700; }
+.capabilities-grid h3 { font-size:1.4rem; }
+.capabilities-grid p { font-size:1.05rem; }
+.capabilities-grid a { margin-top:auto; color:var(--teal); font-weight:700; font-size:1rem; }
+@media(max-width:1280px) { .site-nav > a,.site-header .site-nav > a { font-size:1rem; } }
+@media(max-width:950px) { .hero-stage .hero { grid-template-columns:1fr; } .benefit-columns,.capabilities-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; } }
+@media(max-width:600px) { .benefit-columns,.capabilities-grid { grid-template-columns:1fr; } .hero-stage .hero { padding-block:40px; } .hero-offer { padding:18px; } .dashboard-preview img { min-height:0; } .capabilities-grid article { padding:25px; } }
