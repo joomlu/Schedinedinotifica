@@ -1,6 +1,6 @@
 # Sito commerciale — completamento integrale del 25 ottobre 2026
 
-**CANDIDATO IN QUALIFICA; nuova pubblicazione non ancora eseguita. BASELINE IN AUDIT invariata.**
+**QUALIFICA ISOLATA PASS; pubblicazione in attesa del nuovo C5 e della capacità. BASELINE IN AUDIT invariata.**
 
 L’utente ha richiesto esplicitamente confronto con il sito sostituito, audit del prodotto, implementazione, verifiche e pubblicazione. Scope: sito pubblico Laravel e contatti CRM, senza cambiare logica del gestionale, schema o dati reali. Rischio medio per contatto pubblico, gestione delle risorse e rilascio. Lavoro nel worktree indipendente `sito-integrale-2026-10-25`, base main1a2e5e1f; nessun reset o sovrascrittura dei worktree precedenti.
 
@@ -32,7 +32,13 @@ R4:192PHP/2091asserzioniPASS,7/16browserPASS. DIAG-CSS ha confermato hash dei by
 
 R5:192PHP/2103asserzioniPASS,14/16browserPASS. CSS corretto e sei percorsi precedenti completamentePASS; i due nuovi percorsi tablet/mobile cliccavano il menu della pagina successiva prima del completamento della navigazione. Aggiunto waitForLoadState(load) nel solo helper, senza modifiche applicative, riduzione di asserzioni o aumento dei timeout.
 
-Qualifica finale prevista sul commit esatto: otto suitePHP (sito/CRM, ISTAT, tenancy e barriereQuestura), quattro specbrowser con sei pagine, risorse/link/ancore, percorsoHome→Funzionalità→Ampliamenti→Prezzi→MaxFull→contatti, accesso diretto/reload/indietro/avanti, demo, falsi successi, dati CRM e backoffice sintetico. SoloVM ufficiale, DB/filesystem effimeri e servizi finti. Seguono revisionePR, C5 con nuoviPREPARE/S0 e recuperi/custodie, QAonline identificabile e rimozione verificata, monitor900s. Nessuna trasmissione a enti o email reale autorizzata per le prove.
+Qualifica finale [documentata](evidenze/sito-integrale-2026-10-25/verifica.json): **R6 su `77baaa96d59939094cdc7cbd083943359c69490f`:192PHP/2103asserzioni e16browserPASS**, otto suite per sito/CRM, ISTAT, tenancy e barriereQuestura. Sei pagine×1440/768/390, URL/hash/MIME/regoleCSS, ancore, percorso reale, accesso diretto/reload/indietro/avanti, tour e tastiera, errori e persistenzaCRM/backoffice sintetico. Build/GEO,23rifiuti override e4402digestPASS. Tutti i runtime propri rimossi.
+
+R8-IMMAGINI su `e363291d719afb94b39a55467aeee6402191906a`:3percorsiPASS,12figure viste e decodificate,15PNG. Applicazione e tutti i sorgenti R6 byte-identici; aggiunto soltanto il nuovo test di acquisizione. Catture precedenti /ampliamenti con figure bianche escluse dalla consegna finale; integrità dei file e naturalWidth erano conformi, nuova acquisizione dopo decode/scroll/dueframe. Non attribuito un guasto agli asset senza prova. R7-IMMAGINI NONPASS1/3: il test chiedeva decode prima che la richiesta lazy fosse avviata; aggiunto caricamento eager e attesa complete/naturalWidth prima di decode, senza ridurre controlli.
+
+Anteprima nuova [loopback63352](http://127.0.0.1:63352/), contatti esplicitamente disattivati senza registrazione; backend reale qualificato soltanto nel runtime sintetico. Anteprima63351 precedente e checkout originali preservati.
+
+Pubblicazione espressamente autorizzata, ma **C5 nuovo non eseguito**: circa1,97GB liberiVM prima dei test contro il fabbisogno PREPARE+S0+riserva. Piano concreto `/private/tmp/sito-integrale-20261025/ritiro-derivati-verificati.py` verifica tre recuperi chiusi,3084611584byte nominali di soli extracted/dbdata/db-tmp, cifrati/SQL/ridump/file/metadati/quiescenzaPASS; originali e chiavi conservati. La revisione automatica ha respinto il ritiro ricorsivo come root perché i consensi precedenti a custodia/deduplicazione non coprono esplicitamente questa rimozione. Nessun ritiro eseguito; consenso specifico richiesto e pendente. Non ridotti limiti o riserve, nessun ampliamento disco o aggiramento. Dopo capacità conforme: nuova procedura PREPARE/S0/recuperi/custodie, QAonline con tre richieste identificabili e puliziaHMAC66, monitor900s e attestazione SHA. I PASS del precedente sito non provano questa pubblicazione.
 
 ## Limiti esterni e dati mancanti
 

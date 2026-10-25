@@ -41,3 +41,8 @@ Due dati concreti: la voce «Moduli e ampliamenti» non aveva una pagina autonom
 ## Verifiche da completare
 
 Nuova qualifica del candidato nella VM ufficiale: sei pagine, link/ancore anche incrociati, alias, URL/versioni risorse, click reali, reload, indietro/avanti, tour completo e tastiera, selezione piano/servizio/interesse, validazione/CRM/errori e successo autentico. Dopo rilascio autorizzato, controlli online con sole fixture identificabili e rimozione delle sole righe proprie. I risultati vanno registrati dal principale nelle nuove evidenze, senza promuovere i PASS del sito precedente.
+
+
+## Qualifica successiva del principale
+
+R6:192PHP/2103asserzioni e16browserPASS; R8-IMMAGINI:3percorsi/12figurePASS con applicazione byte-identica. Risultati, tentativi precedenti e confini nel [rapporto corrente](SITO-INTEGRALE-2026-10-25.md). Nuova pubblicazione ancora pendente C5/capacità; nessun PASS storico sostitutivo.

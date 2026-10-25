@@ -1,5 +1,14 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Sito integrale — qualifica PASS e nuovo C5 in attesa della capacità — 25 ottobre 2026
+
+**192PHP/2103asserzioni e16browserPASS; nuova pubblicazione NON ESEGUITA. BASELINE IN AUDIT invariata.** [Rapporto](../SITO-INTEGRALE-2026-10-25.md), [ricevuta](../evidenze/sito-integrale-2026-10-25/verifica.json), [confronto](../CONFRONTO-SITO-2026-10-25.md). Sei pagine e /ampliamenti autonoma, contenuti prodotto verificati, prezzi approvati preservati; interesse/piano/MaxFull nelCRM, consenso server, retry senza duplicati e salvataggio transazionale. Falsa conferma HTTP200 riprodotta e corretta; formPOST/303 e dati restaurati escapati. Risorse con hash, marcatore comune e MIME esplicito. Segnalazione originaria non riprodotta e causa cache non dimostrata.
+
+R6 su77baaa96, R8-IMMAGINI su e363291d con tutti i sorgenti R6 identici:3percorsi/12figure/15PNG dopo decode e visualizzazione. Tutti16percorsiR6, build/GEO,23override e4402digestPASS. R1–R5 e diagnostico conservati distinti: corretto testoassert, middleware asset senza sessione, ordine testautenticato, MIME CSStext/x-asm introdotto nel candidato e attesa navigazione del test. Nessuna prova Laravel sull’host, ente/email o dato reale.
+
+Nuovo C5 bloccato prima di PREPARE dalla capacitàVM; preflight tre recuperi chiusiPASS, ritiro dei soli derivati ricostruibili respinto dalla revisioneautomatica per consenso specifico alla rimozione non chiaro. Consenso richiesto, nessuna rimozione/aggiramento/riduzione limiti. Originali/cifrati/SQL/chiavi/metadati protetti; lavoro estraneo intatto. Incarico umano autorizza pubblicazione, ma il nuovo rilascio/QA/pulizia/monitor restano da eseguire. Anteprima63352 con contatti disattivati, distinta dal backend qualificato;63351 precedente preservata.
+
+
 ## Sito commerciale — completamento integrale autorizzato e candidato in qualifica — 25 ottobre 2026
 
 **SVILUPPO E PUBBLICAZIONE AUTORIZZATI; nuovo rilascio ancora da verificare. BASELINE IN AUDIT invariata.** Incarico umano integrale ricevuto dopo segnalazione di pagine/azioni non funzionanti. Nuovo worktree indipendente `sito-integrale-2026-10-25` da main1a2e5e1f; vecchi worktree web e rilascio, checkout originario e ISTAT preservati. [Confronto storico](../CONFRONTO-SITO-2026-10-25.md), [audit contenuti](../AUDIT-CONTENUTI-SITO-2026-10-25.md), [rapporto corrente](../SITO-INTEGRALE-2026-10-25.md). Sito sostituito identificato nello SHA realmente servito a90d63aa, distinto dal sito1edf0495 attualmente online e dalle altre proposte storiche.

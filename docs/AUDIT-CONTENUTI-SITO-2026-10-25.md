@@ -39,3 +39,8 @@ Questo audit riguarda contenuti e riscontro statico. Nessuna nuova prova Laravel
 ## Controlli statici del candidato frontend
 
 Sei HTML: un H1 e una voce corrente ciascuno, ID univoci e annidamento valido;125 riferimenti ad ancore locali o fra pagine risolti. Dieci codici interesse nel catalogo. Sintassi Node di app.js valida, specchi CSS/JS identici e `git diff --check` senza errori. Questi controlli non qualificano le interazioni runtime, la resa responsive o la persistenza CRM: restano da eseguire dal principale nella VM ufficiale.
+
+
+## Qualifica successiva del principale
+
+R6:192PHP/2103asserzioni e16browserPASS; R8-IMMAGINI:3percorsi/12figurePASS con applicazione byte-identica. Risultati, tentativi precedenti e confini nel [rapporto corrente](SITO-INTEGRALE-2026-10-25.md). Nuova pubblicazione ancora pendente C5/capacità; nessun PASS storico sostitutivo.
