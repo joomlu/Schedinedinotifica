@@ -91,6 +91,8 @@ test('form: errore nativo conserva dati, piano, servizio, interesse e motivo anc
     headers: { Accept: 'text/html', Referer: `${BASE_URL}/contatti` }, maxRedirects: 0,
   });
   expect(response.status()).toBe(302);
+  // Il salto al frammento sulla stessa pagina non effettua una nuova GET.
+  await page.reload({ waitUntil: 'load' });
   await page.goto(`${BASE_URL}/contatti#demo`, { waitUntil: 'load' });
   await expect(page.getByRole('alert')).toContainText('La richiesta non è stata registrata.');
   await expect(page.getByLabel('Struttura *', { exact: true })).toHaveValue('Hotel $1 <Nativo>');
