@@ -124,7 +124,7 @@
   "nessuna_DDL": true,
   "nessuna_trasmissione_enti": true,
   "produzione_prima": "4a85dea22d600f52c5922c06fc209373d287c9c3",
-  "rilascio": "BLOCCATO_REVISIONE_AUTOMATICA_PRIMA_PREPARE",
+  "rilascio": "C5_QA_PASS_MONITOR_IN_CORSO",
   "ispezione_visiva": "Nove pagine alle tre larghezze; intestazioni, sezioni centrali, footer, demo e conferma sintetica ispezionati; nessun difetto concreto rilevato. Catture finali in finale/.",
   "consuntivo_rilascio": "stato-rilascio.json"
 }

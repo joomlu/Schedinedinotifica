@@ -1,45 +1,27 @@
 {
-  "data_UTC": "2026-10-25T23:13:39.355698+00:00",
-  "stato": "LOCALE_AGGIORNATO_PRODUZIONE_BLOCCATA_PRIMA_PREPARE",
-  "applicativo_candidato": "fa75a1f05ec013e6338ef423f8dc9f5db3e18e11",
-  "GitHub": {
-    "PR": 29,
-    "integrata": true,
-    "ramo": "codex/pubblicazione-sito-chiaro-20261025"
+  "data_UTC": "2026-10-26T00:16:56.906461+00:00",
+  "stato": "C5_QA_PASS_MONITOR_IN_CORSO",
+  "BASELINE": "IN AUDIT",
+  "applicativo": "fa75a1f05ec013e6338ef423f8dc9f5db3e18e11",
+  "locale": "PASS_HTTP_LOCALE_REALE",
+  "consenso_backup": "Acquisito esplicitamente il26ottobre2026 in risposta alla domanda specifica Mac/VM/Extra",
+  "PREPARE": "PASS_RECUPERO_INDIPENDENTE",
+  "backup_cifrati_Extra_PREPARE_S0": "PASS_INTEGRITA_DECIFRATURA_CHIAVE_SEPARATA_VM",
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "S0_secondi": 177.889,
+    "RUN_secondi": 290.396,
+    "campioni": 462,
+    "DDL": false
   },
-  "locale": {
-    "URL": "https://schedinedinotifica.test/",
-    "esito": "PASS_HTTP_LOCALE_REALE",
-    "pagine": 9,
-    "risorse_hash_MIME": 5,
-    "CSRF_login_rotte_private": "PASS",
-    "nessun_POST": true,
-    "build_VM_file_verificati": 3904,
-    "build_precedente_file_custoditi": 4132,
-    "documenti_in_collisione_custoditi": 111,
-    "env_identico": true,
-    "ramo_precedente_preservato": true,
-    "nessuna_DDL": true,
-    "robots_Herd": "404 originario riprodotto, regola esatta root / corretta nel solo vhost locale; HTTP200 finale. Originale custodito, comando ufficiale Herd restart nginx riuscito."
+  "QA": "online.json",
+  "pulizia_CRM": {
+    "richieste": 3,
+    "attivita": 3,
+    "tabelle_preesistenti_identiche_HMAC": 66,
+    "nessun_restore_reset": true
   },
-  "produzione": {
-    "URL": "https://schedinedinotifica.tanggo.software/",
-    "HTTP": 200,
-    "SHA_reale": "4a85dea22d600f52c5922c06fc209373d287c9c3",
-    "Git_pulito": true,
-    "FPM_attivo": true,
-    "manutenzione": false,
-    "kit_depositato": "ddaf0807ba6c64ccc0cc386f6659ddf0932201939d18cd25212026755dc0b883",
-    "preflight": "PASS_DEPOSITO_PREFLIGHT",
-    "PREPARE": "NON_AVVIATO_RESPINTO",
-    "S0_RUN_QA_monitor": "NON_ESEGUITI_PER_QUESTO_CANDIDATO"
-  },
-  "blocco": {
-    "origine": "Revisione automatica",
-    "motivo_testuale": "Il PREPARE trasferisce backup cifrati potenzialmente contenenti dati produttivi sensibili dal server verso custodie locali/VM; l’autorizzazione alla pubblicazione e alla conservazione dei dati non specifica questo payload né tali destinazioni.",
-    "consenso_specifico_richiesto": true,
-    "nessun_aggiramento": true
-  },
-  "custodie_originali_private": "/private/tmp/pubblicazione-sito-chiaro-20261025/custodia-checkout-originale",
-  "BASELINE": "IN AUDIT"
+  "monitor": "IN_CORSO_DOPO_QA_E_PULIZIA_MINIMO900s",
+  "precedente_blocco": "stato-rilascio-preconsenso.json",
+  "nessun_PASS_finale_anticipato": true
 }

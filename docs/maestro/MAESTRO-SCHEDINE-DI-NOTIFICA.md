@@ -1,5 +1,13 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Sito chiaro — C5 e QA online PASS, monitor finale in corso
+
+Applicativo `fa75a1f05ec013e6338ef423f8dc9f5db3e18e11` installato e accettato da C5: S0 indipendente177,889s, RUN290,396s/462campioni, zeroDDL. PREPARE/S0 cifrati verificati ancheExtra, chiave separataVM, entrambi i guardiani propri conclusi/disabilitati. DB byte-identico S0 primaQA;296sorgenti e92persistenti conformi. QA onlineR2 PASS:nove pagine×1440/768/390,164ancore,13digest,33catture ispezionate;tre richieste/tre attivitàCRM verificate e rimosse,HMAC66PASS senza restore/reset. R1 adattatore fermato primaPOST e conservato. Monitor server/Mac≥900s avviati dopoQA/pulizia:nessun PASS finale anticipato. [Rapporto](../PUBBLICAZIONE-SITO-CHIARO-2026-10-25.md), [stato](../evidenze/sito-chiaro-2026-10-25/stato-rilascio.json), [online](../evidenze/sito-chiaro-2026-10-25/online.json). BASELINE IN AUDIT invariata.
+
+## Sito chiaro — PREPARE PASS, primo RUN fermato; nuova finestra in corso
+
+PREPARE e recupero indipendentePASS, cifrati verificatiMac/VM/Extra. PrimoRUN fermato dal socketlegacy non quieto primaexecute/DDL; baseline4a85dea2 riaperta sana, guardiano proprio inattivo/disabilitato. S0storico custodito e non promosso. Solo derivati propri verificati ritirati, SQL/cifrati/chiave/log preservati; capacità e55campioni di quietePASS. Nuova finestra distinta avviata perfa75a1f0 conS0fresco e guardie/budget invariati. Esito, QA e monitor pendenti. [Rapporto](../PUBBLICAZIONE-SITO-CHIARO-2026-10-25.md). BASELINE IN AUDIT invariata.
+
 ## Sito chiaro — consenso backup acquisito; trasporto parallelo qualificato
 
 Consenso specificoMac/VM/Extra ricevuto. Primo PREPARE autorizzato fermato entro120s a290/545MB, produzione4a85dea2 aperta e invariata. Delta al solofetch:quattroflussi, stesso limite globale e SHA/HMAC/recupero/guardie;12componentiPASS e545MB cifrati integralmente verificati in45,322s. Nuovo kit sigillato, nessuna ricevutaC5 promossa dal tentativo precedente. [Rapporto](../PUBBLICAZIONE-SITO-CHIARO-2026-10-25.md), [delta](../evidenze/sito-chiaro-2026-10-25/trasporto-parallelo.json). NuovoPREPARE/S0/RUN/QA/monitor pendenti; BASELINE IN AUDIT invariata.

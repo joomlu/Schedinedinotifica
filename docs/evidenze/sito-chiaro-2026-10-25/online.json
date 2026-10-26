@@ -1,0 +1,519 @@
+{
+  "stato": "PASS_SITO_CHIARO_ONLINE",
+  "data_UTC": "2026-10-26T00:14:38.279442+00:00",
+  "origine": "https://schedinedinotifica.tanggo.software",
+  "applicativo": "fa75a1f05ec013e6338ef423f8dc9f5db3e18e11",
+  "sito_versione": "e9ddcb7200b5f84f55d4ff3a",
+  "inizio": "2026-10-26T00:09:40.862Z",
+  "fine": "2026-10-26T00:11:13.304Z",
+  "prove": [
+    {
+      "larghezza": 1440,
+      "piano": "solo",
+      "prezzo_atteso": "50 € + IVA / anno",
+      "max_full": true,
+      "interesse": "web-checkin",
+      "pagine": [
+        {
+          "percorso": "/",
+          "canonical": "https://schedinedinotifica.tanggo.software/",
+          "stato": 200
+        },
+        {
+          "percorso": "/moduli",
+          "canonical": "https://schedinedinotifica.tanggo.software/moduli",
+          "stato": 200
+        },
+        {
+          "percorso": "/ampliamenti",
+          "canonical": "https://schedinedinotifica.tanggo.software/ampliamenti",
+          "stato": 200
+        },
+        {
+          "percorso": "/demo",
+          "canonical": "https://schedinedinotifica.tanggo.software/demo",
+          "stato": 200
+        },
+        {
+          "percorso": "/prezzi",
+          "canonical": "https://schedinedinotifica.tanggo.software/prezzi",
+          "stato": 200
+        },
+        {
+          "percorso": "/contatti",
+          "canonical": "https://schedinedinotifica.tanggo.software/contatti",
+          "stato": 200
+        },
+        {
+          "percorso": "/note-legali",
+          "canonical": "https://schedinedinotifica.tanggo.software/note-legali",
+          "stato": 200
+        },
+        {
+          "percorso": "/privacy",
+          "canonical": "https://schedinedinotifica.tanggo.software/privacy",
+          "stato": 200
+        },
+        {
+          "percorso": "/cookie",
+          "canonical": "https://schedinedinotifica.tanggo.software/cookie",
+          "stato": 200
+        }
+      ],
+      "asset_SHA256": {
+        "styles.css": "a1d08079becadbda89cb4e137d0ae4eb146fc8da434fe2c0a8e3d557c508c816",
+        "app.js": "1c240f761037e94112f03a55ad6aa78c6b53857de70504282e959736e65051c0",
+        "catalogo-commerciale.json": "ac3264cb0f6e3f1254fe116332e9b0b67361cb233af3f34e15218e491fe4a9c2",
+        "img/logo-tanggo.png": "4db7ab0e789bd4df38aa822d5605f1ced4344b3d89b5ac22a2784ffa121d4059",
+        "img/ospitalita-checkin.webp": "3aaef1fbcf4e0d21c2eea5948c0d30317b15708eef634b394e13860866b56e96",
+        "img/prodotto-arrivi.webp": "9e0bd1eac3121ab292e015e45cd79844f1489b10ddb9f2607cd5072cc359765f",
+        "img/prodotto-richiesta.webp": "ef6f10efb70c3fe00f28626171bbbf4b456416ec7354847bb4905a2aaa404882",
+        "img/prodotto-ospite.webp": "3f806955d3dcf43c4db73bc7e313f4f905b91f3f31703016101fd70202df299b",
+        "img/prodotto-schedina.webp": "faf289f42286f210396a6c30510c1d8f1f837277d93e41c9ca48d035f92e17bf",
+        "img/prodotto-tassa.webp": "6f62d9e11c6fc79b96f6d89cd0d7bf29aa119724efacb83f458d81e267294573",
+        "img/foto-reception.webp": "b20caca7f494ef434b855a39b424b6897583912808adbfe3df9f1ccdcd7fda4a",
+        "img/foto-assistenza.webp": "b2ad5f7b2aa4e24116a8b1dd1cb0962f88f28522bf923a387588c4ba2e2bbc05",
+        "img/foto-sviluppo.webp": "97664a786694925cc546c31a1307909bde0a860f24c777df933452395b5e001a"
+      },
+      "screenshot": [
+        "online-sito-home-1440.png",
+        "online-sito-moduli-1440.png",
+        "online-sito-ampliamenti-1440.png",
+        "online-sito-demo-1440.png",
+        "online-sito-prezzi-1440.png",
+        "online-sito-max-full-1440.png",
+        "online-sito-contatti-1440.png",
+        "online-sito-note-legali-1440.png",
+        "online-sito-privacy-1440.png",
+        "online-sito-cookie-1440.png",
+        "online-sito-conferma-1440.png"
+      ],
+      "ancore_anche_incrociate": 164,
+      "click_reload_back_forward": "PASS",
+      "errori_JS": [],
+      "errori_HTTP": [],
+      "POST_contatti": 1,
+      "esito": "PASS"
+    },
+    {
+      "larghezza": 768,
+      "piano": "strutture",
+      "prezzo_atteso": "320 € + IVA / anno complessivi",
+      "max_full": true,
+      "interesse": "web-checkin",
+      "pagine": [
+        {
+          "percorso": "/",
+          "canonical": "https://schedinedinotifica.tanggo.software/",
+          "stato": 200
+        },
+        {
+          "percorso": "/moduli",
+          "canonical": "https://schedinedinotifica.tanggo.software/moduli",
+          "stato": 200
+        },
+        {
+          "percorso": "/ampliamenti",
+          "canonical": "https://schedinedinotifica.tanggo.software/ampliamenti",
+          "stato": 200
+        },
+        {
+          "percorso": "/demo",
+          "canonical": "https://schedinedinotifica.tanggo.software/demo",
+          "stato": 200
+        },
+        {
+          "percorso": "/prezzi",
+          "canonical": "https://schedinedinotifica.tanggo.software/prezzi",
+          "stato": 200
+        },
+        {
+          "percorso": "/contatti",
+          "canonical": "https://schedinedinotifica.tanggo.software/contatti",
+          "stato": 200
+        },
+        {
+          "percorso": "/note-legali",
+          "canonical": "https://schedinedinotifica.tanggo.software/note-legali",
+          "stato": 200
+        },
+        {
+          "percorso": "/privacy",
+          "canonical": "https://schedinedinotifica.tanggo.software/privacy",
+          "stato": 200
+        },
+        {
+          "percorso": "/cookie",
+          "canonical": "https://schedinedinotifica.tanggo.software/cookie",
+          "stato": 200
+        }
+      ],
+      "asset_SHA256": {
+        "styles.css": "a1d08079becadbda89cb4e137d0ae4eb146fc8da434fe2c0a8e3d557c508c816",
+        "app.js": "1c240f761037e94112f03a55ad6aa78c6b53857de70504282e959736e65051c0",
+        "catalogo-commerciale.json": "ac3264cb0f6e3f1254fe116332e9b0b67361cb233af3f34e15218e491fe4a9c2",
+        "img/logo-tanggo.png": "4db7ab0e789bd4df38aa822d5605f1ced4344b3d89b5ac22a2784ffa121d4059",
+        "img/ospitalita-checkin.webp": "3aaef1fbcf4e0d21c2eea5948c0d30317b15708eef634b394e13860866b56e96",
+        "img/prodotto-arrivi.webp": "9e0bd1eac3121ab292e015e45cd79844f1489b10ddb9f2607cd5072cc359765f",
+        "img/prodotto-richiesta.webp": "ef6f10efb70c3fe00f28626171bbbf4b456416ec7354847bb4905a2aaa404882",
+        "img/prodotto-ospite.webp": "3f806955d3dcf43c4db73bc7e313f4f905b91f3f31703016101fd70202df299b",
+        "img/prodotto-schedina.webp": "faf289f42286f210396a6c30510c1d8f1f837277d93e41c9ca48d035f92e17bf",
+        "img/prodotto-tassa.webp": "6f62d9e11c6fc79b96f6d89cd0d7bf29aa119724efacb83f458d81e267294573",
+        "img/foto-reception.webp": "b20caca7f494ef434b855a39b424b6897583912808adbfe3df9f1ccdcd7fda4a",
+        "img/foto-assistenza.webp": "b2ad5f7b2aa4e24116a8b1dd1cb0962f88f28522bf923a387588c4ba2e2bbc05",
+        "img/foto-sviluppo.webp": "97664a786694925cc546c31a1307909bde0a860f24c777df933452395b5e001a"
+      },
+      "screenshot": [
+        "online-sito-home-768.png",
+        "online-sito-moduli-768.png",
+        "online-sito-ampliamenti-768.png",
+        "online-sito-demo-768.png",
+        "online-sito-prezzi-768.png",
+        "online-sito-max-full-768.png",
+        "online-sito-contatti-768.png",
+        "online-sito-note-legali-768.png",
+        "online-sito-privacy-768.png",
+        "online-sito-cookie-768.png",
+        "online-sito-conferma-768.png"
+      ],
+      "ancore_anche_incrociate": 164,
+      "click_reload_back_forward": "PASS",
+      "errori_JS": [],
+      "errori_HTTP": [],
+      "POST_contatti": 1,
+      "esito": "PASS"
+    },
+    {
+      "larghezza": 390,
+      "piano": "oltre2",
+      "prezzo_atteso": "Preventivo personalizzato",
+      "max_full": true,
+      "interesse": "web-checkin",
+      "pagine": [
+        {
+          "percorso": "/",
+          "canonical": "https://schedinedinotifica.tanggo.software/",
+          "stato": 200
+        },
+        {
+          "percorso": "/moduli",
+          "canonical": "https://schedinedinotifica.tanggo.software/moduli",
+          "stato": 200
+        },
+        {
+          "percorso": "/ampliamenti",
+          "canonical": "https://schedinedinotifica.tanggo.software/ampliamenti",
+          "stato": 200
+        },
+        {
+          "percorso": "/demo",
+          "canonical": "https://schedinedinotifica.tanggo.software/demo",
+          "stato": 200
+        },
+        {
+          "percorso": "/prezzi",
+          "canonical": "https://schedinedinotifica.tanggo.software/prezzi",
+          "stato": 200
+        },
+        {
+          "percorso": "/contatti",
+          "canonical": "https://schedinedinotifica.tanggo.software/contatti",
+          "stato": 200
+        },
+        {
+          "percorso": "/note-legali",
+          "canonical": "https://schedinedinotifica.tanggo.software/note-legali",
+          "stato": 200
+        },
+        {
+          "percorso": "/privacy",
+          "canonical": "https://schedinedinotifica.tanggo.software/privacy",
+          "stato": 200
+        },
+        {
+          "percorso": "/cookie",
+          "canonical": "https://schedinedinotifica.tanggo.software/cookie",
+          "stato": 200
+        }
+      ],
+      "asset_SHA256": {
+        "styles.css": "a1d08079becadbda89cb4e137d0ae4eb146fc8da434fe2c0a8e3d557c508c816",
+        "app.js": "1c240f761037e94112f03a55ad6aa78c6b53857de70504282e959736e65051c0",
+        "catalogo-commerciale.json": "ac3264cb0f6e3f1254fe116332e9b0b67361cb233af3f34e15218e491fe4a9c2",
+        "img/logo-tanggo.png": "4db7ab0e789bd4df38aa822d5605f1ced4344b3d89b5ac22a2784ffa121d4059",
+        "img/ospitalita-checkin.webp": "3aaef1fbcf4e0d21c2eea5948c0d30317b15708eef634b394e13860866b56e96",
+        "img/prodotto-arrivi.webp": "9e0bd1eac3121ab292e015e45cd79844f1489b10ddb9f2607cd5072cc359765f",
+        "img/prodotto-richiesta.webp": "ef6f10efb70c3fe00f28626171bbbf4b456416ec7354847bb4905a2aaa404882",
+        "img/prodotto-ospite.webp": "3f806955d3dcf43c4db73bc7e313f4f905b91f3f31703016101fd70202df299b",
+        "img/prodotto-schedina.webp": "faf289f42286f210396a6c30510c1d8f1f837277d93e41c9ca48d035f92e17bf",
+        "img/prodotto-tassa.webp": "6f62d9e11c6fc79b96f6d89cd0d7bf29aa119724efacb83f458d81e267294573",
+        "img/foto-reception.webp": "b20caca7f494ef434b855a39b424b6897583912808adbfe3df9f1ccdcd7fda4a",
+        "img/foto-assistenza.webp": "b2ad5f7b2aa4e24116a8b1dd1cb0962f88f28522bf923a387588c4ba2e2bbc05",
+        "img/foto-sviluppo.webp": "97664a786694925cc546c31a1307909bde0a860f24c777df933452395b5e001a"
+      },
+      "screenshot": [
+        "online-sito-home-390.png",
+        "online-sito-moduli-390.png",
+        "online-sito-ampliamenti-390.png",
+        "online-sito-demo-390.png",
+        "online-sito-prezzi-390.png",
+        "online-sito-max-full-390.png",
+        "online-sito-contatti-390.png",
+        "online-sito-note-legali-390.png",
+        "online-sito-privacy-390.png",
+        "online-sito-cookie-390.png",
+        "online-sito-conferma-390.png"
+      ],
+      "ancore_anche_incrociate": 164,
+      "click_reload_back_forward": "PASS",
+      "errori_JS": [],
+      "errori_HTTP": [],
+      "POST_contatti": 1,
+      "esito": "PASS"
+    }
+  ],
+  "CRM": {
+    "richieste_verificate": 3,
+    "attivita_verificate": 3,
+    "campi_piano_MaxFull_interesse_tariffa_server": "PASS",
+    "conferma_reale_focus_reset": "PASS",
+    "richieste_rimosse": 3,
+    "attivita_rimosse": 3,
+    "confronto_HMAC_66_tabelle": "PASS",
+    "nessun_restore_reset_contatori": true,
+    "nessun_acquisto_account_email_ente": true
+  },
+  "tentativo_precedente": {
+    "esito": "NONPASS_ADATTATORE",
+    "causa": "Scorrimento anche su immagini delle schede demo nascoste",
+    "POST": 0,
+    "richieste_rimosse": 0,
+    "attivita_rimosse": 0,
+    "confronto_HMAC_66_tabelle": "PASS",
+    "sostituzione": "Scorrimento delle immagini visibili; tutti i cinque tab verificati nel tour; stesso timeout e applicativo invariato; nuovo marcatore/runtime"
+  },
+  "ispezione_visiva": {
+    "esito": "PASS_ISPEZIONE_33_CATTURE_ONLINE",
+    "data_UTC": "2026-10-26T00:14:03.818647+00:00",
+    "catture": 33,
+    "pagine": 9,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "controlli": [
+      "logo e marca",
+      "leggibilità e gerarchia",
+      "immagini e proporzioni",
+      "testata e footer",
+      "sezioni superiori centrali e inferiori",
+      "informative",
+      "Max Full",
+      "conferme reali CRM"
+    ],
+    "inventario": "inventario-33-catture.json",
+    "limite": "Ispezione visiva affiancata ai controlli browser di overflow, focus, menu, immagini decodificate e navigazione; nessuna certificazione generale del gestionale."
+  },
+  "inventario_33_catture": [
+    {
+      "file": "online-sito-ampliamenti-1440.png",
+      "width": 1440,
+      "height": 10235,
+      "SHA256": "0876fc2571721774acb6af1fc3d6ebaddd22bf96a25b0820090978e0ea55fa07"
+    },
+    {
+      "file": "online-sito-ampliamenti-390.png",
+      "width": 390,
+      "height": 12253,
+      "SHA256": "22ac70bbf4f846a51aa5848b3c3972f1dcfc090c4c19e6464ade084343ddcd02"
+    },
+    {
+      "file": "online-sito-ampliamenti-768.png",
+      "width": 768,
+      "height": 11124,
+      "SHA256": "bcd084a45b00b37d13e395967e1266b9bbf3dc82c57f3a98b8b867efd76167eb"
+    },
+    {
+      "file": "online-sito-conferma-1440.png",
+      "width": 1440,
+      "height": 1000,
+      "SHA256": "14f5fc60998d140c91ce17af935e403bb826e525e7535d4cc98023107bb42b37"
+    },
+    {
+      "file": "online-sito-conferma-390.png",
+      "width": 390,
+      "height": 1000,
+      "SHA256": "9c2f150b3a2d853096b6a52cfdcc198f702d148b79662b5ce74105b7b058f2ee"
+    },
+    {
+      "file": "online-sito-conferma-768.png",
+      "width": 768,
+      "height": 1000,
+      "SHA256": "ae6da6b06a4eec1e924ab0583249ad505ec0b94df5187fe5960561280970696f"
+    },
+    {
+      "file": "online-sito-contatti-1440.png",
+      "width": 1440,
+      "height": 2545,
+      "SHA256": "ab89bc0fb81a6e381a77c22e2206ce9430aea39188b3643cc16dac344f06d1a1"
+    },
+    {
+      "file": "online-sito-contatti-390.png",
+      "width": 390,
+      "height": 4134,
+      "SHA256": "94e426a2e0a1f61ce9e075aeb242a793d65af1adf6e7474ce7219fa888184e41"
+    },
+    {
+      "file": "online-sito-contatti-768.png",
+      "width": 768,
+      "height": 3736,
+      "SHA256": "90234ebbb065d6fc6d77b4de2508f52fd62987aa131457782e4ebd315a013713"
+    },
+    {
+      "file": "online-sito-cookie-1440.png",
+      "width": 1440,
+      "height": 2260,
+      "SHA256": "ee68559c742425e8005b2df8e45f85279aa490559e10a724640e51a66b4123a0"
+    },
+    {
+      "file": "online-sito-cookie-390.png",
+      "width": 390,
+      "height": 2990,
+      "SHA256": "63a99a1c0ce0a992dc6c3daa7fee782a7999612a93aa364206561f3946ecada0"
+    },
+    {
+      "file": "online-sito-cookie-768.png",
+      "width": 768,
+      "height": 2401,
+      "SHA256": "33647afa68ea13316774afa06c5b90395ceefdf7c018ef23e439a4e947de95f6"
+    },
+    {
+      "file": "online-sito-demo-1440.png",
+      "width": 1440,
+      "height": 6843,
+      "SHA256": "68d80c15c5fce75a1c6619d9b0ce0a0bac44a3e897e559b1255c222aabbf46b4"
+    },
+    {
+      "file": "online-sito-demo-390.png",
+      "width": 390,
+      "height": 9526,
+      "SHA256": "0d21223f57ed4d5f27c85fade298e1bfd8689949fc86af09e33d66d4f28c0f62"
+    },
+    {
+      "file": "online-sito-demo-768.png",
+      "width": 768,
+      "height": 7470,
+      "SHA256": "3b6e087f4c177676d72d38b7ddf77de0d405efd15b47d0e31eee6682ddf257df"
+    },
+    {
+      "file": "online-sito-home-1440.png",
+      "width": 1440,
+      "height": 10929,
+      "SHA256": "bd11086c6607d2b92733382ed5a6a889d280c0283b470a95bd01fe97611384b9"
+    },
+    {
+      "file": "online-sito-home-390.png",
+      "width": 390,
+      "height": 18901,
+      "SHA256": "cf8a6ea6944f0547037dbeb2367c848b12c33a6854eeaab991fec2dfcec44ca3"
+    },
+    {
+      "file": "online-sito-home-768.png",
+      "width": 768,
+      "height": 15026,
+      "SHA256": "f3bfab5aeec14aebfa8a5ef7045d4dc10b4450af4410f8af4e7218b55fba03a2"
+    },
+    {
+      "file": "online-sito-max-full-1440.png",
+      "width": 1440,
+      "height": 1000,
+      "SHA256": "b667455e766993b2d40903df228fe1fcb30d213bf52821d9f5a5eeb41d2a9314"
+    },
+    {
+      "file": "online-sito-max-full-390.png",
+      "width": 390,
+      "height": 1000,
+      "SHA256": "def892193acf9d6c2343ea96844e4da7b7e2bc9701f8ed65bf5dff72f7295781"
+    },
+    {
+      "file": "online-sito-max-full-768.png",
+      "width": 768,
+      "height": 1000,
+      "SHA256": "d47dcda51fe0cc0fac71e8efb88fe55769816eda40ad7488503bf642d71a42f7"
+    },
+    {
+      "file": "online-sito-moduli-1440.png",
+      "width": 1440,
+      "height": 13623,
+      "SHA256": "04b62ef6eb8ebaed1b9d1fed7085eda5a569469af8f125fefe3d04bc55dc0c9c"
+    },
+    {
+      "file": "online-sito-moduli-390.png",
+      "width": 390,
+      "height": 19761,
+      "SHA256": "70a8f83127157ddf9073a118584481b7822be14380ecbd9dd85b2711f4c81b86"
+    },
+    {
+      "file": "online-sito-moduli-768.png",
+      "width": 768,
+      "height": 16665,
+      "SHA256": "d6bb9c6eb06371f8bfe916b883eeaef8a948efa0c821cc1fee958e8cfd93b678"
+    },
+    {
+      "file": "online-sito-note-legali-1440.png",
+      "width": 1440,
+      "height": 1860,
+      "SHA256": "7a71c6cef4ab5d58aa4036a7770dea573287e5d2eaecbc5801cce4da1886536b"
+    },
+    {
+      "file": "online-sito-note-legali-390.png",
+      "width": 390,
+      "height": 2429,
+      "SHA256": "0ca21398938fd2b60979ff49783950ab47c7a3c9e3689667857572222cc7b951"
+    },
+    {
+      "file": "online-sito-note-legali-768.png",
+      "width": 768,
+      "height": 1973,
+      "SHA256": "c0836a211570db7ca6ee187a6a453ace6c89d15cb4ad16d416a940d76b14009a"
+    },
+    {
+      "file": "online-sito-prezzi-1440.png",
+      "width": 1440,
+      "height": 5006,
+      "SHA256": "64f3ad80db14d4b9cb46ab7ea71dc66bc4a727b24aae7f1c3690ac856b4c200a"
+    },
+    {
+      "file": "online-sito-prezzi-390.png",
+      "width": 390,
+      "height": 7241,
+      "SHA256": "23ded3e8d9cb4b932805a047416040d8eaba6b8a61966b1913589572e6dbc161"
+    },
+    {
+      "file": "online-sito-prezzi-768.png",
+      "width": 768,
+      "height": 6158,
+      "SHA256": "2fade8bcacb54115816428e6fcd540e3224ab10291974681c006cf620ada2f3d"
+    },
+    {
+      "file": "online-sito-privacy-1440.png",
+      "width": 1440,
+      "height": 3573,
+      "SHA256": "b902b4f87492df2b521cffb6cb66d5a3e063307dd4362dcc05652fbe03ffe228"
+    },
+    {
+      "file": "online-sito-privacy-390.png",
+      "width": 390,
+      "height": 5562,
+      "SHA256": "f948b34ce8203a903bc50430584397ccba6dd36cc01ff90906f810f99d8d67ef"
+    },
+    {
+      "file": "online-sito-privacy-768.png",
+      "width": 768,
+      "height": 3900,
+      "SHA256": "7618f25b13d99750654af57977e49d7a1c942b521cd35b58c1dfde02101ff891"
+    }
+  ],
+  "limite": "Nessuna autenticazione o invio a enti/email nella QA produttiva; errori intenzionali del modulo e regressioni verificati nella VM isolata. Risultati grezzi con identificativi sintetici restano privati."
+}
