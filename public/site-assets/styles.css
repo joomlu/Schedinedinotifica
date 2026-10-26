@@ -673,3 +673,174 @@ h3 { font-size:1.5rem; }
 @media(max-width:1280px) { .site-nav > a,.site-header .site-nav > a { font-size:1rem; } }
 @media(max-width:950px) { .hero-stage .hero { grid-template-columns:1fr; } .benefit-columns,.capabilities-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; } }
 @media(max-width:600px) { .benefit-columns,.capabilities-grid { grid-template-columns:1fr; } .hero-stage .hero { padding-block:40px; } .hero-offer { padding:18px; } .dashboard-preview img { min-height:0; } .capabilities-grid article { padding:25px; } }
+
+/* Proposta locale 26 ottobre: navigazione leggera e fondi neutri. */
+:root { --soft:#f5f6f7; --line:#e1e5e8; }
+.site-nav > a,.site-header .site-nav > a { font-size:17px; font-weight:400; }
+.site-nav { gap:16px; }
+.hero-stage { background:#fff; }
+.hero-stage .hero-photo { background:none; }
+.hero-visual-stack { min-width:0; display:grid; gap:22px; }
+.hero-welcome-image { margin:0; overflow:hidden; border-radius:22px; background:#f5f6f7; border:1px solid var(--line); }
+.hero-welcome-image img { display:block; width:100%; aspect-ratio:16/9; height:auto; object-fit:cover; }
+.hero-welcome-image figcaption { padding:14px 18px; font-size:1rem; color:var(--ink); background:#fff; }
+.hero-dashboard { background:#fff; border-color:var(--line); box-shadow:0 16px 45px #243b430d; }
+.hero-mini-cards a,.hero-mini-cards a:nth-child(2),.module-thumbnail,.page-hero-figure,
+.product-introduction .floating-note,.benefit-icon,.capability-number { background:#f2f4f6; }
+.module-showcase,.home-support,.max-full-band,.capabilities-band,.site-footer { background:#f6f7f8; }
+.home-pricing { background:#fff; }
+.closing-cta { background:#f2f4f6; border-color:var(--line); }
+.price-card.featured { background:#fff; }
+.hero-stage .btn-light { background:#fff; }
+.hero-stage .btn-light:hover { background:#f2f4f6; }
+@media(max-width:1280px) { .site-nav > a,.site-header .site-nav > a { font-size:18px; font-weight:400; } }
+@media(max-width:600px) { .hero-welcome-image { border-radius:16px; } .hero-welcome-image figcaption { padding:12px 15px; } }
+
+/* Raffinamento locale: token tratti da resources/scss/custom.scss. */
+:root {
+  --action:#8c1d2c; --action-hover:#741826; --arrival:#2f7a57;
+  --departure:#4e748c; --departure-hover:#44657a; --gold:#c6a15b;
+  --action-soft:#e8d2d6; --departure-soft:#dce8ef; --gold-soft:#f3e8cf;
+  --ink:#2b2b2b; --text:#4e4a45; --muted:#6b6761;
+  --teal:var(--action); --turquoise:var(--action-soft);
+  --navy:var(--ink); --navy-deep:var(--ink); --paper:#fff; --soft:#fff; --line:#e8dfd5;
+}
+body,.hero-stage,.promise-band,.audience-band,.module-showcase,.home-support,.max-full-band,.capabilities-band,.site-footer,.extension-support,.home-pricing,.page-hero { background:#fff; }
+.site-footer,.module-showcase,.capabilities-band,.home-support { border-top:1px solid var(--line); }
+.site-header .site-nav .nav-cta,.btn-primary { background:var(--action); border-color:var(--action); color:#fff; box-shadow:0 6px 16px #8c1d2c18; }
+.site-header .site-nav .nav-cta:hover,.btn-primary:hover { background:var(--action-hover); border-color:var(--action-hover); }
+.site-header .site-nav .nav-cta:active,.btn-primary:active { background:var(--action-hover); transform:none; box-shadow:none; }
+.btn,.site-header .site-nav .nav-cta { border-radius:8px; }
+.btn-outline,.btn-secondary,.btn-light { color:var(--departure); border-color:var(--departure); background:#fff; }
+.btn-outline:hover,.btn-secondary:hover,.btn-light:hover,.hero-stage .btn-light:hover { color:#fff; background:var(--departure-hover); border-color:var(--departure-hover); }
+.btn-outline:active,.btn-secondary:active,.btn-light:active { background:var(--departure-soft); color:var(--ink); transform:none; }
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible,[tabindex]:focus-visible { outline:3px solid var(--departure); outline-offset:4px; }
+.site-header .site-nav > a[aria-current] { box-shadow:0 2px var(--action); }
+.text-link:hover,.dashboard-tour:hover,.capabilities-grid a:hover { color:var(--action-hover); text-decoration:underline; }
+.hero-stage .hero-photo { background:linear-gradient(90deg,#fffffff7 0%,#fffffff2 38%,#ffffff85 65%,#ffffff26 100%),url('/site-assets/img/foto-reception.webp') center 45% / cover; }
+.hero-stage .hero { padding-block:72px; }
+.hero-dashboard { transform:none; background:#fffffff2; border-color:var(--line); box-shadow:0 20px 60px #2b2b2b12; }
+.hero-offer { border-left-color:var(--gold); box-shadow:0 6px 24px #2b2b2b08; }
+.hero-mini-cards a { background:var(--departure-soft); }
+.hero-mini-cards a:nth-child(2) { background:var(--gold-soft); }
+.hero-mini-cards a:first-child span,.note-dot { color:var(--arrival); }
+.note-dot { background:var(--arrival); }
+.hero .eyebrow,.hero h1 em { color:var(--action); }
+.feature-heading { width:100%; display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:22px; color:var(--departure); }
+.feature-icon { width:30px; height:30px; flex-shrink:0; }
+.feature-heading .benefit-icon,.feature-heading .capability-number { margin:0; color:var(--action); background:var(--action-soft); }
+.benefit-columns article:nth-child(2) .feature-heading,.capabilities-grid article:nth-child(3n+2) .feature-heading { color:var(--arrival); }
+.benefit-columns article:nth-child(3) .feature-heading,.capabilities-grid article:nth-child(3n) .feature-heading { color:var(--action); }
+.capabilities-grid article { border-top:3px solid var(--departure); }
+.capabilities-grid article:nth-child(3n+2) { border-top-color:var(--arrival); }
+.capabilities-grid article:nth-child(3n) { border-top-color:var(--gold); }
+.price-card.featured { border-color:var(--action); background:#fff; }
+.closing-cta { background:#fff; border:1px solid var(--line); border-left:4px solid var(--action); }
+.audience-cards > a { border-color:var(--line); }
+.audience-cards img { object-position:center; }
+.product-introduction .floating-note,.page-hero-figure,.module-thumbnail { background:#fff; }
+@media(max-width:950px) {
+ .hero-stage .hero-photo { background:linear-gradient(180deg,#ffffffe6 0%,#fffffff5 55%,#fff 100%),url('/site-assets/img/foto-reception.webp') 65% top / auto 640px no-repeat; }
+ .hero-stage .hero { padding-block:48px; }
+}
+@media(max-width:600px) {
+ .hero-stage .hero-photo { background:linear-gradient(180deg,#ffffffdc,#fffffff5 45%,#fff 75%),url('/site-assets/img/foto-reception.webp') 58% top / auto 480px no-repeat; }
+ .hero-stage .hero { padding-block:40px; }
+}
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition:none!important; } }
+/* Dettagli condivisi delle pagine interne. */
+.commercial-selection,.custom-plan,.module-note,.important-note,.structures .featured { background:#fff; border-color:var(--line); }
+.commercial-selection { border-top:3px solid var(--departure); }
+.status-label { color:var(--departure-hover); background:var(--departure-soft); }
+.feature-visual { background:var(--departure-soft); }
+.development-photo { background:linear-gradient(135deg,transparent 20%,var(--departure-soft) 20%); }
+.demo-controls button[aria-selected="true"] { background:var(--action); border-color:var(--action); }
+
+/* Pagine commerciali interne: regole circoscritte, homepage approvata preservata. */
+.commercial-interior .interior-hero { position:relative; isolation:isolate; overflow:hidden; background:#fff; }
+.commercial-interior .interior-hero-photo { position:absolute; z-index:-2; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 48%; }
+.commercial-interior .interior-hero::before { content:""; position:absolute; z-index:-1; inset:0; background:linear-gradient(90deg,#fffffff7 0%,#fffffff0 32%,#ffffffb3 51%,#ffffff05 76%); }
+.commercial-interior .interior-hero-inner { min-height:610px; display:flex; align-items:center; padding-block:75px; }
+.commercial-interior .interior-hero-copy { width:57%; max-width:720px; }
+.commercial-interior .interior-hero h1 { font-size:clamp(2.8rem,4.3vw,4.6rem); line-height:1.08; letter-spacing:-.05em; }
+.commercial-interior .interior-hero h1 em { color:var(--action); }
+.commercial-interior .interior-hero .lead { max-width:580px; font-size:1.16rem; line-height:1.8; }
+.commercial-interior .interior-hero .eyebrow { color:var(--action); }
+.commercial-interior .interior-hero .actions { gap:22px; }
+.interior-ampliamenti .interior-hero-inner { min-height:650px; align-items:flex-end; }
+.interior-ampliamenti .interior-hero-copy { border-left:4px solid var(--gold); padding-left:28px; }
+.interior-prezzi .interior-hero-inner { min-height:520px; }
+.interior-demo .interior-hero-inner { min-height:550px; }
+.commercial-interior .interior-jump { padding-block:24px 0; }
+.commercial-interior .interior-jump .anchor-nav { margin:0; padding:0 0 24px; border-top:0; border-bottom:1px solid var(--line); gap:10px 22px; }
+.commercial-interior .anchor-nav a { background:transparent; border:0; border-radius:0; border-bottom:1px solid var(--line); padding:6px 0; font-size:.9rem; }
+.commercial-interior .anchor-nav a:hover { color:var(--action); border-bottom-color:var(--action); }
+.commercial-interior .interior-intro { padding-block:72px 32px; max-width:1000px; text-align:center; }
+.commercial-interior .interior-intro h2 { font-size:clamp(2rem,3vw,3rem); }
+.commercial-interior .editorial-module { grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:80px; border-top:0; align-items:start; padding-block:64px; }
+.commercial-interior .editorial-reverse { grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); }
+.commercial-interior .editorial-reverse .editorial-aside { order:2; }
+.commercial-interior .editorial-module h2 { font-size:clamp(2rem,2.9vw,3rem); line-height:1.16; }
+.commercial-interior .module-index { display:flex; align-items:center; gap:18px; font-size:2.8rem; margin-bottom:24px; color:var(--action); }
+.commercial-interior .module-index span { margin:0; font-size:1rem; letter-spacing:0; }
+.commercial-interior .editorial-visual { margin:0; }
+.commercial-interior .editorial-visual img { width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:22px; }
+.commercial-interior .editorial-visual img[src*="prodotto-"] { object-fit:contain; background:#f6f8f8; padding:14px; border:1px solid var(--line); }
+.commercial-interior .editorial-visual figcaption { font-size:.75rem; color:var(--muted); padding:12px 4px; }
+.commercial-interior .editorial-module:nth-of-type(3n) .module-index { color:var(--arrival); }
+.commercial-interior .editorial-module:nth-of-type(3n+1) .module-index { color:var(--departure); }
+.commercial-interior .editorial-details { border-block:1px solid var(--line); margin-top:24px; }
+.commercial-interior .editorial-details + .editorial-details { border-top:0; margin-top:0; }
+.commercial-interior .editorial-details summary { padding:18px 0; color:var(--action); font-weight:600; cursor:pointer; }
+.commercial-interior .editorial-details .module-use-case { margin:0; padding:8px 0 22px; border:0; }
+.commercial-interior .editorial-details .module-use-case h3 { font-size:.8rem; }
+.commercial-interior .editorial-details .module-use-case p { font-size:1rem; }
+.commercial-interior .module-note { border-left-color:var(--gold); padding:10px 0 10px 18px; font-size:.95rem; }
+.commercial-interior .offer-guide { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:50px; padding-block:45px; border-bottom:1px solid var(--line); }
+.commercial-interior .offer-guide span { color:var(--action); font-weight:600; }
+.commercial-interior .offer-guide > div:nth-child(2) span { color:var(--arrival); }
+.commercial-interior .offer-guide > div:nth-child(3) span { color:var(--departure); }
+.commercial-interior .offer-guide p { margin:12px 0 0; font-size:1rem; }
+.interior-prezzi .price-card { border-radius:18px; box-shadow:0 14px 40px #2b2b2b08; border-top:4px solid var(--departure); }
+.interior-prezzi .price-card[data-plan="duo"] { border-top-color:var(--arrival); }
+.interior-prezzi .price-card.featured { border-top-color:var(--action); }
+.interior-prezzi .pricing-label { border-top:0; }
+.interior-prezzi .pricing-group { margin-top:40px; }
+.interior-prezzi .custom-plan { border-radius:14px; background:#fbf9f6; }
+.interior-prezzi .max-full-band { background:linear-gradient(120deg,#fff,#faf5e9); }
+.interior-demo .demo-request { padding-top:65px; align-items:start; }
+.interior-demo .demo-request .contact-details { position:sticky; top:120px; }
+.interior-demo .demo-request .contact-form-card { border-top:4px solid var(--action); border-radius:20px; box-shadow:0 20px 60px #2b2b2b0b; }
+.interior-demo #demo-interattiva { border-top:1px solid var(--line); }
+@media(max-width:1100px) {
+ .commercial-interior .interior-hero-copy { width:65%; }
+ .commercial-interior .editorial-module { gap:40px; }
+}
+@media(max-width:800px) {
+ .commercial-interior .interior-hero-inner { min-height:630px; padding-block:260px 42px; align-items:flex-end; }
+ .commercial-interior .interior-hero-photo { height:380px; object-position:72% 42%; }
+ .commercial-interior .interior-hero::before { background:linear-gradient(180deg,#ffffff00 0,#ffffff12 150px,#ffffffed 300px,#fff 410px); }
+ .commercial-interior .interior-hero-copy { width:100%; max-width:none; }
+ .commercial-interior .interior-hero h1 { max-width:650px; font-size:3.2rem; }
+ .interior-ampliamenti .interior-hero-copy { padding-left:20px; }
+ .commercial-interior .editorial-module,.commercial-interior .editorial-reverse { grid-template-columns:minmax(0,1fr); gap:26px; padding-block:40px; }
+ .commercial-interior .editorial-reverse .editorial-aside { order:0; }
+ .commercial-interior .editorial-visual img { aspect-ratio:16/9; }
+ .commercial-interior .interior-intro { text-align:left; padding-block:50px 20px; }
+ .commercial-interior .offer-guide { gap:24px; }
+ .interior-demo .demo-request .contact-details { position:static; }
+}
+@media(max-width:600px) {
+ .commercial-interior .interior-hero h1 { font-size:2.6rem; }
+ .commercial-interior .interior-hero .lead { font-size:1.05rem; }
+ .commercial-interior .interior-hero-inner { min-height:640px; padding-block:230px 36px; }
+ .commercial-interior .interior-hero .actions { align-items:flex-start; gap:18px; }
+ .commercial-interior .offer-guide { grid-template-columns:1fr; padding-block:32px; gap:24px; }
+ .commercial-interior .module-index { font-size:2.2rem; }
+ .commercial-interior .editorial-visual img { aspect-ratio:4/3; }
+ .commercial-interior .interior-jump .anchor-nav { gap:8px 18px; }
+ .commercial-interior .anchor-nav a { font-size:.84rem; }
+}
+.commercial-interior .module-index .feature-icon { width:28px; height:28px; flex-shrink:0; }
+.interior-prezzi .price-card.featured .plan-name { color:var(--action); }
+.interior-prezzi .price-card .plan-price { font-size:clamp(1.35rem,1.9vw,1.8rem); line-height:1.4; }
