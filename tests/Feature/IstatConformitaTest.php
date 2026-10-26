@@ -258,7 +258,7 @@ class IstatConformitaTest extends TestCase
     {
         $s = $this->setupStructure(); $this->stay($s);
         $this->get('/istat-tabella-a?dal=2026-04-01&al=2026-04-30')->assertOk()->assertSee('Valida XML senza inviare');
-        $this->post('/istat-tabella-a/download/xml?dal=2026-04-01&al=2026-04-30')->assertOk()->assertHeader('Content-Type', 'application/xml; charset=UTF-8');
+        $this->post('/istat-tabella-a/download/xml?dal=2026-04-01&al=2026-04-30', ['preview_hash' => hash('sha256', $this->xml($s))])->assertOk()->assertHeader('Content-Type', 'application/xml; charset=UTF-8');
         $this->assertSame(1, IstatExport::where('struttura_id', $s->id)->count());
         foreach (['dal=2026-02-30&al=2026-04-30', 'dal=2026-05-01&al=2026-04-30', 'mese=2026-13'] as $q) {
             $this->post('/istat-tabella-a/download/xml?'.$q)->assertRedirect()->assertSessionHasErrors('istat_periodo');

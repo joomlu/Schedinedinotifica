@@ -11,10 +11,18 @@
     $formTitle = $formTitle ?? ($isArrivi ? ($isEdit ? 'Modifica Arrivi' : 'Nuova scheda Arrivi') : ($isEdit ? 'Modifica schedina' : 'Nuova schedina'));
     $nextSchedaCode = $nextSchedaCode ?? null;
     $showIstatFields = $showIstatFields ?? true;
-    $istatTipoTurismoOptions = \App\Services\IstatTabellaAService::TIPO_TURISMO;
-    $istatMezzoTrasportoOptions = \App\Services\IstatTabellaAService::MEZZO_TRASPORTO;
-    $istatCanaleOptions = \App\Services\IstatTabellaAService::CANALE_PRENOTAZIONE;
-    $istatTitoloStudioOptions = \App\Services\IstatTabellaAService::TITOLO_STUDIO;
+    $preservaValoreIstat = function (array $options, string $field) use ($schedina): array {
+        $value = old($field, $schedina->{$field});
+        // Conservare anche gli alias storici: aprire il form non deve azzerare il dato.
+        if (is_string($value) && $value !== '' && !array_key_exists($value, $options)) {
+            $options[$value] = $value.' (valore salvato)';
+        }
+        return $options;
+    };
+    $istatTipoTurismoOptions = $preservaValoreIstat(\App\Services\IstatTabellaAService::TIPO_TURISMO, 'istat_tipo_turismo');
+    $istatMezzoTrasportoOptions = $preservaValoreIstat(\App\Services\IstatTabellaAService::MEZZO_TRASPORTO, 'istat_mezzo_trasporto');
+    $istatCanaleOptions = $preservaValoreIstat(\App\Services\IstatTabellaAService::CANALE_PRENOTAZIONE, 'istat_canale_prenotazione');
+    $istatTitoloStudioOptions = $preservaValoreIstat(\App\Services\IstatTabellaAService::TITOLO_STUDIO, 'istat_titolo_studio');
     $professioniIstat = [
         'Impiegato',
         'Insegnante',
@@ -456,7 +464,7 @@
                                         <x-ui.select name="istat_tipo_turismo">
                                             <option value="">Non disponibile</option>
                                             @foreach($istatTipoTurismoOptions as $code => $label)
-                                                <option value="{{ $code }}" @selected(old('istat_tipo_turismo', $schedina->istat_tipo_turismo) === $code)>{{ $label }}</option>
+                                                <option value="{{ $code }}" @selected(old('istat_tipo_turismo', $schedina->istat_tipo_turismo) === (string) $code)>{{ $label }}</option>
                                             @endforeach
                                         </x-ui.select>
                                     </div>
@@ -465,7 +473,7 @@
                                         <x-ui.select name="istat_mezzo_trasporto">
                                             <option value="">Non disponibile</option>
                                             @foreach($istatMezzoTrasportoOptions as $code => $label)
-                                                <option value="{{ $code }}" @selected(old('istat_mezzo_trasporto', $schedina->istat_mezzo_trasporto) === $code)>{{ $label }}</option>
+                                                <option value="{{ $code }}" @selected(old('istat_mezzo_trasporto', $schedina->istat_mezzo_trasporto) === (string) $code)>{{ $label }}</option>
                                             @endforeach
                                         </x-ui.select>
                                     </div>
@@ -474,7 +482,7 @@
                                         <x-ui.select name="istat_canale_prenotazione">
                                             <option value="">Non disponibile</option>
                                             @foreach($istatCanaleOptions as $code => $label)
-                                                <option value="{{ $code }}" @selected(old('istat_canale_prenotazione', $schedina->istat_canale_prenotazione) === $code)>{{ $label }}</option>
+                                                <option value="{{ $code }}" @selected(old('istat_canale_prenotazione', $schedina->istat_canale_prenotazione) === (string) $code)>{{ $label }}</option>
                                             @endforeach
                                         </x-ui.select>
                                     </div>
@@ -483,7 +491,7 @@
                                         <x-ui.select name="istat_titolo_studio">
                                             <option value="">Non disponibile</option>
                                             @foreach($istatTitoloStudioOptions as $code => $label)
-                                                <option value="{{ $code }}" @selected(old('istat_titolo_studio', $schedina->istat_titolo_studio) === $code)>{{ $label }}</option>
+                                                <option value="{{ $code }}" @selected(old('istat_titolo_studio', $schedina->istat_titolo_studio) === (string) $code)>{{ $label }}</option>
                                             @endforeach
                                         </x-ui.select>
                                     </div>

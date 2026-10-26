@@ -73,6 +73,12 @@ class IstatCycleTest extends TestCase
         return ['dal' => '2026-04-01', 'al' => '2026-04-30', 'preview_hash' => hash('sha256', $this->xml($s))];
     }
 
+    private function downloadPreview(array $period): \Illuminate\Testing\TestResponse
+    {
+        $preview = $this->get('/istat-tabella-a?'.http_build_query($period))->assertOk();
+        return $this->post('/istat-tabella-a/download/xml', $period + ['preview_hash' => $preview->viewData('previewHash')]);
+    }
+
     private function configured(): Struttura
     {
         $s = $this->setupStructure();
@@ -104,6 +110,106 @@ class IstatCycleTest extends TestCase
         }
 
         return '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><r:inviaMovimentazioneResponse xmlns:r="http://checkin.ws.service.turismo5.gies.it/"><return>'.$days.'</return></r:inviaMovimentazioneResponse></s:Body></s:Envelope>';
+    }
+
+    public function test_download_rejects_stale_preview_without_creating_export(): void
+    {
+        $s = $this->configured();
+        Schedina::first()->update(['arrive' => '2026-04-01']);
+        $preview = $this->sendData($s);
+        Schedina::first()->update(['name' => 'Nome cambiato dopo anteprima']);
+        $this->assertNotSame($preview['preview_hash'], hash('sha256', $this->xml($s)));
+        $this->post('/istat-tabella-a/download/xml', $preview)
+            ->assertRedirect()->assertSessionHasErrors('istat_export');
+        $this->assertSame(0, IstatExport::count());
+        Http::assertNothingSent();
+    }
+
+    public function test_download_requires_preview_and_preserves_original_bytes(): void
+    {
+        $s = $this->configured();
+        foreach ([null, '', str_repeat('0', 64), ['invalid']] as $hash) {
+            $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04', 'preview_hash' => $hash])
+                ->assertSessionHasErrors('istat_export');
+            $this->assertSame(0, IstatExport::count());
+        }
+        $xml = $this->xml($s);
+        $response = $this->post('/istat-tabella-a/download/xml', $this->sendData($s))->assertOk();
+        $this->assertSame($xml, $response->getContent());
+        $this->assertSame(hash('sha256', $xml), IstatExport::first()->sha256);
+        $this->get('/istat-tabella-a/download/storico/'.IstatExport::first()->id)->assertOk()
+            ->assertContent($xml);
+        Http::assertNothingSent();
+    }
+
+    public function test_history_paginates_exports_and_communications_without_losing_period(): void
+    {
+        $s = $this->setupStructure();
+        $store = new \App\Services\IstatPayloadStore;
+        $operations = new \App\Services\IstatOperationService;
+        $firstExport = null;
+        $firstTx = null;
+        for ($i = 1; $i <= 11; $i++) {
+            $day = Carbon::parse('2026-01-01')->addDays($i - 1);
+            $xml = $this->xml($s, $day->toDateString(), $day->toDateString());
+            $export = $store->store($s->id, null, $day, $day, 'test.xml', $xml, collect());
+            $tx = $operations->reserve($s, $export, 'verify', null);
+            $operations->finalize($tx, \App\Services\EsitoTrasmissioneIstat::crea('validated', 'verify'));
+            $firstExport ??= $export->id;
+            $firstTx ??= $tx->id;
+        }
+        $page = $this->get('/istat-tabella-a?mese=2026-01&tab=storico-xml')->assertOk();
+        $this->assertSame(11, $page->viewData('storico')->total());
+        $this->assertCount(10, $page->viewData('storico'));
+        $this->assertFalse($page->viewData('storico')->contains('id', $firstExport));
+        $page->assertSee('xml_page=2')->assertSee('mese=2026-01');
+        $older = $this->get('/istat-tabella-a?mese=2026-01&tab=storico-xml&xml_page=2&tx_page=2')->assertOk();
+        $this->assertSame([$firstExport], $older->viewData('storico')->pluck('id')->all());
+        $this->assertSame([$firstTx], $older->viewData('trasmissioni')->pluck('id')->all());
+        $older->assertSee('/istat-tabella-a/download/storico/'.$firstExport, false);
+    }
+
+    public function test_interrupted_attempt_can_be_classified_uncertain_before_explicit_portal_review(): void
+    {
+        $s = $this->configured();
+        $this->downloadPreview(['mese' => '2026-04'])->assertOk();
+        $operations = new \App\Services\IstatOperationService;
+        $tx = $operations->reserve($s, IstatExport::first(), 'send', auth()->id());
+        $operations->finalize($tx, \App\Services\EsitoTrasmissioneIstat::crea('uncertain', 'send'));
+        $this->assertSame('uncertain', $tx->fresh()->status);
+        $this->assertSame(30, \Illuminate\Support\Facades\DB::table('istat_communication_days')->count());
+        $this->assertSame(['pending', 'uncertain'], \Illuminate\Support\Facades\DB::table('istat_transmission_events')
+            ->where('istat_transmission_id', $tx->id)->orderBy('id')->pluck('status')->all());
+        $this->post('/istat-tabella-a/ws/send', $this->sendData($s))->assertSessionHasErrors('istat_ws');
+        $this->post('/istat-tabella-a/riconcilia/'.$tx->id, ['conferma_portale' => 1, 'procedura' => 'correzione_portale'])
+            ->assertSessionHasNoErrors();
+        $this->assertSame('uncertain', $tx->fresh()->status);
+        $this->assertSame(0, \Illuminate\Support\Facades\DB::table('istat_communication_days')->count());
+        $this->assertSame(1, IstatExport::count());
+        Http::assertNothingSent();
+    }
+
+    public function test_existing_legacy_statistical_values_remain_selected_in_edit_form(): void
+    {
+        $s = $this->setupStructure();
+        $values = ['istat_tipo_turismo' => 'OTHER', 'istat_mezzo_trasporto' => 'AUTO',
+            'istat_canale_prenotazione' => 'OTA', 'istat_titolo_studio' => 'LAUREA'];
+        foreach ([$values, array_fill_keys(array_keys($values), '0')] as $saved) {
+            $stay = $this->stay($s, $saved);
+            $response = $this->get('/schedine/'.$stay->id.'/modifica')->assertOk();
+            $previous = libxml_use_internal_errors(true);
+            try {
+                $doc = new \DOMDocument;
+                $doc->loadHTML($response->getContent());
+                $xpath = new \DOMXPath($doc);
+                foreach ($saved as $field => $value) {
+                    $this->assertSame($value, $xpath->evaluate('string(//select[@name="'.$field.'"]/option[@selected]/@value)'));
+                }
+            } finally {
+                libxml_clear_errors();
+                libxml_use_internal_errors($previous);
+            }
+        }
     }
 
     public function test_credentials_ciphertext_reconfiguration_and_no_flash(): void
@@ -210,7 +316,7 @@ class IstatCycleTest extends TestCase
         Http::fake();
         $this->get('/istat-tabella-a/download/xml?mese=2026-04')->assertNotFound();
         $this->assertSame(0, IstatExport::count());
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $this->downloadPreview(['mese' => '2026-04'])->assertOk();
         $export = IstatExport::first();
         $this->assertSame(0, \App\Models\IstatTransmission::count());
         $stored = \Illuminate\Support\Facades\Storage::disk('local')->get($export->path);
@@ -231,11 +337,11 @@ class IstatCycleTest extends TestCase
         $tx = \App\Models\IstatTransmission::first();
         $stay = Schedina::withoutGlobalScopes()->where('struttura_id', $s->id)->first();
         $stay->update(['departure' => '2026-04-03']);
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertSessionHasErrors('istat_export');
+        $this->downloadPreview(['mese' => '2026-04'])->assertSessionHasErrors('istat_export');
         $this->post('/istat-tabella-a/riconcilia/'.$tx->id)->assertSessionHasErrors('istat_ws');
         $this->post('/istat-tabella-a/riconcilia/'.$tx->id, ['conferma_portale' => 1])->assertSessionHasNoErrors();
         $this->assertNotNull($tx->fresh()->reconciled_at);
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $this->downloadPreview(['mese' => '2026-04'])->assertOk();
         $this->assertSame(2, IstatExport::count());
         $this->assertSame(0, \Illuminate\Support\Facades\DB::table('istat_communication_days')->count());
     }
@@ -291,7 +397,7 @@ class IstatCycleTest extends TestCase
     {
         $s = $this->configured();
         Http::fake();
-        $response = $this->post('/istat-tabella-a/download/xml', ['dal' => '2026-04-02', 'al' => '2026-04-02'])->assertOk();
+        $response = $this->downloadPreview(['dal' => '2026-04-02', 'al' => '2026-04-02'])->assertOk();
         $xpath = $this->xpath($response->getContent());
         $this->assertSame(1, $xpath->query('/movimenti/movimento')->length);
         $this->assertSame('20260402', $xpath->evaluate('string(/movimenti/movimento/data)'));
@@ -308,7 +414,7 @@ class IstatCycleTest extends TestCase
     public function test_crash_pending_and_unique_constraint_prevent_another_operator(): void
     {
         $s = $this->configured();
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04']);
+        $this->downloadPreview(['mese' => '2026-04']);
         $export = IstatExport::first();
         $operations = new \App\Services\IstatOperationService;
         $tx = $operations->reserve($s, $export, 'send', null);
@@ -368,7 +474,7 @@ class IstatCycleTest extends TestCase
         } else {
             $this->assertFalse($analysis['valida']);
             $this->assertStringContainsString('rettificare', implode(' ', $analysis['errors']));
-            $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertSessionHasErrors('istat_export');
+            $this->downloadPreview(['mese' => '2026-04'])->assertSessionHasErrors('istat_export');
         }
         Http::assertSentCount(1);
         $this->assertSame(1, \App\Models\IstatTransmission::count());
@@ -400,7 +506,7 @@ class IstatCycleTest extends TestCase
         $data = ['dal' => '2026-03-01', 'al' => '2026-03-31', 'preview_hash' => hash('sha256', $this->xml($s, '2026-03-01', '2026-03-31'))];
         $this->post('/istat-tabella-a/ws/send', $data)->assertSessionHasNoErrors();
         Schedina::withoutGlobalScopes()->where('struttura_id', $s->id)->update(['name' => 'Variazione sintetica']);
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertSessionHasErrors('istat_export');
+        $this->downloadPreview(['mese' => '2026-04'])->assertSessionHasErrors('istat_export');
         Http::assertSentCount(1);
     }
 
@@ -458,9 +564,9 @@ class IstatCycleTest extends TestCase
             \Illuminate\Support\Facades\DB::table('istat_transmissions')->where('id', $second->id)->update(['status' => $state]);
         }
         $stay->update(['name' => 'Modifica sintetica B']);
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertSessionHasErrors('istat_export');
+        $this->downloadPreview(['mese' => '2026-04'])->assertSessionHasErrors('istat_export');
         $this->post('/istat-tabella-a/riconcilia/'.$second->id, ['conferma_portale' => 1])->assertSessionHasNoErrors();
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk()->assertSee('Modifica sintetica B');
+        $this->downloadPreview(['mese' => '2026-04'])->assertOk()->assertSee('Modifica sintetica B');
         $this->assertSame($xml, (new \App\Services\IstatPayloadStore)->read(IstatExport::findOrFail($first->istat_export_id)));
         Http::assertSentCount(2);
     }
@@ -485,10 +591,10 @@ class IstatCycleTest extends TestCase
         ]);
         $this->post('/istat-tabella-a/riconcilia/'.$other->id, ['conferma_portale' => 1])->assertNotFound();
         Schedina::withoutGlobalScopes()->where('struttura_id', $s->id)->update(['name' => 'Variazione sintetica tenant']);
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertSessionHasErrors('istat_export');
+        $this->downloadPreview(['mese' => '2026-04'])->assertSessionHasErrors('istat_export');
         $this->post('/istat-tabella-a/riconcilia/'.$local->id, ['conferma_portale' => 1])->assertSessionHasNoErrors();
         $other->update(['reconciled_at' => null]);
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $this->downloadPreview(['mese' => '2026-04'])->assertOk();
         Http::assertSentCount(1);
     }
 
@@ -517,7 +623,7 @@ class IstatCycleTest extends TestCase
     public function test_manual_history_label_is_distinct_from_web_service(): void
     {
         $s = $this->configured();
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $this->downloadPreview(['mese' => '2026-04'])->assertOk();
         $this->post('/istat-tabella-a/manuale/'.IstatExport::first()->id, ['conferma_portale' => 1])->assertSessionHasNoErrors();
         $this->get('/istat-tabella-a?mese=2026-04')->assertOk()->assertSee('<td class="text-nowrap">Consegna sul portale</td>', false);
         $this->assertSame('manual_registered', \App\Models\IstatTransmission::first()->status);
@@ -529,7 +635,7 @@ class IstatCycleTest extends TestCase
         $s = $this->setupStructure();
         $this->stay($s);
         $this->stay($s, ['arrive' => '2026-04-10', 'departure' => '2026-04-12']);
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $this->downloadPreview(['mese' => '2026-04'])->assertOk();
         $export = IstatExport::firstOrFail();
         (new \App\Services\IstatOperationService())->finalize(
             (new \App\Services\IstatOperationService())->reserve($s, $export, 'manual', auth()->id()),
@@ -544,7 +650,7 @@ class IstatCycleTest extends TestCase
     {
         $s = $this->setupStructure();
         $this->stay($s);
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $this->downloadPreview(['mese' => '2026-04'])->assertOk();
         $export = IstatExport::firstOrFail();
         $ops = new \App\Services\IstatOperationService();
         $ops->finalize($ops->reserve($s, $export, 'manual', auth()->id()), \App\Services\EsitoTrasmissioneIstat::crea('manual_registered', 'manual'));
@@ -559,7 +665,7 @@ class IstatCycleTest extends TestCase
     {
         $s = $this->setupStructure();
         $stay = $this->stay($s);
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $this->downloadPreview(['mese' => '2026-04'])->assertOk();
         $export = IstatExport::firstOrFail();
         $original = (new \App\Services\IstatPayloadStore())->read($export);
         $this->assertSame(\App\Services\IstatSnapshot::FORMAT, $export->snapshot['@formato']);
@@ -567,7 +673,7 @@ class IstatCycleTest extends TestCase
         $stay->update(['departure' => '2026-04-03']);
         $this->get('/istat-tabella-a?mese=2026-04')->assertOk()->assertSee('Dati modificati: rigenerare');
         $this->assertSame($original, (new \App\Services\IstatPayloadStore())->read($export->fresh()));
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $this->downloadPreview(['mese' => '2026-04'])->assertOk();
         $this->assertSame(2, IstatExport::count());
         $this->assertNotSame($export->sha256, IstatExport::latest('id')->first()->sha256);
         Http::assertNothingSent();
@@ -591,9 +697,9 @@ class IstatCycleTest extends TestCase
     {
         $s = $this->setupStructure();
         $this->stay($s);
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $this->downloadPreview(['mese' => '2026-04'])->assertOk();
         $export = IstatExport::firstOrFail();
-        $this->post('/istat-tabella-a/download/xml', ['mese' => '2026-04'])->assertOk();
+        $this->downloadPreview(['mese' => '2026-04'])->assertOk();
         $this->assertSame(1, IstatExport::count());
         $export->update(['expires_at' => now()->subDay()]);
         $retention = new \App\Services\IstatRetention();

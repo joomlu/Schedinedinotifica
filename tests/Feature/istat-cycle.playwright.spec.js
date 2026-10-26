@@ -1,3 +1,5 @@
+import { readFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { test, expect, BASE_URL } from '../Support/playwright.js';
 
 for (const [name, width] of [['desktop', 1440], ['tablet', 768], ['mobile', 390]]) {
@@ -18,10 +20,32 @@ for (const [name, width] of [['desktop', 1440], ['tablet', 768], ['mobile', 390]
     await expect(page.locator('body')).toContainText('Disabilitato');
     await expect(page.locator('body')).toContainText('Alternativa ufficiale');
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath(`istat-configurazione-${name}.png`), fullPage: true });
     await page.locator('#istat-preview summary').click();
     await expect(page.locator('#istat-preview')).toContainText('C9000001');
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     await page.screenshot({ path: testInfo.outputPath(`istat-cycle-${name}.png`) });
+    const previewHash = await page.locator('form[action$="/download/xml"] input[name="preview_hash"]').inputValue();
+    expect(previewHash).toMatch(/^[a-f0-9]{64}$/);
+    const downloadEvent = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Scarica XML Tabella A', exact: true }).click();
+    await expect(page.getByRole('dialog')).toContainText('non significa trasmetterlo');
+    await page.getByRole('button', { name: 'Sì, genera XML', exact: true }).click();
+    await page.getByRole('button', { name: 'OK', exact: true }).click();
+    const download = await downloadEvent;
+    expect(download.suggestedFilename()).toBe('tabella_a_20260401_20260430.xml');
+    const bytes = await readFile(await download.path());
+    expect(createHash('sha256').update(bytes).digest('hex')).toBe(previewHash);
+    expect(bytes.toString('utf8').match(/<movimento>/g)).toHaveLength(30);
+    await page.goto(`${BASE_URL}/istat-tabella-a?mese=2026-04&tab=storico-xml`);
+    const history = page.locator('#istat-pane-storico-xml');
+    await expect(history).toContainText(previewHash);
+    await expect(history).toContainText('Origine invariata');
+    await page.screenshot({ path: testInfo.outputPath(`istat-storico-${name}.png`), fullPage: true });
+    const historicalEvent = page.waitForEvent('download');
+    await history.getByRole('link', { name: 'Scarica XML', exact: true }).first().click();
+    const historical = await historicalEvent;
+    expect(await readFile(await historical.path())).toEqual(bytes);
     await page.goto(`${BASE_URL}/istat-tabella-a/stampa-riepilogo?mese=2026-04`);
     await expect(page.getByRole('heading', { name: 'Provenienze per residenza' })).toBeVisible();
     await expect(page.locator('body')).toContainText('GERMANIA');
