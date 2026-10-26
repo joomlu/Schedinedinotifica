@@ -1,0 +1,21 @@
+{
+  "stato": "PASS_MONITOR_FINALI_DOPO_QA_E_PULIZIA",
+  "server": {
+    "secondi": 919.3211459019221,
+    "campioni": 31,
+    "sonde_HTTP_TLS_CSS": 279,
+    "stato_FPM_chiave_provider": "PASS"
+  },
+  "Mac": {
+    "secondi": 920.9210528750001,
+    "campioni": 31,
+    "richieste_HTTPS": 93,
+    "DNS_TLS_ordinari": true
+  },
+  "errori_applicativi_nuovi": 0,
+  "errori_journal_FPM": 0,
+  "entrambe_finestre_RUN_incluse_nei_conteggi_errori": true,
+  "presidi_locali_propri_chiusi": true,
+  "VM_restituita_attiva_come_all_inizio": true,
+  "quotidiano_HEAD_DB_84_protetti_SELinux_verificati_dopo_C5_QA": true
+}

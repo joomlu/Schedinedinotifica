@@ -1,36 +1,103 @@
-# ISTAT — completamento e nuova verifica del 26 ottobre 2026
+# ISTAT Emilia-Romagna — completamento tecnico e rilascio del 26 ottobre 2026
 
-STATO: QUALIFICA ISOLATA FINALE PASS; PUBBLICAZIONE E ACCETTAZIONE ESTERNA PENDENTI. BASELINE IN AUDIT invariata. Questo documento non attesta ancora una pubblicazione o accettazione Ross1000.
+**Stato generale: PARZIALE.** Correzioni, qualifica isolata, rilascio C5 e QA online PASS. Monitor finale PASS. Accettazione reale Ross1000 non verificata. **BASELINE IN AUDIT invariata.**
 
-## Base e perimetro
+Il codice applicativo pubblicato è `c226dd8072f260eff938cd0651cdbbecbcdd36b9`. La [PR34](https://github.com/joomlu/Schedinedinotifica/pull/34) è integrata con merge `17852e30df3ec410feecac06efdccf073c4f85ab`: albero identico verificato. Il consuntivo documentale è separato dal candidato eseguito.
 
-Base locale e GitHub `a6d406470aa63d7ff69422efcc0b1c14033e0ee5`, produzione riscontrata in sola lettura `140a1eb6aab82f3df9cd725098835e645dc97eec`, Git remoto pulito. Albero applicativo ISTAT coincidente. Worktree separato `/private/tmp/schedine-istat-20261026`, branca `codex/istat-chiusura-20261026`. Checkout originale con modifiche commerciali e documentazione preesistenti preservato. Nessuna modifica a Questura, Tassa, sito, configurazioni, schema o dati reali.
+## Base, autorizzazioni e preservazione
 
-Obiettivo: chiudere il circuito tecnico ISTAT; rischio ALTO per comunicazioni e copie dei dati. Test previsti: servizi, kernel HTTP, XML/XSD, SOAP simulato, concorrenza e browser desktop/tablet/mobile nel solo runtime ufficiale.
+Base iniziale locale/GitHub `a6d406470aa63d7ff69422efcc0b1c14033e0ee5`; produzione `140a1eb6aab82f3df9cd725098835e645dc97eec`, Git pulito e stesso codice ISTAT. Modifiche in worktree separato `/private/tmp/schedine-istat-20261026`, ramo applicativo `codex/istat-chiusura-20261026`; consuntivo `codex/istat-consuntivo-20261026`. Checkout operativo originale e lavori commerciali preesistenti preservati: nessuna loro inclusione nel rilascio.
 
-## Fonti ufficiali riscontrate
+L’incarico autorizza correzioni, prove, documentazione, GitHub e pubblicazione secondo protocollo. Acquisiti inoltre tre consensi espliciti: ampliamento VM 40→44 GiB con backup verificato; esposizione pubblica del primo candidato `93f9fa02`; merge PR34 e rilascio ISTAT con C5 dopo tutti i controlli. I primi rifiuti automatici di push e merge sono conservati; le azioni sono riuscite dopo i rispettivi consensi, senza elusione. La revisione automatica aggiornata su `c226dd80` è conclusa senza rilievi.
 
-Consultazione del 26 ottobre 2026: [pagina regionale Ross1000](https://statistica.regione.emilia-romagna.it/metadati/rilevazioni/turismo/allegati-rilevazioni-turismo/manuali-e-tracciati-rilevazioni-turismo), aggiornamento 12/06/2025, tuttora XML-WS 2.4. [Tracciato](https://statistica.regione.emilia-romagna.it/metadati/rilevazioni/turismo/allegati-rilevazioni-turismo/manuali-e-tracciati-rilevazioni-turismo/tracciatoxml-webservice.pdf/@@download/file) 2.4 del 29/09/2021 e [manuale importazione](https://statistica.regione.emilia-romagna.it/metadati/rilevazioni/turismo/allegati-rilevazioni-turismo/manuali-e-tracciati-rilevazioni-turismo/manuale-ross1000-importazione-file.pdf/@@download/file) v1 del 28/03/2022, oltre FAQ regionali, riletti. Importazione XML in ordine cronologico e controllo degli esiti nel portale; Basic Auth del WS distinta dall’accesso SPID/CIE/CNS. Nessuna nuova operazione di verifica remota non mutante o ricevuta inventata.
+## Correzioni applicative
 
-WSDL pubblico riscaricato: SHA256 `5ee868bda0ffcd34c5eff41bbc9bf0c398903d93a0407f00ec6c1804d47bc309`, identico. Comuni, Stati e Tipi Alloggiato riscaricati dagli URL ufficiali registrati in `reference/istat/ross1000-er/provenienza.json`: identici dopo sola normalizzazione CRLF→LF. Gli schemi estratti dal WSDL restano ufficiali, `file-binding.xsd` resta il binding locale dichiarato. Ricevuta privata `fonti.json`.
+1. **Download vincolato all’anteprima.** SHA256 obbligatorio e confronto con l’XML corrente prima di conservare una copia. Impronta mancante, errata o superata: messaggio italiano e ritorno al periodo, zero export e zero rete. Successo: byte identici tra anteprima, download e storico. Conferma di download esplicita, senza attestazione di consegna all’ente.
+2. **Storico consultabile oltre dieci record.** Paginazioni indipendenti `xml_page` e `tx_page`, mantenendo periodo e scheda. Nessuna modifica dei record storici.
+3. **Valori statistici storici conservati nella schedina.** Alias accettati dal servizio (`OTHER`, `AUTO`, `OTA`, `LAUREA`) apparivano senza selezione nelle tendine. Difetto riprodotto nel kernel HTTP prima della correzione. Le sole quattro liste ISTAT ora conservano anche valori già salvati fuori elenco, etichettati «valore salvato», compreso il valore numerico `0`. Nessuna normalizzazione automatica o scrittura dei dati. La dipendenza nel modulo condiviso Schedina è verificata anche sulle regressioni di navigazione, salvataggio, validazione e HTML Web Check-in. Nessuna funzione Questura/Tassa modificata.
 
-## Correttivi
+## Fonti ufficiali
 
-- Download da anteprima: obbligo di impronta SHA256 valida e corrispondente all’XML corrente, prima di conservare la copia. In caso di mancanza, formato errato o dati cambiati, messaggio italiano e ritorno allo stesso periodo. L’invio diretto aveva già questo controllo. Nuove prove verificano zero export e zero rete sul rifiuto e identità dei byte fra anteprima, download e storico sul successo.
-- Campi statistici nella schedina: il servizio accetta alias storici (`OTHER`, `AUTO`, `OTA`, `LAUREA`), ma le tendine del modulo non li esponevano come valori selezionati. La regressione R8 ha riprodotto il problema nel vero kernel HTTP: atteso `OTHER`, selezione vuota,44test/375asserzioni con un fallimento. Conservato il NONPASS. Correzione circoscritta alle quattro liste ISTAT: valore originario conservato e distinto con etichetta «valore salvato», senza normalizzazione automatica o scrittura dati. Necessaria dipendenza diretta nel modulo condiviso Schedina; nessuna funzione Questura/Tassa modificata. Qualifica ampliata a salvataggio/navigazione/validazione schedina e HTML Web Check-in: R10,238test/2264asserzioni PASS.
-- Storico: le due liste erano limitate a dieci record senza paginazione. Ora `xml_page` e `tx_page` consentono di consultare i precedenti, mantenendo periodo e scheda. Nessun record storico modificato.
+Consultazione del 26 ottobre 2026: [pagina regionale Ross1000](https://statistica.regione.emilia-romagna.it/metadati/rilevazioni/turismo/allegati-rilevazioni-turismo/manuali-e-tracciati-rilevazioni-turismo), aggiornata il 12/06/2025. Restano pubblicati il [tracciato XML-WS 2.4 del 29/09/2021](https://statistica.regione.emilia-romagna.it/metadati/rilevazioni/turismo/allegati-rilevazioni-turismo/manuali-e-tracciati-rilevazioni-turismo/tracciatoxml-webservice.pdf/@@download/file) e il [manuale importazione v1 del 28/03/2022](https://statistica.regione.emilia-romagna.it/metadati/rilevazioni/turismo/allegati-rilevazioni-turismo/manuali-e-tracciati-rilevazioni-turismo/manuale-ross1000-importazione-file.pdf/@@download/file); FAQ e procedura riletti. Basic Auth del WS distinta dall’accesso al portale tramite SPID/CIE/CNS.
 
-## Prove e diagnostici
+[WSDL pubblico](https://datiturismo.regione.emilia-romagna.it/ws/checkinV2?wsdl) riscaricato, SHA256 `5ee868bda0ffcd34c5eff41bbc9bf0c398903d93a0407f00ec6c1804d47bc309`, identico allo snapshot. Comuni, Stati e Tipi Alloggiato riscaricati dagli URL ufficiali registrati in `reference/istat/ross1000-er/provenienza.json`: identici dopo sola normalizzazione CRLF→LF. Schemi estratti dal WSDL ufficiali; `file-binding.xsd` è il binding locale dichiarato. Nessuna operazione remota non mutante, ricevuta o conferma ufficiale inventata.
 
-Unico runtime autorizzato: VM `schedine-sviluppo-interno`, PHP8.3.36, MariaDB11.8.9, PHPUnit11.5.57, SELinux Enforcing; namespace senza rete esterna, nuovo DB e filesystem effimeri per ogni esecuzione. Clone distinto dal quotidiano; guardie e 23 rifiuti di override invariati. Avviatore con sorgenti sigillate `/private/tmp/istat-evidenze-20261026/collaudo.py`.
+## Qualifica isolata e diagnostici
 
-R1: baseline corrente PASS, 171 test/1647 asserzioni, tre browser1440/768/390, fixture nota e concorrenza su due connessioni. R2 e R3: nuovi test NONPASS conservati. Il primo scenario cambiava il nome di un arrivo di marzo e pretendeva una modifica dell’XML di aprile, che contiene solo la partenza: l’aspettativa era errata e non prova il difetto. Scenario corretto con arrivo in aprile e asserzione esplicita che le impronte differiscano. Nessuna riduzione di controlli o modifica dei limiti per ottenere PASS. R4: 174/1711 PASS, tre browser NONPASS perché lo spec non gestiva il dialogo di conferma già presente. Spec corretto per attraversare entrambe le conferme, senza bypass e senza riduzione di timeout/asserzioni. R5:174/1711 e tre browser PASS. R6, prima qualifica: **175 test/1723 asserzioni e tre browser PASS**, compresa procedura pending→uncertain che conserva prenotazione/storico, blocca il nuovo invio e richiede riconciliazione esplicita. R7: tre browser PASS, solo ulteriori schermate configurazione/storico; stesso codice applicativo di R6. Cinque guardie pure PASS. Suite sovrapposte non sommate. Dodici schermate sintetiche raccolte, selezione ispezionata di configurazione/storico/anteprima/stampa a desktop e mobile e anteprima tablet; sei immagini conservate nella ricevuta versionata. Loghi/avatar assenti nelle fixture per esclusione dei media reali; tabelle larghe scorrevoli, nome struttura UUID sintetico lungo che va a capo nella topbar: limiti delle fixture, nessuna attestazione visiva di tutte le schermate del prodotto.
+Unico runtime: VM ufficiale `schedine-sviluppo-interno`, PHP 8.3.36, MariaDB 11.8.9, PHPUnit 11.5.57, SELinux Enforcing. Namespace senza rete esterna e DB/filesystem sintetici effimeri per ogni esecuzione; clone distinto dal quotidiano. Nessun test Laravel sul checkout operativo/Herd. Guardie, 23 rifiuti di override, build GEO e concorrenza su due processi/connessioni conformi.
 
-R10: **238 test/2264 asserzioni PHP PASS**, comprese regressioni Schedina/Web Check-in e conservazione dei quattro alias e del valore numerico `0`. L'esecuzione completa R10 ha esito NONPASS per il browser della fixture amministrativa senza `sid`: il 403 è corretto. R11 ha individuato solo una fixture GEO aggiornata senza bypass del relativo scope: corretta nel checkout effimero con vincolo esplicito di struttura. R12: tre browser dati origine PASS; due catture durante transizione non promosse a evidenza visiva. R13: tre browser ciclo PASS sui tre sorgenti applicativi finali. R14: tre browser PASS, ripetizione dei browser origine con asserzioni di visibilità/opacità e scorrimento prima della cattura. Le impronte dei sorgenti applicativi e PHP di R10 e dei browser R13/R14 sono confrontate con il candidato corrente; conteggi sovrapposti non sommati.
+**Qualifica finale: R10 PHP 238 test / 2.264 asserzioni PASS; R13 ciclo ISTAT e R14 dati origine, tre browser ciascuno a 1440/768/390 px PASS.** Impronte dei sorgenti confrontate tra esecuzioni e candidato. Cinque guardie pure PASS. Conteggi delle suite sovrapposte non sommati.
 
-## Stato produttivo ed accettazione esterna
+| Esecuzione | Risultato e diagnosi conservata |
+| --- | --- |
+| R1 | Baseline 171 test / 1.647 asserzioni e tre browser PASS |
+| R2–R3 | NONPASS: scenario di test cambiava il nome di un arrivo fuori dal mese XML; aspettativa corretta con arrivo nel mese e hash esplicitamente differente |
+| R4 | PHP 174/1.711 PASS; browser NONPASS perché mancava la gestione del dialogo di conferma esistente |
+| R5–R7 | Prima qualifica: R6 175/1.723 e tre browser PASS; R7 tre browser per ulteriori catture |
+| R8 | NONPASS atteso: selezione vuota del valore storico `OTHER`, difetto riprodotto |
+| R9 | Prima variante della correzione: PHP 238/2.259 e tre browser ciclo PASS |
+| R10 | PHP finale 238/2.264 PASS; esito complessivo NONPASS per fixture browser amministrativa senza `sid`, correttamente respinta con 403 |
+| R11 | Browser NONPASS: aggiornamento GEO della fixture bloccato dallo scope; corretta la fixture con vincolo esplicito di struttura |
+| R12 | Tre browser origine PASS; catture premature durante transizione non promosse a evidenza visiva |
+| R13–R14 | Tre browser ciclo e tre origine PASS; R14 attende visibilità/opacità della scheda prima delle catture |
 
-Lettura aggregata in transazione READ ONLY: quattro strutture attive, tutte Emilia-Romagna, zero codici Ross1000, zero coppie credenziali, zero export e zero trasmissioni. Nessun valore segreto o ospite estratto. Non disponibile una struttura abilitata per accettazione reale. Servono codice assegnato, abilitazione, credenziali WS protette e ambiente/utenza di collaudo dedicati. Prima di dichiarazioni reali resta necessaria conferma specifica di struttura, periodo e contenuto. Demo condivisa non utilizzata per importazioni o trasmissioni.
+Le verifiche comprendono XML/XSD e semantica, componenti individuali, residenza distinta da cittadinanza, confini di mese/anno e anno bisestile, arrivo incluso e partenza esclusa dai pernottamenti, giornate vuote/apertura/disponibilità, esclusioni e incoerenze; SOAP simulato, sicurezza, duplicati e concorrenza; risposte parziali/rifiutate/incerte e procedura pending→uncertain con conservazione dei giorni e riconciliazione esplicita. I singoli casi restano circoscritti alle suite e non certificano i dati operativi reali.
+
+Avviatore privato: `/private/tmp/istat-evidenze-20261026/collaudo.py`. Comandi finali:
+
+```sh
+python3 -B /private/tmp/istat-evidenze-20261026/collaudo.py R10 --phpunit tests/Feature/IstatConformitaTest.php tests/Feature/IstatCycleTest.php tests/Feature/IstatTransmissionSecurityTest.php tests/Feature/StrutturaAuthorizationTest.php tests/Feature/QuesturaTransportGuardTest.php tests/Feature/QuesturaPayloadCoherenceTest.php tests/Feature/SchedinaFlowValidationTest.php tests/Feature/SchedinaNavigationTest.php tests/Feature/SchedinaStoreTest.php tests/Feature/SchedinaSoggiornoTest.php tests/Feature/WebCheckinHtmlTest.php --fixtures tests/Isolation/istat-origin-fixtures.php --playwright tests/Feature/istat-origin.playwright.spec.js
+python3 -B /private/tmp/istat-evidenze-20261026/collaudo.py R13 --fixtures tests/Isolation/istat-cycle-fixtures.php --playwright tests/Feature/istat-cycle.playwright.spec.js
+python3 -B /private/tmp/istat-evidenze-20261026/collaudo.py R14 --fixtures tests/Isolation/istat-origin-fixtures.php --playwright tests/Feature/istat-origin.playwright.spec.js
+```
+
+Catture sintetiche di configurazione, storico, anteprima, stampa e dati origine ispezionate. Nelle fixture isolate mancano loghi/avatar reali per scelta di isolamento; nomi sintetici lunghi possono andare a capo nella topbar, tabelle larghe scorrevoli. [Ricevuta isolata](evidenze/istat-chiusura-2026-10-26/verifica.json).
+
+## Risorse e backup della VM
+
+VM iniziale da 40 GiB con circa 2,4 GiB liberi, insufficienti alla proiezione C5. Piano autorizzato ed eseguito: arresto ordinato, copia integrale cifrata autenticata su Extra, chiave privata sul disco interno fisicamente separato, decifratura integrale e confronto degli originali, crescita esclusiva 40→44 GiB, XFS e riavvio.
+
+PASS: 12 file, **23.470.915.377 byte cifrati**, autenticazione/decifratura complete e originali riletti identici. Disco 47.244.640.256 byte; XFS 41.585.250.304→45.880.217.600 byte; solo campo `disk` variato. HEAD quotidiano `945ef553`, DB logico e 84 file protetti identici, SELinux Enforcing. Primo self-test fermato per `cryptography` assente nel Python di sistema, ripetuto con runtime incluso: PASS anche su corruzione/troncamento. Nessun backup precedente cancellato. Riserve VM 1 GiB, Mac 8 GiB ed Extra 40 GiB mantenute. [Ricevuta risorse](evidenze/istat-chiusura-2026-10-26/risorse.json).
+
+## Rilascio C5 e recuperi
+
+Primo deposito del candidato `93f9fa02` conservato superato e inattivo, senza PREPARE/S0/RUN. Nuovo kit vincolato a `c226dd80`: preflight PASS, nove sonde, nessuna migrazione prevista. Dodici casi puri del trasporto parallelo PASS; guardie e budget invariati.
+
+Primo PREPARE fermato dalla guardia di stabilità per mutazione online prima della barriera; confronto successivo archivio/corrente senza differenze residue, quindi mutazione transitoria non ricostruibile da quel solo confronto. Secondo PREPARE con nonce/base/prebuild nuovi PASS: trasferimento completo in **40,638 s**, quattro flussi entro il limite di 120 s, recupero indipendente completo. Capacità residua verificata prima di ogni RUN.
+
+Primo RUN fermato da un nuovo ingresso sul socket FPM precedente: nessun execute/DDL, baseline riaperta sana dal guardiano in 109,586 s, nove sonde PASS. S0 storico non promosso ad accettato; cifrati conservati e decifrati anche su Extra. Il socket condiviso resta interamente controllato; nessuna richiesta di altri siti interrotta.
+
+Seconda finestra distinta dopo nuovi 55 campioni di quiete: **nuovo S0 indipendente 183,924 s; C5 PASS in 290,809 s / 487 campioni; zero DDL**. Decisione `CANDIDATO_ACCETTATO`, barriera rimossa. PREPARE e S0 accettato cifrati custoditi Mac/VM/Extra, autenticazione e decifratura integrale su Extra con chiave separata nella VM. Entrambi i guardiani propri conclusi, inattivi e disabilitati. Limiti 1800/600/1379/421 s, trasporto 120 s e ricevente 240 s invariati.
+
+Verifica immediata PASS: SHA esatto, Git pulito, Laravel 12.69.3/FPM attivo, 159 migrazioni/66 tabelle, DB byte-identico al nuovo S0 prima della QA, 298 sorgenti e 92 persistenti/.env/APP_KEY/upload/loghi conformi; provider ISTAT/Questura disabilitati e mail array preservati. Un confronto aggiuntivo si è fermato sull’impronta CSS storica, superata dalla PR33 già presente nella baseline: diagnostico conservato, ripetizione PASS rispetto al candidato sigillato **e** ai blob della baseline per tutti i 47 sorgenti del sito. Nessuna modifica al sito introdotta dalla task. [Ricevuta pubblicazione](evidenze/istat-chiusura-2026-10-26/pubblicazione.json).
+
+## QA online e controlli successivi
+
+**QA online sintetica PASS** a 1440/768/390 px: quattro valori storici conservati, rifiuto dell’impronta errata, XML con 30 giornate/2 arrivi/2 partenze, riepilogo con 4 presenze e 2 camere-notte; provenienze Italia-Lazio e Germania ciascuna con 1 arrivo/2 presenze/1 partenza. Byte identici tra anteprima/download/storico, validazione locale, `no-store`, invio disabilitato, tenant estraneo 403/storico 404 e reception in lettura. Nessun POST estraneo o errore JavaScript.
+
+Nove catture online ispezionate, tutte sintetiche; tre conservate nella documentazione. Fixture rimosse: HMAC/conteggi identici su tutte le 66 tabelle preesistenti, senza restore o reset AUTO_INCREMENT. I 92 persistenti restano conformi a S0. Runtime QA proprio rimosso dopo confronto dei 17 file con le copie custodite; clone dipendenze e recuperi preservati. [Ricevuta QA](evidenze/istat-chiusura-2026-10-26/online.json).
+
+Monitor finali **PASS dopo QA e pulizia**: server 919,321 s / 31 campioni / 279 sonde; Mac 920,921 s / 31 campioni / 93 richieste con DNS/TLS ordinari. Zero nuovi errori applicativi e zero errori nel journal FPM, includendo entrambe le finestre RUN. Soli presidi locali propri chiusi dopo verifica dei PID; VM restituita attiva come all’inizio. HEAD quotidiano, DB logico, 84 file protetti e SELinux verificati invariati dopo C5/QA. [Ricevuta monitor](evidenze/istat-chiusura-2026-10-26/monitor.json).
+
+## Matrice conclusiva
+
+| Parte | Stato tecnico | Verifica esterna |
+| --- | --- | --- |
+| Formulari e configurazione | PASS isolato; valori storici anche online | Codice e credenziali reali da predisporre per il collaudo |
+| Tabella A, dettaglio e riepilogo | PASS isolato e online sintetico | Non prova il calendario accettato dall’ente |
+| Calcoli e provenienze | PASS nelle suite e nella riconciliazione online sintetica | Nessuna certificazione dei dati reali |
+| XML | PASS schemi WSDL ufficiali, binding locale dichiarato e semantica | Accettazione Ross1000 pendente |
+| Download/importazione manuale | PASS download e identità delle copie; procedura ufficiale documentata | Importazione esterna non eseguita |
+| Web service | PASS contratto/SOAP simulato, sicurezza, timeout, esiti e concorrenza | TLS/auth/accettazione reali non verificati |
+| Storico e riconciliazione | PASS paginazione, conservazione e revisione esplicita | Nessuna ricevuta ufficiale inventata |
+| Sicurezza e conservazione | PASS isolato, C5 e QA online circoscritta | Non è audit generale di tutti i moduli |
+| Accettazione esterna | PENDENTE | Richiede ambiente e utenza abilitati |
+
+## Unico limite operativo residuo
+
+Nello scope ISTAT resta la **prova reale di accettazione Ross1000**. Lettura produttiva aggregata in transazione READ ONLY: quattro strutture attive ER, zero codici Ross1000, zero coppie credenziali, zero export e zero trasmissioni. Nessun valore segreto o dato ospite estratto.
+
+Servono codice assegnato, abilitazione e ambiente/utenza di collaudo dedicati; credenziali WS protette per quel canale e attivazione controllata del trasporto quando si prova il WS. Prima di dichiarazioni reali occorre conferma specifica di struttura, periodo e contenuto. Non inviare fixture al portale produttivo; la demo condivisa non è stata usata. Verificare il canale manuale/WS effettivamente abilitato, conservare l’esito dell’ente e controllare movimenti e calendario. **Nessuna prova reale contro Ross1000 è stata eseguita**, né accettazione attestata.
 
 ## Procedura operativa per importazione e risposte non conclusive
 
@@ -40,35 +107,9 @@ Lettura aggregata in transazione READ ONLY: quattro strutture attive, tutte Emil
 4. Per WS `partial`, `rejected` o `uncertain`, conservare XML e tentativo, controllare prima il portale. Non ripetere alla cieca. Correggere/annullare sul portale quando necessario e registrare la procedura locale con attore e data prima della nuova anteprima; un mese consolidato richiede l’ufficio regionale. `processed` riguarda solo gli esiti nominativi correlati, non prova l’intero calendario né produce ricevuta ufficiale.
 5. Un tentativo `pending` dopo interruzione rimane bloccato per sicurezza. Prima di interventi tecnici identificare esattamente struttura, ID tentativo, periodo, export/hash, processo originario e stato portale; impedire nuovi invii e dimostrare che nessun processo originario possa ancora finalizzare. Se il processo è tuttora attivo o la sua cessazione non è dimostrabile, mantenere il blocco. Solo dopo cessazione accertata, un tecnico autorizzato può finalizzare quel tentativo tramite `IstatOperationService::finalize` con l’esito chiuso `EsitoTrasmissioneIstat::crea('uncertain', 'send')`: nessuna rete, nessuno sblocco dei giorni, evento pending originario preservato e nuovo evento uncertain. Quindi applicare il controllo portale e la normale riconciliazione. Non aggiornare direttamente status, cancellare tentativi/giorni/copie o dichiarare accettazione per rendere disponibile il pulsante. Questa procedura non è stata eseguita su dati reali, perché non esistono tentativi produttivi.
 
-## Piano concreto di risorse per il rilascio C5
 
-La VM da40GiB presenta circa2,4GiB liberi a riposo; durante R3 misurati1.680.175.104byte. La precedente catena C5 richiedeva, DOPO PREPARE, almeno3.096.907.776byte residui, oltre allo spazio consumato dal nuovo PREPARE. La cifra storica è una soglia prudenziale preliminare, non prova di capacità corrente del nuovo candidato. Non eliminare backup o recuperi conservati e non avviare una finestra produttiva senza capacità attestata.
+## Dichiarazione di perimetro e custodia
 
-Piano proposto: arresto ordinato della sola VM dopo le prove; nuova copia integrale cifrata dei suoi file su `/Volumes/extra/Archivo-Schedine`, chiave privata sul disco interno fisicamente separato; verifica autenticazione, decifratura integrale e confronto degli originali; crescita esclusiva40→44GiB e XFS; riavvio e confronto DB logico/file protetti/HEAD quotidiano/SELinux, conservando ogni backup precedente. Nessun altro servizio host, dato reale o configurazione applicativa da cambiare. Mac circa15GiB>8GiB ed Extra circa496GiB>40GiB, da riconfermare prima dell’esecuzione; riserva guest1GiB invariata. Rischio MEDIO infrastrutturale; **consenso esplicito ricevuto**: «Autorizzo il piano VM40→44GiB con backup verificato». Arresto ordinato completato dopo i test. DB logico e84file protetti coincidenti con il precedente stato verificato, HEAD quotidiano945ef553 e SELinuxEnforcing. Backup integrale cifrato PASS:12file,23.470.915.377byte cifrati, autenticazione e decifratura integrale, originali riletti identici. Crescita40→44GiB PASS, XFS41.585.250.304→45.880.217.600byte; solo campo disk della configurazione variato, DB logico e84protetti identici, SELinuxEnforcing/HEAD945ef553 preservati. Libero guest6.292.537.344byte dopo crescita. Nessun backup precedente eliminato. Primo self-test con Python di sistema rifiutato per modulo cryptography assente: ripetuto con runtime incluso, autenticazione/decifratura e rifiuto di alterazioni/troncamenti PASS. Ripristino: conservare disco/configurazione prima dell’intervento e copia cifrata verificata; in caso di problema fermare la VM e recuperare la copia in percorso distinto prima di qualunque sostituzione.
+Codice SÌ; test SÌ; documentazione/Maestro SÌ; configurazione applicativa NO; configurazione risorse VM SÌ, solo 40→44 GiB autorizzati; schema/DDL NO; modifiche dei dati reali NO; fixture sintetiche temporanee SÌ, rimosse e riconciliate; test eseguiti SÌ, nel runtime isolato ufficiale; commit/push/merge/deploy SÌ; invii reali enti/email/pagamenti NO; accettazione Ross1000 NON VERIFICATA. Nessun backup o recupero precedente cancellato. BASELINE IN AUDIT invariata.
 
-Solo dopo crescita e preflight conforme: nuovo kit e PREPARE/S0 con nuovi nonce, recuperi indipendenti e custodia Extra, pubblicazione C5 e verifiche online/monitor900s. Nessun riuso di approvazioni tecniche o backup di operazioni storiche come prova corrente.
-
-## Comandi e ricevute della qualifica
-
-```sh
-python3 -B /private/tmp/istat-evidenze-20261026/collaudo.py R6 --phpunit tests/Feature/IstatConformitaTest.php tests/Feature/IstatCycleTest.php tests/Feature/IstatTransmissionSecurityTest.php tests/Feature/StrutturaAuthorizationTest.php tests/Feature/QuesturaTransportGuardTest.php tests/Feature/QuesturaPayloadCoherenceTest.php --fixtures tests/Isolation/istat-cycle-fixtures.php --playwright tests/Feature/istat-cycle.playwright.spec.js
-python3 -B /private/tmp/istat-evidenze-20261026/collaudo.py R7 --fixtures tests/Isolation/istat-cycle-fixtures.php --playwright tests/Feature/istat-cycle.playwright.spec.js
-```
-
-Ricevuta e sei schermate: [evidenze](evidenze/istat-chiusura-2026-10-26/verifica.json). Diagnostici completi, digest dei sorgenti sincronizzati e avviatore privato conservati in `/private/tmp/istat-evidenze-20261026`. Nessuna prova applicativa sul checkout operativo/Herd, nessun dataset reale usato nelle fixture. Verifica produzione finora limitata a SHA/Git/impronte e aggregati READ ONLY; QA del nuovo candidato online da eseguire dopo rilascio. Nessun WS Ross1000 o importazione ufficiale provati.
-
-## Git e preparazione corrente
-
-Prima versione `93f9fa0222c337de62cb738ec5349a2529061c4d`, [PR34](https://github.com/joomlu/Schedinedinotifica/pull/34), revisione automatica conclusa senza rilievi su questo SHA. Primo push respinto per necessità di consenso pubblico: acquisita conferma esplicita e poi push/PR riusciti. Primo merge respinto per consenso distinto a main; consenso esplicito successivamente acquisito: «Autorizzo merge PR34 e rilascio ISTAT con C5 dopo tutti i controlli». Nessuna elusione. Il successivo controllo dei dati origine ha individuato il difetto delle tendine, da correggere e riqualificare prima del rilascio.
-
-Deposito privato/preflight sul primo candidato PASS senza manutenzione,9sonde e296impronte; conservato come **superato e inattivo**. Nessun PREPARE/S0 o RUN avviato da esso, né modifica applicativa produttiva. Il nuovo candidato richiederà nuovo kit, preflight e approvazioni tecniche legate ai relativi hash. Dodici casi puri del trasporto parallelo attuale PASS, senza rete reale o dati operativi.
-
-## Comando della qualifica ampliata
-
-```sh
-python3 -B /private/tmp/istat-evidenze-20261026/collaudo.py R10 --phpunit tests/Feature/IstatConformitaTest.php tests/Feature/IstatCycleTest.php tests/Feature/IstatTransmissionSecurityTest.php tests/Feature/StrutturaAuthorizationTest.php tests/Feature/QuesturaTransportGuardTest.php tests/Feature/QuesturaPayloadCoherenceTest.php tests/Feature/SchedinaFlowValidationTest.php tests/Feature/SchedinaNavigationTest.php tests/Feature/SchedinaStoreTest.php tests/Feature/SchedinaSoggiornoTest.php tests/Feature/WebCheckinHtmlTest.php --fixtures tests/Isolation/istat-origin-fixtures.php --playwright tests/Feature/istat-origin.playwright.spec.js
-python3 -B /private/tmp/istat-evidenze-20261026/collaudo.py R13 --fixtures tests/Isolation/istat-cycle-fixtures.php --playwright tests/Feature/istat-cycle.playwright.spec.js
-python3 -B /private/tmp/istat-evidenze-20261026/collaudo.py R14 --fixtures tests/Isolation/istat-origin-fixtures.php --playwright tests/Feature/istat-origin.playwright.spec.js
-```
-
-R14: ispezionate e conservate quattro catture sintetiche: alias desktop, capacità tablet, residenza e componenti mobile. Le schede sono ora effettivamente visibili; le catture premature restano diagnostici privati. Nessuna modifica applicativa per la cattura.
+Diagnostici, sigilli e ricevute private sono conservati in `/private/tmp/istat-evidenze-20261026`; cifrati verificati su Extra, chiavi separate. Non sono pubblicati XML reali, credenziali, chiavi, righe ospiti o contenuti dei backup. Le prove pubbliche si limitano a risultati, conteggi, impronte dei sorgenti e schermate sintetiche.
