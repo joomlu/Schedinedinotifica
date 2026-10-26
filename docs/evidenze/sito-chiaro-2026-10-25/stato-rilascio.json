@@ -1,27 +1,148 @@
 {
-  "data_UTC": "2026-10-26T00:16:56.906461+00:00",
-  "stato": "C5_QA_PASS_MONITOR_IN_CORSO",
+  "data_UTC": "2026-10-26T00:28:37.200647+00:00",
+  "stato": "PASS_PUBBLICAZIONE_LOCALE_GITHUB_PRODUZIONE",
   "BASELINE": "IN AUDIT",
   "applicativo": "fa75a1f05ec013e6338ef423f8dc9f5db3e18e11",
-  "locale": "PASS_HTTP_LOCALE_REALE",
-  "consenso_backup": "Acquisito esplicitamente il26ottobre2026 in risposta alla domanda specifica Mac/VM/Extra",
-  "PREPARE": "PASS_RECUPERO_INDIPENDENTE",
-  "backup_cifrati_Extra_PREPARE_S0": "PASS_INTEGRITA_DECIFRATURA_CHIAVE_SEPARATA_VM",
-  "C5": {
-    "esito": "PASS_AGGIORNAMENTO_C5",
-    "S0_secondi": 177.889,
-    "RUN_secondi": 290.396,
-    "campioni": 462,
-    "DDL": false
+  "baseline_produttiva_precedente": "4a85dea22d600f52c5922c06fc209373d287c9c3",
+  "GitHub": {
+    "PR_design": 28,
+    "PR_applicativo_integrata": 29,
+    "PR_consuntivo_precedente": 30,
+    "PR_trasporto_integrata": 31,
+    "main_documentale_preconsuntivo": "51c89eeff3958ff8c03bd07e7a94ac247e005d6e",
+    "ramo_consuntivo": "codex/consuntivo-pubblicazione-chiaro-20261026",
+    "nessun_arretramento_applicativo": true
   },
-  "QA": "online.json",
-  "pulizia_CRM": {
-    "richieste": 3,
-    "attivita": 3,
-    "tabelle_preesistenti_identiche_HMAC": 66,
-    "nessun_restore_reset": true
+  "locale": {
+    "URL": "https://schedinedinotifica.test/",
+    "esito": "PASS_HTTP_LOCALE_REALE",
+    "pagine": 9,
+    "risorse_hash_MIME": 5,
+    "CSRF_login_rotte_private": "PASS",
+    "nessun_POST": true,
+    "build_VM_file_verificati": 3904,
+    "build_precedente_file_custoditi": 4132,
+    "collisioni_documentali_iniziali_custodite": 111,
+    "env_identico": true,
+    "ramo_precedente_preservato": true,
+    "nota_Git": "HEAD documentale può avanzare; i 47 sorgenti applicativi restano vincolati al candidato qualificato."
   },
-  "monitor": "IN_CORSO_DOPO_QA_E_PULIZIA_MINIMO900s",
-  "precedente_blocco": "stato-rilascio-preconsenso.json",
-  "nessun_PASS_finale_anticipato": true
+  "consenso_backup": {
+    "ricevuto": true,
+    "testo": "autorizo el backuppara la publicacion",
+    "ambito": "In risposta alla domanda specifica su backup cifrati DB/file/config nelle custodie private Mac/VM/Extra; chiave separata nella VM",
+    "precedente_rifiuto_automatico_conservato": "stato-rilascio-preconsenso.json"
+  },
+  "backup": {
+    "kit_sha256": "f03a9cc82f4b151ab9ee8e34e5c0b3a368e289d192c40e5341298b96cf67e4da",
+    "PREPARE": "PASS_RECUPERO_INDIPENDENTE",
+    "custodie_Mac_VM_Extra": "PASS",
+    "integrita_decifratura_Extra_PREPARE_S0": "PASS",
+    "chiave_separata_VM": true,
+    "originali_SQL_cifrati_chiavi_log_preservati": true,
+    "soli_derivati_ricostruibili_ritirati_con_inventari_e_quiescenza": true
+  },
+  "tentativi_precedenti": {
+    "PREPARE_trasporto120": "STOP_PRIMA_MANUTENZIONE",
+    "delta_trasporto": "Quattro flussi, stesso limite globale120s e SHA finali,12provePASS",
+    "primo_RUN": "STOP_SOCKET_LEGACY_NON_QUIETO_PRIMA_EXECUTE_DDL_BASELINE_RIAPERTA",
+    "S0_precedente_non_promosso": true,
+    "secondo_RUN_nuova_finestra_T0_S0": true,
+    "nessuna_guardia_o_budget_ridotto": true
+  },
+  "produzione": {
+    "URL": "https://schedinedinotifica.tanggo.software/",
+    "SHA_reale": "fa75a1f05ec013e6338ef423f8dc9f5db3e18e11",
+    "C5": {
+      "esito": "PASS_AGGIORNAMENTO_C5",
+      "S0_secondi": 177.889,
+      "RUN_secondi": 290.396,
+      "DDL": false,
+      "decisione": "CANDIDATO_ACCETTATO"
+    },
+    "sorgenti_e_protetti": 296,
+    "Git_pulito": true,
+    "FPM_attivo": true,
+    "manutenzione": false,
+    "Laravel": "12.69.3",
+    "migrazioni": 159,
+    "tabelle": 66,
+    "DB_byte_identico_S0_prima_QA": true,
+    "persistenti_92_identici_S0_dopo_pulizia": true,
+    "env_APP_KEY_upload_loghi_preservati": true,
+    "DDL": false,
+    "migrazioni_applicate": [],
+    "guardiani_propri_conclusi_inattivi_disabilitati": true
+  },
+  "prove_isolate": {
+    "PHP_sito_CRM": {
+      "test": 25,
+      "asserzioni": 571,
+      "esecuzione": "CHIARO-R4",
+      "sorgenti_applicativi_identici_R5": true
+    },
+    "regressioni_distinte": {
+      "test": 113,
+      "asserzioni": 1255,
+      "esecuzione": "CHIARO-R2"
+    },
+    "browser": 20,
+    "esecuzione_browser": "CHIARO-R5",
+    "build_GEO_guardie23_digest4412": "PASS",
+    "nessun_test_Laravel_host": true
+  },
+  "QA_online": {
+    "esito": "PASS_SITO_CHIARO_ONLINE",
+    "ricevuta": "online.json",
+    "pagine": 9,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "ancore_per_larghezza": 164,
+    "risorse_SHA256": 13,
+    "catture_ispezionate": 33,
+    "richieste_CRM_verificate_rimosse": 3,
+    "attivita_CRM_verificate_rimosse": 3,
+    "HMAC_66_tabelle_preesistenti": "PASS",
+    "nessun_restore_reset_contatori": true,
+    "tentativo_adattatore_precedente_conservato": true
+  },
+  "monitor": {
+    "server": {
+      "esito": "PASS_MONITOR_ONLINE",
+      "secondi": 918.25997185288,
+      "campioni": 31,
+      "sonde": 279
+    },
+    "Mac": {
+      "esito": "PASS_MONITOR_DNS_HTTPS_MAC",
+      "secondi": 928.232432334,
+      "campioni": 31,
+      "richieste_HTTPS_DNS_TLS_ordinari": 93
+    },
+    "dopo_QA_e_pulizia": true,
+    "nuovi_errori_applicativi": 0,
+    "nuovi_errori_journal_FPM": 0,
+    "intervallo_log_incluso_primo_RUN": true
+  },
+  "preservazione_VM": {
+    "daily_HEAD_stato_env_SELinux": "PASS",
+    "VM_gia_attiva_lasciata_attiva": true,
+    "soli_presidi_propri_conclusi": true
+  },
+  "risorse": {
+    "campioni": 190,
+    "minimo_liberi_VM": 1429417984,
+    "minimo_liberi_Mac": 11249438720,
+    "riserva_VM_1GiB_Mac_8GiB_Extra_40GiB": "PASS"
+  },
+  "nessun_invio_reale_enti_email_account_pagamento": true,
+  "limiti": [
+    "Nessuna nuova certificazione generale del gestionale; BASELINE IN AUDIT invariata.",
+    "Canali reali ISTAT e accettazione StayTour nello stato preesistente.",
+    "QA browser produttiva senza login; errori intenzionali del modulo verificati soltanto in isolamento."
+  ],
+  "custodia_privata": "/private/tmp/pubblicazione-sito-chiaro-20261025"
 }

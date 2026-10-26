@@ -1,6 +1,6 @@
 # Pubblicazione del sito chiaro Tanggo Software — 26 ottobre 2026
 
-**Locale aggiornato; candidato produttivo accettato da C5 e QA online PASS. Monitor finale in corso. BASELINE IN AUDIT invariata.**
+**Pubblicazione locale e produzione concluse; GitHub applicativo integrato. C5, QA online e monitor finali PASS. BASELINE IN AUDIT invariata.**
 
 Il sito resta parte della stessa installazione Laravel. L’intervento comprende il recupero del design PR28, le correzioni di coerenza, la qualifica isolata, l’aggiornamento Herd, l’integrazione GitHub e il rilascio SPanel. Nessuna nuova installazione o modifica dello schema.
 
@@ -50,8 +50,16 @@ R2 PASS con tre POST sintetici, uno per larghezza. Tre richieste e tre attività
 
 ## Monitor e stato conclusivo
 
-Monitor server e Mac avviati dopo QA e pulizia. Il verdetto finale richiede almeno 900 secondi, 31 campioni server/279 sonde e 31 campioni Mac/93 richieste con DNS e TLS ordinari. **Ancora in corso: nessun PASS finale anticipato.**
+Monitor avviati dopo QA e pulizia, entrambi PASS: server 918.260 s, 31 campioni e 279 sonde; Mac 928.232 s, 31 campioni e 93 richieste con DNS e TLS ordinari. Log applicativi e journal FPM: zero nuovi errori nell’intervallo comprendente anche il primo RUN fermato. [Ricevuta monitor](evidenze/sito-chiaro-2026-10-25/monitor.json).
 
-Daily della VM: HEAD `945ef553aab29ac437ff194f7cfad081fb7ab7c7`, stato Git e `.env` invariati, SELinux Enforcing, disco da 40 GiB. VM lasciata attiva perché era già avviata; alla conclusione saranno chiusi soltanto i presidi propri. Riserve Mac 8 GiB, VM 1 GiB ed Extra 40 GiB conservate nei controlli previsti.
+Daily della VM: HEAD `945ef553aab29ac437ff194f7cfad081fb7ab7c7`, stato Git e `.env` invariati, SELinux Enforcing, disco da 40 GiB. VM lasciata attiva perché era già avviata; chiusi soltanto il monitor di capacità e il caffeinate propri, dopo verifica dei PID e dei comandi. Riserve Mac 8 GiB, VM 1 GiB ed Extra 40 GiB conservate nei controlli previsti.
 
 Nessun invio reale a enti, email, account, pagamento o dato ospite impiegato nella QA. Errori intenzionali del modulo e regressioni restano prove isolate; nessuna autenticazione produttiva durante il browser QA. Le verifiche dei canali reali ISTAT e dell’accettazione StayTour restano nello stato preesistente e non ricevono una nuova certificazione da questo rilascio commerciale. **BASELINE IN AUDIT invariata.**
+
+[Ricevuta conclusiva](evidenze/sito-chiaro-2026-10-25/stato-rilascio.json) e [ricevuta storica precedente al consenso](evidenze/sito-chiaro-2026-10-25/stato-rilascio-preconsenso.json). Consuntivo documentale nel ramo `codex/consuntivo-pubblicazione-chiaro-20261026`, [PR32](https://github.com/joomlu/Schedinedinotifica/pull/32), separato dal commit applicativo installato. Prove grezze, copie e diagnostici nella custodia privata `/private/tmp/pubblicazione-sito-chiaro-20261025`; chiavi e payload sensibili non versionati.
+
+## Chiusura del protocollo
+
+STATO: VERIFICATO nel perimetro della pubblicazione commerciale. OBIETTIVO: stesso sito Laravel aggiornato su Herd/SPanel e sincronizzato con GitHub. FILE COINVOLTI: pagine/risorse pubbliche e asserzioni del sito nella PR29; successivi commit soltanto documentali e strumenti operativi qualificati. RISCHIO: rilascio produttivo CRITICO gestito tramite C5; consuntivo BASSO. REGRESSIONI: prove isolate distinte riportate sopra. TENANT/SICUREZZA: nessun dato ospite come fixture, backend di contatto verificato, CSRF/rotte private e guardie preservati; nessuna attestazione generale oltre lo scope. MAESTRO: AGGIORNATO. GIT: ramo codex del consuntivo, app esatta fa75a1f0, lavori preesistenti preservati. PROSSIMO PASSO: manutenzione ordinaria; eventuale accettazione reale dei canali richiede uno scenario distinto autorizzato.
+
+CODICE MODIFICATO: SÌ, nel sito richiesto; TEST MODIFICATI: SÌ, per le nuove aspettative del design; DOCUMENTAZIONE MODIFICATA: SÌ; CONFIGURAZIONE MODIFICATA: SÌ, solo correzione locale Herd descritta; SCHEMA MODIFICATO: NO; DATI CLIENTI MODIFICATI: NO; FIXTURE CRM TEMPORANEE: SÌ, verificate e rimosse; TEST ESEGUITI: SÌ; COMMIT: SÌ; PUSH: SÌ; DEPLOY: SÌ; INVII REALI A ENTI/EMAIL: NO; TRASFERIMENTO BACKUP CIFRATI: SÌ, con consenso specifico e chiave separata.
