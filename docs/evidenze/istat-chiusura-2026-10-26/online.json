@@ -1,0 +1,140 @@
+{
+  "stato": "PASS_QA_ISTAT_ONLINE",
+  "SHA_applicativo": "c226dd8072f260eff938cd0651cdbbecbcdd36b9",
+  "risultati": {
+    "inizio": "2026-10-26T22:40:43.509Z",
+    "prove": [
+      {
+        "larghezza": 1440,
+        "XML": {
+          "errors": 0,
+          "giornate": 30,
+          "arrivi": 2,
+          "partenze": 2,
+          "camere": 2
+        },
+        "sha256": "f93ba15aeaad7d80841b7440844e2b09469f3e215bbb50a9c83caf7084a44421",
+        "presenze_riepilogo": 4,
+        "stesso_XML_storico": true,
+        "validazione_locale": true,
+        "invio_disabilitato": true,
+        "tenant_estraneo403": true
+      },
+      {
+        "larghezza": 768,
+        "XML": {
+          "errors": 0,
+          "giornate": 30,
+          "arrivi": 2,
+          "partenze": 2,
+          "camere": 2
+        },
+        "sha256": "f93ba15aeaad7d80841b7440844e2b09469f3e215bbb50a9c83caf7084a44421",
+        "presenze_riepilogo": 4,
+        "stesso_XML_storico": true,
+        "validazione_locale": true,
+        "invio_disabilitato": true,
+        "tenant_estraneo403": true
+      },
+      {
+        "larghezza": 390,
+        "XML": {
+          "errors": 0,
+          "giornate": 30,
+          "arrivi": 2,
+          "partenze": 2,
+          "camere": 2
+        },
+        "sha256": "f93ba15aeaad7d80841b7440844e2b09469f3e215bbb50a9c83caf7084a44421",
+        "presenze_riepilogo": 4,
+        "stesso_XML_storico": true,
+        "validazione_locale": true,
+        "invio_disabilitato": true,
+        "tenant_estraneo403": true
+      }
+    ],
+    "dichiarazioni_statistiche": 0,
+    "esito": "PASS_ISTAT_ONLINE",
+    "storico_altro_tenant404": true,
+    "reception_lettura": true,
+    "POST_estranei": 0,
+    "fine": "2026-10-26T22:41:09.852Z"
+  },
+  "pulizia": {
+    "esito": "PASS_FIXTURE_RIMOSSA_E_DATI_PREESISTENTI_IDENTICI",
+    "tabelle_differenti": [],
+    "tabelle_confrontate": 66,
+    "nessun_restore_DB": true,
+    "limite": "HMAC di tutte le righe, esclusi contatori AUTO_INCREMENT; scritture reali concorrenti da riconciliare senza restore"
+  },
+  "persistenti": {
+    "esito": "PASS_PERSISTENTI_DOPO_PULIZIA",
+    "voci": 92,
+    "env_upload_loghi_contenuti_e_metadati_identici_S0": true,
+    "eccezione": "Solo mtime delle directory escluso dal confronto secondo il protocollo; QA ISTAT con sole copie sintetiche proprie rimosse, senza creazione di loghi o upload. Ogni altro metadato/file invariato."
+  },
+  "runtime_proprio": {
+    "esito": "PASS_RUNTIME_QA_PROPRIO_RIMOSSO",
+    "file_copiati_verificati": 17,
+    "clone_dipendenze_preservato": true,
+    "dati_produzione_non_toccati": true
+  },
+  "schermate": [
+    {
+      "nome": "istat-origine-1440.png",
+      "SHA256": "9c362e4ecd7c7f9d9d5fd130b87585c26efff39db579aef58de7691940707eed",
+      "ispezionata": true,
+      "contenuto": "solo fixture sintetiche"
+    },
+    {
+      "nome": "istat-origine-390.png",
+      "SHA256": "352ded883592216a174e3df83be5f096ae3f968aa4aa0ec71df3f0174ef60580",
+      "ispezionata": true,
+      "contenuto": "solo fixture sintetiche"
+    },
+    {
+      "nome": "istat-origine-768.png",
+      "SHA256": "2c18c92c790cd24815b5cc9d3490e846645801470270410cb85babf09219945c",
+      "ispezionata": true,
+      "contenuto": "solo fixture sintetiche"
+    },
+    {
+      "nome": "istat-riepilogo-1440.png",
+      "SHA256": "2edaadf68f3f5d453a7ce3c1fd4975844a1d05ea50ffb5ef06142d9c4e91ab36",
+      "ispezionata": true,
+      "contenuto": "solo fixture sintetiche"
+    },
+    {
+      "nome": "istat-riepilogo-390.png",
+      "SHA256": "c4a2b75ff6addf724cb5b4a9f400dc1cda5012d35682e0a938b359da58de3d71",
+      "ispezionata": true,
+      "contenuto": "solo fixture sintetiche"
+    },
+    {
+      "nome": "istat-riepilogo-768.png",
+      "SHA256": "88fa03f909904106efaf4b7f15644c26c1efc82e526a0b4e2257b3587e5d6c69",
+      "ispezionata": true,
+      "contenuto": "solo fixture sintetiche"
+    },
+    {
+      "nome": "istat-storico-1440.png",
+      "SHA256": "9dbe0967ae7b2f8b4936bb97ecd82135af3e4a1883c326be3fe1f545d163bcf2",
+      "ispezionata": true,
+      "contenuto": "solo fixture sintetiche"
+    },
+    {
+      "nome": "istat-storico-390.png",
+      "SHA256": "c447721a2eb189240c43bca509f7bc74141631759565c210b666e47e039cbc98",
+      "ispezionata": true,
+      "contenuto": "solo fixture sintetiche"
+    },
+    {
+      "nome": "istat-storico-768.png",
+      "SHA256": "abb41cd53571bd886b37e3cda84ee556ccabbac2e084cedc2bd6dd058e0ed676",
+      "ispezionata": true,
+      "contenuto": "solo fixture sintetiche"
+    }
+  ],
+  "invii_reali_enti": 0,
+  "limite": "QA sintetica della versione pubblicata; nessuna autenticazione o accettazione Ross1000 reale"
+}

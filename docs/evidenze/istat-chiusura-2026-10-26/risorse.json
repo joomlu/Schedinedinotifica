@@ -1,0 +1,19 @@
+{
+  "esito": "PASS_CRESCITA_VM_40_44_GIB",
+  "backup": "PASS_BACKUP_VM_CIFRATO_VERIFICATO",
+  "disco_byte": 47244640256,
+  "XFS_prima_byte": 41585250304,
+  "XFS_dopo_byte": 45880217600,
+  "sola_configurazione_disco_variata": true,
+  "database_e_84_protetti_identici": true,
+  "backup_VM": {
+    "file": 12,
+    "byte_cifrati": 23470915377,
+    "autenticazione_e_decifratura_integrale": true,
+    "originali_riletti_identici": true,
+    "chiave_fisicamente_separata": true
+  },
+  "riserva_VM_byte": 1073741824,
+  "quotidiano_verificato_dopo_C5_QA": true,
+  "VM_restituita_attiva_come_all_inizio": true
+}
