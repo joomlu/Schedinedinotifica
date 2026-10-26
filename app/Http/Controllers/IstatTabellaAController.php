@@ -45,8 +45,8 @@ class IstatTabellaAController extends Controller
             $page,
             ['path' => $request->url(), 'query' => $request->query()]
         );
-        $storico = IstatExport::query()->where('struttura_id', $struttura->id)->latest('id')->limit(10)->get();
-        $trasmissioni = IstatTransmission::query()->where('struttura_id', $struttura->id)->latest('id')->limit(10)->get();
+        $storico = IstatExport::query()->where('struttura_id', $struttura->id)->latest('id')->paginate(10, ['*'], 'xml_page')->withQueryString();
+        $trasmissioni = IstatTransmission::query()->where('struttura_id', $struttura->id)->latest('id')->paginate(10, ['*'], 'tx_page')->withQueryString();
         $exportReviews = $storico->mapWithKeys(function ($export) use ($struttura) {
             $source = $this->service->schedinePerPeriodo($struttura->id, $export->dal, $export->al);
             $current = (new \App\Services\IstatSnapshot())->matches($export, $source, $struttura);
@@ -179,6 +179,12 @@ class IstatTabellaAController extends Controller
             $xml = $this->service->buildXml($struttura, $dal, $al, $analysis);
         } catch (ValidationException $e) {
             return redirect()->route('istat.tabella_a.index', ['dal' => $dal->toDateString(), 'al' => $al->toDateString()])->withErrors($e->errors());
+        }
+
+        $previewHash = $request->input('preview_hash');
+        if (!is_string($previewHash) || !hash_equals(hash('sha256', $xml), $previewHash)) {
+            return redirect()->route('istat.tabella_a.index', ['dal' => $dal->toDateString(), 'al' => $al->toDateString()])
+                ->withErrors(['istat_export' => 'Anteprima mancante o dati cambiati. Verificare una nuova anteprima prima di scaricare l’XML.']);
         }
 
         $filename = $this->service->filename($dal, $al);

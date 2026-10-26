@@ -1,5 +1,13 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## ISTAT — nuova qualifica e rilascio in preparazione, 26 ottobre 2026
+
+Su incarico integrale autorizzato: base main/GitHub a6d40647 e produzione140a1eb6 riscontrati, checkout originale/lavori commerciali preservati in worktree distinto. Corretti download XML senza confronto con anteprima e storico fermo alle ultime dieci voci: impronta obbligatoria prima di conservare/scaricare, paginazioni XML/comunicazioni separate e conferma download esplicita senza attestazione ente. Nessuna modifica Questura/Tassa/sito/config/schema/dati reali.
+
+Qualifica finale VMufficiale175test/1723asserzioni+3browser PASS; ulteriori3browser per raccolta visiva PASS,5guardie/23override/buildGEO/concorrenza PASS. R2/R3 scenario test errato fuori mese e R4spec senza gestione conferme conservati, corretti senza ridurre i controlli. WSDL e tre codifiche ufficiali riscaricati identici; XMLWS2.4/manualeimportazione v1 riletti. READONLY produttivo4struttureER/0codici/0credenziali/0export/0trasmissioni. Nessuna accettazione esterna o trasmissione; servono codice/abilitazione e collaudo ufficiale dedicato.
+
+Consenso esplicito VM40→44GiB ricevuto; quotidiano945ef553/DB e84protetti invariati, arresto ordinato e nuovo backup integrale cifrato/decifratura in corso prima della crescita. C5/pubblicazione e QAonline ancora PENDENTI. [Rapporto e piano risorse](../ISTAT-CHIUSURA-2026-10-26.md), [ricevuta isolata](../evidenze/istat-chiusura-2026-10-26/verifica.json). BASELINE IN AUDIT invariata; nessuna simulazione promossa ad accettazione Ross1000.
+
 ## Sito chiaro Tanggo Software — pubblicazione conclusa
 
 Applicativo **`fa75a1f05ec013e6338ef423f8dc9f5db3e18e11`** installato nella stessa applicazione Laravel su [Herd](https://schedinedinotifica.test/) e [SPanel](https://schedinedinotifica.tanggo.software/). PR29 applicativa e PR31 del trasporto integrate; consuntivo documentale separato in PR32. Consenso specifico backup acquisito; PREPARE e nuovo S0 indipendenti PASS, cifrati Mac/VM/Extra con chiave separata nella VM e recupero Extra verificato. Primo RUN fermato prima di execute/DDL con baseline riaperta, ricevuta non promossa; secondo RUN in finestra distinta con S0 fresco, guardie e budget invariati. C5 PASS: S0 177,889 s, rilascio 290,396 s/462 campioni; zero DDL, 159 migrazioni/66 tabelle, DB byte-identico S0 prima QA, 296 sorgenti conformi e Git produttivo pulito.

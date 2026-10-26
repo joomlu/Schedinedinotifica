@@ -325,7 +325,8 @@
                         </div>
                         <div class="d-flex flex-wrap gap-2 justify-content-end align-items-center">
                             <a href="{{ route('istat.tabella_a.print.summary', ['dal' => $dal->toDateString(), 'al' => $al->toDateString()]) }}" class="btn btn-soft-secondary" target="_blank">Stampa riepilogo hotel</a>
-                            <form method="POST" action="{{ route('istat.tabella_a.download.xml') }}" class="d-inline">@csrf
+                            <form method="POST" action="{{ route('istat.tabella_a.download.xml') }}" class="d-inline" data-confirm-title="Genera e scarica XML" data-confirm-text="Verrà conservata una copia protetta del file. Generare o scaricare l’XML non significa trasmetterlo o farlo accettare da Ross1000." data-confirm-button="Sì, genera XML" data-done-title="Download confermato" data-done-text="Premi OK per generare e scaricare il file del periodo selezionato.">@csrf
+                                <input type="hidden" name="preview_hash" value="{{ $previewHash }}">
                                 <input type="hidden" name="dal" value="{{ $dal->toDateString() }}"><input type="hidden" name="al" value="{{ $al->toDateString() }}">
                                 <button class="btn btn-success">Scarica XML Tabella A</button>
                             </form>
@@ -443,6 +444,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="p-3">{{ $storico->appends(['tab' => 'storico-xml'])->links() }}</div>
                         @endif
                     </div>
                 </div>
@@ -492,6 +494,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="p-3">{{ $trasmissioni->appends(['tab' => 'storico-invio'])->links() }}</div>
                         @endif
                     </div>
                 </div>
