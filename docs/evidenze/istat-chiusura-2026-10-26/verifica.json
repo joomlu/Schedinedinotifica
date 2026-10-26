@@ -4,9 +4,12 @@
   "sorgenti_sha256": {
     "app/Http/Controllers/IstatTabellaAController.php": "9ccaf8e90cb0ac1892f3e3295ae512bb7a33022c4c16052baed5f3b337a0e7c2",
     "resources/views/istat_tabella_a/index.blade.php": "24ebc6520f72643d8afcc8fb0f194488046f5cbd6b6e8aa000a509b17fdaccf9",
+    "resources/views/schedina/partials/form.blade.php": "eb195418871317b9ad5fa559edc4c1e337757a2aa4ead31ae7934baf77eb6a75",
     "tests/Feature/IstatConformitaTest.php": "93538a41f03cb1310faa19ddff7e9e19025ac2883a0ccaf8a64c50284eb5e435",
-    "tests/Feature/IstatCycleTest.php": "46ca61515360aa4d9fdcf0ff7ab269240e69bc1d0c6a8e8f2d43188611780a57",
-    "tests/Feature/istat-cycle.playwright.spec.js": "531300daaee05feeb11d6dfa5573904a9f6f3d5f413711794681a850ffe4c004"
+    "tests/Feature/IstatCycleTest.php": "94018dfcb11921528fc9e0a0bd24658fd85343fefda2fc2fb5d82ae034dbe651",
+    "tests/Feature/istat-cycle.playwright.spec.js": "531300daaee05feeb11d6dfa5573904a9f6f3d5f413711794681a850ffe4c004",
+    "tests/Feature/istat-origin.playwright.spec.js": "ef2371ea37bab9f71134f431f5ff015405d771808be801ced29a3c21324276cf",
+    "tests/Isolation/istat-origin-fixtures.php": "70b1ee3e5889b6abca6e656df7f40cb63d3a90e9c3db48adf0673e02639df02f"
   },
   "R6": {
     "test": 175,
@@ -68,6 +71,67 @@
     "R3": "173/1696 NONPASS: stesso scenario test errato",
     "R4": "174/1711 PASS,3 browser NONPASS: dialogo esistente non gestito dallo spec",
     "R5": "174/1711+3 browser PASS",
-    "primo_self_test_backup": "Python sistema senza cryptography, ripetuto con runtime incluso PASS"
-  }
+    "primo_self_test_backup": "Python sistema senza cryptography, ripetuto con runtime incluso PASS",
+    "R8": "NONPASS: difetto selezione alias storici riprodotto",
+    "R9": "238/2259+3 browser ciclo PASS; prima variante selezione",
+    "R10": "238/2264 PHP PASS; browser origine NONPASS: sid fixture amministrativa assente",
+    "R11": "browser NONPASS: aggiornamento GEO fixture bloccato da scope",
+    "R12": "3 browser origine PASS; due catture durante transizione non promosse",
+    "R14": "3 browser origine PASS, catture con scheda visibile"
+  },
+  "R10": {
+    "PHP": "PASS",
+    "test": 238,
+    "asserzioni": 2264,
+    "esito_complessivo": "NONPASS browser fixture senza sid"
+  },
+  "R13": {
+    "browser": 3,
+    "stato": "PASS",
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "scope": "ciclo ISTAT finale"
+  },
+  "R14": {
+    "browser": 3,
+    "stato": "PASS",
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "scope": "dati origine e configurazione; attesa visibilità prima cattura"
+  },
+  "qualifica_finale": {
+    "PHP": "R10",
+    "browser_ciclo": "R13",
+    "browser_origine": "R14",
+    "conteggi_non_sommati": true,
+    "digest_corrispondenti": true
+  },
+  "schermate_origine_ispezionate": [
+    {
+      "file": "origine-statistica-1440.png",
+      "sha256": "b025b0e607598be22ea661a07da4312d47bd390d0bfc62543735a76d59f71089",
+      "dati": "solo sintetici"
+    },
+    {
+      "file": "origine-residenza-390.png",
+      "sha256": "5565b08deb26f5090cd6349bba51b0d797ccf40e119f4744a04841f035097932",
+      "dati": "solo sintetici"
+    },
+    {
+      "file": "origine-componenti-390.png",
+      "sha256": "ce03938a18c58d2b1b7e4606f0760ffc5df2ad75950f33c75eb131536e8ce132",
+      "dati": "solo sintetici"
+    },
+    {
+      "file": "origine-capacita-768.png",
+      "sha256": "bcc59af76d43c802089906fc6c42298e4872fe90ee048945abe29d392459b2fa",
+      "dati": "solo sintetici"
+    }
+  ]
 }

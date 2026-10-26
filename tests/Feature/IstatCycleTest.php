@@ -189,6 +189,29 @@ class IstatCycleTest extends TestCase
         Http::assertNothingSent();
     }
 
+    public function test_existing_legacy_statistical_values_remain_selected_in_edit_form(): void
+    {
+        $s = $this->setupStructure();
+        $values = ['istat_tipo_turismo' => 'OTHER', 'istat_mezzo_trasporto' => 'AUTO',
+            'istat_canale_prenotazione' => 'OTA', 'istat_titolo_studio' => 'LAUREA'];
+        foreach ([$values, array_fill_keys(array_keys($values), '0')] as $saved) {
+            $stay = $this->stay($s, $saved);
+            $response = $this->get('/schedine/'.$stay->id.'/modifica')->assertOk();
+            $previous = libxml_use_internal_errors(true);
+            try {
+                $doc = new \DOMDocument;
+                $doc->loadHTML($response->getContent());
+                $xpath = new \DOMXPath($doc);
+                foreach ($saved as $field => $value) {
+                    $this->assertSame($value, $xpath->evaluate('string(//select[@name="'.$field.'"]/option[@selected]/@value)'));
+                }
+            } finally {
+                libxml_clear_errors();
+                libxml_use_internal_errors($previous);
+            }
+        }
+    }
+
     public function test_credentials_ciphertext_reconfiguration_and_no_flash(): void
     {
         $s = $this->configured();
