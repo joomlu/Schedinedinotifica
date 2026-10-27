@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Contatti e WhatsApp — pubblicazione sospesa
+
+La pulizia delle copie temporanee autorizzate è conclusa, con originali e lavori preesistenti preservati. Le verifiche preliminari di pubblicazione non sono state completate: il controllo indipendente non ha superato il budget previsto. Nessun merge o nuovo rilascio; la versione precedente resta disponibile e i controlli pubblici conclusivi sono positivi. Codice qualificato invariato e PR42 aperta. Il consuntivo operativo e le azioni sulle risorse restano nella documentazione interna. **BASELINE IN AUDIT invariata.**
+
+
 ## Contatti e WhatsApp — ripresa delle verifiche
 
 Completata la pulizia autorizzata delle sole copie temporanee ricostruibili, dopo verifica di integrità e assenza di utilizzatori. Originali e lavori preesistenti preservati. Codice applicativo invariato rispetto alla qualifica isolata già documentata. Ripresa delle verifiche preliminari alla pubblicazione autorizzata; nessuna nuova pubblicazione attestata a questo checkpoint. Il consuntivo operativo completo resta nella documentazione interna. **BASELINE IN AUDIT invariata.**
