@@ -11,6 +11,8 @@ use Tests\TestCase;
 
 class QuesturaBoundaryTest extends TestCase
 {
+    use \Tests\Support\QuesturaPreviewRequests;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -23,7 +25,7 @@ class QuesturaBoundaryTest extends TestCase
     {
         GeoNazione::forceCreate(['id' => 777, 'nome' => 'Francia', 'cittadinanza' => 'Francese', 'codice_iso2' => 'FR', 'is_italia' => false]);
         $s = new Schedina([
-            'id' => 900, 'struttura_id' => 91, 'scheda' => 'SINTETICA', 'relationship' => '16',
+            'id' => 900, 'struttura_id' => 91, 'scheda' => 'SINTETICA', 'relationship' => '16', 'cant_people' => 1,
             'arrive' => now()->toDateString(), 'departure' => now()->addDays(2)->toDateString(),
             'surname' => 'Esempio', 'name' => 'Ospite', 'sex' => 'F', 'oa_date_nac' => '1980-02-29',
             'oa_country' => '777', 'oa_city_nac' => 'Francese', 'or_doctype' => 'IDENT',
@@ -53,13 +55,13 @@ class QuesturaBoundaryTest extends TestCase
         $this->assertSame($txt, $service->buildTxtPerSchedina($s));
         $accented = clone $s; $accented->name = 'Élodie'; $accented->surname = "D’Angelo";
         $accentTxt = $service->buildTxtPerSchedina($accented);
-        $this->assertSame(str_pad('ELODIE', 30), substr($accentTxt, 64, 30));
+        $this->assertSame('ÉLODIE'.str_repeat(' ', 24), mb_substr($accentTxt, 64, 30, 'UTF-8'));
         $this->assertSame(str_pad("D'ANGELO", 50), substr($accentTxt, 14, 50));
         $tooLong = clone $s; $tooLong->or_doc = str_repeat('X', 21);
         $this->assertFalse($service->analizzaSchedine(collect([$tooLong]))->first()['valida']);
-        $unsupported = clone $s; $unsupported->name = '李John';
+        $unsupported = clone $s; $unsupported->name = "Nome\u{202E}";
         $this->assertFalse($service->analizzaSchedine(collect([$unsupported]))->first()['valida']);
-        $s->relationship = '17';
+        $s->relationship = '17'; $s->cant_people = 2;
         $s->setRelation('componenti', collect([new Componenti(['id' => 10, 'struttura_id' => 91, 'relationship' => '19', 'surname' => 'Esempio', 'name' => 'Familiare', 'sex' => 'M', 'date_nac' => '2000-01-01', 'country_nac' => '777', 'city_nac' => 'Francese'])]));
         $txt = $service->buildTxtPerSchedina($s);
         $this->assertSame(338, strlen($txt));
@@ -155,11 +157,11 @@ class QuesturaBoundaryTest extends TestCase
         $this->actingAs($this->actor('struttura_user', null, $mine->id));
         $s = $this->schedina(); $s->struttura_id = $mine->id; $s->circuito = 'schedina'; $s->save();
         $txt = (new QuesturaTxtExportService())->buildTxtPerSchedina($s);
-        $response = $this->post('/questura/download/schedina/'.$s->id)->assertOk()->assertContent($txt);
+        $response = $this->questuraPost('/questura/download/schedina/'.$s->id)->assertOk()->assertContent($txt);
         $export = QuesturaExport::where('struttura_id', $mine->id)->firstOrFail();
         $this->assertSame(hash('sha256', $txt), $export->sha256);
         $this->assertSame('generated', $export->status);
-        $this->post('/questura/ws/verify', ['dal' => now()->toDateString(), 'al' => now()->toDateString()])->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', ['dal' => now()->toDateString(), 'al' => now()->toDateString()])->assertRedirect();
         $tx = QuesturaTransmission::where('struttura_id', $mine->id)->firstOrFail();
         $this->assertSame($txt, base64_decode($tx->payload['txt_base64']));
         $this->assertSame('simulation', $tx->status);
@@ -168,15 +170,15 @@ class QuesturaBoundaryTest extends TestCase
         $this->get('/questura/download/storico/'.$export->id)->assertOk();
         $this->assertSame($txt, $this->get('/questura/download/storico/'.$export->id)->streamedContent());
         $this->get('/questura/ws/payload/'.$tx->id)->assertOk()->assertContent($txt);
-        $this->post('/questura/ws/verify')->assertRedirect();
-        $this->post('/questura/ws/send')->assertRedirect();
-        $this->post('/questura/ws/send')->assertRedirect()->assertSessionHasErrors('questura_ws');
+        $this->questuraPost('/questura/ws/verify')->assertRedirect();
+        $this->questuraPost('/questura/ws/send')->assertRedirect();
+        $this->questuraPost('/questura/ws/send')->assertRedirect()->assertSessionHasErrors('questura_ws');
         $this->assertSame(1, QuesturaTransmission::where('mode', 'send')->count());
         $this->get('/questura/ws/send')->assertNotFound();
         $this->assertSame(1, QuesturaTransmission::where('mode', 'send')->count());
         $this->get('/questura/download/schedina/'.$s->id)->assertNotFound();
         $this->assertSame(1, QuesturaExport::count());
-        $this->post('/questura/ws/send', ['_token' => 'errato'])->assertStatus(419);
+        $this->questuraPost('/questura/ws/send', ['_token' => 'errato'])->assertStatus(419);
     }
 
     public function test_comune_questura_distinto_da_id_geo_e_istat(): void
@@ -207,7 +209,7 @@ class QuesturaBoundaryTest extends TestCase
         $client = \App\Models\Customers::create(['struttura_id' => $mine->id, 'name' => 'Cliente sintetico', 'surname' => 'Esempio']);
         $clientBefore = $client->fresh()->getRawOriginal();
         $txt = (new QuesturaTxtExportService())->buildTxtPerSchedina($s);
-        $this->post('/questura/download/schedina/'.$s->id)->assertOk()->assertContent($txt);
+        $this->questuraPost('/questura/download/schedina/'.$s->id)->assertOk()->assertContent($txt);
         $export = QuesturaExport::firstOrFail();
         $double = new class extends QuesturaSoapDouble {
             public $observe;
@@ -230,7 +232,7 @@ class QuesturaBoundaryTest extends TestCase
         };
         $this->app->instance(QuesturaWebService::class, $ws);
         $period = ['dal' => today()->toDateString(), 'al' => today()->toDateString()];
-        $this->post('/questura/ws/verify', $period)->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', $period)->assertRedirect();
         $this->assertNotContains('Send', array_column($double->calls, 0));
         $this->assertSame(0, \App\Models\QuesturaReceipt::count());
         $this->assertTrue(Storage::disk('local')->exists($export->path));
@@ -238,12 +240,12 @@ class QuesturaBoundaryTest extends TestCase
         if ($scenario === 'crash') {
             QuesturaTransmission::updating(function ($tx) { if ($tx->mode === 'send') { throw new \RuntimeException('CRASH DB SINTETICO'); } });
         }
-        $this->post('/questura/ws/send', $period)->assertStatus($scenario === 'crash' ? 500 : 302);
+        $this->questuraPost('/questura/ws/send', $period)->assertStatus($scenario === 'crash' ? 500 : 302);
         if ($scenario === 'crash') { QuesturaTransmission::flushEventListeners(); QuesturaTransmission::clearBootedModels(); }
         $tx = QuesturaTransmission::where('mode', 'send')->firstOrFail();
         $this->assertSame(['successo' => 'sent', 'timeout' => 'uncertain', 'crash' => 'in_progress'][$scenario], $tx->status);
         $this->assertNotNull($tx->payload); $this->assertNull($tx->finalized_at);
-        $this->post('/questura/ws/send', $period)->assertRedirect()->assertSessionHasErrors('questura_ws');
+        $this->questuraPost('/questura/ws/send', $period)->assertRedirect()->assertSessionHasErrors('questura_ws');
         $this->assertSame(1, count(array_filter(array_column($double->calls, 0), fn ($n) => $n === 'Send')));
         $schedinaBefore = $s->fresh()->getRawOriginal();
         \Carbon\Carbon::setTestNow(now()->addDay());
@@ -281,7 +283,7 @@ class QuesturaBoundaryTest extends TestCase
             ['name' => ''], ['relationship' => '17'], ['relationship' => '18'],
             ['oa_country' => 'STATO INESISTENTE'], ['or_doc' => ''],
             ['oa_country' => 'ITALIA', 'oa_prov' => 'RM', 'oa_city' => 'COMUNE INESISTENTE'],
-            ['name' => '李'], ['oa_date_nac' => '1980-02-31'],
+            ['name' => "Nome\nRiga"], ['oa_date_nac' => '1980-02-31'],
             ['departure' => today()->addDays(31)->toDateString()], ['or_doctype' => 'CODICE INESISTENTE'],
         ];
         $sourceService = new class extends QuesturaTxtExportService {
@@ -300,10 +302,10 @@ class QuesturaBoundaryTest extends TestCase
                 $invalid = clone $s; $invalid->oa_date_nac = $change['oa_date_nac'];
                 $sourceService->invalid = $invalid;
             } else { \Illuminate\Support\Facades\DB::table('schedina')->where('id', $s->id)->update($change); }
-            $this->post('/questura/ws/send', ['dal' => today()->toDateString(), 'al' => today()->toDateString()])->assertRedirect()->assertSessionHasErrors();
+            $this->questuraPost('/questura/ws/send', ['dal' => today()->toDateString(), 'al' => today()->toDateString()])->assertRedirect()->assertSessionHasErrors();
             $this->assertSame(0, $ws->calls); $this->assertSame(0, QuesturaTransmission::count());
         }
-        $s->relationship = '17';
+        $s->relationship = '17'; $s->cant_people = 2;
         $s->setRelation('componenti', collect([new Componenti(['struttura_id' => $mine->id + 1000, 'relationship' => '19', 'name' => 'Sintetico', 'surname' => 'Esempio', 'sex' => 'M', 'date_nac' => '2000-01-01', 'country_nac' => '777', 'city_nac' => 'Francese'])]));
         $this->assertFalse((new QuesturaTxtExportService())->analizzaSchedine(collect([$s]))->first()['valida']);
         $this->assertSame(0, $ws->calls);
@@ -311,12 +313,12 @@ class QuesturaBoundaryTest extends TestCase
 
     public function test_autenticazione_e_manutenzione_bloccano_azioni_questura(): void
     {
-        $this->post('/questura/ws/send')->assertRedirect(route('login'));
+        $this->questuraPost('/questura/ws/send')->assertRedirect(route('login'));
         $this->assertSame(0, QuesturaTransmission::count());
         $s = $this->structureFor(null); $this->actingAs($this->actor('struttura_user', null, $s->id));
         $this->app->maintenanceMode()->activate(['time' => time(), 'retry' => 60]);
         try {
-            $this->post('/questura/ws/send')->assertStatus(503);
+            $this->questuraPost('/questura/ws/send')->assertStatus(503);
             $this->get('/questura')->assertStatus(503);
             $this->assertSame(0, QuesturaTransmission::count());
         } finally { $this->app->maintenanceMode()->deactivate(); }
@@ -339,8 +341,8 @@ class QuesturaBoundaryTest extends TestCase
             protected function makeClient(): \SoapClient { return $this->double; }
         });
         $period = ['dal' => today()->toDateString(), 'al' => today()->toDateString()];
-        $this->post('/questura/ws/verify', $period)->assertRedirect();
-        $this->post('/questura/ws/send', $period)->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', $period)->assertRedirect();
+        $this->questuraPost('/questura/ws/send', $period)->assertRedirect();
         $first = QuesturaTransmission::where('mode', 'send')->firstOrFail();
         $this->assertSame($scenario === 'incerto' ? 'uncertain' : 'sent', $first->status);
         if ($scenario === 'concluso') {
@@ -353,8 +355,8 @@ class QuesturaBoundaryTest extends TestCase
         }
         $s->update(['name' => 'Correzione sintetica']);
         $double->fail = null;
-        $this->post('/questura/ws/verify', $period)->assertRedirect();
-        $this->post('/questura/ws/send', $period)->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', $period)->assertRedirect();
+        $this->questuraPost('/questura/ws/send', $period)->assertRedirect();
         $second = QuesturaTransmission::where('mode', 'send')->latest('id')->firstOrFail();
         // Nessuna asserzione viene ridotta per accettare un reinvio: è il gate richiesto.
         $this->assertSame(1, count(array_filter(array_column($double->calls, 0), fn ($name) => $name === 'Send')),

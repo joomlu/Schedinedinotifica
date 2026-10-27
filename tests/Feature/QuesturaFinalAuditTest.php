@@ -12,6 +12,8 @@ use Tests\TestCase;
 
 class QuesturaFinalAuditTest extends TestCase
 {
+    use \Tests\Support\QuesturaPreviewRequests;
+
     use RefreshDatabase { beginDatabaseTransaction as private beginFixtureTransaction; }
     use StrutturaFixtures;
 
@@ -43,7 +45,7 @@ class QuesturaFinalAuditTest extends TestCase
         $this->actingAs($this->actor('struttura_user', null, $this->structure->id));
         GeoNazione::forceCreate(['id' => 777, 'nome' => 'Francia', 'cittadinanza' => 'Francese', 'codice_iso2' => 'FR', 'is_italia' => false]);
         $this->source = Schedina::create([
-            'struttura_id' => $this->structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16',
+            'struttura_id' => $this->structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16', 'cant_people' => 1,
             'arrive' => today()->toDateString(), 'departure' => today()->addDays(2)->toDateString(),
             'surname' => 'Esempio', 'name' => 'OspiteSinteticoRiservato', 'sex' => 'F', 'oa_date_nac' => '1980-02-29',
             'oa_country' => '777', 'oa_city_nac' => 'Francese', 'or_doctype' => 'IDENT', 'or_doc' => 'TEST123', 'or_published_country' => '777',
@@ -77,8 +79,8 @@ class QuesturaFinalAuditTest extends TestCase
     private function period(): array { return ['dal' => today()->toDateString(), 'al' => today()->toDateString()]; }
     private function send(): QuesturaTransmission
     {
-        $this->post('/questura/ws/verify', $this->period())->assertRedirect();
-        $this->post('/questura/ws/send', $this->period())->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', $this->period())->assertRedirect();
+        $this->questuraPost('/questura/ws/send', $this->period())->assertRedirect();
         return QuesturaTransmission::where('mode', 'send')->firstOrFail();
     }
 
@@ -87,12 +89,12 @@ class QuesturaFinalAuditTest extends TestCase
     {
         if ($case === 'token' || $case === 'timeout') { $this->double->fail = $case === 'token' ? 'GenerateToken' : 'Test'; }
         if ($case === 'autenticazione' || $case === 'negativo') { $this->double->negative = $case === 'autenticazione' ? 'Authentication_Test' : 'Test'; }
-        $response = $this->post('/questura/ws/verify', $this->period())->assertRedirect();
+        $response = $this->questuraPost('/questura/ws/verify', $this->period())->assertRedirect();
         $verify = QuesturaTransmission::where('mode', 'verify')->firstOrFail();
         $this->assertSame($expected, $verify->status);
         $this->assertFalse($verify->result['accepted']);
         $calls = count($this->double->calls);
-        $this->post('/questura/ws/send', $this->period())->assertSessionHasErrors('questura_ws');
+        $this->questuraPost('/questura/ws/send', $this->period())->assertSessionHasErrors('questura_ws');
         $this->assertSame($calls, count($this->double->calls));
         $this->assertSame(0, DB::table('questura_send_reservations')->count());
         $this->assertSame(0, QuesturaTransmission::where('mode', 'send')->count());
@@ -119,13 +121,13 @@ class QuesturaFinalAuditTest extends TestCase
 
     public function test_errore_db_pre_rete_non_replica_snapshot_personale_nei_log(): void
     {
-        $this->post('/questura/ws/verify', $this->period())->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', $this->period())->assertRedirect();
         $verify = QuesturaTransmission::where('mode', 'verify')->firstOrFail();
         $base64 = $verify->payload['txt_base64'];
         $calls = count($this->double->calls);
         // Guasto DB reale e circoscritto alla fixture: rifiuto INSERT Send.
         // Nessun payload o segreto nel messaggio del trigger.
-        $this->post('/questura/ws/send', $this->period())->assertStatus(500);
+        $this->questuraPost('/questura/ws/send', $this->period())->assertStatus(500);
         $this->assertSame($calls, count($this->double->calls));
         $this->assertSame(0, QuesturaTransmission::where('mode', 'send')->count());
         $this->assertSame(0, DB::table('questura_send_reservations')->count());
@@ -137,9 +139,9 @@ class QuesturaFinalAuditTest extends TestCase
 
     public function test_test_ripetuto_doppio_submit_e_privacy_dopo_send(): void
     {
-        $this->post('/questura/ws/verify', $this->period())->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', $this->period())->assertRedirect();
         $tx = $this->send();
-        $this->post('/questura/ws/send', $this->period())->assertSessionHasErrors('questura_ws');
+        $this->questuraPost('/questura/ws/send', $this->period())->assertSessionHasErrors('questura_ws');
         $this->assertSame(1, count(array_filter($this->double->calls, fn ($c) => $c[0] === 'Send')));
         $this->assertSame(2, QuesturaTransmission::where('mode', 'verify')->count());
         $this->assertSame(1, QuesturaTransmission::where('mode', 'send')->count());

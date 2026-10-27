@@ -112,12 +112,15 @@ class QuesturaWsContractTest extends TestCase
             protected function makeClient(): \SoapClient { return $this->client; }
         };
         $model = new Struttura(['questura_username' => 'UTENTE-SINTETICO', 'questura_password' => 'PASSWORD-SINTETICA', 'questura_wskey' => 'WSKEY-SINTETICA']);
-        $result = $service->send($model, str_repeat('X', 168));
+        $txt = 'ŻÓŁĆÉ'.str_repeat('X', 163);
+        $result = $service->send($model, $txt);
         $this->assertSame('sent', $result['state']);
         $this->assertSame(1, $result['valid_rows']);
         $xml = new \DOMDocument(); $xml->loadXML($client->requests[2]);
         $xpath = new \DOMXPath($xml);
         $this->assertSame(1, $xpath->query('//*[local-name()="ElencoSchedine"]/*[local-name()="string"]')->length);
+        $this->assertSame($txt, $xpath->evaluate('string(//*[local-name()="ElencoSchedine"]/*[local-name()="string"])'));
+        $this->assertSame(168, mb_strlen($txt, 'UTF-8'));
         $this->assertSame('UTENTE-SINTETICO', $xpath->evaluate('string(//*[local-name()="Send"]/*[local-name()="Utente"])'));
         $receipt = $service->receipt($model, now()->subDay());
         $this->assertSame("%PDF-1.4\nSINTETICO\n%%EOF", $receipt['bytes']);

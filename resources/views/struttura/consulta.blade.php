@@ -26,7 +26,17 @@
 <input type="hidden" name="camere_reali_enabled" value="0">
 <div class="form-check form-switch my-3"><input id="camereRealiSwitch" type="checkbox" class="form-check-input" name="camere_reali_enabled" value="1" @checked(old('camere_reali_enabled', $struttura->camere_reali_enabled))><label for="camereRealiSwitch">Gestione camere reali</label></div>
 @foreach(['questura_username' => 'Username Questura', 'questura_password' => 'Nuova password Questura', 'questura_wskey' => 'Nuovo WSKEY Questura'] as $campo => $etichetta)
-<div class="mb-3"><label for="op_{{ $campo }}">{{ $etichetta }}</label><input id="op_{{ $campo }}" name="{{ $campo }}" type="{{ $campo === 'questura_username' ? 'text' : 'password' }}" autocomplete="new-password" class="form-control" value="{{ $campo === 'questura_username' ? old($campo, $struttura->$campo) : '' }}">@error($campo)<div class="text-danger">{{ $message }}</div>@enderror</div>
+<div class="mb-3">
+    <label for="{{ $campo }}" class="form-label">{{ $etichetta }}</label>
+    @if($campo === 'questura_password')<div class="input-group">@endif
+    <input id="{{ $campo }}" name="{{ $campo }}" type="{{ $campo === 'questura_username' ? 'text' : 'password' }}" autocomplete="{{ $campo === 'questura_username' ? 'username' : 'new-password' }}" class="form-control" value="{{ $campo === 'questura_username' ? old($campo, $struttura->$campo) : '' }}">
+    @if($campo === 'questura_password')
+        <button type="button" class="btn btn-outline-secondary" data-password-toggle="questura_password" aria-label="Mostra password" aria-pressed="false"><i class="ri-eye-line align-middle"></i></button>
+        </div>
+    @endif
+    @if($campo !== 'questura_username')<small class="text-muted d-block mt-1">{{ filled($struttura->getRawOriginal($campo)) ? 'Configurata' : 'Non configurata' }}</small>@endif
+    @error($campo)<div class="text-danger">{{ $message }}</div>@enderror
+</div>
 @endforeach
 <p class="text-muted">Lascia vuoti password e WSKEY per conservare quelli configurati.</p><button class="btn btn-primary" type="submit">Salva configurazione operativa</button>
 </form></div></div>
@@ -38,4 +48,19 @@
 @endforeach
 </div></div>
 @endif
+@endsection
+
+@section('script')
+<script>
+document.querySelectorAll('[data-password-toggle]').forEach(function (button) {
+    button.addEventListener('click', function () {
+        var input = document.getElementById(button.dataset.passwordToggle);
+        var visible = input.type === 'password';
+        input.type = visible ? 'text' : 'password';
+        button.setAttribute('aria-label', visible ? 'Nascondi password' : 'Mostra password');
+        button.setAttribute('aria-pressed', visible ? 'true' : 'false');
+        button.querySelector('i').className = visible ? 'ri-eye-off-line align-middle' : 'ri-eye-line align-middle';
+    });
+});
+</script>
 @endsection

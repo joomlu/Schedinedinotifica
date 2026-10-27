@@ -1,0 +1,142 @@
+{
+  "stato": "PASS_QUESTURA_INTEGRALE_ISOLATA",
+  "base_git": "9e27075819ce6da430f288126757c72f4a9405d0",
+  "run_finale": "R16",
+  "phpunit": {
+    "test": 274,
+    "asserzioni": 4002,
+    "esito": "PASS"
+  },
+  "browser": {
+    "percorsi": 9,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "esito": "PASS",
+    "casi": [
+      "credenziali e salvataggio senza ripopolamento",
+      "errore controllato e storico",
+      "singolo/famiglia/gruppo UTF-8, anteprima/download/Test/Send/storico con SOAP double"
+    ]
+  },
+  "regressioni_distinte_R10": {
+    "test": 491,
+    "asserzioni": 6476,
+    "browser": 9,
+    "esito": "PASS",
+    "ambito": "Arrivi, Web Check-in, ISTAT, Tassa e sottosistemi; dopo R10 soli messaggi/validazioni Questura modificati",
+    "non_sommare_esecuzioni_sovrapposte": true
+  },
+  "diagnostica_storica_camere": {
+    "suite_originale_preservata": true,
+    "R8_fallimenti": 7,
+    "R9_baseline_fallimenti_identici": 7,
+    "contratto_corrente_commit": "4d0bb218cb90d398daf273bc32a5821c27b0f461",
+    "camere_riservate_operatore_verificate": true,
+    "PASS_globale_repository": false
+  },
+  "guardie": {
+    "override_rifiutati": 23,
+    "prove_guardrail": 5,
+    "SOAP_in_memoria": 14,
+    "build_GEO": "PASS",
+    "risorse_effimere_rimosse": true
+  },
+  "sorgenti_sha256": {
+    "tests/Feature/QuesturaUxTest.php": "c1011e8f935c88a9d43223fb702b6c104ddb0fd2c0e62ae36f082f7a4f106302",
+    "tests/Feature/QuesturaBoundaryTest.php": "45856c81dfdc7797cf83371138e4db7c30a13d2ebd60d1e6384f073ef67b6a04",
+    "tests/Feature/QuesturaWsContractTest.php": "585cdec778e465e034f2cc4422711e0edf7f9edcab0ce36961e3b9797302edea",
+    "tests/Feature/QuesturaLoggingPrivacyTest.php": "821b43a1f36f2c3b618a7591981ec8c6d27628faf29bd0b56f81de791be3bc3b",
+    "tests/Feature/questura-ux.playwright.spec.js": "7a12c7bc40de16044b4d0579163eccdc27a5526b615b9ce50cbb65b5c3fda039",
+    "resources/views/struttura/consulta.blade.php": "bee9db0e17ad3b7054187b46ec62661f53def1307c98bc4626a68bbb3c2e3a73",
+    "resources/views/questura/index.blade.php": "4b5e1dcd16efed2ee0f3d9877721361167e6ad0c936bdc054cc2ea7cd4fff24e",
+    "tests/Support/QuesturaPreviewRequests.php": "4591e7427a8081c4377ee6197662e0dec3198868232fc4d8e614a2ac1ff3fd2e",
+    "tests/Unit/PianoSyncComponentiTest.php": "a32954e1741b50ffb3a5bad25baaf45a6b326307741be1318fafcf7ceb684c44",
+    "tests/Isolation/questura-browser.php": "706a46709bfc5db29cec9804ba60120e376e337dadd7d63170859120458075e8",
+    "tests/Feature/QuesturaPayloadCoherenceTest.php": "28191594c0a94199266498a7d456ab5bd62001e8e38f4620027c8d49cb7ea9af",
+    "app/Http/Controllers/QuesturaExportController.php": "6dbdef7e47d594bd6d1c6edc9911e91ed96d378d00262d2ab66cbc3a1b80419c",
+    "tests/Feature/QuesturaIdempotencyTest.php": "e507982ba1dd1af2b44cfdc80f2a76fb8530ec67cd4f280433b483705c94c4a2",
+    "tests/Feature/QuesturaTestSendSnapshotTest.php": "4bce58923531840ea49f868f370e1636394789cc449ccf0bcc3a43e66ea3a7cf",
+    "tests/Feature/QuesturaConclusiveAuditTest.php": "bf81ddfe37ae2cff11462e5507b9f482a554acefa2dd810df4134880a2595ad3",
+    "tests/Feature/QuesturaCompletionTest.php": "a39b933452b0a4ddd996c2c9495ed1105e33371678e4892efb76eadc12f3eaa8",
+    "tests/Isolation/questura-ux-fixtures.php": "a331570f54ee625b1a277d07f01ca0d6cf5e8867a33f975b7ef1f1bd9c0e5712",
+    "tests/Isolation/router.php": "c94d065f97d7db6d689c97bc5d35cea092a7a938adef99e4d20657ce42a5f433",
+    "app/Services/QuesturaTxtExportService.php": "ac3af227536b8d8636056206d7275486651b8d27fb89df0b120a2e4c47401de7",
+    "tests/Feature/QuesturaUpstreamIsolationTest.php": "9a9d4c45865c23c87e405bbcf5143ae1b5f707fff3b66eaec8ec3596754a4248",
+    "tests/Feature/QuesturaTransportGuardTest.php": "0293811283e4bac849baa3956c8b3039d14dc09267ecc1c053f3d62e80ad90b9",
+    "tests/Feature/QuesturaFinalAuditTest.php": "7b51f51bf17eed42fee6272aecd6b2119ca9b3329bf10685cfb7b8515ded70e5",
+    "tests/Feature/QuesturaLegacyMigrationTest.php": "1e14f8fd82b4501d1133cbc120a232036efe43c9788b0d0b597e2a6761619dde"
+  },
+  "sorgenti_applicativi": [
+    "app/Http/Controllers/QuesturaExportController.php",
+    "app/Services/QuesturaTxtExportService.php",
+    "resources/views/questura/index.blade.php",
+    "resources/views/struttura/consulta.blade.php"
+  ],
+  "catture": {
+    "questura-anteprima-dettaglio-desktop.png": {
+      "sha256": "a55a822e9d0dfdbbae63c65862dd00f4686bca62c44baca098319cff336a2c54",
+      "byte": 40547,
+      "larghezza": 1110,
+      "altezza": 267,
+      "solo_dati_sintetici": true,
+      "pixel_originali": true
+    },
+    "questura-anteprima-dettaglio-tablet.png": {
+      "sha256": "eb886568659534769d923f509a286d82693997af27084e127a20677038a6aa40",
+      "byte": 38238,
+      "larghezza": 438,
+      "altezza": 432,
+      "solo_dati_sintetici": true,
+      "pixel_originali": true
+    },
+    "questura-anteprima-dettaglio-mobile.png": {
+      "sha256": "19e09956993825449d0262a27fe7c518252dacce1f710c4dcd00b7285fd6cf01",
+      "byte": 40582,
+      "larghezza": 310,
+      "altezza": 509,
+      "solo_dati_sintetici": true,
+      "pixel_originali": true
+    },
+    "questura-storico-dettaglio-desktop.png": {
+      "sha256": "c58fd48900a2bec5050828b0bc290dff8de6c81898ed3194fcbf2eb570f68e9f",
+      "byte": 31711,
+      "larghezza": 1110,
+      "altezza": 271,
+      "solo_dati_sintetici": true,
+      "pixel_originali": true
+    },
+    "questura-storico-dettaglio-tablet.png": {
+      "sha256": "5034107a319d00e92f34b256ccbb6affe859e515a3bcf12bcd150374efc217d3",
+      "byte": 29163,
+      "larghezza": 438,
+      "altezza": 326,
+      "solo_dati_sintetici": true,
+      "pixel_originali": true
+    },
+    "questura-storico-dettaglio-mobile.png": {
+      "sha256": "6ef2a810e73bf8f82119b317c5174705a555ef3bba6d0c5dc4cd3316d17a9577",
+      "byte": 29638,
+      "larghezza": 310,
+      "altezza": 410,
+      "solo_dati_sintetici": true,
+      "pixel_originali": true
+    }
+  },
+  "log_privati_sha256": {
+    "R10": "bb130784358ed9b834ff7c372ab234d0da40f81e36ccaab06dbe5da2d88eca30",
+    "R16": "c48b41c15a9a828736958fe1fc6fa66bc123db24ecb37870a58754a60fa78425",
+    "R9-BASE-CAMERE": "c9d4a8629fcb4c5ea7150d2b0278d29e30f2602a39ab452cc6937f6fc12baf49",
+    "R12-RED-FILTRI": "dfba550dfc2e18d118478e1ee2c6a1640097518bb18af11acfa934d2d446b4de"
+  },
+  "migrazioni": [],
+  "invii_reali": 0,
+  "accettazione_ente": false,
+  "limiti": [
+    "Profilo standard 168 caratteri; profilo Gestione Appartamenti 174 non attestato",
+    "Autenticazione e accettazione reali richiedono utenza e autorizzazione dedicate",
+    "Le prove non attestano la discovery globale del repository"
+  ]
+}

@@ -75,7 +75,7 @@ class QuesturaTxtExportService
             ]);
         }
 
-        return implode("\r\n", $analysis['righe']);
+        return $this->buildTxt(collect([$analysis]));
     }
 
     public function filename(Carbon $dal, Carbon $al): string
@@ -98,6 +98,9 @@ class QuesturaTxtExportService
         if ($schedina->isInArrivi()) return ['errors' => ['Scheda in Arrivi: esclusa dalle comunicazioni Questura.'], 'rows' => []];
         $errors = [];
         $rows = [];
+        if ((int) $schedina->cant_people !== 1 + $schedina->componenti->count()) {
+            $errors = $this->prefixErrors($schedina, ['Numero persone incoerente: correggere il totale e i componenti nella schedina.']);
+        }
 
         [$capoErrors, $capoRow] = $this->buildCapoRow($schedina);
         $errors = array_merge($errors, $capoErrors);
@@ -164,6 +167,8 @@ class QuesturaTxtExportService
         $dataNascita = $this->formatDate($schedina->oa_date_nac);
         if ($dataNascita === null) {
             $errors[] = 'Data di nascita ospite mancante o non valida.';
+        } elseif ($arrivo !== null && $this->strictDate($schedina->oa_date_nac) > $this->strictDate($schedina->arrive)) {
+            $errors[] = 'Data di nascita ospite successiva all’arrivo: correggere la schedina.';
         }
 
         [$comuneNascita, $provinciaNascita, $statoNascita, $birthErrors] = $this->birthPlaceFields(
@@ -257,6 +262,8 @@ class QuesturaTxtExportService
         $dataNascita = $this->formatDate($componente->date_nac);
         if ($dataNascita === null) {
             $errors[] = 'Data di nascita componente mancante o non valida.';
+        } elseif ($arrivo !== null && $this->strictDate($componente->date_nac) > $this->strictDate($schedina->arrive)) {
+            $errors[] = 'Data di nascita componente successiva all’arrivo: correggere la schedina.';
         }
 
         [$comuneNascita, $provinciaNascita, $statoNascita, $birthErrors] = $this->birthPlaceFields(
@@ -475,40 +482,34 @@ class QuesturaTxtExportService
     private function composeRecord(array $fields): string
     {
         $line = implode('', $fields);
-        if (strlen($line) !== 168) { throw new \LogicException('Lunghezza record Questura non valida.'); }
+        if (mb_strlen($line, 'UTF-8') !== 168) { throw new \LogicException('Lunghezza record Questura non valida.'); }
         return $line;
     }
 
     private function sanitizeText(?string $value, int $length): string
     {
-        $value = mb_strtoupper(trim((string) $value), 'UTF-8');
-        // Normalizzazione esplicita: iconv dipende dalla locale per gli accenti.
-        $value = strtr($value, [
-            'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A',
-            'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E',
-            'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I',
-            'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O',
-            'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U',
-            'Ç' => 'C', 'Ñ' => 'N', 'Ý' => 'Y', 'Ÿ' => 'Y', 'Æ' => 'AE', 'Œ' => 'OE',
-            '’' => "'", '‘' => "'", '‐' => '-', '‑' => '-',
-        ]);
-        if (preg_match('/[^A-Z0-9 \'\-\/\.]/', $value)) { return ''; }
-        $value = preg_replace('/\s+/', ' ', (string) $value);
-
-        $value = trim((string) $value);
-        return strlen($value) > $length ? '' : $this->padRight($value, $length);
+        $value = (string) $value;
+        if (!mb_check_encoding($value, 'UTF-8') || preg_match('/[\p{C}\p{Zl}\p{Zp}]/u', $value)) { return ''; }
+        $value = mb_strtoupper(trim($value), 'UTF-8');
+        $value = strtr($value, ['’' => "'", '‘' => "'", '‐' => '-', '‑' => '-']);
+        if (preg_match('/[^\p{L}\p{M}0-9 \'\-\/\.]/u', $value)) { return ''; }
+        $value = preg_replace('/ +/', ' ', $value);
+        return mb_strlen($value, 'UTF-8') > $length ? '' : $this->padRight($value, $length);
     }
 
     private function documentNumber(?string $value): string
     {
-        $value = trim((string) $value);
-        if ($value === '' || strlen($value) > 20 || preg_match('/[^\x20-\x7e]/', $value)) { return ''; }
+        $value = (string) $value;
+        if (!mb_check_encoding($value, 'UTF-8') || preg_match('/[\p{C}\p{Zl}\p{Zp}]/u', $value)) { return ''; }
+        $value = trim($value);
+        if ($value === '' || mb_strlen($value, 'UTF-8') > 20) { return ''; }
         return $this->padRight($value, 20);
     }
 
     private function padRight(string $value, int $length): string
     {
-        return str_pad(substr($value, 0, $length), $length, ' ');
+        if (mb_strlen($value, 'UTF-8') > $length) { throw new \LogicException('Campo Questura oltre la lunghezza prevista.'); }
+        return $value.str_repeat(' ', $length - mb_strlen($value, 'UTF-8'));
     }
 
     private function normalizeLookup(string $value): string
