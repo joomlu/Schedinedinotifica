@@ -1,0 +1,84 @@
+{
+  "stato": "PUBBLICATO_QA_E_MONITOR_PASS",
+  "PR": 38,
+  "url": "https://github.com/joomlu/Schedinedinotifica/pull/38",
+  "merge": "03e888a31d68b450032418d775d7445026908054",
+  "candidato_produzione": "79b5d7e77a02c2fd98e9ddae24016ad0231d1e5b",
+  "applicativo_qualificato": "128e4ef2d38dc0a1bcd5a20f261a908aa7ab9488",
+  "sorgenti_test_qualificati_identici": 21,
+  "revisione_codice_senza_rilievi": true,
+  "consenso_specifico": "Sì, autorizzo entrambi, riferito a merge PR38 e rilascio protetto con backup produttivi DB/file/config Mac/VM/Extra, chiave separata VM, recupero indipendente, due migrazioni nominate, QA sintetica e monitor; canali OFF e nessun invio reale",
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "S0_secondi": 199.999,
+    "RUN_secondi": 307.912,
+    "campioni": 528,
+    "budget": {
+      "finestra": 1800,
+      "cutoff": 1379,
+      "riserva": 421,
+      "S0_limite": 600,
+      "S0_secondi": 199.999
+    },
+    "DDL_eseguite": true,
+    "decisione": "CANDIDATO_ACCETTATO"
+  },
+  "delta_DB_prima_apertura": {
+    "colonne_nullable": 3,
+    "dati_e_schema_precedenti_preservati": true,
+    "esito": "PASS_SOLO_DELTA_AUTORIZZATO",
+    "migrazioni": [
+      "2026_10_27_120000_add_questura_profilo_to_struttura",
+      "2026_10_27_120100_complete_tipologie_turistiche"
+    ],
+    "nuove_classificazioni": 3,
+    "nuove_relazioni": 6,
+    "nuove_tipologie": 1,
+    "sha256_dopo": "261180b5520190d57e2fcab14eaa99b4d82bf30c90d93724ec7558e4d4ff4f74",
+    "sha256_prima": "a5ae2676ad56e3202c8483dd5fe9e74aec5b32ed2e5492b5defe563600c8c323",
+    "tabelle": 66
+  },
+  "backups": {
+    "PREPARE": {
+      "esito": "PASS_PREPARE_EXTRA_INTEGRITA_RECUPERO",
+      "file": 3,
+      "byte_cifrati": 666509328,
+      "chiave_separata_VM": true,
+      "autenticazione_e_decifratura_integrale": true,
+      "cipher_sha256": {
+        "db.sql": "3c58907260c90855b4b3615c4eacd0cd6a3a5da52588ab62289e4903ffaf5aff",
+        "fs.tar.gz": "6e4998ffdadb06ec66cb07e6383c45174147d17a0e21256459ba334173564660",
+        "inventory.json": "6bafabad5543cd6c10d7b90e2c76e44a1c9fedca27e677cc051b70e932f89c04"
+      }
+    },
+    "S0": {
+      "esito": "PASS_S0_EXTRA_INTEGRITA_RECUPERO",
+      "file": 3,
+      "byte_cifrati": 30429776,
+      "chiave_separata_VM": true,
+      "autenticazione_e_decifratura_integrale": true,
+      "cipher_sha256": {
+        "db.sql": "09e3781f7853feeb67e55cdebcf89115a3b2963f59a89a88f79a63322a81bcca",
+        "fs.tar.gz": "16f2c38ebb2c83658a8e28ce48f3b494e78268df36e04660aeae2a9323fd87cc",
+        "inventory.json": "fee2d3174f13b2d84df3f4ac26801bcc149dce512977aaf7d3ec3da15eb160b4"
+      }
+    }
+  },
+  "guardiano": {
+    "esito": "PASS_GUARDIANO_DISARMATO",
+    "concluso_inattivo_disabilitato": true
+  },
+  "SHA_Git_FPM_9sonde_PASS": true,
+  "Git_produzione_pulito": true,
+  "migrazioni": 161,
+  "tabelle": 66,
+  "sorgenti_protetti_verificati": 331,
+  "persistenti_verificati": 104,
+  "Questura_OFF": true,
+  "ISTAT_OFF": true,
+  "trasmissioni_reali": 0,
+  "accettazione_enti": false,
+  "stato_pubblicazione": "PUBBLICATO_QA_E_MONITOR_PASS",
+  "monitor_finale": "PASS",
+  "errori_applicativi_e_FPM_nuovi": 0
+}

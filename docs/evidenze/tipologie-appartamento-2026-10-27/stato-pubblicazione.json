@@ -1,5 +1,5 @@
 {
-  "stato": "STOP_AUTORIZZAZIONE_SPECIFICA_MERGE_E_BACKUP_C5",
+  "stato": "SUPERATO_DA_CONSENSO_SPECIFICO_E_RILASCIO",
   "candidato_revisionato": "79b5d7e77a02c2fd98e9ddae24016ad0231d1e5b",
   "applicativo": "128e4ef2d38dc0a1bcd5a20f261a908aa7ab9488",
   "PR": 38,
@@ -31,5 +31,10 @@
   "barriera_assente": true,
   "presidio_Mac_proprio": "CHIUSO_codice130",
   "backup_VM_e_crescita48GiB": "PASS_NON_RIPETUTI",
-  "consenso_successivo": "RICHIESTO_NON_PRESUNTO"
+  "consenso_successivo": "ACQUISITO_SI_AUTORIZZO_ENTRAMBI",
+  "storico_stop_autorizzazioni": true,
+  "stato_corrente": "SUPERATO_DA_CONSENSO_SPECIFICO_E_RILASCIO",
+  "ricevuta_corrente": "pubblicazione.json",
+  "stato_storico": "STOP_AUTORIZZAZIONE_SPECIFICA_MERGE_E_BACKUP_C5",
+  "consenso_successivo_storico": "RICHIESTO_NON_PRESUNTO"
 }
