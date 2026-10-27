@@ -483,5 +483,8 @@
   "migrazioni_applicate": [
     "2026_10_27_120000_add_questura_profilo_to_struttura",
     "2026_10_27_120100_complete_tipologie_turistiche"
-  ]
+  ],
+  "stato_pubblicazione": "PUBBLICATO_QA_E_MONITOR_PASS",
+  "monitor_finale": "PASS",
+  "errori_applicativi_e_FPM_nuovi": 0
 }

@@ -1,5 +1,5 @@
 {
-  "stato": "PUBBLICATO_QA_PASS_MONITOR_IN_CORSO",
+  "stato": "PUBBLICATO_QA_E_MONITOR_PASS",
   "PR": 38,
   "url": "https://github.com/joomlu/Schedinedinotifica/pull/38",
   "merge": "03e888a31d68b450032418d775d7445026908054",
@@ -77,5 +77,8 @@
   "Questura_OFF": true,
   "ISTAT_OFF": true,
   "trasmissioni_reali": 0,
-  "accettazione_enti": false
+  "accettazione_enti": false,
+  "stato_pubblicazione": "PUBBLICATO_QA_E_MONITOR_PASS",
+  "monitor_finale": "PASS",
+  "errori_applicativi_e_FPM_nuovi": 0
 }

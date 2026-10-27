@@ -179,10 +179,26 @@ Consenso specifico «Sì, autorizzo entrambi» acquisito per merge PR38 e rilasc
 
 PREPARE PASS e recupero indipendente completo; PREPARE/S0 autenticati e decifrati integralmente anche su Extra, chiave separata VM.55campioni di quiete, capacità residuale5,42GB contro3,46GB stimati comprensivi di1GiB riserva, nessun ritiro backup/derivati. Un solo RUN autorizzato: **S0 199,999s/C5 307,912s/528campioni PASS**; budget1800/600/1379/421 e trasferimento120s invariati. Guardiano concluso, disarmato, inattivo e disabilitato.
 
-Due sole migrazioni applicate: ledger159→161,66tabelle immutate. Confronto rigoroso del dump S0 al sigillo prima dell’apertura e nuovamente dopo: tre colonne nullable con tutti i valori precedenti NULL,1tipologia/3classificazioni/6relazioni e2registrazioni nel ledger; dati, schema, indici, ID e timestamp precedenti preservati, nessun seeder/deduplicazione/backfill.331sorgenti/protetti e104persistenti conformi, Git/FPM/nove sonde PASS, credenziali/APP_KEY invariati e canali OFF.
+Due sole migrazioni applicate: ledger159→161,66tabelle immutate. Confronto rigoroso del dump S0 al sigillo prima dell’apertura e nuovamente dopo: tre nuove colonne nullable, NULL sulle righe preesistenti,1tipologia/3classificazioni/6relazioni e2registrazioni nel ledger; dati, schema, indici, ID e timestamp precedenti preservati, nessun seeder/deduplicazione/backfill.331sorgenti/protetti e104persistenti conformi, Git/FPM/nove sonde PASS, credenziali/APP_KEY invariati e canali OFF.
 
 QA online **R5 PASS** nelle tre larghezze1440/768/390: cinque tipologie salvate/rilette, Agriturismo tre girasoli, ritorno a Hotel, Gestione Appartamenti con ID0 da zeri iniziali e ritorno a Standard senza ID; tenant403, reception sola lettura, no-store, zero erroriJS/POSTestranei e nessuna trasmissione. Sei catture ispezionate. R1 errore del solo adattatore fixture su chown residuo: rollback DB/schema verificato integralmente esclusi AUTO_INCREMENT, nessun restore/reset. R2–R4 interrotti nei soli helper browser (conferma assente; tokenCSRF meta/form; reception senza form), diagnostici e runtime conservati/verificati prima del ritiro. Nessuna modifica applicativa per rendere verde la QA e nessuna somma delle ripetizioni.
 
 Fixture e sessioni proprie rimosse: HMAC identici sulle66tabelle,4sessioni residue proprie ritirate, nessun restore/reset; soli AUTO_INCREMENT esclusi.104persistenti identici a S0 nei contenuti e metadati, esclusi soli mtime directory. Runtime finale proprio rimosso dopo12file verificati; clone dipendenze preservato. DB quotidiano/84protetti/HEAD945ef553/SELinux identici anche dopo C5/QA; riserve VM1/Mac8/Extra40GiB rispettate. Monitor server e Mac≥900s avviati **dopo tutte le pulizie**, ancora in corso: nessun PASS finale anticipato. [Pubblicazione](evidenze/tipologie-appartamento-2026-10-27/pubblicazione.json), [QA](evidenze/tipologie-appartamento-2026-10-27/online.json), [monitor](evidenze/tipologie-appartamento-2026-10-27/monitor.json).
 
 Restano distinti: accettazione reale Questura con struttura/utenza/profilo/ID e contenuto concordati, credenziali nel form protetto e autorizzazione specifica prima di Test/Send; accettazione Ross1000 e regole fiscali ulteriori non dichiarate. Agriturismo e altre tipologie non determinano automaticamente profilo Questura, codice Ross1000 o tariffa. File Unico e raggruppamenti esclusi. Il checkout originale Herd resta preservato, non riallineato né migrato implicitamente.
+
+
+## Chiusura definitiva della pubblicazione
+
+Monitor conclusi PASS dopo tutte le pulizie: **server 919.576s e Mac 922.244s**,31campioni ciascuno,279sonde server e93richieste Mac con DNS/TLS ordinari. Zero nuovi errori applicativi e FPM dall’intero RUN fino alla chiusura. Ricevuta finale PASS: produzione79b5d7e7,331sorgenti/protetti conformi,161migrazioni/66tabelle, Git pulito, FPM attivo, barriere assenti e Questura/ISTAT OFF. Guardiano concluso/disarmato/inattivo/disabilitato; presidio Mac proprio chiuso, VM lasciata attiva come all’inizio. Backup e diagnostici preservati. Nessun nuovo rilascio per il solo consuntivo documentale.
+
+| Indicatore finale | Esito |
+|---|---|
+| Codice / test / documentazione modificati | SÌ / SÌ / SÌ, nel worktree dedicato |
+| Configurazione modificata | SÌ, solo ampliamento VM44→48GiB; canali applicativi OFF preservati |
+| Schema/dati produttivi modificati | SÌ, due sole migrazioni additive autorizzate; fixture proprie rimosse, dati preesistenti preservati |
+| Test eseguiti | SÌ, R12 isolata395test/5429asserzioni+6browser; QA online e monitor distinti PASS |
+| Commit / push / merge / deploy | SÌ / SÌ / SÌ / SÌ |
+| Trasmissioni reali / accettazione enti | NO / NO |
+| Stato della task / stato generale | COMPLETATA nel perimetro autorizzato / BASELINE IN AUDIT invariata |
+| Rischio residuo | Accettazione reale Questura/Ross1000 ancora da concordare e autorizzare; nessuna equivalenza automatica fra tipologia, profilo, codici e tariffe |
