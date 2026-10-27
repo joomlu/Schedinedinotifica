@@ -1,6 +1,6 @@
 # Contatti, selettori e WhatsApp — 27 ottobre 2026
 
-Stato: VERIFICATO nelle prove isolate elencate; pubblicazione PENDENTE. BASELINE IN AUDIT invariata.
+Stato: VERIFICATO nelle prove isolate elencate; pubblicazione BLOCCATA prima di PREPARE per capienza. BASELINE IN AUDIT invariata.
 
 ## Modifiche e conservazione
 
@@ -36,3 +36,15 @@ Comandi selezionati, passati all'avviatore ufficiale nella VM:
 Copia candidata separata da GitHub, branca `codex/contatti-selettori-whatsapp-20261027`; checkout operativo e lavori estranei preservati. Base produttiva rilevata e4f6682; main remoto fdd4884. Differenze estranee del checkout operativo escluse dal candidato e qualifica ripetuta sulla copia da GitHub.
 
 La pubblicazione applicativa richiede nuovo PREPARE/S0, backup cifrati e recupero indipendente C5, preflight corrente, verifiche online e monitor. Nessun checkpoint precedente riutilizzabile. Stato finale di commit e pubblicazione da registrare dopo l'esecuzione; nessuna pubblicazione attestata da questo rapporto preliminare. Nessun dato reale, messaggio, email o trasmissione agli enti durante le prove. Rischio MEDIO limitato al flusso commerciale; autorizzazioni e tenancy del gestionale invariate, nessuna nuova qualifica globale.
+
+## Consuntivo Git e blocco prima di PREPARE
+
+Correzioni caricate nel commit **c54b705003e59d5525b4c0c8413a9b94d907decf**, [PR42](https://github.com/joomlu/Schedinedinotifica/pull/42) aperta. Nessun controllo CI riportato da GitHub sul candidato; le prove indicate sono quelle del runtime isolato, non una revisione indipendente. Nessun merge o deploy eseguito.
+
+Il preflight della capacità è BLOCCATO: dopo le pulizie circoscritte, misura Mac6.983.827.456 byte (circa6,5GiB), inferiore alla riserva8GiB; servono inoltre spazio per i nuovi backup e recuperi. VM3.670.802.432 byte liberi ed Extra479.754.235.904; nessuna soglia o budget ridotti. Per riprendere è richiesto spazio aggiuntivo sul Mac e un nuovo preflight completo; raccomandati almeno altri5GiB, da rimisurare prima del rilascio. Il riferimento di capacità impone di fermarsi prima di PREPARE/RUN quando lo spazio non basta. Nessun PREPARE, S0, manutenzione o modifica produttiva avviati. Il kit C5 è soltanto una preparazione locale da riconciliare con il futuro candidato approvato, non un rilascio.
+
+Ritirate esclusivamente le due copie temporanee di vendor/node_modules della task dopo confronto positivo di34.131 file/link e assenza di utilizzatori; originali quotidiani invariati. Trim della sola VM su blocchi già liberi, senza eliminazione di file. Sei cartelle temporanee di rilettura C5 concluse PASS ritirate dopo confronto SHA-256 con i cifrati originali e verifica di assenza utilizzatori; originali, backup interni/Extra, chiavi, SQL, manifest e ricevute conservati.1.803.563.008 byte di copie logiche ritirate non equivalgono a spazio fisico recuperato. Misure effettive rivalutate dopo il ritiro; minimo VM campionato durante il collaudo2.234.630.144 byte, sopra la riserva1GiB.
+
+Codice e test modificati SÌ; documentazione e Maestro aggiornati SÌ; configurazione/schema/dati reali modificati NO; prove isolate/commit/push SÌ; merge/deploy/invii commerciali o agli enti NO. Pubblicazione e verifica delle nuove funzioni online PENDENTI. Nessuna validazione globale del progetto: BASELINE IN AUDIT invariata.
+
+Rilettura finale della produzione: nove pagine HTTP200, Git pulito su e4f6682cbcddc034563d9e6daa59025883670ede e versione51ed34b9a756dbaa0714b6f7; le correzioni e il nuovo WhatsApp NON sono online. 8706 file estranei presenti all’inizio sono rimasti byte-identici. HEAD operativo main/a6d40647 e staging invariati.
