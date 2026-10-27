@@ -24,6 +24,8 @@
 <div class="card mt-4"><div class="card-body"><h5>Configurazione operativa</h5>
 <form method="POST" action="{{ route('struttura.update', ['sid' => $struttura->id]) }}">@csrf @method('PUT')
 <input type="hidden" name="camere_reali_enabled" value="0">
+<h5>Questura / Alloggiati Web</h5>
+@include('struttura.questura-profilo')
 <div class="form-check form-switch my-3"><input id="camereRealiSwitch" type="checkbox" class="form-check-input" name="camere_reali_enabled" value="1" @checked(old('camere_reali_enabled', $struttura->camere_reali_enabled))><label for="camereRealiSwitch">Gestione camere reali</label></div>
 @foreach(['questura_username' => 'Username Questura', 'questura_password' => 'Nuova password Questura', 'questura_wskey' => 'Nuovo WSKEY Questura'] as $campo => $etichetta)
 <div class="mb-3">

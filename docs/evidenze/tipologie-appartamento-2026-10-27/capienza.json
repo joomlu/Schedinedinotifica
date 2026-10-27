@@ -1,0 +1,18 @@
+{
+  "data_UTC": "2026-10-27T11:18:41.210556+00:00",
+  "VM_disco_GiB": 44,
+  "liberi_VM_dopo_pulizia": 2782982144,
+  "stima_conservativa_C5_storica_byte": 5569875968,
+  "stima_include_riserva_VM_byte": 1073741824,
+  "deficit_byte": 2786893824,
+  "liberi_Mac": 14649503744,
+  "liberi_Extra": 507460022272,
+  "esito": "STOP_PRIMA_PREPARE",
+  "proposta_non_eseguita": {
+    "VM_da_GiB": 44,
+    "VM_a_GiB": 48,
+    "backup_integrale_cifrato_autenticato_Extra_con_chiave_separata_e_decifratura_integrale": true,
+    "autorizzazione_separata_necessaria": true
+  },
+  "nessuna_pulizia_o_espansione_eseguita": true
+}

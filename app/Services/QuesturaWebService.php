@@ -58,6 +58,7 @@ class QuesturaWebService
 
     private function verifyInternal(Struttura $struttura, string $txt): array
     {
+        $profilo = app(QuesturaProfilo::class)->context($struttura);
         if ($this->isSimulation($struttura)) {
             return [
                 'ok' => true,
@@ -78,17 +79,25 @@ class QuesturaWebService
             return $auth + ['stage' => 'authentication'];
         }
 
-        $response = $this->call($client, 'Test', [
+        $method = $profilo['profilo'] === 'appartamenti' ? 'GestioneAppartamenti_Test' : 'Test';
+        $params = [
             'Utente' => (string) $struttura->questura_username,
             'token' => $token,
             'ElencoSchedine' => ['string' => explode("\r\n", $txt)],
-        ]);
+        ];
+        if ($profilo['profilo'] === 'appartamenti') { $params['IdAppartamento'] = $profilo['id_appartamento']; }
+        $response = $this->call($client, $method, $params);
 
-        return $this->normalizeWsResponse('test', $response, ['count' => count(explode("\r\n", $txt))]);
+        return $this->normalizeWsResponse('test', $response, ['count' => count(explode("\r\n", $txt)), 'method' => $method]);
     }
 
     private function sendInternal(Struttura $struttura, string $txt): array
     {
+        try {
+            $profilo = app(QuesturaProfilo::class)->context($struttura);
+        } catch (Throwable) {
+            return ['pre_send_error' => true, 'transmission_excluded' => true];
+        }
         if ($this->isSimulation($struttura)) {
             return [
                 'ok' => true,
@@ -114,13 +123,16 @@ class QuesturaWebService
         }
 
         try {
-            $response = $this->call($client, 'Send', [
+            $method = $profilo['profilo'] === 'appartamenti' ? 'GestioneAppartamenti_Send' : 'Send';
+            $params = [
                 'Utente' => (string) $struttura->questura_username,
             'token' => $token,
             'ElencoSchedine' => ['string' => explode("\r\n", $txt)],
-        ]);
+            ];
+            if ($profilo['profilo'] === 'appartamenti') { $params['IdAppartamento'] = $profilo['id_appartamento']; }
+            $response = $this->call($client, $method, $params);
 
-            return $this->normalizeWsResponse('send', $response, ['count' => count(explode("\r\n", $txt))]);
+            return $this->normalizeWsResponse('send', $response, ['count' => count(explode("\r\n", $txt)), 'method' => $method]);
         } catch (Throwable) {
             return ['uncertain' => true, 'ok' => false];
         }
@@ -250,6 +262,7 @@ class QuesturaWebService
             'test' => 'TestResult',
             'send' => 'SendResult',
         };
+        if (isset($context['method'])) { $key = $context['method'].'Result'; }
         $esito = $raw[$key]['esito'] ?? null;
         if (!is_bool($esito)) {
             throw new \RuntimeException('Risposta Questura non conforme al contratto.');

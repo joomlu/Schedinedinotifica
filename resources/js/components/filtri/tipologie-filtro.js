@@ -95,12 +95,20 @@ export function initTipologieFiltro(root = document) {
             });
 
             if (resetClassificazione || !strutturaId) {
+                const changed = classificazione.value !== '';
                 classificazione.value = '';
+                if (changed) dispatchChange(classificazione);
             }
         };
 
-        generale.addEventListener('change', applyStrutturaFilter);
-        struttura.addEventListener('change', applyClassificazioneFilter);
+        if (window.jQuery) {
+            // Select2 emette change tramite jQuery, non come evento DOM nativo.
+            window.jQuery(generale).on('change.tipologieFiltro', applyStrutturaFilter);
+            window.jQuery(struttura).on('change.tipologieFiltro', applyClassificazioneFilter);
+        } else {
+            generale.addEventListener('change', applyStrutturaFilter);
+            struttura.addEventListener('change', applyClassificazioneFilter);
+        }
 
         applyStrutturaFilter();
         applyClassificazioneFilter();

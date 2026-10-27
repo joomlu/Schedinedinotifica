@@ -18,7 +18,7 @@ use Illuminate\Validation\ValidationException;
 /** Un solo dominio anagrafico; nessuna copia per ruolo e nessun backfill implicito. */
 class AnagraficaStruttura
 {
-    public const OPERATIVI = ['camere_reali_enabled', 'questura_username', 'questura_password', 'questura_wskey'];
+    public const OPERATIVI = ['camere_reali_enabled', 'questura_username', 'questura_password', 'questura_wskey', 'questura_profilo', 'questura_appartamento_id'];
 
     public const MAESTRI = ['nome_struttura', 'tipologia_generale_id', 'tipologia_struttura_id', 'classificazione_id',
         'tipo_apertura', 'data_apertura', 'data_chiusura', 'nazione', 'regione', 'provincia', 'citta', 'localita', 'zona',
@@ -88,6 +88,8 @@ class AnagraficaStruttura
             'logo_citta_upload' => ['sometimes', 'nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'camere_reali_enabled' => ['sometimes', 'boolean'],
             'questura_username' => ['sometimes', 'nullable', 'string', 'max:100'],
+            'questura_profilo' => ['sometimes', 'in:standard,appartamenti'],
+            'questura_appartamento_id' => ['sometimes', 'nullable', 'regex:/\A[0-9]+\z/', 'numeric', 'between:0,2147483647'],
             'questura_password' => ['sometimes', 'nullable', 'string', 'max:100'],
             'questura_wskey' => ['sometimes', 'nullable', 'string', 'max:191'],
         ];
@@ -95,6 +97,23 @@ class AnagraficaStruttura
             $rules = Arr::only($rules, self::OPERATIVI);
         }
         $validator = Validator::make($input, $rules);
+        $validator->after(function ($validator) use ($input, $struttura) {
+            if ($validator->errors()->isNotEmpty() || ! array_intersect(array_keys($input), ['questura_profilo', 'questura_appartamento_id'])) {
+                return;
+            }
+            $candidate = new Struttura;
+            $candidate->forceFill([
+                'questura_profilo' => $input['questura_profilo'] ?? $struttura?->questura_profilo,
+                'questura_appartamento_id' => array_key_exists('questura_appartamento_id', $input) ? $input['questura_appartamento_id'] : $struttura?->questura_appartamento_id,
+            ]);
+            try {
+                app(QuesturaProfilo::class)->context($candidate);
+            } catch (ValidationException $exception) {
+                foreach ($exception->errors() as $key => $messages) {
+                    foreach ($messages as $message) { $validator->errors()->add($key, $message); }
+                }
+            }
+        });
         $validator->after(function ($validator) use ($input, $struttura, $operational) {
             if ($operational || $validator->errors()->isNotEmpty()) {
                 return;

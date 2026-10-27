@@ -29,6 +29,9 @@
     <div class="card-header border-0 bg-light-subtle d-flex flex-wrap justify-content-between align-items-center gap-3">
         <div>
             <h4 class="card-title mb-1">Questura</h4>
+            @if(($struttura->questura_profilo ?? 'standard') === 'appartamenti')
+                <div class="alert alert-info mt-2 mb-2">Gestione Appartamenti — ID {{ $struttura->questura_appartamento_id ?? 'da configurare' }}. Il circuito individuale usa righe di 168 caratteri e l’ID separato nei metodi Web Service. Il TXT qui disponibile non è un File Unico da 174 caratteri; per caricamenti manuali verificare il formato richiesto dal portale.</div>
+            @endif
             <div class="text-muted">Da qui puoi scaricare il file ufficiale TXT da caricare manualmente sul portale nazionale Alloggiati Web oppure usare l'invio diretto elettronico del medesimo contenuto.</div>
         </div>
         <div class="text-md-end">
@@ -389,6 +392,9 @@
                                                 </div>
                                                 <div class="small text-muted">{{ $tx->dal?->format('d/m/Y') }}@if($tx->al && !$tx->dal?->isSameDay($tx->al)) - {{ $tx->al?->format('d/m/Y') }}@endif</div>
                                                 <div class="small text-muted">{{ $tx->schedine_count }} schedine · {{ $tx->righe_count }} righe</div>
+                                                @if(($tx->questura_context['profilo'] ?? null) === 'appartamenti')
+                                                    <div class="small text-muted">Gestione Appartamenti · ID {{ $tx->questura_context['id_appartamento'] }}</div>
+                                                @endif
                                                 <div class="small text-muted">{{ $tx->esitoSicuro()['message'] }}</div>
                                                 @if($testPositivo)<div class="small">{{ $tx->righe_count }} {{ (int) $tx->righe_count === 1 ? 'riga controllata' : 'righe controllate' }}. Il Test non costituisce l’invio ufficiale.</div>@endif
                                                 @foreach($tx->esitoSicuro()['row_errors'] ?? [] as $rowError)

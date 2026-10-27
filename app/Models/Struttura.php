@@ -69,6 +69,8 @@ class Struttura extends Model
         'istat_codice_struttura',
         'istat_ws_url',
         'questura_username',
+        'questura_profilo',
+        'questura_appartamento_id',
         'questura_password',
         'questura_wskey',
         'questura_codici',

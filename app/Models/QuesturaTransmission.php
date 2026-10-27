@@ -8,7 +8,7 @@ class QuesturaTransmission extends Model
 {
     protected $table = 'questura_transmissions';
 
-    protected $hidden = ['result', 'payload', 'response_code', 'response_message', 'response_detail', 'receipt_path', 'receipt_filename'];
+    protected $hidden = ['result', 'payload', 'questura_context', 'response_code', 'response_message', 'response_detail', 'receipt_path', 'receipt_filename'];
 
     public function esitoSicuro(): array
     {
@@ -33,6 +33,7 @@ class QuesturaTransmission extends Model
         'response_message',
         'response_detail',
         'payload',
+        'questura_context',
         'result',
         'receipt_filename',
         'receipt_path',
@@ -47,6 +48,7 @@ class QuesturaTransmission extends Model
         'al' => 'date',
         'schedina_ids' => 'array',
         'payload' => 'array',
+        'questura_context' => 'array',
         'result' => 'array',
         'executed_at' => 'datetime',
     ];
@@ -57,7 +59,7 @@ class QuesturaTransmission extends Model
             if ($model->getRawOriginal('status') !== 'in_progress') {
                 throw new \LogicException('Esito storico Questura immutabile: utilizzare un nuovo evento di audit.');
             }
-            foreach (['identity_reserved_at', 'struttura_id', 'user_id', 'questura_export_id', 'mode', 'dal', 'al', 'schedina_ids', 'payload', 'sha256', 'byte_size', 'charset', 'send_key', 'component_ids', 'scope_type', 'schedine_count', 'righe_count', 'executed_at'] as $field) {
+            foreach (['identity_reserved_at', 'struttura_id', 'user_id', 'questura_export_id', 'mode', 'dal', 'al', 'schedina_ids', 'payload', 'questura_context', 'sha256', 'byte_size', 'charset', 'send_key', 'component_ids', 'scope_type', 'schedine_count', 'righe_count', 'executed_at'] as $field) {
                 if ($model->isDirty($field)) { throw new \LogicException('Snapshot Questura immutabile.'); }
             }
         });
