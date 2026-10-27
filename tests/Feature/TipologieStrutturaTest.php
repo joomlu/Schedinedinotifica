@@ -12,6 +12,16 @@ class TipologieStrutturaTest extends TestCase
 {
     use RefreshDatabase, StrutturaFixtures;
 
+    public function test_catalogo_popolato_dopo_le_migrazioni_conserva_i_soli_cav(): void
+    {
+        // Riproduce la popolazione CAV/Nessuna successiva alle migrazioni.
+        // Il launcher esclude i seeder generali: nessun loro caricamento o bypass.
+        $extra = TipologiaGenerale::where('nome', 'Extra-alberghiera')->sole();
+        $cav = TipologiaStruttura::firstOrCreate(['nome' => 'Case e appartamenti per vacanze (CAV)', 'tipologia_generale_id' => $extra->id]);
+        $cav->classificazioni()->syncWithoutDetaching([Classificazione::where('nome', 'Nessuna')->sole()->id]);
+        $this->assertEqualsCanonicalizing(['Nessuna', '2 soli', '3 soli', '4 soli'], $cav->classificazioni()->pluck('nome')->all());
+    }
+
     public function test_tipologie_extra_salvate_e_rilette_senza_mutare_le_altre_strutture(): void
     {
         $admin = $this->actor('admin');
@@ -40,7 +50,7 @@ class TipologieStrutturaTest extends TestCase
         $s = $this->structureFor(null);
         $before = $s->getRawOriginal();
         $extra = TipologiaGenerale::where('nome', 'Extra-alberghiera')->sole();
-        $cav = TipologiaStruttura::create(['nome' => 'Case e appartamenti per vacanze (CAV)', 'tipologia_generale_id' => $extra->id]);
+        $cav = TipologiaStruttura::firstOrCreate(['nome' => 'Case e appartamenti per vacanze (CAV)', 'tipologia_generale_id' => $extra->id]);
         $legacy = Classificazione::create(['nome' => 'Spighe storiche sintetiche']);
         $cav->classificazioni()->attach($legacy->id);
         $tables = ['tipologie_generali', 'tipologie_struttura', 'classificazioni', 'classificazione_tipologia'];

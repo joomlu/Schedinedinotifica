@@ -14,13 +14,11 @@ return new class extends Migration
             $this->id('classificazione_tipologia', ['tipologia_struttura_id' => $tipo, 'classificazione_id' => $nessuna]);
             // Opzioni ER additive; i valori e le relazioni legacy restano invariati.
             foreach (['Case e appartamenti per vacanze (CAV)' => [2, 3, 4], 'Locazione turistica non imprenditoriale' => [2, 3]] as $nome => $soli) {
-                $tipi = DB::table('tipologie_struttura')->where('nome', $nome)->where('tipologia_generale_id', $generale)->pluck('id');
-                if ($tipi->count() > 1) { throw new RuntimeException('Catalogo ambiguo: verificare la tipologia prima della migrazione.'); }
-                foreach ($tipi as $tipoId) {
-                    foreach ($soli as $numero) {
-                        $classe = $this->id('classificazioni', ['nome' => $numero.' soli']);
-                        $this->id('classificazione_tipologia', ['tipologia_struttura_id' => $tipoId, 'classificazione_id' => $classe]);
-                    }
+                // Le migrazioni precedono i seeder anche nelle installazioni nuove.
+                $tipoId = $this->id('tipologie_struttura', ['nome' => $nome, 'tipologia_generale_id' => $generale]);
+                foreach ($soli as $numero) {
+                    $classe = $this->id('classificazioni', ['nome' => $numero.' soli']);
+                    $this->id('classificazione_tipologia', ['tipologia_struttura_id' => $tipoId, 'classificazione_id' => $classe]);
                 }
             }
         });
