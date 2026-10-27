@@ -141,7 +141,7 @@ class QuesturaTransportGuardTest extends TestCase
         $this->actingAs($this->actor('struttura_user', null, $structure->id));
         GeoNazione::forceCreate(['id' => 777, 'nome' => 'Francia', 'cittadinanza' => 'Francese', 'codice_iso2' => 'FR', 'is_italia' => false]);
         $source = Schedina::create([
-            'struttura_id' => $structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16',
+            'struttura_id' => $structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16', 'cant_people' => 1,
             'arrive' => today()->toDateString(), 'departure' => today()->addDays(2)->toDateString(),
             'surname' => 'Esempio', 'name' => 'Fixture', 'sex' => 'F', 'oa_date_nac' => '1980-02-29',
             'oa_country' => '777', 'oa_city_nac' => 'Francese', 'or_doctype' => 'IDENT', 'or_doc' => 'TEST123', 'or_published_country' => '777',
@@ -303,7 +303,7 @@ class QuesturaTransportGuardTest extends TestCase
         $this->actingAs($this->actor('struttura_user', null, $structure->id));
         GeoNazione::forceCreate(['id' => 777, 'nome' => 'Francia', 'cittadinanza' => 'Francese', 'codice_iso2' => 'FR', 'is_italia' => false]);
         $source = Schedina::create([
-            'struttura_id' => $structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16',
+            'struttura_id' => $structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16', 'cant_people' => 1,
             'arrive' => today()->toDateString(), 'departure' => today()->addDays(2)->toDateString(),
             'surname' => 'Esempio', 'name' => 'Fixture export', 'sex' => 'F', 'oa_date_nac' => '1980-02-29',
             'oa_country' => '777', 'oa_city_nac' => 'Francese', 'or_doctype' => 'IDENT', 'or_doc' => 'TEST123', 'or_published_country' => '777',
@@ -340,13 +340,14 @@ class QuesturaTransportGuardTest extends TestCase
         }
         $url = $scope === 'periodo' ? '/questura/download/periodo' : '/questura/download/schedina/'.$source->id;
         $data = ['dal' => today()->toDateString(), 'al' => today()->toDateString()];
+        if ($enabled) { $data['preview_hash'] = hash('sha256', (new \App\Services\QuesturaTxtExportService)->buildTxtPerSchedina($source)); }
         $response = $json ? $this->postJson($url, $data) : $this->post($url, $data);
         if ($enabled) {
             $this->assertSame(1, DB::table('struttura_audit_logs')->count());
             // Entrambi i POST restituiscono TXT anche con Accept JSON: contratto ON preesistente.
             $response->assertOk()->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
             $this->assertStringStartsWith('attachment;', $response->headers->get('Content-Disposition'));
-            $this->assertSame(1, $builder->generated);
+            $this->assertSame($scope === 'periodo' ? 1 : 2, $builder->generated);
             $this->assertSame(1, DB::table('questura_exports')->count());
             $export = \App\Models\QuesturaExport::firstOrFail();
             $this->assertSame($response->getContent(), $disk->get($export->path));

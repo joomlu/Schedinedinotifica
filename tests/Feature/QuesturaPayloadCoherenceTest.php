@@ -11,6 +11,8 @@ use Tests\TestCase;
 
 class QuesturaPayloadCoherenceTest extends TestCase
 {
+    use \Tests\Support\QuesturaPreviewRequests;
+
     use RefreshDatabase, StrutturaFixtures;
 
     private Struttura $structure;
@@ -55,7 +57,7 @@ class QuesturaPayloadCoherenceTest extends TestCase
     private function source(string $name): Schedina
     {
         return Schedina::create([
-            'struttura_id' => $this->structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16',
+            'struttura_id' => $this->structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16', 'cant_people' => 1,
             'arrive' => today()->toDateString(), 'departure' => today()->addDays(2)->toDateString(),
             'surname' => 'Esempio', 'name' => $name, 'sex' => 'F', 'oa_date_nac' => '1980-02-29',
             'oa_country' => '777', 'oa_city_nac' => 'Francese', 'or_doctype' => 'IDENT', 'or_doc' => 'TEST123', 'or_published_country' => '777',
@@ -65,14 +67,14 @@ class QuesturaPayloadCoherenceTest extends TestCase
     private function period(): array { return ['dal' => today()->toDateString(), 'al' => today()->toDateString()]; }
     private function verify(): QuesturaTransmission
     {
-        $this->post('/questura/ws/verify', $this->period())->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', $this->period())->assertRedirect();
         return QuesturaTransmission::where('mode', 'verify')->latest('id')->firstOrFail();
     }
     private function sends(): array { return array_values(array_filter($this->double->calls, fn ($call) => $call[0] === 'Send')); }
     private function blocked(): void
     {
         $calls = count($this->double->calls);
-        $this->post('/questura/ws/send', $this->period()+['sha256' => 'forgiato', 'test_positive' => true])->assertRedirect()->assertSessionHasErrors('questura_ws');
+        $this->questuraPost('/questura/ws/send', $this->period()+['sha256' => 'forgiato', 'test_positive' => true])->assertRedirect()->assertSessionHasErrors('questura_ws');
         $this->assertSame($calls, count($this->double->calls), 'Blocco prima di qualsiasi nuova chiamata SOAP.');
         $this->assertSame([], $this->sends());
         $this->assertSame(0, QuesturaTransmission::where('mode', 'send')->count());
@@ -89,7 +91,7 @@ class QuesturaPayloadCoherenceTest extends TestCase
         $this->assertSame($verify->sha256, $verify->fresh()->sha256);
         $next = $this->verify();
         $this->assertNotSame($verify->sha256, $next->sha256);
-        $this->post('/questura/ws/send', $this->period())->assertRedirect()->assertSessionHasNoErrors();
+        $this->questuraPost('/questura/ws/send', $this->period())->assertRedirect()->assertSessionHasNoErrors();
         $this->assertCount(1, $this->sends());
         $this->assertSame($next->sha256, QuesturaTransmission::where('mode', 'send')->firstOrFail()->sha256);
     }
@@ -99,7 +101,7 @@ class QuesturaPayloadCoherenceTest extends TestCase
     {
         $verify = $this->verify();
         $this->source->update(['or_address' => 'Via sintetica']);
-        $this->post('/questura/ws/send', $this->period())->assertRedirect()->assertSessionHasNoErrors();
+        $this->questuraPost('/questura/ws/send', $this->period())->assertRedirect()->assertSessionHasNoErrors();
         $this->assertCount(1, $this->sends());
         $this->assertSame($verify->sha256, hash('sha256', implode("\r\n", $this->sends()[0][1]['ElencoSchedine']['string'])));
     }
@@ -179,7 +181,7 @@ class QuesturaPayloadCoherenceTest extends TestCase
             $this->assertSame(1, DB::table('questura_send_reservations')->count());
             $this->assertSame(base64_decode($verify->payload['txt_base64'], true), implode("\r\n", $args[0]['ElencoSchedine']['string']));
         };
-        $this->post('/questura/ws/send', $this->period())->assertRedirect()->assertSessionHasNoErrors();
+        $this->questuraPost('/questura/ws/send', $this->period())->assertRedirect()->assertSessionHasNoErrors();
         $this->assertSame(1, $builder->builds);
         $this->assertCount(1, $this->sends());
     }
@@ -188,12 +190,12 @@ class QuesturaPayloadCoherenceTest extends TestCase
     {
         $this->verify(); $this->source->update(['name' => 'Modificata']); $this->blocked();
         $this->verify(); $this->double->fail = 'Send';
-        $this->post('/questura/ws/send', $this->period())->assertRedirect();
+        $this->questuraPost('/questura/ws/send', $this->period())->assertRedirect();
         $send = QuesturaTransmission::where('mode', 'send')->firstOrFail();
         $this->assertSame('uncertain', $send->status);
         $this->double->fail = null;
         $this->source->update(['name' => 'Ancora modificata']); $this->verify();
-        $this->post('/questura/ws/send', $this->period())->assertRedirect()->assertSessionHasErrors('questura_ws');
+        $this->questuraPost('/questura/ws/send', $this->period())->assertRedirect()->assertSessionHasErrors('questura_ws');
         $this->assertCount(1, $this->sends());
         $this->assertSame(1, DB::table('questura_send_reservations')->count());
         $this->assertSame(1, QuesturaTransmission::where('mode', 'send')->count());

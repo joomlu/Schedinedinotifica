@@ -11,6 +11,8 @@ use Tests\TestCase;
 
 class QuesturaTestSendSnapshotTest extends TestCase
 {
+    use \Tests\Support\QuesturaPreviewRequests;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -28,7 +30,7 @@ class QuesturaTestSendSnapshotTest extends TestCase
         $this->actingAs($this->actor('struttura_user', null, $structure->id));
         GeoNazione::forceCreate(['id' => 777, 'nome' => 'Francia', 'cittadinanza' => 'Francese', 'codice_iso2' => 'FR', 'is_italia' => false]);
         $source = Schedina::create([
-            'struttura_id' => $structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16',
+            'struttura_id' => $structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16', 'cant_people' => 1,
             'arrive' => today()->toDateString(), 'departure' => today()->addDays(2)->toDateString(),
             'surname' => 'Esempio', 'name' => 'Prima verifica', 'sex' => 'F', 'oa_date_nac' => '1980-02-29',
             'oa_country' => '777', 'oa_city_nac' => 'Francese', 'or_doctype' => 'IDENT', 'or_doc' => 'TEST123', 'or_published_country' => '777',
@@ -41,7 +43,7 @@ class QuesturaTestSendSnapshotTest extends TestCase
         });
         $period = ['dal' => today()->toDateString(), 'al' => today()->toDateString()];
         $original = (new QuesturaTxtExportService())->buildTxtPerSchedina($source);
-        $this->post('/questura/ws/verify', $period)->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', $period)->assertRedirect()->assertSessionHas('success', fn ($message) => str_contains($message, 'Verifica tracciato positiva'));
         $verify = QuesturaTransmission::where('mode', 'verify')->firstOrFail();
         $tests = array_values(array_filter($double->calls, fn ($call) => $call[0] === 'Test'));
         $this->assertCount(1, $tests);
@@ -52,7 +54,7 @@ class QuesturaTestSendSnapshotTest extends TestCase
         $this->assertSame(0, DB::table('questura_send_reservations')->count());
 
         if ($changed) { $source->update(['name' => 'Dopo verifica']); }
-        $this->post('/questura/ws/send', $period)->assertRedirect();
+        $this->questuraPost('/questura/ws/send', $period)->assertRedirect();
         $sends = array_values(array_filter($double->calls, fn ($call) => $call[0] === 'Send'));
         $this->assertLessThanOrEqual(1, count($sends));
         $this->assertTrue(Schedina::whereKey($source->id)->exists());

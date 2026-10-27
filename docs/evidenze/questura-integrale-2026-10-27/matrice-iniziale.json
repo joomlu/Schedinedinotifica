@@ -1,0 +1,56 @@
+[
+  {
+    "area": "form_dati",
+    "esistente": "Esistenti struttura/schedina/componenti e Web Check-in",
+    "da_verificare": "Da verificare selezioni, obbligatorietà, salvataggio e flussi a tre larghezze",
+    "evidenze": "QuesturaBoundary/Store/UX e rapporti storici"
+  },
+  {
+    "area": "TXT",
+    "esistente": "Generatore deterministico 168 byte/riga e CRLF",
+    "da_verificare": "Da riconfrontare fonti vigenti, nomi, cataloghi, tipi, date, anteprima/download",
+    "evidenze": "Boundary/Conclusive/FinalAudit"
+  },
+  {
+    "area": "manuale",
+    "esistente": "Download singolo e periodo esistenti",
+    "da_verificare": "Da verificare corrispondenza anteprima e procedura ufficiale; guardia globale OFF preservata",
+    "evidenze": "Controller e guide ufficiali"
+  },
+  {
+    "area": "WS",
+    "esistente": "WSDL, token, Test/Send, snapshot e riserve esistenti",
+    "da_verificare": "Da riconfermare contratto/esiti/timeout/concorrenza e sicurezza",
+    "evidenze": "WsContract/Idempotency/PayloadCoherence"
+  },
+  {
+    "area": "storico",
+    "esistente": "Tre paginazioni e copie con impronte",
+    "da_verificare": "Da verificare periodo/schede/paginazione/conservazione/integrità",
+    "evidenze": "Controller/Blade/Retention"
+  },
+  {
+    "area": "ricevute",
+    "esistente": "Acquisizione PDF giornaliero e minimizzazione esistenti",
+    "da_verificare": "Da verificare PDF, associazione, firma dichiarata e riconciliazione; nessuna ricevuta sintetica promossa",
+    "evidenze": "Retention/Boundary/guide"
+  },
+  {
+    "area": "sicurezza",
+    "esistente": "Tenancy, CSRF, cifratura, privacy e OFF immutabile esistenti",
+    "da_verificare": "Da riprovare matrici e rileggere diagnostica/archivi senza esporre valori reali",
+    "evidenze": "TransportGuard/LoggingPrivacy/CredentialEncryption"
+  },
+  {
+    "area": "produzione",
+    "esistente": "Ultimo rilascio dichiarato c226dd80",
+    "da_verificare": "Da riscontrare SHA/fonti/runtime/schema e risorse correnti; nuovo C5 dopo qualifica",
+    "evidenze": "Maestro e ricevute ISTAT"
+  },
+  {
+    "area": "accettazione",
+    "esistente": "Non attestata",
+    "da_verificare": "Pendente utenza/struttura/campione e conferma specifica; nessun invio reale autorizzato",
+    "evidenze": "Limite esplicito richiesta"
+  }
+]

@@ -25,7 +25,9 @@ class QuesturaUxTest extends TestCase
     private function fixture(): Struttura
     {
         $s = $this->structureFor(null);
-        $this->actingAs($this->actor('struttura_user', null, $s->id));
+        $actor = $this->actor('struttura_user', null, $s->id);
+        $actor->update(['ruolo_operativo' => 'proprietario']);
+        $this->actingAs($actor);
 
         return $s;
     }

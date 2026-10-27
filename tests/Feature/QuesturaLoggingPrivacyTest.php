@@ -15,6 +15,8 @@ use Tests\TestCase;
 
 class QuesturaLoggingPrivacyTest extends TestCase
 {
+    use \Tests\Support\QuesturaPreviewRequests;
+
     use RefreshDatabase { beginDatabaseTransaction as private beginFixtureTransaction; }
     use StrutturaFixtures;
 
@@ -49,7 +51,7 @@ class QuesturaLoggingPrivacyTest extends TestCase
         $this->actingAs($this->actor('struttura_user', null, $this->structure->id));
         GeoNazione::forceCreate(['id' => 777, 'nome' => 'Francia', 'cittadinanza' => 'Francese', 'codice_iso2' => 'FR', 'is_italia' => false]);
         $this->source = Schedina::create([
-            'struttura_id' => $this->structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16',
+            'struttura_id' => $this->structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16', 'cant_people' => 1,
             'arrive' => today()->toDateString(), 'departure' => today()->addDays(2)->toDateString(),
             'surname' => 'CognomePrivacySintetico', 'name' => 'NomePrivacySintetico', 'sex' => 'F', 'oa_date_nac' => '1980-02-29',
             'oa_country' => '777', 'oa_city_nac' => 'Francese', 'or_doctype' => 'IDENT', 'or_doc' => 'DOC-Q3-SINTETICO', 'or_published_country' => '777',
@@ -87,7 +89,7 @@ class QuesturaLoggingPrivacyTest extends TestCase
     private function period(): array { return ['dal' => $this->source->arrive, 'al' => $this->source->arrive]; }
     private function verify(): void
     {
-        $this->post('/questura/ws/verify', $this->period())->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', $this->period())->assertRedirect();
         $tx = QuesturaTransmission::where('mode', 'verify')->firstOrFail();
         $this->txt = base64_decode($tx->payload['txt_base64'], true);
         $this->sensitive = $this->txt.' '.base64_encode($this->txt).' NomePrivacySintetico CognomePrivacySintetico DOC-Q3-SINTETICO 1980-02-29 INDIRIZZO-Q3-SINTETICO UTENTE-Q3-SINTETICO PASSWORD-Q3-SINTETICA WSKEY-Q3-SINTETICA TOKEN-Q3-SINTETICO CERTIFICATO-Q3-SINTETICO HEADER-Q3-SINTETICO';
@@ -125,7 +127,7 @@ class QuesturaLoggingPrivacyTest extends TestCase
     public function test_guasto_db_reservation_annulla_tentativo_senza_rete_o_copie_nei_log(): void
     {
         $this->verify();
-        $response = $this->post('/questura/ws/send', $this->period())->assertStatus(500);
+        $response = $this->questuraPost('/questura/ws/send', $this->period())->assertStatus(500);
         $this->assertSame(0, $this->sendCount());
         $this->assertSame(0, QuesturaTransmission::where('mode', 'send')->count());
         $this->assertSame(0, DB::table('questura_send_reservations')->count());
@@ -135,11 +137,11 @@ class QuesturaLoggingPrivacyTest extends TestCase
     public function test_guasto_db_dopo_send_preserva_riserva_e_blocca_retry_senza_log_personali(): void
     {
         $this->verify();
-        $response = $this->post('/questura/ws/send', $this->period())->assertStatus(500);
+        $response = $this->questuraPost('/questura/ws/send', $this->period())->assertStatus(500);
         $this->assertSame(1, $this->sendCount());
         $this->assertSame('in_progress', QuesturaTransmission::where('mode', 'send')->firstOrFail()->status);
         $this->assertSame(1, DB::table('questura_send_reservations')->count());
-        $this->post('/questura/ws/send', $this->period())->assertSessionHasErrors('questura_ws');
+        $this->questuraPost('/questura/ws/send', $this->period())->assertSessionHasErrors('questura_ws');
         $this->assertSame(1, $this->sendCount());
         $this->technicalLog(); $this->safe($response->getContent());
     }
@@ -153,7 +155,7 @@ class QuesturaLoggingPrivacyTest extends TestCase
             if ($tx->mode === 'send') { throw new QuesturaPrivacyException($sensitive, 0, new \RuntimeException($sensitive)); }
         });
         try {
-            $response = $this->withHeaders($json ? ['Accept' => 'application/json'] : [])->post('/questura/ws/send', $this->period())->assertStatus(500);
+            $response = $this->withHeaders($json ? ['Accept' => 'application/json'] : [])->questuraPost('/questura/ws/send', $this->period())->assertStatus(500);
         } finally { QuesturaTransmission::flushEventListeners(); QuesturaTransmission::clearBootedModels(); }
         $this->assertSame(0, QuesturaPrivacyException::$calls);
         $this->assertSame(0, $this->sendCount());
@@ -172,7 +174,7 @@ class QuesturaLoggingPrivacyTest extends TestCase
         QuesturaTransmission::creating(function ($tx) use ($sensitive, $status) {
             if ($tx->mode === 'send') { throw new \Symfony\Component\HttpKernel\Exception\HttpException($status, $sensitive, new \RuntimeException($sensitive)); }
         });
-        try { $response = $this->post('/questura/ws/send', $this->period())->assertStatus($status); }
+        try { $response = $this->questuraPost('/questura/ws/send', $this->period())->assertStatus($status); }
         finally { QuesturaTransmission::flushEventListeners(); QuesturaTransmission::clearBootedModels(); }
         $this->assertSame(0, $this->sendCount());
         $this->assertSame(0, DB::table('questura_send_reservations')->count());
@@ -185,7 +187,7 @@ class QuesturaLoggingPrivacyTest extends TestCase
     {
         $this->verify();
         $receipt = str_starts_with($case, 'receipt');
-        if ($receipt) { $this->post('/questura/ws/send', $this->period())->assertRedirect(); }
+        if ($receipt) { $this->questuraPost('/questura/ws/send', $this->period())->assertRedirect(); }
         $this->soap->fail = match ($case) { 'pre_send' => 'GenerateToken', 'receipt_fault' => 'Ricevuta', default => 'Send' };
         $this->soap->timeout = $case === 'timeout';
         $this->soap->invalidPdf = $case === 'receipt_parse';
@@ -198,7 +200,7 @@ class QuesturaLoggingPrivacyTest extends TestCase
             $this->assertSame(0, QuesturaReceipt::count());
             $this->assertNotNull($tx->fresh()->payload);
         } else {
-            $response = $this->post('/questura/ws/send', $this->period())->assertRedirect();
+            $response = $this->questuraPost('/questura/ws/send', $this->period())->assertRedirect();
             $tx = QuesturaTransmission::where('mode', 'send')->firstOrFail();
             $this->assertSame($case === 'pre_send' ? 'technical_error' : 'uncertain', $tx->status);
             $this->assertSame($case === 'pre_send' ? 0 : 1, $this->sendCount());
@@ -211,7 +213,7 @@ class QuesturaLoggingPrivacyTest extends TestCase
 
     public function test_guasto_db_archivio_ricevuta_elimina_solo_file_effimero_e_non_logga_dati(): void
     {
-        $this->verify(); $this->post('/questura/ws/send', $this->period())->assertRedirect();
+        $this->verify(); $this->questuraPost('/questura/ws/send', $this->period())->assertRedirect();
         $tx = QuesturaTransmission::where('mode', 'send')->firstOrFail();
         Carbon::setTestNow(now()->addDay());
         try { $response = $this->post('/questura/ws/receipt/'.$tx->id)->assertStatus(500); }
@@ -225,7 +227,7 @@ class QuesturaLoggingPrivacyTest extends TestCase
 
     public function test_guasto_db_riconciliazione_preserva_snapshot_e_riserva_senza_log_personali(): void
     {
-        $this->verify(); $this->post('/questura/ws/send', $this->period())->assertRedirect();
+        $this->verify(); $this->questuraPost('/questura/ws/send', $this->period())->assertRedirect();
         $tx = QuesturaTransmission::where('mode', 'send')->firstOrFail();
         DB::table('questura_transmissions')->where('id', $tx->id)->update(['status' => 'uncertain']);
         Carbon::setTestNow(now()->addDay());

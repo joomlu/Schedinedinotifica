@@ -31,7 +31,8 @@ class QuesturaLegacyMigrationTest extends TestCase
             try { $migration->up(); $this->fail('Ciphertext ambiguo convertito'); }
             catch (\RuntimeException) { $this->assertSame($ambiguous, DB::table('struttura')->where('id', $model->id)->value('questura_wskey')); }
         } finally {
-            DB::table('struttura')->where('id', $model->id)->delete();
+            $this->artisan('migrate:fresh', ['--force' => true])->assertSuccessful();
+            \Illuminate\Foundation\Testing\RefreshDatabaseState::$migrated = false;
         }
     }
 }

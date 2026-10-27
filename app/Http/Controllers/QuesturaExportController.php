@@ -38,10 +38,22 @@ class QuesturaExportController extends Controller
         }
 
         [$dal, $al] = $this->resolvePeriodo($request);
+        $request->validate(['q' => ['nullable', 'string', 'max:200'], 'filtro' => ['nullable', 'string', 'max:30']]);
         $q = trim((string) $request->query('q', ''));
         $filtro = (string) $request->query('filtro', 'tutte');
         $schedine = $this->service->schedinePerPeriodo($struttura->id, $dal, $al);
-        $analisi = $this->service->analizzaSchedine($schedine)
+        $completa = $this->service->analizzaSchedine($schedine)->map(function (array $item) {
+            $item['preview_hash'] = $item['valida'] ? hash('sha256', implode("\r\n", $item['righe'])) : null;
+            return $item;
+        });
+        $previewTxt = null;
+        $previewError = null;
+        try {
+            $previewTxt = $this->service->buildTxt($completa);
+        } catch (ValidationException $e) {
+            $previewError = $e->validator->errors()->first();
+        }
+        $analisi = $completa
             ->when($filtro !== '' && $filtro !== 'tutte', function ($collection) use ($filtro) {
                 return match ($filtro) {
                     'pronte' => $collection->where('valida', true)->values(),
@@ -108,6 +120,10 @@ class QuesturaExportController extends Controller
         }
 
         return response()->view('questura.index', [
+            'preview_txt' => $previewTxt,
+            'preview_hash' => $previewTxt !== null ? hash('sha256', $previewTxt) : null,
+            'preview_error' => $previewError,
+            'preview_righe' => $completa->sum(fn (array $item) => count($item['righe'])),
             'struttura' => $struttura,
             'credStatus' => $credStatus,
             'questuraError' => $questuraError,
@@ -120,9 +136,10 @@ class QuesturaExportController extends Controller
             'storico' => $storico,
             'trasmissioni' => $trasmissioni,
             'filtro' => $filtro,
+            'tab' => in_array($request->query('tab'), ['export', 'elettronico'], true) ? $request->query('tab') : ($request->has('transmissions_page') ? 'elettronico' : ($request->has('exports_page') ? 'export' : 'operativita')),
             'latestTableSnapshot' => $latestTableSnapshot,
             'ricevute' => QuesturaReceipt::where('struttura_id', $struttura->id)->latest('id')->paginate(15, ['*'], 'receipts_page'),
-        ], $questuraError === null ? 200 : 409);
+        ], $questuraError === null ? 200 : 409, ['Cache-Control' => 'private, no-store']);
     }
 
     public function downloadPeriodo(Request $request)
@@ -138,6 +155,7 @@ class QuesturaExportController extends Controller
 
         try {
             [$dal, $al, $txt, $analisi] = $this->buildPeriodoTxt($struttura->id, $request);
+            $this->assertPreview($request, $txt);
         } catch (ValidationException $e) {
             [$dal, $al] = $this->resolvePeriodo($request);
             return redirect()->route('questura.index', ['dal' => $dal->format('Y-m-d'), 'al' => $al->format('Y-m-d')])->withErrors($e->errors());
@@ -179,6 +197,7 @@ class QuesturaExportController extends Controller
 
         try {
             $txt = $this->service->buildTxtPerSchedina($schedina);
+            $this->assertPreview($request, $txt);
         } catch (ValidationException $e) {
             return redirect()
                 ->route('questura.index', ['dal' => $schedina->arrive, 'al' => $schedina->arrive])
@@ -374,6 +393,7 @@ class QuesturaExportController extends Controller
 
         try {
             [$dal, $al, $txt, $analisi] = $this->buildPeriodoTxt($struttura->id, $request);
+            $this->assertPreview($request, $txt);
         } catch (ValidationException $e) {
             [$dal, $al] = $this->resolvePeriodo($request);
             return redirect()->route('questura.index', ['dal' => $dal->format('Y-m-d'), 'al' => $al->format('Y-m-d')])->withErrors($e->errors());
@@ -466,6 +486,13 @@ class QuesturaExportController extends Controller
             }
         });
 
+        // Il Test positivo qualifica il tracciato, senza attestare una comunicazione ufficiale.
+        if ($mode === 'verify' && $result['state'] === 'unknown' && (int) $transmission->righe_count > 0
+            && ($result['valid_rows'] ?? null) === (int) $transmission->righe_count && ($result['row_errors'] ?? null) === []) {
+            $righe = (int) $transmission->righe_count;
+            return redirect()->route('questura.index', ['dal' => $dal->format('Y-m-d'), 'al' => $al->format('Y-m-d')])
+                ->with('success', 'Verifica tracciato positiva su '.$righe.($righe === 1 ? ' riga. ' : ' righe. ').'Il Test non costituisce l’invio ufficiale.');
+        }
         // No official acceptance parser: attempts never increment confirmed-send counters.
         return redirect()->route('questura.index', ['dal' => $dal->format('Y-m-d'), 'al' => $al->format('Y-m-d')])
             ->with(in_array($result['state'], ['technical_error', 'rejected'], true) ? 'error' : 'warning', $result['message']);
@@ -514,8 +541,17 @@ class QuesturaExportController extends Controller
         }
     }
 
+    private function assertPreview(Request $request, string $txt): void
+    {
+        $hash = $request->input('preview_hash');
+        if (!is_string($hash) || !preg_match('/\A[a-f0-9]{64}\z/', $hash) || !hash_equals(hash('sha256', $txt), $hash)) {
+            throw ValidationException::withMessages(['questura_preview' => 'Anteprima mancante o dati cambiati: aggiorna Questura e ricontrolla l’elenco prima di procedere.']);
+        }
+    }
+
     private function resolvePeriodo(Request $request): array
     {
+        $request->validate(['dal' => ['nullable', 'date_format:Y-m-d'], 'al' => ['nullable', 'date_format:Y-m-d']]);
         $dal = $request->filled('dal') ? Carbon::parse($request->input('dal')) : now();
         $al = $request->filled('al') ? Carbon::parse($request->input('al')) : $dal->copy();
 

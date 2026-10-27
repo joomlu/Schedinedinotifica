@@ -12,6 +12,8 @@ use Tests\TestCase;
 
 class QuesturaIdempotencyTest extends TestCase
 {
+    use \Tests\Support\QuesturaPreviewRequests;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -26,7 +28,7 @@ class QuesturaIdempotencyTest extends TestCase
             GeoNazione::forceCreate(['id' => 777, 'nome' => 'Francia', 'cittadinanza' => 'Francese', 'codice_iso2' => 'FR', 'is_italia' => false]);
         }
         return Schedina::create([
-            'struttura_id' => $structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16',
+            'struttura_id' => $structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16', 'cant_people' => 1,
             'arrive' => $arrival ?? today()->toDateString(), 'departure' => today()->addDays(2)->toDateString(),
             'surname' => 'Esempio', 'name' => $name, 'sex' => 'F', 'oa_date_nac' => '1980-02-29',
             'oa_country' => '777', 'oa_city_nac' => 'Francese', 'or_doctype' => 'IDENT',
@@ -103,7 +105,7 @@ class QuesturaIdempotencyTest extends TestCase
         $previousCalls = $double->calls;
         [$fail, $reject, $zero] = [$double->fail, $double->reject, $double->zero];
         $double->fail = null; $double->reject = null; $double->zero = false;
-        try { $this->post('/questura/ws/verify', $period)->assertRedirect(); }
+        try { $this->questuraPost('/questura/ws/verify', $period)->assertRedirect(); }
         finally { $double->fail = $fail; $double->reject = $reject; $double->zero = $zero; }
         // Le osservazioni successive riguardano esclusivamente il tentativo Send.
         $double->calls = $previousCalls;
@@ -112,7 +114,7 @@ class QuesturaIdempotencyTest extends TestCase
     private function sendWithTest(QuesturaSoapDouble $double, array $period)
     {
         $this->prepareSendTest($double, $period);
-        return $this->post('/questura/ws/send', $period);
+        return $this->questuraPost('/questura/ws/send', $period);
     }
 
     public function test_riserva_precede_rete_e_blocca_modifiche_di_ogni_campo(): void
@@ -220,11 +222,11 @@ class QuesturaIdempotencyTest extends TestCase
     {
         $structure = $this->structureFor(null); $this->actorFor($structure); $s = $this->source($structure); $double = $this->soap();
         $s->update(['name' => '']);
-        $this->post('/questura/ws/send', $this->period())->assertRedirect()->assertSessionHasErrors();
+        $this->questuraPost('/questura/ws/send', $this->period())->assertRedirect()->assertSessionHasErrors();
         $this->assertSame(0, QuesturaTransmission::where('mode', 'send')->count());
         $this->assertSame([], $double->calls);
         $s->update(['name' => 'Corretto']); $double->reject = 'Test';
-        $this->post('/questura/ws/verify', $this->period())->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', $this->period())->assertRedirect();
         $this->assertSame('rejected', QuesturaTransmission::where('mode', 'verify')->firstOrFail()->status);
         $this->assertSame(0, DB::table('questura_send_reservations')->count());
         $this->assertSame(0, $this->sends($double));

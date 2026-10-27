@@ -19,6 +19,8 @@ use Tests\TestCase;
 
 class QuesturaConclusiveAuditTest extends TestCase
 {
+    use \Tests\Support\QuesturaPreviewRequests;
+
     use RefreshDatabase;
     use StrutturaFixtures;
 
@@ -38,7 +40,7 @@ class QuesturaConclusiveAuditTest extends TestCase
         $this->actingAs($this->actor('struttura_user', null, $this->structure->id));
         GeoNazione::forceCreate(['id' => 777, 'nome' => 'Francia', 'cittadinanza' => 'Francese', 'codice_iso2' => 'FR', 'is_italia' => false]);
         $this->source = Schedina::create([
-            'struttura_id' => $this->structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16',
+            'struttura_id' => $this->structure->id, 'circuito' => 'schedina', 'scheda' => 'SINTETICA', 'relationship' => '16', 'cant_people' => 1,
             'arrive' => today()->toDateString(), 'departure' => today()->addDays(2)->toDateString(),
             'surname' => 'Esempio', 'name' => 'OspiteSinteticoRiservato', 'sex' => 'F', 'oa_date_nac' => '1980-02-29',
             'oa_country' => '777', 'oa_city_nac' => 'Francese', 'or_doctype' => 'IDENT', 'or_doc' => 'TEST123', 'or_published_country' => '777',
@@ -91,8 +93,8 @@ class QuesturaConclusiveAuditTest extends TestCase
 
     private function send(): QuesturaTransmission
     {
-        $this->post('/questura/ws/verify', $this->period())->assertRedirect();
-        $this->post('/questura/ws/send', $this->period())->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', $this->period())->assertRedirect();
+        $this->questuraPost('/questura/ws/send', $this->period())->assertRedirect();
 
         return QuesturaTransmission::where('mode', 'send')->firstOrFail();
     }
@@ -126,8 +128,8 @@ class QuesturaConclusiveAuditTest extends TestCase
     public function test_generazione_download_refresh_non_trasmettono_ne_puliscono(): void
     {
         $before = $this->source->fresh()->getRawOriginal();
-        $a = $this->post('/questura/download/periodo', $this->period())->assertOk();
-        $b = $this->post('/questura/download/schedina/'.$this->source->id)->assertOk();
+        $a = $this->questuraPost('/questura/download/periodo', $this->period())->assertOk();
+        $b = $this->questuraPost('/questura/download/schedina/'.$this->source->id)->assertOk();
         $this->assertSame($a->getContent(), $b->getContent());
         $exports = QuesturaExport::orderBy('id')->get();
         $this->assertCount(2, $exports);
@@ -151,7 +153,7 @@ class QuesturaConclusiveAuditTest extends TestCase
         $foreign = $this->source->replicate();
         $foreign->struttura_id = $this->structureFor(null)->id;
         $foreign->save();
-        $this->post('/questura/download/schedina/'.$foreign->id)->assertNotFound();
+        $this->questuraPost('/questura/download/schedina/'.$foreign->id)->assertNotFound();
         $this->assertSame(2, QuesturaExport::count());
     }
 
@@ -239,7 +241,7 @@ class QuesturaConclusiveAuditTest extends TestCase
 
     public function test_ricevuta_non_associabile_a_test_o_esito_non_trasmesso(): void
     {
-        $this->post('/questura/ws/verify', $this->period())->assertRedirect();
+        $this->questuraPost('/questura/ws/verify', $this->period())->assertRedirect();
         $verify = QuesturaTransmission::where('mode', 'verify')->firstOrFail();
         $calls = count($this->double->calls);
         $this->post('/questura/ws/receipt/'.$verify->id)->assertStatus(409);
