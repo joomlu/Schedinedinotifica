@@ -10,7 +10,7 @@ Preflight risorse PASS: daily `945ef553`, DB logico 3.332.249 byte, 84 file prot
 
 Kit C5 preparato soltanto privatamente: due migrazioni nominate, nessuna nuova tabella, guardie e budget invariati. Verificatore del delta DB provato su sintetici: tre colonne nullable, sole aggiunte catalogo/ledger, quattro mutazioni respinte. QA online predisposta su due strutture sintetiche, non eseguita. PREPARE/S0/RUN/DDL/QA/monitor pendenti. Rilettura produttiva: `ac7dd4a9`, Git pulito, 159 migrazioni/66 tabelle, barriera assente, Questura/ISTAT OFF. Nessuna trasmissione reale.
 
-**Stato corrente: PARZIALE. R10 VERIFICATA (391 test / 5.414 asserzioni e sei browser PASS); backup e VM48GiB PASS. PR38 aggiornata, nuova revisione e C5 pendenti. BASELINE IN AUDIT invariata. Nessuna trasmissione reale. Le sezioni iniziali di ripresa conservano gli stati storici.**
+**Stato corrente: PARZIALE. R12 VERIFICATA (395 test/5429 asserzioni e sei browser PASS). Backup e VM48GiB PASS. Nuova revisione/C5/pubblicazione pendenti; nessun invio reale. BASELINE IN AUDIT invariata.**
 
 ## Perimetro e stato iniziale
 
@@ -140,3 +140,12 @@ Backup integrale PASS: 12 file, 27.042.126.393 byte cifrati su Extra, autenticat
 P2 PR38 riprodotto e corretto nel solo completamento catalogo: CAV creata se assente prima delle associazioni ai soli. Seeder generale invariato e non eseguito. R9 iniziale errore di setup per seeder non incluso; R9B rifiutata dal launcher, nessun bypass. R9C riproduce con fixture il catalogo popolato dopo le migrazioni: 3 test /59 asserzioni, un fallimento atteso con sola Nessuna. R10 finale: **391 test /5.414 asserzioni e sei browser PASS**, sei catture ispezionate; runtime effimero rimosso. Non si sommano prove sovrapposte. Commit applicativo corretto `dc26e25c84761b7ed72cb5472c4b1472a9a44140`, 21 impronte corrispondenti a R10. Vecchio rilievo risolto sulla PR aggiornata; nuova revisione ancora da attestare.
 
 Kit C5 privato da rigenerare sul nuovo candidato. Verifica conservativa del delta al sigillo, prima dell’apertura e dopo la chiusura del monitor runner, riusando il dump già prodotto: sole tre colonne NULL, 1 tipologia/3 classi/6 relazioni e due ledger; nessuna nuova tabella. Prove sintetiche del confronto PASS (quattro alterazioni respinte), hook PASS (delta ammesso, alterazione e S0 mancante respinti senza promozione). Non costituiscono C5 produttivo. Produzione ultima lettura ac7dd4a9/159migrazioni/66tabelle, OFF invariati. PREPARE/S0/RUN/DDL/QA/monitor non eseguiti.
+
+
+## Riordino JSON — R12 finale
+
+Seconda revisione PR38 sul candidato0b769152: P2 sul confronto del contesto JSON dipendente dall’ordine delle chiavi. R11 riproduce il solo riordino con contenuto identico: 14test/164asserzioni, un fallimento atteso; ID di tipo diverso, chiave assente e chiave aggiunta già respinti. Correttivo minimo nel controller: copie dei due contesti ordinate per chiave, confronto rigoroso invariato. Nessun cambiamento al destinatario, agli snapshot immutabili o ai metodi di trasporto.
+
+**R12: 395 test/5429 asserzioni e sei browser PASS**, sei catture ispezionate, runtime effimero ripulito; 21 impronte conformi al commit applicativo `128e4ef2d38dc0a1bcd5a20f261a908aa7ab9488`. Non sommare con R10. La prova simula il riordino su MariaDB isolata e non attesta una nuova integrazione MySQL operativa.
+
+Deposito/preflight del kit precedente0b769152 PASS (nove sonde, chiavi/infrastruttura preservate), ma nessun PREPARE/S0/RUN/manutenzione/DDL eseguito: kit conservato inattivo. Nuovo kit da rigenerare sul candidato corretto dopo revisione. Backup e crescita48GiB già PASS, nessuna ripetizione implicita; Questura/ISTAT OFF e produzione ac7dd4a9 invariati.

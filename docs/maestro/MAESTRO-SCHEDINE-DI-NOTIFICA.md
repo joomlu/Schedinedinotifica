@@ -1,5 +1,12 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Tipologie / appartamento — R12 PASS dopo riordino JSON, nuova revisione pendente
+
+Secondo P2 PR38 riprodotto con solo ordine chiavi JSON diverso (R11:14test/164asserzioni, un fallimento atteso). Correttivo minimo controller: ordinare copie dei contesti prima del confronto rigoroso, preservando valori/tipi/chiavi. Quattro regressioni: riordino ammesso, tipo ID diverso/chiave mancante/chiave aggiuntiva respinti. **R12 395test/5429asserzioni e sei browser PASS**, sei catture ispezionate e runtime rimosso;21impronte conformi al commit applicativo `128e4ef2d38dc0a1bcd5a20f261a908aa7ab9488`. Riordino simulato in MariaDB isolata, nessun test MySQL operativo. Nessuna somma con R10.
+
+Kit0b769152 depositato/preflightPASS ma inattivo: nessun PREPARE/S0/RUN/manutenzione/DDL, da rigenerare dopo revisione del candidato corretto. Backup integrale cifrato e VM48GiB restano PASS. Produzione ac7dd4a9/159/66, Questura/ISTAT OFF. Nessuna trasmissione reale. [Rapporto](../TIPOLOGIE-APPARTAMENTO-2026-10-27.md), [qualifica](../evidenze/tipologie-appartamento-2026-10-27/verifica.json). **BASELINE IN AUDIT invariata.**
+
+
 ## Tipologie / appartamento — R10 PASS, VM48GiB verificata, PR38 aggiornata
 
 Consenso specifico acquisito con «autorizo tutto»; push pubblico/PR38 eseguiti. P2 della revisione sul catalogo nuovo riprodotto e corretto senza modificare/eseguire il seeder generale: CAV creata se assente prima delle associazioni ai soli. R9 errore setup, R9B guardia seeder respinta intatta, R9C fallimento atteso; **R10 391 test/5.414 asserzioni e sei browser PASS**, sei catture ispezionate e runtime rimosso. Commit applicativo `dc26e25c`, 21 impronte conformi. PR38 aggiornata, rilievo precedente risolto, nuova revisione e integrazione pendenti.
