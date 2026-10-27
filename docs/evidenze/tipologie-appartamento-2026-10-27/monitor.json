@@ -1,0 +1,6 @@
+{
+  "stato": "IN_CORSO",
+  "minimo_secondi": 900,
+  "inizio_dopo_QA_pulizia_runtime": true,
+  "PASS_anticipato": false
+}

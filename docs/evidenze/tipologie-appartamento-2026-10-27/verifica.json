@@ -174,26 +174,19 @@
     "differenze": 0
   },
   "produzione_finale": {
-    "HEAD": "ac7dd4a9c88a6e979f073a60fe8b715523f9821e",
+    "HEAD": "79b5d7e77a02c2fd98e9ddae24016ad0231d1e5b",
     "Git_pulito": true,
-    "Questura_OFF": true,
-    "ISTAT_OFF": true,
-    "migrazioni": 159,
+    "migrazioni": 161,
     "tabelle": 66,
-    "barriera_assente": true,
-    "nessuna_trasmissione_di_questa_task": true
+    "Questura_OFF": true,
+    "ISTAT_OFF": true
   },
-  "migrazioni_preparate_non_applicate": [
-    "2026_10_27_120000_add_questura_profilo_to_struttura",
-    "2026_10_27_120100_complete_tipologie_turistiche"
-  ],
   "pubblicazione": {
-    "stato": "STOP_AUTORIZZAZIONE_SPECIFICA_MERGE_E_BACKUP_C5",
-    "consenso": "autorizo tutto, risposta a push pubblico/PR e ampliamento VM44→48GiB con backup cifrato verificato Extra/chiave separata Mac",
-    "risorse": "PASS_BACKUP_E_AMPLIAMENTO_VM_44_48",
-    "C5": "PREPARE_RESPINTO_PRIMA_ESECUZIONE",
-    "QA_online": "NON_ESEGUITA",
-    "monitor": "NON_ESEGUITO"
+    "stato": "PUBBLICATO_QA_PASS_MONITOR_IN_CORSO",
+    "consenso_specifico": true,
+    "C5": "PASS",
+    "QA_online": "PASS_R5",
+    "monitor": "IN_CORSO"
   },
   "PASS_globale_repository": false,
   "accettazione_enti": false,
@@ -206,8 +199,10 @@
     "push": "PASS",
     "P2": "CORRETTO_QUALIFICATO_R10",
     "nuova_revisione": "CONCLUSA_SENZA_RILIEVI_SU_79b5d7e7",
-    "merge": "RESPINTO_PRIMA_ESECUZIONE",
-    "P2_JSON": "CORRETTO_QUALIFICATO_R12"
+    "merge": "03e888a31d68b450032418d775d7445026908054",
+    "P2_JSON": "CORRETTO_QUALIFICATO_R12",
+    "deploy": "79b5d7e77a02c2fd98e9ddae24016ad0231d1e5b",
+    "consuntivo": "Ramo documentale separato, nessun delta applicativo"
   },
   "qualifica_precedente_R7_R8": {
     "sorgenti_sha256": {
@@ -474,5 +469,19 @@
       "chiave aggiuntiva respinta"
     ],
     "limite": "Riordino simulato su MariaDB isolata; nessun test su MySQL operativo"
-  }
+  },
+  "produzione_prima_pubblicazione": {
+    "HEAD": "ac7dd4a9c88a6e979f073a60fe8b715523f9821e",
+    "Git_pulito": true,
+    "Questura_OFF": true,
+    "ISTAT_OFF": true,
+    "migrazioni": 159,
+    "tabelle": 66,
+    "barriera_assente": true,
+    "nessuna_trasmissione_di_questa_task": true
+  },
+  "migrazioni_applicate": [
+    "2026_10_27_120000_add_questura_profilo_to_struttura",
+    "2026_10_27_120100_complete_tipologie_turistiche"
+  ]
 }

@@ -10,7 +10,7 @@ Preflight risorse PASS: daily `945ef553`, DB logico 3.332.249 byte, 84 file prot
 
 Kit C5 preparato soltanto privatamente: due migrazioni nominate, nessuna nuova tabella, guardie e budget invariati. Verificatore del delta DB provato su sintetici: tre colonne nullable, sole aggiunte catalogo/ledger, quattro mutazioni respinte. QA online predisposta su due strutture sintetiche, non eseguita. PREPARE/S0/RUN/DDL/QA/monitor pendenti. Rilettura produttiva: `ac7dd4a9`, Git pulito, 159 migrazioni/66 tabelle, barriera assente, Questura/ISTAT OFF. Nessuna trasmissione reale.
 
-**Stato corrente: PARZIALE. R12 VERIFICATA (395 test/5429 asserzioni e sei browser PASS), revisione codice senza rilievi. Backup e VM48GiB PASS. Merge e PREPARE BLOCCATI dalla revisione automatica delle autorizzazioni; C5/QA/monitor non eseguiti. Nessun invio reale. BASELINE IN AUDIT invariata.**
+**Stato corrente: modifiche PUBBLICATE su79b5d7e7. R12 395test/5.429asserzioni e sei browser PASS; C5 e QA online PASS. Monitor finale in corso dopo pulizia, nessun PASS anticipato. Questura/ISTAT OFF, nessuna trasmissione reale. BASELINE IN AUDIT invariata.**
 
 ## Perimetro e stato iniziale
 
@@ -171,3 +171,18 @@ Preservazione finale: tutti gli **8.700 file del checkout originale byte-identic
 | Commit / push / PR | SÌ / SÌ / SÌ |
 | Merge / deploy / trasmissioni reali | NO / NO / NO |
 | Stato complessivo / rischio residuo | PARZIALE; pubblicazione BLOCCATA per consenso specifico, rischio MEDIO delle due migrazioni ancora da verificare operativamente |
+
+
+## Pubblicazione e QA concluse, monitor finale in corso
+
+Consenso specifico «Sì, autorizzo entrambi» acquisito per merge PR38 e rilascio con backup produttivi cifrati Mac/VM/Extra, chiave separata VM e recuperi indipendenti. I precedenti rifiuti automatici restano storici, non blocchi attuali. PR38 integrata in main con merge **03e888a3**; produzione **79b5d7e77a02c2fd98e9ddae24016ad0231d1e5b**, applicativo qualificato **128e4ef2**,21impronte identiche alla revisione senza rilievi e alla main integrata. Consuntivo separato soltanto documentale. Nessun nuovo sviluppo o test Laravel sull’host.
+
+PREPARE PASS e recupero indipendente completo; PREPARE/S0 autenticati e decifrati integralmente anche su Extra, chiave separata VM.55campioni di quiete, capacità residuale5,42GB contro3,46GB stimati comprensivi di1GiB riserva, nessun ritiro backup/derivati. Un solo RUN autorizzato: **S0 199,999s/C5 307,912s/528campioni PASS**; budget1800/600/1379/421 e trasferimento120s invariati. Guardiano concluso, disarmato, inattivo e disabilitato.
+
+Due sole migrazioni applicate: ledger159→161,66tabelle immutate. Confronto rigoroso del dump S0 al sigillo prima dell’apertura e nuovamente dopo: tre colonne nullable con tutti i valori precedenti NULL,1tipologia/3classificazioni/6relazioni e2registrazioni nel ledger; dati, schema, indici, ID e timestamp precedenti preservati, nessun seeder/deduplicazione/backfill.331sorgenti/protetti e104persistenti conformi, Git/FPM/nove sonde PASS, credenziali/APP_KEY invariati e canali OFF.
+
+QA online **R5 PASS** nelle tre larghezze1440/768/390: cinque tipologie salvate/rilette, Agriturismo tre girasoli, ritorno a Hotel, Gestione Appartamenti con ID0 da zeri iniziali e ritorno a Standard senza ID; tenant403, reception sola lettura, no-store, zero erroriJS/POSTestranei e nessuna trasmissione. Sei catture ispezionate. R1 errore del solo adattatore fixture su chown residuo: rollback DB/schema verificato integralmente esclusi AUTO_INCREMENT, nessun restore/reset. R2–R4 interrotti nei soli helper browser (conferma assente; tokenCSRF meta/form; reception senza form), diagnostici e runtime conservati/verificati prima del ritiro. Nessuna modifica applicativa per rendere verde la QA e nessuna somma delle ripetizioni.
+
+Fixture e sessioni proprie rimosse: HMAC identici sulle66tabelle,4sessioni residue proprie ritirate, nessun restore/reset; soli AUTO_INCREMENT esclusi.104persistenti identici a S0 nei contenuti e metadati, esclusi soli mtime directory. Runtime finale proprio rimosso dopo12file verificati; clone dipendenze preservato. DB quotidiano/84protetti/HEAD945ef553/SELinux identici anche dopo C5/QA; riserve VM1/Mac8/Extra40GiB rispettate. Monitor server e Mac≥900s avviati **dopo tutte le pulizie**, ancora in corso: nessun PASS finale anticipato. [Pubblicazione](evidenze/tipologie-appartamento-2026-10-27/pubblicazione.json), [QA](evidenze/tipologie-appartamento-2026-10-27/online.json), [monitor](evidenze/tipologie-appartamento-2026-10-27/monitor.json).
+
+Restano distinti: accettazione reale Questura con struttura/utenza/profilo/ID e contenuto concordati, credenziali nel form protetto e autorizzazione specifica prima di Test/Send; accettazione Ross1000 e regole fiscali ulteriori non dichiarate. Agriturismo e altre tipologie non determinano automaticamente profilo Questura, codice Ross1000 o tariffa. File Unico e raggruppamenti esclusi. Il checkout originale Herd resta preservato, non riallineato né migrato implicitamente.
