@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Contatti e WhatsApp — ripresa delle verifiche
+
+Completata la pulizia autorizzata delle sole copie temporanee ricostruibili, dopo verifica di integrità e assenza di utilizzatori. Originali e lavori preesistenti preservati. Codice applicativo invariato rispetto alla qualifica isolata già documentata. Ripresa delle verifiche preliminari alla pubblicazione autorizzata; nessuna nuova pubblicazione attestata a questo checkpoint. Il consuntivo operativo completo resta nella documentazione interna. **BASELINE IN AUDIT invariata.**
+
+
 ## Contatti, selettori e WhatsApp — 27 ottobre 2026, qualifica isolata
 
 Su incarico esplicito di correzione, GitHub e pubblicazione, i cinque select pubblici di Contatti usano Select2 come il gestionale, con etichette/descrizioni/stato non valido, tastiera e sincronizzazione delle scelte native, CTA, query, ripristino e azzeramento. Menu aperto mobile senza allargamento; controlli mobili a16px. WhatsApp pubblico al +39 3930991968, icona locale, etichetta accessibile e messaggio italiano; compatto su mobile/Contatti e posizionamento che cerca spazio libero, lasciando liberi form, testi, menu e conferma. Inclusa la pagina unica Contatti già preparata e il suo salvataggio CRM; nessuna DDL o modifica del gestionale.
