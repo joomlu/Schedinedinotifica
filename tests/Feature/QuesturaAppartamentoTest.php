@@ -96,6 +96,30 @@ class QuesturaAppartamentoTest extends TestCase
         return [['16', null], ['17', '19'], ['18', '20']];
     }
 
+    #[\PHPUnit\Framework\Attributes\DataProvider('contestiPersistiti')]
+    public function test_contesto_json_riordinato_confronta_rigorosamente_i_valori(string $variante, bool $ammesso): void
+    {
+        [$s, , $double, $period] = $this->source();
+        $this->questuraPost('/questura/ws/verify', $period)->assertSessionHasNoErrors();
+        $verify = QuesturaTransmission::where('mode', 'verify')->sole();
+        $original = $verify->questura_context;
+        $context = ['profilo' => $original['profilo'], 'utenza_sha256' => $original['utenza_sha256'], 'id_appartamento' => $original['id_appartamento']];
+        if ($variante === 'tipo_id') { $context['id_appartamento'] = '0'; }
+        if ($variante === 'chiave_assente') { unset($context['utenza_sha256']); }
+        if ($variante === 'chiave_estranea') { $context['estranea'] = true; }
+        // Simula la riserializzazione JSON del DB senza cambiare il destinatario.
+        DB::table('questura_transmissions')->where('id', $verify->id)->update(['questura_context' => json_encode($context)]);
+        $response = $this->questuraPost('/questura/ws/send', $period);
+        if ($ammesso) { $response->assertSessionHasNoErrors(); }
+        else { $response->assertSessionHasErrors('questura_ws'); }
+        $this->assertCount($ammesso ? 1 : 0, array_filter($double->calls, fn ($c) => $c[0] === 'GestioneAppartamenti_Send'));
+    }
+
+    public static function contestiPersistiti(): array
+    {
+        return [['riordinato', true], ['tipo_id', false], ['chiave_assente', false], ['chiave_estranea', false]];
+    }
+
     #[\PHPUnit\Framework\Attributes\DataProvider('cambiConfigurazione')]
     public function test_cambio_id_profilo_o_utenza_impone_un_nuovo_test(array $change): void
     {

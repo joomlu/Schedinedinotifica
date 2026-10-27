@@ -530,9 +530,15 @@ class QuesturaExportController extends Controller
                 && ($verify->result['valid_rows'] ?? null) === $rows
                 && ($verify->result['row_errors'] ?? null) === []));
         $bytes = $verify ? base64_decode($verify->payload['txt_base64'] ?? '', true) : false;
+        $verifiedContext = $verify?->questura_context ?? ['profilo' => 'standard'];
+        $currentContext = $payload['questura_context'];
+        // Un oggetto JSON può essere riletto con chiavi in ordine diverso.
+        // Normalizzare solo l'ordine conserva il confronto rigoroso di chiavi e valori.
+        ksort($verifiedContext);
+        ksort($currentContext);
         if (!$positive || $verify->finalized_at || $verify->payload_deleted_at
             || $verify->scope_type !== 'periodo'
-            || ($verify->questura_context ?? ['profilo' => 'standard']) !== $payload['questura_context']
+            || $verifiedContext !== $currentContext
             || $verify->schedina_ids !== $payload['schedina_ids']
             || $verify->component_ids !== $payload['component_ids']
             || (int) $verify->righe_count !== $rows
