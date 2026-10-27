@@ -1,6 +1,6 @@
 # Questura — piano circoscritto di capacità C5
 
-Il nuovo rilascio non può iniziare con circa 2,56 GB liberi nella VM durante il collaudo. Sono stati identificati e verificati in sola lettura tre recuperi ISTAT precedenti già conclusi. Si propone il ritiro esclusivo delle sottocartelle `extracted`, `dbdata`, `db-tmp` dei seguenti recuperi, che contengono copie ricostruibili, senza intervenire su originali o backup:
+Situazione iniziale: il nuovo rilascio non poteva iniziare con circa 2,56 GB liberi nella VM durante il collaudo. Sono stati identificati e verificati in sola lettura tre recuperi ISTAT precedenti già conclusi. È stato eseguito il ritiro esclusivo delle sottocartelle `extracted`, `dbdata`, `db-tmp` dei seguenti recuperi, che contengono copie ricostruibili, senza intervenire su originali o backup:
 
 | Recupero precedente | Directory nella VM | Record verificati | Byte allocati ricostruibili |
 |---|---|---:|---:|
@@ -17,3 +17,11 @@ Procedura: ripetere integralmente i controlli prima di ogni ritiro, salvare il m
 Dopo il ritiro: nuova misura reale della capacità e nuove stime conservative, riserve VM 1 GiB / Mac 8 GiB / Extra 40 GiB invariate. Solo se conformi potranno iniziare un nuovo PREPARE, un nuovo S0 indipendente e il rilascio C5 di Questura; nessun riuso di S0 precedente e nessun allentamento dei budget o dei controlli. Se lo spazio effettivo non basta, fermarsi prima di PREPARE/RUN e documentare il blocco.
 
 **Consuntivo: tre preflight e tre ritiri circoscritti PASS.** Dopo ogni ritiro cifrati, SQL e chiave ricontrollati; manifest e ricevuta conservati. Ultimo campione durante il collaudo: 6.142.074.880 byte liberi. Nessun originale o backup rimosso. Restano obbligatori nuove misure prima di PREPARE e RUN.
+
+## Nuovo PREPARE Questura e seconda finestra C5
+
+Dopo PREPARE completo PASS e custodia cifrata verificata Mac/VM/Extra, la prima finestra RUN è stata fermata prima di execute/DDL per ricevuta non giunta entro il margine, in presenza di sospensioni Mac. S0 storico custodito, baseline riaperta sana, guardiano concluso. Nessun checkpoint del primo RUN riutilizzato.
+
+Un quarto ritiro riguarda esclusivamente `extracted`, `dbdata`, `db-tmp` del nuovo recupero PREPARE Questura già verificato: **24.364 record / 1.213.341.696 byte allocati**. Preflight e ripetizione integrale prima del ritiro PASS, manifest e ricevuta conservati; cifrati originali, SQL e ridump, inventario, sigilli, chiave, log e custodie preservati. Il nuovo S0 ricostruisce dalla base cifrata conservata, senza dipendere dai derivati ritirati.
+
+Prima di RUN2: **4.495.036.416 byte liberi** contro fabbisogno prudenziale **3.461.763.072**, incluse crescita storica, 32 MiB e riserva VM 1 GiB. Mac 8 GiB / Extra 40 GiB e budget 1800/600/1379/421, trasferimento 120 / ricevente 240 invariati. Nuovi 55 campioni di quiete PASS. Secondo S0 fresco in 150,140 s e C5 PASS in 260,968 s, zero DDL. Dati quotidiani e 84 file protetti invariati, VM mantenuta attiva. Nessuna espansione o rimozione di backup.

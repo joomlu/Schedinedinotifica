@@ -1,14 +1,33 @@
 {
   "esito": "PASS_SOLI_DERIVATI_RICOSTRUIBILI",
-  "recuperi": 3,
+  "recuperi": 4,
   "record_verificati": [
     23960,
     23976,
-    23987
+    23987,
+    24364
   ],
-  "byte_allocati_ritirati": 3570540544,
-  "liberi_ultimo_campione": 6142074880,
+  "byte_allocati_ritirati": 4783882240,
   "originali_backup_SQL_chiavi_preservati": true,
   "nessuna_espansione_disco": true,
-  "nuovi_PREPARE_S0_ancora_necessari": true
+  "nuovi_PREPARE_S0_ancora_necessari": false,
+  "recuperi_ISTAT_conclusi": 3,
+  "recuperi_totali_ritirati": 4,
+  "PREPARE_Questura_derivati_ritirati": {
+    "record": 24364,
+    "byte_allocati": 1213341696,
+    "preflight_e_ripetizione_integrali": "PASS",
+    "originali_backup_SQL_chiavi_preservati": true
+  },
+  "VM_liberi_prima_RUN2": 4495036416,
+  "fabbisogno_prudenziale_RUN2": 3461763072,
+  "riserve_byte": {
+    "VM": 1073741824,
+    "Mac": 8589934592,
+    "Extra": 42949672960
+  },
+  "nuovi_PREPARE_S0_eseguiti": "PASS",
+  "VM_liberi_dopo_QA": 3187789824,
+  "liberi_campione_qualifica": 6142074880,
+  "liberi_ultimo_campione": 3187789824
 }
