@@ -933,3 +933,58 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 .function-detail { margin-block:20px; }
 @media(max-width:950px) { .guest-journey-steps { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:600px) { .guest-journey-steps { grid-template-columns:1fr; gap:20px; } }
+
+/* Contatto commerciale: tre percorsi e un unico modulo. */
+.commercial-contact-page .contact-hero { padding-bottom:56px; }
+.contact-paths { padding-block:32px 72px; }
+.contact-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; }
+.contact-options article { display:flex; flex-direction:column; padding:30px; border:1px solid var(--line); border-top:3px solid var(--departure); border-radius:var(--radius); background:#fff; }
+.contact-options article:nth-child(2) { border-top-color:var(--arrival); }
+.contact-options article:nth-child(3) { border-top-color:var(--gold); }
+.contact-options article.is-selected { border-color:var(--action); }
+.contact-option-number { color:var(--action); font-weight:700; margin-bottom:22px; }
+.contact-options h3 { font-size:1.5rem; }
+.contact-options p { font-size:.95rem; }
+.contact-options .btn { margin-top:auto; align-self:flex-start; gap:10px; }
+.commercial-contact-page .contact-layout { padding-bottom:90px; align-items:start; }
+.commercial-contact-page .contact-form-heading h2 { font-size:2rem; }
+.commercial-contact-page .contact-form-card { padding:36px; }
+.commercial-contact-page .field-hint,.commercial-contact-page .form-field small { font-size:.85rem; line-height:1.6; margin:6px 0 0; color:var(--muted); }
+.commercial-contact-page .contact-group-hint { margin:0; color:var(--arrival); }
+.commercial-contact-page .commercial-selection { margin-top:28px; }
+.commercial-contact-page select { min-height:48px; }
+@media(max-width:950px) { .contact-options { grid-template-columns:1fr; } .contact-options article { padding:26px; } }
+@media(max-width:600px) { .commercial-contact-page .contact-form-card { padding:24px 18px; } .contact-paths { padding-block:16px 48px; } }
+
+/* Stesso componente Select2 del gestionale, con i colori del sito pubblico. */
+.select2-container--default .select2-selection--single { min-height:48px; height:auto; padding:11px 36px 11px 12px; display:flex; align-items:center; background:#fff; border:1px solid #bfcfd6; border-radius:6px; }
+.select2-container--default .select2-selection--single .select2-selection__rendered { padding:0; line-height:1.5; white-space:normal; overflow-wrap:anywhere; color:var(--navy); }
+.select2-container--default .select2-selection--single .select2-selection__arrow { height:100%; right:10px; }
+.select2-container--open .select2-selection--single { border-color:var(--teal); box-shadow:0 0 0 3px rgba(78,116,140,.16); }
+.select2-dropdown { border-radius:6px; border-color:#bfcfd6; box-shadow:0 12px 28px rgba(25,46,57,.16); overflow:hidden; }
+.select2-results__option { padding:12px; line-height:1.45; min-height:44px; overflow-wrap:anywhere; }
+.select2-container--default .select2-results__option--selected { background:#e8eff3; color:var(--navy); }
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable { background:var(--teal); color:#fff; }
+.select2-selection[aria-invalid="true"] { border-color:var(--action); }
+.form-field:has(.select2-container) { cursor:default; }
+/* Spazio finale per il contatto flottante, anche con le aree sicure del telefono. */
+.site-footer { padding-bottom:calc(90px + env(safe-area-inset-bottom, 0px)); }
+.whatsapp-contact { position:fixed; z-index:60; right:max(20px, env(safe-area-inset-right, 0px)); bottom:calc(20px + env(safe-area-inset-bottom, 0px) + var(--whatsapp-lift, 0px)); display:flex; align-items:center; gap:10px; min-height:54px; padding:14px 18px; color:#fff; background:var(--arrival); border:1px solid rgba(255,255,255,.4); border-radius:999px; box-shadow:0 5px 20px rgba(25,46,57,.2); text-decoration:none; font-size:.85rem; font-weight:700; }
+.whatsapp-contact svg { width:25px; height:25px; flex:none; }
+.whatsapp-contact:hover { color:#fff; background:#256346; }
+.whatsapp-contact:focus-visible { outline:3px solid var(--gold); outline-offset:4px; }
+body.menu-open .whatsapp-contact, body:has([data-contact-confirm]:not([hidden])) .whatsapp-contact { visibility:hidden; }
+@media (max-width:767px) {
+  .whatsapp-contact { right:16px; bottom:calc(16px + env(safe-area-inset-bottom, 0px) + var(--whatsapp-lift, 0px)); padding:14px; min-height:54px; }
+  .whatsapp-contact span { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+  .form-field input, .form-field textarea, .select2-container, .select2-dropdown { font-size:16px; }
+  body:has([data-demo-form] :focus) .whatsapp-contact { visibility:hidden; }
+}
+
+/* Il contenitore del menu è posizionato da Select2: non estenderlo alla pagina. */
+body > .select2-container--open { width:auto !important; max-width:calc(100vw - 32px); }
+body:has(> .select2-container--open) .whatsapp-contact { visibility:hidden; }
+
+.whatsapp-contact.is-obscured { visibility:hidden; }
+.commercial-contact-page .whatsapp-contact { padding:14px; }
+.commercial-contact-page .whatsapp-contact span { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }

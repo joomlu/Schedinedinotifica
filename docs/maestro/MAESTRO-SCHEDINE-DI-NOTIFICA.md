@@ -1,5 +1,14 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Contatti, selettori e WhatsApp — 27 ottobre 2026, qualifica isolata
+
+Su incarico esplicito di correzione, GitHub e pubblicazione, i cinque select pubblici di Contatti usano Select2 come il gestionale, con etichette/descrizioni/stato non valido, tastiera e sincronizzazione delle scelte native, CTA, query, ripristino e azzeramento. Menu aperto mobile senza allargamento; controlli mobili a16px. WhatsApp pubblico al +39 3930991968, icona locale, etichetta accessibile e messaggio italiano; compatto su mobile/Contatti e posizionamento che cerca spazio libero, lasciando liberi form, testi, menu e conferma. Inclusa la pagina unica Contatti già preparata e il suo salvataggio CRM; nessuna DDL o modifica del gestionale.
+
+Candidato separato dalla base GitHub fdd4884: WA-R7 PHP21/405 PASS; WA-R7 browser6 PASS sul codice finale, tre POST sintetici fino al CRM a1440/768/390, selettori aperti/chiusi, mouse/tastiera/focus/validazione/reset, piani/funzioni/MaxFull e link storici/tour. Build/GEO/architettura e23 rifiuti override PASS nel runtime ufficiale isolato, PHP8.3.36/MariaDB11.8.9. Apertura WhatsApp verificata senza traffico esterno nel collaudo; rinvio302 ufficiale separato al numero previsto, nessun messaggio o consegna attestati. WA-R1/R2 con fallimenti conservati, correzioni qualificate R3–R7; conteggi sovrapposti non sommati. Nessun telefono fisico o suite globale certificati.
+
+[Rapporto](../CONTATTI-SELETTORI-WHATSAPP-2026-10-27.md), [qualifica](../evidenze/selettori-whatsapp-2026-10-27/verifica.json). Rischio MEDIO; lavori estranei e HEAD operativo preservati. Pubblicazione PENDENTE al protocollo applicativo C5 e al nuovo preflight delle risorse, senza riuso di S0. **BASELINE IN AUDIT invariata.**
+
+
 
 ## Revisione del sito pubblico — 27 ottobre 2026
 

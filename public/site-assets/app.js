@@ -53,12 +53,13 @@ if (toggle && nav) {
 
 // Collega anche il controllo Select2 generato all'etichetta del campo nativo.
 const labelContactSelect = select => {
-  const label = select.labels?.[0]?.querySelector('span');
+  const label = (select.labels?.[0]?.querySelector('span') || select.labels?.[0]);
   const control = select.nextElementSibling?.querySelector('[role="combobox"]');
   if (!label || !control) return;
   label.id ||= `contact-${select.name}-label`;
-  const valueId = control.querySelector('.select2-selection__rendered')?.id;
-  control.setAttribute('aria-labelledby', [label.id, valueId].filter(Boolean).join(' '));
+  const description = select.getAttribute('aria-describedby');
+  if (description) control.setAttribute('aria-describedby', description);
+  control.setAttribute('aria-labelledby', label.id);
 };
 
 document.querySelectorAll('[data-ui="contact-city-select"]').forEach((select) => {
@@ -141,18 +142,33 @@ document.querySelectorAll('[data-ui="contact-basic-select"]').forEach((select) =
     return;
   }
 
-  const placeholder = select.getAttribute('data-placeholder') || 'Seleziona...';
+  const placeholder = select.getAttribute('data-placeholder') || (select.options[0]?.value === '' ? select.options[0].textContent.trim() : 'Seleziona...');
 
   $(select).select2({
     width: '100%',
     language: 'it',
-    placeholder,
-    allowClear: true,
+    placeholder: select.required ? placeholder : undefined,
+    allowClear: false,
     minimumResultsForSearch: Infinity,
     theme: 'default',
   });
   labelContactSelect(select);
+  select.labels?.[0]?.addEventListener('click', event => {
+    if (event.target.closest('.select2-container')) event.preventDefault();
+  });
+  // Select2 emette eventi jQuery: inoltrare la scelta alle regole native del modulo.
+  $(select).on('select2:select select2:clear', () => select.dispatchEvent(new Event('change', { bubbles: true })));
+  select.addEventListener('change', () => {
+    $(select).trigger('change.select2');
+    select.nextElementSibling?.querySelector('[role=combobox]')?.setAttribute('aria-invalid', String(!select.validity.valid));
+  });
 });
+
+const focusContactField = field => {
+  const control = field?.matches('.select2-hidden-accessible')
+    ? field.nextElementSibling?.querySelector('[role=combobox]') : field;
+  control?.focus({ preventScroll: true });
+};
 
 document.querySelectorAll('input[data-ui="contact-datetime"]').forEach((input) => {
   const flatpickr = window.flatpickr;
@@ -230,6 +246,43 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
   const status = form.querySelector('.form-status');
   const topicField = form.querySelector('[data-contact-topic]');
   const confirmModal = document.querySelector('[data-contact-confirm]');
+  const commercial = form.hasAttribute('data-commercial-contact');
+  const reasons = { demo: 'Richiesta demo', gruppo: 'Presentazione di gruppo', informazioni: 'Informazioni e personalizzazioni' };
+  const syncContactReason = () => {
+    if (!commercial) return;
+    const demo = topicField.value === reasons.demo;
+    const preference = form.querySelector('[data-demo-preference]');
+    preference.hidden = !demo;
+    preference.querySelector('select').disabled = !demo;
+    form.querySelector('[data-group-hint]').hidden = topicField.value !== reasons.gruppo;
+    document.querySelectorAll('[data-contact-option]').forEach(card => card.classList.toggle('is-selected', card.dataset.contactOption === topicField.value));
+  };
+  const reasonFromUrl = () => {
+    if (!topicField || form.dataset.contactRestored === 'true') return;
+    const reason = reasons[new URLSearchParams(location.search).get('motivo')];
+    if (commercial && reason) topicField.value = reason;
+    else if (location.hash === '#demo') topicField.value = 'Richiesta demo';
+    topicField.dispatchEvent(new Event('change', { bubbles: true }));
+    if (window.jQuery?.fn?.select2 && topicField.matches('[data-ui="contact-basic-select"]')) window.jQuery(topicField).trigger('change');
+  };
+  topicField?.addEventListener('change', syncContactReason);
+  document.querySelectorAll('[data-contact-choice]').forEach(link => link.addEventListener('click', event => {
+    if (!commercial) return;
+    event.preventDefault();
+    topicField.value = link.dataset.contactChoice;
+    topicField.dispatchEvent(new Event('change', { bubbles: true }));
+    const url = new URL(location.href);
+    url.searchParams.set('motivo', Object.keys(reasons).find(key => reasons[key] === topicField.value));
+    url.hash = 'demo';
+    history.pushState(null, '', url);
+    document.getElementById('demo').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    focusContactField(topicField);
+  }));
+  window.addEventListener('hashchange', reasonFromUrl);
+  window.addEventListener('popstate', reasonFromUrl);
+  reasonFromUrl();
+  syncContactReason();
+
 
   let previousFocus = null;
   const openConfirmModal = () => {
@@ -292,7 +345,11 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
     }
 
     if (!form.checkValidity()) {
-      form.reportValidity();
+      const invalid = form.querySelector(':invalid');
+      if (invalid?.matches('.select2-hidden-accessible')) {
+        invalid.nextElementSibling?.querySelector('[role=combobox]')?.setAttribute('aria-invalid', 'true');
+        focusContactField(invalid);
+      } else form.reportValidity();
       if (status) {
         status.textContent = 'Controlla i campi obbligatori prima di continuare.';
         status.classList.remove('is-success');
@@ -312,7 +369,7 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
     const websiteUrl = sanitize(String(formData.get('website_url') || ''));
     const contactTime = sanitize(String(formData.get('contact_time') || ''));
     const contactAnytime = String(formData.get('contact_anytime') || '') === '1';
-    const topic = sanitize(String(formData.get('topic') || 'Informazioni generali'));
+    const topic = sanitize(String(formData.get('topic') || ''));
     const message = sanitize(String(formData.get('message') || ''));
 
     if (!isValidWebsite(websiteUrl)) {
@@ -336,6 +393,9 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
     }
 
     const payload = {
+      contact_form: String(formData.get('contact_form') || ''),
+      structure_type: String(formData.get('structure_type') || ''),
+      demo_mode: String(formData.get('demo_mode') || ''),
       company,
       name,
       contact_person: contactPerson,
@@ -392,9 +452,15 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
         return data;
       })
       .then(() => {
+        const confirmation = confirmModal?.querySelector('[data-contact-confirm-message]');
+        if (confirmation) confirmation.textContent = topic === reasons.gruppo
+          ? 'La tua iscrizione alla presentazione di gruppo è registrata. Ti comunicheremo la data e i dettagli dell’incontro ai recapiti indicati.'
+          : topic === reasons.demo
+            ? 'La tua richiesta di demo personalizzata è registrata. Ti contatteremo per concordare modalità e disponibilità.'
+            : 'La tua richiesta è registrata. Ti contatteremo per parlare delle tue esigenze e delle soluzioni Tanggo Software.';
         // Dopo il salvataggio eliminare anche i valori predefiniti ripristinati dal server.
         form.querySelectorAll('input, textarea').forEach(field => {
-          if (field.name === '_token') return;
+          if (field.name === '_token' || field.name === 'contact_form') return;
           if (field.type === 'checkbox' || field.type === 'radio') field.defaultChecked = false;
           else if (!['submit', 'button'].includes(field.type)) field.defaultValue = '';
         });
@@ -407,12 +473,16 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
         form.reset();
         if (window.jQuery && window.jQuery.fn && typeof window.jQuery.fn.select2 === 'function') {
           window.jQuery(form.querySelector('[data-ui="contact-city-select"]')).val(null).trigger('change');
-          window.jQuery(form.querySelector('[data-contact-topic]')).val(null).trigger('change');
+          form.querySelectorAll('[data-ui="contact-basic-select"]').forEach(select => {
+            window.jQuery(select).trigger('change.select2');
+            select.nextElementSibling?.querySelector('[role=combobox]')?.removeAttribute('aria-invalid');
+          });
         }
         const anytimeToggle = form.querySelector('[data-contact-anytime]');
         if (anytimeToggle) {
           anytimeToggle.dispatchEvent(new Event('change'));
         }
+        syncContactReason();
         openConfirmModal();
       })
       .catch((error) => {
@@ -439,20 +509,13 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       });
   });
 
-  if (topicField && window.location.hash === '#demo' && form.dataset.contactRestored !== 'true') {
-    topicField.value = 'Richiesta demo';
-    if (window.jQuery && window.jQuery.fn && typeof window.jQuery.fn.select2 === 'function') {
-      window.jQuery(topicField).trigger('change');
-    }
-  }
 });
-
-window.addEventListener('hashchange', () => {
-  const field = document.querySelector('[data-contact-topic]');
-  if (!field || location.hash !== '#demo' || field.closest('form')?.dataset.contactRestored === 'true') return;
-  field.value = 'Richiesta demo';
-  field.dispatchEvent(new Event('change', { bubbles: true }));
-  if (window.jQuery?.fn?.select2) window.jQuery(field).trigger('change');
+// I collegamenti dalla demo mantengono piano, servizio e funzione già scelti.
+document.querySelectorAll('[data-contact-entry]').forEach(link => {
+  const url = new URL(link.href);
+  const current = new URLSearchParams(location.search);
+  for (const key of ['piano', 'servizio', 'interesse']) if (current.has(key)) url.searchParams.set(key, current.get(key));
+  link.href = url.pathname + url.search + url.hash;
 });
 // Percorso del prodotto: i pannelli restano leggibili anche senza JavaScript.
 document.querySelectorAll('[data-product-tour]').forEach(tour => {
@@ -505,6 +568,7 @@ document.querySelectorAll('[data-demo-form]').forEach(form => {
     maxFull.checked = params.get('servizio') === 'max-full';
     interest.value = [...interest.options].some(option => option.value === params.get('interesse')) ? params.get('interesse') : '';
   }
+  [plan, interest].forEach(select => select.dispatchEvent(new Event('change', { bubbles: true })));
   let catalog = null;
   const update = () => {
     summary.replaceChildren();
@@ -538,7 +602,7 @@ document.querySelectorAll('[data-demo-form]').forEach(form => {
   plan.addEventListener('change', update);
   maxFull.addEventListener('change', update);
   interest.addEventListener('change', update);
-  clear.addEventListener('click', () => { plan.value = ''; maxFull.checked = false; interest.value = ''; update(); });
+  clear.addEventListener('click', () => { plan.value = ''; maxFull.checked = false; interest.value = ''; [plan, interest].forEach(select => select.dispatchEvent(new Event('change', { bubbles: true }))); update(); });
   form.addEventListener('reset', () => queueMicrotask(update));
   window.addEventListener('pageshow', update);
   update();
@@ -551,3 +615,39 @@ document.querySelectorAll('[data-demo-form]').forEach(form => {
     })
     .catch(() => { catalog = null; update(); });
 });
+
+// Il contatto resta raggiungibile senza sovrapporsi alle azioni del sito.
+const whatsappContact = document.querySelector('.whatsapp-contact');
+if (whatsappContact) {
+  let pending = false;
+  const avoidOverlap = () => {
+    pending = false;
+    const button = whatsappContact.getBoundingClientRect();
+    const currentLift = parseInt(whatsappContact.style.getPropertyValue('--whatsapp-lift'), 10) || 0;
+    const controls = [...document.querySelectorAll('main .btn, main button, main input:not([type=hidden]), main textarea, main [role=combobox], footer a')]
+      .map(control => control.getBoundingClientRect()).filter(rect => rect.width > 1 && rect.height > 1);
+    // Proteggere anche le righe di testo, senza trattare come piene le aree vuote delle schede.
+    document.querySelectorAll('main h1, main h2, main h3, main p, main summary, main small, main strong, main li, main figcaption, main .dashboard-tour, main .dashboard-label').forEach(element => {
+      const box = element.getBoundingClientRect();
+      if (box.bottom < button.top + currentLift - 252 || box.top > button.bottom + currentLift || box.right < button.left) return;
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      controls.push(...range.getClientRects());
+    });
+    const lift = Array.from({ length: 22 }, (_, index) => index * 12).find(offset => {
+      const top = button.top + currentLift - offset;
+      const bottom = button.bottom + currentLift - offset;
+      return top >= 100 && !controls.some(rect => rect.left < button.right + 8 && rect.right > button.left - 8 && rect.top < bottom + 8 && rect.bottom > top - 8);
+    });
+    whatsappContact.style.setProperty('--whatsapp-lift', `${lift ?? 0}px`);
+    whatsappContact.classList.toggle('is-obscured', lift === undefined && document.activeElement !== whatsappContact);
+  };
+  const schedule = () => { if (!pending) { pending = true; requestAnimationFrame(avoidOverlap); } };
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  window.addEventListener('load', schedule);
+  document.fonts?.ready.then(schedule);
+  document.addEventListener('focusin', schedule);
+  document.addEventListener('focusout', schedule);
+  schedule();
+}
