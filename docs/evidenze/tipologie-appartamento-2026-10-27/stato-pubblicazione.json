@@ -1,0 +1,35 @@
+{
+  "stato": "STOP_AUTORIZZAZIONE_SPECIFICA_MERGE_E_BACKUP_C5",
+  "candidato_revisionato": "79b5d7e77a02c2fd98e9ddae24016ad0231d1e5b",
+  "applicativo": "128e4ef2d38dc0a1bcd5a20f261a908aa7ab9488",
+  "PR": 38,
+  "revisione_codice": {
+    "stato": "completed",
+    "rilievi": false,
+    "rilievi_irrisolti": false
+  },
+  "rifiuti_automatici": [
+    {
+      "azione": "merge PR38 in main",
+      "motivo": "Il merge è distinto da push/PR; richiesto consenso specifico all’integrazione, prima dei PREPARE/S0/C5/QA ancora pendenti",
+      "eseguita": false
+    },
+    {
+      "azione": "PREPARE C5",
+      "motivo": "Richiesto consenso specifico al payload sensibile DB/file/config produttivi e destinazioni private Mac/VM/Extra",
+      "eseguita": false
+    }
+  ],
+  "nessun_aggiramento": true,
+  "nessun_PREPARE_S0_RUN_manutenzione_DDL": true,
+  "produzione": "ac7dd4a9c88a6e979f073a60fe8b715523f9821e",
+  "Git_produzione_pulito": true,
+  "migrazioni": 159,
+  "tabelle": 66,
+  "Questura_OFF": true,
+  "ISTAT_OFF": true,
+  "barriera_assente": true,
+  "presidio_Mac_proprio": "CHIUSO_codice130",
+  "backup_VM_e_crescita48GiB": "PASS_NON_RIPETUTI",
+  "consenso_successivo": "RICHIESTO_NON_PRESUNTO"
+}

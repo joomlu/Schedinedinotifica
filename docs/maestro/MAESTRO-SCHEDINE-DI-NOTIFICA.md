@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Tipologie / appartamento — revisione senza rilievi, merge e PREPARE respinti per consenso specifico
+
+R12 conservata PASS395/5429+6browser, applicativo128e4ef2 e candidato documentato79b5d7e7; revisione automatica del codice conclusa senza rilievi. Revisione automatica delle autorizzazioni distinta: merge PR38 in main respinto perché richiede consenso specifico distinto da push/PR; PREPARE respinto per payload produttivo DB/file/config sensibile e custodie private Mac/VM/Extra. Entrambe le azioni fermate prima dell’esecuzione; nessun aggiramento né nuovo consenso presunto, richiesta specifica inviata. Kit depositato/preflightPASS ma inattivo: nessun PREPARE/S0/RUN/manutenzione/DDL/QA/monitor. Produzione riconfermata ac7dd4a9/159/66, Gitpulito/barrieraassente, Questura/ISTAT OFF; PR38 aperta non integrata. Presidio Mac proprio chiuso, VM attiva come all’inizio. Backup/crescita48GiB PASS conservati. [Rapporto](../TIPOLOGIE-APPARTAMENTO-2026-10-27.md), [stato puntuale](../evidenze/tipologie-appartamento-2026-10-27/stato-pubblicazione.json). **BASELINE IN AUDIT invariata.**
+
+
 ## Tipologie / appartamento — R12 PASS dopo riordino JSON, nuova revisione pendente
 
 Secondo P2 PR38 riprodotto con solo ordine chiavi JSON diverso (R11:14test/164asserzioni, un fallimento atteso). Correttivo minimo controller: ordinare copie dei contesti prima del confronto rigoroso, preservando valori/tipi/chiavi. Quattro regressioni: riordino ammesso, tipo ID diverso/chiave mancante/chiave aggiuntiva respinti. **R12 395test/5429asserzioni e sei browser PASS**, sei catture ispezionate e runtime rimosso;21impronte conformi al commit applicativo `128e4ef2d38dc0a1bcd5a20f261a908aa7ab9488`. Riordino simulato in MariaDB isolata, nessun test MySQL operativo. Nessuna somma con R10.

@@ -10,7 +10,7 @@ Preflight risorse PASS: daily `945ef553`, DB logico 3.332.249 byte, 84 file prot
 
 Kit C5 preparato soltanto privatamente: due migrazioni nominate, nessuna nuova tabella, guardie e budget invariati. Verificatore del delta DB provato su sintetici: tre colonne nullable, sole aggiunte catalogo/ledger, quattro mutazioni respinte. QA online predisposta su due strutture sintetiche, non eseguita. PREPARE/S0/RUN/DDL/QA/monitor pendenti. Rilettura produttiva: `ac7dd4a9`, Git pulito, 159 migrazioni/66 tabelle, barriera assente, Questura/ISTAT OFF. Nessuna trasmissione reale.
 
-**Stato corrente: PARZIALE. R12 VERIFICATA (395 test/5429 asserzioni e sei browser PASS). Backup e VM48GiB PASS. Nuova revisione/C5/pubblicazione pendenti; nessun invio reale. BASELINE IN AUDIT invariata.**
+**Stato corrente: PARZIALE. R12 VERIFICATA (395 test/5429 asserzioni e sei browser PASS), revisione codice senza rilievi. Backup e VM48GiB PASS. Merge e PREPARE BLOCCATI dalla revisione automatica delle autorizzazioni; C5/QA/monitor non eseguiti. Nessun invio reale. BASELINE IN AUDIT invariata.**
 
 ## Perimetro e stato iniziale
 
@@ -149,3 +149,25 @@ Seconda revisione PR38 sul candidato0b769152: P2 sul confronto del contesto JSON
 **R12: 395 test/5429 asserzioni e sei browser PASS**, sei catture ispezionate, runtime effimero ripulito; 21 impronte conformi al commit applicativo `128e4ef2d38dc0a1bcd5a20f261a908aa7ab9488`. Non sommare con R10. La prova simula il riordino su MariaDB isolata e non attesta una nuova integrazione MySQL operativa.
 
 Deposito/preflight del kit precedente0b769152 PASS (nove sonde, chiavi/infrastruttura preservate), ma nessun PREPARE/S0/RUN/manutenzione/DDL eseguito: kit conservato inattivo. Nuovo kit da rigenerare sul candidato corretto dopo revisione. Backup e crescita48GiB già PASS, nessuna ripetizione implicita; Questura/ISTAT OFF e produzione ac7dd4a9 invariati.
+
+
+## Stato di pubblicazione dopo revisione R12
+
+Revisione automatica del codice conclusa sul candidato **79b5d7e77a02c2fd98e9ddae24016ad0231d1e5b senza rilievi**, distintamente dalla revisione automatica delle autorizzazioni. Quest’ultima ha respinto, prima dell’esecuzione, il merge PR38 in main (richiede consenso specifico all’integrazione distinto da push/PR) e il PREPARE (richiede consenso specifico al payload produttivo sensibile DB/file/config e alle destinazioni private Mac/VM/Extra). Nessun aggiramento, nessun consenso ulteriore presunto. Richiesta specifica inviata all’utente.
+
+Kit79b5d7e7 depositato e preflight PASS, ma nessun PREPARE/S0/RUN, manutenzione, DDL o fixture online. Produzione riconfermata ac7dd4a9, Git pulito, 159migrazioni/66tabelle, barriera assente e Questura/ISTAT OFF; PR38 aperta e non integrata. Presidio temporaneo Mac proprio chiuso (codice130), VM lasciata attiva come all’inizio. Backup integrale e crescita48GiB restano PASS. La consegna del candidato corretto e qualificato è concreta; rilascio e accettazione online restano BLOCCATI dall’autorizzazione automatica, non da un fallimento di R12.
+
+Il nuovo consenso richiesto comprende merge PR38 e rilascio protetto del candidato con backup cifrati del DB operativo (eventuali dati personali), file/upload persistenti e configurazioni necessarie, inclusi .env/APP_KEY e materiale infrastrutturale del perimetro S0; custodie private Mac e VM e disco Extra, chiave separata nella VM, recupero indipendente. Due sole migrazioni nominate, QA sintetica e monitor; nessuna trasmissione reale e flag OFF invariati. Nessun backup/segreto pubblicato in Git. [Ricevuta dello stop](evidenze/tipologie-appartamento-2026-10-27/stato-pubblicazione.json).
+
+Preservazione finale: tutti gli **8.700 file del checkout originale byte-identici**, nessuna differenza; fonte privata `preservazione-originali-dopo-ripresa.json`. Nessun test Laravel sull’host. Prossimo passo: consenso specifico ai due gate, poi nuovi PREPARE/S0/C5 e QA/monitor sul candidato fissato, senza riusare checkpoint.
+
+| Indicatore corrente | Esito |
+|---|---|
+| Codice / test / documentazione modificati | SÌ / SÌ / SÌ, nel worktree dedicato |
+| Configurazione modificata | SÌ, solo disco VM44→48GiB; nessuna configurazione operativa dell’app |
+| Schema/dati produttivi modificati | NO |
+| Test eseguiti | SÌ, R12 isolata395/5429+6browser; diagnostici distinti |
+| Tenant / sicurezza | Due tenant, ruoli, cifratura, retention e doubles verificati; canali OFF |
+| Commit / push / PR | SÌ / SÌ / SÌ |
+| Merge / deploy / trasmissioni reali | NO / NO / NO |
+| Stato complessivo / rischio residuo | PARZIALE; pubblicazione BLOCCATA per consenso specifico, rischio MEDIO delle due migrazioni ancora da verificare operativamente |

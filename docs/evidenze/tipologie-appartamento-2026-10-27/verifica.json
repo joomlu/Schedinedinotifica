@@ -188,10 +188,10 @@
     "2026_10_27_120100_complete_tipologie_turistiche"
   ],
   "pubblicazione": {
-    "stato": "PENDENTE_REVISIONE_E_C5",
+    "stato": "STOP_AUTORIZZAZIONE_SPECIFICA_MERGE_E_BACKUP_C5",
     "consenso": "autorizo tutto, risposta a push pubblico/PR e ampliamento VM44→48GiB con backup cifrato verificato Extra/chiave separata Mac",
     "risorse": "PASS_BACKUP_E_AMPLIAMENTO_VM_44_48",
-    "C5": "NON_ESEGUITO_KIT_PRECEDENTE_DEPOSITATO_INATTIVO",
+    "C5": "PREPARE_RESPINTO_PRIMA_ESECUZIONE",
     "QA_online": "NON_ESEGUITA",
     "monitor": "NON_ESEGUITO"
   },
@@ -205,8 +205,8 @@
     "URL": "https://github.com/joomlu/Schedinedinotifica/pull/38",
     "push": "PASS",
     "P2": "CORRETTO_QUALIFICATO_R10",
-    "nuova_revisione": "PENDENTE",
-    "merge": "NON_ESEGUITO",
+    "nuova_revisione": "CONCLUSA_SENZA_RILIEVI_SU_79b5d7e7",
+    "merge": "RESPINTO_PRIMA_ESECUZIONE",
     "P2_JSON": "CORRETTO_QUALIFICATO_R12"
   },
   "qualifica_precedente_R7_R8": {
