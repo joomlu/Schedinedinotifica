@@ -1,0 +1,50 @@
+{
+  "stato": "PASS_PRESERVAZIONE",
+  "checkout_originale": {
+    "esito": "PASS_LAVORO_PREESISTENTE_PRESERVATO",
+    "file_link_preesistenti_identici": 2750,
+    "modifiche_autorizzate_escluse": [
+      "app/Http/Controllers/QuesturaExportController.php",
+      "app/Services/QuesturaTxtExportService.php",
+      "docs/maestro/MAESTRO-SCHEDINE-DI-NOTIFICA.md",
+      "resources/views/questura/index.blade.php",
+      "resources/views/struttura/consulta.blade.php"
+    ],
+    "corpo_Maestro_precedente_identico": true,
+    "HEAD_originale": "a6d406470aa63d7ff69422efcc0b1c14033e0ee5",
+    "nessun_reset_clean_stash": true
+  },
+  "daily": {
+    "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+    "SELinux": "Enforcing",
+    "DB_logico_sha256": "edac137fc0ccf709f1960512f9cea90de1878044204c966ed0cc7620f0294ffb",
+    "DB_byte": 3332249,
+    "protetti_count": 84,
+    "protetti_manifest_sha256": "2829405e13cb406bc86671117fee9b534c2abe62e41c98469626664169bea25b",
+    "VM_liberi": 3187789824
+  },
+  "sincronizzati_solo_quattro_sorgenti": {
+    "app/Http/Controllers/QuesturaExportController.php": {
+      "prima": "1c329a130dd240f30fa9e04973a30e43d6a3a25712c824af5d4c5c257f0dd5ba",
+      "dopo": "6dbdef7e47d594bd6d1c6edc9911e91ed96d378d00262d2ab66cbc3a1b80419c"
+    },
+    "app/Services/QuesturaTxtExportService.php": {
+      "prima": "fe7bb7e26e1769b901cb66b90e7bdf8b8aa0b1a52ff81c337095979d95cd923d",
+      "dopo": "ac3af227536b8d8636056206d7275486651b8d27fb89df0b120a2e4c47401de7"
+    },
+    "resources/views/questura/index.blade.php": {
+      "prima": "579ce427aa94539b685b65f90f01e3efa52467c75a891646917efed23676c9c1",
+      "dopo": "4b5e1dcd16efed2ee0f3d9877721361167e6ad0c936bdc054cc2ea7cd4fff24e"
+    },
+    "resources/views/struttura/consulta.blade.php": {
+      "prima": "4554f079e22479ffb58618f5be2ea7bfc7de030ad5c472b2b495346e33016a74",
+      "dopo": "bee9db0e17ad3b7054187b46ec62661f53def1307c98bc4626a68bbb3c2e3a73"
+    }
+  },
+  "VM_lasciata_attiva_come_allinizio": true,
+  "processi_recupero_conclusi": {
+    "esito": "PASS_NESSUN_PROCESSO_RECUPERO_PROPRIO_RESIDUO",
+    "processi": 0,
+    "nessun_servizio_interrotto": true
+  }
+}

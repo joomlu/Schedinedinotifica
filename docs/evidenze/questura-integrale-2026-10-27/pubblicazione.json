@@ -1,0 +1,91 @@
+{
+  "stato": "PASS_QUESTURA_PUBBLICATA_E_VERIFICATA",
+  "PR": 36,
+  "URL": "https://github.com/joomlu/Schedinedinotifica/pull/36",
+  "candidato": "ac7dd4a9c88a6e979f073a60fe8b715523f9821e",
+  "merge": "0d80cdd9f4404e22ae2c3a8dcc8f30a02df4b1bc",
+  "alberi_identici": true,
+  "code_review": "completed_no_findings",
+  "review_url": "https://github.com/joomlu/Schedinedinotifica/pull/36#issuecomment-6430469664",
+  "SHA_applicativo_pubblicato": "ac7dd4a9c88a6e979f073a60fe8b715523f9821e",
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "execute": true,
+    "budget": {
+      "finestra": 1800,
+      "cutoff": 1379,
+      "riserva": 421,
+      "S0_limite": 600,
+      "S0_secondi": 150.14
+    },
+    "secondi_T0": 260.968,
+    "monitor_campioni": 463,
+    "decision": "CANDIDATO_ACCETTATO",
+    "S0_verified": true,
+    "ddl_started": false,
+    "flag_finale": false,
+    "stopped": true
+  },
+  "PREPARE": {
+    "primo": "NONPASS_mutazione_base_prima_offerta_senza_barriera",
+    "diagnostica": "23981 record archivio/correnti, nessuna differenza residua di contenuto uid gid mode o nuovo record; causa transitoria non ricostruibile integralmente",
+    "secondo": "PASS_PREPARAZIONE_SENZA_BARRIERA",
+    "recupero_indipendente": true
+  },
+  "RUN_precedente": {
+    "esito": "STOP_PRIMA_EXECUTE_BASELINE_RIAPERTA",
+    "causa": "Ricevuta non giunta entro margine C5: backend.py riga69; registri macOS mostrano sospensioni nella finestra",
+    "S0_accettato_server": false,
+    "execute": false,
+    "DDL": false,
+    "secondi": 573.9060616493225,
+    "presidio_temporaneo_antisospensione_per_ripresa": true
+  },
+  "custodie_Extra": {
+    "PREPARE": {
+      "esito": "PASS_PREPARE_EXTRA_INTEGRITA_RECUPERO",
+      "file": 3,
+      "chiave_separata_VM": true,
+      "tutti_cifrati_integrita_e_decifratura_integrale": true
+    },
+    "S0_storico_NON_accettato": {
+      "esito": "PASS_S0_EXTRA_INTEGRITA_RECUPERO",
+      "file": 3,
+      "chiave_separata_VM": true,
+      "tutti_cifrati_integrita_e_decifratura_integrale": true
+    },
+    "S0_finale": {
+      "esito": "PASS_S0_EXTRA_INTEGRITA_RECUPERO",
+      "file": 3,
+      "chiave_separata_VM": true,
+      "tutti_cifrati_integrita_e_decifratura_integrale": true
+    }
+  },
+  "guardiani_propri": "entrambi_conclusi_inattivi_disabilitati",
+  "DB_byte_identico_S0_prima_QA": true,
+  "HMAC_66_tabelle_dopo_QA_identici": true,
+  "persistenti_conformi": 92,
+  "sorgenti_verificati": 318,
+  "invii_reali": 0,
+  "accettazione_Alloggiati_Web": "NON_ESEGUITA",
+  "monitor_finali": {
+    "server_secondi": 920.272055931855,
+    "server_campioni": 31,
+    "server_sonde": 279,
+    "Mac_secondi": 921.248305958,
+    "Mac_campioni": 31,
+    "Mac_richieste": 93,
+    "nuovi_errori_Laravel": 0,
+    "nuovi_errori_FPM": 0
+  },
+  "confronto_finale_S0_esclusi_soli_AUTO_INCREMENT": {
+    "esito": "PASS_DATI_E_SCHEMA_FINALI_IDENTICI_S0",
+    "byte_identici": false,
+    "uniche_differenze_contatori_AUTO_INCREMENT": true,
+    "nessun_restore_o_reset_contatori": true,
+    "tabelle": 66
+  },
+  "S0_indipendente_verificato": true,
+  "presidi_C5": "guardiani conclusi inattivi disabilitati, runtime QA propri rimossi",
+  "unico_residuo_scope_Questura": "Collaudo reale e accettazione del profilo standard: abilitazione/profilo, credenziali protette e conferma specifica su struttura periodo contenuto momento; nessun invio reale autorizzato."
+}
