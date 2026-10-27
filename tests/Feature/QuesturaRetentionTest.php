@@ -153,6 +153,21 @@ class QuesturaRetentionTest extends TestCase
         $this->assertNotNull($tx->fresh()->reconciled_at); $this->assertNull($tx->fresh()->payload);
     }
 
+    public function test_appartamento_storico_preservato_dopo_minimizzazione_del_payload(): void
+    {
+        $s = $this->structureFor(null);
+        [, $tx] = $this->copies($s);
+        $context = ['profilo' => 'appartamenti', 'id_appartamento' => 0];
+        DB::table('questura_transmissions')->where('id', $tx->id)->update(['questura_context' => json_encode($context)]);
+        $receipt = $this->receipt($s, $tx->id);
+        app(QuesturaRetentionService::class)->finalizeTransmission($s->id, $tx->id, $receipt->id, 1);
+        $this->assertNull($tx->fresh()->payload);
+        $this->assertSame($context, $tx->fresh()->questura_context);
+        $this->assertArrayNotHasKey('questura_context', $tx->fresh()->toArray());
+        $s->update(['questura_profilo' => 'standard', 'questura_appartamento_id' => 4]);
+        $this->actingAs($this->actor('struttura_user', null, $s->id))->get('/questura')->assertOk()->assertSee('Gestione Appartamenti · ID 0');
+    }
+
     public function test_finalizzazione_minimizza_file_db_base64_eventi_e_preserva_ricevuta_metadata(): void
     {
         $s = $this->structureFor(null); [$export, $tx] = $this->copies($s); $r = $this->receipt($s, $tx->id);

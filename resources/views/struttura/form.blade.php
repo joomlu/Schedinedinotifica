@@ -522,6 +522,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 <a class="btn btn-outline-primary" href="{{ route('istat.tabella_a.index') }}">Configurazione Ross1000</a>
                                             </div>
                                             <div class="col-12"><hr class="my-2"></div>
+                                            <div class="col-12">@include('struttura.questura-profilo')</div>
                                             <div class="col-md-4">
                                                 <label class="form-label">Utente Alloggiati Web</label>
                                                 <input type="text" name="questura_username" class="form-control" value="{{ old('questura_username', $struttura->questura_username) }}">

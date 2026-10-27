@@ -70,6 +70,18 @@ export function initSelect2(root = document) {
             };
         }
 
+        if (el.closest('[data-ui="tipologie-filtro"]')) {
+            const defaultMatcher = $.fn.select2.defaults.defaults.matcher;
+            cfg.matcher = (params, data) => {
+                // Select2 conserva disabled in cache: la cascata può averlo cambiato.
+                if (data.element?.tagName === 'OPTION') {
+                    data.disabled = data.element.disabled;
+                    if (data.disabled || data.element.hidden) return null;
+                }
+                return defaultMatcher(params, data);
+            };
+        }
+
         if (parentModal) {
             cfg.dropdownParent = $(parentModal);
         }

@@ -108,6 +108,7 @@
                         <div class="collapse menu-dropdown {{ $openConfig ? 'show' : '' }}" id="sidebarConfigurations">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item"><a href="{{ route('tassa_di_soggiorno.edit') }}" class="nav-link {{ $isRoute('tassa_di_soggiorno.edit') ? 'active' : '' }}">Tassa di soggiorno</a></li>
+                                <li class="nav-item"><a href="{{ route('struttura.edit') }}#configurazione-questura" class="nav-link">Questura / Alloggiati Web</a></li>
                                 <li class="nav-item"><a href="{{ route('gruppi') }}" class="nav-link {{ $isRoute('gruppi', 'gruppo.*') ? 'active' : '' }}">Gruppi</a></li>
                                 <li class="nav-item"><a href="{{ route('titolo.index') }}" class="nav-link {{ $isRoute('titolo.*') ? 'active' : '' }}">Titoli</a></li>
                                 <li class="nav-item"><a href="{{ route('tipo_cliente.index') }}" class="nav-link {{ $isRoute('tipo_cliente.*') ? 'active' : '' }}">Tipo cliente</a></li>

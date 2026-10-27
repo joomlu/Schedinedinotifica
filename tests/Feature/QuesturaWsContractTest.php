@@ -143,7 +143,7 @@ class QuesturaOfflineSoapClient extends \SoapClient
         $body = match ($method) {
             'GenerateToken' => '<GenerateTokenResult><issued>'.date(DATE_ATOM).'</issued><expires>'.date(DATE_ATOM, time()+3600).'</expires><token>TOKEN-SINTETICO</token></GenerateTokenResult><result><esito>true</esito></result>',
             'Authentication_Test' => '<Authentication_TestResult><esito>true</esito></Authentication_TestResult>',
-            'Send', 'Test' => '<'.$method.'Result><esito>true</esito></'.$method.'Result><result><SchedineValide>1</SchedineValide><Dettaglio><EsitoOperazioneServizio><esito>true</esito></EsitoOperazioneServizio></Dettaglio></result>',
+            'Send', 'Test', 'GestioneAppartamenti_Send', 'GestioneAppartamenti_Test' => '<'.$method.'Result><esito>true</esito></'.$method.'Result><result><SchedineValide>1</SchedineValide><Dettaglio><EsitoOperazioneServizio><esito>true</esito></EsitoOperazioneServizio></Dettaglio></result>',
             'Ricevuta' => '<RicevutaResult><esito>true</esito></RicevutaResult><PDF>'.base64_encode("%PDF-1.4\nSINTETICO\n%%EOF").'</PDF>',
             default => throw new \LogicException('Metodo offline inatteso'),
         };

@@ -1,0 +1,104 @@
+# Tipologie ricettive e appartamento individuale Questura — 27 ottobre 2026
+
+**Stato: PARZIALE. Qualifica locale VERIFICATA; pubblicazione BLOCCATA alla capacità, prima di PREPARE. BASELINE IN AUDIT invariata. Nessuna trasmissione reale.**
+
+## Perimetro e stato iniziale
+
+Mandato: indagare il selettore esistente, completare il profilo individuale Gestione Appartamenti e verificarne gli effetti, preservando ISTAT, Tassa, Schedine e Web Check-in. Raggruppamenti File Unico, invii centralizzati e rifacimenti esclusi.
+
+Checkout originale `main/a6d406470aa63d7ff69422efcc0b1c14033e0ee5` con modifiche preesistenti, inclusi quattro sorgenti Questura già sincronizzati dopo il rilascio precedente. Attestati privatamente 8.700 file; nessun reset o pulizia. Nuovo worktree separato dalla base GitHub disponibile `4a831f80a2d9df846b1008aa952b7340f3b6ec5d`, comprendente PR36 e consuntivo successivo. Produzione letta senza mutazioni: `ac7dd4a9c88a6e979f073a60fe8b715523f9821e`, Git pulito, FPM attivo, barriera assente, sette strutture attive, nessuna terna completa di credenziali, zero export/trasmissioni/ricevute/riserve Questura. Nessun dato ospite o segreto estratto.
+
+Letti Maestro, AGENTS, isolamento e consuntivi Questura del 27 ottobre, ISTAT del 26 e Tassa del 24. I relativi PASS sono storici e circoscritti: non costituiscono una nuova qualifica di questo candidato.
+
+## Matrice iniziale e intervento minimo
+
+| Punto | Stato ed evidenza iniziale | Problema dimostrato | Correttivo circoscritto |
+| --- | --- | --- | --- |
+| Agriturismo, affittacamere, ostello, locazione imprenditoriale | Presenti nel DB produttivo e nel catalogo, sotto Extra-alberghiera | R1: Agriturismo resta disabilitato dopo cambio categoria nelle tre larghezze | Eventi jQuery di Select2 ricevuti dalla cascata; stato opzioni riletto nella ricerca |
+| Locazione non imprenditoriale | Assente nel catalogo e nel DB letto | Opzione inesistente | Migrazione additiva mirata, senza seeder generale |
+| Classificazione CAV in ER | Solo Nessuna nel catalogo letto | Mancano i soli previsti dalla fonte regionale | Aggiunta relazioni 2–4 soli, conservando ogni relazione precedente |
+| Locazione non imprenditoriale in ER | Tipologia assente | Manca anche la classificazione facoltativa | Nuova opzione con Nessuna e 2–3 soli; nessuna selezione automatica |
+| Profilo e ID Questura | Campi assenti; trasporto usa Test/Send standard | Nessuna associazione individuale possibile | Due colonne nullable, form e validazione negli stessi permessi operativi |
+| Appartamento individuale | Generatore standard e infrastruttura idempotente già presenti | Mancano metodi individuali e contesto del destinatario | Riutilizzo TXT 168; metodi con ID separato; contesto vincolato Test/Send |
+| ISTAT/Ross1000 | Codice assegnato e configurazione indipendenti | Nessun errore di corrispondenza riprodotto | Nessuna modifica al modulo |
+| Tassa Bellaria | Calcolo certificato nel codice per alberghi; altre categorie bloccate esplicitamente | Non è dimostrato un errore causato dal selettore | Preservare blocco e regole; completamenti fiscali fuori scope |
+
+R1 usa utenti sintetici, il vero menu Select2 e le tre larghezze 1440/768/390. Non usa `selectOption` per aggirare il problema. R3 dimostra che il solo aggiornamento della cache non basta: manca anche la ricezione del change jQuery da parte degli ascoltatori DOM nativi. Entrambi i correttivi sono limitati ai selettori della cascata.
+
+## Fonti e distinzione dei sistemi
+
+Consultazione **27 ottobre 2026**. Le classificazioni seguenti riguardano l’Emilia-Romagna; altre regioni richiedono propria verifica. Le opzioni nazionali/legacy non vengono cancellate né presentate come automaticamente valide in ogni territorio.
+
+- [Disciplina regionale delle strutture ricettive](https://imprese.regione.emilia-romagna.it/turismo/ambiti/alberghi/disciplina-delle-strutture-ricettive-dirette-allospitalita): L.R.16/2004 e direttive richiamate. Tabella sintetica sotto; le specificazioni commerciali non sono automaticamente categorie autonome.
+- [Agriturismi, classificazione ufficiale ER](https://agricoltura.regione.emilia-romagna.it/agriturismo-e-multifunzionalita/agriturismo/classificazione-degli-agriturismi): DGR1185/2015, uno–cinque girasoli per ospitalità in camere, appartamenti o agricampeggio. Il precedente simbolo regionale era la margherita: le spighe già nel catalogo sono conservate come legacy, senza certificarle per ER. [Disciplina dell’operatore](https://agricoltura.regione.emilia-romagna.it/agriturismo-e-multifunzionalita/agriturismo/come-diventare-operatore-agrituristico): attività agricola e abilitazione proprie, nessuna assimilazione automatica ad albergo o appartamento Questura.
+- [FAQ regionali sulle locazioni](https://imprese.regione.emilia-romagna.it/semplificazione-e-sportello-unico/schede-attivita/faq-circolari-normativa/faq/strutture-ricettive): fattispecie ER artt.11 CAV imprenditoriale e 12 appartamento ammobiliato non imprenditoriale. La voce generica nazionale «Locazione turistica imprenditoriale» è conservata; in ER va verificata la posizione autorizzata, senza rinomina automatica.
+- [Rilevazione ISTAT capacità](https://indata.istat.it/ctur/index.php) e [definizione statistica regionale](https://statistica.regione.emilia-romagna.it/dati/fb/amb/off_tur): aggregazioni alberghiere ed extra-alberghiere distinte dalle classi amministrative; agriturismi e ostelli hanno proprie voci statistiche. La pagina ISTAT è reperibile nella ricerca, ma l’apertura diretta ha restituito 502: nessun codice numerico aggiornato dedotto da documenti storici.
+- [Ross1000, pagina ufficiale](https://statistica.regione.emilia-romagna.it/metadati/rilevazioni/turismo/allegati-rilevazioni-turismo/manuali-e-tracciati-rilevazioni-turismo), [tracciato XML-WS2.4](https://statistica.regione.emilia-romagna.it/metadati/rilevazioni/turismo/allegati-rilevazioni-turismo/manuali-e-tracciati-rilevazioni-turismo/tracciatoxml-webservice.pdf/@@download/file): codice struttura assegnato dall’ente, prodotto e movimenti giornalieri; disponibilità espresse in unità ricettive e posti letto. Tipi alloggiato e codici geografici seguono tabelle Polizia; non è definita una conversione del nostro ID tipologia in un codice universale. La posizione anagrafica Ross1000 deriva dalla pratica comunicata dagli enti locali.
+- [Comune Bellaria, ufficio IDS](https://www.comune.bellaria-igea-marina.rn.it/it/unita_organizzative/imposta-di-soggiorno) e [regolamento pubblicato](https://www.comune.bellaria-igea-marina.rn.it/it/documenti_pubblici/regolamento-imposta-di-soggiorno-ids): categoria e tariffa dipendono da atti comunali e periodo. La pagina richiama CC71/2024, CC22/2025 e GC185/2024 per il 2025. Aperture dirette dello sportello e di un allegato tariffario hanno restituito rispettivamente 502/403: nessuna estensione fiscale al 2026 o alle categorie non certificate ricavata da tali insuccessi. Restano validi i profili versionati già verificati nel progetto, senza nuovi automatismi.
+- Il [PDF del regolamento comunale accessibile](https://municipium-images-production.s3-eu-west-1.amazonaws.com/s3/602/allegati/amministrazione/documenti-e-dati/atto-normativo/regolamento_ids_2025.pdf), art.2, include espressamente agriturismi, affittacamere, B&B, CAV, appartamenti e locazioni brevi, oltre alle altre strutture elencate. Prevede giugno–settembre, sei pernottamenti, dieci consecutivi nei campeggi e dieci nel mese nelle aree camper. L’art.4 rimette aliquote e articolazione alla Giunta: l’inclusione nel presupposto non certifica una tariffa o una codifica StayTour. Nessuna regola di calcolo è stata cambiata.
+- [Manuale Alloggiati Web Service](https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/Download/Manuali/MANUALEWS.pdf), rev.01/24-01-2022, pp.11–14,18–20, e [WSDL ufficiale](https://alloggiatiweb.poliziadistato.it/service/service.asmx?WSDL). Nuovo download TLS del WSDL identico allo snapshot: SHA256 `36d5279a0577f0b116ac74f6664246532685bc0178b1d6c6a1f7926c11235cab`. Profilo effettivo dell’utenza separato dalla tipologia. Metodi individuali `GestioneAppartamenti_Test/Send` con `IdAppartamento` di tipo `xsd:int`; ID attivo appartenente all’utenza. L’esempio della tabella include `0`; gli esempi SOAP includono zeri iniziali. Si conserva il valore numerico. File Unico distinto, con sei caratteri aggiunti al record: non implementato.
+
+## Matrice delle tipologie
+
+| Voce del catalogo | Inquadramento ER verificato o limite | Posizione statistica da verificare sull’anagrafica dell’ente |
+| --- | --- | --- |
+| Hotel / albergo | Alberghiera, classi 1–5 stelle e specificazioni previste | Alberghiera, classe assegnata |
+| RTA | Alberghiera, 2–4 stelle | RTA |
+| Agriturismo | Disciplina agricola L.R.4/2009; 1–5 girasoli | Alloggi agro-turistici |
+| Affittacamere | Extralberghiera | Posizione assegnata, nessun codice numerico inventato |
+| Bed & Breakfast | Attività saltuaria, altra tipologia | B&B |
+| CAV | Extralberghiera imprenditoriale, 2–4 soli | Alloggi in affitto secondo registrazione |
+| Locazione turistica imprenditoriale | Verificare la fattispecie CAV ER sulla pratica | Registrazione Ross1000 da confermare |
+| Locazione turistica non imprenditoriale | Appartamento ammobiliato uso turistico; 2–3 soli facoltativi | Registrazione Ross1000 da confermare |
+| Ostello | Extralberghiera | Ostelli |
+| Casa per ferie | Extralberghiera | Case per ferie |
+| Rifugio alpino / escursionistico | Extralberghiera | Voce rifugi secondo registrazione |
+| Campeggio | Aria aperta, 1–4 stelle ER | Campeggi |
+| Villaggio turistico | Aria aperta, 2–4 stelle ER | Villaggi turistici |
+| Camping village | Verificare titolo e classificazione della forma mista | Forma mista campeggio/villaggio |
+| Area sosta camper | Altra tipologia, titolo comunale da verificare | Registrazione da confermare |
+| Marina resort | Aria aperta; classificazione specifica da verificare | Registrazione da confermare |
+| Albergo diffuso / villaggio-albergo / motel / meublé-garni | Specificazioni alberghiere; titolo e classe della pratica | Non attribuire un nuovo codice dal solo nome |
+| Condohotel / resort | Catalogo nazionale conservato; specifica posizione regionale non attestata in questa ricerca | Conferma dell’ente necessaria |
+
+Per **ogni riga**, Alloggiati richiede l’utenza realmente abilitata: standard oppure Gestione Appartamenti con l’ID dell’elenco attivo. Agriturismo o affittacamere non impongono uno dei due profili. Non risulta nei contratti consultati un codice tipologia comune a Questura, Ross1000 e Tassa. Per **ogni riga** la categoria fiscale Bellaria e l’identificativo comunale vanno verificati separatamente: il modulo attuale certifica alberghi, non queste altre voci. Nessuna tariffa/codice esterno/CIR/CIN è riscritto dalla scelta nel catalogo.
+
+## Implementazione e conservazione
+
+Il campo è denominato **ID appartamento Alloggiati Web**, con spiegazione dell’elenco attivo, nel form operativo esistente; il collegamento Configurazioni → Questura / Alloggiati Web porta allo stesso form. Il profilo Standard resta il default anche per le righe precedenti con colonna nulla; ID facoltativo e trasporto Test/Send invariato. Gestione Appartamenti richiede l’ID: politica locale di indice non negativo entro il massimo `xsd:int`, zero compreso; nessuna assegnazione o convalida remota dell’appartenenza simulata.
+
+`QuesturaProfilo` centralizza il contesto; `AnagraficaStruttura` conserva gli stessi permessi operativi, estendendo l’allowlist ai soli due campi nuovi. Password/WSKEY restano cifrati e non ripopolati. Due colonne nullable additive su struttura e un metadato JSON nullable sullo storico trasmissioni: nessun aggiornamento dei sette record esistenti. La migrazione catalogo aggiunge soltanto tipologia/soli/pivot mancanti, rifiuta ambiguità anziché deduplicare, conserva ID, date, stringhe e relazioni precedenti. Il suo down non cancella voci potenzialmente referenziate: recupero produttivo da S0 coerente e verificato, mai rollback dati alla cieca.
+
+Il generatore TXT non cambia. Anteprima, download, UTF-8, gruppi/famiglie e archivio mantengono 168 caratteri per riga. Il servizio seleziona il metodo individuale e normalizza la relativa chiave di risposta. Il contesto contiene profilo, ID e impronta dell’utenza; Send richiede il medesimo contesto del Test positivo. Cambiare ID, utenza o profilo impone un nuovo Test. Le riserve per identità della schedina, esiti parziali/incerti, timeout e minimizzazione restano nel circuito esistente. Il solo payload non bastava allo storico: la minimizzazione lo azzera esplicitamente. Il metadato separato, nascosto dalla serializzazione generica e protetto dallo stesso vincolo di immutabilità, conserva l’ID dello snapshot anche dopo ricevuta, senza conservare gli ospiti nel payload. Il servizio di retention non è modificato. Nessun invio reale né accettazione esterna attestati; guardrail OFF preservati.
+
+## Verifiche e stato della consegna
+
+- R1-BASE: tre browser NONPASS attesi, identico blocco Agriturismo dopo cambio categoria, prima dei correttivi.
+- R2: 37 test/304 asserzioni, un fallimento della nuova fixture che riutilizzava il contesto corrente in un ciclo; browser non eseguiti. Diagnostico conservato.
+- R3: 39 test/313 asserzioni PASS dopo separazione degli scenari; tre browser NONPASS perché la prima variante correggeva solo la cache e non gli eventi jQuery. Nessun PASS globale.
+- R4-BROWSER: tre browser PASS sul selettore. Ispezione visiva successiva: etichetta classificazione non riallineata dopo reset; aggiunta la notifica al componente.
+- R5: 345 test/3.912 asserzioni PASS; tre browser tipologie, inclusi salvataggio/rilettura, PASS. Tre browser configurazione NONPASS su un’asserzione del collegamento cercato come visibile nel menu chiuso. Nessun PASS complessivo.
+- R6: 42 test/384 asserzioni e sei browser PASS. Compresa serializzazione SOAP in memoria dal WSDL, ID0/4 e righe separate dal parametro. Per Agriturismo la fixture browser finale è stata precisata con tre girasoli, anziché la generica classe sintetica Nessuna.
+- R7-FINALE: 390 test/5.409 asserzioni e sei browser funzionali PASS sul candidato con metadato storico immutabile. Una cattura desktop conteneva ancora la dissolvenza della conferma: non promossa come evidenza visiva finale.
+- R8-VISIVO: sei browser PASS, acquisizione dopo chiusura completa della conferma, sei immagini sintetiche ispezionate. Tre catture tipologie byte-identiche alle precedenti già ispezionate; profili desktop/tablet/mobile controllati. Le catture mobile possono includere la barra fissa condivisa nella parte superiore: nessun ridisegno di quel componente. Nessun overflow orizzontale nei form verificati.
+
+Unico ambiente: VM `schedine-sviluppo-interno`, PHP 8.3.36 / MariaDB 11.8.9 / PHPUnit 11.5.57, namespace ufficiale senza rete esterna, DB e filesystem effimeri. Build/GEO, identità processi/DB/HTTP e 23 rifiuti di override PASS prima delle migrazioni. SOAP double e client SOAP realmente serializzato in memoria dal WSDL locale: nessun client remoto autenticato. Entrambi i runtime finali rimossi dall’avviatore. Comandi integrali, impronte e limiti in [verifica.json](evidenze/tipologie-appartamento-2026-10-27/verifica.json). Le prove sono sul worktree non committato basato su `4a831f80`; impronte dei sorgenti verificate contro il candidato, senza sommare esecuzioni sovrapposte. Nessun PASS della discovery globale dichiarato.
+
+I controlli coprono: cinque tipologie salvate e recuperate, tre girasoli per Agriturismo, ritorno ad Alberghiera; ID corretto/assente/invalido/zero/zeri iniziali; stesso destinatario fra Test e Send; singolo/famiglia/gruppo a 168 caratteri; risposta positiva non presentata come accettazione, rifiuti/parziali/timeout/malformate, nessun retry cieco; ruoli e due strutture, cifratura/privacy e minimizzazione con riferimento storico conservato. Regressioni Questura standard, ISTAT/Ross1000, Tassa, Schedine e Web Check-in comprese. Non modificati i rispettivi servizi ISTAT/Tassa, generatore Questura, formule fiscali o valori storici.
+
+## Capacità, pubblicazione e ripresa concreta
+
+Lettura finale dopo R8 e pulizia: **VM 2.782.982.144 byte liberi (circa 2,59 GiB)**. Il precedente percorso conservativo C5 qualificato stimava **5.569.875.968 byte (circa 5,19 GiB)** per PREPARE/S0/recuperi/riserve, con 1 GiB VM già compreso. Deficit rispetto a quel percorso: **2.786.893.824 byte**, non ridotto per supposizione. È una stima storica conservativa, non un nuovo PASS di capacità sul candidato. [Protocollo di capacità esistente](QUESTURA-PIANO-CAPIENZA-2026-10-27.md): fermarsi prima di PREPARE/RUN se lo spazio non basta. Nessuna manutenzione, deposito produttivo, backup operativo, S0 o DDL avviati da questa task.
+
+Proposta concreta, **non eseguita e da autorizzare separatamente**: VM 44→48 GiB, preceduta da arresto ordinato, backup integrale cifrato/autenticato su Extra con chiave fisicamente separata, decifratura integrale e verifica degli originali; poi crescita esclusiva del disco/XFS e riavvio con riscontro del quotidiano. La proiezione aggiunge 4 GiB e porta il libero teorico a circa 6,59 GiB, con circa 1,40 GiB oltre la stima C5. Il libero effettivo va rimisurato: nessuna promessa di PASS anticipata. Nessuna cancellazione di backup, recuperi precedenti, cache o lavori estranei proposta come automatismo. Mac/Extra misurati nel consuntivo di capacità; riserve 8/40 GiB da riattestare prima della sequenza. L’ampliamento infrastrutturale non è incluso implicitamente nella correzione applicativa.
+
+Dopo risorse conformi: revisione del candidato e gate Git, nuovo PREPARE e recupero indipendente, nuovo S0 cifrato verificato anche su Extra, C5 autorizzata per le sole due migrazioni elencate sotto, QA online sintetica e pulizia per ID propri, confronto completo dei dati precedenti con esclusione dei soli delta approvati e monitor finale. Nessun checkpoint storico riusato. Questura/ISTAT OFF, nessun Test/Send reale. Nessun merge o deploy dichiarato prima dell’esecuzione effettiva.
+
+Migrazioni previste:
+
+1. `2026_10_27_120000_add_questura_profilo_to_struttura.php`: due colonne nullable su `struttura`, un JSON nullable su `questura_transmissions`; due ALTER, nessuna tabella nuova e nessun backfill.
+2. `2026_10_27_120100_complete_tipologie_turistiche.php`: solo aggiunte ai cataloghi. Sulla situazione letta, attesi 1 tipologia, 3 classificazioni e 6 pivot nuovi; nessun record precedente riscritto. Attese 161 migrazioni / 66 tabelle dopo rilascio, contro 159/66 attuali. Le quantità sono da riconfermare al preflight, non un’autorizzazione a forzare lo stato.
+
+Produzione finale riconfermata in sola lettura: **`ac7dd4a9c88a6e979f073a60fe8b715523f9821e`**, Git pulito, 159 migrazioni / 66 tabelle, barriera assente, Questura e ISTAT OFF. Gli 8.700 file originali del checkout operativo sono byte-identici all’inizio. Nessuna sincronizzazione dei nuovi sorgenti su Herd: il lavoro è nel worktree dedicato.
+
+Il registro Git seguente verrà completato con gli identificativi effettivi. **QA online, backup/recupero di rilascio e monitor non eseguiti per il blocco di capacità; nessuna pubblicazione di questo candidato dichiarata.** Pendenti: revisione indipendente, risorse e C5, conferma della pratica e posizione effettiva di ogni struttura, profilo dell’utenza, appartenenza dell’ID attivo, accettazione reale Questura/Ross1000/StayTour, categorie fiscali non certificate. Raggruppamenti rinviati alla fase successiva.

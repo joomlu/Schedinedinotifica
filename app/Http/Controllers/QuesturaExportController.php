@@ -392,6 +392,7 @@ class QuesturaExportController extends Controller
         }
 
         try {
+            $questuraContext = app(\App\Services\QuesturaProfilo::class)->context($struttura);
             [$dal, $al, $txt, $analisi] = $this->buildPeriodoTxt($struttura->id, $request);
             $this->assertPreview($request, $txt);
         } catch (ValidationException $e) {
@@ -408,6 +409,7 @@ class QuesturaExportController extends Controller
             'schedina_ids' => $schedinaIds,
             'txt_base64' => base64_encode($txt),
             'transport_mode' => $credStatus['simulation'] ? 'simulation' : 'live',
+            'questura_context' => $questuraContext,
             'sha256' => hash('sha256', $txt),
             'byte_size' => strlen($txt),
             'charset' => 'UTF-8',
@@ -530,6 +532,7 @@ class QuesturaExportController extends Controller
         $bytes = $verify ? base64_decode($verify->payload['txt_base64'] ?? '', true) : false;
         if (!$positive || $verify->finalized_at || $verify->payload_deleted_at
             || $verify->scope_type !== 'periodo'
+            || ($verify->questura_context ?? ['profilo' => 'standard']) !== $payload['questura_context']
             || $verify->schedina_ids !== $payload['schedina_ids']
             || $verify->component_ids !== $payload['component_ids']
             || (int) $verify->righe_count !== $rows
@@ -654,6 +657,7 @@ class QuesturaExportController extends Controller
             'response_message' => $result['message'],
             'response_detail' => null,
             'payload' => $payload,
+            'questura_context' => $payload['questura_context'] ?? null,
             'sha256' => $payload['sha256'] ?? null,
             'byte_size' => $payload['byte_size'] ?? null,
             'charset' => $payload['charset'] ?? null,
