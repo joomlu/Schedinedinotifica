@@ -101,4 +101,23 @@ Migrazioni previste:
 
 Produzione finale riconfermata in sola lettura: **`ac7dd4a9c88a6e979f073a60fe8b715523f9821e`**, Git pulito, 159 migrazioni / 66 tabelle, barriera assente, Questura e ISTAT OFF. Gli 8.700 file originali del checkout operativo sono byte-identici all’inizio. Nessuna sincronizzazione dei nuovi sorgenti su Herd: il lavoro è nel worktree dedicato.
 
-Il registro Git seguente verrà completato con gli identificativi effettivi. **QA online, backup/recupero di rilascio e monitor non eseguiti per il blocco di capacità; nessuna pubblicazione di questo candidato dichiarata.** Pendenti: revisione indipendente, risorse e C5, conferma della pratica e posizione effettiva di ogni struttura, profilo dell’utenza, appartenenza dell’ID attivo, accettazione reale Questura/Ross1000/StayTour, categorie fiscali non certificate. Raggruppamenti rinviati alla fase successiva.
+**QA online, backup/recupero di rilascio e monitor non eseguiti per il blocco di capacità; nessuna pubblicazione di questo candidato dichiarata.** Pendenti: revisione indipendente, risorse e C5, conferma della pratica e posizione effettiva di ogni struttura, profilo dell’utenza, appartenenza dell’ID attivo, accettazione reale Questura/Ross1000/StayTour, categorie fiscali non certificate. Raggruppamenti rinviati alla fase successiva.
+
+## Registro Git e consegna
+
+Ramo locale `codex/tipologie-appartamento-20261027`; commit applicativo **`5fcee89fa2d34c7f63d2bcba8ee19012c5d6bfa0`**. Le 21 impronte dei 15 sorgenti applicativi/migrazioni e dei 6 file di test sono identiche ai blob del commit; nessun cambiamento dei sorgenti successivo alla qualifica. Il successivo commit di consuntivo modifica soltanto documentazione. Checkout operativo originale e main preservati.
+
+**Push NON eseguito e PR NON creata.** La revisione automatica ha rifiutato il comando prima dell’avvio: pubblicare i 25 file su GitHub pubblico espone codice e documentazione all’esterno e richiede, secondo il revisore, un consenso specifico dell’utente. Nessun tentativo con altro strumento, mirror o percorso alternativo. La descrizione PR è pronta privatamente; dopo consenso al push si potranno pubblicare il ramo e la PR in bozza, senza implicare merge o deploy. Il blocco Git è distinto da quello di capacità C5. Nessuna revisione indipendente o approvazione del candidato dichiarata.
+
+Esito complessivo **PARZIALE**, rischio di rilascio **MEDIO** per le due migrazioni ancora da applicare sotto C5. Maestro **AGGIORNATO**. Prossimo passo: consenso specifico al push pubblico e decisione sulle risorse, poi preflight aggiornato e prosecuzione del flusso già descritto.
+
+| Voce obbligatoria | Esito |
+| --- | --- |
+| Codice modificato | SÌ, solo worktree dedicato |
+| Test modificati / eseguiti | SÌ / SÌ, qualifica 390 test e 6 browser nei rispettivi runtime |
+| Documentazione modificata | SÌ |
+| Configurazione operativa modificata | NO |
+| Schema/dati modificati | SÌ nei soli database sintetici effimeri; NO negli ambienti operativi |
+| Commit | SÌ, locale |
+| Push / PR / merge | NO / NO / NO |
+| Deploy / trasmissioni reali | NO / NO |

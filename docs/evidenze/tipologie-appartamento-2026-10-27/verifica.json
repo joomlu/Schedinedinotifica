@@ -184,5 +184,15 @@
   "pubblicazione": "BLOCCATA_CAPACITA_PRIMA_PREPARE",
   "PASS_globale_repository": false,
   "accettazione_enti": false,
-  "trasmissioni_reali": 0
+  "trasmissioni_reali": 0,
+  "git": {
+    "ramo": "codex/tipologie-appartamento-20261027",
+    "candidato_applicativo_sha": "5fcee89fa2d34c7f63d2bcba8ee19012c5d6bfa0",
+    "impronte_verificate_contro_blob_commit": 21,
+    "push": "BLOCCATO_REVISIONE_AUTOMATICA_PRIMA_ESECUZIONE",
+    "motivo": "Richiesto consenso specifico alla pubblicazione di codice e documentazione nel repository GitHub pubblico",
+    "PR": null,
+    "merge": false,
+    "deploy": false
+  }
 }
