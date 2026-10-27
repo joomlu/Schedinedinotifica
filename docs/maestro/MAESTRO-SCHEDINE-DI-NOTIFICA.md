@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+
+## Revisione del sito pubblico — 27 ottobre 2026
+
+[PR40](https://github.com/joomlu/Schedinedinotifica/pull/40): testi pubblici orientati al lavoro dell’albergatore, immagine integrale del percorso dell’ospite dopo il hero e sette tappe leggibili anche su mobile. Struttura, listino e collegamenti conservati; marchi Tanggo Software e SchedinaNotifica uniformati. Palette dei componenti esistenti riutilizzata, con differenza rispetto alla schermata di riferimento documentata. Nove pagine verificate su desktop/tablet/mobile e sul sito pubblicato; menu, FAQ, demo e modulo vuoto controllati senza richieste commerciali. Nessuna attestazione di accettazione degli enti, marketing o copertura territoriale ulteriore. [Consuntivo pubblico](../REVISIONE-SITO-PUBBLICO-2026-10-27.md); ricevute operative conservate separatamente. **BASELINE IN AUDIT invariata.**
+
 ## Tipologie / appartamento — pubblicazione, QA e monitor conclusi PASS
 
 PR38 integrata03e888a3; produzione79b5d7e7, applicativo128e4ef2 qualificato R12 **395test/5429asserzioni+6browser PASS**. C5/S0/recuperi/custodie cifrate PASS, due sole migrazioni additive159→161/66tabelle e dati precedenti preservati. QA online tre larghezze PASS, fixture/sessioni rimosse e HMAC66conformi esclusi AUTO_INCREMENT,104persistenti e331sorgenti/protetti conformi. Monitor **server 919.576s e Mac 922.244s**,31campioni ciascuno/279sonde server/93richieste Mac PASS; zero nuovi errori applicativi/FPM dall’intero RUN. Guardiano disarmato/inattivo/disabilitato, presidio Mac proprio chiuso, VM attiva come all’inizio; originali e backup preservati. Questura/ISTAT OFF e nessun invio reale/accettazione ente. Consuntivo soltanto documentale, nessun ulteriore deploy. [Rapporto](../TIPOLOGIE-APPARTAMENTO-2026-10-27.md), [monitor](../evidenze/tipologie-appartamento-2026-10-27/monitor.json). **Task completata nel perimetro autorizzato; BASELINE IN AUDIT invariata.**
