@@ -844,3 +844,92 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 .commercial-interior .module-index .feature-icon { width:28px; height:28px; flex-shrink:0; }
 .interior-prezzi .price-card.featured .plan-name { color:var(--action); }
 .interior-prezzi .price-card .plan-price { font-size:clamp(1.35rem,1.9vw,1.8rem); line-height:1.4; }
+
+/* Homepage: dal prodotto ai vantaggi, nel linguaggio visivo approvato. */
+.home-product-story .hero-stage .hero { grid-template-columns:1.1fr 1fr; gap:55px; align-items:start; padding-block:62px; }
+.home-product-story .hero h1 { font-size:clamp(2.2rem,3.25vw,3.45rem); line-height:1.13; letter-spacing:-.045em; }
+.home-product-story .hero .lead { font-size:1.08rem; line-height:1.75; }
+.home-product-story .hero .actions { margin-block:28px 22px; }
+.home-product-story .hero-benefit { padding:22px; border-left:3px solid var(--gold); border-radius:0 12px 12px 0; background:#fffffff5; }
+.home-product-story .hero-benefit-title { font-size:clamp(1.3rem,1.8vw,1.65rem); color:var(--action); line-height:1.35; font-weight:700; letter-spacing:-.025em; margin-bottom:16px; }
+.home-product-story .hero-benefit > p:last-child { font-size:1.02rem; line-height:1.7; margin-bottom:0; }
+.home-product-story .hero-visual-stack { gap:28px; }
+.home-product-story .hero-dashboard { box-shadow:0 15px 45px #2b2b2b0d; }
+.home-product-story .home-practical .benefit-columns article { border:0; border-radius:0; border-top:3px solid var(--departure); padding:24px 0 0; }
+.home-product-story .home-practical .benefit-columns article:nth-child(2) { border-top-color:var(--arrival); }
+.home-product-story .home-practical .benefit-columns article:nth-child(3) { border-top-color:var(--gold); }
+.home-product-story .home-practical .benefit-columns p { font-size:1.05rem; }
+.home-product-story .home-context-note { max-width:880px; margin:34px 0 12px; font-size:1rem; }
+.home-product-story .home-workflow { border-top:1px solid var(--line); padding-bottom:35px; }
+.home-product-story .home-workflow .split-feature { align-items:center; gap:70px; }
+.home-product-story .workflow-screen img { max-height:600px; object-fit:contain; }
+.home-product-story .work-benefit { padding-block:24px; border-top:1px solid var(--line); }
+.home-product-story .work-benefit:first-child { padding-top:0; border-top:0; }
+.home-product-story .work-benefit-heading { display:flex; align-items:flex-start; gap:16px; margin-bottom:18px; }
+.home-product-story .work-benefit-heading .feature-icon { color:var(--departure); width:28px; height:28px; margin-top:3px; }
+.home-product-story .work-benefit-heading h3 { font-size:clamp(1.4rem,1.9vw,1.8rem); margin:0; line-height:1.2; }
+.home-product-story .work-benefit p { font-size:1.05rem; line-height:1.75; margin-bottom:16px; }
+.home-product-story .work-benefit-result { color:var(--arrival); font-weight:600; }
+.home-product-story .home-returning { padding-top:60px; padding-bottom:45px; align-items:center; }
+.home-product-story .home-returning .hospitality-story-image img { aspect-ratio:4/5; max-height:800px; object-fit:cover; }
+.home-product-story .archive-intro { padding-bottom:26px; margin-bottom:32px; border-bottom:1px solid var(--line); }
+.home-product-story .archive-intro p { font-size:1.02rem; line-height:1.75; margin-bottom:12px; }
+.home-product-story .returning-steps { list-style:none; padding:0; margin:26px 0; display:flex; gap:16px; }
+.home-product-story .returning-steps li { flex:1; font-size:.94rem; line-height:1.45; padding-top:16px; border-top:2px solid var(--gold); color:var(--ink); }
+.home-product-story .returning-steps .feature-icon { display:block; width:24px; height:24px; color:var(--action); margin-bottom:12px; }
+.home-product-story .returning-demo { display:block; margin-top:16px; }
+.home-product-story .home-work-overview { padding-block:55px 75px; }
+.home-product-story .home-work-overview > .hero-visual { order:-1; }
+.home-product-story .home-day-summary { border-block:1px solid var(--line); }
+.home-product-story .home-day-summary .section { padding-block:65px; }
+.home-product-story .day-summary-list { list-style:none; padding:0; margin:0 0 30px; display:grid; grid-template-columns:1fr 1fr; gap:18px 50px; }
+.home-product-story .day-summary-list li { padding-left:22px; border-left:3px solid var(--gold); font-size:1.05rem; line-height:1.65; }
+.home-product-story .day-summary-list strong { color:var(--ink); }
+.home-product-story .home-day-summary .large-copy { max-width:900px; margin-bottom:0; }
+@media(max-width:1100px) {
+ .home-product-story .hero-stage .hero { gap:32px; }
+ .home-product-story .home-workflow .split-feature { gap:40px; }
+}
+@media(max-width:950px) {
+ .home-product-story .hero-stage .hero { grid-template-columns:1fr; gap:32px; padding-block:44px; }
+ .home-product-story .hero h1 { max-width:780px; font-size:clamp(2.2rem,5vw,3.5rem); }
+ .home-product-story .hero .lead { max-width:760px; }
+ .home-product-story .hero-visual-stack { display:grid; grid-template-columns:.9fr 1.1fr; align-items:start; gap:28px; }
+ .home-product-story .dashboard-preview img { min-height:0; }
+ .home-product-story .home-practical .benefit-columns { grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; }
+ .home-product-story .home-work-overview > .hero-visual { order:0; }
+ .home-product-story .home-returning .hospitality-story-image img { aspect-ratio:16/10; max-height:500px; }
+}
+@media(max-width:600px) {
+ .home-product-story .hero h1 { font-size:2.15rem; line-height:1.15; }
+ .home-product-story .hero .lead { font-size:1.03rem; line-height:1.7; }
+ .home-product-story .hero .hero-note { font-size:.88rem; }
+ .home-product-story .hero-visual-stack { grid-template-columns:1fr; gap:28px; }
+ .home-product-story .hero-benefit { padding-left:18px; }
+ .home-product-story .hero-benefit-title { font-size:1.42rem; }
+ .home-product-story .home-practical .benefit-columns { grid-template-columns:1fr; gap:30px; }
+ .home-product-story .home-practical .feature-heading { margin-bottom:15px; }
+ .home-product-story .home-workflow .split-feature { gap:32px; }
+ .home-product-story .work-benefit-heading h3 { font-size:1.45rem; }
+ .home-product-story .returning-steps { flex-direction:column; gap:14px; }
+ .home-product-story .returning-steps li { display:flex; align-items:center; gap:14px; padding-top:14px; }
+ .home-product-story .returning-steps .feature-icon { margin:0; flex-shrink:0; }
+ .home-product-story .home-returning { padding-top:40px; padding-bottom:35px; }
+ .home-product-story .home-returning .hospitality-story-image img { aspect-ratio:4/3; }
+ .home-product-story .home-work-overview { padding-block:35px 55px; }
+ .home-product-story .day-summary-list { grid-template-columns:1fr; gap:18px; }
+ .home-product-story .home-day-summary .section { padding-block:50px; }
+}
+
+/* Percorso dell’ospite: immagine integrale e tappe leggibili a ogni larghezza. */
+.guest-journey-figure { margin:0 0 32px; }
+.guest-journey-figure img { width:100%; height:auto; object-fit:contain; }
+.guest-journey-figure figcaption { font-size:.9rem; margin-top:16px; }
+.guest-journey-steps { list-style:none; padding:0; margin:32px 0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px 32px; counter-reset:journey; }
+.guest-journey-steps li { counter-increment:journey; border-top:2px solid var(--line); padding-top:18px; }
+.guest-journey-steps li::before { content:counter(journey,decimal-leading-zero); display:block; color:var(--action); font-weight:700; margin-bottom:12px; }
+.guest-journey-steps h3 { font-size:1.2rem; letter-spacing:-.02em; margin-bottom:10px; }
+.guest-journey-steps p,.function-detail { font-size:.95rem; }
+.function-detail { margin-block:20px; }
+@media(max-width:950px) { .guest-journey-steps { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:600px) { .guest-journey-steps { grid-template-columns:1fr; gap:20px; } }
