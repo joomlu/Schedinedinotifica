@@ -1,6 +1,16 @@
 # Tipologie ricettive e appartamento individuale Questura — 27 ottobre 2026
 
-**Stato: PARZIALE. Qualifica locale VERIFICATA; pubblicazione BLOCCATA alla capacità, prima di PREPARE. BASELINE IN AUDIT invariata. Nessuna trasmissione reale.**
+## Ripresa autorizzata e revisione PR38
+
+L’utente ha risposto «autorizo tutto» alla richiesta specifica di push pubblico/PR e ampliamento VM 44→48 GiB con backup integrale cifrato autenticato su Extra, chiave separata sul Mac e decifratura integrale. Il push successivo è riuscito; il precedente rifiuto automatico resta evidenza storica. [PR38](https://github.com/joomlu/Schedinedinotifica/pull/38) aperta inizialmente in bozza e resa pronta alla revisione automatica sul candidato `7372076d`.
+
+La revisione ha individuato un P2 riproducibile nel percorso installazione nuova: CAV viene creata dal seeder dopo le migrazioni, saltando le associazioni ai soli. Regressione dedicata aggiunta; correzione e nuova qualifica da completare prima del rilascio. Nessun merge o deploy anticipato.
+
+Preflight risorse PASS: daily `945ef553`, DB logico 3.332.249 byte, 84 file protetti e SELinux Enforcing sigillati; XFS 45.880.217.600 byte, 2.782.883.840 liberi. Mac 13.484.601.344 ed Extra 507.460.022.272 byte liberi. Arresto ordinato concluso, backup integrale in corso; disco ancora 44 GiB. Prova del formato AES-GCM PASS, alterazione e due troncamenti respinti. Usato il Python fornito dall’app con cryptography già presente, senza installazioni.
+
+Kit C5 preparato soltanto privatamente: due migrazioni nominate, nessuna nuova tabella, guardie e budget invariati. Verificatore del delta DB provato su sintetici: tre colonne nullable, sole aggiunte catalogo/ledger, quattro mutazioni respinte. QA online predisposta su due strutture sintetiche, non eseguita. PREPARE/S0/RUN/DDL/QA/monitor pendenti. Rilettura produttiva: `ac7dd4a9`, Git pulito, 159 migrazioni/66 tabelle, barriera assente, Questura/ISTAT OFF. Nessuna trasmissione reale.
+
+**Stato corrente: PARZIALE. R10 VERIFICATA (391 test / 5.414 asserzioni e sei browser PASS); backup e VM48GiB PASS. PR38 aggiornata, nuova revisione e C5 pendenti. BASELINE IN AUDIT invariata. Nessuna trasmissione reale. Le sezioni iniziali di ripresa conservano gli stati storici.**
 
 ## Perimetro e stato iniziale
 
@@ -121,3 +131,12 @@ Esito complessivo **PARZIALE**, rischio di rilascio **MEDIO** per le due migrazi
 | Commit | SÌ, locale |
 | Push / PR / merge | NO / NO / NO |
 | Deploy / trasmissioni reali | NO / NO |
+
+
+## R10 e ampliamento conclusi
+
+Backup integrale PASS: 12 file, 27.042.126.393 byte cifrati su Extra, autenticati e decifrati integralmente; originali riletti identici, chiave separata sul Mac. VM44→48GiB PASS, XFS45.880.217.600→50.175.184.896 byte, 6.993.809.408 liberi dopo riavvio. DB quotidiano/84 protetti/HEAD945ef553/SELinux identici; solo configurazione disco variata. Nessun backup o originale rimosso. [Ricevuta risorse](evidenze/tipologie-appartamento-2026-10-27/risorse.json).
+
+P2 PR38 riprodotto e corretto nel solo completamento catalogo: CAV creata se assente prima delle associazioni ai soli. Seeder generale invariato e non eseguito. R9 iniziale errore di setup per seeder non incluso; R9B rifiutata dal launcher, nessun bypass. R9C riproduce con fixture il catalogo popolato dopo le migrazioni: 3 test /59 asserzioni, un fallimento atteso con sola Nessuna. R10 finale: **391 test /5.414 asserzioni e sei browser PASS**, sei catture ispezionate; runtime effimero rimosso. Non si sommano prove sovrapposte. Commit applicativo corretto `dc26e25c84761b7ed72cb5472c4b1472a9a44140`, 21 impronte corrispondenti a R10. Vecchio rilievo risolto sulla PR aggiornata; nuova revisione ancora da attestare.
+
+Kit C5 privato da rigenerare sul nuovo candidato. Verifica conservativa del delta al sigillo, prima dell’apertura e dopo la chiusura del monitor runner, riusando il dump già prodotto: sole tre colonne NULL, 1 tipologia/3 classi/6 relazioni e due ledger; nessuna nuova tabella. Prove sintetiche del confronto PASS (quattro alterazioni respinte), hook PASS (delta ammesso, alterazione e S0 mancante respinti senza promozione). Non costituiscono C5 produttivo. Produzione ultima lettura ac7dd4a9/159migrazioni/66tabelle, OFF invariati. PREPARE/S0/RUN/DDL/QA/monitor non eseguiti.

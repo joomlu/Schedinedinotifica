@@ -1,5 +1,16 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Tipologie / appartamento — R10 PASS, VM48GiB verificata, PR38 aggiornata
+
+Consenso specifico acquisito con «autorizo tutto»; push pubblico/PR38 eseguiti. P2 della revisione sul catalogo nuovo riprodotto e corretto senza modificare/eseguire il seeder generale: CAV creata se assente prima delle associazioni ai soli. R9 errore setup, R9B guardia seeder respinta intatta, R9C fallimento atteso; **R10 391 test/5.414 asserzioni e sei browser PASS**, sei catture ispezionate e runtime rimosso. Commit applicativo `dc26e25c`, 21 impronte conformi. PR38 aggiornata, rilievo precedente risolto, nuova revisione e integrazione pendenti.
+
+Backup VM integrale Extra 12 file/27.042.126.393 byte cifrati, autenticati e decifrati; chiave separata Mac e originali riletti identici. Crescita44→48GiB/XFS PASS, 6.993.809.408 byte liberi, DB quotidiano/84 protetti/HEAD945ef553/SELinux identici e solo disco variato. Nessuna rimozione di originali/backup. Kit C5 da rigenerare sul nuovo candidato: delta autorizzato verificato prima dell’apertura con helper provato soltanto su sintetici; PREPARE/S0/RUN/DDL/QA/monitor non eseguiti. Produzione ancora ac7dd4a9/159/66, Questura/ISTAT OFF. Nessun invio reale. [Rapporto](../TIPOLOGIE-APPARTAMENTO-2026-10-27.md), [qualifica](../evidenze/tipologie-appartamento-2026-10-27/verifica.json), [risorse](../evidenze/tipologie-appartamento-2026-10-27/risorse.json). **BASELINE IN AUDIT invariata.**
+
+
+## Tipologie / appartamento — consenso acquisito, PR38 in revisione, backup VM in corso
+
+Consenso «autorizo tutto» ricevuto in risposta alla richiesta specifica di push pubblico/PR e ampliamento VM 44→48 GiB con backup integrale cifrato Extra, chiave separata Mac e decifratura integrale. Push riuscito, [PR38](https://github.com/joomlu/Schedinedinotifica/pull/38) aperta in bozza e poi pronta alla revisione automatica, avviata sul candidato `7372076d`. Nessun merge. Sorgenti qualificati R7/R8 invariati. Preflight daily/DB/84 protetti/SELinux PASS; VM arrestata ordinatamente, backup in corso e nessuna crescita ancora eseguita. Kit C5 con due sole migrazioni nominate preparato privatamente, non eseguito; confronto delta DB provato soltanto su sintetici. PREPARE/S0/RUN/DDL/QA/monitor pendenti. Nessun invio reale, Questura/ISTAT OFF, BASELINE IN AUDIT invariata. Il blocco precedente è storico e non una nuova richiesta di consenso.
+
 ## Tipologie e appartamento individuale Questura — candidato locale verificato, capacità C5 insufficiente
 
 Audit del 27 ottobre 2026: agriturismo/affittacamere/ostello/locazione imprenditoriale già presenti in produzione sotto Extra-alberghiera; blocco riprodotto a 1440/768/390 px negli eventi jQuery di Select2 e nello stato delle opzioni. Correzione circoscritta alla cascata, nessuna sostituzione del componente. Migrazione additiva per locazione non imprenditoriale e soli ER, senza seeder o deduplicazioni. Agriturismo distinto per disciplina agricola/girasoli; nessuna deduzione automatica di profilo Questura, codice Ross1000 o tariffa comunale.

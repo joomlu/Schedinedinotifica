@@ -91,14 +91,14 @@
     "resources/views/struttura/form.blade.php": "f85fa87fdbdf59793aecaeffa3c84fb462c4207b714c5fd7857bfd5a939de517",
     "app/Services/QuesturaProfilo.php": "6aeb3381b3674f92532b803f94a453168ed5fada9c3c2af0234277cc55d709e1",
     "database/migrations/2026_10_27_120000_add_questura_profilo_to_struttura.php": "54b6fb11bf2b6e7c5b5fd7abbb1550be10da12747e466b967a8581da3b5a1fb7",
-    "database/migrations/2026_10_27_120100_complete_tipologie_turistiche.php": "88cd3589e1246d52b036b9f682ae481145e9cdf6b78074839238953779da2d7a",
+    "database/migrations/2026_10_27_120100_complete_tipologie_turistiche.php": "ae126242dcea513f17a0f1f6d948119ae2d0a64cfb1aa3926bc7ff433d5a5be1",
     "resources/views/struttura/questura-profilo.blade.php": "8d16b8b4fb27e6bba68a2ebe1521be75e1247b169607b46418b17b3d1d2b1fb3"
   },
   "test_sha256": {
     "tests/Feature/QuesturaRetentionTest.php": "d9f4319a358a525585b7968c90be8e36bd33b530a5b03d835290cba2aa3d4064",
     "tests/Feature/QuesturaWsContractTest.php": "e6865ad5d6f14df2bccf19d6975f2f58f9d7d07ced7b81ef1859228c4e057a8a",
     "tests/Feature/QuesturaAppartamentoTest.php": "316a6edb9f1ea3f0c8e405d1f021d1f42e59e342cd254e039d9af33563007a66",
-    "tests/Feature/TipologieStrutturaTest.php": "8222e6cc22ae517952c30cf73c67d1e78c839bc757d76410d13b7617bb961660",
+    "tests/Feature/TipologieStrutturaTest.php": "61e3dd9b15741723d4897527a14f923c621eb7821e2a5f749f944b5128a66c80",
     "tests/Feature/tipologie-appartamento.playwright.spec.js": "d48e0e338bdc6f4cadce61fce142f2ca73fa926e962a3a2b1643cb10b9cc7684",
     "tests/Isolation/seed-tipologie-appartamento.php": "008a7c0651611912d84b87dc306ecd15256e3441a7e70cc7a86417b5e78edb6f"
   },
@@ -161,7 +161,11 @@
     "R5": "73ed34770c07aad4edd655d65909070b35f9fb33342a47eb8858d194fdd754ca",
     "R6": "0e6a15277b478cad84ce84f424bdae8dd079a07317090d2d1b424588cbbd3fb2",
     "R7-FINALE": "10c5b74670ba23d9112a77ca9396052a37774bf182833b929791d6368479cbf7",
-    "R8-VISIVO": "e5f04ca0276561607d6b2e9e956241e36604eddba2032b362700df3cee39c732"
+    "R8-VISIVO": "e5f04ca0276561607d6b2e9e956241e36604eddba2032b362700df3cee39c732",
+    "R9-REGRESSIONE-P2.log": "b45969f80957129703d4088bcf06b5a9ca35adeb20d4d014513feddd494f2e32",
+    "R9B-REGRESSIONE-P2.log": "51970cfc78c16986b655cc7c81713bb5860df37f54f92f67a0cbfb30a963302a",
+    "R9C-REGRESSIONE-P2.log": "86e81fb2c0586c9105e7922debf1013f6f2752ae7b95525d7693d359078e29fb",
+    "R10-FINALE.log": "583c39ecc38bfbcd937caa5b82226dbf29977f25d3e39357ed6d850432ee6972"
   },
   "originali": {
     "file": 8700,
@@ -181,18 +185,170 @@
     "2026_10_27_120000_add_questura_profilo_to_struttura",
     "2026_10_27_120100_complete_tipologie_turistiche"
   ],
-  "pubblicazione": "BLOCCATA_CAPACITA_PRIMA_PREPARE",
+  "pubblicazione": {
+    "stato": "PENDENTE_REVISIONE_E_C5",
+    "consenso": "autorizo tutto, risposta a push pubblico/PR e ampliamento VM44→48GiB con backup cifrato verificato Extra/chiave separata Mac",
+    "risorse": "PASS_BACKUP_E_AMPLIAMENTO_VM_44_48",
+    "C5": "NON_ESEGUITO",
+    "QA_online": "NON_ESEGUITA",
+    "monitor": "NON_ESEGUITO"
+  },
   "PASS_globale_repository": false,
   "accettazione_enti": false,
   "trasmissioni_reali": 0,
   "git": {
     "ramo": "codex/tipologie-appartamento-20261027",
-    "candidato_applicativo_sha": "5fcee89fa2d34c7f63d2bcba8ee19012c5d6bfa0",
-    "impronte_verificate_contro_blob_commit": 21,
-    "push": "BLOCCATO_REVISIONE_AUTOMATICA_PRIMA_ESECUZIONE",
-    "motivo": "Richiesto consenso specifico alla pubblicazione di codice e documentazione nel repository GitHub pubblico",
-    "PR": null,
-    "merge": false,
-    "deploy": false
+    "candidato_applicativo": "dc26e25c84761b7ed72cb5472c4b1472a9a44140",
+    "PR": 38,
+    "URL": "https://github.com/joomlu/Schedinedinotifica/pull/38",
+    "push": "PASS",
+    "P2": "CORRETTO_QUALIFICATO_R10",
+    "nuova_revisione": "PENDENTE",
+    "merge": "NON_ESEGUITO"
+  },
+  "qualifica_precedente_R7_R8": {
+    "sorgenti_sha256": {
+      "app/Http/Controllers/QuesturaExportController.php": "86060efdb32b17e36134e18c65d80a35e45ba8bfed09088c61bc7e004e54e1bc",
+      "app/Models/QuesturaTransmission.php": "eba2d07966b5941c342b5caa23469078173dbadec77d948f4416c79afb07cf9d",
+      "app/Models/Struttura.php": "3a27a437082b8bd30f4c88c36f77ffbc19ab00cf6c6fc10ce45804ceafde2205",
+      "app/Services/AnagraficaStruttura.php": "2c6f350e43c20c1a78cd5af235dc582ab5736cedcf9620192416f4413e65a7f6",
+      "app/Services/QuesturaWebService.php": "7ed55aa12811f37ae0e7920066379bbe5673d09b4da6a26e53bdbf281fd89f7d",
+      "resources/js/components/filtri/tipologie-filtro.js": "3bf4aba58234deff217735db8d427506e2d77503256f6368ba12f98aa549ea45",
+      "resources/js/ui/select2.js": "035ca32f7881b1be17c7660483fd4a718f407fb3c75da6b8a4f7ae6f12b077f4",
+      "resources/views/layouts/sidebar.blade.php": "a67b857107b8e526a268e14b5d0fbadef8ff0c91752290c0f8f1b96492ade389",
+      "resources/views/questura/index.blade.php": "29c00108d96798e6ffe9e210971efaf915ee42a701d72a520817ab36ab3ac6da",
+      "resources/views/struttura/consulta.blade.php": "c0ce3679725f9701782d138f5e12b865c984cfb5f24189774ea66946fb4d5cfa",
+      "resources/views/struttura/form.blade.php": "f85fa87fdbdf59793aecaeffa3c84fb462c4207b714c5fd7857bfd5a939de517",
+      "app/Services/QuesturaProfilo.php": "6aeb3381b3674f92532b803f94a453168ed5fada9c3c2af0234277cc55d709e1",
+      "database/migrations/2026_10_27_120000_add_questura_profilo_to_struttura.php": "54b6fb11bf2b6e7c5b5fd7abbb1550be10da12747e466b967a8581da3b5a1fb7",
+      "database/migrations/2026_10_27_120100_complete_tipologie_turistiche.php": "88cd3589e1246d52b036b9f682ae481145e9cdf6b78074839238953779da2d7a",
+      "resources/views/struttura/questura-profilo.blade.php": "8d16b8b4fb27e6bba68a2ebe1521be75e1247b169607b46418b17b3d1d2b1fb3"
+    },
+    "test_sha256": {
+      "tests/Feature/QuesturaRetentionTest.php": "d9f4319a358a525585b7968c90be8e36bd33b530a5b03d835290cba2aa3d4064",
+      "tests/Feature/QuesturaWsContractTest.php": "e6865ad5d6f14df2bccf19d6975f2f58f9d7d07ced7b81ef1859228c4e057a8a",
+      "tests/Feature/QuesturaAppartamentoTest.php": "316a6edb9f1ea3f0c8e405d1f021d1f42e59e342cd254e039d9af33563007a66",
+      "tests/Feature/TipologieStrutturaTest.php": "8222e6cc22ae517952c30cf73c67d1e78c839bc757d76410d13b7617bb961660",
+      "tests/Feature/tipologie-appartamento.playwright.spec.js": "d48e0e338bdc6f4cadce61fce142f2ca73fa926e962a3a2b1643cb10b9cc7684",
+      "tests/Isolation/seed-tipologie-appartamento.php": "008a7c0651611912d84b87dc306ecd15256e3441a7e70cc7a86417b5e78edb6f"
+    },
+    "catture": {
+      "profilo-768.png": {
+        "sha256": "9547299ff042fa6c4a8e776676e88c76d308c705a8ab2ef091bbdb98c3f107d7",
+        "byte": 54272,
+        "larghezza": 436,
+        "altezza": 726,
+        "ispezionata": true,
+        "dati_sintetici": true
+      },
+      "tipologie-390.png": {
+        "sha256": "ee82a26e3e712727f1a9578d605e5ceb50a70bd3887771bd34e927cb90bcb950",
+        "byte": 15237,
+        "larghezza": 308,
+        "altezza": 306,
+        "ispezionata": true,
+        "dati_sintetici": true
+      },
+      "tipologie-1440.png": {
+        "sha256": "1afc9aca0d13fb071852ebb580c4856f241b9bfda9fe492b9e1d07e48b38da61",
+        "byte": 13907,
+        "larghezza": 1108,
+        "altezza": 119,
+        "ispezionata": true,
+        "dati_sintetici": true
+      },
+      "tipologie-768.png": {
+        "sha256": "9d3ec5cd3a50d64bb550beaa80993cdb246c58cdaa5a06dcc3f1caf4bef78042",
+        "byte": 13108,
+        "larghezza": 436,
+        "altezza": 158,
+        "ispezionata": true,
+        "dati_sintetici": true
+      },
+      "profilo-1440.png": {
+        "sha256": "fa22d990dd7ee38e3cd23e053eae06a4cc4530ed06354066c494a4ae858f035f",
+        "byte": 56618,
+        "larghezza": 1108,
+        "altezza": 597,
+        "ispezionata": true,
+        "dati_sintetici": true
+      },
+      "profilo-390.png": {
+        "sha256": "b8cf9601f22e81bd20db3d008352751e9cd46fc0e3dd0a9dd67181ef3069a62a",
+        "byte": 53275,
+        "larghezza": 308,
+        "altezza": 810,
+        "ispezionata": true,
+        "dati_sintetici": true
+      }
+    },
+    "limite": "Precedente al P2 sulla installazione nuova, non sommata a R10"
+  },
+  "phpunit_R10": {
+    "test": 391,
+    "asserzioni": 5414,
+    "esito": "PASS"
+  },
+  "browser_R10": {
+    "test": 6,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "esito": "PASS",
+    "catture_ispezionate": 6
+  },
+  "comando_R10": [
+    "python3",
+    "/private/tmp/tipologie-appartamento-evidenze-20261027/collaudo.py",
+    "R10-FINALE",
+    "--phpunit",
+    "tests/Feature/QuesturaAppartamentoTest.php",
+    "tests/Feature/TipologieStrutturaTest.php",
+    "tests/Feature/QuesturaWsContractTest.php",
+    "tests/Feature/QuesturaTestSendSnapshotTest.php",
+    "tests/Feature/AnagraficheUnificateTest.php",
+    "tests/Feature/QuesturaCompletionTest.php",
+    "tests/Feature/QuesturaTransportGuardTest.php",
+    "tests/Feature/QuesturaIdempotencyTest.php",
+    "tests/Feature/QuesturaPayloadCoherenceTest.php",
+    "tests/Feature/QuesturaCredentialEncryptionTest.php",
+    "tests/Feature/QuesturaLoggingPrivacyTest.php",
+    "tests/Feature/QuesturaRetentionTest.php",
+    "tests/Feature/StrutturaAuthorizationTest.php",
+    "tests/Feature/IstatConformitaTest.php",
+    "tests/Feature/IstatCycleTest.php",
+    "tests/Feature/IstatTransmissionSecurityTest.php",
+    "tests/Feature/TassaVerificaIntegraleTest.php",
+    "tests/Feature/TassaBellariaCompletenessTest.php",
+    "tests/Feature/TassaBellariaVersionamentoTest.php",
+    "tests/Feature/SchedinaFlowValidationTest.php",
+    "tests/Feature/SchedinaStoreTest.php",
+    "tests/Feature/WebCheckinCircuitoTest.php",
+    "tests/Feature/WebCheckinFiscalContextTest.php",
+    "--include",
+    "app/Services/QuesturaProfilo.php",
+    "database/migrations/2026_10_27_120000_add_questura_profilo_to_struttura.php",
+    "database/migrations/2026_10_27_120100_complete_tipologie_turistiche.php",
+    "--fixtures",
+    "tests/Isolation/seed-tipologie-appartamento.php",
+    "--playwright",
+    "tests/Feature/tipologie-appartamento.playwright.spec.js"
+  ],
+  "catture_R10": {
+    "R10-FINALE-visivo/tipologie-appartamento.pla-8a106-igurazione-Questura-a-768px/profilo-768.png": "9547299ff042fa6c4a8e776676e88c76d308c705a8ab2ef091bbdb98c3f107d7",
+    "R10-FINALE-visivo/tipologie-appartamento.pla-e90d3-mente-selezionabili-a-390px/tipologie-390.png": "ee82a26e3e712727f1a9578d605e5ceb50a70bd3887771bd34e927cb90bcb950",
+    "R10-FINALE-visivo/tipologie-appartamento.pla-761b8-ente-selezionabili-a-1440px/tipologie-1440.png": "1afc9aca0d13fb071852ebb580c4856f241b9bfda9fe492b9e1d07e48b38da61",
+    "R10-FINALE-visivo/tipologie-appartamento.pla-0b9e3-mente-selezionabili-a-768px/tipologie-768.png": "9d3ec5cd3a50d64bb550beaa80993cdb246c58cdaa5a06dcc3f1caf4bef78042",
+    "R10-FINALE-visivo/tipologie-appartamento.pla-42a2a-gurazione-Questura-a-1440px/profilo-1440.png": "fa22d990dd7ee38e3cd23e053eae06a4cc4530ed06354066c494a4ae858f035f",
+    "R10-FINALE-visivo/tipologie-appartamento.pla-a12ae-igurazione-Questura-a-390px/profilo-390.png": "b8cf9601f22e81bd20db3d008352751e9cd46fc0e3dd0a9dd67181ef3069a62a"
+  },
+  "diagnostici_P2": {
+    "R9": "Errore di setup: seeder assente dal checkout effimero",
+    "R9B": "Launcher rifiuta inclusione seeder, guardia preservata",
+    "R9C": "3 test/59 asserzioni, un fallimento atteso: CAV soltanto Nessuna dopo popolazione",
+    "correzione": "Creazione additiva CAV se assente prima delle relazioni soli, nessuna modifica seeder",
+    "regressione": "Popolazione sintetica successiva alle migrazioni; seeder generale non eseguito"
   }
 }
