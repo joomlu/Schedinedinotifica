@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Candidata coordinata Contatti e login — 28 ottobre 2026
+
+Compone i commit delle PR42 e PR43 senza modificare autenticazione o lavori estranei. Intervento sullo spazio del laboratorio autorizzato e verificato; il precedente blocco di capacità è superato, distinto dalla qualifica applicativa combinata e dal circuito di rilascio ancora da completare. Nessuna pubblicazione produttiva eseguita; le prove precedenti restano storiche e non attestano da sole questa composizione. BASELINE IN AUDIT invariata.
+
+
 ## Login con footer pubblico e contatto a sola icona — 28 ottobre 2026
 
 Sostituiti i testi descrittivi della fotografia con la descrizione del gestionale, la dedica con cuore e il copyright/versione richiesti; eliminati i duplicati sotto il modulo. Footer completo ripreso dalla home con marchio originale, navigazione, informazioni legali e collegamento autore. WhatsApp ora flottante, sola icona34px in pulsante64px, numero ufficiale invariato; nome accessibile conservato, protezioni contro sovrapposizioni e compilazione mobile, incluso il copyright. Logica di autenticazione invariata. Aggiornamento dell’icona pubblica separato nella PR42, login nella PR43.
