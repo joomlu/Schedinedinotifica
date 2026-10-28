@@ -1,0 +1,14 @@
+{
+  "esito": "STOP_NUOVA_PUBBLICAZIONE_URL_CAPIENZA",
+  "commit_online": "455318e7dc477b47402313826e1525fc691589c3",
+  "commit_candidato_URL": "911f86ecc80409e4ba457eec1906ce321213eec0",
+  "liberi_VM": 3125018624,
+  "PREPARE_completo_residente_misurato": 1945706496,
+  "S0_picco_completo_misurato_incluso_nuovo_ingresso": 2651852800,
+  "riserva": 1073741824,
+  "margine": 33554432,
+  "margine_crescita": 268435456,
+  "budget_sequenza_nuova_base_e_S0": 5973291008,
+  "deficit_budget": 2848272384,
+  "limite": "Budget prudenziale fondato su prove complete concluse; non dimostra un minimo fisico assoluto. Base precedente c560 non riutilizzabile dopo pubblicazione455 per immutabili differenti. Nessun nuovoPREPARE oRUN avviato e nessuna pulizia oltre i dodici percorsi autorizzati."
+}

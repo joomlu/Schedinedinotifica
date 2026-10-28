@@ -1,0 +1,12 @@
+{
+  "liberi_VM": 4669403136,
+  "picco_completo_misurato": 2584834048,
+  "cifrati_S0_uscita_precedente": 53678080,
+  "margine_crescita": 268435456,
+  "margine_invariato": 33554432,
+  "riserva": 1073741824,
+  "liberi_Mac": 82643234816,
+  "liberi_Extra": 377482264576,
+  "richiesti": 4014243840,
+  "PASS": true
+}
