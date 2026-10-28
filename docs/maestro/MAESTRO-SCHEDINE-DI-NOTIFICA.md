@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Login — identità e assistenza, 28 ottobre 2026
+
+Logo originale della home intatto e allineato a56px desktop, titolo Accesso struttura, etichette16px/peso400, WhatsApp ufficiale, testi e footer richiesti ripristinati. Autenticazione e regole esistenti intatte. Codice e0e6d04:6PHP/46asserzioni e5browser PASS a1440/768/390/320 nella sola infrastruttura isolata, build/architettura/GEO e23override PASS. Illustrazione della mano non identificata: chiesto riferimento, fotografia esistente conservata. Pubblicazione non eseguita, controlli preliminari non tutti conformi, nessun merge o modifica produttiva. PR42 e lavori preesistenti preservati. [Rapporto](../LOGIN-IDENTITA-ASSISTENZA-2026-10-28.md). **BASELINE IN AUDIT invariata.**
+
+
 
 ## Revisione del sito pubblico — 27 ottobre 2026
 
