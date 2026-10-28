@@ -9,6 +9,7 @@ final class PublicSiteRenderer
     public function render(string $html): string
     {
         $html = app(PublicSiteCatalog::class)->render($html);
+        $html = $this->selectContactReason($html);
         if (str_contains($html, 'data-demo-form')) {
             $token = htmlspecialchars(csrf_token(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
             $html = preg_replace('~(<form\b[^>]*data-demo-form[^>]*>)~i', '$1<input type="hidden" name="_token" value="'.$token.'">', $html);
@@ -38,6 +39,36 @@ final class PublicSiteRenderer
         return str_replace('</head>', '<meta name="sito-versione" content="'.$this->version().'">'."\n  </head>", $html);
     }
 
+    private function selectContactReason(string $html): string
+    {
+        if (! str_contains($html, 'data-commercial-contact')) {
+            return $html;
+        }
+        $reasons = ['demo' => 'Richiesta demo', 'gruppo' => 'Presentazione di gruppo', 'informazioni' => 'Informazioni e personalizzazioni'];
+        $old = request()->hasSession() ? request()->session()->getOldInput() : [];
+        $query = request()->query('motivo');
+        $selected = $old['topic'] ?? (is_string($query) ? ($reasons[$query] ?? 'Richiesta demo') : 'Richiesta demo');
+        if (! is_string($selected)) {
+            $selected = 'Richiesta demo';
+        }
+        $html = preg_replace_callback('~<select\b[^>]*name="topic"[^>]*>.*?</select>~si', static function (array $m) use ($selected): string {
+            return preg_replace_callback('~<option\b[^>]*>~i', static function (array $option) use ($selected): string {
+                $tag = preg_replace('~\sselected(?:="[^"]*")?~i', '', $option[0]);
+                if (preg_match('~\bvalue="([^"]*)"~', $tag, $value) && $value[1] === $selected) {
+                    return substr($tag, 0, -1).' selected>';
+                }
+                return $tag;
+            }, $m[0]);
+        }, $html);
+        if ($selected !== 'Richiesta demo') {
+            $html = str_replace('data-demo-preference>', 'data-demo-preference hidden>', $html);
+        }
+        if ($selected === 'Presentazione di gruppo') {
+            $html = str_replace('data-group-hint hidden>', 'data-group-hint>', $html);
+        }
+        return $html;
+    }
+
     private function restoreContactInput(string $html): string
     {
         $old = request()->hasSession() ? request()->session()->getOldInput() : [];
@@ -45,7 +76,7 @@ final class PublicSiteRenderer
             return $html;
         }
         $escape = static fn ($value): string => htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-        $textFields = ['company', 'name', 'email', 'contact_person', 'phone', 'mobile', 'website_url', 'contact_time'];
+        $textFields = ['company', 'name', 'email', 'contact_person', 'city', 'phone', 'mobile', 'website_url', 'contact_time'];
         $checks = ['max_full', 'consent', 'contact_anytime'];
         $html = preg_replace_callback('~<input\b[^>]*>~i', function (array $m) use ($old, $escape, $textFields, $checks): string {
             if (! preg_match('~\bname="([^"]+)"~', $m[0], $name)) {
@@ -65,7 +96,7 @@ final class PublicSiteRenderer
             return preg_replace_callback('~\s*/?>$~', fn (): string => ' value="'.$escape($old[$key]).'">', $tag);
         }, $html);
         $html = preg_replace_callback('~<select\b[^>]*>.*?</select>~si', function (array $m) use ($old, $escape): string {
-            if (! preg_match('~\bname="(plan|interest|topic|city)"~', $m[0], $name) || ! is_scalar($old[$name[1]] ?? null)) {
+            if (! preg_match('~\bname="(plan|interest|topic|city|structure_type|demo_mode)"~', $m[0], $name) || ! is_scalar($old[$name[1]] ?? null)) {
                 return $m[0];
             }
             $selected = (string) $old[$name[1]];
