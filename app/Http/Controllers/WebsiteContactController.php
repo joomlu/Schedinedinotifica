@@ -19,25 +19,30 @@ class WebsiteContactController extends Controller
     public function store(Request $request, PublicSiteCatalog $catalog): JsonResponse|RedirectResponse
     {
         $data = $request->validate([
+            'contact_form' => ['nullable', Rule::in(['commercial-v2'])],
+            'structure_type' => ['required_if:contact_form,commercial-v2', 'nullable', Rule::in(['hotel', 'bnb', 'casa-vacanza', 'appartamenti', 'agriturismo', 'altro'])],
+            'demo_mode' => ['exclude_unless:topic,Richiesta demo', 'nullable', Rule::in(['online', 'visita', 'da-concordare'])],
             'company' => ['required', 'string', 'max:100'],
             'name' => ['required', 'string', 'max:120'],
             'contact_person' => ['nullable', 'string', 'max:120'],
-            'city' => ['nullable', 'string', 'max:120'],
+            'city' => ['required_if:contact_form,commercial-v2', 'nullable', 'string', 'max:120'],
             'email' => ['required', 'email', 'max:160'],
-            'phone' => ['nullable', 'string', 'max:40'],
+            'phone' => ['required_if:contact_form,commercial-v2', 'nullable', 'string', 'max:40', Rule::when($request->input('contact_form') === 'commercial-v2', ['regex:/^(?=(?:\D*\d){5})[+0-9().\s\/-]+$/'])],
             'mobile' => ['nullable', 'string', 'max:40'],
             'website_url' => ['nullable', 'string', 'max:180'],
             'contact_time' => ['nullable', 'string', 'max:180'],
             'contact_datetime_iso' => ['nullable', 'date'],
             'contact_anytime' => ['nullable', 'boolean'],
-            'topic' => ['required', 'string', 'max:120'],
-            'message' => ['required', 'string', 'max:5000'],
+            'topic' => ['required', 'string', Rule::in(['Richiesta demo', 'Presentazione di gruppo', 'Informazioni e personalizzazioni', 'Informazioni generali', 'Richiesta commerciale', 'Supporto e attivazione'])],
+            'message' => ['nullable', 'string', 'max:5000'],
             'plan' => ['nullable', 'string', Rule::in(array_keys($catalog->plans()))],
             'max_full' => ['nullable', 'boolean'],
             'interest' => ['nullable', 'string', Rule::in(array_keys($catalog->interests()))],
             'consent' => ['required', 'accepted'],
         ], [
             'required' => 'Compila il campo :attribute.',
+            'required_if' => 'Compila il campo :attribute.',
+            'phone.regex' => 'Inserisci un numero di telefono valido.',
             'accepted' => 'È necessario autorizzare il contatto commerciale.',
             'email' => 'Inserisci un indirizzo email valido.',
             'string' => 'Il campo :attribute deve contenere testo.',
@@ -46,6 +51,7 @@ class WebsiteContactController extends Controller
             'boolean' => 'La selezione per :attribute non è valida.',
             'date' => 'La data di contatto non è valida.',
         ], [
+            'structure_type' => 'tipo di struttura', 'demo_mode' => 'preferenza per la demo',
             'company' => 'struttura', 'name' => 'nome e cognome', 'contact_person' => 'persona di contatto',
             'city' => 'località', 'email' => 'email', 'phone' => 'telefono', 'mobile' => 'cellulare',
             'website_url' => 'sito internet', 'contact_time' => 'preferenza oraria',
@@ -61,10 +67,18 @@ class WebsiteContactController extends Controller
         }
 
         $selection = $catalog->selection($data['plan'] ?? null, (bool) ($data['max_full'] ?? false), $data['interest'] ?? null);
-        if ($selection !== '') {
-            // Snapshot della richiesta nel CRM esistente: nessuna modifica ai contratti storici.
-            $data['message'] = $selection."\n\nMessaggio del richiedente:\n".trim($data['message']);
+        $context = $selection !== '' ? [$selection] : [];
+        $types = ['hotel' => 'Hotel', 'bnb' => 'B&B', 'casa-vacanza' => 'Casa vacanza', 'appartamenti' => 'Appartamenti turistici', 'agriturismo' => 'Agriturismo', 'altro' => 'Altra attività'];
+        if (filled($data['structure_type'] ?? null)) {
+            $context[] = 'Tipo di struttura: '.$types[$data['structure_type']];
         }
+        if ($data['topic'] === 'Richiesta demo' && ($request->input('contact_form') === 'commercial-v2' || filled($data['demo_mode'] ?? null))) {
+            $modes = ['online' => 'Online', 'visita' => 'Visita in struttura', 'da-concordare' => 'Da concordare'];
+            $context[] = 'Preferenza demo: '.$modes[$data['demo_mode'] ?? 'da-concordare'];
+            $context[] = 'La modalità viene concordata con la struttura.';
+        }
+        $message = trim((string) ($data['message'] ?? ''));
+        $data['message'] = $context === [] ? $message : implode("\n", $context).($message !== '' ? "\n\nMessaggio del richiedente:\n".$message : '');
 
         $attributes = [
             'fonte' => 'sito_web',

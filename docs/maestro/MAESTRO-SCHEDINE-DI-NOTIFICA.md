@@ -16,6 +16,28 @@ Marchio allineato alla testata reale (nome scuro, sottotitolo maiuscolo spaziato
 ## Login — identità e assistenza, 28 ottobre 2026
 
 Logo originale della home intatto e allineato a 56px desktop, titolo Accesso struttura, etichette 16px/peso400, WhatsApp ufficiale, testi e footer richiesti ripristinati; cuore visibile tramite icona locale. Autenticazione e regole esistenti intatte. IDENTITA-R2 sul codice 793dbb8: 6 PHP/48 asserzioni e 5 browser PASS a 1440/768/390/320 nella sola infrastruttura isolata; build/architettura/GEO e 23 override PASS. Fotografia attuale confermata dall’utente e conservata: nessun asset pendente. PR43 in bozza su ramo separato; pubblicazione fermata dal gate di capacità C5, nessun merge o modifica produttiva. PR42 e lavori preesistenti preservati. [Rapporto](../LOGIN-IDENTITA-ASSISTENZA-2026-10-28.md). **BASELINE IN AUDIT invariata.**
+## WhatsApp a sola icona — 28 ottobre 2026
+
+Su richiesta dell’utente, pulsante pubblico uniforme64×64px e icona34×34px; testo visivo nascosto su tutte le pagine, nome accessibile e numero ufficiale invariati. Conservate le protezioni contro sovrapposizioni, menu e controlli attivi. Copie CSS web/public identiche. Controllo visivo locale della home a1440 e390px positivo; non rieseguita la suite commerciale per questo solo delta CSS. Nessun invio o deploy. Pubblicazione ancora subordinata al protocollo C5. BASELINE IN AUDIT invariata.
+
+
+## Contatti e WhatsApp — pubblicazione sospesa
+
+La pulizia delle copie temporanee autorizzate è conclusa, con originali e lavori preesistenti preservati. Le verifiche preliminari di pubblicazione non sono state completate: il controllo indipendente non ha superato il budget previsto. Nessun merge o nuovo rilascio; la versione precedente resta disponibile e i controlli pubblici conclusivi sono positivi. Codice qualificato invariato e PR42 aperta. Il consuntivo operativo e le azioni sulle risorse restano nella documentazione interna. **BASELINE IN AUDIT invariata.**
+
+
+## Contatti e WhatsApp — ripresa delle verifiche
+
+Completata la pulizia autorizzata delle sole copie temporanee ricostruibili, dopo verifica di integrità e assenza di utilizzatori. Originali e lavori preesistenti preservati. Codice applicativo invariato rispetto alla qualifica isolata già documentata. Ripresa delle verifiche preliminari alla pubblicazione autorizzata; nessuna nuova pubblicazione attestata a questo checkpoint. Il consuntivo operativo completo resta nella documentazione interna. **BASELINE IN AUDIT invariata.**
+
+
+## Contatti, selettori e WhatsApp — 27 ottobre 2026, qualifica isolata
+
+Su incarico esplicito di correzione, GitHub e pubblicazione, i cinque select pubblici di Contatti usano Select2 come il gestionale, con etichette/descrizioni/stato non valido, tastiera e sincronizzazione delle scelte native, CTA, query, ripristino e azzeramento. Menu aperto mobile senza allargamento; controlli mobili a16px. WhatsApp pubblico al +39 3930991968, icona locale, etichetta accessibile e messaggio italiano; compatto su mobile/Contatti e posizionamento che cerca spazio libero, lasciando liberi form, testi, menu e conferma. Inclusa la pagina unica Contatti già preparata e il suo salvataggio CRM; nessuna DDL o modifica del gestionale.
+
+Candidato separato dalla base GitHub fdd4884: WA-R7 PHP21/405 PASS; WA-R7 browser6 PASS sul codice finale, tre POST sintetici fino al CRM a1440/768/390, selettori aperti/chiusi, mouse/tastiera/focus/validazione/reset, piani/funzioni/MaxFull e link storici/tour. Build/GEO/architettura e23 rifiuti override PASS nel runtime ufficiale isolato, PHP8.3.36/MariaDB11.8.9. Apertura WhatsApp verificata senza traffico esterno nel collaudo; rinvio302 ufficiale separato al numero previsto, nessun messaggio o consegna attestati. WA-R1/R2 con fallimenti conservati, correzioni qualificate R3–R7; conteggi sovrapposti non sommati. Nessun telefono fisico o suite globale certificati.
+
+[Rapporto](../CONTATTI-SELETTORI-WHATSAPP-2026-10-27.md), [qualifica](../evidenze/selettori-whatsapp-2026-10-27/verifica.json). Rischio MEDIO; lavori estranei e HEAD operativo preservati. Correzioni caricate nel commit c54b705003e59d5525b4c0c8413a9b94d907decf, [PR42](https://github.com/joomlu/Schedinedinotifica/pull/42) aperta, nessuna CI remota o revisione indipendente attestata. Pubblicazione BLOCCATA prima di PREPARE: Mac circa6,5GiB contro riserva8GiB, oltre allo spazio necessario per nuovi backup/recuperi. Nessun PREPARE/S0/manutenzione/merge/deploy; richiesto spazio aggiuntivo e nuovo preflight, kit C5 soltanto locale. Due copie di dipendenze proprie ritirate dopo34.131 confronti; sei sole copie temporanee di rilettura ritirate dopo verifica con gli originali, backup/cifrati/SQL/chiavi conservati. Trim della sola VM, nessun file operativo eliminato; minimo VM campionato2.234.630.144 byte, riserva1GiB rispettata. Produzione finale e4f6682/Git pulito, nove pagine HTTP200 e versione51ed34b9a756dbaa0714b6f7; correzioni NON online. 8706 file estranei byte-identici, main operativo a6d40647 e staging invariati. **BASELINE IN AUDIT invariata.**
 
 
 

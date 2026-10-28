@@ -1,0 +1,44 @@
+{
+  "stato": "PASS_CONTATTI_SELETTORI_WHATSAPP_ISOLATI",
+  "base_github": "fdd488489a44f2f1d42a7c13d941323c1f2f92a9",
+  "phpunit": {
+    "esecuzione": "WA-R7",
+    "test": 21,
+    "asserzioni": 405
+  },
+  "browser": {
+    "esecuzione": "WA-R7",
+    "scenari": 6,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ]
+  },
+  "runtime": {
+    "PHP": "8.3.36",
+    "MariaDB": "11.8.9",
+    "isolamento": "VM ufficiale, namespace rete/PID/mount, SELinux Enforcing, DB effimero"
+  },
+  "sorgenti_sha256": {
+    "app/Http/Controllers/WebsiteContactController.php": "cf62a1d5bf4cda78ddb50e89e2e70f0db6acb30d90f82c2317512340650d2445",
+    "app/Support/PublicSiteRenderer.php": "002feb3229aca93ab5597c4f026ea6dc590f566554a30cda74cb0714c4b69911",
+    "web/assets/app.js": "1c70f1e4b5e254dbca16a82b46199c0901d5c9f0cfb4208e742a6ef487b6e2d8",
+    "web/assets/styles.css": "878ea890ad941323534bd74c4d0c11c8b6ac4a19bb3a4155efa963cc2ad2b165",
+    "public/site-assets/app.js": "1c70f1e4b5e254dbca16a82b46199c0901d5c9f0cfb4208e742a6ef487b6e2d8",
+    "public/site-assets/styles.css": "878ea890ad941323534bd74c4d0c11c8b6ac4a19bb3a4155efa963cc2ad2b165",
+    "tests/Feature/CommercialContactTest.php": "d2831c43005ec86d67b34fa83e7713b0c766485e80bc6277ded63c4f6628149d",
+    "tests/Feature/commercial-contact.playwright.spec.js": "177fee2a910cbc0b32f2e6c33e09fdba8f485e9de532150f23e75f58c80a099b",
+    "tests/Isolation/commercial-contact-fixtures.php": "2280aa2a1ea284489d197efa56643141dab931c91a1981412c6f877773f137db",
+    "web/ampliamenti.html": "1e36fdba6d8591699239ceb85226762b2d5dbf5b33d419253ed66132bf56b4e1",
+    "web/prezzi.html": "1e50076321957e68148c6ad952b310b2f3440479740264f04f685aecf6466567",
+    "web/index.html": "be824569ed4da54e6a412cd56aaaa26e0f301ba0c8f4f3942865f0ff7e459a73",
+    "web/contatti.html": "0ac0e19c35d7dce1c32508f79931f295e7c3899ee83310b025b13910114321f3",
+    "web/moduli.html": "c80178a9d847c3a0f35730560a9e7b3f1601dea13d39cccabfde61364bfb90fd",
+    "web/accesso.html": "e0992cccddc85bfb574314a0cd9c512886d1fc8feae0d180e41755ee50519575",
+    "web/note-legali.html": "01a472ddc8409f3ff2a56d544f87a2c8dbdd653108408fa414cc8106dbc2dee1",
+    "web/cookie.html": "b5b43f691af3dd8029150bc6f4073b18cc9e7ca4a9851cd6befffeaa4b896ef7",
+    "web/demo.html": "6d60c53207bfe3cc6a1975da945513868e99ff9eed2ff48d7083746c02930dc3",
+    "web/privacy.html": "784e3c6307c958ee4536615718d6c4e12eca0ca38972e12b0ff5cc181134425d"
+  }
+}
