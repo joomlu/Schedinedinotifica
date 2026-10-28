@@ -988,3 +988,8 @@ body:has(> .select2-container--open) .whatsapp-contact { visibility:hidden; }
 .whatsapp-contact.is-obscured { visibility:hidden; }
 .commercial-contact-page .whatsapp-contact { padding:14px; }
 .commercial-contact-page .whatsapp-contact span { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+
+/* Contatto WhatsApp: sola icona, dimensione uniforme. */
+.whatsapp-contact { width:64px; height:64px; min-height:64px; padding:14px; justify-content:center; }
+.whatsapp-contact svg { width:34px; height:34px; }
+.whatsapp-contact span { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }

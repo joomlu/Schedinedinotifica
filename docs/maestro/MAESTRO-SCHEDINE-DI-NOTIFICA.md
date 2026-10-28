@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## WhatsApp a sola icona — 28 ottobre 2026
+
+Su richiesta dell’utente, pulsante pubblico uniforme64×64px e icona34×34px; testo visivo nascosto su tutte le pagine, nome accessibile e numero ufficiale invariati. Conservate le protezioni contro sovrapposizioni, menu e controlli attivi. Copie CSS web/public identiche. Controllo visivo locale della home a1440 e390px positivo; non rieseguita la suite commerciale per questo solo delta CSS. Nessun invio o deploy. Pubblicazione ancora subordinata al protocollo C5. BASELINE IN AUDIT invariata.
+
+
 ## Contatti e WhatsApp — pubblicazione sospesa
 
 La pulizia delle copie temporanee autorizzate è conclusa, con originali e lavori preesistenti preservati. Le verifiche preliminari di pubblicazione non sono state completate: il controllo indipendente non ha superato il budget previsto. Nessun merge o nuovo rilascio; la versione precedente resta disponibile e i controlli pubblici conclusivi sono positivi. Codice qualificato invariato e PR42 aperta. Il consuntivo operativo e le azioni sulle risorse restano nella documentazione interna. **BASELINE IN AUDIT invariata.**
