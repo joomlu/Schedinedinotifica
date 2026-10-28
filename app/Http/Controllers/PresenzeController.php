@@ -39,6 +39,18 @@ class PresenzeController extends Controller
             $giornoSituazione = $dal->copy();
             $occupazioneMese = 'periodo';
         }
+        if ($request->input('tab') === 'occupazione' && $occupazioneMese !== 'periodo') {
+            [$dal, $al] = $this->resolveOccupazionePeriodo($occupazioneAnno, $occupazioneMese);
+            $giornoSituazione = $dal->copy();
+        }
+        // Il riepilogo rappresenta mesi interi di un solo anno: raccordare solo intervalli compatibili.
+        if (in_array($request->input('tab'), ['dettaglio', 'movimenti', 'occupazione'], true)
+            && $dal->year >= 2020 && $dal->year <= 2100
+            && $dal->year === $al->year && $dal->day === 1 && $al->isLastOfMonth()) {
+            $anno = $dal->year;
+            $meseDa = $dal->month;
+            $meseA = $al->month;
+        }
         $riepilogo = $this->service->riepilogoAnno($struttura->id, $anno)
             ->filter(fn ($row) => $row['mese'] >= $meseDa && $row['mese'] <= $meseA)
             ->values();

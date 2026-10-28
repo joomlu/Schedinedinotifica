@@ -17,7 +17,7 @@ for (const width of [1440,768,390]) {
     for(const [tab,label] of [['dettaglio','Dettaglio periodo'],['oggi','Situazione giornaliera'],['movimenti','Arrivi / Partenze'],['occupazione','Occupazione'],['riepilogo','Riepilogo mensile']]) {
       await page.getByRole('tab',{name:label,exact:true}).click();
       await expect(page.locator(`#presenze-${tab}`)).toHaveClass(/show active|active show/);
-      if(tab==='occupazione') await expect(page.locator('#presenze-occupazione')).toContainText('Occupazione posti letto del periodo: 1.1%');
+      if(tab==='occupazione') { await expect(page.locator('#presenze-occupazione')).toContainText('Occupazione posti letto del periodo: 1.1%'); await expect(page.locator('#presenze-occupazione .presenze-month-year')).not.toBeVisible(); }
       await expect(page.locator(`#presenze-${tab}`)).toHaveCSS('opacity','1');
       await page.locator(`#presenze-${tab}`).scrollIntoViewIfNeeded();
       await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -32,6 +32,11 @@ for (const width of [1440,768,390]) {
     await expect(page.locator('body')).toContainText('presenze 7');
     await page.goto(`${BASE_URL}/statistica/presenze/stampa-dettaglio?dal=2026-01-01&al=2026-01-31`);
     await expect(page.locator('body')).toContainText('Persona sintetica');
+    await page.goto(`${BASE_URL}/statistica/presenze?tab=occupazione&occupazione_anno=2024&occupazione_mese=2&dal=2026-06-01&al=2026-09-30&mese_da=6&mese_a=9`);
+    await page.getByRole('tab',{name:'Dettaglio periodo',exact:true}).click();
+    await expect(page.locator('#presenze-dettaglio')).toContainText('Periodo 01/02/2024 - 29/02/2024');
+    await page.getByRole('tab',{name:'Riepilogo mensile',exact:true}).click();
+    await expect(page.locator('#presenze-riepilogo')).toContainText('Nessun soggiorno o movimento');
     await page.goto(`${BASE_URL}/statistica/presenze?anno=2024&mese_da=1&mese_a=12`);
     await expect(page.locator('#presenze-riepilogo')).toContainText('Nessun soggiorno o movimento');
     await expect(page.locator('#presenze-riepilogo table')).toHaveCount(0);
