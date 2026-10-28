@@ -22,7 +22,7 @@ class LoginPresentationTest extends TestCase
             ->assertSee('autocomplete="current-password"', false)
             ->assertSee('https://wa.me/393930991968')
             ->assertSee('Software gestionale per ospitalità, ricezione e adempimenti telematici.')
-            ->assertSee('Realizzato con ❤️ per il lavoro quotidiano della struttura.')
+            ->assertSee('Realizzato con')->assertSee('❤️')->assertSee('per il lavoro quotidiano della struttura.')
             ->assertSee('© 2026 @Schedine di Notifica - Tanggo Platform | Versione 2.0')
             ->assertSee(route('password.request'))->assertSee(route('site.home'))->assertSee(route('site.contatti'));
     }

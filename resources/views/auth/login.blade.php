@@ -64,7 +64,7 @@
     </main>
     <div class="sn-login-about">
         <p>Software gestionale per ospitalità, ricezione e adempimenti telematici.</p>
-        <p>Realizzato con ❤️ per il lavoro quotidiano della struttura.</p>
+        <p>Realizzato con <span class="sn-login-heart" role="img" aria-label="amore"><i class="ri-heart-fill" aria-hidden="true"></i><span hidden>❤️</span></span> per il lavoro quotidiano della struttura.</p>
     </div>
     <footer class="sn-login-footer">© 2026 @Schedine di Notifica - Tanggo Platform | Versione 2.0</footer>
 </div>

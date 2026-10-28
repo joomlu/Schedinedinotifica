@@ -68,6 +68,7 @@
     .sn-login .sn-login-contact { display:inline-flex; align-items:center; min-height:36px; font-size:13px; font-weight:400; }
     .sn-login-about { text-align:center; max-width:1280px; margin:26px auto 0; color:var(--sn-muted); font-size:14px; }
     .sn-login-about p { margin:5px 0; }
+    .sn-login-heart { color:#8c1d2c; display:inline-block; margin-inline:2px; }
     .sn-login .sn-login-footer { display:block; text-align:center; padding:18px 0 26px; font-size:12px; }
     @media(max-width:1050px) { .sn-login-options { flex-wrap:wrap; gap:0 12px; } }
     @media(max-width:760px) { .sn-login-about { max-width:520px; font-size:13px; margin-top:22px; } .sn-login .sn-login-footer { font-size:11px; } }
