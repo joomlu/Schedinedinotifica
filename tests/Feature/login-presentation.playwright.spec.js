@@ -20,8 +20,8 @@ for (const width of [1440, 768, 390, 320]) {
     await expect(page.locator('label[for=login]')).toHaveCSS('font-size','16px');
     await expect(page.locator('label[for=login]')).toHaveCSS('font-weight','400');
     await expect(page.locator('label[for=\"password-input\"]')).toHaveCSS('font-weight','400');
-    await expect(page.locator('.sn-login-footer > span')).toHaveText('© 2026 @Schedine di Notifica - Tanggo Platform | Versione 2.0');
-    const whatsapp = page.getByRole('link',{name:'Assistenza su WhatsApp, si apre in una nuova scheda'});
+    await expect(page.locator('.sn-login-story-copyright')).toHaveText('© 2026 @Schedine di Notifica - Tanggo Platform | Versione 2.0');
+    const whatsapp = page.getByRole('link',{name:'Contattaci su WhatsApp, si apre in una nuova scheda'});
     await expect(whatsapp).toHaveAttribute('href',/^https:\/\/wa.me\/393930991968\?/);
     await expect(whatsapp).toHaveAttribute('target','_blank');
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
