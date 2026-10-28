@@ -10,7 +10,8 @@
 <body onload="window.print()">
     <h1>Dettaglio presenze</h1>
     <div class="muted">{{ $struttura->nome_struttura ?? 'Struttura' }} | Periodo {{ $dal->format('d/m/Y') }} - {{ $al->format('d/m/Y') }}</div>
-    <div class="muted">Vista: {{ $categoria === 'italiane' ? 'Solo italiani' : ($categoria === 'straniere' ? 'Solo stranieri' : 'Tutti') }}</div>
+    <div class="muted">Vista: {{ ['italiane' => 'Residenza in Italia', 'straniere' => 'Residenza estera', 'sconosciute' => 'Residenza non disponibile', 'tutte' => 'Tutti'][$categoria] }}</div>
+    <p>Presenze = persone × notti nel periodo, arrivo incluso e partenza esclusa. Il filtro residenza conta i singoli ospiti. Età all’arrivo; età sconosciute escluse dai totali adulti/minori.</p>
     <div class="cards">
         <div class="card">Schedine: {{ $dettaglio['totali']['schedine'] }}</div>
         <div class="card">Arrivi: {{ $dettaglio['totali']['arrivi'] }}</div>
@@ -22,7 +23,7 @@
     <table>
         <thead>
             <tr>
-                <th>Num.</th><th>Arrivo</th><th>Partenza</th><th>Ospite</th><th class="text-center">Q. Per.</th><th class="text-center">Adulti</th><th class="text-center">Minori</th><th class="text-center">Presenze</th><th>Provenienza</th>
+                <th>Num.</th><th>Arrivo</th><th>Partenza</th><th>Ospite</th><th class="text-center">Q. Per.</th><th class="text-center">Adulti</th><th class="text-center">Minori</th><th class="text-center">Presenze</th><th>Residenza titolare</th>
             </tr>
         </thead>
         <tbody>
