@@ -1,5 +1,9 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Pubblicazione Contatti e login — 28 ottobre 2026
+
+Le PR42 e PR43 sono integrate; codice pubblicato `f403cdb95d40cf305c1cee542d6270a9a5d1c0c3`, Git produttivo pulito. Login, footer e WhatsApp a sola icona aggiornati; Contatti mantiene i tre motivi e le preferenze CRM. Qualifica isolata: 27 test PHP/453 asserzioni e 11 scenari browser positivi. PREPARE, S0 e rilascio C5 positivi entro i budget invariati; nessuna migrazione o modifica ai dati persistenti. Verifica visiva online desktop/mobile positiva, nessun POST produttivo o invio reale. Monitoraggio finale positivo: 31 campioni su 918 secondi e 279 controlli HTTP/TLS/CSS, nessun nuovo errore; ricevuta finale C5 positiva. I precedenti STOP restano evidenze storiche, superati per questa candidata dai nuovi controlli; non costituiscono lo stato corrente. [Consuntivo](../PUBBLICAZIONE-CONTATTI-LOGIN-2026-10-28.md). **BASELINE IN AUDIT invariata.**
+
 ## Contatti e login — qualifica coordinata, pubblicazione sospesa
 
 Candidata4707ff2 nella PR43, cronologia PR42 preservata. COMBINATO-R2:27PHP/453asserzioni e11browser PASS con tre richieste sintetiche lette nel CRM; build/GEO/architettura e23override PASS, nessun invio reale. Corretto solo il riferimento al vecchio pulsante Entra nel test integrato. Ampliamento autorizzato e verificato, capacità conforme; recupero indipendente preliminare non concluso entro il budget vigente. Nessun nuovo PREPARE/merge/deploy, produzione precedente disponibile; guardie invariate e consuntivo operativo interno. [Qualifica e stato](../CONTATTI-LOGIN-QUALIFICA-2026-10-28.md). BASELINE IN AUDIT invariata.
