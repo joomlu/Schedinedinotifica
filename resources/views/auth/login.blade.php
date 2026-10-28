@@ -66,7 +66,7 @@
         <p>Software gestionale per ospitalità, ricezione e adempimenti telematici.</p>
         <p>Realizzato con <span class="sn-login-heart" role="img" aria-label="amore"><i class="ri-heart-fill" aria-hidden="true"></i><span hidden>❤️</span></span> per il lavoro quotidiano della struttura.</p>
     </div>
-    <footer class="sn-login-footer">© 2026 @Schedine di Notifica - Tanggo Platform | Versione 2.0</footer>
+    <footer class="sn-login-footer"><span>© 2026 @Schedine di Notifica - Tanggo Platform | Versione 2.0</span><a class="sn-login-credit" href="https://www.cv.joomlu.com/" target="_blank" rel="noopener noreferrer">Realizzato da Jorge Omar Luccitelli<span class="visually-hidden">, si apre in una nuova scheda</span></a></footer>
 </div>
 @endsection
 @include('auth.partials.login-style')

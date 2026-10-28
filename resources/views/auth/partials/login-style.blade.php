@@ -7,10 +7,10 @@
     .sn-login-skip { position:absolute; left:24px; top:-100px; z-index:100; background:#fff; padding:12px 20px; }
     .sn-login-skip:focus { top:12px; }
     .sn-login-header { max-width:1280px; min-height:112px; margin:auto; display:flex; justify-content:space-between; align-items:center; gap:24px; }
-    .sn-login-brand { display:flex; align-items:center; gap:13px; text-decoration:none; }
+    .sn-login-brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
     .sn-login-brand img { width:56px; height:56px; object-fit:contain; }
-    .sn-login-brand strong { display:block; font-size:18px; color:var(--sn-brand); letter-spacing:-.4px; }
-    .sn-login-brand small { display:block; font-size:12px; color:var(--sn-muted); }
+    .sn-login-brand strong { display:block; font-size:19px; font-weight:700; color:#2b2b2b; letter-spacing:-.05em; line-height:1.2; }
+    .sn-login-brand small { display:block; font-size:11px; color:#2b2b2b; text-transform:uppercase; letter-spacing:.13em; margin-top:5px; }
     .sn-login-back { font-size:14px; text-decoration:none; display:inline-flex; align-items:center; gap:12px; min-height:44px; }
     .sn-login-back:hover { color:var(--sn-brand); text-decoration:underline; }
     .sn-login-main { max-width:1280px; margin:auto; display:grid; grid-template-columns:1.05fr 1fr; background:white; border:1px solid #e8e2dc; border-radius:24px; overflow:hidden; box-shadow:0 20px 65px #49342608; }
@@ -56,7 +56,7 @@
     .sn-login-footer { max-width:1280px; margin:auto; padding:26px 0; display:flex; justify-content:space-between; gap:16px; color:var(--sn-muted); font-size:11px; }
     @media(min-width:1500px) { .sn-login-header { min-height:132px; } .sn-login-story { min-height:710px; } }
     @media(max-width:1050px) { .sn-login { padding-inline:24px; } .sn-login-panel { padding:40px 32px; } .sn-login-story { padding:32px; min-height:630px; } .sn-login-story h2 { font-size:38px; } .sn-login-desktop-break { display:none; } }
-    @media(max-width:760px) { .sn-login { padding-inline:20px; } .sn-login-header { min-height:98px; gap:12px; } .sn-login-main { grid-template-columns:1fr; max-width:520px; border-radius:18px; } .sn-login-story { min-height:210px; padding:24px 28px; } .sn-login-story > img { object-position:center 58%; } .sn-login-story::before { background:linear-gradient(90deg,#1c1b18e8,#1c1b18a6 55%,#1c1b1822); } .sn-login-story h2 { font-size:30px; letter-spacing:-1px; margin:0; } .sn-login-story-copy > p:not(.sn-login-eyebrow), .sn-login-story-sign { display:none; } .sn-login-story .sn-login-eyebrow { margin-bottom:12px; font-size:9px; } .sn-login-panel { padding:32px 28px; } .sn-login h1 { font-size:32px; } .sn-login-intro { margin-bottom:25px; } .sn-login-footer { max-width:520px; flex-direction:column; gap:4px; text-align:center; padding:22px 0; } .sn-login-brand strong { font-size:15px; } .sn-login-brand small { font-size:11px; } .sn-login-brand { gap:8px; } .sn-login-brand img { width:40px; height:40px; } .sn-login-back { font-size:12px; gap:6px; } }
+    @media(max-width:760px) { .sn-login { padding-inline:20px; } .sn-login-header { min-height:98px; gap:12px; } .sn-login-main { grid-template-columns:1fr; max-width:520px; border-radius:18px; } .sn-login-story { min-height:210px; padding:24px 28px; } .sn-login-story > img { object-position:center 58%; } .sn-login-story::before { background:linear-gradient(90deg,#1c1b18e8,#1c1b18a6 55%,#1c1b1822); } .sn-login-story h2 { font-size:30px; letter-spacing:-1px; margin:0; } .sn-login-story-copy > p:not(.sn-login-eyebrow), .sn-login-story-sign { display:none; } .sn-login-story .sn-login-eyebrow { margin-bottom:12px; font-size:9px; } .sn-login-panel { padding:32px 28px; } .sn-login h1 { font-size:32px; } .sn-login-intro { margin-bottom:25px; } .sn-login-footer { max-width:520px; flex-direction:column; gap:4px; text-align:center; padding:22px 0; } .sn-login-brand strong { font-size:16px; } .sn-login-brand small { font-size:11px; } .sn-login-brand { gap:8px; } .sn-login-brand img { width:45px; height:45px; } .sn-login-back { font-size:12px; gap:6px; } }
     @media(max-width:360px) { .sn-login { padding-inline:12px; } .sn-login-panel { padding:28px 20px; } .sn-login-options { flex-wrap:wrap; gap:0 12px; } .sn-login-brand strong { font-size:14px; } }
     @media(prefers-reduced-motion:reduce) { .sn-login-submit { transition:none; } }
 
@@ -68,6 +68,8 @@
     .sn-login .sn-login-contact { display:inline-flex; align-items:center; min-height:36px; font-size:13px; font-weight:400; }
     .sn-login-about { text-align:center; max-width:1280px; margin:26px auto 0; color:var(--sn-muted); font-size:14px; }
     .sn-login-about p { margin:5px 0; }
+    .sn-login .sn-login-credit { display:table; margin:8px auto 0; padding:8px 0; font-size:14px; color:#4e4a45; text-decoration:underline; }
+    .sn-login-credit:hover { color:var(--sn-brand); }
     .sn-login-heart { color:#8c1d2c; display:inline-block; margin-inline:2px; }
     .sn-login .sn-login-footer { display:block; text-align:center; padding:18px 0 26px; font-size:12px; }
     @media(max-width:1050px) { .sn-login-options { flex-wrap:wrap; gap:0 12px; } }

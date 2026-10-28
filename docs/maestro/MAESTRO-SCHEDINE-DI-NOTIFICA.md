@@ -1,5 +1,9 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Login — marchio del sito e credito autore, 28 ottobre 2026
+
+Marchio allineato alla testata reale (nome scuro, sottotitolo maiuscolo spaziato, stesso file originale); aggiunto nel footer il link autore della home a cv.joomlu.com. Verifica visiva locale desktop1440/mobile390 positiva, sola presentazione e selettore test copyright adattato. Nessun nuovo collaudo autenticazione/POST/deploy: precedente qualifica distinta, blocco C5 invariato. [Rapporto aggiornato](../LOGIN-IDENTITA-ASSISTENZA-2026-10-28.md). BASELINE IN AUDIT invariata.
+
 ## Login — identità e assistenza, 28 ottobre 2026
 
 Logo originale della home intatto e allineato a 56px desktop, titolo Accesso struttura, etichette 16px/peso400, WhatsApp ufficiale, testi e footer richiesti ripristinati; cuore visibile tramite icona locale. Autenticazione e regole esistenti intatte. IDENTITA-R2 sul codice 793dbb8: 6 PHP/48 asserzioni e 5 browser PASS a 1440/768/390/320 nella sola infrastruttura isolata; build/architettura/GEO e 23 override PASS. Fotografia attuale confermata dall’utente e conservata: nessun asset pendente. PR43 in bozza su ramo separato; pubblicazione fermata dal gate di capacità C5, nessun merge o modifica produttiva. PR42 e lavori preesistenti preservati. [Rapporto](../LOGIN-IDENTITA-ASSISTENZA-2026-10-28.md). **BASELINE IN AUDIT invariata.**
