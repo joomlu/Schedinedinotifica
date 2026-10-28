@@ -1,5 +1,9 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Presenze — completamento in qualifica, 28 ottobre 2026
+
+Incarico esplicito per cinque schede, codice, prove, GitHub e pubblicazione. Copia separata dalla base online f403cdb9 e main56085cfd documentale; ramo codex/presenze-completo-20261028. Corretti arrivi del dettaglio, saldo iniziale incluse partenze del primo giorno, residenza individuale con sconosciuti, capacità e percentuale ponderata, filtri e stampe, riepilogo vuoto e letture annuali. Nessuna DDL o dato operativo modificato. Limiti storici di capacità, camere fuori servizio e stati cancellato/no-show non presenti nel modello dichiarati, senza inventarli. R8 finale nella sola VM ufficiale:43PHP/199asserzioni e3browser a1440/768/390 PASS,15viste con transizioni concluse,23override e build/GEO PASS; precedenti fallimenti e limiti conservati. Pubblicazione ancora PENDENTE C5; [rapporto](../PRESENZE-COMPLETO-2026-10-28.md). BASELINE IN AUDIT invariata.
+
 ## Pubblicazione Contatti e login — 28 ottobre 2026
 
 Le PR42 e PR43 sono integrate; codice pubblicato `f403cdb95d40cf305c1cee542d6270a9a5d1c0c3`, Git produttivo pulito. Login, footer e WhatsApp a sola icona aggiornati; Contatti mantiene i tre motivi e le preferenze CRM. Qualifica isolata: 27 test PHP/453 asserzioni e 11 scenari browser positivi. PREPARE, S0 e rilascio C5 positivi entro i budget invariati; nessuna migrazione o modifica ai dati persistenti. Verifica visiva online desktop/mobile positiva, nessun POST produttivo o invio reale. Monitoraggio finale positivo: 31 campioni su 918 secondi e 279 controlli HTTP/TLS/CSS, nessun nuovo errore; ricevuta finale C5 positiva. I precedenti STOP restano evidenze storiche, superati per questa candidata dai nuovi controlli; non costituiscono lo stato corrente. [Consuntivo](../PUBBLICAZIONE-CONTATTI-LOGIN-2026-10-28.md). **BASELINE IN AUDIT invariata.**
