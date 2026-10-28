@@ -21,7 +21,8 @@ for (const width of [1440, 768, 390, 320]) {
     await expect(page.locator('label[for=login]')).toHaveCSS('font-weight','400');
     await expect(page.locator('label[for=\"password-input\"]')).toHaveCSS('font-weight','400');
     await expect(page.locator('.sn-login-story-copyright')).toHaveText('© 2026 @Schedine di Notifica - Tanggo Platform | Versione 2.0');
-    const whatsapp = page.getByRole('link',{name:'Contattaci su WhatsApp, si apre in una nuova scheda'});
+    const whatsapp = page.locator('.whatsapp-contact');
+    await expect(whatsapp).toHaveAttribute('aria-label','Contattaci su WhatsApp, si apre in una nuova scheda');
     await expect(whatsapp).toHaveAttribute('href',/^https:\/\/wa.me\/393930991968\?/);
     await expect(whatsapp).toHaveAttribute('target','_blank');
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -45,6 +46,9 @@ for (const width of [1440, 768, 390, 320]) {
     await page.keyboard.press('Shift+Tab'); await expect(page.locator('#auth-remember-check')).toBeFocused();
     await page.locator('#password-input').fill('');
     await page.screenshot({ path: info.outputPath(`login-${width}.png`), fullPage: true });
+    await page.locator('.footer-bottom').scrollIntoViewIfNeeded();
+    await expect(whatsapp).toBeVisible();
+    await expect(whatsapp.locator('svg')).toHaveCSS('width','34px');
     await page.getByRole('link', { name: 'Password dimenticata?' }).click();
     await expect(page).toHaveURL(`${BASE_URL}/password/reset`);
     await page.goto(`${BASE_URL}/login`);
