@@ -1,5 +1,10 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Contatti e login — qualifica coordinata, pubblicazione sospesa
+
+Candidata4707ff2 nella PR43, cronologia PR42 preservata. COMBINATO-R2:27PHP/453asserzioni e11browser PASS con tre richieste sintetiche lette nel CRM; build/GEO/architettura e23override PASS, nessun invio reale. Corretto solo il riferimento al vecchio pulsante Entra nel test integrato. Ampliamento autorizzato e verificato, capacità conforme; recupero indipendente preliminare non concluso entro il budget vigente. Nessun nuovo PREPARE/merge/deploy, produzione precedente disponibile; guardie invariate e consuntivo operativo interno. [Qualifica e stato](../CONTATTI-LOGIN-QUALIFICA-2026-10-28.md). BASELINE IN AUDIT invariata.
+
+
 ## Candidata coordinata Contatti e login — 28 ottobre 2026
 
 Compone i commit delle PR42 e PR43 senza modificare autenticazione o lavori estranei. Intervento sullo spazio del laboratorio autorizzato e verificato; il precedente blocco di capacità è superato, distinto dalla qualifica applicativa combinata e dal circuito di rilascio ancora da completare. Nessuna pubblicazione produttiva eseguita; le prove precedenti restano storiche e non attestano da sole questa composizione. BASELINE IN AUDIT invariata.

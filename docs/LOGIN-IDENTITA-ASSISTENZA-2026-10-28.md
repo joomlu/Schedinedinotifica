@@ -20,3 +20,7 @@ FOOTER-R3 sul codice3fe3454:6testPHP/48asserzioni e5browser PASS a1440/768/390/3
 
 Pubblicazione NON eseguita: capacità completa C5 ancora insufficiente, nessun PREPARE/S0/merge/deploy. Produzione letta soltanto, versione precedente e loginHTTP200. **BASELINE IN AUDIT invariata.**
 
+
+## Qualifica coordinata successiva
+
+COMBINATO-R2 sul codice4707ff2:27PHP/453asserzioni e11browser PASS insieme a Contatti, tre richieste sintetiche fino alla lettura nel CRM. Capacità laboratorio ripristinata con ampliamento autorizzato, pubblicazione ancora sospesa perché il recupero indipendente preliminare non termina nel budget vigente. Nessun nuovo PREPARE/merge/deploy e nessun invio reale.
