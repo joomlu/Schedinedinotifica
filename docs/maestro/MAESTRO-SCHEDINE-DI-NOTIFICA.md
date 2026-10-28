@@ -1,5 +1,14 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Login con footer pubblico e contatto a sola icona — 28 ottobre 2026
+
+Sostituiti i testi descrittivi della fotografia con la descrizione del gestionale, la dedica con cuore e il copyright/versione richiesti; eliminati i duplicati sotto il modulo. Footer completo ripreso dalla home con marchio originale, navigazione, informazioni legali e collegamento autore. WhatsApp ora flottante, sola icona34px in pulsante64px, numero ufficiale invariato; nome accessibile conservato, protezioni contro sovrapposizioni e compilazione mobile, incluso il copyright. Logica di autenticazione invariata. Aggiornamento dell’icona pubblica separato nella PR42, login nella PR43.
+
+FOOTER-R3 sul codice3fe3454:6testPHP/48asserzioni e5browser PASS a1440/768/390/320 nella sola VM ufficiale isolata; build/architettura/GEO e23rifiuti override PASS. Accesso username/email, errori reali, CSRF, tastiera, visibilità password, link e comparsa dell’icona nel footer dopo uscita dal modulo verificati con dati sintetici. R1/R2 conservati:6PHP/48PASS e3browserPASS ciascuno, due attese mobile errate per pulsante nascosto dalle protezioni; R2 mantieneva il focus nel campo password, R3 corregge soltanto il test. Correzione visiva della sovrapposizione copyright qualificata in R3. Controllo visivo locale home e login desktop/mobile positivo, sintassi JavaScript e copie pubbliche CSS/JS conformi. La suite commerciale della PR42 non è stata rieseguita per il delta visivo; nessuna email di recupero o messaggio WhatsApp inviato. Nessun telefono fisico o certificazione WCAG globale attestati.
+
+Pubblicazione NON eseguita: capacità completa C5 ancora insufficiente, nessun PREPARE/S0/merge/deploy. Produzione letta soltanto, versione precedente e loginHTTP200. **BASELINE IN AUDIT invariata.**
+
+
 ## Login — marchio del sito e credito autore, 28 ottobre 2026
 
 Marchio allineato alla testata reale (nome scuro, sottotitolo maiuscolo spaziato, stesso file originale); aggiunto nel footer il link autore della home a cv.joomlu.com. Verifica visiva locale desktop1440/mobile390 positiva, sola presentazione e selettore test copyright adattato. Nessun nuovo collaudo autenticazione/POST/deploy: precedente qualifica distinta, blocco C5 invariato. [Rapporto aggiornato](../LOGIN-IDENTITA-ASSISTENZA-2026-10-28.md). BASELINE IN AUDIT invariata.
