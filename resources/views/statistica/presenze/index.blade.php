@@ -371,7 +371,7 @@
                             <div class="col-md-3 presenze-custom-range"><label class="form-label">Dal (periodo personalizzato)</label><x-calendario name="dal" variant="single" :value="$dal->toDateString()" /></div>
                             <div class="col-md-3 presenze-custom-range"><label class="form-label">Al (periodo personalizzato)</label><x-calendario name="al" variant="single" :value="$al->toDateString()" /></div>
                             <input type="hidden" name="categoria" value="{{ $categoria }}">
-                            <div class="col-md-3 col-lg-2">
+                            <div class="col-md-3 col-lg-2 presenze-month-year">
                                 <label class="form-label">Anno</label>
                                 <x-ui.select name="occupazione_anno">
                                     @for($year = now()->year + 1; $year >= 2020; $year--)
@@ -453,7 +453,7 @@
 @endsection
 
 @section('script')
-<style>#presenze-occupazione form:not(:has(select[name="occupazione_mese"] option[value="periodo"]:checked)) .presenze-custom-range { display:none; }</style>
+<style>#presenze-occupazione form:not(:has(select[name="occupazione_mese"] option[value="periodo"]:checked)) .presenze-custom-range { display:none; }#presenze-occupazione form:has(select[name="occupazione_mese"] option[value="periodo"]:checked) .presenze-month-year { display:none; }</style>
 <script>
 document.querySelectorAll('form[method="GET"]').forEach(form => {
     form.addEventListener('submit', event => {

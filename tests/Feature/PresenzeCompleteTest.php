@@ -159,4 +159,24 @@ class PresenzeCompleteTest extends TestCase
             ->assertViewHas('occupazioneMese','periodo');
     }
 
+    public function test_mese_occupazione_trasferito_a_dettaglio_movimenti_e_riepilogo(): void
+    {
+        $s=$this->structureFor(null);$u=$this->actor('struttura_user',null,$s->id);
+        $r=$this->actingAs($u)->withSession(['struttura_corrente_id'=>$s->id])->get('/statistica/presenze?tab=occupazione&occupazione_anno=2024&occupazione_mese=2&anno=2026&mese_da=6&mese_a=9&dal=2026-06-01&al=2026-09-30');
+        $r->assertOk()->assertViewHas('dal',fn($d)=>$d->toDateString()==='2024-02-01')
+            ->assertViewHas('al',fn($d)=>$d->toDateString()==='2024-02-29')->assertViewHas('anno',2024)
+            ->assertViewHas('meseDa',2)->assertViewHas('meseA',2)->assertViewHas('riepilogo',fn($v)=>$v->count()===1);
+    }
+
+    public function test_periodo_di_mesi_interi_trasferito_al_riepilogo_senza_troncare_intervalli_tra_anni(): void
+    {
+        $s=$this->structureFor(null);$u=$this->actor('struttura_user',null,$s->id);
+        $this->actingAs($u)->withSession(['struttura_corrente_id'=>$s->id]);
+        $this->get('/statistica/presenze?tab=dettaglio&dal=2025-11-01&al=2025-12-31')
+            ->assertOk()->assertViewHas('anno',2025)->assertViewHas('meseDa',11)->assertViewHas('meseA',12);
+        $this->get('/statistica/presenze?tab=dettaglio&dal=2025-12-31&al=2026-01-02')
+            ->assertOk()->assertViewHas('dal',fn($d)=>$d->toDateString()==='2025-12-31')
+            ->assertViewHas('al',fn($d)=>$d->toDateString()==='2026-01-02');
+    }
+
 }

@@ -1,0 +1,49 @@
+{
+  "esito": "PASS_AGGIORNAMENTO_C5",
+  "SHA": "c560979f308ba66a5b653fadee64c390c825a69f",
+  "decisione": "CANDIDATO_ACCETTATO",
+  "S0_verificato": true,
+  "concluso": true,
+  "DDL": false,
+  "RUN_secondi": 257.775,
+  "budget": {
+    "finestra": 1800,
+    "cutoff": 1379,
+    "riserva": 421,
+    "S0_limite": 600,
+    "S0_secondi": 139.899
+  },
+  "PR": "https://github.com/joomlu/Schedinedinotifica/pull/45",
+  "URL": "https://schedinedinotifica.tanggo.software/statistica/presenze",
+  "monitor": {
+    "esito": "PASS_MONITOR_ONLINE",
+    "secondi": 918.4962774212472,
+    "totale_HTTP_TLS_CSS": 279,
+    "limite": "31 campioni su almeno900 secondi del rilascio attuale; sonde in sola lettura, collaudo sintetico separato e nessun invio enti",
+    "campioni": 31
+  },
+  "persistenti": {
+    "voci": 104,
+    "contenuti_e_metadati_identici_S0": true
+  },
+  "errori_R2_e_successivi": {
+    "applicativi": 0,
+    "FPM": 0
+  },
+  "QA": {
+    "schede": 5,
+    "sessione": "Chrome esistente, soli GET, Hotel Gori",
+    "prenotazioni_sintetiche_produzione": false,
+    "limite": "Hotel Gori senza soggiorni nel filtro; formule nonzero qualificate solo su sintetici isolati",
+    "calendario": "20 settembre incluso; dal21 capacità zero",
+    "capacita_1_giugno_30_settembre": {
+      "giorni": 122,
+      "aperti": 112,
+      "camere_notti": 7056,
+      "posti_notti": 15680
+    },
+    "difetto_residuo": "Da Occupazione mese a Dettaglio resta il vecchio periodo; correttivo separato in qualifica"
+  },
+  "chiusura_completa": "PENDENTE: raccordo filtri finale non pubblicato; custodia S0 Extra fermata dal controllo automatico per consenso specifico mancante",
+  "nessuna_trasmissione_enti": true
+}
