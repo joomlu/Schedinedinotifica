@@ -1,5 +1,31 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Contatti e login — qualifica coordinata, pubblicazione sospesa
+
+Candidata4707ff2 nella PR43, cronologia PR42 preservata. COMBINATO-R2:27PHP/453asserzioni e11browser PASS con tre richieste sintetiche lette nel CRM; build/GEO/architettura e23override PASS, nessun invio reale. Corretto solo il riferimento al vecchio pulsante Entra nel test integrato. Ampliamento autorizzato e verificato, capacità conforme; recupero indipendente preliminare non concluso entro il budget vigente. Nessun nuovo PREPARE/merge/deploy, produzione precedente disponibile; guardie invariate e consuntivo operativo interno. [Qualifica e stato](../CONTATTI-LOGIN-QUALIFICA-2026-10-28.md). BASELINE IN AUDIT invariata.
+
+
+## Candidata coordinata Contatti e login — 28 ottobre 2026
+
+Compone i commit delle PR42 e PR43 senza modificare autenticazione o lavori estranei. Intervento sullo spazio del laboratorio autorizzato e verificato; il precedente blocco di capacità è superato, distinto dalla qualifica applicativa combinata e dal circuito di rilascio ancora da completare. Nessuna pubblicazione produttiva eseguita; le prove precedenti restano storiche e non attestano da sole questa composizione. BASELINE IN AUDIT invariata.
+
+
+## Login con footer pubblico e contatto a sola icona — 28 ottobre 2026
+
+Sostituiti i testi descrittivi della fotografia con la descrizione del gestionale, la dedica con cuore e il copyright/versione richiesti; eliminati i duplicati sotto il modulo. Footer completo ripreso dalla home con marchio originale, navigazione, informazioni legali e collegamento autore. WhatsApp ora flottante, sola icona34px in pulsante64px, numero ufficiale invariato; nome accessibile conservato, protezioni contro sovrapposizioni e compilazione mobile, incluso il copyright. Logica di autenticazione invariata. Aggiornamento dell’icona pubblica separato nella PR42, login nella PR43.
+
+FOOTER-R3 sul codice3fe3454:6testPHP/48asserzioni e5browser PASS a1440/768/390/320 nella sola VM ufficiale isolata; build/architettura/GEO e23rifiuti override PASS. Accesso username/email, errori reali, CSRF, tastiera, visibilità password, link e comparsa dell’icona nel footer dopo uscita dal modulo verificati con dati sintetici. R1/R2 conservati:6PHP/48PASS e3browserPASS ciascuno, due attese mobile errate per pulsante nascosto dalle protezioni; R2 mantieneva il focus nel campo password, R3 corregge soltanto il test. Correzione visiva della sovrapposizione copyright qualificata in R3. Controllo visivo locale home e login desktop/mobile positivo, sintassi JavaScript e copie pubbliche CSS/JS conformi. La suite commerciale della PR42 non è stata rieseguita per il delta visivo; nessuna email di recupero o messaggio WhatsApp inviato. Nessun telefono fisico o certificazione WCAG globale attestati.
+
+Pubblicazione NON eseguita: capacità completa C5 ancora insufficiente, nessun PREPARE/S0/merge/deploy. Produzione letta soltanto, versione precedente e loginHTTP200. **BASELINE IN AUDIT invariata.**
+
+
+## Login — marchio del sito e credito autore, 28 ottobre 2026
+
+Marchio allineato alla testata reale (nome scuro, sottotitolo maiuscolo spaziato, stesso file originale); aggiunto nel footer il link autore della home a cv.joomlu.com. Verifica visiva locale desktop1440/mobile390 positiva, sola presentazione e selettore test copyright adattato. Nessun nuovo collaudo autenticazione/POST/deploy: precedente qualifica distinta, blocco C5 invariato. [Rapporto aggiornato](../LOGIN-IDENTITA-ASSISTENZA-2026-10-28.md). BASELINE IN AUDIT invariata.
+
+## Login — identità e assistenza, 28 ottobre 2026
+
+Logo originale della home intatto e allineato a 56px desktop, titolo Accesso struttura, etichette 16px/peso400, WhatsApp ufficiale, testi e footer richiesti ripristinati; cuore visibile tramite icona locale. Autenticazione e regole esistenti intatte. IDENTITA-R2 sul codice 793dbb8: 6 PHP/48 asserzioni e 5 browser PASS a 1440/768/390/320 nella sola infrastruttura isolata; build/architettura/GEO e 23 override PASS. Fotografia attuale confermata dall’utente e conservata: nessun asset pendente. PR43 in bozza su ramo separato; pubblicazione fermata dal gate di capacità C5, nessun merge o modifica produttiva. PR42 e lavori preesistenti preservati. [Rapporto](../LOGIN-IDENTITA-ASSISTENZA-2026-10-28.md). **BASELINE IN AUDIT invariata.**
 ## WhatsApp a sola icona — 28 ottobre 2026
 
 Su richiesta dell’utente, pulsante pubblico uniforme64×64px e icona34×34px; testo visivo nascosto su tutte le pagine, nome accessibile e numero ufficiale invariati. Conservate le protezioni contro sovrapposizioni, menu e controlli attivi. Copie CSS web/public identiche. Controllo visivo locale della home a1440 e390px positivo; non rieseguita la suite commerciale per questo solo delta CSS. Nessun invio o deploy. Pubblicazione ancora subordinata al protocollo C5. BASELINE IN AUDIT invariata.
