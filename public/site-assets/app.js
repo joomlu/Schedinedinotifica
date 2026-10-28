@@ -624,7 +624,7 @@ if (whatsappContact) {
     pending = false;
     const button = whatsappContact.getBoundingClientRect();
     const currentLift = parseInt(whatsappContact.style.getPropertyValue('--whatsapp-lift'), 10) || 0;
-    const controls = [...document.querySelectorAll('main .btn, main button, main input:not([type=hidden]), main textarea, main [role=combobox], footer a')]
+    const controls = [...document.querySelectorAll('main .btn, main button, main input:not([type=hidden]), main textarea, main [role=combobox], footer a, footer .footer-bottom > span')]
       .map(control => control.getBoundingClientRect()).filter(rect => rect.width > 1 && rect.height > 1);
     // Proteggere anche le righe di testo, senza trattare come piene le aree vuote delle schede.
     document.querySelectorAll('main h1, main h2, main h3, main p, main summary, main small, main strong, main li, main figcaption, main .dashboard-tour, main .dashboard-label').forEach(element => {
