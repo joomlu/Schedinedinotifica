@@ -1,0 +1,85 @@
+{
+  "autorizzazione": "29 ottobre 2026: esclusivamente dodici datadir documentati, VM56GiB, nessun backup integrale VM",
+  "candidati": [
+    {
+      "path": "/tmp/schedine-linux-cold-final-uo5sn2pb/dbdata",
+      "rimosso": true,
+      "catena_SQL_cifrati_HMAC_chiave_decifratura_DB": true,
+      "file": 337
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-qhwp6fmf/dbdata",
+      "rimosso": true,
+      "catena_SQL_cifrati_HMAC_chiave_decifratura_DB": true,
+      "file": 337
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-un2mr8zn/dbdata",
+      "rimosso": true,
+      "catena_SQL_cifrati_HMAC_chiave_decifratura_DB": true,
+      "file": 337
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-0zeo_039/dbdata",
+      "rimosso": true,
+      "catena_SQL_cifrati_HMAC_chiave_decifratura_DB": true,
+      "file": 337
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-rn47fuv5/dbdata",
+      "rimosso": true,
+      "catena_SQL_cifrati_HMAC_chiave_decifratura_DB": true,
+      "file": 337
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-qcxghlon/dbdata",
+      "rimosso": true,
+      "catena_SQL_cifrati_HMAC_chiave_decifratura_DB": true,
+      "file": 337
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-np3j2g7i/dbdata",
+      "rimosso": true,
+      "catena_SQL_cifrati_HMAC_chiave_decifratura_DB": true,
+      "file": 337
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-4otw_mrt/dbdata",
+      "rimosso": true,
+      "catena_SQL_cifrati_HMAC_chiave_decifratura_DB": true,
+      "file": 337
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-o4w8a0go/dbdata",
+      "rimosso": true,
+      "catena_SQL_cifrati_HMAC_chiave_decifratura_DB": true,
+      "file": 337
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-0hfjkc04/dbdata",
+      "rimosso": true,
+      "catena_SQL_cifrati_HMAC_chiave_decifratura_DB": true,
+      "file": 339
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-qsnunu77/dbdata",
+      "rimosso": true,
+      "catena_SQL_cifrati_HMAC_chiave_decifratura_DB": true,
+      "file": 337
+    },
+    {
+      "path": "/tmp/schedine-linux-cold-final-z0xz3kwh/dbdata",
+      "rimosso": true,
+      "catena_SQL_cifrati_HMAC_chiave_decifratura_DB": true,
+      "file": 337
+    }
+  ],
+  "spazio": {
+    "riepilogo": true,
+    "prima": 3463286784,
+    "dopo": 5956538368,
+    "rimossi": 12,
+    "candidati": 12
+  },
+  "originali_SQL_cifrati_chiavi_diagnostici_conservati": true
+}

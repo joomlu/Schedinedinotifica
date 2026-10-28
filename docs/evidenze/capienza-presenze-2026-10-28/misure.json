@@ -1,0 +1,134 @@
+{
+  "data_UTC": "2026-10-28T22:42:39.915425+00:00",
+  "scope": "Analisi in lettura; ampliamento sospeso, nessuna cancellazione o nuova copia integrale, nessun test o deploy",
+  "host": {
+    "UTC": "2026-10-28T22:34:31.581173+00:00",
+    "VM": {
+      "capacita_virtuale": 60129542144,
+      "allocazione_contabilizzata_file": 58403880960
+    },
+    "contenitore": {
+      "capacita_virtuale": 137438953472,
+      "file": 11831,
+      "logici": 99201827302,
+      "blocchi_contabilizzati": 99234177024
+    },
+    "volumi": {
+      "/Volumes/extra": {
+        "TotalSize": 999859159040,
+        "APFSContainerFree": 379641270272,
+        "FilesystemType": "apfs",
+        "statvfs_totale": 999859159040,
+        "statvfs_liberi": 379639492608
+      },
+      "/Volumes/SchedineSviluppo": {
+        "TotalSize": 137229197312,
+        "APFSContainerFree": 39264268288,
+        "FilesystemType": "apfs",
+        "statvfs_totale": 137229197312,
+        "statvfs_liberi": 39263916032
+      }
+    },
+    "UTC_finale": "2026-10-28T22:42:11.597065+00:00",
+    "disco_esterno_fisico": {
+      "capacita": 999859159040,
+      "liberi": 378409668608,
+      "usati": 621449490432,
+      "volumi_occupati": [
+        361758380032,
+        259483955200
+      ]
+    }
+  },
+  "VM": {
+    "UTC": "2026-10-28T22:42:39.915425+00:00",
+    "progetti_Laravel": 124,
+    "progetto_originale_presente": true,
+    "filesystem": {
+      "totale": 58765119488,
+      "usati": 55301656576,
+      "disponibili": 3463462912
+    },
+    "disco_virtuale": 60129542144,
+    "nessuna_modifica_risorse": true
+  },
+  "C5": {
+    "liberi_attuali": 3463434240,
+    "consumo_peak_minimo_osservato_S0": 2591502336,
+    "riserva_invariata": 1073741824,
+    "margine_invariato": 33554432,
+    "minimo_libero_S0": 3698798592,
+    "deficit_minimo_S0": 235364352,
+    "costo_nuovo_PREPARE_residente_misurato": 726106112,
+    "minimo_con_PREPARE_fresco": 4424904704,
+    "deficit_con_PREPARE_fresco": 961470464,
+    "potenziale_recupero_datadir_esclusivi": 2492194816,
+    "liberi_teorici_dopo_proposta": 5955629056,
+    "limite": "Il RUN era incompleto al timeout: consumi osservati sono un limite inferiore, non il picco finale completo. Proposta non eseguita."
+  },
+  "datadir_temporanei": {
+    "numero": 12,
+    "blocchi_dati_esclusivi": 2492194816,
+    "SQL_ridump_sigilli_cifrato_DB_e_chiavi_verificati": true,
+    "nessun_fd_aperto": true,
+    "percorsi": [
+      "/tmp/schedine-linux-cold-final-uo5sn2pb/dbdata",
+      "/tmp/schedine-linux-cold-final-qhwp6fmf/dbdata",
+      "/tmp/schedine-linux-cold-final-un2mr8zn/dbdata",
+      "/tmp/schedine-linux-cold-final-0zeo_039/dbdata",
+      "/tmp/schedine-linux-cold-final-rn47fuv5/dbdata",
+      "/tmp/schedine-linux-cold-final-qcxghlon/dbdata",
+      "/tmp/schedine-linux-cold-final-np3j2g7i/dbdata",
+      "/tmp/schedine-linux-cold-final-4otw_mrt/dbdata",
+      "/tmp/schedine-linux-cold-final-o4w8a0go/dbdata",
+      "/tmp/schedine-linux-cold-final-0hfjkc04/dbdata",
+      "/tmp/schedine-linux-cold-final-qsnunu77/dbdata",
+      "/tmp/schedine-linux-cold-final-z0xz3kwh/dbdata"
+    ]
+  },
+  "custodie_e_decodificati": {
+    "cifrati_input": {
+      "file": 206,
+      "logici": 15880100608,
+      "blocchi_contabilizzati": 15880531968,
+      "esclusivi": 15880515584,
+      "condivisi": 0,
+      "errori": 0,
+      "unione_dati_fisici": 15880515584
+    },
+    "decoded_db.sql": {
+      "file": 145,
+      "logici": 3367766630,
+      "blocchi_contabilizzati": 3368001536,
+      "esclusivi": 1144168448,
+      "condivisi": 2223833088,
+      "errori": 0,
+      "unione_dati_fisici": 1677058048
+    },
+    "decoded_inventory.json": {
+      "file": 167,
+      "logici": 1028772553,
+      "blocchi_contabilizzati": 1029140480,
+      "esclusivi": 1029140480,
+      "condivisi": 0,
+      "errori": 0,
+      "unione_dati_fisici": 1029140480
+    },
+    "decoded_fs.tar.gz": {
+      "file": 40,
+      "logici": 1019630064,
+      "blocchi_contabilizzati": 1019723776,
+      "esclusivi": 1019723776,
+      "condivisi": 0,
+      "errori": 0,
+      "unione_dati_fisici": 1019723776
+    }
+  },
+  "classificazione": "Conservare originali, DB attivo, tutti i cifrati/SQL/ridump/chiavi/sigilli/log. Valutare solo datadir temporanei ricostruibili in fase futura autorizzata. Nessuna rimozione eseguita.",
+  "limiti": [
+    "du sovraconta blocchi CoW condivisi: categorie non additive",
+    "FIEMAP misura dati, non tutta la contabilità dei metadati XFS/APFS",
+    "Non ricalcolate tutte le impronte dei grandi cifrati FS; controllato il DB dei dodici candidati",
+    "Il picco C5 completo e il rispetto240s non sono qualificati da questa analisi"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "esito": "PARZIALE_QA_ONLINE_PR46",
+  "SHA_online": "455318e7dc477b47402313826e1525fc691589c3",
+  "cinque_schede": true,
+  "occupazione_giugno_2026": {
+    "periodo": [
+      "2026-06-01",
+      "2026-06-30"
+    ],
+    "camere_notte_disponibili": 1800,
+    "posti_notte_disponibili": 2700
+  },
+  "dettaglio_eredita_giugno": true,
+  "riepilogo_eredita_giugno_giugno": true,
+  "situazione_giornaliera_eredita_primo_giugno": true,
+  "movimenti_ereditano_giugno": true,
+  "stampe_dettaglio_riepilogo_conformi": true,
+  "sessione_autenticata_esistente": true,
+  "selezione_sessione_ripristinata_con_selettore_standard": true,
+  "primo_403_selezione_assente_superato": true,
+  "dati_operativi_modificati": false,
+  "utenti_sessioni_o_prenotazioni_sintetiche_creati": false,
+  "limite": "Periodo reale vuoto: prova filtri, capacità e stampe; formule nonzero qualificate soltanto nel precedente R10 isolato. Nessun nuovo test Laravel eseguito su Herd o DB produttivo.",
+  "ricarica_dettaglio_dopo_cambio_scheda": "NONPASS: URL conserva gennaio-dicembre mentre la pagina appena cambiata mostra giugno; ricarica torna gennaio-dicembre",
+  "correzione_URL_locale": "PASS_R12_NON_PUBBLICATA",
+  "commit_candidato_URL": "911f86ecc80409e4ba457eec1906ce321213eec0"
+}

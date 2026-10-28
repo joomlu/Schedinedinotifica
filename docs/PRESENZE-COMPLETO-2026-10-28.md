@@ -1,5 +1,11 @@
 # Presenze — completamento del 28 ottobre 2026
 
+## Aggiornamento del 29 ottobre 2026 — PR46 online, ulteriore correzione URL pendente
+
+C5 della PR46 positivo: `455318e7dc477b47402313826e1525fc691589c3` effettivamente online, S0 completo 161,731 secondi e RUN 265,062 secondi, nessuna DDL. Minimo libero VM 2.017.611.776 byte con riserva di 1 GiB invariata. Rimossi solo i dodici datadir autorizzati, dopo nuove verifiche; VM a 56 GiB, nessuna copia integrale della VM. Database byte-identico a S0, 104 persistenti e custodia Extra positivi. Monitor conclusivo positivo: 31 campioni in 917,741 secondi, 279 sonde e zero nuovi errori applicativi/FPM.
+
+La QA estesa rileva un residuo: il cambio scheda conserva giugno sullo schermo, ma la ricarica legge il vecchio periodo rimasto nell’URL. R11 lo riproduce in tre scenari; ulteriore correzione `911f86ecc80409e4ba457eec1906ce321213eec0` qualificata in R12 con 45 test PHP/213 asserzioni e tre scenari a 1440/768/390, build/GEO e 23 rifiuti di override. **Non online**: il budget prudenziale di nuova base PREPARE più S0 richiede 5.973.291.008 byte contro 3.125.018.624 liberi, deficit circa 2,65 GiB. Ferma soltanto l’ulteriore pubblicazione, nessun’altra pulizia. [Consuntivo corrente](RISOLUZIONE-C5-PRESENZE-2026-10-29.md). Le sezioni seguenti conservano le fasi precedenti. BASELINE IN AUDIT generale invariata.
+
 ## Perimetro e fonte
 
 Richiesta esplicita: analisi, correzioni, test isolati, GitHub e pubblicazione delle cinque schede informative. Base applicativa online f403cdb9, base GitHub 56085cfd con sole differenze documentali. Copia separata, ramo codex/presenze-completo-20261028; checkout originario, indice e lavori estranei preservati. Nessuna migrazione, modifica prenotazioni, ospiti, disponibilità o attivazione enti.
