@@ -1,101 +1,75 @@
 @extends('layouts.master-without-nav')
-@section('title')
-@lang('translation.signin')
-@endsection
+@section('title', 'Accedi a SchedinaNotifica')
 @section('content')
-<div class="auth-page-wrapper pt-5">
-    <!-- auth page bg -->
-    <div class="auth-one-bg-position auth-one-bg login-hotel-bg" id="auth-particles">
-        <div class="bg-overlay"></div>
+<div class="sn-login">
+    <a class="sn-login-skip" href="#accesso">Vai al modulo di accesso</a>
+    <header class="sn-login-header">
+        <a class="sn-login-brand" href="{{ route('site.home') }}" aria-label="Tanggo Software — pagina iniziale">
+            <img src="{{ asset('site-assets/img/logo-tanggo.png') }}" alt="" width="56" height="56">
+            <span><strong>Tanggo Software</strong><small>SchedinaNotifica</small></span>
+        </a>
+        <a class="sn-login-back" href="{{ route('site.home') }}"><span aria-hidden="true">←</span> Torna al sito</a>
+    </header>
 
-        <div class="shape">
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1440 120">
-                <path d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"></path>
-            </svg>
-        </div>
-    </div>
-
-    <!-- auth page content -->
-    <div class="auth-page-content">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    @include('auth.partials.brand-header')
-                </div>
+    <main class="sn-login-main">
+        <section class="sn-login-story" aria-labelledby="sn-login-story-title">
+            <img src="{{ asset('site-assets/img/foto-reception.webp') }}" alt="" width="1600" height="900" fetchpriority="high">
+            <div class="sn-login-story-copy">
+                <p class="sn-login-eyebrow">Al fianco di chi accoglie</p>
+                <h2 id="sn-login-story-title">Più tempo<br>per i tuoi ospiti.</h2>
+                <p>Ritrova tutto ciò che serve per la tua struttura.<br class="sn-login-desktop-break"> E torna a dedicarti all’ospitalità.</p>
+                <span class="sn-login-story-sign">SchedinaNotifica <span aria-hidden="true">/</span> Tanggo Software</span>
             </div>
-            <!-- end row -->
+        </section>
 
-            <div class="row justify-content-center">
-                <div class="col-md-8 col-lg-6 col-xl-5">
-                    <div class="card mt-4">
-
-                        <div class="card-body p-4">
-                            <div class="text-center mt-2">
-                                <h5 class="text-primary">Accesso struttura</h5>
-                                <p class="text-muted">Entra con il nome di accesso della struttura e con la password personale.</p>
-                            </div>
-                            <div class="p-2 mt-4">
-                                <form action="{{ route('login') }}" method="POST">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="login" class="form-label">Nome di accesso o email <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control @error('login') is-invalid @enderror" value="{{ old('login') }}" id="login" name="login" placeholder="Inserisci il nome di accesso della struttura o l'email">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <div class="float-end">
-                                            <a href="{{ route('password.request') }}" class="text-muted">Password dimenticata?</a>
-                                        </div>
-                                        <label class="form-label" for="password-input">Password personale <span class="text-danger">*</span></label>
-                                        <div class="position-relative auth-pass-inputgroup mb-3">
-                                            <input type="password" class="form-control pe-5 password-input @error('password') is-invalid @enderror" name="password" placeholder="Inserisci la password personale" id="password-input">
-                                            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                                            @error('password')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
-                                        <label class="form-check-label" for="auth-remember-check">Ricordami</label>
-                                    </div>
-
-                                    <div class="mt-4">
-                                        <button class="btn btn-success w-100" type="submit">Entra</button>
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
-                        <!-- end card body -->
+        <section class="sn-login-panel" aria-labelledby="sn-login-title">
+            <div class="sn-login-form-wrap">
+                <p class="sn-login-eyebrow">La tua area di lavoro</p>
+                <h1 id="sn-login-title">Accesso struttura</h1>
+                <p class="sn-login-intro">Accedi a SchedinaNotifica e riprendi la gestione della tua struttura.</p>
+                <form id="accesso" action="{{ route('login') }}" method="POST" tabindex="-1">
+                    @csrf
+                    <div class="sn-login-field">
+                        <label for="login">Nome di accesso o email <span aria-hidden="true">*</span></label>
+                        <input type="text" class="form-control @error('login') is-invalid @enderror" value="{{ old('login') }}" id="login" name="login" placeholder="Il tuo nome di accesso o la tua email" autocomplete="username" aria-required="true" @error('login') aria-invalid="true" aria-describedby="login-error" @enderror>
+                        @error('login')
+                            <p class="sn-login-error" id="login-error" role="alert">{{ $message }}</p>
+                        @enderror
                     </div>
-                    <!-- end card -->
-
+                    <div class="sn-login-field">
+                        <label for="password-input">Password personale <span aria-hidden="true">*</span></label>
+                        <div class="sn-login-password">
+                            <input type="password" class="form-control password-input @error('password') is-invalid @enderror" name="password" placeholder="La tua password" id="password-input" autocomplete="current-password" aria-required="true" @error('password') aria-invalid="true" aria-describedby="password-error" @enderror>
+                            <button class="sn-login-toggle" type="button" id="password-addon" aria-label="Mostra password" aria-controls="password-input" aria-pressed="false"><i class="ri-eye-line" aria-hidden="true"></i></button>
+                        </div>
+                        @error('password')
+                            <p class="sn-login-error" id="password-error" role="alert">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="sn-login-options">
+                        <div class="sn-login-remember">
+                            <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
+                            <label for="auth-remember-check">Ricordami</label>
+                        </div>
+                        <a href="{{ route('password.request') }}">Password dimenticata?</a>
+                    </div>
+                    <button class="sn-login-submit" type="submit">Accedi <span aria-hidden="true">→</span></button>
+                </form>
+                <div class="sn-login-help">
+                    <span class="sn-login-help-icon" aria-hidden="true"><i class="ri-customer-service-2-line"></i></span>
+                    <div><p>Hai bisogno di una mano?</p><a class="sn-login-whatsapp" href="https://wa.me/393930991968?text=Ciao%2C%20ho%20bisogno%20di%20assistenza%20con%20SchedinaNotifica." target="_blank" rel="noopener noreferrer" aria-label="Assistenza su WhatsApp, si apre in una nuova scheda"><i class="ri-whatsapp-line" aria-hidden="true"></i> Scrivici su WhatsApp <span aria-hidden="true">↗</span></a><a class="sn-login-contact" href="{{ route('site.contatti') }}">Altri contatti Tanggo Software</a></div>
                 </div>
             </div>
-            <!-- end row -->
-        </div>
-        <!-- end container -->
+        </section>
+    </main>
+    <div class="sn-login-about">
+        <p>Software gestionale per ospitalità, ricezione e adempimenti telematici.</p>
+        <p>Realizzato con ❤️ per il lavoro quotidiano della struttura.</p>
     </div>
-    <!-- end auth page content -->
-
-    <!-- footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    @include('auth.partials.footer-copy')
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- end Footer -->
+    <footer class="sn-login-footer">© 2026 @Schedine di Notifica - Tanggo Platform | Versione 2.0</footer>
 </div>
 @endsection
-@include('auth.partials.shared-style')
+@include('auth.partials.login-style')
 @section('script')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -104,7 +78,11 @@
         if (!toggle || !input) return;
         toggle.addEventListener('click', function (event) {
             event.preventDefault();
-            input.type = input.type === 'password' ? 'text' : 'password';
+            var visible = input.type === 'password';
+            input.type = visible ? 'text' : 'password';
+            toggle.setAttribute('aria-pressed', String(visible));
+            toggle.setAttribute('aria-label', visible ? 'Nascondi password' : 'Mostra password');
+            toggle.querySelector('i').className = visible ? 'ri-eye-off-line' : 'ri-eye-line';
         });
     });
 </script>
