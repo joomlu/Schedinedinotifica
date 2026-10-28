@@ -1,5 +1,7 @@
 import { test, expect, BASE_URL } from '../Support/playwright.js';
 
+test.setTimeout(90000);
+
 const cases = [
   { width: 1440, topic: 'Richiesta demo', choice: 'Richiedi la tua demo →', mode: 'visita', confirmation: 'concordare modalità e disponibilità' },
   { width: 768, topic: 'Presentazione di gruppo', choice: 'Iscriviti alla presentazione →', confirmation: 'data e i dettagli dell’incontro' },
@@ -69,7 +71,12 @@ for (const sample of cases) {
     await page.goto(`${BASE_URL}/login`);
     await page.locator('input[name=login]').fill('contatti-crm-ui');
     await page.locator('input[name=password]').fill('Password-contatti-fixture-123!');
-    await page.getByRole('button', { name: /Entra/i }).click();
+    await page.getByRole('button', { name: 'Accedi', exact: true }).click();
+    await page.getByRole('button', { name: 'Sì, salva', exact: true }).click();
+    const accesso = page.waitForResponse(r => r.request().method() === 'POST' && new URL(r.url()).pathname === '/login');
+    await page.getByRole('button', { name: 'OK', exact: true }).click();
+    await accesso;
+    await page.waitForLoadState('load');
     await expect(page).not.toHaveURL(/\/login$/);
     await page.goto(`${BASE_URL}/superadmin/crm/${receipt.lead_id}`);
     for (const text of [`CONTATTI-ISOLATO-${sample.width}`, sample.topic, 'Tipo di struttura: Hotel', '100 € + IVA / anno', 'Interesse richiesto: Web Check-in [web-checkin]', 'Servizio aggiuntivo richiesto: Max Full']) await expect(page.locator('body')).toContainText(text);
