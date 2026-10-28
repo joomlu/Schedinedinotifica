@@ -41,5 +41,5 @@
   ],
   "esecuzione_finale": "R10",
   "storia_R9": "Errore infrastrutturale prima di PHPUnit, copie dipendenze tronche per spazio esaurito; nessun risultato R9 qualificante",
-  "pubblicazione": "Prima versione c560979f online; correttivo finale qualificato ma non pubblicato; consenso custodie pendente"
+  "pubblicazione": "Prima versione c560979f online e riconfermata dopo STOP; correttivo455318e7 qualificato e integrato PR46 ma non pubblicato, S0 fuori240s e riservaVM violata. Custodie autorizzate; ampliamento laboratorio ancora da autorizzare."
 }

@@ -44,6 +44,6 @@
     },
     "difetto_residuo": "Da Occupazione mese a Dettaglio resta il vecchio periodo; correttivo separato in qualifica"
   },
-  "chiusura_completa": "PENDENTE: raccordo filtri finale non pubblicato; custodia S0 Extra fermata dal controllo automatico per consenso specifico mancante",
+  "chiusura_completa": "PENDENTE: correttivo455318e7 non pubblicato per STOP tecnico C5; consenso custodie acquisito e S0Extra prima versione PASS",
   "nessuna_trasmissione_enti": true
 }
