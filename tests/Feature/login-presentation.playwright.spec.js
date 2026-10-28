@@ -46,6 +46,7 @@ for (const width of [1440, 768, 390, 320]) {
     await page.keyboard.press('Shift+Tab'); await expect(page.locator('#auth-remember-check')).toBeFocused();
     await page.locator('#password-input').fill('');
     await page.screenshot({ path: info.outputPath(`login-${width}.png`), fullPage: true });
+    await page.getByRole('link', { name: 'Realizzato da Jorge Omar Luccitelli', exact: true }).focus();
     await page.locator('.footer-bottom').scrollIntoViewIfNeeded();
     await expect(whatsapp).toBeVisible();
     await expect(whatsapp.locator('svg')).toHaveCSS('width','34px');
