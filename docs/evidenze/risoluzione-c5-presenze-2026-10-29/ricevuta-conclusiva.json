@@ -1,0 +1,24 @@
+{
+  "esito_tecnico_C5": "PASS_RICEVUTA_FINALE",
+  "SHA_online": "455318e7dc477b47402313826e1525fc691589c3",
+  "S0_secondi": 161.731,
+  "RUN_secondi": 265.062,
+  "DDL": false,
+  "DB_byte_identico_S0_anche_dopo_QA_e_monitor": true,
+  "persistenti": 104,
+  "sorgenti_protetti": 328,
+  "monitor": {
+    "esito": "PASS_MONITOR_ONLINE",
+    "secondi": 917.7412501201034,
+    "campioni": 31,
+    "sonde_HTTP_TLS_CSS": 279
+  },
+  "errori_applicativi": 0,
+  "errori_FPM": 0,
+  "QA_applicativa": "PARZIALE: ricaricaURL corretta nellaPR48 qualificata, non online",
+  "PR_candidato_URL": "https://github.com/joomlu/Schedinedinotifica/pull/48",
+  "candidato_URL": "911f86ecc80409e4ba457eec1906ce321213eec0",
+  "VM_GiB": 56,
+  "recupero_limite_secondi": 240,
+  "riserva_VM_byte": 1073741824
+}
