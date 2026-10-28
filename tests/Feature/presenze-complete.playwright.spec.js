@@ -35,7 +35,14 @@ for (const width of [1440,768,390]) {
     await page.goto(`${BASE_URL}/statistica/presenze?tab=occupazione&occupazione_anno=2024&occupazione_mese=2&dal=2026-06-01&al=2026-09-30&mese_da=6&mese_a=9`);
     await page.getByRole('tab',{name:'Dettaglio periodo',exact:true}).click();
     await expect(page.locator('#presenze-dettaglio')).toContainText('Periodo 01/02/2024 - 29/02/2024');
+    await expect(page).toHaveURL(/dal=2024-02-01.*al=2024-02-29/);
+    await page.reload();
+    await expect(page.locator('#presenze-dettaglio')).toContainText('Periodo 01/02/2024 - 29/02/2024');
     await page.getByRole('tab',{name:'Riepilogo mensile',exact:true}).click();
+    expect(new URL(page.url()).searchParams.get('anno')).toBe('2024');
+    expect(new URL(page.url()).searchParams.get('mese_da')).toBe('2');
+    expect(new URL(page.url()).searchParams.get('mese_a')).toBe('2');
+    await page.reload();
     await expect(page.locator('#presenze-riepilogo')).toContainText('Nessun soggiorno o movimento');
     await page.goto(`${BASE_URL}/statistica/presenze?anno=2024&mese_da=1&mese_a=12`);
     await expect(page.locator('#presenze-riepilogo')).toContainText('Nessun soggiorno o movimento');

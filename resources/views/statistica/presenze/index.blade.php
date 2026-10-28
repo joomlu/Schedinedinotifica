@@ -7,6 +7,12 @@
 @endcomponent
 @php
     $activeTab = request('tab', 'riepilogo');
+    $filtriApplicati = [
+        'anno' => $anno, 'mese_da' => $meseDa, 'mese_a' => $meseA,
+        'dal' => $dal->toDateString(), 'al' => $al->toDateString(), 'categoria' => $categoria,
+        'occupazione_anno' => $occupazioneAnno, 'occupazione_mese' => $occupazioneMese,
+        'giorno_situazione' => $giornoSituazione->toDateString(),
+    ];
 @endphp
 
 <div class="card">
@@ -462,8 +468,16 @@ document.querySelectorAll('form[method="GET"]').forEach(form => {
         if (invalid) { event.preventDefault(); alert('La data o il mese iniziale non può seguire quello finale.'); }
     });
 });
+const presenzeFiltriApplicati = @json($filtriApplicati);
+function presenzeAggiornaIndirizzo(tab) {
+    const url = new URL(location.href);
+    Object.entries(presenzeFiltriApplicati).forEach(([nome, valore]) => url.searchParams.set(nome, valore));
+    url.searchParams.set('tab', tab);
+    history.replaceState(null, '', url);
+}
+presenzeAggiornaIndirizzo(@json($activeTab));
 document.querySelectorAll('[data-bs-target^="#presenze-"]').forEach(button => button.addEventListener('shown.bs.tab', () => {
-    const url = new URL(location.href); url.searchParams.set('tab', button.dataset.bsTarget.replace('#presenze-', '')); history.replaceState(null, '', url);
+    presenzeAggiornaIndirizzo(button.dataset.bsTarget.replace('#presenze-', ''));
 }));
 </script>
 @endsection
