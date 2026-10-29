@@ -1,5 +1,9 @@
 # Risoluzione C5 e pubblicazione correttivo Presenze — 29 ottobre 2026
 
+## Chiusura tecnica del 29 ottobre 2026 — aggiornamento
+
+Il correttivo PR48 è online e la conservazione del periodo dopo ricarica è verificata. Cinque schede e due stampe positive, rilascio C5 senza migrazioni e monitor finale positivo. Il lavoro è chiuso nel perimetro dei report e dei limiti del modello. I precedenti STOP restano storici. [Sintesi tecnica pubblica](PRESENZE-CHIUSURA-2026-10-29.md). BASELINE IN AUDIT generale invariata.
+
 ## Stato corrente
 
 Correttivo PR46 `455318e7dc477b47402313826e1525fc691589c3` effettivamente online, C5 PASS. Merge applicativo GitHub `328203d41cc1f05c29449a21423f9503247c9e38`, albero identico al candidato qualificato. Monitor tecnico conclusivo PASS: 31 campioni su 917,741 secondi e 279 sonde; QA applicativa PARZIALE per il residuo URL descritto sotto. Il rilascio serve esattamente PR46; un ulteriore difettoURL emerso dalla QA è corretto soltanto localmente e descritto sotto. BASELINE IN AUDIT generale invariata.

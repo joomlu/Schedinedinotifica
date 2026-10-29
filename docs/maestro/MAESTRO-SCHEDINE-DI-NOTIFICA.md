@@ -1,5 +1,9 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Presenze — chiusura tecnica dei report verificata, PR48 online — 29 ottobre 2026
+
+PR48 pubblicata sul candidato `db4498ea`, merge `f1d97f46` con albero identico. C5 positivo senza migrazioni; QA online positiva per cinque schede, due stampe e conservazione del periodo dopo cambio scheda e ricarica, incluso febbraio bisestile. Sorgenti identici alla qualifica isolata R12 (45 test PHP, 213 asserzioni, tre scenari browser; nessuna nuova suite globale dichiarata). Monitor finale di almeno 900 secondi: 31 campioni e 279 controlli positivi, nessun nuovo errore applicativo/FPM. Database byte-identico allo snapshot dopo QA e monitor, dati operativi e chiavi preservati. Chiusura nel perimetro dei report esistenti e dei limiti del modello; nessun CSV o conformità a specifici modelli esterni attestati. [Sintesi tecnica pubblica](../PRESENZE-CHIUSURA-2026-10-29.md); evidenze dettagliate conservate localmente. **BASELINE IN AUDIT generale invariata.**
+
 ## Presenze — PR46 pubblicata; ulteriore correzione URL ferma, 29 ottobre 2026
 
 Rimossi esclusivamente i dodici datadir autorizzati, dopo nuove verifiche di SHA256, HMAC, decifratura DB, identità SQL/ridump e inutilizzo. Spazio libero da 3.463.286.784 a 5.956.538.368 byte, recupero reale 2,322 GiB. Originali, SQL, cifrati, chiavi e diagnostici preservati; VM invariata a 56 GiB, nessuna nuova copia integrale della VM. Recupero completo profilato positivo in 170,700 secondi con il verificatore originale: prevalgono ricomposizione, estrazione e verifica della base. Accertata la precedente sottostima dello spazio; causa esclusiva del timeout storico non dimostrabile senza cronometri originari.
