@@ -403,7 +403,7 @@ function showServerAlerts(scope) {
         const text = (warning.textContent || '').replace(/\s+/g, ' ').trim();
         if (text) {
             Swal.fire({
-                title: 'Bozza salvata',
+                title: warning.dataset.serverAlertTitle || 'Bozza salvata',
                 text,
                 icon: 'info',
                 confirmButtonText: 'OK',
