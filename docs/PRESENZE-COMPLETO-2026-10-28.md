@@ -1,5 +1,9 @@
 # Presenze — completamento del 28 ottobre 2026
 
+## Chiusura tecnica del 29 ottobre 2026 — aggiornamento
+
+Il correttivo PR48 è online e la conservazione del periodo dopo ricarica è verificata. Cinque schede e due stampe positive, rilascio C5 senza migrazioni e monitor finale positivo. Il lavoro è chiuso nel perimetro dei report e dei limiti del modello. I precedenti STOP restano storici. [Sintesi tecnica pubblica](PRESENZE-CHIUSURA-2026-10-29.md). BASELINE IN AUDIT generale invariata.
+
 ## Aggiornamento del 29 ottobre 2026 — PR46 online, ulteriore correzione URL pendente
 
 C5 della PR46 positivo: `455318e7dc477b47402313826e1525fc691589c3` effettivamente online, S0 completo 161,731 secondi e RUN 265,062 secondi, nessuna DDL. Minimo libero VM 2.017.611.776 byte con riserva di 1 GiB invariata. Rimossi solo i dodici datadir autorizzati, dopo nuove verifiche; VM a 56 GiB, nessuna copia integrale della VM. Database byte-identico a S0, 104 persistenti e custodia Extra positivi. Monitor conclusivo positivo: 31 campioni in 917,741 secondi, 279 sonde e zero nuovi errori applicativi/FPM.
