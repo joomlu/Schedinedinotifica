@@ -76,4 +76,30 @@ class StrutturaNonSelezionataTest extends TestCase
             $this->withSession(['struttura_corrente_id' => 999999999])->get($url)->assertForbidden();
         }
     }
+
+    public function test_il_bundle_modificato_riceve_un_url_diverso_anche_con_nome_stabile(): void
+    {
+        $admin = $this->actor('admin');
+        $manifest = json_decode(file_get_contents(public_path('build/.vite/manifest.json')), true, 512, JSON_THROW_ON_ERROR);
+        $bundle = public_path('build/'.$manifest['resources/js/app.js']['file']);
+        $originale = file_get_contents($bundle);
+        $url = function (): string {
+            $html = $this->get(route('strutture.seleziona.index'))->assertOk()->getContent();
+            $this->assertSame(1, preg_match('/<script type="module" src="([^"]+)" data-entry="app-js">/', $html, $match));
+            return html_entity_decode($match[1]);
+        };
+        $this->actingAs($admin);
+        $prima = $url();
+        try {
+            $modificato = $originale."\n// Prova isolata di invalidazione cache.\n";
+            file_put_contents($bundle, $modificato);
+            $dopo = $url();
+            $this->assertNotSame($prima, $dopo);
+            parse_str(parse_url($dopo, PHP_URL_QUERY), $query);
+            $this->assertSame(substr(hash('sha256', $modificato), 0, 16), $query['v']);
+        } finally {
+            file_put_contents($bundle, $originale);
+        }
+    }
+
 }
