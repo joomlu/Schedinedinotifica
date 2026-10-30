@@ -64,6 +64,10 @@ final class StrutturaAccess
             abort_unless(self::query($user, true)->whereKey($sessionId)->exists(), 403);
         }
         $selected = $ids[0] ?? StrutturaCorrente::getId();
+        if ($selected === null && $original === null && $user->attivo
+            && ($user->isAdmin() || $user->isSuperAdmin())) {
+            throw new \App\Exceptions\StrutturaNonSelezionata;
+        }
         $query = self::query($user, true);
         $struttura = $selected !== null
             ? $query->whereKey(self::id($selected))->first()

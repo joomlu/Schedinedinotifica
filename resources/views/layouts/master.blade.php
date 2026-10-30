@@ -32,7 +32,7 @@
                         <div class="alert alert-success" data-server-alert="success">{{ session('success') }}</div>
                     @endif
                     @if(session('warning'))
-                        <div class="alert alert-warning" data-server-alert="warning">{{ session('warning') }}</div>
+                        <div class="alert alert-warning" data-server-alert="warning" data-server-alert-title="{{ session('warning_title', 'Bozza salvata') }}">{{ session('warning') }}</div>
                     @endif
                     @if(session('error'))
                         <div class="alert alert-danger" data-server-alert="error">{{ session('error') }}</div>
