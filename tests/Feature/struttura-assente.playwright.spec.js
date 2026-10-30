@@ -1,3 +1,4 @@
+import {createHash} from 'node:crypto';
 import {test, expect, BASE_URL} from '../Support/playwright.js';
 for (const width of [1440, 390]) {
   for (const role of ['admin', 'super_admin']) {
@@ -17,6 +18,12 @@ for (const width of [1440, 390]) {
       await expect(page.getByRole('dialog')).toBeVisible();
       await expect(page.getByRole('heading', {name:'Seleziona una struttura', exact:true})).toBeVisible();
       await expect(page.locator('[data-server-alert="warning"]')).toHaveText('Seleziona una struttura per continuare.');
+      const src = await page.locator('script[data-entry="app-js"]').getAttribute('src');
+      const assetUrl = new URL(src, BASE_URL);
+      expect(assetUrl.searchParams.get('v')).toMatch(/^[a-f0-9]{16}$/);
+      const asset = await page.request.get(assetUrl.href);
+      expect(asset.status()).toBe(200);
+      expect(assetUrl.searchParams.get('v')).toBe(createHash('sha256').update(await asset.body()).digest('hex').slice(0,16));
       const immagine = `/tmp/struttura-assente-avviso-${role}-${width}-${Date.now()}.png`;
       await page.screenshot({path:immagine, fullPage:true});
       console.log(`Evidenza avviso: ${immagine}`);

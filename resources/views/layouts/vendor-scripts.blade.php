@@ -7,7 +7,14 @@
 <!-- Flatpickr JS -->
 <script src="{{ URL::asset('build/libs/flatpickr/flatpickr.min.js') }}"></script>
 <script src="{{ URL::asset('build/libs/flatpickr/l10n/it.js') }}"></script>
-@php($appJs = \Illuminate\Support\Facades\Vite::useManifestFilename('.vite/manifest.json')->asset('resources/js/app.js'))
+@php
+    $appVite = \Illuminate\Support\Facades\Vite::useManifestFilename('.vite/manifest.json');
+    $appJs = $appVite->asset('resources/js/app.js');
+    if (! $appVite->isRunningHot()) {
+        $appJs .= (str_contains($appJs, '?') ? '&' : '?').'v='.
+            substr(hash('sha256', $appVite->content('resources/js/app.js')), 0, 16);
+    }
+@endphp
 <script type="module" src="{{ $appJs }}" data-entry="app-js"></script>
 <script>
     (function () {
