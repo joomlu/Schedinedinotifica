@@ -23,6 +23,7 @@ final class PublicSiteRenderer
             }
         }
         $html = $this->restoreContactInput(str_replace('{{contact.feedback}}', $feedback, $html));
+        $html = $this->contactFieldErrors($html);
         $routes = ['/' => 'site.home', '/moduli' => 'site.moduli', '/ampliamenti' => 'site.ampliamenti', '/demo' => 'site.demo', '/prezzi' => 'site.prezzi', '/contatti' => 'site.contatti', '/contatti/richiesta' => 'site.contatti.store', '/note-legali' => 'site.note-legali', '/privacy' => 'site.privacy', '/cookie' => 'site.cookie', '/login' => 'login'];
         $html = preg_replace_callback('~\b(href|action)=([\"\'])(/[^\"\']*)\2~i', function (array $m) use ($routes): string {
             preg_match('~^([^?#]*)(.*)$~s', $m[3], $parts);
@@ -72,6 +73,19 @@ final class PublicSiteRenderer
     private function restoreContactInput(string $html): string
     {
         $old = request()->hasSession() ? request()->session()->getOldInput() : [];
+        $restored = $old !== [];
+        if (! $restored) {
+            $catalog = app(PublicSiteCatalog::class);
+            foreach (['plan' => ['piano', array_keys($catalog->plans())], 'interest' => ['interesse', array_keys($catalog->interests())]] as $field => [$query, $allowed]) {
+                $value = request()->query($query);
+                if (is_string($value) && in_array($value, $allowed, true)) {
+                    $old[$field] = $value;
+                }
+            }
+            if (request()->query('servizio') === 'max-full') {
+                $old['max_full'] = true;
+            }
+        }
         if ($old === [] || ! str_contains($html, 'data-demo-form')) {
             return $html;
         }
@@ -122,7 +136,32 @@ final class PublicSiteRenderer
             $html = preg_replace_callback('~(<textarea\b[^>]*\bname="message"[^>]*>).*?(</textarea>)~si', fn (array $m): string => $m[1].$message.$m[2], $html);
         }
 
-        return str_replace('data-demo-form', 'data-demo-form data-contact-restored="true"', $html);
+        return $restored ? str_replace('data-demo-form', 'data-demo-form data-contact-restored="true"', $html) : $html;
+    }
+
+    private function contactFieldErrors(string $html): string
+    {
+        $errors = request()->hasSession() ? request()->session()->get('errors') : null;
+        if (! $errors || ! str_contains($html, 'data-demo-form')) {
+            return $html;
+        }
+        return preg_replace_callback('~<(input|select|textarea)\b[^>]*\bname="([a-z_]+)"[^>]*>(?:.*?</\1>)?~si', static function (array $match) use ($errors): string {
+            $name = $match[2];
+            if (! $errors->has($name) || ! in_array($name, ['name', 'company', 'email', 'phone', 'structure_type', 'city', 'topic', 'plan', 'interest', 'message', 'consent', 'demo_mode'], true)) {
+                return $match[0];
+            }
+            $id = 'contact-error-'.$name;
+            $tag = preg_replace_callback('~^<[^>]+>~', static function (array $opening) use ($id): string {
+                $tag = $opening[0];
+                if (str_contains($tag, 'aria-describedby="')) {
+                    $tag = preg_replace('~aria-describedby="([^"]*)"~', 'aria-describedby="$1 '.$id.'"', $tag);
+                } else {
+                    $tag = substr($tag, 0, -1).' aria-describedby="'.$id.'">';
+                }
+                return substr($tag, 0, -1).' aria-invalid="true">';
+            }, $match[0]);
+            return $tag.'<small class="field-error" data-contact-field-error="true" id="'.$id.'">'.htmlspecialchars($errors->first($name), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8').'</small>';
+        }, $html);
     }
 
     public function version(): string

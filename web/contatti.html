@@ -3,17 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-      Parliamo della tua struttura | Tanggo Software
-    </title>
+    <title>Richiedi una demo di SchedinaNotifica | Tanggo Software</title>
     <meta name="description" content="Richiedi una demo di SchedinaNotifica, informazioni sul piano scelto o il servizio Max Full. Tanggo Software ti ricontatta per approfondire le esigenze.">
-    <meta name="theme-color" content="#8c1d2c">
+    <meta name="theme-color" content="#78170c">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Tanggo Software · SchedinaNotifica">
     <meta property="og:title" content="Parliamo della tua struttura">
     <meta property="og:description" content="Richiedi una demo di SchedinaNotifica, informazioni sul piano scelto o il servizio Max Full. Tanggo Software ti ricontatta per approfondire le esigenze.">
     <meta property="og:locale" content="it_IT">
     <meta property="og:url" content="https://schedinedinotifica.tanggo.software/contatti">
+    <meta property="og:image" content="https://schedinedinotifica.tanggo.software/site-assets/img/schedinanotifica-social.png">
+    <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="SchedinaNotifica di Tanggo Software. Meno dati da riscrivere. Più tempo per accogliere i tuoi ospiti.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="/site-assets/img/logo-tanggo.png">
     <link rel="canonical" href="https://schedinedinotifica.tanggo.software/contatti">
     <link rel="stylesheet" href="/site-assets/vendor/select2/css/select2.min.css">
     <link rel="stylesheet" href="/site-assets/vendor/flatpickr/flatpickr.min.css">
@@ -43,43 +46,20 @@
           </span>
         </button>
         <nav id="site-nav" class="site-nav" aria-label="Navigazione principale">
-          <a href="/">
-            Home
-          </a>
-          <a href="/moduli">
-            Funzionalità
-          </a>
-          <a href="/ampliamenti">
-            Moduli e ampliamenti
-          </a>
-          <a href="/prezzi">
-            Prezzi
-          </a>
-          <a href="/#adatto-per">Adatto per</a>
-<a href="/#faq">FAQ</a>
-          <a href="/demo">
-            Demo
-          </a>
-          <a href="/contatti" aria-current="page">
-            Contatti
-          </a>
-          <a class="login-link" href="/login">
-            Accedi
-          </a>
-          <a class="nav-cta" href="/contatti#demo">
-            Richiedi una demo
-            <span aria-hidden="true">
-              ↗
-            </span>
-          </a>
-        </nav>
+<a href="/">Home</a>
+<a href="/moduli">Funzionalità</a>
+<a href="/ampliamenti">Servizi e requisiti</a>
+<a href="/prezzi">Prezzi</a>
+<a href="/demo">Schermate</a>
+<a href="/contatti" aria-current="page">Contatti</a>
+<a class="login-link" href="/login">Accedi al gestionale</a><a class="nav-cta" href="/contatti#demo">Richiedi una demo <span aria-hidden="true">↗</span></a></nav>
       </div>
     </header>
     <main id="contenuto">
       <section class="container page-hero page-hero-visual contact-hero"><div class="page-hero-copy">
         <p class="eyebrow">Tanggo Software · Il tuo prossimo passo</p>
         <h1>Parliamo della<br><em>tua struttura.</em></h1>
-        <p class="lead">Ogni accoglienza ha le sue esigenze. Raccontaci le tue: scopri SchedinaNotifica, incontra il nostro team e troviamo insieme gli strumenti utili al tuo lavoro.</p>
+        <p class="lead">Ogni accoglienza ha le sue esigenze. Raccontaci le tue: scopri SchedinaNotifica, conosci chi lo sviluppa e troviamo insieme gli strumenti utili al tuo lavoro.</p>
         <a class="btn btn-primary" href="#scegli-il-contatto">Come possiamo aiutarti? ↓</a>
       </div><figure class="page-hero-figure"><img src="/site-assets/img/ospitalita-checkin.webp" alt="Un momento di accoglienza alla reception di un hotel, ambientazione illustrativa" width="1536" height="1024" fetchpriority="high"><figcaption>Le soluzioni migliori partono da una conversazione.</figcaption></figure></section>
       <section class="container contact-paths" id="scegli-il-contatto" aria-labelledby="contact-paths-title">
@@ -125,23 +105,23 @@
                 Facciamo il primo passo.
               </h2>
               <p>
-                Compila i campi con * e inviaci la tua richiesta. Il messaggio è facoltativo: bastano poche informazioni per iniziare a conoscerci.
+                Compila nome, struttura e almeno un recapito tra email e telefono. Tipo di struttura, località, messaggio e preferenze sono facoltativi. Ti ricontattiamo per approfondire la richiesta, senza attivare servizi o iscrizioni marketing.
               </p>
             </div>
 
-            <div class="form-grid">
-              <label class="form-field form-field-full"><span>Motivo di contatto *</span><select data-ui="contact-basic-select" name="topic" data-contact-topic required>
+            <p id="recapito-help" class="field-hint">Email o telefono: indicane almeno uno valido. Useremo i recapiti soltanto per questa richiesta.</p><div class="form-grid">
+              <label class="form-field form-field-full"><span id="contact-label-topic">Motivo di contatto *</span><select data-ui="contact-basic-select" name="topic" data-contact-topic required aria-labelledby="contact-label-topic">
                 <option value="Richiesta demo" selected>Demo personalizzata</option><option value="Presentazione di gruppo">Presentazione di gruppo</option><option value="Informazioni e personalizzazioni">Informazioni e personalizzazioni</option>
               </select></label>
               <div class="form-field form-field-full" data-demo-preference><label for="demo-mode">Come preferisci la demo?</label><select data-ui="contact-basic-select" id="demo-mode" name="demo_mode" aria-describedby="demo-mode-help"><option value="da-concordare">Da concordare insieme</option><option value="online">Online</option><option value="visita">Visita nella struttura</option></select><p class="field-hint" id="demo-mode-help">È una preferenza: modalità e disponibilità si concordano dopo la richiesta.</p></div>
               <p class="contact-group-hint form-field-full" data-group-hint hidden>Ti comunicheremo la data e i dettagli del prossimo incontro appena disponibili.</p>
-              <label class="form-field"><span>Nome e cognome *</span><input type="text" name="name" maxlength="120" autocomplete="name" required></label>
-              <label class="form-field"><span>Email *</span><input type="email" name="email" maxlength="160" autocomplete="email" required></label>
-              <div class="form-field"><label for="contact-phone">Telefono *</label><input type="tel" id="contact-phone" name="phone" maxlength="40" autocomplete="tel" pattern="(?=(?:\D*\d){5})[\d\s+.\(\)\/\-]+" title="Inserisci un numero di telefono con almeno cinque cifre." required aria-describedby="phone-help"><small id="phone-help">Indica il numero al quale possiamo ricontattarti.</small></div>
-              <label class="form-field"><span>Nome della struttura *</span><input type="text" name="company" maxlength="100" autocomplete="organization" required></label>
-              <label class="form-field"><span>Tipo di struttura *</span><select data-ui="contact-basic-select" name="structure_type" required><option value="">Seleziona il tipo</option><option value="hotel">Hotel</option><option value="bnb">B&amp;B</option><option value="casa-vacanza">Casa vacanza</option><option value="appartamenti">Appartamenti turistici</option><option value="agriturismo">Agriturismo</option><option value="altro">Altra attività</option></select></label>
-              <label class="form-field"><span>Località *</span><input type="text" name="city" maxlength="120" autocomplete="address-level2" required></label>
-              <label class="form-field form-field-full"><span>Messaggio (facoltativo)</span><textarea name="message" rows="4" maxlength="5000" placeholder="Se vuoi, raccontaci cosa desideri semplificare nel tuo lavoro."></textarea></label>
+              <label class="form-field"><span id="contact-label-name">Nome e cognome *</span><input type="text" name="name" maxlength="120" autocomplete="name" required aria-labelledby="contact-label-name"></label>
+              <label class="form-field"><span id="contact-label-email">Email (o telefono)</span><input type="email" name="email" maxlength="160" autocomplete="email" aria-describedby="recapito-help" aria-labelledby="contact-label-email"></label>
+              <div class="form-field"><label for="contact-phone">Telefono (o email)</label><input type="tel" id="contact-phone" name="phone" maxlength="40" autocomplete="tel" pattern="(?=(?:\D*\d){5})[\d\s+.\(\)\/\-]+" title="Inserisci un numero di telefono con almeno cinque cifre." aria-describedby="phone-help recapito-help"><small id="phone-help">Indica il numero al quale possiamo ricontattarti.</small></div>
+              <label class="form-field"><span id="contact-label-company">Nome della struttura *</span><input type="text" name="company" maxlength="100" autocomplete="organization" required aria-labelledby="contact-label-company"></label>
+              <label class="form-field"><span id="contact-label-structure_type">Tipo di struttura (facoltativo)</span><select data-ui="contact-basic-select" name="structure_type" aria-labelledby="contact-label-structure_type"><option value="">Seleziona il tipo</option><option value="hotel">Hotel</option><option value="bnb">B&amp;B</option><option value="casa-vacanza">Casa vacanza</option><option value="appartamenti">Appartamenti turistici</option><option value="agriturismo">Agriturismo</option><option value="altro">Altra attività</option></select></label>
+              <label class="form-field"><span id="contact-label-city">Località (facoltativa)</span><input type="text" name="city" maxlength="120" autocomplete="address-level2" aria-labelledby="contact-label-city"></label>
+              <label class="form-field form-field-full"><span id="contact-label-message">Messaggio (facoltativo)</span><textarea name="message" rows="4" maxlength="5000" placeholder="Se vuoi, raccontaci cosa desideri semplificare nel tuo lavoro." aria-labelledby="contact-label-message"></textarea></label>
             </div>
             <fieldset class="commercial-selection">
               <legend>
@@ -152,10 +132,9 @@
               </p>
               <div class="form-grid">
                 <label class="form-field">
-                  <span>
+                  <span id="contact-label-plan">
                     Piano
-                  </span>
-                  <select data-ui="contact-basic-select" name="plan" data-commercial-plan>
+                  </span><select data-ui="contact-basic-select" name="plan" data-commercial-plan aria-labelledby="contact-label-plan">
                     <option value="">
                       Da valutare insieme
                     </option>
@@ -180,8 +159,7 @@
                   </select>
                 </label>
                 <label class="form-field">
-                  <span>Funzione o modulo di interesse</span>
-                  <select data-ui="contact-basic-select" name="interest" data-commercial-interest>
+                  <span id="contact-label-interest">Funzione o modulo di interesse</span><select data-ui="contact-basic-select" name="interest" data-commercial-interest aria-labelledby="contact-label-interest">
                     <option value="">Da valutare insieme</option>
                     <option value="clienti">{{catalog.interests.clienti}}</option>
                     <option value="strutture">{{catalog.interests.strutture}}</option>
@@ -211,13 +189,13 @@
             </fieldset>
             <div class="form-grid">
               <details class="optional-contact form-field-full"><summary>Altri recapiti e preferenze (facoltativo)</summary><div class="form-grid">
-                <label class="form-field"><span>Persona di contatto</span><input type="text" name="contact_person" maxlength="120"></label>
-                <label class="form-field"><span>Cellulare</span><input type="tel" name="mobile" maxlength="40"></label>
-                <label class="form-field form-field-full"><span>Sito internet</span><input type="text" name="website_url" maxlength="180" placeholder="dominio.ext" inputmode="url"></label>
+                <label class="form-field"><span id="contact-label-contact_person">Persona di contatto</span><input type="text" name="contact_person" maxlength="120" aria-labelledby="contact-label-contact_person"></label>
+                <label class="form-field"><span id="contact-label-mobile">Cellulare</span><input type="tel" name="mobile" maxlength="40" aria-labelledby="contact-label-mobile"></label>
+                <label class="form-field form-field-full"><span id="contact-label-website_url">Sito internet</span><input type="text" name="website_url" maxlength="180" placeholder="dominio.ext" inputmode="url" aria-labelledby="contact-label-website_url"></label>
                 <div class="form-field form-field-full"><label for="contact-time">Preferenza di contatto</label><div class="contact-preference-row"><input type="text" id="contact-time" name="contact_time" class="form-control" data-ui="contact-datetime" placeholder="Seleziona giorno e orario"><label class="form-consent contact-anytime-toggle"><input type="checkbox" name="contact_anytime" value="1" data-contact-anytime><span>Nessuna preferenza di orario</span></label></div></div>
               </div></details>
               <p class="field-hint form-field-full">Per proteggere i tuoi ospiti, non inserire documenti, password o dati personali dei clienti.</p>
-              <label class="form-consent form-field-full"><input type="checkbox" name="consent" value="1" required><span>Autorizzo il contatto in relazione alla mia richiesta, inclusi data e dettagli della presentazione se selezionata. Ho letto l’<a href="/privacy">informativa privacy</a>.</span></label>
+              <label class="form-consent form-field-full"><input type="checkbox" name="consent" value="1" required aria-labelledby="contact-consent-label"><span id="contact-consent-label">Autorizzo il contatto in relazione alla mia richiesta, inclusi data e dettagli della presentazione se selezionata. Ho letto l’<a href="/privacy">informativa privacy</a>.</span></label>
             </div>
             <div class="form-actions">
               <button type="submit" class="btn btn-primary">
@@ -277,10 +255,10 @@
             Funzionalità
           </a>
           <a href="/ampliamenti">
-            Moduli e ampliamenti
+            Servizi e requisiti
           </a>
           <a href="/demo">
-            Demo del programma
+            Schermate del programma
           </a>
         </div>
         <div>
