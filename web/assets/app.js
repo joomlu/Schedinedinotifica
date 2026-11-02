@@ -164,9 +164,10 @@ document.querySelectorAll('[data-ui="contact-basic-select"]').forEach((select) =
   });
 });
 
-const focusContactField = field => {
+const focusContactField = (field, reveal = false) => {
   const control = field?.matches('.select2-hidden-accessible')
     ? field.nextElementSibling?.querySelector('[role=combobox]') : field;
+  if (reveal) control?.scrollIntoView({ block: 'center', behavior: 'instant' });
   control?.focus({ preventScroll: true });
 };
 
@@ -336,6 +337,27 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
     return /^(?:[a-z0-9-]+\.)+[a-z]{2,}(?:[/:?#].*)?$/i.test(withoutProtocol);
   };
 
+  const showFieldError = (field, message) => {
+    if (!field) return;
+    field.setAttribute('aria-invalid', 'true');
+    const error = document.createElement('small');
+    error.className = 'field-error'; error.dataset.contactFieldError = 'true';
+    error.id = `contact-error-${field.name}`; error.textContent = message;
+    field.setAttribute('aria-describedby', [field.getAttribute('aria-describedby'), error.id].filter(Boolean).join(' '));
+    (field.closest('.form-field') || field.parentElement).append(error);
+    const visual = field.nextElementSibling?.querySelector('[role=combobox]');
+    visual?.setAttribute('aria-invalid', 'true');
+    visual?.setAttribute('aria-describedby', error.id);
+  };
+  const clearFieldErrors = () => {
+    form.querySelectorAll('[data-contact-field-error]').forEach(node => node.remove());
+    form.querySelectorAll('[aria-invalid]').forEach(node => node.removeAttribute('aria-invalid'));
+    form.querySelectorAll('[aria-describedby]').forEach(node => {
+      const ids = node.getAttribute('aria-describedby').split(/\s+/).filter(id => !id.startsWith('contact-error-'));
+      if (ids.length) node.setAttribute('aria-describedby', ids.join(' ')); else node.removeAttribute('aria-describedby');
+    });
+  };
+  form.addEventListener('input', () => form.querySelector('[name=email]')?.setCustomValidity(''));
   form.addEventListener('submit', (event) => {
     event.preventDefault();
 
@@ -344,12 +366,24 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       return;
     }
 
+    clearFieldErrors();
+    const emailInput = form.querySelector('[name=email]');
+    const phoneInput = form.querySelector('[name=phone]');
+    if (commercial && emailInput && phoneInput) emailInput.setCustomValidity(
+      !emailInput.value.trim() && !phoneInput.value.trim() ? 'Indica almeno un recapito valido tra email e telefono.' : '');
     if (!form.checkValidity()) {
+      form.querySelectorAll('input:invalid, select:invalid, textarea:invalid').forEach(field => {
+        const message = field.validity.customError ? field.validationMessage
+          : field.validity.valueMissing ? (field.type === 'checkbox' ? 'Autorizza il ricontatto per inviare la richiesta.' : 'Compila questo campo.')
+          : field.type === 'email' ? 'Inserisci un indirizzo email valido.'
+          : field.type === 'tel' ? 'Inserisci un numero di telefono valido, con almeno cinque cifre.' : 'Controlla il valore inserito.';
+        showFieldError(field, message);
+      });
       const invalid = form.querySelector(':invalid');
       if (invalid?.matches('.select2-hidden-accessible')) {
         invalid.nextElementSibling?.querySelector('[role=combobox]')?.setAttribute('aria-invalid', 'true');
-        focusContactField(invalid);
-      } else form.reportValidity();
+        focusContactField(invalid, true);
+      } else if (invalid) focusContactField(invalid, true);
       if (status) {
         status.textContent = 'Controlla i campi obbligatori prima di continuare.';
         status.classList.remove('is-success');
@@ -425,7 +459,9 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
     const submitButton = form.querySelector('[type=submit]');
     if (form.dataset.submitting === 'true') return;
     form.dataset.submitting = 'true';
-    if (submitButton) submitButton.disabled = true;
+    const submitLabel = submitButton?.textContent;
+    if (submitButton) { submitButton.disabled = true; submitButton.textContent = 'Invio in corso…'; }
+    if (status) status.textContent = 'Registrazione della richiesta in corso…';
     form.setAttribute('aria-busy', 'true');
     fetch('/contatti/richiesta', {
       method: 'POST',
@@ -496,6 +532,11 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
           }
         }
 
+        if (error?.errors) {
+          Object.entries(error.errors).forEach(([name, messages]) => showFieldError(form.elements.namedItem(name), messages[0]));
+          const invalidField = form.querySelector('[aria-invalid="true"]');
+          if (invalidField) focusContactField(invalidField, true);
+        }
         if (status) {
           status.textContent = messageText;
           status.classList.remove('is-success');
@@ -505,7 +546,7 @@ document.querySelectorAll('[data-demo-form]').forEach((form) => {
       .finally(() => {
         form.dataset.submitting = 'false';
         form.removeAttribute('aria-busy');
-        if (submitButton) submitButton.disabled = false;
+        if (submitButton) { submitButton.disabled = false; submitButton.textContent = submitLabel; }
       });
   });
 

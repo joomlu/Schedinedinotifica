@@ -20,14 +20,14 @@ class WebsiteContactController extends Controller
     {
         $data = $request->validate([
             'contact_form' => ['nullable', Rule::in(['commercial-v2'])],
-            'structure_type' => ['required_if:contact_form,commercial-v2', 'nullable', Rule::in(['hotel', 'bnb', 'casa-vacanza', 'appartamenti', 'agriturismo', 'altro'])],
+            'structure_type' => ['nullable', Rule::in(['hotel', 'bnb', 'casa-vacanza', 'appartamenti', 'agriturismo', 'altro'])],
             'demo_mode' => ['exclude_unless:topic,Richiesta demo', 'nullable', Rule::in(['online', 'visita', 'da-concordare'])],
             'company' => ['required', 'string', 'max:100'],
             'name' => ['required', 'string', 'max:120'],
             'contact_person' => ['nullable', 'string', 'max:120'],
-            'city' => ['required_if:contact_form,commercial-v2', 'nullable', 'string', 'max:120'],
-            'email' => ['required', 'email', 'max:160'],
-            'phone' => ['required_if:contact_form,commercial-v2', 'nullable', 'string', 'max:40', Rule::when($request->input('contact_form') === 'commercial-v2', ['regex:/^(?=(?:\D*\d){5})[+0-9().\s\/-]+$/'])],
+            'city' => ['nullable', 'string', 'max:120'],
+            'email' => ['required_without:phone', 'nullable', 'email', 'max:160'],
+            'phone' => ['required_without:email', 'nullable', 'string', 'max:40', 'regex:/^(?=(?:\D*\d){5})[+0-9().\s\/-]+$/'],
             'mobile' => ['nullable', 'string', 'max:40'],
             'website_url' => ['nullable', 'string', 'max:180'],
             'contact_time' => ['nullable', 'string', 'max:180'],
@@ -42,6 +42,7 @@ class WebsiteContactController extends Controller
         ], [
             'required' => 'Compila il campo :attribute.',
             'required_if' => 'Compila il campo :attribute.',
+            'required_without' => 'Indica almeno un recapito valido tra email e telefono.',
             'phone.regex' => 'Inserisci un numero di telefono valido.',
             'accepted' => 'È necessario autorizzare il contatto commerciale.',
             'email' => 'Inserisci un indirizzo email valido.',
@@ -86,7 +87,8 @@ class WebsiteContactController extends Controller
             'nome_cognome' => trim((string) $data['name']),
             'persona_contatto' => filled($data['contact_person'] ?? null) ? trim((string) $data['contact_person']) : null,
             'localita' => filled($data['city'] ?? null) ? trim((string) $data['city']) : null,
-            'email' => trim((string) $data['email']),
+            // La colonna storica è NOT NULL: il recapito assente resta vuoto, mai inventato.
+            'email' => trim((string) ($data['email'] ?? '')),
             'telefono' => filled($data['phone'] ?? null) ? trim((string) $data['phone']) : null,
             'cellulare' => filled($data['mobile'] ?? null) ? trim((string) $data['mobile']) : null,
             'sito_web' => filled($data['website_url'] ?? null) ? trim((string) $data['website_url']) : null,

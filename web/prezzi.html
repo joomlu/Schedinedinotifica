@@ -3,17 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-      Piani annuali e Max Full | Tanggo Software
-    </title>
+    <title>Prezzi di SchedinaNotifica e Max Full | Tanggo Software</title>
     <meta name="description" content="Piani annuali per appartamenti e strutture ricettive. Confronta le tariffe di SchedinaNotifica e scopri il servizio aggiuntivo Max Full.">
-    <meta name="theme-color" content="#8c1d2c">
+    <meta name="theme-color" content="#78170c">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Tanggo Software · SchedinaNotifica">
     <meta property="og:title" content="Piani annuali e Max Full">
     <meta property="og:description" content="Piani annuali per appartamenti e strutture ricettive. Confronta le tariffe di SchedinaNotifica e scopri il servizio aggiuntivo Max Full.">
     <meta property="og:locale" content="it_IT">
     <meta property="og:url" content="https://schedinedinotifica.tanggo.software/prezzi">
+    <meta property="og:image" content="https://schedinedinotifica.tanggo.software/site-assets/img/schedinanotifica-social.png">
+    <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="SchedinaNotifica di Tanggo Software. Meno dati da riscrivere. Più tempo per accogliere i tuoi ospiti.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="/site-assets/img/logo-tanggo.png">
     <link rel="canonical" href="https://schedinedinotifica.tanggo.software/prezzi">
     <link rel="stylesheet" href="/site-assets/styles.css">
   </head>
@@ -41,33 +44,13 @@
           </span>
         </button>
         <nav id="site-nav" class="site-nav" aria-label="Navigazione principale">
-          <a href="/">
-            Home
-          </a>
-          <a href="/moduli">
-            Funzionalità
-          </a>
-          <a href="/ampliamenti">
-            Moduli e ampliamenti
-          </a>
-          <a href="/prezzi" aria-current="page">
-            Prezzi
-          </a>
-          <a href="/#adatto-per">Adatto per</a>
-<a href="/#faq">FAQ</a>
-          <a href="/demo">
-            Demo
-          </a>
-          <a class="login-link" href="/login">
-            Accedi
-          </a>
-          <a class="nav-cta" href="/contatti#demo">
-            Richiedi una demo
-            <span aria-hidden="true">
-              ↗
-            </span>
-          </a>
-        </nav>
+<a href="/">Home</a>
+<a href="/moduli">Funzionalità</a>
+<a href="/ampliamenti">Servizi e requisiti</a>
+<a href="/prezzi" aria-current="page">Prezzi</a>
+<a href="/demo">Schermate</a>
+<a href="/contatti">Contatti</a>
+<a class="login-link" href="/login">Accedi al gestionale</a><a class="nav-cta" href="/contatti#demo">Richiedi una demo <span aria-hidden="true">↗</span></a></nav>
       </div>
     </header>
     <main id="contenuto">
@@ -95,7 +78,7 @@
               Appartamenti
             </h3>
             <p>
-              Scegli il piano in base agli appartamenti da gestire.
+              Questi piani sono dedicati agli appartamenti turistici. Il prezzo dipende dal numero di appartamenti da gestire: uno, due oppure da tre a sette.
             </p>
           </div>
           <div class="pricing-grid">
@@ -106,10 +89,10 @@
               <h3>
                 {{catalog.solo.scope}}
               </h3>
-              <p class="plan-price">
+              <p class="field-hint">Per gestori di appartamenti turistici.</p><p class="plan-price">
                 {{catalog.solo.price}}
               </p>
-              <a class="btn btn-outline" href="/contatti?piano=solo#demo">
+              <a class="btn btn-outline" href="/contatti?piano=solo&amp;motivo=informazioni#demo">
                 Richiedi informazioni
                 <span aria-hidden="true">
                   ↗
@@ -123,10 +106,10 @@
               <h3>
                 {{catalog.duo.scope}}
               </h3>
-              <p class="plan-price">
+              <p class="field-hint">Per gestori di appartamenti turistici.</p><p class="plan-price">
                 {{catalog.duo.price}}
               </p>
-              <a class="btn btn-outline" href="/contatti?piano=duo#demo">
+              <a class="btn btn-outline" href="/contatti?piano=duo&amp;motivo=informazioni#demo">
                 Richiedi informazioni
                 <span aria-hidden="true">
                   ↗
@@ -140,10 +123,10 @@
               <h3>
                 {{catalog.multi.scope}}
               </h3>
-              <p class="plan-price">
+              <p class="field-hint">Per gestori di appartamenti turistici.</p><p class="plan-price">
                 {{catalog.multi.price}}
               </p>
-              <a class="btn btn-primary" href="/contatti?piano=multi#demo">
+              <a class="btn btn-primary" href="/contatti?piano=multi&amp;motivo=informazioni#demo">
                 Richiedi informazioni
                 <span aria-hidden="true">
                   ↗
@@ -157,13 +140,13 @@
                 {{catalog.oltre7.name}}
               </strong>
               <span>
-                {{catalog.oltre7.scope}}
+                Descrivici quanti appartamenti gestisci: prepariamo una proposta dedicata.
               </span>
             </div>
             <p>
               {{catalog.oltre7.price}}
             </p>
-            <a href="/contatti?piano=oltre7#demo" class="text-link">
+            <a href="/contatti?piano=oltre7&amp;motivo=informazioni#demo" class="text-link">
               Parliamone →
             </a>
           </div>
@@ -177,7 +160,7 @@
               Strutture ricettive
             </h3>
             <p>
-              Un importo complessivo per una o due strutture: il criterio è la struttura, non il numero di camere.
+              Questa categoria è dedicata a hotel, agriturismi, B&amp;B e altre strutture ricettive. Il canone indicato copre complessivamente una o due strutture, indipendentemente dal numero di camere.
             </p>
           </div>
           <div class="structures-plans">
@@ -188,10 +171,10 @@
               <h3>
                 {{catalog.strutture.scope}}
               </h3>
-              <p class="plan-price">
+              <p class="field-hint">Per hotel, B&amp;B, agriturismi e altre strutture ricettive.</p><p class="plan-price">
                 {{catalog.strutture.price}}
               </p>
-              <a class="btn btn-primary" href="/contatti?piano=strutture#demo">
+              <a class="btn btn-primary" href="/contatti?piano=strutture&amp;motivo=informazioni#demo">
                 Richiedi informazioni
                 <span aria-hidden="true">
                   ↗
@@ -203,12 +186,12 @@
                 {{catalog.oltre2.name}}
               </h3>
               <p>
-                {{catalog.oltre2.scope}}
+                Per tre o più strutture ricettive prepariamo una proposta in base alla tua organizzazione.
               </p>
               <strong>
                 {{catalog.oltre2.price}}
               </strong>
-              <a class="text-link" href="/contatti?piano=oltre2#demo">
+              <a class="text-link" href="/contatti?piano=oltre2&amp;motivo=informazioni#demo">
                 Richiedi un preventivo →
               </a>
             </article>
@@ -219,7 +202,7 @@
           <br>
           {{catalog.extras_note}}
         </p>
-      </section>
+      <div class="availability-note"><h3>Prima dell’attivazione</h3><p>Il canone segue il numero di appartamenti o strutture indicato nel piano, non il numero di camere. Le funzionalità sono descritte nella <a href="/moduli">panoramica del programma</a>; servizi esterni e compatibilità si verificano per la tua struttura.</p><p>Configurazione iniziale, personalizzazioni, consulenza e affiancamento sono quotati separatamente. L’assistenza compresa nel canone, i canali e le eventuali condizioni aggiuntive vengono specificati nella proposta, prima di assumere impegni. Max Full è facoltativo e ha un preventivo dedicato.</p><p>Demo e verifica delle esigenze → proposta con costo complessivo → conferma → configurazione, accessi e verifica dei servizi concordati. La richiesta dal sito non attiva abbonamenti o pagamenti.</p></div></section>
       <section class="max-full-band" id="max-full">
         <div class="container section max-full-layout">
           <div class="photo-stack">
@@ -241,10 +224,13 @@
             <p>
               {{catalog.max_full.description}}
             </p>
+            <p>
+              La richiesta di informazioni non attiva il servizio e non comporta un acquisto.
+            </p>
             <p class="max-price">
               {{catalog.max_full.price}}
             </p>
-            <a class="btn btn-primary" href="/contatti?servizio=max-full#demo">
+            <a class="btn btn-primary" href="/contatti?servizio=max-full&amp;motivo=informazioni#demo">
               Richiedi il servizio Max Full
               <span aria-hidden="true">
                 ↗
@@ -300,6 +286,14 @@
         </h2>
         <div class="commercial-faq">
           <details>
+            <summary>Quale categoria devo scegliere?</summary>
+            <p>Se gestisci appartamenti turistici, scegli Solo, Duo o Multi in base al numero di appartamenti. Se gestisci hotel, agriturismi, B&amp;B o altre strutture ricettive, il riferimento è il piano Strutture. Sono due categorie commerciali distinte: in caso di attività miste, raccontaci la tua organizzazione e ti aiutiamo a scegliere.</p>
+          </details>
+          <details>
+            <summary>Come si inizia a usare il programma?</summary>
+            <p>Dopo il contatto e la proposta concordata, prepariamo i dati della struttura e gli utenti autorizzati, ti accompagniamo al primo accesso e verifichiamo insieme i servizi da utilizzare. Configurazione iniziale e affiancamento sono definiti nella proposta.</p>
+          </details>
+          <details>
             <summary>
               I prezzi sono annuali?
             </summary>
@@ -354,6 +348,7 @@
           </a>
         </div>
       </section>
+
     </main>
     <footer class="site-footer">
       <div class="container footer-grid">
@@ -381,10 +376,10 @@
             Funzionalità
           </a>
           <a href="/ampliamenti">
-            Moduli e ampliamenti
+            Servizi e requisiti
           </a>
           <a href="/demo">
-            Demo del programma
+            Schermate del programma
           </a>
         </div>
         <div>

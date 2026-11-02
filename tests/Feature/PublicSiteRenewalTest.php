@@ -19,7 +19,7 @@ class PublicSiteRenewalTest extends TestCase
             $html = $response->getContent();
             $this->assertSame(1, preg_match_all('/<h1\b/i', $html));
             $this->assertStringContainsString('Tanggo Software', $html);
-            $this->assertStringContainsString('Schedine di Notifica', $html);
+            $this->assertStringContainsString('SchedinaNotifica', $html);
             $this->assertStringContainsString('href="/login"', $html);
             $this->assertStringContainsString('aria-current="page"', $html);
             $this->assertStringNotContainsString('{{catalog.', $html);
@@ -28,10 +28,11 @@ class PublicSiteRenewalTest extends TestCase
             }
         }
         $home = preg_replace('/\s+/u', ' ', strip_tags(preg_replace('/<br\s*\/?\s*>/i', ' ', $this->get('/')->getContent())));
-        $this->assertStringContainsString('Il software per accogliere meglio. Schedine di Notifica.', $home);
-        $this->assertStringContainsString('Accogli meglio, ogni giorno. Organizza gli arrivi, ricevi i dati degli ospiti prima del check-in e gestisci schedine e adempimenti da un unico ambiente, pensato per hotel, B&B e appartamenti.', $home);
+        $home = html_entity_decode($home, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $this->assertStringContainsString('Meno dati da riscrivere. Più tempo per accogliere i tuoi ospiti.', $home);
+        $this->assertStringContainsString('SchedinaNotifica è il software di Tanggo Software per hotel, B&B e appartamenti turistici:', $home);
         $this->assertStringContainsString('Richiedi una demo', $home);
-        $this->assertStringContainsString('Confronta i piani', $home);
+        $this->assertStringContainsString('Confronta piani e servizi aggiuntivi', $home);
     }
 
     public function test_url_storiche_e_accessi_privati_restano_preservati(): void
@@ -53,7 +54,7 @@ class PublicSiteRenewalTest extends TestCase
         foreach (['styles.css', 'app.js'] as $asset) {
             $this->assertSame(hash_file('sha256', base_path('web/assets/'.$asset)), hash_file('sha256', public_path('site-assets/'.$asset)));
         }
-        foreach (['styles.css', 'app.js', 'img/prodotto-arrivi.webp', 'catalogo-commerciale.json'] as $asset) {
+        foreach (['styles.css', 'app.js', 'img/prodotto-arrivi.webp', 'img/schedinanotifica-social.png', 'catalogo-commerciale.json'] as $asset) {
             $this->get('/site-assets/'.$asset)->assertOk();
         }
         $this->assertStringContainsString('no-cache', $this->get('/site-assets/catalogo-commerciale.json')->headers->get('Cache-Control'));
@@ -144,7 +145,7 @@ class PublicSiteRenewalTest extends TestCase
     public function test_campi_richiesti_e_honeypot_senza_scritture(): void
     {
         $before = CrmLead::count();
-        $this->postJson('/contatti/richiesta', [])->assertUnprocessable()->assertJsonValidationErrors(['company', 'name', 'email', 'topic', 'message']);
+        $this->postJson('/contatti/richiesta', [])->assertUnprocessable()->assertJsonValidationErrors(['company', 'name', 'email', 'topic', 'consent']);
         $payload = $this->payload();
         $payload['website'] = 'bot';
         $this->postJson('/contatti/richiesta', $payload)->assertUnprocessable()->assertJsonValidationErrors('website');
@@ -181,6 +182,8 @@ class PublicSiteRenewalTest extends TestCase
             $canonical = 'https://schedinedinotifica.tanggo.software'.($page === 'index' ? '/' : '/'.$page);
             $this->assertStringContainsString('rel="canonical" href="'.$canonical.'"', $html);
             $this->assertStringContainsString('property="og:url" content="'.$canonical.'"', $html);
+            $this->assertStringContainsString('property="og:image" content="https://schedinedinotifica.tanggo.software/site-assets/img/schedinanotifica-social.png"', $html);
+            $this->assertStringContainsString('rel="icon"', $html);
         }
         $this->assertCount(9, array_unique($titles));
         $this->assertCount(9, array_unique($descriptions));

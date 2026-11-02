@@ -43,8 +43,8 @@
   },
   "max_full": {
     "name": "Max Full",
-    "subtitle": "Un supporto completo per la gestione della tua struttura.",
-    "description": "Un servizio personalizzato di assistenza tecnica e affiancamento operativo, pensato per accompagnarti nell’utilizzo del software e nel controllo delle attività quotidiane.",
+    "subtitle": "Assistenza e affiancamento su richiesta per la tua struttura.",
+    "description": "Un servizio personalizzato di assistenza tecnica e affiancamento operativo, aggiuntivo e separato dall’abbonamento al software. Puoi richiederlo in base alle tue esigenze: attività e costo vengono concordati in un preventivo dedicato.",
     "price": "Prezzo personalizzato",
     "commercial_note": "Attività, frequenza delle verifiche, canali e tempi di assistenza vengono definiti nel preventivo in base alle esigenze della struttura.",
     "items": [

@@ -36,16 +36,12 @@ for (const sample of cases) {
     await expect(page.locator('[name=topic]')).toHaveValue(sample.topic);
     await expect(page.locator('[data-commercial-plan]')).toHaveValue('duo');
     await page.getByLabel('Nome e cognome *', { exact: true }).fill('Referente Sintetico');
-    await page.getByLabel('Email *', { exact: true }).fill(`contatti-${sample.width}@example.invalid`);
-    await page.getByLabel('Telefono *', { exact: true }).fill('+39 0541 123456');
+    if (sample.width !== 768) await page.getByLabel('Email (o telefono)', { exact: true }).fill(`contatti-${sample.width}@example.invalid`);
+    if (sample.width !== 1440) await page.getByLabel('Telefono (o email)', { exact: true }).fill('+39 0541 123456');
     await page.getByLabel('Nome della struttura *', { exact: true }).fill(`CONTATTI-ISOLATO-${sample.width}`);
-    await page.getByRole('button', { name: 'Invia la richiesta', exact: true }).click();
-    await expect(page.getByRole('combobox', { name: 'Tipo di struttura *', exact: true })).toBeFocused();
-    await expect(page.getByRole('combobox', { name: 'Tipo di struttura *', exact: true })).toHaveAttribute('aria-invalid', 'true');
-    expect(posts).toHaveLength(0);
-    await page.getByRole('combobox', { name: 'Tipo di struttura *', exact: true }).click();
+    await page.getByRole('combobox', { name: 'Tipo di struttura (facoltativo)', exact: true }).click();
     await page.getByRole('option', { name: 'Hotel', exact: true }).click();
-    await page.getByLabel('Località *', { exact: true }).fill('Bellaria Igea Marina');
+    await page.getByLabel('Località (facoltativa)', { exact: true }).fill('Bellaria Igea Marina');
     if (sample.mode) {
       await page.getByRole('combobox', { name: 'Come preferisci la demo?', exact: true }).click();
       await page.getByRole('option', { name: 'Visita nella struttura', exact: true }).click();
@@ -80,6 +76,8 @@ for (const sample of cases) {
     await expect(page).not.toHaveURL(/\/login$/);
     await page.goto(`${BASE_URL}/superadmin/crm/${receipt.lead_id}`);
     for (const text of [`CONTATTI-ISOLATO-${sample.width}`, sample.topic, 'Tipo di struttura: Hotel', '100 € + IVA / anno', 'Interesse richiesto: Web Check-in [web-checkin]', 'Servizio aggiuntivo richiesto: Max Full']) await expect(page.locator('body')).toContainText(text);
+    if (sample.width !== 768) await expect(page.locator('body')).toContainText(`contatti-${sample.width}@example.invalid`);
+    else { await expect(page.locator('body')).toContainText('+39 0541 123456'); await expect(page.locator('body')).not.toContainText('contatti-768@example.invalid'); }
     if (sample.mode) await expect(page.locator('body')).toContainText('Preferenza demo: Visita in struttura');
     else await expect(page.locator('body')).not.toContainText('Preferenza demo:');
     await page.screenshot({ path: info.outputPath(`crm-${sample.width}.png`), fullPage: true });

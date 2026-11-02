@@ -70,7 +70,7 @@ class CommercialContactTest extends TestCase
     {
         $n = CrmLead::count(); $a = CrmLeadActivity::count();
         $this->postJson('/contatti/richiesta', ['contact_form' => 'commercial-v2'])->assertUnprocessable()
-            ->assertJsonValidationErrors(['company', 'structure_type', 'name', 'email', 'phone', 'city', 'topic', 'consent']);
+            ->assertJsonValidationErrors(['company', 'name', 'email', 'phone', 'topic', 'consent']);
         foreach ([['structure_type' => 'inventato'], ['demo_mode' => 'garantita-domani'], ['phone' => 'telefono'], ['topic' => 'Evento inventato'], ['message' => str_repeat('a', 5001)]] as $change) {
             $this->postJson('/contatti/richiesta', $this->payload($change))->assertUnprocessable();
         }
@@ -108,6 +108,48 @@ class CommercialContactTest extends TestCase
             ->assertStatus(303)->assertRedirect('/contatti')->assertSessionHas('sito-richiesta-registrata', true);
         $this->assertSame('Presentazione di gruppo', CrmLead::where('email', 'contatto@example.invalid')->sole()->modalita_contatto);
         $this->get('/contatti')->assertOk()->assertSee('Richiesta registrata. Grazie per averci contattato.');
+    }
+
+    public function test_recapito_email_telefono_o_entrambi_e_facoltativi_assenti_arrivano_al_crm(): void
+    {
+        foreach ([['email' => 'solo-email@example.invalid'], ['phone' => '+39 0541 123456'], ['email' => 'entrambi@example.invalid', 'phone' => '+39 0541 654321']] as $i => $recapiti) {
+            $payload = ['contact_form' => 'commercial-v2', 'company' => 'Struttura minima '.$i, 'name' => 'Persona sintetica', 'topic' => 'Richiesta demo', 'consent' => true] + $recapiti;
+            $response = $this->postJson('/contatti/richiesta', $payload)->assertOk();
+            $lead = CrmLead::findOrFail($response->json('lead_id'));
+            $this->assertSame($recapiti['email'] ?? '', $lead->email);
+            $this->assertSame($recapiti['phone'] ?? null, $lead->telefono);
+            $this->assertNull($lead->localita);
+            $this->assertStringNotContainsString('Tipo di struttura:', $lead->messaggio);
+            $this->assertCount(1, $lead->activities);
+            $this->postJson('/contatti/richiesta', $payload)->assertOk()->assertJsonPath('duplicate', true)->assertJsonPath('lead_id', $lead->id);
+        }
+    }
+
+    public function test_recapiti_assenti_o_non_validi_rifiutati_senza_scritture(): void
+    {
+        $count = CrmLead::count(); $activities = CrmLeadActivity::count();
+        foreach ([['email' => null, 'phone' => null], ['email' => 'errata', 'phone' => null], ['email' => null, 'phone' => 'ciao'], ['email' => 'valida@example.invalid', 'phone' => 'errato'], ['email' => 'errata', 'phone' => '+39 0541 123456']] as $change) {
+            $this->postJson('/contatti/richiesta', $this->payload($change))->assertUnprocessable();
+        }
+        $this->assertSame($count, CrmLead::count()); $this->assertSame($activities, CrmLeadActivity::count());
+    }
+
+    public function test_telefono_solo_senza_javascript_e_ripristino_piano_dopo_errore(): void
+    {
+        $payload = $this->payload(['email' => '', 'phone' => '+39 0541 123456', 'plan' => 'multi', 'interest' => 'web-checkin', 'max_full' => '1', 'name' => '', 'consent' => '1']);
+        $this->from('/contatti')->post('/contatti/richiesta', $payload)->assertSessionHasErrors('name');
+        $html = $this->get('/contatti')->getContent();
+        foreach (['value="multi" selected', 'value="web-checkin" selected', 'id="contact-error-name"', 'aria-invalid="true"', 'value="+39 0541 123456"'] as $text) $this->assertStringContainsString($text, $html);
+        $this->post('/contatti/richiesta', array_replace($payload, ['name' => 'Nome sintetico']))->assertStatus(303)->assertSessionHas('sito-richiesta-registrata', true);
+    }
+
+    public function test_preselezioni_da_url_disponibili_anche_senza_javascript(): void
+    {
+        $html = $this->get('/contatti?piano=solo&interesse=web-checkin&servizio=max-full')->assertOk()->getContent();
+        $this->assertStringContainsString('value="solo" selected', $html);
+        $this->assertStringContainsString('value="web-checkin" selected', $html);
+        $this->assertMatchesRegularExpression('~<input[^>]*name="max_full"[^>]*checked~', $html);
+        $this->get('/contatti?piano[]=solo&interesse[]=web-checkin&motivo[]=demo')->assertOk();
     }
 
     public function test_unico_modulo_commerciale_e_tour_demo_conservato(): void
