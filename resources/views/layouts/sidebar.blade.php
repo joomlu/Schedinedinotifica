@@ -17,7 +17,7 @@
         && $utenteSidebar?->proprietario_id
         && !\App\Models\Struttura::query()->where('proprietario_id', $utenteSidebar->proprietario_id)->exists();
 @endphp
-<div class="app-menu navbar-menu" style="min-height:100vh;">
+<div class="app-menu navbar-menu">
     <div class="navbar-brand-box">
         <a href="{{ route('root') }}" class="logo logo-dark">
             <span class="logo-sm">
@@ -37,7 +37,7 @@
         </a>
     </div>
 
-    <div id="scrollbar" style="height:calc(100vh - 70px); overflow-y:auto; overflow-x:hidden;">
+    <div id="scrollbar" tabindex="0" aria-label="Navigazione principale scorrevole">
         <div class="container-fluid">
             <div id="two-column-menu"></div>
             <ul class="navbar-nav" id="navbar-nav">
@@ -45,7 +45,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ $isRoute('root') ? 'active' : '' }}" href="{{ route('root') }}">
-                        <i data-feather="home" class="icon-dual"></i> <span>Dashboard</span>
+                        <i data-feather="grid" class="icon-dual"></i> <span>Dashboard</span>
                     </a>
                 </li>
 
@@ -97,7 +97,7 @@
                 @unless($proprietarioSenzaStrutture)
                     <li class="nav-item">
                         <a class="nav-link menu-link {{ $isRoute('struttura.edit') ? 'active' : '' }}" href="{{ route('struttura.edit') }}">
-                            <i data-feather="building" class="icon-dual"></i> <span>Dati struttura</span>
+                            <i data-feather="home" class="icon-dual"></i> <span>Dati struttura</span>
                         </a>
                     </li>
 
@@ -108,7 +108,6 @@
                         <div class="collapse menu-dropdown {{ $openConfig ? 'show' : '' }}" id="sidebarConfigurations">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item"><a href="{{ route('tassa_di_soggiorno.edit') }}" class="nav-link {{ $isRoute('tassa_di_soggiorno.edit') ? 'active' : '' }}">Tassa di soggiorno</a></li>
-                                <li class="nav-item"><a href="{{ route('struttura.edit') }}#configurazione-questura" class="nav-link">Questura / Alloggiati Web</a></li>
                                 <li class="nav-item"><a href="{{ route('gruppi') }}" class="nav-link {{ $isRoute('gruppi', 'gruppo.*') ? 'active' : '' }}">Gruppi</a></li>
                                 <li class="nav-item"><a href="{{ route('titolo.index') }}" class="nav-link {{ $isRoute('titolo.*') ? 'active' : '' }}">Titoli</a></li>
                                 <li class="nav-item"><a href="{{ route('tipo_cliente.index') }}" class="nav-link {{ $isRoute('tipo_cliente.*') ? 'active' : '' }}">Tipo cliente</a></li>

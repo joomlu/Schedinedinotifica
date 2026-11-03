@@ -18,7 +18,7 @@ function firstFocusableField(scope) {
 
 function firstInvalidField(form) {
     if (!form || !form.querySelectorAll) return null;
-    const invalid = Array.from(form.querySelectorAll(':invalid'));
+    const invalid = Array.from(form.elements).filter((field) => field.matches(':invalid'));
     return invalid.find((el) => isVisible(el)) || null;
 }
 
@@ -437,7 +437,7 @@ function resetSubmitLock(form) {
         delete form.dataset.submitLockTimer;
     }
 
-    form.querySelectorAll('button[type="submit"], input[type="submit"]').forEach((btn) => {
+    Array.from(form.elements).filter((field) => field.matches('button[type="submit"], input[type="submit"]')).forEach((btn) => {
         btn.removeAttribute('disabled');
         btn.removeAttribute('aria-disabled');
     });
@@ -512,7 +512,7 @@ function bindFormBehavior(form) {
         }
 
         form.dataset.submitting = '1';
-        const submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"]');
+        const submitButtons = Array.from(form.elements).filter((field) => field.matches('button[type="submit"], input[type="submit"]'));
         submitButtons.forEach((btn) => {
             btn.setAttribute('disabled', 'disabled');
             btn.setAttribute('aria-disabled', 'true');

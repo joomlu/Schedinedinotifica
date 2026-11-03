@@ -17,7 +17,7 @@ class ExampleTest extends TestCase
 
         // GET / serve il documento pubblico: non è la dashboard autenticata.
         $response->assertOk()->assertHeader('Content-Type', 'text/html; charset=UTF-8');
-        $this->assertInstanceOf(\Symfony\Component\HttpFoundation\BinaryFileResponse::class, $response->baseResponse);
-        $this->assertSame(realpath(base_path('web/index.html')), $response->baseResponse->getFile()->getRealPath());
+        $response->assertSee('SchedinaNotifica')->assertSee('href="/contatti#demo"', false)
+            ->assertSee('href="/login"', false)->assertDontSee('{{catalog.');
     }
 }

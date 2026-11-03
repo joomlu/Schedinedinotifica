@@ -1,0 +1,171 @@
+// Palette Tango. Le fasce e i colori commerciali configurati conservano il proprio significato.
+:root {
+    --tango-wine: #78170c;
+    --tango-gold: #e3b529;
+    --tango-teal: #24635d;
+    --tango-rose: #ffd6d1;
+    --tango-blue: #305685;
+    --tango-surface: #fffefd;
+    --tango-surface-soft: #faf8f5;
+}
+
+body, .main-content, .content-wrapper { background-color: var(--tango-surface); }
+.bg-light-subtle, .bg-body-secondary, .bg-body-tertiary { background-color: var(--tango-surface-soft) !important; }
+
+// Il logo occupa il proprio spazio: soltanto il menu scorre nella parte restante.
+// Nessuna altezza calcolata a mano o padding esterno che tagli le ultime voci.
+.app-menu.navbar-menu {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+    .navbar-brand-box { flex: 0 0 auto; padding-top: 0; }
+    #scrollbar {
+        flex: 1 1 auto;
+        min-height: 0;
+        height: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior-y: contain;
+        scroll-padding-block: 1rem 5rem;
+        scrollbar-gutter: stable;
+    }
+    #navbar-nav { padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px)); }
+    #navbar-nav > .nav-item:last-child { margin-bottom: 0; }
+    #scrollbar:focus-visible { outline: 2px solid var(--tango-wine); outline-offset: -2px; }
+}
+
+.btn {
+    transition: background-color .16s ease, color .16s ease, border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+    &:not(:disabled):not(.disabled):hover { transform: translateY(-1px); }
+    &:not(:disabled):not(.disabled):active { transform: translateY(0); box-shadow: inset 0 2px 5px rgba(40, 25, 20, .12); }
+    &:focus-visible { outline: 2px solid var(--tango-blue); outline-offset: 3px; }
+}
+.btn-primary { --vz-btn-hover-bg: #952c1e; --vz-btn-hover-border-color: #952c1e; }
+.btn-success { --vz-btn-hover-bg: #307e75; --vz-btn-hover-border-color: #307e75; }
+.btn-info { --vz-btn-hover-bg: #3d6da3; --vz-btn-hover-border-color: #3d6da3; }
+.btn-secondary { --vz-btn-bg: #71645b; --vz-btn-border-color: #71645b; --vz-btn-hover-bg: #5d5048; --vz-btn-hover-border-color: #5d5048; }
+.btn-soft-primary:hover { color: #fff; background: var(--tango-wine); border-color: var(--tango-wine); }
+.btn-soft-success:hover { color: #fff; background: var(--tango-teal); border-color: var(--tango-teal); }
+.btn-soft-info:hover { color: #fff; background: var(--tango-blue); border-color: var(--tango-blue); }
+.btn-soft-warning:hover { color: #382900; background: var(--tango-gold); border-color: var(--tango-gold); }
+.btn-light:hover { background: #f4e9e4; border-color: #ddc9c0; color: var(--tango-wine); }
+
+@media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+    .btn:not(:disabled):not(.disabled):hover, .btn:not(:disabled):not(.disabled):active { transform: none; }
+}
+
+.mp-page-hero {
+    background: linear-gradient(110deg, #fff 72%, #fff5f3) !important;
+    border-color: #eadbd8 !important;
+    border-left: 4px solid var(--tango-wine) !important;
+    &::after { background: rgba(120, 23, 12, .035); }
+}
+
+.help-module-index {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+    gap: .5rem;
+    .btn {
+        display: flex;
+        align-items: center;
+        min-height: 3rem;
+        height: 100%;
+        padding: .6rem .8rem;
+        margin: 0;
+        text-align: left;
+        line-height: 1.3;
+        white-space: normal;
+        border: 1px solid var(--vz-border-color);
+    }
+}
+
+.help-index-disclosure summary { cursor: pointer; color: var(--tango-wine); padding: .25rem 0; }
+
+// Stessa altezza per tutte le schede, anche con etichette su due righe.
+.step-arrow-nav .custom-nav {
+    align-items: stretch;
+    .nav-item { display: flex; }
+    .nav-link {
+        width: 100%;
+        min-height: 3.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1.3;
+    }
+}
+
+.btn-warning {
+    --vz-btn-color: #382900;
+    --vz-btn-bg: var(--tango-gold);
+    --vz-btn-border-color: var(--tango-gold);
+    --vz-btn-hover-color: #382900;
+    --vz-btn-hover-bg: #d3a51c;
+    --vz-btn-hover-border-color: #d3a51c;
+}
+
+.text-warning { color: #806000 !important; }
+.text-warning-emphasis { color: #624900 !important; }
+.btn-soft-warning { color: #624900; background: #fcf5dd; }
+.btn-soft-info { color: var(--tango-blue); background: #edf2f8; }
+.btn-soft-success { color: var(--tango-teal); background: #edf5f3; }
+.btn-soft-primary { color: var(--tango-wine); background: #fff0ed; }
+
+#page-topbar {
+    background: #fff;
+    border-bottom: 1px solid var(--vz-border-color);
+    .btn-topbar:hover { color: var(--tango-wine); background: #fff0ed; }
+    .btn-topbar:focus-visible,
+    .topbar-user .btn:focus-visible {
+        outline: 2px solid var(--tango-blue) !important;
+        outline-offset: 2px;
+    }
+    .dropdown-menu { max-width: calc(100vw - 1.5rem); }
+}
+
+.topbar-notification-list { max-height: 22rem; overflow-y: auto; }
+.topbar-notification-link { display: block; padding: .85rem 1rem; white-space: normal; border-bottom: 1px solid var(--vz-border-color); }
+.topbar-notification-link:hover { background: #f8f9fb; }
+
+@media (max-width: 575.98px) {
+    .help-module-index { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .help-module-index .btn { font-size: .8rem; min-height: 3.4rem; }
+    .mp-page-hero .card-body { padding: 1.15rem !important; }
+}
+.mp-supplementi-catalog {
+    min-width: 0;
+    max-width: 100%;
+    .card, .card-body { min-width: 0; }
+    .table-responsive { max-width: 100%; }
+    table { table-layout: fixed; width: 100%; min-width: 1050px; }
+    th, td { white-space: normal; overflow-wrap: anywhere; vertical-align: top; }
+    th:nth-child(1) { width: 220px; }
+    th:nth-child(2) { width: 95px; }
+    th:nth-child(3) { width: 120px; }
+    th:nth-child(4) { width: 85px; }
+    th:nth-child(5) { width: 125px; }
+    th:nth-child(6) { width: 75px; }
+    th:nth-child(7) { width: 85px; }
+    th:last-child { width: 230px; }
+    td .badge { white-space: normal; line-height: 1.4; }
+    td:last-child > div { flex-wrap: wrap; justify-content: flex-end; }
+    td:last-child .btn { white-space: nowrap; }
+}
+
+.mp-quick-info {
+    all: unset;
+    font: inherit;
+    color: inherit;
+    text-align: inherit;
+    cursor: pointer;
+    &--supplemento { font-weight: 400; }
+    &:focus-visible { outline: 2px solid var(--tango-wine); outline-offset: 3px; }
+}

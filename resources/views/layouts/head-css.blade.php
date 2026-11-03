@@ -1,17 +1,17 @@
 @yield('css')
 @stack('css')
 <!-- Bootstrap Css -->
-<link href="{{ URL::asset('build/css/bootstrap.min.css') }}"  rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('build/css/bootstrap.min.css') }}?v={{ @filemtime(public_path('build/css/bootstrap.min.css')) ?: 0 }}"  rel="stylesheet" type="text/css" />
 <!-- Icons Css -->
 <link href="{{ URL::asset('build/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 <!-- Select2 Css -->
 <link href="{{ URL::asset('build/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 <!-- App Css-->
-<link href="{{ URL::asset('build/css/app.min.css') }}"  rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('build/css/app.min.css') }}?v={{ @filemtime(public_path('build/css/app.min.css')) ?: 0 }}"  rel="stylesheet" type="text/css" />
 <!-- Flatpickr Css -->
 <link href="{{ URL::asset('build/libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />
 <!-- custom Css-->
-<link href="{{ URL::asset('build/css/custom.min.css') }}"  rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('build/css/custom.min.css') }}?v={{ @filemtime(public_path('build/css/custom.min.css')) ?: 0 }}"  rel="stylesheet" type="text/css" />
 <style>
     /* Uniforma i dati tabellari: nessun testo in grassetto nel body delle tabelle */
     .table tbody td,

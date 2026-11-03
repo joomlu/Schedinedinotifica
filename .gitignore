@@ -24,6 +24,7 @@ Homestead.json
 
 # Local artifacts
 .DS_Store
+/output
 /public/build/
 /public/build.zip
 /storage/framework/

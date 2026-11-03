@@ -14,22 +14,22 @@ class AnagraficheUnificateTest extends TestCase
 {
     use RefreshDatabase, StrutturaFixtures;
 
-    public function test_titolare_non_puo_modificare_dati_maestri_dopo_alta(): void
+    public function test_titolare_puo_modificare_la_propria_anagrafica_dopo_alta(): void
     {
         $owner = $this->ownerFor($this->actor('admin'));
         $s = $this->structureFor($owner);
-        $before = $s->getRawOriginal();
         $this->actingAs($this->actor('proprietario', $owner->id))
-            ->put('/struttura?sid='.$s->id, $this->validStructurePayload($s))->assertForbidden();
-        $this->assertSame($before, $s->fresh()->getRawOriginal());
+            ->put('/struttura?sid='.$s->id, $this->validStructurePayload($s))->assertSessionHasNoErrors()->assertRedirect();
+        $this->assertSame('Hotel Aggiornato', $s->fresh()->nome_struttura);
     }
 
-    public function test_reception_non_puo_modificare_dati_maestri(): void
+    public function test_reception_puo_modificare_la_propria_anagrafica(): void
     {
         $s = $this->structureFor($this->ownerFor($this->actor('admin')));
         $u = $this->actor('struttura_user', $s->proprietario_id, $s->id);
         $u->update(['ruolo_operativo' => 'reception']);
-        $this->actingAs($u)->put('/struttura', $this->validStructurePayload($s))->assertForbidden();
+        $this->actingAs($u)->put('/struttura', $this->validStructurePayload($s))->assertSessionHasNoErrors()->assertRedirect();
+        $this->assertSame('Hotel Aggiornato', $s->fresh()->nome_struttura);
     }
 
     public function test_admin_puo_salvare_classificazione_e_contatti_sulla_stessa_ficha(): void
@@ -114,8 +114,10 @@ class AnagraficheUnificateTest extends TestCase
         $this->assertSame($users, User::count());
         $this->assertSame($owner->id, $s->proprietario_id);
         $this->assertFalse($s->attiva);
-        $this->get('/struttura?sid='.$s->id)->assertOk()->assertSee('Anagrafica unica #'.$s->id);
+        $this->get('/struttura?sid='.$s->id)->assertOk()->assertViewIs('struttura.edit');
         $this->put('/struttura?sid='.$s->id, ['nome_struttura' => 'Tentativo'])->assertForbidden();
+        $this->assertSame('Nuova struttura sintetica', $s->fresh()->nome_struttura);
+        $this->assertFalse($s->fresh()->attiva);
     }
 
     public function test_alta_titolare_non_accetta_collegamenti_o_privilegi_forgiati(): void
@@ -144,7 +146,7 @@ class AnagraficheUnificateTest extends TestCase
         $this->assertSame($before['nome_struttura'], $after->getRawOriginal('nome_struttura'));
         $html = $this->get('/struttura?sid='.$s->id)->assertOk()->getContent();
         $this->assertStringNotContainsString('segreto-sintetico', $html);
-        $this->assertStringNotContainsString('name="nome_struttura"', $html);
+        $this->assertStringContainsString('name="nome_struttura"', $html);
     }
 
     public function test_classificazione_incompatibile_e_rollback_senza_scritture_parziali(): void

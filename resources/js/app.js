@@ -44,6 +44,8 @@ if (isDev()) {
             }
             return originalSelect2.apply(this, args);
         };
+        // Il controllo conserva anche l’API statica usata da matcher e traduzioni.
+        Object.assign($.fn.select2, originalSelect2);
     }
 
     if ($.fn.DataTable) {

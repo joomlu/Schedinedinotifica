@@ -212,6 +212,7 @@ class QuesturaAppartamentoTest extends TestCase
         $this->put('/struttura?sid='.$foreign->id, ['questura_profilo' => 'appartamenti', 'questura_appartamento_id' => '4'])->assertForbidden();
         $this->assertSame($before, $foreign->fresh()->getRawOriginal());
         $user->update(['ruolo_operativo' => 'reception']);
-        $this->actingAs($user->fresh())->put('/struttura?sid='.$s->id, ['questura_profilo' => 'standard'])->assertForbidden();
+        $this->actingAs($user->fresh())->put('/struttura?sid='.$s->id, ['questura_profilo' => 'standard'])->assertSessionHasNoErrors()->assertRedirect();
+        $this->assertSame('standard', $s->fresh()->questura_profilo);
     }
 }

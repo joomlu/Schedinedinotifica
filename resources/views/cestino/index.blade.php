@@ -1,194 +1,102 @@
 @extends('layouts.master')
 @section('title', 'Cestino')
-
 @section('content')
 @component('components.breadcrumb')
-    @slot('li_1')
-        Sistema
-    @endslot
-    @slot('title')
-        Cestino
-    @endslot
+    @slot('li_1') Sistema @endslot
+    @slot('title') Cestino @endslot
 @endcomponent
 
-<div class="row">
-    <div class="col-lg-12">
-        <x-crud-table
-            title="Cestino"
-            subtitle="Archivio centrale di tutti gli elementi eliminati dal sistema, organizzato per sezione"
-            searchPlaceholder="Cerca per tipo, codice, titolo o origine..."
-            searchId="cestinoSearch"
-            createText=""
-            createTarget="#"
-            tableId="cestinoTable"
-            :paginator="$items"
-        >
-            <x-slot name="topbarLeft">
-                <form method="GET" action="{{ route('cestino.index') }}" class="d-flex align-items-center gap-2 flex-wrap">
-                    <input type="hidden" name="q" value="{{ request('q') }}">
-                    <div style="min-width: 240px;">
-                        <x-ui.select name="tipo" id="cestinoTipoFilter">
-                            <option value="">Tutte le sezioni</option>
-                            @foreach($tipi as $tipo)
-                                <option value="{{ $tipo }}" @selected($tipoSelezionato === $tipo)>{{ $tipo }}</option>
-                            @endforeach
-                        </x-ui.select>
-                    </div>
-                    @if($tipoSelezionato !== '')
-                        <a href="{{ route('cestino.index', request()->filled('q') ? ['q' => request('q')] : []) }}" class="btn btn-light">
-                            Reset sezione
-                        </a>
-                    @endif
-                </form>
-            </x-slot>
-
-            <x-slot name="columns">
-                <tr>
-                    <th style="width: 12%;">Eliminato il</th>
-                    <th style="width: 14%;">Sezione</th>
-                    <th style="width: 14%;">Codice</th>
-                    <th>Titolo</th>
-                    <th style="width: 14%;">Origine</th>
-                    <th style="width: 10%;">Circuito</th>
-                    <th class="text-end" style="width: 16%; min-width: 180px;">Azioni</th>
-                </tr>
-            </x-slot>
-
-            <x-slot name="rows">
-                @foreach($items as $item)
-                    <tr class="data-row">
-                        <td class="align-middle text-nowrap">{{ optional($item->deleted_at)->format('d/m/Y H:i') }}</td>
-                        <td class="align-middle">{{ $item->sezione }}</td>
-                        <td class="align-middle">{{ $item->code ?: '-' }}</td>
-                        <td class="align-middle">{{ $item->title ?: '-' }}</td>
-                        <td class="align-middle">{{ $item->source ?: '-' }}</td>
-                        <td class="align-middle">{{ $item->circuito ?: '-' }}</td>
-                        <td class="text-end align-middle">
-                            <div class="d-inline-flex gap-1">
-                                <button
-                                    type="button"
-                                    class="btn btn-soft-info"
-                                    title="Dettaglio"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#cestinoDettaglio{{ $item->id }}"
-                                >
-                                    <i class="ri-eye-line fs-16 align-middle"></i>
-                                </button>
-                                @unless($item->admin_read_only ?? false)
-                                <form action="{{ route('cestino.restore', ['id' => $item->id]) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-soft-success" title="Ripristina">
-                                        <i class="ri-arrow-go-back-line fs-16 align-middle"></i>
-                                    </button>
-                                </form>
-                                @endunless
-                                @unless(($item->admin_read_only ?? false) || $item->entity_class === \App\Models\WebCheckinRichiesta::class || ($item->entity_class === \App\Models\Schedina::class && $item->circuito === 'web'))
-                                <form
-                                    action="{{ route('cestino.destroy', ['id' => $item->id]) }}"
-                                    method="POST"
-                                    class="d-inline"
-                                    data-confirm-title="Conferma eliminazione dal cestino"
-                                    data-done-title="Eliminazione definitiva confermata"
-                                    data-done-text="Premi OK per procedere con l'eliminazione definitiva dal cestino."
-                                    data-confirm-label="{{ $item->source === 'Web Check-in' || $item->entity_type === 'Web Check-in'
-                                        ? ($item->title ? 'il contenuto del cestino di Web Check-in ' . $item->title : ($item->code ? 'il contenuto del cestino di Web Check-in ' . $item->code : 'il contenuto del cestino di Web Check-in'))
-                                        : ($item->entity_type === 'Schedina'
-                                            ? ($item->code ? 'la schedina nel cestino ' . $item->code : ($item->title ? 'la schedina nel cestino ' . $item->title : 'la schedina nel cestino'))
-                                            : ($item->entity_type === 'Componente'
-                                                ? ($item->title ? 'il componente nel cestino ' . $item->title : ($item->code ? 'il componente nel cestino della schedina ' . $item->code : 'il componente nel cestino'))
-                                                : ($item->title ? 'l\'elemento nel cestino ' . $item->title : ($item->code ? 'l\'elemento nel cestino ' . $item->code : ($item->entity_type ? 'l\'elemento nel cestino ' . $item->entity_type : 'questo elemento del cestino'))))) }}"
-                                >
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-soft-danger" title="Elimina definitivamente">
-                                        <i class="ri-delete-bin-line fs-16 align-middle"></i>
-                                    </button>
-                                </form>
-                                @endunless
-                            </div>
-                        </td>
-                    </tr>
-
-                    <div id="cestinoDettaglio{{ $item->id }}" class="modal fade" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Dettaglio cestino</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row g-3 mb-3">
-                                        <div class="col-md-6">
-                                            <div class="border rounded p-3 h-100">
-                                                <div class="small text-muted mb-1">Sezione</div>
-                                                <div>{{ $item->sezione }}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="border rounded p-3 h-100">
-                                                <div class="small text-muted mb-1">Tipo record</div>
-                                                <div>{{ $item->entity_type }}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="border rounded p-3 h-100">
-                                                <div class="small text-muted mb-1">Codice</div>
-                                                <div>{{ $item->code ?: '-' }}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="border rounded p-3 h-100">
-                                                <div class="small text-muted mb-1">Titolo</div>
-                                                <div>{{ $item->title ?: '-' }}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="border rounded p-3 h-100">
-                                                <div class="small text-muted mb-1">Origine</div>
-                                                <div>{{ $item->source ?: '-' }}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="border rounded p-3 h-100">
-                                                <div class="small text-muted mb-1">Eliminato il</div>
-                                                <div>{{ optional($item->deleted_at)->format('d/m/Y H:i') ?: '-' }}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="border rounded p-3">
-                                        <div class="small text-muted mb-2">Snapshot archivio</div>
-                                        <pre class="mb-0 small text-wrap">{{ json_encode($item->display_payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) }}</pre>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Chiudi</button>
-                                    @unless($item->admin_read_only ?? false)
-                                <form action="{{ route('cestino.restore', ['id' => $item->id]) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="btn btn-primary">Ripristina</button>
-                                    </form>
-                                @endunless
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </x-slot>
-        </x-crud-table>
-    </div>
+<div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+    <form id="cestinoSelezione" action="{{ route('cestino.destroySelected') }}" method="POST"
+          data-confirm-title="Elimina definitivamente gli elementi selezionati?" data-confirm-label="gli elementi selezionati dal cestino">
+        @csrf @method('DELETE')
+        <input type="hidden" name="conferma" value="1">
+        <button id="cestinoEliminaSelezionati" class="btn btn-danger" type="submit" disabled>Elimina selezionati (<span id="cestinoConteggio">0</span>)</button>
+    </form>
+    <form action="{{ route('cestino.empty') }}" method="POST"
+          data-confirm-title="Svuota il cestino del contesto corrente?" data-confirm-label="tutti gli elementi eliminabili del cestino corrente, anche nelle altre pagine e fuori dai filtri">
+        @csrf @method('DELETE')
+        <input type="hidden" name="conferma" value="1">
+        <button class="btn btn-outline-danger" type="submit" @disabled(!$eliminabili)>Svuota cestino ({{ $eliminabili }})</button>
+    </form>
+    <span class="text-muted small">Eliminazione definitiva. Lo svuotamento comprende tutte le pagine del contesto corrente; i dati di sistema protetti restano conservati.</span>
 </div>
-@endsection
+<x-crud-table title="Cestino" subtitle="Elementi eliminati nel contesto autorizzato: consulta, ripristina o elimina definitivamente."
+    searchPlaceholder="Cerca per tipo, codice, titolo o origine..." searchId="cestinoSearch" createText="" createTarget="#" tableId="cestinoTable" :paginator="$items">
+    <x-slot name="topbarLeft">
+        <form id="cestinoFiltri" method="GET" action="{{ route('cestino.index') }}" class="d-flex align-items-center gap-2 flex-wrap">
+            <input type="hidden" name="q" value="{{ request('q') }}">
+            <label class="visually-hidden" for="cestinoTipoFilter">Sezione</label>
+            <select name="tipo" id="cestinoTipoFilter" class="form-select" style="max-width:220px">
+                <option value="">Tutte le sezioni</option>
+                @foreach($tipi as $tipo)<option value="{{ $tipo }}" @selected($tipoSelezionato === $tipo)>{{ $tipo }}</option>@endforeach
+            </select>
+            <label class="visually-hidden" for="cestinoQuantita">Elementi per pagina</label>
+            <select id="cestinoQuantita" name="per_page" class="form-select" style="max-width:160px">
+                @foreach([10,25,50,100] as $quantity)<option value="{{ $quantity }}" @selected((int)request('per_page',10) === $quantity)>{{ $quantity }} per pagina</option>@endforeach
+            </select>
+            @if($tipoSelezionato !== '')<a href="{{ route('cestino.index', request()->only(['q','per_page'])) }}" class="btn btn-light">Reset sezione</a>@endif
+        </form>
+    </x-slot>
+    <x-slot name="columns">
+        <tr>
+            <th><input type="checkbox" id="cestinoSelezionaPagina" class="form-check-input" aria-label="Seleziona gli elementi eliminabili di questa pagina"></th>
+            <th>Eliminato il</th><th>Sezione</th><th>Codice</th><th>Titolo</th><th>Origine</th><th>Circuito</th><th class="text-end">Azioni</th>
+        </tr>
+    </x-slot>
+    <x-slot name="rows">
+        @foreach($items as $item)
+            <tr class="data-row">
+                <td>@unless($item->admin_read_only)<input type="checkbox" class="form-check-input cestino-selezione" name="ids[]" value="{{ $item->id }}" form="cestinoSelezione" aria-label="Seleziona {{ $item->title ?: 'elemento '.$item->id }}">@endunless</td>
+                <td class="text-nowrap">{{ optional($item->deleted_at)->format('d/m/Y H:i') }}</td>
+                <td>{{ $item->sezione }}</td><td>{{ $item->code ?: '—' }}</td><td>{{ $item->title ?: '—' }}</td><td>{{ $item->source ?: '—' }}</td><td>{{ $item->circuito ?: '—' }}</td>
+                <td class="text-end"><div class="d-inline-flex gap-1">
+                    <button type="button" class="btn btn-soft-info" title="Dettaglio" aria-label="Visualizza dettaglio {{ $item->title }}" data-bs-toggle="modal" data-bs-target="#cestinoDettaglio{{ $item->id }}"><i class="ri-eye-line" aria-hidden="true"></i></button>
+                    @unless($item->admin_read_only)
+                        <form action="{{ route('cestino.restore', $item->id) }}" method="POST" class="d-inline">@csrf<button type="submit" class="btn btn-soft-success" title="Ripristina" aria-label="Ripristina {{ $item->title }}"><i class="ri-arrow-go-back-line" aria-hidden="true"></i></button></form>
+                        <form action="{{ route('cestino.destroy', $item->id) }}" method="POST" class="d-inline" data-confirm-title="Elimina definitivamente dal cestino?" data-confirm-label="{{ $item->title ?: 'questo elemento del cestino' }}">
+                            @csrf @method('DELETE')<button type="submit" class="btn btn-soft-danger" title="Elimina definitivamente" aria-label="Elimina definitivamente {{ $item->title }}"><i class="ri-delete-bin-line" aria-hidden="true"></i></button>
+                        </form>
+                    @endunless
+                </div></td>
+            </tr>
+        @endforeach
+    </x-slot>
+</x-crud-table>
 
+@foreach($items as $item)
+    <div id="cestinoDettaglio{{ $item->id }}" class="modal fade" tabindex="-1" aria-labelledby="cestinoTitolo{{ $item->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content">
+            <div class="modal-header"><h5 id="cestinoTitolo{{ $item->id }}" class="modal-title">{{ $item->title ?: 'Dettaglio elemento' }}</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button></div>
+            <div class="modal-body">
+                <dl class="row mb-3"><dt class="col-sm-4">Sezione</dt><dd class="col-sm-8">{{ $item->sezione }}</dd><dt class="col-sm-4">Tipo</dt><dd class="col-sm-8">{{ $item->entity_type }}</dd><dt class="col-sm-4">Codice</dt><dd class="col-sm-8">{{ $item->code ?: 'Non indicato' }}</dd><dt class="col-sm-4">Eliminato il</dt><dd class="col-sm-8">{{ optional($item->deleted_at)->format('d/m/Y H:i') }}</dd></dl>
+                <h6>Dati dell’elemento eliminato</h6>
+                @if(count($item->display_rows))
+                    <dl class="row mb-0">@foreach($item->display_rows as $row)<dt class="col-sm-4 text-break">{{ $row['etichetta'] }}</dt><dd class="col-sm-8 text-break" style="white-space:pre-wrap">{{ $row['valore'] }}</dd>@endforeach</dl>
+                @else<p class="text-muted">Non sono presenti ulteriori dati descrittivi disponibili.</p>@endif
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Chiudi</button>@unless($item->admin_read_only)<form action="{{ route('cestino.restore', $item->id) }}" method="POST">@csrf<button type="submit" class="btn btn-primary">Ripristina</button></form>@endunless</div>
+        </div></div>
+    </div>
+@endforeach
+@endsection
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const tipoFilter = document.getElementById('cestinoTipoFilter');
-        if (tipoFilter && tipoFilter.form) {
-            tipoFilter.addEventListener('change', function () {
-                tipoFilter.form.submit();
-            });
-        }
-    });
+document.addEventListener('DOMContentLoaded', function () {
+    const boxes = [...document.querySelectorAll('.cestino-selezione')];
+    const all = document.getElementById('cestinoSelezionaPagina');
+    const button = document.getElementById('cestinoEliminaSelezionati');
+    const refresh = () => {
+        const count = boxes.filter(box => box.checked).length;
+        document.getElementById('cestinoConteggio').textContent = String(count);
+        button.disabled = count === 0;
+        all.checked = boxes.length > 0 && count === boxes.length;
+        all.indeterminate = count > 0 && count < boxes.length;
+    };
+    all.addEventListener('change', () => { boxes.forEach(box => { box.checked = all.checked; }); refresh(); });
+    boxes.forEach(box => box.addEventListener('change', refresh));
+    ['cestinoTipoFilter', 'cestinoQuantita'].forEach(id => document.getElementById(id).addEventListener('change', event => event.target.form.submit()));
+    refresh();
+});
 </script>
 @endpush

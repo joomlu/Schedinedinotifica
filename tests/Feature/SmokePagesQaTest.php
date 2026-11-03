@@ -56,7 +56,8 @@ class SmokePagesQaTest extends TestCase
             ->withSession(['struttura_corrente_id' => (int) $strutturaId])
             ->get('/arrivi/nuovo');
 
-        $response->assertOk();
+        $response->assertRedirect(route('newschedina', ['arrival' => 1]));
+        $this->get($response->headers->get('Location'))->assertOk();
     }
 
     public function test_componenti_nuovo_page_loads(): void

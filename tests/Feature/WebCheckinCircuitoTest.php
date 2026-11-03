@@ -95,7 +95,7 @@ class WebCheckinCircuitoTest extends TestCase
         $r=$this->scenario();$this->converti($r)->assertSessionHasNoErrors();$r->refresh();$id=$r->schedina_id;$old=$r->token;
         $c=WebCheckinComunicazione::create(['struttura_id'=>$r->struttura_id,'richiesta_id'=>$r->id,'utente_id'=>auth()->id(),'idempotenza'=>Str::uuid(),'canale'=>'testo','stato'=>'preparato','contenuto'=>['corpo'=>'Sintetico']]);
         $this->delete(route('web_checkin.destroy',$r->id))->assertRedirect();$this->assertDatabaseHas('schedina',['id'=>$id]);$this->assertDatabaseCount('clienti',1);$this->get('/checkin/'.$old)->assertNotFound();
-        $item=CestinoItem::where('entity_class',WebCheckinRichiesta::class)->firstOrFail();$this->delete(route('cestino.destroy',$item->id))->assertForbidden();
+        $item=CestinoItem::where('entity_class',WebCheckinRichiesta::class)->firstOrFail();$this->assertDatabaseHas('cestino_items',['id'=>$item->id]);
         $restored=app(CestinoService::class)->restoreItem($item);$this->assertSame($id,$restored->schedina_id);$this->assertDatabaseCount('schedina',1);$this->assertNotSame($old,$restored->token);$this->assertNotNull($restored->link_revoked_at);
         $this->assertSame($restored->id,$c->fresh()->richiesta_id);$this->assertNotNull($restored->conversione_snapshot);$this->get('/checkin/'.$restored->token)->assertNotFound();
     }
@@ -231,10 +231,10 @@ class WebCheckinCircuitoTest extends TestCase
         $this->get(route('schedina.web'))->assertOk()->assertDontSee('Precedente nel Cestino');$this->get(route('web_checkin.create',['scheda_precedente'=>$r->schedina_id]))->assertNotFound();$this->assertDatabaseHas('schedina',['id'=>$r->schedina_id]);
     }
 
-    public function test_scheda_web_precedente_nel_cestino_non_eliminabile_definitivamente(): void
+    public function test_scheda_web_precedente_nel_cestino_eliminabile_definitivamente(): void
     {
         $r=$this->scenario();$sheet=$r->schedina;$r->delete();$item=app(CestinoService::class)->archiveModel($sheet);$sheet->delete();
-        $this->delete(route('cestino.destroy',$item->id))->assertForbidden();$this->assertDatabaseHas('cestino_items',['id'=>$item->id]);$restored=app(CestinoService::class)->restoreItem($item);$this->assertSame($sheet->name,$restored->name);$this->assertSame('web',$restored->circuito);$this->assertDatabaseCount('schedina',1);
+        $this->delete(route('cestino.destroy',$item->id))->assertRedirect();$this->assertDatabaseMissing('cestino_items',['id'=>$item->id]);$this->assertDatabaseCount('schedina',0);
     }
 
     public function test_note_e_classificazioni_riservate_non_compaiono_nel_modulo_pubblico(): void

@@ -146,6 +146,7 @@ class CestinoService
         abort_if(in_array($item->entity_class, [TipoAlloggiato::class, TipoDocumento::class], true), 403, 'Catalogo ufficiale Questura: non modificabile.');
         abort_if($item->entity_class === TipoCliente::class, 403, 'Classificazioni predefinite del sistema, non modificabili.');
         return DB::transaction(function () use ($item) {
+            $item = CestinoItem::query()->lockForUpdate()->findOrFail($item->getKey());
             if (in_array($item->entity_class, [Gruppo::class, Titolo::class, TipoVia::class, RilasciatoDa::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true) && $item->struttura_id) {
                 DB::table('struttura')->where('id', $item->struttura_id)->lockForUpdate()->first();
                 $item->refresh();
@@ -179,20 +180,27 @@ class CestinoService
 
     public function purgeItem(CestinoItem $item): void
     {
-        abort_if($item->entity_class === WebCheckinRichiesta::class || ($item->entity_class === Schedina::class && $item->circuito === 'web'), 403, 'Le richieste Web Check-in possono essere ripristinate: eliminazione definitiva non disponibile.');
+        abort_if(in_array($item->entity_class, [TipoAlloggiato::class, TipoDocumento::class, TipoCliente::class], true), 403, 'Catalogo di sistema: non eliminabile.');
         try {
         DB::transaction(function () use ($item) {
+            $item = CestinoItem::query()->lockForUpdate()->findOrFail($item->getKey());
             $class = $item->entity_class;
             $originalId = $item->original_id;
 
             if (in_array($class, [User::class, Proprietario::class, Struttura::class], true) && $originalId) {
-                $record = $class::query()->withoutGlobalScopes()->find($originalId);
+                $record = $class::query()->withoutGlobalScopes()->lockForUpdate()->find($originalId);
 
                 if ($record && method_exists($record, 'forceDelete')) {
+                    abort_unless($record->trashed(), 409, 'Il record originale è attivo: elemento del cestino conservato.');
                     $record->forceDelete();
                 }
             }
 
+            if ($class === WebCheckinRichiesta::class && $originalId
+                && !WebCheckinRichiesta::withoutGlobalScopes()->whereKey($originalId)->exists()) {
+                \App\Models\WebCheckinComunicazione::query()
+                    ->where('struttura_id', $item->struttura_id)->where('richiesta_id', $originalId)->delete();
+            }
             $item->delete();
         });
         } catch (\Illuminate\Database\QueryException $e) {
