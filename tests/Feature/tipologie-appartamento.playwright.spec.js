@@ -64,7 +64,7 @@ for (const width of [1440, 768, 390]) {
     await expect(page.getByRole('link', {name:'Questura / Alloggiati Web',exact:true,includeHidden:true})).toHaveCount(0);
     await page.getByLabel('Profilo Alloggiati Web', {exact:true}).selectOption('appartamenti');
     await page.getByLabel('ID appartamento Alloggiati Web', {exact:true}).fill('000000');
-    await page.getByRole('button', {name:'Salva configurazione operativa',exact:true}).click();
+    await page.getByRole('button', {name:'Salva',exact:true}).click();
     await page.getByRole('button', {name:/^Sì,/}).click();
     await page.getByRole('button', {name:'OK',exact:true}).click();
     await page.waitForLoadState('networkidle');
