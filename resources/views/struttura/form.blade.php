@@ -518,8 +518,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="card-body">
                                         <div class="row g-3">
                                             <div class="col-12">
-                                                <p class="text-muted">Le credenziali Ross1000 sono gestite nell’area ISTAT, senza mostrare i valori salvati.</p>
-                                                <a class="btn btn-outline-primary" href="{{ route('istat.tabella_a.index') }}">Configurazione Ross1000</a>
+                                                @include('struttura.ross1000')
                                             </div>
                                             <div class="col-12"><hr class="my-2"></div>
                                             <div class="col-12">@include('struttura.questura-profilo')</div>
@@ -586,6 +585,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="mt-4 text-end">
                             <button type="submit" class="btn btn-success">Salva</button>
                         </div>
+                    </form>
+                    <form id="ross1000-config-form" method="POST" action="{{ route('istat.tabella_a.configure', ['struttura_id' => $struttura->id]) }}">
+                        @csrf
+                        <input type="hidden" name="struttura_id" value="{{ $struttura->id }}">
                     </form>
                 </div>
             </div>

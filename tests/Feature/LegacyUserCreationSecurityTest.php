@@ -53,10 +53,16 @@ class LegacyUserCreationSecurityTest extends TestCase
                 return;
             }
             $form->assertOk();
-            $r->assertSessionHasNoErrors()->assertRedirect(route('strutture.utenti.index'));
+            // I campi di identità/ruolo forgiati sono rifiutati, anche per chi può creare operatori.
+            $r->assertForbidden();
+            $this->assertSame(0, $attempts);
+            $this->assertSame($before, DB::table('users')->orderBy('id')->get()->toJson());
+            $this->post('/strutture/utenti', $this->payload() + ['avatar' => 'NON-USARE', 'ruolo_operativo' => 'proprietario', 'attivo' => false])
+                ->assertSessionHasNoErrors()->assertRedirect(route('strutture.utenti.index'));
             $new = User::where('email', $this->payload()['email'])->sole();
             $this->assertSame('struttura_user', $new->ruolo);
-            $this->assertNull($new->ruolo_operativo);
+            $this->assertSame('reception', $new->ruolo_operativo);
+            $this->assertSame((int) $owner->id, (int) $new->proprietario_id);
             $this->assertSame((int) $s->id, (int) $new->struttura_id);
             $this->assertSame('', $new->avatar);
             $this->assertTrue((bool) $new->attivo);

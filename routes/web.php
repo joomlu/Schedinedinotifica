@@ -548,6 +548,8 @@ Route::middleware(['auth'])->group(function () {
     // Cestino
     Route::get('/cestino', [CestinoController::class, 'index'])->name('cestino.index');
     Route::post('/cestino/{id}/ripristina', [CestinoController::class, 'restore'])->name('cestino.restore');
+    Route::delete('/cestino/selezionati', [CestinoController::class, 'destroySelected'])->name('cestino.destroySelected');
+    Route::delete('/cestino/svuota', [CestinoController::class, 'empty'])->name('cestino.empty');
     Route::delete('/cestino/{id}', [CestinoController::class, 'destroy'])->name('cestino.destroy');
 
     // Utenti, consegne e notifiche interne

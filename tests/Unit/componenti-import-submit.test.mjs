@@ -10,11 +10,13 @@ assert.ok(listener, 'Listener del form presente');
 
 function submit(methodInput, submitter) {
     runInNewContext(listener[1], {
-        event: { submitter },
+        event: { submitter: submitter && { matches: () => false, ...submitter } },
         schedinaForm: { querySelector: () => methodInput },
         saveModeInput: null,
         saveModeIntentInput: null,
         activeTabInput: null,
+        componentIndexInput: null,
+        componentIdInput: null,
     });
 }
 

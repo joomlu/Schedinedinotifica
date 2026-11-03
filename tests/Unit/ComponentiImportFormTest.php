@@ -254,7 +254,7 @@ class ComponentiImportFormTest extends TestCase
     public function test_prepare_nuova_scartando_id_stale_non_redirige_a_33(): void
     {
         $controller = $this->prepareController();
-        $request = Request::create('/schedine/nuova/componenti/import/prepara', 'POST', [
+        $request = ValidatedImportRequest::create('/schedine/nuova/componenti/import/prepara', 'POST', [
             'id' => 33, 'schedina_id' => 33, 'schedina' => ['id' => 33], 'name' => 'Prova', '_method' => 'POST',
         ]);
         $request->setLaravelSession($this->session);

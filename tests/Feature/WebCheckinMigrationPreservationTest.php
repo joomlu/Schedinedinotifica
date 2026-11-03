@@ -11,9 +11,22 @@ class WebCheckinMigrationPreservationTest extends TestCase
 {
     use \Tests\Support\StrutturaFixtures;
 
+    protected function tearDown(): void
+    {
+        // Il DDL non è transazionale: il test successivo deve ricostruire il DB
+        // sintetico, senza ereditare i record storici creati da questa prova.
+        try {
+            $this->artisan('migrate:fresh', ['--force' => true])->assertSuccessful();
+        } finally {
+            \Illuminate\Foundation\Testing\RefreshDatabaseState::$migrated = false;
+            parent::tearDown();
+        }
+    }
+
     public function test_upgrade_preserva_tutte_le_righe_precedenti_e_aggiunge_solo_colonne_nullable(): void
     {
         $this->artisan('migrate:fresh', ['--force' => true])->assertExitCode(0);
+        $expectedMigrations = DB::table('migrations')->count();
         $name = '2026_10_18_200000_extend_web_checkin_inviti';
         $migration = require database_path('migrations/'.$name.'.php');
         $migration->down();
@@ -61,9 +74,9 @@ class WebCheckinMigrationPreservationTest extends TestCase
             }
         }
         $this->assertSame(1, DB::table('migrations')->where('migration', $name)->count());
-        $this->assertSame(159, DB::table('migrations')->count());
+        $this->assertSame($expectedMigrations, DB::table('migrations')->count());
         $this->artisan('migrate', ['--force' => true])->assertExitCode(0);
-        $this->assertSame(159, DB::table('migrations')->count());
+        $this->assertSame($expectedMigrations, DB::table('migrations')->count());
     }
 
     private function rows(string $table, array $columns, ?string $excludeMigration = null): array

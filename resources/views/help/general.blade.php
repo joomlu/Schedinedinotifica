@@ -68,6 +68,7 @@
                         </div>
                     </div>
                 @endif
+                @include('help.partials.navigazione-ui')
                 <div class="row g-3">
                     @foreach($guide as $item)
                         <div class="col-xl-6 help-item" data-help-search="{{ strtolower($item['title'].' '.$item['keywords'].' '.$item['summary'].' '.$item['result'].' '.implode(' ', $item['steps'])) }}">

@@ -1,0 +1,111 @@
+// Presentazione limitata alla barra laterale; nessuna regola sui contenuti delle pagine.
+.app-menu.navbar-menu {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+    .navbar-brand-box { flex: 0 0 auto; padding-top: 0; }
+    #scrollbar {
+        flex: 1 1 auto;
+        min-height: 0;
+        height: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior-y: contain;
+        scroll-padding-block: 1rem 5rem;
+        scrollbar-gutter: stable;
+    }
+    #navbar-nav { padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px)); }
+    #navbar-nav > .nav-item:last-child { margin-bottom: 0; }
+    #scrollbar:focus-visible { outline: 2px solid #78170c; outline-offset: -2px; }
+}
+
+// A collapsed sidebar is an icon rail: no expanded-menu borders or hidden flyouts.
+@media (min-width:768px) {
+    html[data-sidebar-size="sm"] .navbar-menu .navbar-nav {
+        > .menu-title { display:none; }
+        > .nav-item { margin:0; }
+        > .nav-item > .nav-link.menu-link {
+            display:flex; align-items:center; justify-content:center;
+            width:44px !important; height:44px; min-height:44px;
+            margin:3px auto; padding:10px; border:0; border-radius:8px;
+            background:transparent; box-shadow:none; color:var(--vz-vertical-menu-item-color);
+            > span { display:none !important; }
+            > .icon-dual { display:block; width:22px; height:22px; margin:0; flex:0 0 22px; }
+            &::before, &::after { display:none !important; }
+            &.active { background:#edf2f8; color:#305685; border:0; box-shadow:none; }
+            &:hover, &:focus-visible { background:#24635d; color:#fff; }
+        }
+        .menu-dropdown { display:none !important; pointer-events:none; }
+    }
+}
+
+// Fine outline icons share the link color, including white on green hover.
+body.software-ui .navbar-menu .navbar-nav .nav-link > svg.icon-dual {
+    stroke-width:1;
+    stroke:currentColor;
+    color:inherit !important;
+    fill:none !important;
+}
+
+
+body.software-ui {
+    .navbar-menu #scrollbar {
+        scrollbar-color:#78170c #fcfbfb;
+        &::-webkit-scrollbar { width:5px; }
+        &::-webkit-scrollbar-track { background:#fcfbfb; }
+        &::-webkit-scrollbar-thumb {
+            background:#78170c;
+            background-clip:padding-box;
+            border:1px solid transparent;
+            border-block-width:7px;
+            border-radius:99px;
+        }
+        &::-webkit-scrollbar-thumb:hover { background-color:#78170c; }
+    }
+}
+@supports selector(::-webkit-scrollbar) {
+    body.software-ui .navbar-menu #scrollbar { scrollbar-width:auto; }
+}
+html[data-sidebar="light"] body.software-ui .navbar-menu .navbar-nav .nav-link.active {
+    background:#faf8f8;
+    box-shadow:none;
+}
+@media (min-width:768px) {
+    html[data-sidebar-size="sm"] body.software-ui .navbar-menu .navbar-nav > .nav-item > .nav-link.menu-link.active {
+        background:#f5f8fc;
+        &:hover, &:focus-visible { background:#24635d; color:#fff; }
+    }
+}
+
+body.software-ui .compact-sidebar-options {
+    position:fixed; z-index:1040; width:260px; max-width:calc(100vw - 86px);
+    max-height:calc(100dvh - 16px); overflow-y:auto;
+    padding:10px; background:#fff; border:1px solid #e9e3dc;
+    border-radius:10px; box-shadow:0 5px 18px #30252312;
+    .compact-sidebar-options-heading { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 4px 8px; font-size:13px; font-weight:600; color:#5b5550; }
+    .compact-sidebar-close { display:grid; place-items:center; width:28px; height:28px; padding:0; border:0; border-radius:6px; background:#fcfcfb; color:#716a64; font-size:21px; line-height:1; }
+    .compact-sidebar-options-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px; }
+    .compact-sidebar-option {
+        display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+        min-height:72px; padding:9px 5px; border:1px solid transparent; border-radius:7px;
+        color:#655d57; background:#fcfcfb; font-size:12px; line-height:1.35; text-align:center; text-decoration:none;
+        svg, svg * { fill:none; filter:none; box-shadow:none; }
+        svg { color:inherit !important; stroke:currentColor; stroke-width:1; flex-shrink:0; }
+        &[aria-current="page"] { background:#f0f5fb; color:#305685; border-color:#dce5ef; }
+        &:hover, &:focus-visible { background:#24635d; color:#fff; }
+        &:focus-visible { outline:2px solid #305685; outline-offset:1px; }
+    }
+    .compact-sidebar-close:hover { background:#f7e9e8; color:#78170c; }
+}
+@media (min-width:768px) {
+    html[data-sidebar-size="sm"] body.software-ui .navbar-menu .navbar-nav > .nav-item > .nav-link.menu-link.compact-submenu-open {
+        background:#24635d; color:#fff;
+    }
+}

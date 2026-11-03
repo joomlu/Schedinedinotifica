@@ -88,7 +88,10 @@ class CalendarioEvento extends Model
             'compleanno' => 'Compleanno',
             'checkin' => 'Check-in',
             'checkout' => 'Check-out',
-            default => 'Manuale',
+            'nota' => 'Nota informativa',
+            'evento' => 'Evento',
+            'scadenza' => 'Scadenza',
+            default => 'Da fare',
         };
     }
 

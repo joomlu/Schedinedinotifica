@@ -55,7 +55,7 @@
                     </a>
                 </div>
 
-                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon" aria-label="Mostra o nascondi menu" aria-controls="navbar-nav">
                     <span class="hamburger-icon">
                         <span></span>
                         <span></span>

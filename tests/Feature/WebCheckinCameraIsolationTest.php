@@ -59,7 +59,7 @@ class WebCheckinCameraIsolationTest extends TestCase
     }
 
     #[DataProvider('percorsi')]
-    public function test_sostituzione_ripetuta_e_riapertura_senza_duplicazioni(string $mode, bool $precedente): void
+    public function test_post_ospite_ripetuti_preservano_le_camere_della_reception(string $mode, bool $precedente): void
     {
         [$s, $p, $r] = $this->prenotazione('CAMERA');
         if ($precedente) {
@@ -68,19 +68,20 @@ class WebCheckinCameraIsolationTest extends TestCase
         $url = $mode === 'completo' ? '/checkin/'.$r->token : '/w/'.$r->codice.'-'.substr($r->token, 0, 8);
         foreach (['12', '12', '13'] as $numero) {
             $this->postWeb($url, $this->payload([['numero_camera' => $numero, 'posti_letto' => 1]]))->assertOk();
-            $this->assertSame([$numero], DB::table('schedina_camere')->where('schedina_id', $p->id)->pluck('numero_camera')->all());
-            $this->get('/checkin/'.$r->token)->assertOk()->assertViewHas('schedina', fn ($v) => $v->camere->count() === 1 && $v->camere->first()->numero_camera === $numero);
+            $this->assertSame($precedente ? ['11'] : [], DB::table('schedina_camere')->where('schedina_id', $p->id)->pluck('numero_camera')->all());
+            $this->get('/checkin/'.$r->token)->assertOk()->assertViewHas('schedina', fn ($v) => $v->camere->pluck('numero_camera')->all() === ($precedente ? ['11'] : []));
         }
     }
 
-    public function test_camere_multiple_e_rimozione_esplicita_restano_supportate(): void
+    public function test_ospite_non_puo_sostituire_ne_rimuovere_camere_multiple(): void
     {
         [$s, $p, $r] = $this->prenotazione('MULTIPLE');
         $this->camera($p, '11');
+        $this->camera($p, '14');
         $this->postWeb('/checkin/'.$r->token, $this->payload([['numero_camera' => '12'], ['numero_camera' => '13']]))->assertOk();
-        $this->assertSame(['12', '13'], DB::table('schedina_camere')->where('schedina_id', $p->id)->orderBy('id')->pluck('numero_camera')->all());
+        $this->assertSame(['11', '14'], DB::table('schedina_camere')->where('schedina_id', $p->id)->orderBy('id')->pluck('numero_camera')->all());
         $this->postWeb('/checkin/'.$r->token, $this->payload())->assertOk();
-        $this->assertSame(0, DB::table('schedina_camere')->where('schedina_id', $p->id)->count());
+        $this->assertSame(['11', '14'], DB::table('schedina_camere')->where('schedina_id', $p->id)->orderBy('id')->pluck('numero_camera')->all());
     }
 
     public function test_token_prevale_su_sessione_estranea_e_identificatori_forgiati(): void
@@ -97,7 +98,7 @@ class WebCheckinCameraIsolationTest extends TestCase
         $this->postWeb('/checkin/'.$r->token, $this->payload([['id' => 999, 'schedina_id' => $pb->id, 'struttura_id' => $b->id, 'numero_camera' => '12']]))->assertOk();
         $row = DB::table('schedina_camere')->where('schedina_id', $p->id)->first();
         $this->assertSame((int) $a->id, (int) $row->struttura_id);
-        $this->assertSame('12', $row->numero_camera);
+        $this->assertSame('11', $row->numero_camera);
         $this->assertSame(1, DB::table('schedina_camere')->where('schedina_id', $p->id)->count());
         $this->assertSame($other, DB::table('schedina_camere')->where('schedina_id', '!=', $p->id)->orderBy('id')->get()->toJson());
     }
@@ -111,7 +112,7 @@ class WebCheckinCameraIsolationTest extends TestCase
         $this->get('/checkin/'.$r->token)->assertOk()->assertViewHas('schedina', fn ($v) => $v->camere->isEmpty());
         $this->postWeb('/checkin/'.$r->token, $this->payload([['numero_camera' => '12']]))->assertOk();
         $this->assertSame($before, DB::table('schedina_camere')->where('struttura_id', $b->id)->get()->toJson());
-        $this->assertSame(1, DB::table('schedina_camere')->where('struttura_id', $a->id)->where('schedina_id', $p->id)->count());
+        $this->assertSame(0, DB::table('schedina_camere')->where('struttura_id', $a->id)->where('schedina_id', $p->id)->count());
     }
 
     public function test_errore_finale_ripristina_camera_precedente_e_tutte_le_scritture(): void

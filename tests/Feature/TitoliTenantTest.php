@@ -157,13 +157,13 @@ class TitoliTenantTest extends TestCase
         $this->assertSame($client->id, $sheet->fresh()->customer_id); $this->assertSame('Sig.', $other->fresh()->type);
         $this->assertSame(['type' => 'Signor Personale', 'name' => 'Storico'], $archive->fresh()->payload['schedina']);
         $this->get('/clienti/'.$client->id.'/modifica')->assertOk()->assertSee('valore storico conservato');
-        $this->post('/clienti', ['name' => 'Nuovo', 'surname' => 'Test', 'type' => 'Signor Personale', 'type_cliente' => 'Richiesta', 'privacy_consent' => 1])->assertSessionHasErrors('type');
+        $this->post('/clienti', ['name' => 'Nuovo', 'surname' => 'Test', 'type' => 'Signor Personale', 'type_cliente' => 'Richiesta', 'email' => 'titoli@example.invalid', 'privacy_consent' => 1])->assertSessionHasErrors('type');
     }
 
     public function test_selezioni_clienti_bozze_e_schedine_bloccano_titoli_estranei(): void
     {
         [$a] = $this->context(); $b = $this->structureFor(null); $t = $this->title($b->id); $t->update(['nome' => 'Solo B']);
-        foreach ([['name' => 'Bozza', 'save_mode' => 'draft'], ['name' => 'Cliente', 'surname' => 'Sintetico', 'privacy_consent' => 1, 'type_cliente' => 'Richiesta']] as $data) {
+        foreach ([['name' => 'Bozza', 'surname' => 'Sintetico', 'type_cliente' => 'Richiesta', 'email' => 'titoli-bozza@example.invalid', 'save_mode' => 'draft'], ['name' => 'Cliente', 'surname' => 'Sintetico', 'privacy_consent' => 1, 'type_cliente' => 'Richiesta', 'email' => 'titoli@example.invalid']] as $data) {
             $this->post('/clienti', $data+['type' => 'Solo B'])->assertSessionHasErrors('type');
         }
         $this->postJson('/schedine', ['save_mode' => 'draft', 'type' => 'Solo B'])->assertUnprocessable()->assertJsonValidationErrors('type');

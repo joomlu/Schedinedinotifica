@@ -108,7 +108,7 @@ class GruppiIntegrityTest extends TestCase
         $structure = $this->strutturaGruppi;
         $actor = $this->actor('struttura_user', null, $structure->id);
         $this->actingAs($actor);
-        $payload = ['name' => 'Cliente sintetico', 'surname' => 'Gruppi', 'type_cliente' => 'Richiesta', 'privacy_consent' => 1,
+        $payload = ['name' => 'Cliente sintetico', 'surname' => 'Gruppi', 'type_cliente' => 'Richiesta', 'email' => 'gruppi@example.invalid', 'privacy_consent' => 1,
             'group' => 'Radice B', 'subgroup' => 'Nome condiviso', 'subgroup1' => 'Foglia B'];
         $this->post('/clienti', $payload)->assertSessionHasNoErrors()->assertRedirect();
         $customer = \App\Models\Customers::query()->where('name', 'Cliente sintetico')->firstOrFail();

@@ -103,7 +103,7 @@ class IstatTabellaAController extends Controller
             'codice' => 'required|string|max:50',
         ]);
         if ($validator->fails()) {
-            return redirect()->route('istat.tabella_a.index')->withErrors(['istat_config' => 'Configurazione non valida. Controllare codice e lunghezza delle credenziali.']);
+            return redirect()->to(route('struttura.edit', ['struttura_id' => $struttura->id]).'#configurazione-ross1000')->withErrors(['istat_config' => 'Configurazione non valida. Controllare codice e lunghezza delle credenziali.']);
         }
         $data = ['istat_codice_struttura' => $request->input('codice'), 'istat_ws_url' => null];
         foreach (['username', 'password'] as $field) {
@@ -114,9 +114,9 @@ class IstatTabellaAController extends Controller
         try {
             $struttura->update($data);
         } catch (Throwable) {
-            return redirect()->route('istat.tabella_a.index')->withErrors(['istat_config' => 'Configurazione non salvata. Nessun dettaglio sensibile disponibile.']);
+            return redirect()->to(route('struttura.edit', ['struttura_id' => $struttura->id]).'#configurazione-ross1000')->withErrors(['istat_config' => 'Configurazione non salvata. Nessun dettaglio sensibile disponibile.']);
         }
-        return redirect()->route('istat.tabella_a.index')->with('success', 'Configurazione Ross1000 salvata. Nessuna richiesta effettuata.');
+        return redirect()->to(route('struttura.edit', ['struttura_id' => $struttura->id]).'#configurazione-ross1000')->with('success', 'Configurazione Ross1000 salvata. Nessuna richiesta effettuata.');
     }
 
     public function registerManual(Request $request, int $id)

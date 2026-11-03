@@ -9,7 +9,6 @@ use App\Models\LicenzaAssegnazione;
 use App\Models\Schedina;
 use App\Models\Struttura;
 use App\Models\User;
-use App\Support\Anagrafica\EtaOperativa;
 use App\Support\StrutturaCorrente;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -35,18 +34,44 @@ class CalendarioController extends Controller
             ? $scopeStructures->pluck('id')->map(fn ($id) => (int) $id)->all()
             : $allowedStructureIds;
 
+        $request->validate([
+            'vista' => ['nullable', Rule::in(['month', 'week', 'day', 'agenda'])],
+            'categoria' => ['nullable', Rule::in(['tutte', 'informazioni', 'attivita', 'eventi'])],
+            'giorno' => ['nullable', 'date_format:Y-m-d', 'after_or_equal:1900-01-01', 'before_or_equal:2100-12-31'],
+            'mese' => ['nullable', 'date_format:Y-m', 'after_or_equal:1900-01', 'before_or_equal:2100-12'],
+            'q' => ['nullable', 'string', 'max:180'],
+            'sezione' => ['nullable', Rule::in(['calendario', 'storico'])],
+            'stato_storico' => ['nullable', Rule::in(['da_fare', 'vista', 'completata', 'chiusa'])],
+        ]);
         $month = $this->parseMonth($request->query('mese'), $request->query('giorno'));
-        $selectedDay = $this->parseDay($request->query('giorno'), $month);
-        $vista = (string) $request->query('vista', ($request->has('giorno') ? 'day' : 'month'));
+        $selectedDay = $request->filled('giorno') ? Carbon::parse($request->query('giorno'))->startOfDay()
+            : ($month->isSameMonth(now()) ? now()->startOfDay() : $month->copy());
+        $vista = (string) $request->query('vista', 'month');
+        if ($vista !== 'month') {
+            $month = $selectedDay->copy()->startOfMonth();
+        }
+        $categoria = (string) $request->query('categoria', 'tutte');
         $statoStorico = (string) $request->query('stato_storico', '');
         $q = trim((string) $request->query('q', ''));
-
         $monthStart = $month->copy()->startOfMonth();
         $monthEnd = $month->copy()->endOfMonth();
-        $gridStart = $monthStart->copy()->startOfWeek(Carbon::MONDAY);
-        $gridEnd = $monthEnd->copy()->endOfWeek(Carbon::SUNDAY);
+        $gridStart = match ($vista) {
+            'day' => $selectedDay->copy(),
+            'week' => $selectedDay->copy()->startOfWeek(Carbon::MONDAY),
+            default => $monthStart->copy()->startOfWeek(Carbon::MONDAY),
+        };
+        $gridEnd = match ($vista) {
+            'day' => $selectedDay->copy()->endOfDay(),
+            'week' => $selectedDay->copy()->endOfWeek(Carbon::SUNDAY),
+            default => $monthEnd->copy()->endOfWeek(Carbon::SUNDAY),
+        };
+        if ($vista === 'agenda') {
+            $gridStart = $monthStart->copy();
+            $gridEnd = $monthEnd->copy();
+        }
 
         $manualMonthEvents = $this->manualEventsQuery($user, $contesto, $struttura?->id, $scopeStructureIds)
+            ->when($categoria !== 'tutte', fn ($query) => $query->whereIn('tipo', match ($categoria) { 'informazioni' => ['nota'], 'eventi' => ['evento'], default => ['manuale', 'scadenza'] }))
             ->with(['creator', 'closer', 'owner', 'struttura'])
             ->whereBetween('data_evento', [$gridStart->toDateString(), $gridEnd->toDateString()])
             ->orderBy('data_evento')
@@ -57,10 +82,10 @@ class CalendarioController extends Controller
         $automaticMonthEvents = collect();
 
         if ($contesto === 'struttura' && $struttura) {
-            $automaticMonthEvents = collect($this->automaticEvents($struttura, $monthStart, $monthEnd));
+            $automaticMonthEvents = collect($this->automaticEvents($struttura, $gridStart, $gridEnd));
         } elseif ($contesto === 'portfolio') {
             $automaticMonthEvents = $scopeStructures
-                ->flatMap(fn (Struttura $item) => $this->automaticEvents($item, $monthStart, $monthEnd))
+                ->flatMap(fn (Struttura $item) => $this->automaticEvents($item, $gridStart, $gridEnd))
                 ->values();
         }
 
@@ -68,77 +93,44 @@ class CalendarioController extends Controller
             ->map(fn (CalendarioEvento $evento) => $this->presentManualEvent($evento))
             ->concat($automaticMonthEvents)
             ->filter(fn (array $event) => $this->calendarSearchMatches($event, $q))
+            ->filter(fn (array $event) => $categoria === 'tutte' || $event['categoria'] === $categoria)
             ->sortBy([['data_evento', 'asc'], ['sort_time', 'asc'], ['titolo', 'asc']])
             ->values();
 
         $eventsByDay = $allMonthEvents->groupBy('date_key');
 
-        $agendaEvents = collect();
+        $agendaEvents = $eventsByDay->get($selectedDay->toDateString(), collect());
 
-        if ($contesto === 'struttura' && $struttura) {
-            $agendaEvents = $agendaEvents->concat($this->automaticEvents($struttura, $selectedDay, $selectedDay));
-        } elseif ($contesto === 'portfolio') {
-            $agendaEvents = $agendaEvents->concat(
-                $struttureDisponibili->flatMap(fn (Struttura $item) => $this->automaticEvents($item, $selectedDay, $selectedDay))
-            );
+        $history = collect();
+        if ($request->query('sezione') === 'storico') {
+            $history = $this->manualEventsQuery($user, $contesto, $struttura?->id, $scopeStructureIds)
+                ->with(['creator', 'closer', 'owner', 'struttura'])
+                ->where(function ($query) use ($selectedDay) {
+                    $query->whereIn('stato', ['completata', 'chiusa'])
+                        ->orWhereDate('data_evento', '<', $selectedDay->toDateString());
+                })
+                ->when($categoria !== 'tutte', fn ($query) => $query->whereIn('tipo', match ($categoria) { 'informazioni' => ['nota'], 'eventi' => ['evento'], default => ['manuale', 'scadenza'] }))
+                ->when($statoStorico !== '', fn ($query) => $query->where('stato', $statoStorico))
+                ->orderByDesc('data_evento')
+                ->orderByDesc('ora_evento')
+                ->limit(80)
+                ->get();
+
+            if ($q !== '') {
+                $history = $history->filter(function (CalendarioEvento $evento) use ($q) {
+                    $haystack = mb_strtolower(implode(' ', array_filter([
+                        $evento->titolo,
+                        $evento->descrizione,
+                        $evento->creator?->displayLabel(),
+                        $evento->struttura?->nome_struttura,
+                        $evento->tipo,
+                        $evento->stato,
+                    ])));
+
+                    return str_contains($haystack, mb_strtolower($q));
+                })->values();
+            }
         }
-
-        $agendaEvents = $agendaEvents
-            ->concat(
-                $this->manualEventsQuery($user, $contesto, $struttura?->id, $scopeStructureIds)
-                    ->with(['creator', 'closer', 'owner', 'struttura'])
-                    ->whereDate('data_evento', $selectedDay->toDateString())
-                    ->orderBy('ora_evento')
-                    ->orderByDesc('id')
-                    ->get()
-                    ->map(fn (CalendarioEvento $evento) => $this->presentManualEvent($evento))
-            )
-            ->filter(fn (array $event) => $this->calendarSearchMatches($event, $q))
-            ->sortBy([['sort_time', 'asc'], ['titolo', 'asc']])
-            ->values();
-
-        $history = $this->manualEventsQuery($user, $contesto, $struttura?->id, $scopeStructureIds)
-            ->with(['creator', 'closer', 'owner', 'struttura'])
-            ->where(function ($query) use ($selectedDay) {
-                $query->whereIn('stato', ['completata', 'chiusa'])
-                    ->orWhereDate('data_evento', '<', $selectedDay->toDateString());
-            })
-            ->when($statoStorico !== '', fn ($query) => $query->where('stato', $statoStorico))
-            ->orderByDesc('data_evento')
-            ->orderByDesc('ora_evento')
-            ->limit(80)
-            ->get();
-
-        if ($q !== '') {
-            $history = $history->filter(function (CalendarioEvento $evento) use ($q) {
-                $haystack = mb_strtolower(implode(' ', array_filter([
-                    $evento->titolo,
-                    $evento->descrizione,
-                    $evento->creator?->displayLabel(),
-                    $evento->struttura?->nome_struttura,
-                    $evento->tipo,
-                    $evento->stato,
-                ])));
-
-                return str_contains($haystack, mb_strtolower($q));
-            })->values();
-        }
-
-        $utenti = $contesto === 'struttura' && $struttura
-            ? User::query()
-                ->where('struttura_id', $struttura->id)
-                ->orderByRaw("case when ruolo_operativo = 'proprietario' then 0 else 1 end")
-                ->orderBy('display_name')
-                ->orderBy('name')
-                ->get()
-            : collect();
-
-        $contatori = [
-            'manuali_aperte' => $this->manualEventsQuery($user, $contesto, $struttura?->id, $scopeStructureIds)->whereIn('stato', ['da_fare', 'vista'])->count(),
-            'oggi' => $agendaEvents->count(),
-            'compleanni' => $automaticMonthEvents->where('tipo', 'compleanno')->count(),
-            'movimenti' => $automaticMonthEvents->whereIn('tipo', ['checkin', 'checkout'])->count(),
-        ];
 
         $calendarWeeks = collect(CarbonPeriod::create($gridStart, '1 day', $gridEnd))
             ->chunk(7)
@@ -150,13 +142,16 @@ class CalendarioController extends Controller
             'selectedDay' => $selectedDay,
             'activeTab' => $vista,
             'vista' => $vista,
+            'categoria' => $categoria,
+            'periodStart' => $gridStart,
+            'periodEnd' => $gridEnd,
+            'periodEvents' => $allMonthEvents,
             'calendarWeeks' => $calendarWeeks,
             'eventsByDay' => $eventsByDay,
             'agendaEvents' => $agendaEvents,
             'history' => $history,
+            'historyEvents' => $history->map(fn (CalendarioEvento $evento) => $this->presentManualEvent($evento)),
             'manualMonthEvents' => $manualMonthEvents,
-            'utenti' => $utenti,
-            'contatori' => $contatori,
             'statoStorico' => $statoStorico,
             'q' => $q,
             'prevMonth' => $month->copy()->subMonthNoOverflow()->format('Y-m'),
@@ -181,7 +176,7 @@ class CalendarioController extends Controller
             'struttura_id' => $targetStrutturaId,
             'ambito' => $targetStrutturaId ? 'struttura' : 'personale',
             'user_scope_id' => $targetStrutturaId ? null : $user->id,
-            'tipo' => 'manuale',
+            'tipo' => $data['tipo'] ?? 'manuale',
             'titolo' => $data['titolo'],
             'descrizione' => $data['descrizione'] ?? null,
             'data_evento' => $data['data_evento'],
@@ -201,18 +196,19 @@ class CalendarioController extends Controller
             'struttura_id' => $targetStrutturaId ?: null,
             'mese' => Carbon::parse($data['data_evento'])->format('Y-m'),
             'giorno' => $data['data_evento'],
-            'vista' => 'day',
-        ])->with('success', 'Evento salvato nel calendario.');
+            'vista' => 'month',
+        ])->with('calendar_day', $data['data_evento'])->with('success', 'Evento salvato nel calendario.');
     }
 
     public function update(Request $request, int $id)
     {
         $calendar = $this->resolveCalendarContext($request);
-        $evento = CalendarioEvento::withoutGlobalScopes()->where('tipo', 'manuale')->findOrFail($id);
+        $evento = CalendarioEvento::withoutGlobalScopes()->whereIn('tipo', ['manuale', 'nota', 'evento', 'scadenza'])->findOrFail($id);
         $this->guardEventoAccess($request->user(), $evento);
 
         $data = $this->validateEvento($request);
         $evento->fill([
+            'tipo' => $data['tipo'] ?? $evento->tipo,
             'titolo' => $data['titolo'],
             'descrizione' => $data['descrizione'] ?? null,
             'data_evento' => $data['data_evento'],
@@ -230,14 +226,14 @@ class CalendarioController extends Controller
             'struttura_id' => $evento->struttura_id,
             'mese' => Carbon::parse($data['data_evento'])->format('Y-m'),
             'giorno' => $data['data_evento'],
-            'vista' => 'day',
-        ])->with('success', 'Evento aggiornato.');
+            'vista' => 'month',
+        ])->with('calendar_day', $data['data_evento'])->with('success', 'Evento aggiornato.');
     }
 
     public function updateStatus(Request $request, int $id)
     {
         $calendar = $this->resolveCalendarContext($request);
-        $evento = CalendarioEvento::withoutGlobalScopes()->where('tipo', 'manuale')->findOrFail($id);
+        $evento = CalendarioEvento::withoutGlobalScopes()->whereIn('tipo', ['manuale', 'nota', 'evento', 'scadenza'])->findOrFail($id);
         $this->guardEventoAccess($request->user(), $evento);
 
         $data = $request->validate([
@@ -254,16 +250,17 @@ class CalendarioController extends Controller
             'struttura_id' => $evento->struttura_id,
             'mese' => optional($evento->data_evento)->format('Y-m'),
             'giorno' => optional($evento->data_evento)->toDateString(),
-            'vista' => 'day',
-        ])->with('success', 'Stato evento aggiornato.');
+            'vista' => 'month',
+        ])->with('calendar_day', $evento->data_evento->toDateString())->with('success', 'Stato evento aggiornato.');
     }
 
     private function validateEvento(Request $request): array
     {
         return $request->validate([
+            'tipo' => ['sometimes', Rule::in(['manuale', 'nota', 'evento', 'scadenza'])],
             'titolo' => ['required', 'string', 'max:180'],
             'descrizione' => ['nullable', 'string', 'max:5000'],
-            'data_evento' => ['required', 'date'],
+            'data_evento' => ['required', 'date_format:Y-m-d', 'after_or_equal:1900-01-01', 'before_or_equal:2100-12-31'],
             'ora_evento' => ['nullable', 'date_format:H:i'],
             'priorita' => ['required', Rule::in(['bassa', 'normale', 'alta', 'urgente'])],
             'stato' => ['required', Rule::in(['da_fare', 'vista', 'completata', 'chiusa'])],
@@ -297,7 +294,7 @@ class CalendarioController extends Controller
     private function manualEventsQuery(User $user, string $contesto, ?int $strutturaId, array $allowedStructureIds = [])
     {
         return CalendarioEvento::withoutGlobalScopes()
-            ->where('tipo', 'manuale')
+            ->whereIn('tipo', ['manuale', 'nota', 'evento', 'scadenza'])
             ->when($contesto === 'personale', fn ($query) => $query
                 ->where('ambito', 'personale')
                 ->where('user_scope_id', $user->id))
@@ -311,12 +308,22 @@ class CalendarioController extends Controller
 
     private function resolveCalendarContext(Request $request): array
     {
+        $request->validate([
+            'contesto' => ['nullable', Rule::in(['personale', 'struttura', 'portfolio'])],
+            'struttura_id' => ['nullable', 'integer', 'min:1'],
+        ]);
         $user = $request->user();
         $struttureDisponibili = $this->accessibleStructures($user);
         $allowedStructureIds = $struttureDisponibili->pluck('id')->map(fn ($id) => (int) $id)->all();
         $requested = (string) $request->input('contesto', $request->query('contesto', $this->defaultCalendarContext($user, $struttureDisponibili)));
+        // Un solo hotel non costituisce un portafoglio: anche i vecchi URL
+        // mantengono il contesto della struttura, senza opzioni ridondanti.
+        if ($requested === 'portfolio' && $struttureDisponibili->count() === 1) {
+            $requested = 'struttura';
+        }
         $selectedStructureId = (int) ($request->input('struttura_id', $request->query('struttura_id')) ?: 0);
 
+        abort_if($selectedStructureId && !in_array($selectedStructureId, $allowedStructureIds, true), 403);
         $selectedStruttura = null;
         if (!empty($allowedStructureIds)) {
             if ($selectedStructureId && in_array($selectedStructureId, $allowedStructureIds, true)) {
@@ -341,7 +348,7 @@ class CalendarioController extends Controller
                 'struttura' => $selectedStruttura,
                 'strutture_disponibili' => $struttureDisponibili,
                 'allowed_structure_ids' => $allowedStructureIds,
-                'can_select_structure' => !$user->isStrutturaUser() && $struttureDisponibili->isNotEmpty(),
+                'can_select_structure' => !$user->isStrutturaUser() && $struttureDisponibili->count() > 1,
                 'portfolio_label' => $portfolioLabel,
             ];
         }
@@ -352,7 +359,7 @@ class CalendarioController extends Controller
                 'struttura' => $selectedStruttura,
                 'strutture_disponibili' => $struttureDisponibili,
                 'allowed_structure_ids' => $allowedStructureIds,
-                'can_select_structure' => !$user->isStrutturaUser() && $struttureDisponibili->isNotEmpty(),
+                'can_select_structure' => !$user->isStrutturaUser() && $struttureDisponibili->count() > 1,
                 'portfolio_label' => $portfolioLabel,
             ];
         }
@@ -362,7 +369,7 @@ class CalendarioController extends Controller
             'struttura' => $selectedStruttura,
             'strutture_disponibili' => $struttureDisponibili,
             'allowed_structure_ids' => $allowedStructureIds,
-            'can_select_structure' => !$user->isStrutturaUser() && $struttureDisponibili->isNotEmpty(),
+            'can_select_structure' => !$user->isStrutturaUser() && $struttureDisponibili->count() > 1,
             'portfolio_label' => $portfolioLabel,
         ];
     }
@@ -518,11 +525,12 @@ class CalendarioController extends Controller
     private function birthdayEvents(Struttura $struttura, Carbon $start, Carbon $end): array
     {
         $events = [];
-        $clienti = Customers::query()
+        // Il perimetro è già risolto da resolveCalendarContext: il filtro
+        // esplicito evita che l’hotel selezionato nella barra nasconda gli altri autorizzati.
+        $clienti = Customers::withoutGlobalScope('struttura')
             ->select(['id', 'name', 'surname', 'nac_reg'])
             ->where('struttura_id', $struttura->id)
             ->whereNotNull('nac_reg')
-            ->where('nac_reg', '<>', '')
             ->get();
 
         foreach ($clienti as $cliente) {
@@ -533,12 +541,14 @@ class CalendarioController extends Controller
             }
 
             foreach ($this->yearsInRange($start, $end) as $year) {
-                $eventDate = $birth->copy()->setYear($year);
-                if ($eventDate->betweenIncluded($start, $end)) {
+                $eventDate = $birth->copy()->startOfMonth()->setYear($year)->day(min($birth->day, $birth->copy()->startOfMonth()->setYear($year)->daysInMonth));
+                if ($eventDate->gte($birth) && $eventDate->betweenIncluded($start, $end)) {
                     $events[] = $this->automaticEventArray([
                         'tipo' => 'compleanno',
                         'titolo' => 'Compleanno: ' . trim(($cliente->name ?? '') . ' ' . ($cliente->surname ?? '')),
-                        'descrizione' => 'Il cliente compie ' . EtaOperativa::etaOperativa($cliente->nac_reg, $eventDate) . ' anni.',
+                        'detail_link' => route('customer.edit', ['id' => $cliente->id]),
+                        'detail_label' => 'Apri cliente',
+                        'descrizione' => 'Data di nascita: ' . $birth->format('d/m/Y') . '. Compleanno del cliente: ' . ($year - $birth->year) . ' anni.',
                         'data_evento' => $eventDate->toDateString(),
                         'ora_evento' => null,
                         'priorita' => 'normale',
@@ -550,7 +560,7 @@ class CalendarioController extends Controller
             }
         }
 
-        $componenti = Componenti::query()
+        $componenti = Componenti::withoutGlobalScope('struttura')
             ->select(['id', 'name', 'surname', 'date_nac'])
             ->where('struttura_id', $struttura->id)
             ->whereNotNull('date_nac')
@@ -564,12 +574,12 @@ class CalendarioController extends Controller
             }
 
             foreach ($this->yearsInRange($start, $end) as $year) {
-                $eventDate = $birth->copy()->setYear($year);
-                if ($eventDate->betweenIncluded($start, $end)) {
+                $eventDate = $birth->copy()->startOfMonth()->setYear($year)->day(min($birth->day, $birth->copy()->startOfMonth()->setYear($year)->daysInMonth));
+                if ($eventDate->gte($birth) && $eventDate->betweenIncluded($start, $end)) {
                     $events[] = $this->automaticEventArray([
                         'tipo' => 'compleanno',
                         'titolo' => 'Compleanno componente: ' . trim(($componente->name ?? '') . ' ' . ($componente->surname ?? '')),
-                        'descrizione' => 'Il componente compie ' . EtaOperativa::etaOperativa($componente->date_nac, $eventDate) . ' anni.',
+                        'descrizione' => 'Data di nascita: ' . $birth->format('d/m/Y') . '. Compleanno del componente: ' . ($year - $birth->year) . ' anni.',
                         'data_evento' => $eventDate->toDateString(),
                         'ora_evento' => null,
                         'priorita' => 'normale',
@@ -587,7 +597,8 @@ class CalendarioController extends Controller
     private function schedinaMovementEvents(Struttura $struttura, Carbon $start, Carbon $end): array
     {
         $events = [];
-        $schedine = Schedina::query()->effettive()
+        $schedine = Schedina::withoutGlobalScope('struttura')->effettive()
+            ->with(['componenti' => fn ($query) => $query->withoutGlobalScope('struttura')->where('struttura_id', $struttura->id)->select(['id', 'schedina_id', 'name', 'surname'])])
             ->select(['id', 'name', 'surname', 'arrive', 'departure', 'cant_people', 'circuito', 'is_arrive', 'struttura_id'])
             ->where('struttura_id', $struttura->id)
             ->where(function ($query) {
@@ -604,14 +615,20 @@ class CalendarioController extends Controller
 
         foreach ($schedine as $schedina) {
             $ospite = trim(($schedina->name ?? '') . ' ' . ($schedina->surname ?? '')) ?: 'Ospite';
+            $componenti = $schedina->componenti->map(fn ($item) => trim($item->name . ' ' . $item->surname))->implode(', ');
+            $dettaglio = 'Cliente principale: ' . $ospite . '. Ospiti dichiarati: ' . ($schedina->cant_people ?? 'non indicati')
+                . '. Componenti registrati: ' . ($componenti ?: 'nessuno') . '.';
             if ($schedina->arrive) {
                 try {
                     $arrive = Carbon::parse($schedina->arrive);
                     if ($arrive->betweenIncluded($start, $end)) {
                         $events[] = $this->automaticEventArray([
                             'tipo' => 'checkin',
-                            'titolo' => 'Check-in previsto: ' . $ospite,
-                            'descrizione' => 'Arrivo previsto in struttura' . ($schedina->cant_people ? ' per ' . $schedina->cant_people . ' persone.' : '.'),
+                            'titolo' => 'Arrivo: ' . $ospite,
+                            'descrizione' => $dettaglio,
+                            'detail_link' => route('schedina.edit', ['id' => $schedina->id]),
+                            'detail_label' => 'Apri soggiorno',
+                            'persone' => $schedina->cant_people,
                             'data_evento' => $arrive->toDateString(),
                             'ora_evento' => null,
                             'priorita' => 'alta',
@@ -630,8 +647,11 @@ class CalendarioController extends Controller
                     if ($departure->betweenIncluded($start, $end)) {
                         $events[] = $this->automaticEventArray([
                             'tipo' => 'checkout',
-                            'titolo' => 'Check-out previsto: ' . $ospite,
-                            'descrizione' => 'Partenza prevista dalla struttura' . ($schedina->cant_people ? ' per ' . $schedina->cant_people . ' persone.' : '.'),
+                            'titolo' => 'Partenza: ' . $ospite,
+                            'descrizione' => $dettaglio,
+                            'detail_link' => route('schedina.edit', ['id' => $schedina->id]),
+                            'detail_label' => 'Apri soggiorno',
+                            'persone' => $schedina->cant_people,
                             'data_evento' => $departure->toDateString(),
                             'ora_evento' => null,
                             'priorita' => 'normale',
@@ -656,7 +676,8 @@ class CalendarioController extends Controller
             'id' => $evento->id,
             'is_manual' => true,
             'tipo' => $evento->tipo,
-            'tipo_label' => $evento->ambito === 'personale' ? 'Personale' : $evento->tipoLabel(),
+            'tipo_label' => $evento->tipoLabel(),
+            'categoria' => match ($evento->tipo) { 'nota' => 'informazioni', 'evento' => 'eventi', default => 'attivita' },
             'titolo' => $evento->titolo,
             'descrizione' => $evento->descrizione,
             'data_evento' => $evento->data_evento?->toDateString(),
@@ -667,7 +688,8 @@ class CalendarioController extends Controller
             'priorita_label' => $evento->prioritaLabel(),
             'stato' => $evento->stato,
             'stato_label' => $evento->statoLabel(),
-            'badge_class' => $evento->ambito === 'personale' ? 'bg-primary-subtle text-primary' : $evento->badgeClass(),
+            'badge_class' => $evento->badgeClass(),
+            ...$this->alertPresentation($evento->priorita, $evento->data_evento?->toDateString(), $evento->stato, $evento->tipo === 'scadenza'),
             'creator_label' => $creator?->displayLabel() ?? 'Utente',
             'creator_role' => $creator?->ruoloOperativoLabel() ?? 'Utente',
             'struttura_label' => $evento->struttura?->nome_struttura,
@@ -681,6 +703,7 @@ class CalendarioController extends Controller
             'id' => null,
             'is_manual' => false,
             'tipo' => $payload['tipo'],
+            'categoria' => $payload['tipo'] === 'compleanno' ? 'eventi' : 'informazioni',
             'tipo_label' => match ($payload['tipo']) {
                 'compleanno' => 'Compleanno',
                 'checkin' => 'Check-in',
@@ -697,12 +720,12 @@ class CalendarioController extends Controller
             'sort_time' => $payload['ora_evento'] ?: '99:99',
             'priorita' => $payload['priorita'],
             'priorita_label' => ucfirst($payload['priorita']),
-            'stato' => $payload['stato'],
-            'stato_label' => match ($payload['stato']) {
-                'chiusa' => 'Chiusa',
-                'vista' => 'Vista',
-                'completata' => 'Completata',
-                default => 'Da fare',
+            ...$this->alertPresentation($payload['priorita'], $payload['data_evento'], 'informativo', in_array($payload['tipo'], ['scadenza_servizio', 'scadenza_licenza'], true)),
+            'stato' => 'informativo',
+            'stato_label' => match ($payload['tipo']) {
+                'checkin', 'checkout' => 'Registrato in schedina',
+                'compleanno' => 'Ricorrenza',
+                default => 'Scadenza',
             },
             'badge_class' => match ($payload['tipo']) {
                 'compleanno' => 'bg-warning-subtle text-warning',
@@ -715,10 +738,34 @@ class CalendarioController extends Controller
             'creator_label' => $payload['creator_label'] ?? 'Sistema',
             'creator_role' => 'Automatico',
             'struttura_label' => $payload['struttura_label'] ?? null,
+            'persone' => $payload['persone'] ?? null,
             'detail_link' => $payload['detail_link'] ?? null,
             'detail_label' => $payload['detail_label'] ?? null,
             'model' => null,
         ];
+    }
+
+    private function alertPresentation(string $priority, ?string $date, string $state, bool $deadline): array
+    {
+        $closed = in_array($state, ['completata', 'chiusa'], true);
+        $color = $closed ? 'success' : match ($priority) {
+            'urgente' => 'danger', 'alta' => 'warning', default => 'success',
+        };
+        $label = $closed ? ucfirst($state) : match ($priority) {
+            'urgente' => 'Urgente', 'alta' => 'Attenzione', 'bassa' => 'Bassa priorità', default => 'Ordinario',
+        };
+        if ($deadline && !$closed && $date) {
+            $day = Carbon::parse($date)->startOfDay();
+            if ($day->lt(today())) {
+                $color = 'danger';
+                $label = 'Scaduta';
+            } elseif ($day->isToday()) {
+                $color = $priority === 'urgente' ? 'danger' : 'warning';
+                $label = 'Scade oggi';
+            }
+        }
+
+        return ['alert_color' => $color, 'alert_label' => $label, 'is_deadline' => $deadline];
     }
 
     private function calendarStructureDetailLink(int $strutturaId, string $tab): string
@@ -749,7 +796,7 @@ class CalendarioController extends Controller
     {
         try {
             return $value
-                ? Carbon::createFromFormat('Y-m', $value)->startOfMonth()
+                ? Carbon::createFromFormat('!Y-m', $value)->startOfMonth()
                 : ($day ? Carbon::parse($day)->startOfMonth() : now()->startOfMonth());
         } catch (\Throwable $e) {
             return now()->startOfMonth();

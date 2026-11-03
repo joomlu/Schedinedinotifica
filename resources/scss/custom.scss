@@ -678,3 +678,6 @@ html[data-sidebar="dark"] .navbar-menu {
 .ri-edit-line {
     color: var(--vz-primary);
 }
+
+// Navigazione compatta: stili circoscritti alla barra laterale.
+@import "components/sidebar-notifica";

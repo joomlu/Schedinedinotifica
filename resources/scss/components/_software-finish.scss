@@ -1,0 +1,291 @@
+// Software UI: Notifica type scale and controls, with visible interaction states.
+// Scoped to the application layout; the public site keeps its own typography.
+body.software-ui {
+    // Same type scale as Schedinedinotifica: Open Sans 14px, headings 600,
+    // normal text 400 and control/tab weights supplied by the shared theme.
+    font-family: var(--vz-font-sans-serif, "Open Sans", sans-serif);
+    font-size: .875rem;
+    line-height: 1.5;
+
+    :is(h1,h2,h3,h4,h5,h6,.card-title,.dash-section-title,.hub-panel > h2,.hub-heading h1) {
+        font-weight:600 !important;
+    }
+
+    .page-content {
+        .btn:not(.btn-icon) {
+            min-height: 39px;
+            padding: .5rem .9rem;
+            font-size: .875rem;
+            line-height: 1.5;
+            border-radius: 7px;
+            box-shadow: none !important;
+            transform: none !important;
+            transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+        }
+        .btn-sm:not(.btn-icon) { min-height: 31px; padding: .25rem .5rem; font-size: .765625rem; }
+        .btn-lg:not(.btn-icon) { min-height: 44px; padding: .7rem 1.2rem; font-size: 1.09375rem; }
+        .btn-primary, .btn-outline-primary, .btn-soft-primary {
+            --vz-btn-hover-bg: #24635d; --vz-btn-hover-border-color: #24635d; --vz-btn-hover-color: #fff;
+        }
+        .btn-success, .btn-outline-success, .btn-soft-success {
+            --vz-btn-hover-bg: #305685; --vz-btn-hover-border-color: #305685; --vz-btn-hover-color: #fff;
+        }
+        .btn-info, .btn-outline-info, .btn-soft-info {
+            --vz-btn-hover-bg: #24635d; --vz-btn-hover-border-color: #24635d; --vz-btn-hover-color: #fff;
+        }
+        .btn-primary, .btn-outline-primary, .btn-soft-primary,
+        .btn-success, .btn-outline-success, .btn-soft-success,
+        .btn-info, .btn-outline-info, .btn-soft-info {
+            &:not(:disabled):not(.disabled):hover {
+                background-color: var(--vz-btn-hover-bg);
+                border-color: var(--vz-btn-hover-border-color);
+                color: var(--vz-btn-hover-color);
+            }
+        }
+        .btn-light, .btn-outline-secondary {
+            &:not(:disabled):not(.disabled):hover { background:#305685; border-color:#305685; color:#fff; }
+        }
+        .btn:focus-visible, .nav-link:focus-visible {
+            outline: 2px solid #305685; outline-offset: 3px; box-shadow: 0 0 0 3px #e3b52933 !important;
+        }
+        .step-arrow-nav .custom-nav .nav-link,
+        .nav-tabs .nav-link, .nav-tabs-custom .nav-link {
+            min-height: 49px !important;
+            padding: .82rem 1.1rem !important;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+    }
+
+    .mp-page-hero {
+        background:#fff !important;
+        border-left-width: 3px !important;
+        box-shadow: 0 3px 14px #48251f04;
+        > .card-body { padding: 24px !important; }
+        h1, h2, .h3 { font-size:21px; line-height:1.3; }
+        p { font-size:14px; line-height:1.5; }
+        &::after { background:#78170c03; }
+    }
+    .mp-page-eyebrow { font-size:12px; font-weight:600; letter-spacing:.07em; padding:.35rem .75rem; }
+    .mp-chip-list { margin-top:10px; }
+    .mp-chip { font-size:12.5px; padding:.35rem .75rem; background:#faf8f5; }
+
+    .admin-workspace-navigation { padding:5px; border:1px solid #e9e3dc; border-radius:10px; background:#fff; box-shadow:none; }
+    .admin-workspace-tabs {
+        display:flex; flex-wrap:wrap; gap:4px;
+        .nav-link {
+            flex:0 1 auto; min-height:49px; padding:.82rem 1.1rem; border:1px solid transparent;
+            border-radius:.75rem .75rem 0 0; background:linear-gradient(180deg,#fff 0%,#faf8f5 100%); color:#6d655d; font-size:14px; font-weight:600; line-height:1.5;
+            transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+            &.active { background:linear-gradient(180deg,#fff 0%,#faf8f5 100%); border-color:#78170c2e; border-bottom-color:#faf8f5; color:#78170c; box-shadow:0 10px 24px #78170c1a; }
+            &:not(.disabled):hover { background:#24635d; border-color:#24635d; color:#fff; }
+            &.active:hover { background:#78170c; border-color:#78170c; color:#fff; }
+        }
+    }
+    // Shared interaction language for all application tabs and calendar view switches.
+    .page-content :is(.nav .nav-link, [role="tab"], .btn-group[aria-label^="Vista"] .btn) {
+        transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+        &:not(.disabled):not(:disabled):not([aria-disabled="true"]):hover {
+            background: var(--tango-teal, #24635d) !important;
+            border-color: var(--tango-teal, #24635d) !important;
+            color: #fff !important;
+            box-shadow: none !important;
+        }
+        // Selection stays blue even while the pointer remains over the chosen tab.
+        &:is(.active, [aria-selected="true"], [aria-current="page"]):not(.disabled):not(:disabled):not([aria-disabled="true"]) {
+            background: var(--tango-blue, #305685) !important;
+            border-color: var(--tango-blue, #305685) !important;
+            color: #fff !important;
+            box-shadow: inset 0 -3px 0 #ffffff66 !important;
+        }
+    }
+    .page-content .step-arrow-nav .nav-link.active::before {
+        border-left-color: var(--tango-blue, #305685) !important;
+    }
+    .page-content {
+        .btn-outline-primary { background-color: #78170c08; }
+        .btn-light, .btn-outline-secondary {
+            background-color: #3056850a;
+            border-color: #30568533;
+            color: var(--tango-blue, #305685);
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .page-content :is(.nav .nav-link, [role="tab"], .btn-group[aria-label^="Vista"] .btn) { transition: none; }
+    }
+
+    .admin-hub {
+        .hub-heading { padding:24px; }
+        .hub-heading h1 { font-size:25px; }
+        .hub-card { padding:20px; transition:background-color .16s ease, border-color .16s ease; }
+        a.hub-card:hover { background:#f4f8f6; border-color:#24635d; box-shadow:none; }
+        a.hub-card:hover .hub-icon { color:#24635d; }
+        .hub-value { font-size:27px; color:#78170c; }
+        .hub-panel { padding:22px; }
+    }
+    @media (max-width:575.98px) {
+        .mp-page-hero > .card-body { padding:18px !important; }
+        .admin-workspace-tabs .nav-link { flex:1 1 auto; padding:.7rem .6rem; font-size:14px; }
+        .page-content .btn:not(.btn-icon) { min-height:39px; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+        .page-content .btn, .admin-workspace-tabs .nav-link, .admin-hub .hub-card { transition:none; }
+    }
+}
+
+// Calendar-first CRM workspace; existing theme and controls are preserved.
+.crm-agenda-scroll { overflow-x:auto; }
+.crm-agenda-grid { min-width:770px; display:grid; grid-template-columns:repeat(7,minmax(110px,1fr)); gap:1px; background:#e9e3dc; border:1px solid #e9e3dc; border-radius:8px; overflow:hidden; }
+.crm-agenda-grid template { display:none; }
+.crm-agenda-grid.crm-agenda-day-view { min-width:0; grid-template-columns:minmax(0,1fr); }
+.crm-agenda-weekday { background:#faf8f5; padding:8px 10px; color:#77716b; font-size:12px; }
+.crm-agenda-cell { min-height:110px; padding:10px; background:white; cursor:pointer; }
+.crm-agenda-cell:hover { background:#f1f7f4; }
+.crm-agenda-cell:focus-visible { outline:2px solid #305685; outline-offset:-2px; }
+.crm-agenda-other-month { background:#faf8f5; color:#9b948c; }
+.crm-agenda-today .crm-agenda-number { background:#78170c; color:#fff; border-radius:50%; padding:4px 7px; }
+.crm-agenda-event { display:block; background:#edf5f2; border-left:2px solid #24635d; padding:4px 6px; margin-bottom:4px; font-size:12px; color:#24635d; text-decoration:none; overflow:hidden; }
+.crm-agenda-event:hover { background:#24635d; color:#fff; }
+.crm-agenda-event:hover small { color:#fff !important; }
+
+// Shared GEO controls: visible palette surfaces without changing the GEO component.
+body.software-ui .page-content [data-ui="geo-italia"] .btn {
+    min-height:39px;
+    padding:.5rem .9rem;
+    font-size:.875rem;
+    background:#edf2f8;
+    border-color:#bbcadd;
+    color:#305685;
+    &.active { background:#305685; border-color:#305685; color:#fff; }
+    &:not(:disabled):hover { background:#24635d; border-color:#24635d; color:#fff; }
+    &[data-action="geo-reset"] { background:#f7e9e8; border-color:#dab8b5; color:#78170c; }
+    &[data-action="geo-reset"]:hover { background:#78170c; border-color:#78170c; color:#fff; }
+}
+body.software-ui .page-content .struttura-form-workspace {
+    .btn:not(.btn-icon):not(.btn-link) {
+        min-height:39px; padding:.5rem .9rem; font-size:.875rem;
+    }
+    .btn-light, .btn-outline-primary { background:#edf2f8; border-color:#bbcadd; color:#305685; }
+    .btn-outline-danger { background:#f7e9e8; border-color:#dab8b5; color:#78170c; }
+    .btn:not(:disabled):not(.btn-link):hover { background:#24635d; border-color:#24635d; color:#fff; }
+    [role="tablist"] { gap:4px; flex-wrap:wrap; }
+    [role="tablist"] .nav-item { flex:1 1 160px; }
+}
+
+// A collapsed sidebar is an icon rail: no expanded-menu borders or hidden flyouts.
+@media (min-width:768px) {
+    html[data-sidebar-size="sm"] .navbar-menu .navbar-nav {
+        > .menu-title { display:none; }
+        > .nav-item { margin:0; }
+        > .nav-item > .nav-link.menu-link {
+            display:flex; align-items:center; justify-content:center;
+            width:44px !important; height:44px; min-height:44px;
+            margin:3px auto; padding:10px; border:0; border-radius:8px;
+            background:transparent; box-shadow:none; color:var(--vz-vertical-menu-item-color);
+            > span { display:none !important; }
+            > .icon-dual { display:block; width:22px; height:22px; margin:0; flex:0 0 22px; }
+            &::before, &::after { display:none !important; }
+            &.active { background:#edf2f8; color:#305685; border:0; box-shadow:none; }
+            &:hover, &:focus-visible { background:#24635d; color:#fff; }
+        }
+        .menu-dropdown { display:none !important; pointer-events:none; }
+    }
+}
+
+// Fine outline icons share the link color, including white on green hover.
+body.software-ui .navbar-menu .navbar-nav .nav-link > svg.icon-dual {
+    stroke-width:1;
+    stroke:currentColor;
+    color:inherit !important;
+    fill:none !important;
+}
+
+// Quiet software surfaces and discreet burgundy scrollbars.
+body.software-ui {
+    --tango-surface:#fff;
+    --tango-surface-soft:#fcfcfb;
+    --vz-body-bg:#fff;
+    background-color:#fff;
+    .main-content, .content-wrapper { background-color:#fff; }
+    .navbar-menu .nav-link > svg.icon-dual,
+    .navbar-menu .nav-link > svg.icon-dual * {
+        fill:none !important;
+        filter:none !important;
+        box-shadow:none !important;
+    }
+    * { scrollbar-color:#ba9692 #fcfbfb; }
+    *::-webkit-scrollbar { width:6px; height:6px; }
+    *::-webkit-scrollbar-track { background:#fcfbfb; }
+    *::-webkit-scrollbar-thumb { background:#ba9692; border:1px solid #fcfbfb; border-radius:99px; }
+    *::-webkit-scrollbar-thumb:hover { background:#a77b76; }
+    .navbar-menu #scrollbar {
+        scrollbar-color:#78170c #fcfbfb;
+        &::-webkit-scrollbar { width:5px; }
+        &::-webkit-scrollbar-track { background:#fcfbfb; }
+        &::-webkit-scrollbar-thumb {
+            background:#78170c;
+            background-clip:padding-box;
+            border:1px solid transparent;
+            border-block-width:7px;
+            border-radius:99px;
+        }
+        &::-webkit-scrollbar-thumb:hover { background-color:#78170c; }
+    }
+}
+@supports selector(::-webkit-scrollbar) {
+    body.software-ui .navbar-menu #scrollbar { scrollbar-width:auto; }
+}
+html[data-sidebar="light"] body.software-ui .navbar-menu .navbar-nav .nav-link.active {
+    background:#faf8f8;
+    box-shadow:none;
+}
+@media (min-width:768px) {
+    html[data-sidebar-size="sm"] body.software-ui .navbar-menu .navbar-nav > .nav-item > .nav-link.menu-link.active {
+        background:#f5f8fc;
+        &:hover, &:focus-visible { background:#24635d; color:#fff; }
+    }
+}
+
+body.software-ui .compact-sidebar-options {
+    position:fixed; z-index:1040; width:260px; max-width:calc(100vw - 86px);
+    max-height:calc(100dvh - 16px); overflow-y:auto;
+    padding:10px; background:#fff; border:1px solid #e9e3dc;
+    border-radius:10px; box-shadow:0 5px 18px #30252312;
+    .compact-sidebar-options-heading { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 4px 8px; font-size:13px; font-weight:600; color:#5b5550; }
+    .compact-sidebar-close { display:grid; place-items:center; width:28px; height:28px; padding:0; border:0; border-radius:6px; background:#fcfcfb; color:#716a64; font-size:21px; line-height:1; }
+    .compact-sidebar-options-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px; }
+    .compact-sidebar-option {
+        display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+        min-height:72px; padding:9px 5px; border:1px solid transparent; border-radius:7px;
+        color:#655d57; background:#fcfcfb; font-size:12px; line-height:1.35; text-align:center; text-decoration:none;
+        svg, svg * { fill:none; filter:none; box-shadow:none; }
+        svg { color:inherit !important; stroke:currentColor; stroke-width:1; flex-shrink:0; }
+        &[aria-current="page"] { background:#f0f5fb; color:#305685; border-color:#dce5ef; }
+        &:hover, &:focus-visible { background:#24635d; color:#fff; }
+        &:focus-visible { outline:2px solid #305685; outline-offset:1px; }
+    }
+    .compact-sidebar-close:hover { background:#f7e9e8; color:#78170c; }
+}
+@media (min-width:768px) {
+    html[data-sidebar-size="sm"] body.software-ui .navbar-menu .navbar-nav > .nav-item > .nav-link.menu-link.compact-submenu-open {
+        background:#24635d; color:#fff;
+    }
+}
+
+body.software-ui .record-tab-workspace > [role="tablist"] {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));
+    align-items:stretch;
+    gap:6px;
+    > .nav-item { min-width:0; }
+    .nav-link { width:100%; height:100%; min-height:49px; white-space:normal; }
+}
+
+// Navigazione Schedine: colonne uguali e controlli allineati anche sul telefono.
+body.software-ui .customer-entry-nav {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    .nav-link { display:flex; align-items:center; justify-content:center; min-width:0; min-height:49px; font-size:.875rem !important; padding:.82rem .65rem !important; }
+    @media (max-width:575.98px) { grid-template-columns:minmax(0,1fr); }
+}

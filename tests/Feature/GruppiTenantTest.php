@@ -142,7 +142,7 @@ class GruppiTenantTest extends TestCase
         $this->get('/clienti/'.$amb->id.'/modifica')->assertNotFound();
         $this->actingAs($this->actor('struttura_user', null, $b->id))->withSession(['struttura_corrente_id' => $b->id]);
         $this->get('/clienti/'.$amb->id.'/modifica')->assertOk()->assertSee('valore storico conservato');
-        $this->put('/clienti/'.$amb->id, ['name' => 'Cliente ambiguo aggiornato', 'surname' => 'Sintetico', 'privacy_consent' => 1, 'type_cliente' => 'Richiesta', 'group' => 'Ambiguo legacy'])->assertSessionHasNoErrors();
+        $this->put('/clienti/'.$amb->id, ['name' => 'Cliente ambiguo aggiornato', 'surname' => 'Sintetico', 'privacy_consent' => 1, 'type_cliente' => 'Richiesta', 'email' => 'gruppi@example.invalid', 'group' => 'Ambiguo legacy'])->assertSessionHasNoErrors();
         $this->assertSame('Ambiguo legacy', $amb->fresh()->group);
     }
 
@@ -213,6 +213,7 @@ class GruppiTenantTest extends TestCase
     }
     public function test_web_archiviato_import_pendente_rinomina_vincoli_e_conferma_reale(): void
     {
+        \App\Models\GeoNazione::firstOrCreate(['nome' => 'Italia'], ['cittadinanza' => 'Italiana', 'codice_iso2' => 'IT', 'is_italia' => true]);
         [$a] = $this->context();
         $b = $this->structureFor(null);
         $g = Gruppo::create(['nome' => 'Archivio import', 'livello' => 1, 'tipo' => 'Gruppi I']);
@@ -221,7 +222,7 @@ class GruppiTenantTest extends TestCase
             'original_id' => 999999, 'deleted_at' => now(), 'payload' => ['schedina' => ['struttura_id' => $a->id, 'customer_group' => 'Archivio import']],
         ]);
         $batch = \App\Models\CustomerImportBatch::forceCreate(['struttura_id' => $a->id, 'user_id' => 1, 'stored_path' => 'fixture.csv', 'original_name' => 'sintetico.csv', 'status' => 'draft']);
-        $payload = ['nome' => 'Import Gruppi', 'cognome' => 'Sintetico', 'gruppo' => 'Archivio import'];
+        $payload = ['nome' => 'Import Gruppi', 'cognome' => 'Sintetico', 'tipo_cliente' => 'Richiesta', 'email' => 'import-gruppi@example.invalid', 'gruppo' => 'Archivio import'];
         $row = \App\Models\CustomerImportRow::forceCreate(['batch_id' => $batch->id, 'row_number' => 1, 'status' => 'valid', 'raw_payload' => $payload, 'normalized_payload' => $payload]);
         $otherBatch = \App\Models\CustomerImportBatch::forceCreate(['struttura_id' => $b->id, 'user_id' => 1, 'stored_path' => 'fixture.csv', 'original_name' => 'altro.csv', 'status' => 'draft']);
         $otherRow = \App\Models\CustomerImportRow::forceCreate(['batch_id' => $otherBatch->id, 'row_number' => 1, 'status' => 'valid', 'raw_payload' => [], 'normalized_payload' => $payload]);
@@ -266,7 +267,7 @@ class GruppiTenantTest extends TestCase
     {
         [$a] = $this->context();
         $g = $this->root($a->id);
-        $sheet = Schedina::forceCreate(['struttura_id' => $a->id, 'name' => 'Web sintetico', 'customer_group' => 'Business']);
+        $sheet = Schedina::forceCreate(['struttura_id' => $a->id, 'name' => 'Web sintetico', 'circuito' => 'web', 'customer_group' => 'Business']);
         $part = \App\Models\Componenti::forceCreate(['struttura_id' => $a->id, 'schedina_id' => $sheet->id, 'name' => 'Componente sintetico']);
         $web = \App\Models\WebCheckinRichiesta::forceCreate(['struttura_id' => $a->id, 'schedina_id' => $sheet->id,
             'codice' => 'GRUPPI-SINTETICO', 'numero_prenotazione' => 'SINTETICA', 'email' => 'fixture@example.invalid',

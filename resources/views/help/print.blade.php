@@ -49,6 +49,7 @@
     @endif
 
     @if(count($guide))
+        @include('help.partials.navigazione-ui')
         <h2>Guida rapida</h2>
         @foreach($guide as $item)
             <div class="card">

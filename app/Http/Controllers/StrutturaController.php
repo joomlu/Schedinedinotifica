@@ -24,10 +24,6 @@ class StrutturaController extends Controller
     {
         $struttura = \App\Support\StrutturaAccess::authorized($request);
 
-        if (! (($request->user()->isAdmin() || $request->user()->isSuperAdmin()) && \App\Support\StrutturaAccess::query($request->user())->whereKey($struttura->id)->exists())) {
-            return view('struttura.consulta', ['struttura' => $struttura,
-                'puoGestireOperativo' => $request->user()->isProprietario() || $request->user()->canManageGestioneOperativa($struttura->id)]);
-        }
         $tipologieGenerali = TipologiaGenerale::all();
         $tipologieStruttura = TipologiaStruttura::with('generale')->get();
         $classificazioni = Classificazione::with('tipologieStruttura')->get();
@@ -202,6 +198,13 @@ class StrutturaController extends Controller
         $file = $request->file('logo_citta') ?: $request->file('logo_citta_upload');
         if (! $file) {
             unset($data['logo_citta']);
+
+            return $data;
+        }
+
+        if (! ($request->user()->isAdmin() || $request->user()->isSuperAdmin())) {
+            $path = $file->store('uploads/loghi_citta/strutture/'.$struttura->id, 'public');
+            $data['logo_citta'] = 'storage/'.$path;
 
             return $data;
         }

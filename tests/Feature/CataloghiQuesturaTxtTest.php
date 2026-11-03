@@ -23,7 +23,7 @@ class CataloghiQuesturaTxtTest extends TestCase
 
     private function principal(string $tipo = '16'): Schedina
     {
-        $s = new Schedina(['id' => 900, 'struttura_id' => 91, 'scheda' => 'SINTETICA', 'relationship' => $tipo, 'arrive' => today()->toDateString(), 'departure' => today()->addDays(2)->toDateString(), 'surname' => 'Esempio', 'name' => 'Persona', 'sex' => 'F', 'oa_date_nac' => '1980-02-29', 'oa_country' => '777', 'oa_city_nac' => 'Francese', 'or_doctype' => 'IDENT', 'or_doc' => 'SINT123', 'or_published_country' => '777']);
+        $s = new Schedina(['id' => 900, 'struttura_id' => 91, 'scheda' => 'SINTETICA', 'cant_people' => 1, 'relationship' => $tipo, 'arrive' => today()->toDateString(), 'departure' => today()->addDays(2)->toDateString(), 'surname' => 'Esempio', 'name' => 'Persona', 'sex' => 'F', 'oa_date_nac' => '1980-02-29', 'oa_country' => '777', 'oa_city_nac' => 'Francese', 'or_doctype' => 'IDENT', 'or_doc' => 'SINT123', 'or_published_country' => '777']);
         $s->setRelation('componenti', collect());
 
         return $s;
@@ -53,6 +53,7 @@ class CataloghiQuesturaTxtTest extends TestCase
         foreach (['16' => null, '17' => '19', '18' => '20'] as $principal => $member) {
             $s = $this->principal((string) $principal);
             if ($member) {
+                $s->cant_people = 2;
                 $s->setRelation('componenti', collect([new Componenti(['id' => 10, 'struttura_id' => 91, 'relationship' => $member, 'surname' => 'Esempio', 'name' => 'Componente', 'sex' => 'M', 'date_nac' => '2000-01-01', 'country_nac' => '777', 'city_nac' => 'Francese'])]));
             }
             $lines = explode("\r\n", $service->buildTxtPerSchedina($s));

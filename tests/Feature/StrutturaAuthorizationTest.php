@@ -67,16 +67,16 @@ class StrutturaAuthorizationTest extends TestCase
         $this->assertSame($before, $mine->fresh()->getRawOriginal());
     }
 
-    public function test_legitimate_owner_reads_master_and_cannot_update_protected_fields(): void
+    public function test_legitimate_owner_can_edit_own_master_data(): void
     {
         $owner = $this->ownerFor($this->actor('admin'));
         $mine = $this->structureFor($owner);
-        $before = $mine->getRawOriginal();
         $this->actingAs($this->actor('proprietario', $owner->id));
         $this->get('/struttura?sid='.$mine->id)->assertOk();
         $this->get('/struttura/zone-suggestions?sid='.$mine->id)->assertOk();
-        $this->put('/struttura?sid='.$mine->id, $this->validStructurePayload($mine))->assertForbidden();
-        $this->assertSame($before, $mine->fresh()->getRawOriginal());
+        $this->put('/struttura?sid='.$mine->id, $this->validStructurePayload($mine))
+            ->assertSessionHasNoErrors()->assertRedirect();
+        $this->assertSame('Hotel Aggiornato', $mine->fresh()->nome_struttura);
     }
 
     public function test_admin_operational_legacy_exception_does_not_expand_selector_or_crud(): void

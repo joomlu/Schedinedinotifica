@@ -11,7 +11,7 @@ class GeoLogoIngressoAlternativoTest extends TestCase
 {
     use DatabaseTransactions, \Tests\Support\StrutturaFixtures;
 
-    public function test_non_admin_non_puo_scrivere_logo_comunale_tramite_dati_struttura(): void
+    public function test_non_admin_carica_logo_personale_senza_scrivere_catalogo_comunale(): void
     {
         Storage::fake('public');
         $s = $this->structureFor(null);
@@ -21,7 +21,8 @@ class GeoLogoIngressoAlternativoTest extends TestCase
         $s->update(['citta' => $comune->nome]);
         foreach (['logo_citta', 'logo_citta_upload'] as $field) {
             try {
-                $this->put('/struttura', array_merge($this->validStructurePayload($s), ['citta' => $comune->nome, $field => Fixture::upload('logo.png')]))->assertForbidden();
+                $this->put('/struttura', array_merge($this->validStructurePayload($s), ['citta' => $comune->nome, $field => Fixture::upload('logo.png')]))->assertSessionHasNoErrors()->assertRedirect();
+                $this->assertStringStartsWith('storage/uploads/loghi_citta/strutture/'.$s->id.'/', $s->fresh()->logo_citta);
             } finally {
                 Fixture::releaseUploads();
             }
@@ -32,8 +33,9 @@ class GeoLogoIngressoAlternativoTest extends TestCase
 
     public function test_alias_di_upload_admin_valida_effettivamente_il_contenuto(): void
     {
-        $s = $this->structureFor(null);
-        $this->actingAs($this->actor('admin'))->withSession(['struttura_corrente_id' => $s->id]);
+        $admin = $this->actor('admin');
+        $s = $this->structureFor($this->ownerFor($admin));
+        $this->actingAs($admin)->withSession(['struttura_corrente_id' => $s->id]);
         try {
             $this->put('/struttura', ['logo_citta_upload' => Fixture::upload('logo.php', '<?php echo 1;')])->assertSessionHasErrors('logo_citta_upload');
         } finally {
