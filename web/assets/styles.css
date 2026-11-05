@@ -1109,3 +1109,7 @@ h1,h2,h3 { font-weight:400; letter-spacing:-.035em; }
 @media(max-width:1000px) { .site-footer .footer-grid { grid-template-columns:1fr 1fr; } .footer-family { grid-column:1 / -1; } }
 @media(max-width:600px) { .header-inner { gap:10px; } .header-access { padding:8px 11px; gap:6px; font-size:.8rem; } .site-footer .footer-grid { grid-template-columns:1fr; gap:28px; } .footer-family { display:block; } .footer-family p { margin-block:14px; } .site-footer .footer-legal-strip { justify-content:flex-start; gap:8px 24px; } .site-footer .footer-bottom { flex-direction:column; } .product-mark { gap:12px; font-size:.85rem; } .product-mark > span { width:66px; height:66px; font-size:.73rem; } }
 @media(max-width:380px) { .header-inner { width:calc(100% - 24px); gap:8px; } .header-access { padding-inline:9px; } .menu-toggle { width:40px; flex:none; } }
+
+/* Nei documenti legali su telefono il contatto segue il testo: nessuna
+   sovrapposizione e nessuna scomparsa dovuta alla protezione delle righe. */
+@media(max-width:600px) { body:has(.legal-copy) .whatsapp-contact { position:static; margin:0 18px 24px auto; } }
