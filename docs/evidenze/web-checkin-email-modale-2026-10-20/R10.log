@@ -1,0 +1,15 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20  1:01:08 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-o_g44ltf; database=test_geo_339c0e43c809e919d7fbd2c55f604b97; MySQL pid=57, porta=50697; HTTP pid=82, porta=52469
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+
+Running 3 tests using 1 worker
+
+  ✓  1 tests/Feature/web-checkin-interfaccia.playwright.spec.js:4:35 › Percorsi separati Web Check-in a 1440px (22.1s)
+  ✓  2 tests/Feature/web-checkin-interfaccia.playwright.spec.js:4:35 › Percorsi separati Web Check-in a 768px (21.3s)
+  ✓  3 tests/Feature/web-checkin-interfaccia.playwright.spec.js:4:35 › Percorsi separati Web Check-in a 390px (22.2s)
+
+  3 passed (1.1m)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-o_g44ltf

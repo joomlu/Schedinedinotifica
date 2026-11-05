@@ -1,0 +1,70 @@
+{
+  "stato": "PASS_BACKUP_CIFRATI_E_RECUPERI",
+  "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+  "formato": "APFS",
+  "cifratura": "AES256CBC,PBKDF2 600000iterazioni,HMACSHA256 prima decifratura",
+  "chiave": "Custodia rootVM0600 separata daExtra, valore mai esportato",
+  "custodie": [
+    {
+      "tipo": "PREPARE",
+      "esito": "PASS_PREPARE_EXTRA_INTEGRITA_RECUPERO",
+      "cartella_Extra": "C5-layout-PREPARE",
+      "file": [
+        {
+          "nome": "db.sql",
+          "byte": 23256064,
+          "cifrato_sha256": "a8afbb98ff644226f481511cb8520c40b6ec5851a12cd0447a82e2b239110397",
+          "HMAC_e_decifratura_integrale": true
+        },
+        {
+          "nome": "fs.tar.gz",
+          "byte": 343475328,
+          "cifrato_sha256": "09db388145d476938189487a7e82035c3275714e9b9c24662fdb1465dc3e04ac",
+          "HMAC_e_decifratura_integrale": true
+        },
+        {
+          "nome": "inventory.json",
+          "byte": 6156832,
+          "cifrato_sha256": "37db628caccf97358f543360862c5706bf26278b3b265c22849ac50997ab6643",
+          "HMAC_e_decifratura_integrale": true
+        }
+      ],
+      "manifest_privato_sha256": "f496bb305671b6699ab8b68b19487a4239862176ce74fcf76253eec1cb990e3a"
+    },
+    {
+      "tipo": "S0",
+      "esito": "PASS_S0_EXTRA_INTEGRITA_RECUPERO",
+      "cartella_Extra": "C5-layout-S0-tentativo2",
+      "file": [
+        {
+          "nome": "db.sql",
+          "byte": 23256064,
+          "cifrato_sha256": "de4b96d15d184dd34a70694ceb19395f00b9b10c39ed108330328c369faa4beb",
+          "HMAC_e_decifratura_integrale": true
+        },
+        {
+          "nome": "fs.tar.gz",
+          "byte": 4256,
+          "cifrato_sha256": "848781346d745b1c51e0df55ae4723bf61fce1afef9ce8d31e7ba5e607f1631a",
+          "HMAC_e_decifratura_integrale": true
+        },
+        {
+          "nome": "inventory.json",
+          "byte": 6173296,
+          "cifrato_sha256": "49aa309610c1ef75d1fe6faa7e526e9a10939e9f07b5b8e7443ec9a07b38ef8e",
+          "HMAC_e_decifratura_integrale": true
+        }
+      ],
+      "manifest_privato_sha256": "c64011464b0384ea6da9fec431d2f57c3ba2de02854982f661d324f345044c21"
+    }
+  ],
+  "S0_Extra_momento": "Replica aggiuntiva dopoRUN; recuperoS0 indipendente già verificato duranteC5",
+  "backup_VM_pre_ampliamento": "Preservato cifrato e chiuso, chiave separataMac0600",
+  "nessuna_nuova_ampliazione": "36GiB eXFS37290283008 già confermati; nessuna ripetizione",
+  "soglie_invariate": {
+    "Mac_GiB": 8,
+    "Extra_GiB": 40,
+    "riserva_VM_GiB": 1
+  },
+  "primo_tentativo_arrestato": "Custodia distinta e conservata, non promossa aS0C5 accettato"
+}

@@ -1,0 +1,25 @@
+import pathlib,subprocess,time,json,os
+os.umask(0o077);r=pathlib.Path('/work/migration-diagnosi-v13');r.mkdir(mode=0o700);db=None;report={'esito':'FAIL','prove':[]}
+def cmd(sql):
+ p=subprocess.run(cli+['sintetico','-e',sql],capture_output=True);report['prove'].append({'sql':sql,'exit':p.returncode,'errore':p.stderr.decode()});return p
+try:
+ dat=r/'datadir';dat.mkdir(mode=0o700);q=subprocess.run(['mariadb-install-db','--no-defaults','--datadir='+str(dat),'--auth-root-authentication-method=normal','--skip-test-db'],capture_output=True);assert q.returncode==0
+ db=subprocess.Popen(['mariadbd','--no-defaults','--datadir='+str(dat),'--socket='+str(r/'db.sock'),'--pid-file='+str(r/'db.pid'),'--skip-networking','--event-scheduler=OFF','--skip-log-bin','--log-error='+str(r/'db.log')],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+ cli=['mariadb','--no-defaults','--socket='+str(r/'db.sock'),'-uroot']
+ for _ in range(100):
+  if subprocess.run(cli+['-e','SELECT 1'],capture_output=True).returncode==0:break
+  time.sleep(.1)
+ q=subprocess.run(cli+['-e','CREATE DATABASE sintetico'],capture_output=True);assert q.returncode==0
+ for sql in ["CREATE TABLE tipologie_struttura(id BIGINT UNSIGNED NOT NULL PRIMARY KEY) ENGINE=InnoDB", "CREATE TABLE classificazioni(id BIGINT UNSIGNED NOT NULL PRIMARY KEY,tipologia_struttura_id BIGINT UNSIGNED NOT NULL,nome VARCHAR(150),CONSTRAINT classificazioni_tipologia_struttura_id_foreign FOREIGN KEY(tipologia_struttura_id) REFERENCES tipologie_struttura(id),UNIQUE KEY classificazioni_tipologia_struttura_id_nome_unique(tipologia_struttura_id,nome)) ENGINE=InnoDB", "ALTER TABLE classificazioni DROP FOREIGN KEY classificazioni_tipologia_struttura_id_foreign"]:assert cmd(sql).returncode==0
+ report['schema_pre_drop']=cmd('SHOW CREATE TABLE classificazioni').stdout.decode()
+ p=cmd('ALTER TABLE classificazioni DROP tipologia_struttura_id');report['errore_1072_riprodotto']=p.returncode!=0 and b'1072' in p.stderr
+ if p.returncode:
+  assert cmd('ALTER TABLE classificazioni DROP INDEX classificazioni_tipologia_struttura_id_nome_unique').returncode==0
+  assert cmd('ALTER TABLE classificazioni DROP tipologia_struttura_id').returncode==0
+  assert cmd('ALTER TABLE classificazioni ADD UNIQUE(nome)').returncode==0
+ report['esito']='PASS_DIAGNOSI';report['versione']=cmd('SELECT VERSION()').stdout.decode().strip()
+except Exception as e:report['errore']=str(e)
+finally:
+ if db is not None and db.poll() is None:db.terminate();db.wait(timeout=30)
+ report['DB_privato_fermato']=db is None or db.poll() is not None
+ (r/'manifest-sanitizzato.json').write_text(json.dumps(report,indent=2));print(json.dumps(report))

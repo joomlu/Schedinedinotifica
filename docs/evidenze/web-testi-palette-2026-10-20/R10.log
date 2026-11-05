@@ -1,0 +1,245 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20 22:25:05 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-80m3qzug; database=test_geo_47f5dede74ed8bd9dbbade3a3a39975f; MySQL pid=57, porta=55789; HTTP pid=79, porta=56235
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+
+Running 9 tests using 1 worker
+
+  ✓  1 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 1440 (18.0s)
+  ✓  2 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 768 (17.0s)
+  ✓  3 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 390 (17.8s)
+  ✓  4 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 1440 (22.9s)
+  ✘  5 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 768 (10.0s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 768
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveValue[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('#email-saluto')
+    Expected: [32m"[7mGentile[27m «Nome cliente»[7m,[27m"[39m
+    Received: [31m"[7mCiao[27m «Nome cliente»"[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - Expect "toHaveValue" with timeout 5000ms[22m
+    [2m  - waiting for locator('#email-saluto')[22m
+    [2m    9 × locator resolved to <textarea rows="1" required="" maxlength="500" id="email-saluto" class="form-control" name="impostazioni[saluto]"></textarea>[22m
+    [2m      - unexpected value "Ciao «Nome cliente»"[22m
+
+
+      27 | for(const width of [1440,768,390])test(`Editor riutilizzabile e FormData completo ${width}`,async({page},info)=>{
+      28 |  test.setTimeout(120000);await page.setViewportSize({width,height:1000});await login(page);const f=await(await page.request.get(BASE_URL+'/testi-palette-fixture.json')).json();const first=f.links[width],other=f.links[{1440:768,768:390,390:1440}[width]];const comm=id=>BASE_URL+`/web-checkin/${id}/comunicazioni`;await page.goto(comm(first.richiesta));
+    > 29 |  const select=page.locator('#invito-modello');const original=await select.inputValue();await expect(page.locator('#email-saluto')).toHaveValue('Gentile «Nome cliente»,');await select.selectOption({index:2});await expect(page.locator('#email-saluto')).not.toHaveValue(/\{\{/);await select.selectOption(original);await expect(page.locator('#email-saluto')).toHaveValue('Gentile «Nome cliente»,');
+         |                                                                                                                                    ^
+      30 |  const values={'oggetto':'Invito «Nome cliente» — «Numero prenotazione»','corpo':'«Nome struttura» «Link check-in»','impostazioni[saluto]':'Ciao «Nome cliente»','impostazioni[testo]':'Arrivo «Data arrivo», partenza «Data partenza», ospiti «Numero ospiti»','impostazioni[pulsante]':'Apri «Nome struttura»','impostazioni[firma]':'«Nome struttura» «Email struttura» «Telefono struttura»'};
+      31 |  await page.getByText('Testo per WhatsApp e dati automatici',{exact:true}).click();
+      32 |  for(const[name,value]of Object.entries(values))await page.locator('#invito-form').locator(`[name="${name}"]`).fill(value);
+        at /tmp/schedine-test-80m3qzug/checkout/tests/Feature/web-testi-palette.playwright.spec.js:29:132
+
+    Error Context: test-results/web-testi-palette.playwrig-6387f-ile-e-FormData-completo-768/error-context.md
+
+  1 failed
+    tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 768
+  4 did not run
+  4 passed (1.5m)
+  1 error was not a part of any test, see above for details
+web-testi-palette.playwrig-6387f-ile-e-FormData-completo-768:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - button [ref=e7] [cursor=pointer]
+      - generic [ref=e12]:
+        - generic [ref=e14]:
+          - 'button " Struttura: Hotel Browser " [ref=e15] [cursor=pointer]':
+            - generic [ref=e16]: 
+            - text: "Struttura: Hotel Browser"
+            - generic [ref=e17]: 
+          - text: 
+        - link "" [ref=e19] [cursor=pointer]:
+          - /url: http://127.0.0.1:56235/calendario
+          - generic [ref=e20]: 
+        - generic [ref=e21]:
+          - button "" [ref=e22] [cursor=pointer]:
+            - generic [ref=e23]: 
+          - text:  
+        - button "" [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]: 
+        - generic [ref=e27]:
+          - button "Avatar" [ref=e28] [cursor=pointer]:
+            - img "Avatar" [ref=e31]
+          - text: 󰀉      󰍃
+  - generic [ref=e32]:
+    - link "Tango" [ref=e34] [cursor=pointer]:
+      - /url: http://127.0.0.1:56235/dashboard
+      - img "Tango" [ref=e36]
+    - list [ref=e39]:
+      - listitem [ref=e40]:
+        - generic [ref=e41]: Menu
+      - listitem [ref=e42]:
+        - link "Dashboard" [ref=e43] [cursor=pointer]:
+          - /url: http://127.0.0.1:56235/dashboard
+          - generic [ref=e44]: Dashboard
+      - listitem [ref=e45]:
+        - button "SuperAdmin 󰅂" [ref=e46] [cursor=pointer]:
+          - generic [ref=e47]: SuperAdmin
+          - text: 󰅂
+      - listitem [ref=e48]:
+        - link "Dati struttura" [ref=e49] [cursor=pointer]:
+          - /url: http://127.0.0.1:56235/struttura
+          - generic [ref=e50]: Dati struttura
+      - listitem [ref=e51]:
+        - button "Configurazioni 󰅂" [ref=e52] [cursor=pointer]:
+          - generic [ref=e53]: Configurazioni
+          - text: 󰅂
+      - listitem [ref=e54]:
+        - button "Clienti 󰅂" [ref=e55] [cursor=pointer]:
+          - generic [ref=e56]: Clienti
+          - text: 󰅂
+      - listitem [ref=e57]:
+        - button "Schedine 󰅂" [expanded] [ref=e58] [cursor=pointer]:
+          - generic [ref=e59]: Schedine
+          - text: 󰅂
+        - list [ref=e61]:
+          - listitem [ref=e62]:
+            - link "Nuova / Elenco / Bozze" [ref=e63] [cursor=pointer]:
+              - /url: http://127.0.0.1:56235/schedine/nuova
+          - listitem [ref=e64]:
+            - link "Schedine arrivi" [ref=e65] [cursor=pointer]:
+              - /url: http://127.0.0.1:56235/arrivi
+      - listitem [ref=e66]:
+        - link "Web Check-in" [ref=e67] [cursor=pointer]:
+          - /url: http://127.0.0.1:56235/web-checkin
+          - generic [ref=e68]: Web Check-in
+      - listitem [ref=e69]:
+        - button "Invio telematico 󰅂" [ref=e70] [cursor=pointer]:
+          - generic [ref=e71]: Invio telematico
+          - text: 󰅂
+      - listitem [ref=e72]:
+        - button "Statistica 󰅂" [ref=e73] [cursor=pointer]:
+          - generic [ref=e74]: Statistica
+          - text: 󰅂
+      - listitem [ref=e75]:
+        - link "Calendario" [ref=e76] [cursor=pointer]:
+          - /url: http://127.0.0.1:56235/calendario
+          - generic [ref=e77]: Calendario
+      - listitem [ref=e78]:
+        - link "Cestino" [ref=e79] [cursor=pointer]:
+          - /url: http://127.0.0.1:56235/cestino
+          - generic [ref=e80]: Cestino
+  - generic [ref=e82]:
+    - generic [ref=e86]:
+      - banner [ref=e87]:
+        - generic [ref=e88]:
+          - generic [ref=e89]:
+            - link "← Elenco Web Check-in" [ref=e90] [cursor=pointer]:
+              - /url: http://127.0.0.1:56235/web-checkin
+            - heading "Referente GEO 768" [level=1] [ref=e91]
+            - paragraph [ref=e92]: GEO-768 · 10/11/2026 – 13/11/2026 · 2 ospiti
+            - generic [ref=e93]: Compilazione completata · Check-in da effettuare
+          - group [ref=e94]:
+            - generic "Altre azioni" [ref=e95] [cursor=pointer]:
+              - generic [ref=e96]: 
+              - text: Altre azioni
+            - text:     
+        - navigation "Sezion
+TEST interrotto senza fallback: playwright fallito: 1
+mysql-error.log:
+2026-10-20 22:25:13 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 57
+2026-10-20 22:25:13 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-20 22:25:13 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-20 22:25:13 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-20 22:25:13 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-20 22:25:13 0 [Note] InnoDB: Using Linux native AIO
+2026-10-20 22:25:13 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-20 22:25:13 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-20 22:25:13 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-20 22:25:13 0 [Note] InnoDB: End of log at LSN=45093
+2026-10-20 22:25:13 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-20 22:25:13 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-20 22:25:13 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-20 22:25:13 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-20 22:25:13 0 [Note] InnoDB: log sequence number 45093; transaction id 14
+2026-10-20 22:25:13 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-20 22:25:13 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-80m3qzug/mysql-data/ib_buffer_pool
+2026-10-20 22:25:13 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-20 22:25:13 0 [Note] InnoDB: Buffer pool(s) load completed at 261020 22:25:13
+2026-10-20 22:25:13 0 [Note] Server socket created on IP: '127.0.0.1', port: '55789'.
+2026-10-20 22:25:13 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-20 22:25:13 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-80m3qzug/mysql.sock'  port: 55789  MariaDB Server
+
+http.log:
+:26:46 2026] 127.0.0.1:37676 [200]: GET /testi-palette-fixture.json
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37676 Closing
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37692 Accepted
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37692 Closing
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37706 Accepted
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37706 [200]: GET /build/css/bootstrap.min.css
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37714 Accepted
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37722 Accepted
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37714 [200]: GET /build/css/icons.min.css
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37724 Accepted
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37722 [200]: GET /build/css/app.min.css
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37732 Accepted
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37706 Closing
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37724 [200]: GET /build/libs/flatpickr/flatpickr.min.css
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37738 Accepted
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37732 [200]: GET /build/css/custom.min.css
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37740 Accepted
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37738 [200]: GET /build/libs/select2/css/select2.min.css
+[Tue Oct 20 22:26:46 2026] 127.0.0.1:37724 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37740 [200]: GET /build/js/app2.js
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37748 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37722 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37732 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37760 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37738 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37714 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37748 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37776 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37760 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37792 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37776 [200]: GET /build/libs/jquery/jquery.min.js
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37808 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37792 [200]: GET /build/libs/select2/js/select2.full.min.js
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47278 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37808 [200]: GET /build/libs/bootstrap/js/bootstrap.bundle.min.js
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47292 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37776 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47278 [200]: GET /build/icons/remixicon.woff2?t=1718271040674
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37740 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47294 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37792 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47292 [200]: GET /build/icons/boxicons.woff2
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47298 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47294 [200]: GET /build/icons/materialdesignicons-webfont.woff2?v=7.2.96
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:37808 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47312 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47298 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47318 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47312 [200]: GET /build/libs/simplebar/simplebar.min.js
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47278 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47292 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47320 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47318 [200]: GET /build/libs/node-waves/waves.min.js
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47336 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47320 [200]: GET /build/libs/feather-icons/feather.min.js
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47348 Accepted
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47312 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47336 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47294 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47318 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47348 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47320 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47336 Closing
+[Tue Oct 20 22:26:47 2026] 127.0.0.1:47348 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-80m3qzug

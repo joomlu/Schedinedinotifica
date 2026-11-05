@@ -1,0 +1,506 @@
+{
+  "tipo_alloggiato": [
+    {
+      "codice": "16",
+      "descrizione": "OSPITE SINGOLO",
+      "id": "1"
+    },
+    {
+      "codice": "17",
+      "descrizione": "CAPO FAMIGLIA",
+      "id": "2"
+    },
+    {
+      "codice": "18",
+      "descrizione": "CAPO GRUPPO",
+      "id": "3"
+    },
+    {
+      "codice": "19",
+      "descrizione": "FAMILIARE",
+      "id": "4"
+    },
+    {
+      "codice": "20",
+      "descrizione": "MEMBRO GRUPPO",
+      "id": "5"
+    }
+  ],
+  "tipo_documento": [
+    {
+      "codice": "IDENT",
+      "descrizione": "CARTA DI IDENTITA'",
+      "id": "1"
+    },
+    {
+      "codice": "CIDIP",
+      "descrizione": "CARTA ID. DIPLOMATICA",
+      "id": "2"
+    },
+    {
+      "codice": "IDELE",
+      "descrizione": "CARTA IDENTITA' ELETTRONICA",
+      "id": "3"
+    },
+    {
+      "codice": "CERID",
+      "descrizione": "CERTIFICATO D'IDENTITA'",
+      "id": "4"
+    },
+    {
+      "codice": "PASSE",
+      "descrizione": "PASSAPORTO DI SERVIZIO",
+      "id": "5"
+    },
+    {
+      "codice": "PASDI",
+      "descrizione": "PASSAPORTO DIPLOMATICO",
+      "id": "6"
+    },
+    {
+      "codice": "PASOR",
+      "descrizione": "PASSAPORTO ORDINARIO",
+      "id": "7"
+    },
+    {
+      "codice": "PATEN",
+      "descrizione": "PATENTE DI GUIDA",
+      "id": "8"
+    },
+    {
+      "codice": "PATNA",
+      "descrizione": "PATENTE NAUTICA",
+      "id": "9"
+    },
+    {
+      "codice": "PORM5",
+      "descrizione": "PORTO D'ARMI GUARDIE GIUR",
+      "id": "10"
+    },
+    {
+      "codice": "PORM3",
+      "descrizione": "PORTO D'ARMI USO SPORTIVO",
+      "id": "11"
+    },
+    {
+      "codice": "PORM2",
+      "descrizione": "PORTO FUCILE DIF. PERSON.",
+      "id": "12"
+    },
+    {
+      "codice": "PORM1",
+      "descrizione": "PORTO FUCILE USO CACCIA",
+      "id": "13"
+    },
+    {
+      "codice": "PORM4",
+      "descrizione": "PORTO PISTOLA DIF. PERSON",
+      "id": "14"
+    },
+    {
+      "codice": "TENAV",
+      "descrizione": "TES. ENTE NAZ. ASSIS.VOLO",
+      "id": "15"
+    },
+    {
+      "codice": "TFEXD",
+      "descrizione": "TES. FERROV. EX DEPUTATI",
+      "id": "16"
+    },
+    {
+      "codice": "TFERD",
+      "descrizione": "TES. FERROVIARIA DEPUTATI",
+      "id": "17"
+    },
+    {
+      "codice": "TESPT",
+      "descrizione": "TES. POSTE E TELECOMUNIC.",
+      "id": "18"
+    },
+    {
+      "codice": "TECAM",
+      "descrizione": "TES. UNICO PER LA CAMERA",
+      "id": "19"
+    },
+    {
+      "codice": "TEDOG",
+      "descrizione": "TES.DOGANALE RIL.MIN.FIN.",
+      "id": "20"
+    },
+    {
+      "codice": "CFMIL",
+      "descrizione": "TESS. AG. E AG.SC. C.F.S.",
+      "id": "21"
+    },
+    {
+      "codice": "PPAGE",
+      "descrizione": "TESS. AGENTI/ASS.TI P.P.",
+      "id": "22"
+    },
+    {
+      "codice": "PSAPP",
+      "descrizione": "TESS. AGENTI/ASS.TI P.S.",
+      "id": "23"
+    },
+    {
+      "codice": "ACMIL",
+      "descrizione": "TESS. APP.TO AG.CUSTODIA",
+      "id": "24"
+    },
+    {
+      "codice": "CCMIL",
+      "descrizione": "TESS. APP.TO CARABINIERI",
+      "id": "25"
+    },
+    {
+      "codice": "GFMIL",
+      "descrizione": "TESS. APP.TO FINANZIERE",
+      "id": "26"
+    },
+    {
+      "codice": "VIMIL",
+      "descrizione": "TESS. APP.TO/VIG. URBANO",
+      "id": "27"
+    },
+    {
+      "codice": "VVMIL",
+      "descrizione": "TESS. APP.TO/VIG. VV.FF.",
+      "id": "28"
+    },
+    {
+      "codice": "TESCS",
+      "descrizione": "TESS. CONSIGLIO DI STATO",
+      "id": "29"
+    },
+    {
+      "codice": "TESCA",
+      "descrizione": "TESS. CORTE D'APPELLO",
+      "id": "30"
+    },
+    {
+      "codice": "TECOC",
+      "descrizione": "TESS. CORTE DEI CONTI",
+      "id": "31"
+    },
+    {
+      "codice": "TEFSE",
+      "descrizione": "TESS. FERROV. SENATO",
+      "id": "32"
+    },
+    {
+      "codice": "PSFUN",
+      "descrizione": "TESS. FUNZIONARI P.S.",
+      "id": "33"
+    },
+    {
+      "codice": "TETEL",
+      "descrizione": "TESS. IDENTIF.TELECOM IT.",
+      "id": "34"
+    },
+    {
+      "codice": "TEAMC",
+      "descrizione": "TESS. ISCR. ALBO MED/CHI.",
+      "id": "35"
+    },
+    {
+      "codice": "TEAOD",
+      "descrizione": "TESS. ISCRIZ. ALBO ODONT.",
+      "id": "36"
+    },
+    {
+      "codice": "PPISP",
+      "descrizione": "TESS. ISPETTORI P.P.",
+      "id": "37"
+    },
+    {
+      "codice": "PSISP",
+      "descrizione": "TESS. ISPETTORI P.S.",
+      "id": "38"
+    },
+    {
+      "codice": "TESEA",
+      "descrizione": "TESS. MEMBRO EQUIP. AEREO",
+      "id": "39"
+    },
+    {
+      "codice": "MMMIL",
+      "descrizione": "TESS. MILIT. M.M.",
+      "id": "40"
+    },
+    {
+      "codice": "SDMIL",
+      "descrizione": "TESS. MILIT. TRUPPA SISMI",
+      "id": "41"
+    },
+    {
+      "codice": "EIMIL",
+      "descrizione": "TESS. MILITARE E.I.",
+      "id": "42"
+    },
+    {
+      "codice": "TENAT",
+      "descrizione": "TESS. MILITARE NATO",
+      "id": "43"
+    },
+    {
+      "codice": "AMMIL",
+      "descrizione": "TESS. MILITARE TRUPPA A.M",
+      "id": "44"
+    },
+    {
+      "codice": "TESAE",
+      "descrizione": "TESS. MIN. AFFARI ESTERI",
+      "id": "45"
+    },
+    {
+      "codice": "TESMB",
+      "descrizione": "TESS. MIN.BEN.E ATT.CULT.",
+      "id": "46"
+    },
+    {
+      "codice": "TEMPI",
+      "descrizione": "TESS. MIN.PUBB.ISTRUZIONE",
+      "id": "47"
+    },
+    {
+      "codice": "TESMN",
+      "descrizione": "TESS. MINIST. TRASP/NAVIG",
+      "id": "48"
+    },
+    {
+      "codice": "TESMD",
+      "descrizione": "TESS. MINISTERO DIFESA",
+      "id": "49"
+    },
+    {
+      "codice": "TESMF",
+      "descrizione": "TESS. MINISTERO FINANZE",
+      "id": "50"
+    },
+    {
+      "codice": "TESMG",
+      "descrizione": "TESS. MINISTERO GIUSTIZIA",
+      "id": "51"
+    },
+    {
+      "codice": "TESMI",
+      "descrizione": "TESS. MINISTERO INTERNO",
+      "id": "52"
+    },
+    {
+      "codice": "TESLP",
+      "descrizione": "TESS. MINISTERO LAVORI PU",
+      "id": "53"
+    },
+    {
+      "codice": "TESMS",
+      "descrizione": "TESS. MINISTERO SANITA'",
+      "id": "54"
+    },
+    {
+      "codice": "TESMT",
+      "descrizione": "TESS. MINISTERO TESORO",
+      "id": "55"
+    },
+    {
+      "codice": "TESOG",
+      "descrizione": "TESS. ORDINE GIORNALISTI",
+      "id": "56"
+    },
+    {
+      "codice": "PARLA",
+      "descrizione": "TESS. PARLAMENTARI",
+      "id": "57"
+    },
+    {
+      "codice": "MAGIS",
+      "descrizione": "TESS. PERS. MAGISTRATI",
+      "id": "58"
+    },
+    {
+      "codice": "GFTRI",
+      "descrizione": "TESS. POL. TRIB. G.D.F.",
+      "id": "59"
+    },
+    {
+      "codice": "PSFEM",
+      "descrizione": "TESS. POLIZIA FEMMINILE",
+      "id": "60"
+    },
+    {
+      "codice": "TESPC",
+      "descrizione": "TESS. PRES.ZA CONS. MIN.",
+      "id": "61"
+    },
+    {
+      "codice": "TESPI",
+      "descrizione": "TESS. PUBBLICA ISTRUZIONE",
+      "id": "62"
+    },
+    {
+      "codice": "DESIS",
+      "descrizione": "TESS. S.I.S.D.E.",
+      "id": "63"
+    },
+    {
+      "codice": "ACSOT",
+      "descrizione": "TESS. SOTT.LI AG.CUSTODIA",
+      "id": "64"
+    },
+    {
+      "codice": "GFSOT",
+      "descrizione": "TESS. SOTT.LI G.D.F.",
+      "id": "65"
+    },
+    {
+      "codice": "VISOT",
+      "descrizione": "TESS. SOTT.LI VIG. URBANI",
+      "id": "66"
+    },
+    {
+      "codice": "VVSOT",
+      "descrizione": "TESS. SOTTUFF.LI VV.FF.",
+      "id": "67"
+    },
+    {
+      "codice": "AMSOT",
+      "descrizione": "TESS. SOTTUFFICIALI A.M.",
+      "id": "68"
+    },
+    {
+      "codice": "CCSOT",
+      "descrizione": "TESS. SOTTUFFICIALI CC",
+      "id": "69"
+    },
+    {
+      "codice": "EISOT",
+      "descrizione": "TESS. SOTTUFFICIALI E.I.",
+      "id": "70"
+    },
+    {
+      "codice": "SDSOT",
+      "descrizione": "TESS. SOTTUFFICIALI SISMI",
+      "id": "71"
+    },
+    {
+      "codice": "CFSOT",
+      "descrizione": "TESS. SOTTUFICIALI C.F.S.",
+      "id": "72"
+    },
+    {
+      "codice": "MMSOT",
+      "descrizione": "TESS. SOTTUFICIALI M.M.",
+      "id": "73"
+    },
+    {
+      "codice": "PPSOV",
+      "descrizione": "TESS. SOVRINTENDENTI P.P.",
+      "id": "74"
+    },
+    {
+      "codice": "PSSOT",
+      "descrizione": "TESS. SOVRINTENDENTI P.S.",
+      "id": "75"
+    },
+    {
+      "codice": "ACUFF",
+      "descrizione": "TESS. UFF.LI AG.CUSTODIA",
+      "id": "76"
+    },
+    {
+      "codice": "VIUFF",
+      "descrizione": "TESS. UFF.LI VIG.URBANI",
+      "id": "77"
+    },
+    {
+      "codice": "CCUFF",
+      "descrizione": "TESS. UFFICIALE",
+      "id": "78"
+    },
+    {
+      "codice": "AMUFF",
+      "descrizione": "TESS. UFFICIALI A.M.",
+      "id": "79"
+    },
+    {
+      "codice": "CFUFF",
+      "descrizione": "TESS. UFFICIALI C.F.S.",
+      "id": "80"
+    },
+    {
+      "codice": "EIUFF",
+      "descrizione": "TESS. UFFICIALI E.I.",
+      "id": "81"
+    },
+    {
+      "codice": "GFUFF",
+      "descrizione": "TESS. UFFICIALI G.D.F.",
+      "id": "82"
+    },
+    {
+      "codice": "MMUFF",
+      "descrizione": "TESS. UFFICIALI M.M.",
+      "id": "83"
+    },
+    {
+      "codice": "PPUFF",
+      "descrizione": "TESS. UFFICIALI P.P.",
+      "id": "84"
+    },
+    {
+      "codice": "PSUFF",
+      "descrizione": "TESS. UFFICIALI P.S.",
+      "id": "85"
+    },
+    {
+      "codice": "SDUFF",
+      "descrizione": "TESS. UFFICIALI SISMI",
+      "id": "86"
+    },
+    {
+      "codice": "VVUFF",
+      "descrizione": "TESS. UFFICIALI VV.FF.",
+      "id": "87"
+    },
+    {
+      "codice": "TESIN",
+      "descrizione": "TESS.ISCR. ALBO INGEGNERI",
+      "id": "88"
+    },
+    {
+      "codice": "TESAR",
+      "descrizione": "TESS.ISCR.ALBO ARCHITETTI",
+      "id": "89"
+    },
+    {
+      "codice": "TEPOL",
+      "descrizione": "TESS.MIN.POLIT.AGRIC.FOR.",
+      "id": "90"
+    },
+    {
+      "codice": "TESNO",
+      "descrizione": "TESSERA DELL'ORDINE NOTAI",
+      "id": "91"
+    },
+    {
+      "codice": "TESAV",
+      "descrizione": "TESSERA ISCR. ALBO AVVOC.",
+      "id": "92"
+    },
+    {
+      "codice": "TESDI",
+      "descrizione": "TESSERA RICONOSC. D.I.A.",
+      "id": "93"
+    },
+    {
+      "codice": "TESUN",
+      "descrizione": "TESSERA U.N.U.C.I.",
+      "id": "94"
+    },
+    {
+      "codice": "RIFUG",
+      "descrizione": "TITOLO VIAGGIO RIF.POLIT.",
+      "id": "95"
+    }
+  ]
+}

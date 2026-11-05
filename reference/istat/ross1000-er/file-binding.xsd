@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Adattatore locale della radice senza namespace descritta nel PDF regionale.
+     I tipi importati sono quelli del WSDL pubblico, senza modifiche alle regole. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:v2="V2">
+  <xs:import namespace="V2" schemaLocation="v2.xsd"/>
+  <xs:element name="movimenti" type="v2:xmlImportDati"/>
+</xs:schema>

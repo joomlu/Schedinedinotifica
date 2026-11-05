@@ -1,0 +1,70 @@
+{
+  "custodie": [
+    {
+      "rilascio": "primo",
+      "tipo": "PREPARE",
+      "cifrati": 3,
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "d14e2b3c168363d694078648580744823d05405ec882e344e7fa3257795b401d"
+    },
+    {
+      "rilascio": "primo",
+      "tipo": "S0",
+      "cifrati": 3,
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "53207a3f6ffabfab61c44781d98585c7c5f58476756f084350e34260068c9eef"
+    },
+    {
+      "rilascio": "correttivo",
+      "tipo": "PREPARE",
+      "cifrati": 3,
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "77c65fc96f34cca2d367433b0663839e8b596045804018a4c17a14451b926eaa"
+    },
+    {
+      "rilascio": "correttivo",
+      "tipo": "S0",
+      "cifrati": 3,
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "21103e532884b7cffe6aad49db33f98946c05308b2c2f9897e58a0439284ffd1"
+    }
+  ],
+  "capacita": {
+    "deduplica-primo-rilascio-chiuso.json": {
+      "esito": "PASS_DEDUPLICAZIONE_KERNEL_BYTE_METADATI_INODE_IDENTICI",
+      "file": 5075,
+      "liberi_prima": 2907049984,
+      "liberi_dopo": 4058898432,
+      "nessun_file_rimosso": true,
+      "ricevuta_integrale_sha256": "1d2e89df17e585ce8c2441f7826ab023b28f8f9626fc3f202ae7bcca07969cfa"
+    },
+    "deduplica-cache-db-chiuse.json": {
+      "esito": "PASS_BLOCCHI_CACHE_DB_BYTE_INODE_METADATI_IDENTICI",
+      "cache": 3,
+      "file_verificati": 1011,
+      "liberi_prima": 4056342528,
+      "liberi_dopo": 4110487552,
+      "nessun_file_rimosso": true,
+      "ricevuta_integrale_sha256": "423223a91f649fff59368627063875d1d4f5d087d854e1b2cdc4c032f5485c31"
+    },
+    "deduplica-cache-db-storiche.json": {
+      "esito": "PASS_BLOCCHI_CACHE_DB_BYTE_INODE_METADATI_IDENTICI",
+      "cache": 7,
+      "file_verificati": 2359,
+      "liberi_prima": 2624086016,
+      "liberi_dopo": 2664079360,
+      "nessun_file_rimosso": true,
+      "recupero_corrente_escluso": "/tmp/schedine-linux-cold-final-agsv4fq7",
+      "ricevuta_integrale_sha256": "9ea72739e55f5e29a77c4fdc41d04319301e8ed7e73ad02a6660ef4937499873"
+    },
+    "deduplica-statici-storici-chiusi.json": {
+      "esito": "PASS_DEDUPLICAZIONE_KERNEL_BYTE_METADATI_INODE_IDENTICI",
+      "file": 71530,
+      "liberi_prima": 2664022016,
+      "liberi_dopo": 7189356544,
+      "nessun_file_rimosso": true,
+      "recupero_corrente_escluso": "/tmp/schedine-linux-cold-final-agsv4fq7",
+      "ricevuta_integrale_sha256": "1877ce4d299c7c20a6966ab19db4d7e1eae1b0116487d854e5e673f32e55af9a"
+    }
+  }
+}

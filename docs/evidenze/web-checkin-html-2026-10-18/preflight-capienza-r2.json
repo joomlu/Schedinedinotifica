@@ -1,0 +1,15 @@
+{
+  "liberi_VM": 3846778880,
+  "XFS_byte_effettivi": 37290283008,
+  "disco_VM_byte": 38654705664,
+  "SELinux": "Enforcing",
+  "HEAD_quotidiano": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+  "data_UTC": "2026-10-18T18:03:50.395962+00:00",
+  "liberi_Mac": 25168187392,
+  "liberi_Extra": 672757522432,
+  "fabbisogno_VM": 3745824768,
+  "riserva_VM_invariata": 1073741824,
+  "gate_Mac": 8589934592,
+  "gate_Extra": 42949672960,
+  "esito": "PASS_PREFLIGHT_CAPIENZA"
+}

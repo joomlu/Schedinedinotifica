@@ -1,0 +1,221 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20 21:48:41 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-kmpu0opk; database=test_geo_6523e0206c65d5efbe7c4f44a3b34b63; MySQL pid=56, porta=50969; HTTP pid=79, porta=57523
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /tmp/schedine-test-kmpu0opk/checkout/phpunit.xml
+
+.......F...FF.........F.....F...F...F.FF.......................  63 / 271 ( 23%)
+..............F....FF......FFF..........F..............F....... 126 / 271 ( 46%)
+............................................................... 189 / 271 ( 69%)
+............................................................... 252 / 271 ( 92%)
+.....\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n........F.                                             271 / 271 (100%)
+
+Time: 01:18.487, Memory: 86.50 MB
+
+There were 18 failures:
+
+1) Tests\Feature\WebCheckinLifecycleTest::test_riprogrammazione_attiva_e_scaduta_senza_riattivazione
+Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+
+The following exception occurred during the last request:
+
+ErrorException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/storage/framework/views/2b9b890fe5addad4d4487b2a94d4e3e9.php:28
+Stack trace:
+
+Next Spatie\LaravelIgnition\Exceptions\ViewException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/resources/views/web-checkin/public.blade.php:29
+Stack trace:
+
+----------------------------------------------------------------------------------
+
+Undefined variable $completedGuests
+
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponseAssert.php:45
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponse.php:175
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/Concerns/AssertsStatusCodes.php:16
+/tmp/schedine-test-kmpu0opk/checkout/tests/Feature/WebCheckinLifecycleTest.php:121
+
+2) Tests\Feature\WebCheckinLifecycleTest::test_legacy64_80_e_short_fino_scadenza_senza_grazia7
+Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+
+The following exception occurred during the last request:
+
+ErrorException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/storage/framework/views/2b9b890fe5addad4d4487b2a94d4e3e9.php:28
+Stack trace:
+
+Next Spatie\LaravelIgnition\Exceptions\ViewException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/resources/views/web-checkin/public.blade.php:29
+Stack trace:
+
+----------------------------------------------------------------------------------
+
+Undefined variable $completedGuests
+
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponseAssert.php:45
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponse.php:175
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/Concerns/AssertsStatusCodes.php:16
+/tmp/schedine-test-kmpu0opk/checkout/tests/Feature/WebCheckinLifecycleTest.php:187
+
+3) Tests\Feature\WebCheckinLifecycleTest::test_date_mancanti_incoerenti_non_abilitano_link
+Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+
+The following exception occurred during the last request:
+
+ErrorException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/storage/framework/views/2b9b890fe5addad4d4487b2a94d4e3e9.php:28
+Stack trace:
+
+Next Spatie\LaravelIgnition\Exceptions\ViewException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/resources/views/web-checkin/public.blade.php:29
+Stack trace:
+
+----------------------------------------------------------------------------------
+
+Undefined variable $completedGuests
+
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponseAssert.php:45
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponse.php:175
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/Concerns/AssertsStatusCodes.php:16
+/tmp/schedine-test-kmpu0opk/checkout/tests/Feature/WebCheckinLifecycleTest.php:210
+
+4) Tests\Feature\WebCheckinLifecycleTest::test_rigenerazione_legacy_invalida_breve_anche_con_stesso_prefisso_completo
+Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+
+The following exception occurred during the last request:
+
+ErrorException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/storage/framework/views/2b9b890fe5addad4d4487b2a94d4e3e9.php:28
+Stack trace:
+
+Next Spatie\LaravelIgnition\Exceptions\ViewException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/resources/views/web-checkin/public.blade.php:29
+Stack trace:
+
+----------------------------------------------------------------------------------
+
+Undefined variable $completedGuests
+
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponseAssert.php:45
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponse.php:175
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/Concerns/AssertsStatusCodes.php:16
+/tmp/schedine-test-kmpu0opk/checkout/tests/Feature/WebCheckinLifecycleTest.php:359
+
+5) Tests\Feature\WebCheckinComunicazioniTest::test_parziale_con_componente_continua_senza_perdere_note_contatti_e_blocca_scheda_vecchia
+Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+
+The following exception occurred during the last request:
+
+ErrorException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/storage/framework/views/2b9b890fe5addad4d4487b2a94d4e3e9.php:28
+Stack trace:
+
+Next Spatie\LaravelIgnition\Exceptions\ViewException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/resources/views/web-checkin/public.blade.php:29
+Stack trace:
+
+----------------------------------------------------------------------------------
+
+Undefined variable $completedGuests
+
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponseAssert.php:45
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponse.php:175
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/Concerns/AssertsStatusCodes.php:16
+/tmp/schedine-test-kmpu0opk/checkout/tests/Feature/WebCheckinComunicazioniTest.php:124
+
+6) Tests\Feature\WebCheckinComunicazioniTest::test_form_pubblico_non_riusa_dati_o_feedback_di_una_sessione_gestionale_estranea
+Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+
+The following exception occurred during the last request:
+
+ErrorException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/storage/framework/views/2b9b890fe5addad4d4487b2a94d4e3e9.php:28
+Stack trace:
+
+Next Spatie\LaravelIgnition\Exceptions\ViewException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/resources/views/web-checkin/public.blade.php:29
+Stack trace:
+
+----------------------------------------------------------------------------------
+
+Undefined variable $completedGuests
+
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponseAssert.php:45
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponse.php:175
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/Concerns/AssertsStatusCodes.php:16
+/tmp/schedine-test-kmpu0opk/checkout/tests/Feature/WebCheckinComunicazioniTest.php:181
+
+7) Tests\Feature\WebCheckinComunicazioniTest::test_parametro_arrival_non_attiva_il_giorno_mobile_nel_form_pubblico
+Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+
+The following exception occurred during the last request:
+
+ErrorException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/storage/framework/views/2b9b890fe5addad4d4487b2a94d4e3e9.php:28
+Stack trace:
+
+Next Spatie\LaravelIgnition\Exceptions\ViewException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/resources/views/web-checkin/public.blade.php:29
+Stack trace:
+
+----------------------------------------------------------------------------------
+
+Undefined variable $completedGuests
+
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponseAssert.php:45
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestResponse.php:175
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/Concerns/AssertsStatusCodes.php:16
+/tmp/schedine-test-kmpu0opk/checkout/tests/Feature/WebCheckinComunicazioniTest.php:236
+
+8) Tests\Feature\WebCheckinComunicazioniTest::test_cataloghi_pubblici_e_validazione_usano_il_tenant_del_link_anche_con_sessione_estranea
+Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+
+The following exception occurred during the last request:
+
+ErrorException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/storage/framework/views/2b9b890fe5addad4d4487b2a94d4e3e9.php:28
+Stack trace:
+
+Next Spatie\LaravelIgnition\Exceptions\ViewException: Undefined variable $completedGuests in /tmp/schedine-test-kmpu0opk/checkout/resources/views/web-checkin/public.blade.php:29
+Stack trace:
+
+----------------------------------------------------------------------------------
+
+Undefined variable $completedGuests
+
+/tmp/schedine-test-kmpu0opk/checkout/vendor/laravel/framework/src/Illuminate/Testing/TestRespon
+TEST interrotto senza fallback: phpunit-1 fallito: 1
+mysql-error.log:
+2026-10-20 21:48:50 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 56
+2026-10-20 21:48:50 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-20 21:48:50 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-20 21:48:50 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-20 21:48:50 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-20 21:48:50 0 [Note] InnoDB: Using Linux native AIO
+2026-10-20 21:48:50 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-20 21:48:50 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-20 21:48:50 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-20 21:48:50 0 [Note] InnoDB: End of log at LSN=45304
+2026-10-20 21:48:50 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-20 21:48:50 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-20 21:48:50 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-20 21:48:50 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-20 21:48:50 0 [Note] InnoDB: log sequence number 45304; transaction id 14
+2026-10-20 21:48:50 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-20 21:48:50 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-20 21:48:50 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-kmpu0opk/mysql-data/ib_buffer_pool
+2026-10-20 21:48:50 0 [Note] InnoDB: Buffer pool(s) load completed at 261020 21:48:50
+2026-10-20 21:48:51 0 [Note] Server socket created on IP: '127.0.0.1', port: '50969'.
+2026-10-20 21:48:51 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-20 21:48:51 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-kmpu0opk/mysql.sock'  port: 50969  MariaDB Server
+
+http.log:
+[Tue Oct 20 21:48:51 2026] PHP 8.3.33 Development Server (http://127.0.0.1:57523) started
+[Tue Oct 20 21:48:52 2026] 127.0.0.1:47678 Accepted
+[Tue Oct 20 21:48:52 2026] 127.0.0.1:47678 Closed without sending a request; it was probably just an unused speculative preconnection
+[Tue Oct 20 21:48:52 2026] 127.0.0.1:47678 Closing
+[Tue Oct 20 21:48:52 2026] 127.0.0.1:47680 Accepted
+[Tue Oct 20 21:48:52 2026] 127.0.0.1:47680 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-kmpu0opk

@@ -1,0 +1,215 @@
+{
+  "stato_modulo": "PARCIAL",
+  "stato_tecnico_rilascio": "PASS",
+  "SHA_online": "dda6b24ed40a3257ad5226ec3459a52f149b95fa",
+  "Laravel": "12.69.3",
+  "PHP": "8.3.36",
+  "migrazioni": 159,
+  "tabelle": 66,
+  "sorgenti_e_protetti_verificati": 243,
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "S0_secondi": 148.323,
+    "RUN_secondi": 246.648,
+    "DDL": false,
+    "decisione": "CANDIDATO_ACCETTATO"
+  },
+  "custodie": {
+    "PREPARE": {
+      "esito": "PASS_PREPARE_EXTRA_INTEGRITA_RECUPERO",
+      "cifrati": 3,
+      "autenticazione_e_decifratura_integrale": true,
+      "chiave_separata_VM": true
+    },
+    "S0": {
+      "esito": "PASS_S0_EXTRA_INTEGRITA_RECUPERO",
+      "cifrati": 3,
+      "autenticazione_e_decifratura_integrale": true,
+      "chiave_separata_VM": true
+    }
+  },
+  "DB_byte_identico_S0_prima_QA": true,
+  "persistenti_verificati_dopo_pulizia": 92,
+  "eccezione_metadati_persistenti": "Solo mtime delle directory modificati dalle fixture; contenuti e ogni altro metadato preservati",
+  "HMAC_tabelle_pre_esistenti_identici_dopo_ogni_gruppo": 66,
+  "restore_o_reset_contatori": false,
+  "QA_Web": {
+    "circuito": {
+      "esito": "PASS_SCENARI_ONLINE",
+      "scenari": 6
+    },
+    "html": {
+      "esito": "PASS_SCENARI_ONLINE",
+      "scenari": 6
+    },
+    "completo": {
+      "esito": "PASS_ONLINE_REGRESSIONI_NUOVA_SCHEDINA_TENANCY",
+      "scenari": 3
+    },
+    "accessi": {
+      "esito": "PASS_ACCESSI_WEB_ONLINE",
+      "scenari": 2
+    },
+    "testi-palette": {
+      "esito": "PASS_SCENARI_ONLINE",
+      "scenari": 9
+    },
+    "anteprima": {
+      "esito": "PASS_SCENARI_ONLINE",
+      "scenari": 3
+    }
+  },
+  "scenari_Web": 29,
+  "modalita_QA": "Gruppi indipendenti sullo stesso SHA, NONPASS conservati e fixture rimosse prima delle ripetizioni",
+  "QA_Tassa": {
+    "prove": [
+      {
+        "width": 1440,
+        "notti": 20,
+        "esenti": 10,
+        "oltre": 8,
+        "imposta": 3,
+        "stampa": true
+      },
+      {
+        "width": 768,
+        "notti": 20,
+        "esenti": 10,
+        "oltre": 8,
+        "imposta": 3,
+        "stampa": true
+      },
+      {
+        "width": 390,
+        "notti": 20,
+        "esenti": 10,
+        "oltre": 8,
+        "imposta": 3,
+        "stampa": true
+      }
+    ],
+    "invii": 0,
+    "codice450": {
+      "notti": 10,
+      "esenti": 6,
+      "oltre": 4,
+      "totale": 0
+    },
+    "regole_comunali_non_alterabili_hotel": true,
+    "storico": {
+      "consolidamento": true,
+      "rettifica": true,
+      "precedente_immutato": true
+    },
+    "regressioni_lettura_questura_istat": true,
+    "esito": "PASS_QA_TASSA_ONLINE",
+    "nascita_assente_422": true,
+    "tenancy404": true
+  },
+  "QA_anagrafiche": {
+    "esito": "PASS_ANAGRAFICHE_UNIFICATE_ONLINE",
+    "scenari": 4,
+    "CAP_catalogo_GEO_1440_768_390": true,
+    "tenancy_e_permessi": true
+  },
+  "monitor_server": {
+    "esito": "PASS_MONITOR_ONLINE",
+    "secondi": 918.5513910278678,
+    "campioni": 31,
+    "sonde": 279,
+    "FPM_flags_key_conformi_a_ogni_campione": true
+  },
+  "monitor_Mac": {
+    "esito": "PASS_MONITOR_DNS_HTTPS_MAC",
+    "secondi": 921.8954536670001,
+    "campioni": 31,
+    "richieste_HTTPS": 93,
+    "DNS_TLS_ordinari": true
+  },
+  "errori_dal_T0_RUN_finale": {
+    "inizio_locale": "2026-10-24T17:16:12",
+    "Laravel": 0,
+    "FPM": 0
+  },
+  "errori_GEO_sintetici_primo_rilascio_conservati": 2,
+  "VM": {
+    "nome_VM": "schedine-sviluppo-interno",
+    "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+    "SELinux": "Enforcing",
+    "filesystem": "xfs",
+    "filesystem_byte": 37290283008,
+    "disco_GiB_preservato": 36,
+    "liberi_VM_prima_arresto": 1961734144,
+    "nessuna_modifica_daily_da_task": true,
+    "stato": "Stopped"
+  },
+  "capacita": {
+    "campioni": 382,
+    "riserva_VM_byte": 1073741824,
+    "minimo_liberi_VM_byte": 1249177600,
+    "minimo_liberi_Mac_byte": 37574971392,
+    "tutti_campioni_riserva_PASS": true,
+    "errori_presidio": 0,
+    "presidio_proprio_concluso": true,
+    "liberi_Mac_finali_byte": 37531508736,
+    "liberi_Extra_finali_byte": 554957115392,
+    "Extra_UUID_verificato": true,
+    "rilevazione_finale_UTC": "2026-10-24T17:50:51.180091+00:00"
+  },
+  "fonti_ufficiali": "fonti.json",
+  "pendenti": {
+    "StayTour_accettazione": "Non verificata; nessuna sessione o validatore disponibile, risposta utente no",
+    "classificazioni_canoniche_attive_mancanti": 2,
+    "nascite_effettive_stagione_mancanti": 1,
+    "compleanno_incluso": "Conferma funzionale umana recuperata, non nuova certificazione municipale"
+  },
+  "nessun_invio_fiscale_o_email_reale": true,
+  "fallimenti_intermedi_conservati": true,
+  "timeout_budget_guardie_invariati": true,
+  "evidenza_priva_di_righe_o_identificativi_operativi_reali": true,
+  "errori_intero_periodo": {
+    "inizio_locale": "2026-10-24T14:37:24",
+    "Laravel": 2,
+    "FPM": 0,
+    "attribuzione": "Due richieste sintetiche del difetto GEO prima del correttivo, registri conservati"
+  },
+  "lettura_produttiva_finale_aggregata": {
+    "dati": {
+      "strutture_attive": 4,
+      "classificazioni_mancanti_attive": 2,
+      "schedine_effettive_senza_nascita_stagione": 1,
+      "export_consolidati": 0,
+      "codici450": 4,
+      "sola_lettura": true
+    },
+    "consistenza": {
+      "sola_lettura": true,
+      "risultati": [
+        {
+          "classificazioni_canoniche_mancanti_attive": 2,
+          "conflitti_classificazione_attivi": 0
+        },
+        {
+          "nascite_impossibili_effettive_stagione": 0,
+          "nascite_future_effettive_stagione": 0
+        }
+      ]
+    }
+  },
+  "deduplicazioni_autorizzate": [
+    {
+      "esito": "PASS_DEDUPLICAZIONE_KERNEL_BYTE_METADATI_INODE_IDENTICI",
+      "file": 11154,
+      "liberi_prima": 2159263744,
+      "liberi_dopo": 3484614656,
+      "nessun_file_rimosso": true
+    },
+    {
+      "esito": "PASS_DEDUPLICAZIONE_KERNEL_BYTE_METADATI_INODE_IDENTICI",
+      "file": 30122,
+      "liberi_prima": 2338541568,
+      "liberi_dopo": 3114078208,
+      "nessun_file_rimosso": true
+    }
+  ]
+}

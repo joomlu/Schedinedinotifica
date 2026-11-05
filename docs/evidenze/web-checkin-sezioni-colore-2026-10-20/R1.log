@@ -1,0 +1,49 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20 10:49:41 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-t4l1e36q; database=test_geo_215fcf2328bab618267bb7902fb65dd2; MySQL pid=57, porta=54663; HTTP pid=80, porta=52663
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /tmp/schedine-test-t4l1e36q/checkout/phpunit.xml
+
+...............................................................  63 / 265 ( 23%)
+............................................................... 126 / 265 ( 47%)
+............................................................... 189 / 265 ( 71%)
+..............................................................\nA15 {"status":422,"collegamenti_cross_tenant":0}\n. 252 / 265 ( 95%)
+\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n..........                                                   265 / 265 (100%)
+
+Time: 01:11.356, Memory: 82.50 MB
+
+OK (265 tests, 3097 assertions)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-t4l1e36q
+Traceback (most recent call last):
+  File "/home/collaudo.guest/web-email-modale-xIkjFEkO/tests/Isolation/run.py", line 345, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/collaudo.guest/web-email-modale-xIkjFEkO/tests/Isolation/run.py", line 313, in main
+    step(['node', 'node_modules/@playwright/test/cli.js', 'test', *args.playwright], 'playwright')
+  File "/home/collaudo.guest/web-email-modale-xIkjFEkO/tests/Isolation/run.py", line 280, in step
+    result = subprocess.run(command, cwd=checkout, env=env, capture_output=True, text=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.12/subprocess.py", line 2115, in _communicate
+    ready = selector.select(timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.12/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/collaudo.guest/web-email-modale-xIkjFEkO/tests/Isolation/run.py", line 87, in <lambda>
+    signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/collaudo.guest/web-email-modale-xIkjFEkO/tests/Isolation/run.py", line 87, in <genexpr>
+    signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
+KeyboardInterrupt
+Interrupt

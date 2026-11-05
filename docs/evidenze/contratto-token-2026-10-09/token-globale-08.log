@@ -1,0 +1,34 @@
+TEST isolato: /private/tmp/schedine-test-pmd6j3gz; database=test_geo_389b008498fb0954730fb110a33c2041; MySQL pid=29442, porta=59647; HTTP pid=29449, porta=59648
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 10.5.38 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /private/tmp/schedine-test-pmd6j3gz/checkout/phpunit.xml
+Random Seed:   20261009
+
+...............................................................  63 / 748 (  8%)
+............................................................... 126 / 748 ( 16%)
+.......................\nP1-A {"input":"31\/02\/2026","status":"NON_IMPORTABILE","date_preview":"31\/02\/2026","payload_date":null,"valid_count":0}
+\nP1-A {"input":"29\/02\/2025","status":"NON_IMPORTABILE","date_preview":"29\/02\/2025","payload_date":null,"valid_count":0}
+\nP1-A {"input":"12-31-1980","status":"NON_IMPORTABILE","date_preview":"12-31-1980","payload_date":null,"valid_count":0}
+..
+Conteggi preview/conferma {"stati":["DA_COMPLETARE"],"confirmable_rows":1,"valid_count":1,"payload_count":1}
+
+Conteggi preview/conferma {"stati":["COMPLETO","DA_VERIFICARE","DA_COMPLETARE","NON_IMPORTABILE","ERRORE"],"confirmable_rows":3,"valid_count":3,"payload_count":3}
+..\nP1-B {"status":"ERRORE","valid_count":0,"payloads":[]}
+.................................... 189 / 748 ( 25%)
+............................................................... 252 / 748 ( 33%)
+...........................................\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n................ 315 / 748 ( 42%)
+............................................................... 378 / 748 ( 50%)
+............................................................... 441 / 748 ( 58%)
+.........................................\nA14 {"attivo":false,"reset_status":302,"autenticato":false,"access_status":302}\n...................... 504 / 748 ( 67%)
+............................................................... 567 / 748 ( 75%)
+............................................................... 630 / 748 ( 84%)
+............................................................... 693 / 748 ( 92%)
+.......................................................         748 / 748 (100%)
+
+Time: 01:33.810, Memory: 106.50 MB
+
+OK (748 tests, 8234 assertions)
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-pmd6j3gz

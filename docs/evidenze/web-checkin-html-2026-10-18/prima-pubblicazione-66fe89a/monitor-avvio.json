@@ -1,0 +1,8 @@
+{
+  "esito": "MONITOR_FINALE_AVVIATO_DOPO_PULIZIA",
+  "unit": "schedine-html-monitor-66fe89ab",
+  "script_sha256": "71781f3b0f976817e720dd2f8f71b8ff209205b8a5b795e43bbabb338760cd93",
+  "campioni_richiesti": 31,
+  "durata_minima_secondi": 900,
+  "HTTP_TLS_CSS_richiesti": 279
+}

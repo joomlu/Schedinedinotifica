@@ -1,0 +1,12 @@
+{
+  "ordine_evidenze": [
+    "contenitore-backup.json: creazione, stato intermedio",
+    "backup-vm.json: copia offline completa",
+    "rilettura-backup.json: riapertura e rilettura, avvio ancora da eseguire a quel momento",
+    "prova-avvio-recupero.json: prova di avvio conclusa e originali ripristinati",
+    "ampliamento-verificato.json: crescita dopo backup e recupero",
+    "capacita-conclusiva.json: misura successiva al rilascio e allineamento locale"
+  ],
+  "nota": "Le ricevute intermedie sono conservate senza riscriverne gli stati storici. Il rapporto e la ricevuta finale definiscono lo stato conclusivo.",
+  "nessun_segreto_incluso": true
+}

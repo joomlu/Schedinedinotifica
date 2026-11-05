@@ -1,0 +1,10 @@
+{
+  "nonce": "3f0bb06a9caaad12935eea143d6dcfcb76b7d6b268678aa2",
+  "ddl_started": false,
+  "app_changed": null,
+  "s0_verified": false,
+  "decision": null,
+  "t0_epoch": 1792347045.1183548,
+  "esito": "ATTESTAZIONE_EXTRA_S0_DOPO_RECUPERO_INTEGRALE",
+  "data_UTC": "2026-10-18T18:12:36.512790+00:00"
+}

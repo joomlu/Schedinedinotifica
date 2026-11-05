@@ -1,0 +1,24 @@
+{
+  "esito": "PASS_R12_CORREZIONE_URL",
+  "commit_candidato_non_online": "911f86ecc80409e4ba457eec1906ce321213eec0",
+  "PHP_test": 45,
+  "asserzioni": 213,
+  "browser": 3,
+  "larghezze": [
+    1440,
+    768,
+    390
+  ],
+  "rifiuti_override": 23,
+  "build_GEO": "PASS",
+  "ricarica_dettaglio_bisestile": "PASS",
+  "ricarica_riepilogo": "PASS",
+  "file_SHA256": {
+    "resources/views/statistica/presenze/index.blade.php": "3df75298ea2762a58f0c03d52e8fabe59a5d506a8cce6b0788420b337ce1880b",
+    "tests/Feature/presenze-complete.playwright.spec.js": "5fc82f96ead46fd62a7e5dbe3ebc6ac3d4f9eea761935fa37f802c19ef888fc8"
+  },
+  "ambiente": "VMufficiale schedine-sviluppo-interno, namespace rete/PID/mount, fixture sintetiche",
+  "qualifica_globale": false,
+  "pubblicato": false,
+  "PR": "https://github.com/joomlu/Schedinedinotifica/pull/48"
+}

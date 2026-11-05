@@ -1,0 +1,30 @@
+@extends('layouts.master')
+@section('title','Web Check-in')
+@section('content')
+@php($richiestaBloccata=$richiesta->exists && $richiesta->processata())
+@if(!$richiesta->exists)<h1 class="h3 mb-3">Nuovo web check-in</h1>@endif
+@if($richiesta->exists)@include('web-checkin.partials.dettaglio-header',['sezione'=>'Richiesta'])@else @include('web-checkin.partials.navigation') @endif
+@if($schedaPrecedente ?? null)<div class="card border-info"><div class="card-body"><h2 class="h5">Ospiti della scheda precedente</h2><p>La richiesta utilizzerà questa stessa scheda. Indica il referente, la prenotazione e la ripartizione prevista; i dati degli ospiti e gli accompagnatori saranno conservati.</p>@include('web-checkin.partials.persona',['persona'=>$schedaPrecedente->getAttributes(),'titolo'=>'Ospite principale'])@foreach($componentiPrecedenti as $i=>$p)@include('web-checkin.partials.persona',['persona'=>$p->getAttributes(),'titolo'=>'Ospite '.($i+2)])@endforeach</div></div>@endif
+<div class="card"><div class="card-body">
+<h2 class="h5">{{ $richiesta->exists ? 'Dati originali della richiesta' : 'Prenotazione e ospiti previsti' }}</h2>
+<form id="richiesta-form" method="POST" action="{{ $richiesta->exists ? route('web_checkin.update',['id'=>$richiesta->id],false) : route('web_checkin.store',[],false) }}" data-confirm-ignore>
+@csrf
+@if($schedaPrecedente ?? null)<input type="hidden" name="scheda_precedente" value="{{ $schedaPrecedente->id }}"><input type="hidden" name="versione_scheda_precedente" value="{{ $versioneSchedaPrecedente }}">@endif
+@if($richiesta->exists)@method('PUT')<input type="hidden" name="web_versione_richiesta" value="{{ old('web_versione_richiesta',app(\App\Services\WebCheckinVersione::class)->of($richiesta)) }}">@endif
+<div class="row g-3">
+@foreach(['numero_prenotazione'=>['Numero prenotazione','text',100],'nome_referente'=>['Referente','text',150],'email'=>['Email','email',191],'whatsapp'=>['WhatsApp','text',50]] as $field=>[$label,$type,$max])<div class="col-md-6"><label class="form-label" for="richiesta-{{ $field }}">{{ $label }}</label><input id="richiesta-{{ $field }}" name="{{ $field }}" type="{{ $type }}" class="form-control @error($field) is-invalid @enderror" maxlength="{{ $max }}" value="{{ old($field,$richiesta->$field) }}" @disabled($richiestaBloccata) @required($field!=='whatsapp')>@error($field)<div class="invalid-feedback">{{ $message }}</div>@enderror</div>@endforeach
+<div class="col-md-6"><label class="form-label">Arrivo</label><x-calendario name="arrivo" :disabled="$richiestaBloccata" variant="period-start" group="web-checkin" :value="old('arrivo',$richiesta->arrivo?->format('Y-m-d'))" required />@error('arrivo')<div class="text-danger">{{ $message }}</div>@enderror</div>
+<div class="col-md-6"><label class="form-label">Partenza</label><x-calendario name="partenza" :disabled="$richiestaBloccata" variant="period-end" group="web-checkin" :value="old('partenza',$richiesta->partenza?->format('Y-m-d'))" required />@error('partenza')<div class="text-danger">{{ $message }}</div>@enderror</div>
+<div class="col-md-4"><label for="numero-adulti" class="form-label">Numero adulti (18+ all’arrivo)</label><input id="numero-adulti" name="numero_adulti" type="number" min="0" max="50" required class="form-control" value="{{ old('numero_adulti',$richiesta->numero_adulti ?? ($richiesta->exists || ($schedaPrecedente ?? null) ? '' : 1)) }}" @disabled($richiestaBloccata)>@error('numero_adulti')<div class="text-danger">{{ $message }}</div>@enderror</div>
+<div class="col-md-4"><label for="numero-bambini" class="form-label">Numero bambini (0–17 all’arrivo)</label><input id="numero-bambini" name="numero_bambini" type="number" min="0" max="50" required class="form-control" value="{{ old('numero_bambini',$richiesta->numero_bambini ?? ($richiesta->exists || ($schedaPrecedente ?? null) ? '' : 0)) }}" @disabled($richiestaBloccata)>@error('numero_bambini')<div class="text-danger">{{ $message }}</div>@enderror</div>
+<div class="col-md-4"><label for="totale-persone" class="form-label">Totale persone</label><input id="totale-persone" name="quantita_persone" type="number" min="1" max="50" class="form-control" readonly value="{{ old('quantita_persone',$richiesta->quantita_persone ?: 1) }}" @disabled($richiestaBloccata)>@error('quantita_persone')<div class="text-danger">{{ $message }}</div>@enderror</div>
+@if($richiesta->exists && $richiesta->numero_adulti===null)<p class="small text-muted">Richiesta precedente: la ripartizione non era registrata. Definiscila esplicitamente prima di aggiornare, senza cancellare gli ospiti già inseriti.</p>@endif
+<input type="hidden" name="messaggio_ospite" value="{{ old('messaggio_ospite',$richiesta->messaggio_ospite) }}">
+<div class="col-12"><label for="note-interne" class="form-label">Note interne · solo reception</label><textarea id="note-interne" name="note" class="form-control" rows="3">{{ old('note',$richiesta->note) }}</textarea>@error('note')<div class="text-danger">{{ $message }}</div>@enderror</div>
+</div><div class="mt-4 d-flex flex-wrap gap-2"><button type="submit" class="btn btn-primary">{{ $richiestaBloccata ? 'Aggiorna note interne' : ($richiesta->exists ? 'Salva' : 'Crea richiesta') }}</button><a class="btn btn-light" href="{{ route('schedina.web') }}">Torna all’elenco</a></div>
+</form></div></div>
+
+@endsection
+@section('script')
+<script>document.addEventListener('DOMContentLoaded',()=>{const f=document.getElementById('richiesta-form');const initial=new URLSearchParams(new FormData(f)).toString();let saving=false;f.addEventListener('submit',event=>{saving=true;setTimeout(()=>{if(event.defaultPrevented)saving=false;},0);});window.addEventListener('beforeunload',e=>{if(!saving&&new URLSearchParams(new FormData(f)).toString()!==initial){e.preventDefault();e.returnValue='';}});const a=document.getElementById('numero-adulti'),b=document.getElementById('numero-bambini'),t=document.getElementById('totale-persone');const sum=()=>{if(a.value!==''&&b.value!=='')t.value=Number(a.value)+Number(b.value);};a?.addEventListener('input',sum);b?.addEventListener('input',sum);});</script>
+@endsection

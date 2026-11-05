@@ -1,0 +1,31 @@
+{
+  "esito": "PASS",
+  "SHA": "c93a56bc840d8606c2b912125cc8784f1fdceb14",
+  "ruolo_reale": "super_admin",
+  "contesti": [
+    "Hotel Amalfi",
+    "Hotel Dream"
+  ],
+  "contesto_iniziale_ripristinato": true,
+  "alloggiati_integrali": 5,
+  "documenti_integrali": 95,
+  "pagine_documenti": 10,
+  "passaggi_successivo_effettivi": 9,
+  "codici_descrizioni_id_identici_baseline_ufficiale": true,
+  "azioni_disabilitate": true,
+  "ricerca_reset_vuoto_entrambi": true,
+  "filtro_TES_conservato_successivo_precedente": true,
+  "dinieghi_GET": {
+    "403": 6,
+    "400": 2,
+    "404": 2
+  },
+  "mobile_viewport": 390,
+  "mobile_larghezza_documento": 379,
+  "viewport_ripristinato": true,
+  "richieste_prod_mutative_record": false,
+  "limite": "CRUD dei quattro ruoli con CSRF reale provato in isolamento sullo stesso sorgente distribuito; non attribuito ai GET online",
+  "cliente_documenti_95_descrizioni_integrali_identiche": true,
+  "schedina_principali_16_17_18_descritte": true,
+  "form_nuovo_cliente_schedina_abbandonati_senza_salvare": true
+}

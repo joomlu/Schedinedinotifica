@@ -1,0 +1,7 @@
+{
+  "Mac_liberi": 10706063360,
+  "disco_nominale": 34359738368,
+  "lima_yaml": "vmType: vz\narch: aarch64\ncpus: 2\nmemory: 2GiB\ndisk: 32GiB\nimages:\n- location: https://dl.rockylinux.org/pub/rocky/10.2/images/aarch64/Rocky-10-GenericCloud-Base-10.2-20260525.0.aarch64.qcow2\n  arch: aarch64\n  digest: sha256:457c8375e19496f43a25c4a6169fa11237536c53cef6f85a20ea3c5a751aa0f5\nmounts: []\ncontainerd:\n  system: false\n  user: false\nportForwards:\n- guestIP: 0.0.0.0\n  proto: any\n  ignore: true\nhostResolver:\n  enabled: false\nuser:\n  name: collaudo\nssh:\n  loadDotSSHPubKeys: false\n",
+  "data_epoch": 1792307121.0316522,
+  "backup_integrale_e_recupero": "PASS"
+}

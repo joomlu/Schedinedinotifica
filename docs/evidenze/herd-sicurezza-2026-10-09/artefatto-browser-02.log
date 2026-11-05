@@ -1,0 +1,28 @@
+TEST isolato: /private/tmp/schedine-test-a8t0bjs7; database=test_geo_769907d7e687b59516e79d7790ed71ca; MySQL pid=98173, porta=61782; HTTP pid=98180, porta=61783
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PASS SOAP 200 and positive body never prove acceptance; no token/body leaves service
+PASS verification is unknown and retains Test operation
+PASS external constructor exception is contained
+PASS SOAP call exceptions do not escape with their chain
+PASS negative provider text is replaced with a fixed message
+PASS simulation makes no SOAP calls and is never accepted
+PASS nested and unexpected fields discarded; caller acceptance ignored
+PASS allowed slots cannot carry arrays objects or arbitrary strings
+PASS historical success never becomes accepted; history not rewritten
+PASS receipt and tables cannot expose or persist unvalidated bodies
+PASS actual persistence boundary projects injected provider material
+PASS legacy handler aborts before any DB or storage dependency
+PASS controller has no confirmed-send mutation for simulation or attempts
+PASS view never presents legacy provider messages or success as acceptance
+14 safety checks passed; in-memory doubles only
+
+Running 4 tests using 1 worker
+
+  ✓  1 tests/Feature/dependency-artifact-boundary.playwright.spec.js:3:1 › Artefatto nuovo: CKEditor non usato escluso, asset corretti ancora disponibili (1.2s)
+  ✓  2 tests/Feature/dependency-public-assets.playwright.spec.js:3:1 › Swiper: scorrimento e regressione prototype pollution (566ms)
+  ✓  3 tests/Feature/dependency-public-assets.playwright.spec.js:16:1 › ECharts: grafico e tooltip con etichetta HTML sintetica (555ms)
+  ✓  4 tests/Feature/dependency-public-assets.playwright.spec.js:26:1 › Quill: editor, formattazione e incolla senza handler HTML (576ms)
+
+  4 passed (4.6s)
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-a8t0bjs7

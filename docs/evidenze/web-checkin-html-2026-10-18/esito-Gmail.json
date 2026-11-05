@@ -1,0 +1,18 @@
+{
+  "esito": "CONSEGNA_GOOGLE_NON_ATTESTATA",
+  "messaggi_di_prova": [
+    {
+      "coda_sha256": "8a37db1466ca5b7c0cf2af0915ee8a15dbad9c51f9237249948d281a60909602",
+      "ora_registro": "2026-10-18 17:51:26",
+      "mittente_autenticato_correlato": true,
+      "Google_SMTP_accettazione_250": false,
+      "differimenti": 0,
+      "rifiuti_permanenti": 1,
+      "diagnosi_rifiuto": [
+        "550 5.7.26: mittente non autenticato; DKIM non passa; SPF del sottodominio con IP217.174.149.23 non passa."
+      ],
+      "transazione_conclusa": true
+    }
+  ],
+  "limite": "Accettazione SMTP remota distinta da presenza in Posta in arrivo/Spam e visualizzazione HTML; nessun contenuto email o registro estraneo esportato"
+}

@@ -1,0 +1,30 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20 11:03:03 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-j6gsiyoz; database=test_geo_122656d8b6c08d1f77879eb3c55b9d85; MySQL pid=57, porta=59165; HTTP pid=83, porta=49529
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+
+Running 12 tests using 1 worker
+
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-0I4lLB
+  ✓   1 tests/Feature/web-checkin-circuito.playwright.spec.js:11:205 › Circuito OSPITE SINGOLO 1440px › Compilazione, revisione e check-in OSPITE SINGOLO 1440px (27.4s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-pDEyS1
+  ✓   2 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito OSPITE SINGOLO 1440px › Storico e Cestino OSPITE SINGOLO 1440px (13.3s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-tEFfe6
+  ✓   3 tests/Feature/web-checkin-circuito.playwright.spec.js:11:205 › Circuito CAPO FAMIGLIA 768px › Compilazione, revisione e check-in CAPO FAMIGLIA 768px (33.7s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-skbaYN
+  ✓   4 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito CAPO FAMIGLIA 768px › Storico e Cestino CAPO FAMIGLIA 768px (14.7s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-mR5pPl
+  ✓   5 tests/Feature/web-checkin-circuito.playwright.spec.js:11:205 › Circuito CAPO GRUPPO 390px › Compilazione, revisione e check-in CAPO GRUPPO 390px (31.8s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-z5yNJJ
+  ✓   6 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito CAPO GRUPPO 390px › Storico e Cestino CAPO GRUPPO 390px (14.3s)
+  ✓   7 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML OSPITE SINGOLO 1440px › Email HTML e modulo guidato OSPITE SINGOLO 1440px (27.8s)
+  ✓   8 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML OSPITE SINGOLO 1440px › Cronologia e gestione modelli OSPITE SINGOLO 1440px (19.3s)
+  ✓   9 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML CAPO FAMIGLIA 768px › Email HTML e modulo guidato CAPO FAMIGLIA 768px (28.3s)
+  ✓  10 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML CAPO FAMIGLIA 768px › Cronologia e gestione modelli CAPO FAMIGLIA 768px (15.6s)
+  ✓  11 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML CAPO GRUPPO 390px › Email HTML e modulo guidato CAPO GRUPPO 390px (28.0s)
+  ✓  12 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML CAPO GRUPPO 390px › Cronologia e gestione modelli CAPO GRUPPO 390px (18.1s)
+
+  12 passed (4.6m)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-j6gsiyoz

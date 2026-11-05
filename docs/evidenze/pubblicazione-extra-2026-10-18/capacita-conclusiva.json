@@ -1,0 +1,18 @@
+{
+  "liberi_VM": 2501234688,
+  "filesystem_byte": 37290283008,
+  "disco_byte": 38654705664,
+  "partizione_byte": 37395348992,
+  "SELinux": "Enforcing",
+  "servizi": {
+    "schedine-mariadb-sviluppo.service": "active",
+    "schedine-web-sviluppo.service": "active"
+  },
+  "SHA_VM": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+  "Mac_liberi_byte": 13305942016,
+  "Extra_liberi_byte": 690396528640,
+  "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+  "epoca": 1792310782.183883,
+  "immagine_backup_chiusa": true,
+  "custodia_chiave_permessi_conformi": true
+}

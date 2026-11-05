@@ -1,0 +1,49 @@
+{
+  "esito": "PASS_BROWSER_ONLINE",
+  "sha": "23a4de8c2de7834cbbe9ec26a9ea2617f30e0e80",
+  "ruolo": "Superadmin",
+  "strutture": [
+    "Hotel Amalfi",
+    "Hotel Dream"
+  ],
+  "rilasciato": {
+    "conteggio_per_struttura": 73,
+    "ID_Amalfi": 336,
+    "ID_Dream": 482,
+    "ID_Dream_assente_Amalfi": true,
+    "ricerca_Ambasciata": 3,
+    "reset_pagina2_modale_annullato": true
+  },
+  "tipo_via": {
+    "conteggio_per_struttura": 156,
+    "ID_Amalfi": 811,
+    "ID_Dream": 1123,
+    "ID_Amalfi_assente_Dream": true,
+    "ricerca_Viale": 8,
+    "reset_pagina2_modale_annullato": true
+  },
+  "Geo_Comuni": {
+    "totale": 7896,
+    "ricerca_reset_pagina2": true,
+    "comune": "Bellaria-Igea Marina",
+    "provincia": "RN",
+    "istat": "099001",
+    "logo": "storage/geo_comuni/logo/7500-bellaria-igea-marina.jpg",
+    "dimensioni": [
+      1660,
+      1806
+    ],
+    "ricaricamento_cambio_struttura": true,
+    "conferma_AJAX_rimozione_annullata": true
+  },
+  "mobile_tutti_formulari": {
+    "viewport": 390,
+    "documento": 379,
+    "corpo": 379,
+    "verifica_visiva": true
+  },
+  "console_errori": [],
+  "viewport_e_contesto_originali_ripristinati": true,
+  "mutazioni_record_produttivi_di_prova": false,
+  "limite": "CRUD effettivo, upload/sostituzione/rimozione/logout e ruoli negativi provati in isolamento sullo stesso codice verificato; online letture e conferme annullate"
+}

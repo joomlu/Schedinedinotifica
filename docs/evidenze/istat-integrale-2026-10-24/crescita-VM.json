@@ -1,0 +1,35 @@
+{
+  "esito": "PASS_CRESCITA_VM_36_40_GIB",
+  "disco_byte": 42949672960,
+  "XFS_prima_byte": 37290283008,
+  "XFS_dopo_byte": 41585250304,
+  "sola_configurazione_disco_variata": true,
+  "database_e_84_protetti_identici": true,
+  "backup": {
+    "stato": "PASS_BACKUP_VM_CIFRATO_VERIFICATO",
+    "byte_cifrati": 20422355234,
+    "SHA256_cifrato": "06821b216f37344d80ae58e4380fe7d131ff3f7e5baebc29f226f70da19b0523",
+    "file": 12,
+    "decifratura_integrale_e_impronte_conformi": true,
+    "originali_riletti_identici": true,
+    "chiave_separata": true
+  },
+  "guest_prima": {
+    "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+    "SELinux": "Enforcing",
+    "DB_logico_sha256": "edac137fc0ccf709f1960512f9cea90de1878044204c966ed0cc7620f0294ffb",
+    "DB_byte": 3332249,
+    "protetti_count": 84,
+    "protetti_manifest_sha256": "2829405e13cb406bc86671117fee9b534c2abe62e41c98469626664169bea25b",
+    "VM_liberi": 2050121728
+  },
+  "guest_dopo": {
+    "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+    "SELinux": "Enforcing",
+    "DB_logico_sha256": "edac137fc0ccf709f1960512f9cea90de1878044204c966ed0cc7620f0294ffb",
+    "DB_byte": 3332249,
+    "protetti_count": 84,
+    "protetti_manifest_sha256": "2829405e13cb406bc86671117fee9b534c2abe62e41c98469626664169bea25b",
+    "VM_liberi": 6261108736
+  }
+}

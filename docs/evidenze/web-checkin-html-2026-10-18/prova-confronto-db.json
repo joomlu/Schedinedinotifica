@@ -1,0 +1,18 @@
+{
+  "esito": "PASS",
+  "positivo_sintetico": 1,
+  "mutazioni_respinte": [
+    "dato_precedente",
+    "nuovo_valore",
+    "colonna_tipo",
+    "default_non_nullo",
+    "indice",
+    "contatore",
+    "migrazione_batch",
+    "migrazione_nome",
+    "colonna_rimossa",
+    "tabella_aggiunta",
+    "intestazione"
+  ],
+  "limite": "Prova del comparatore; non \u00e8 un confronto S0 reale."
+}

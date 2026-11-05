@@ -1,0 +1,7 @@
+{
+  "esito": "PASS_SOLE_DIFFERENZE_TESTUALI_VALIDAZIONE",
+  "root_R13": "/home/collaudo.guest/arrivi-isolati-dGWKVX8U",
+  "normalizzazione": "Rimozione del solo dizionario messaggi e ripristino dei due argomenti []: controller byte-identico al ciclo browser R13",
+  "sha256_controller_normalizzato": "1f068693d15319ccffc7c49feb6fcab3050fd919dd5597a3a8dbddfe9150e805",
+  "PHP_mirato_successivo": "24 test /223 asserzioni PASS"
+}

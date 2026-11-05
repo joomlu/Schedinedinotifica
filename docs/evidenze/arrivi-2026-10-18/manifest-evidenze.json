@@ -1,0 +1,13 @@
+{
+  "inventario-query.txt": "220c17c1ecdda56ac6618a84a3315041d28ea4952ea999400359c1f3b42d204b",
+  "dipendenze-proprie.json": "25c6c189d914ee3ef355ddb376cc5ae63d482cbeeac1f6e3346de362c40a1fb2",
+  "confronto-sorgenti-R12-R13.json": "c853271b6ee5c1eee73c3a32f8f7cbd91365367d43e8aa4e55a57e7f35fa5c0f",
+  "guardie-finali.log": "c4cf0c787bd60dc2d901f6750fc54c465af3007a97416285fff6d2bc778d0ce5",
+  "preflight-capienza.json": "fb4c05fa838a1e65eca4b3d94242d8b8997c594fcb2d9a065b006925ea5b591c",
+  "sintassi.json": "8175acf5ad6e813d1df2b8bd3b0ad073ea7b992680b207964a07516dbeb45d83",
+  "verifica.json": "7090497af1f1ce421dd642a68e3c6b285d4255641973733139fed31df370f17b",
+  "confronto-messaggi-R13-R14.json": "8083c96d4aab373741f0ab81056134791536b648e4f2bae99fea03023600da81",
+  "crescita-baseline.json": "57faed8c371ea6c2287ec6977d91be5a8e184494b2a0668b4fd66e17ddb9fddd",
+  "capienza-conservazione.json": "a8fa1bc8b89d6a4ee580f84ef437830c41ac1e52f9778d5de81ad8a71396b414",
+  "Extra-corrente.json": "185cc8c62a22db7d338aba99c322fc60c6ba9c1e85a650fe8fe760e2bd3abd29"
+}

@@ -1,0 +1,53 @@
+[
+  {
+    "esito": "FAIL_FLUSSO_OPERATIVO",
+    "errore": "RuntimeError: Ingresso/gate non conforme durante operazione: STOP",
+    "secondi_T0": 52.214,
+    "execute": null,
+    "ddl_started": false,
+    "decision": null,
+    "budget": {
+      "finestra": 1800,
+      "cutoff": 1379,
+      "riserva": 421,
+      "S0_limite": 600,
+      "S0_secondi": 0.0
+    }
+  },
+  {
+    "cause": "worker-lost",
+    "esito": "PASS_GUARDIANO",
+    "nonce": "89f8bebbe1bca8504ec68f088afd4af46ef11a35747f843e",
+    "T0_epoch": 1792307897.1444995,
+    "deadline_epoch": 1792309697.1444995,
+    "health": {
+      "db": true,
+      "files": true,
+      "config": true,
+      "key": true,
+      "fpm": true,
+      "tls": true,
+      "egress": true,
+      "zero_queries": true
+    },
+    "preservation": {
+      "scope_produzione_non_eseguito": true
+    },
+    "public": {
+      "mail.schedinedinotifica.tanggo.software/": true,
+      "mail.schedinedinotifica.tanggo.software/login": true,
+      "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "schedinedinotifica.tanggo.software/": true,
+      "schedinedinotifica.tanggo.software/login": true,
+      "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "www.schedinedinotifica.tanggo.software/": true,
+      "www.schedinedinotifica.tanggo.software/login": true,
+      "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+    },
+    "approvazione_esterna_scaduta": false,
+    "decision": "BASELINE_NON_MODIFICATA",
+    "elapsed_seconds": 55.302244424819946,
+    "recovery_seconds": 2.9501059069298208,
+    "boot_changed": false
+  }
+]

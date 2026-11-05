@@ -1,0 +1,56 @@
+{
+  "esito": "PASS_BASELINE_RIAPERTA_INVARIATA",
+  "SHA_online": "c560979f308ba66a5b653fadee64c390c825a69f",
+  "Git_pulito": true,
+  "sorgenti_protetti": 328,
+  "persistenti": 104,
+  "database_byte_identico_snapshot_prima_STOP": true,
+  "schema_identico": true,
+  "tabelle": 66,
+  "S0_accettato": false,
+  "DDL": false,
+  "codice_candidato_applicato": false,
+  "FPM_attivo": true,
+  "sonde9": 9,
+  "key_e_provider_preservati": true,
+  "guardiano_concluso_inattivo_disabilitato": true,
+  "guardiano_esito": "PASS_GUARDIANO",
+  "riserva_VM_violata_nel_picco": true,
+  "candidato_non_pubblicato": "455318e7dc477b47402313826e1525fc691589c3",
+  "PR_correttivo": "https://github.com/joomlu/Schedinedinotifica/pull/46",
+  "merge_main": "328203d41cc1f05c29449a21423f9503247c9e38",
+  "custodie": {
+    "consenso_specifico_acquisito": true,
+    "S0_prima_versione_Extra": "PASS",
+    "PREPARE_correttivo_Extra": "PASS",
+    "S0_tentativo_fermato_Extra": "PASS integrità e decifratura dei tre archivi; recupero C5 NON accettato"
+  },
+  "PREPARE": {
+    "primo": "NON_PASS timeout recupero240s, nessun T0",
+    "secondo": "PASS recupero indipendente completo entro budget"
+  },
+  "RUN": {
+    "esito": "NON_PASS S0, timeout verificatore240s",
+    "report_secondi_T0": 261.413,
+    "decisione_guardiano": "BASELINE_NON_MODIFICATA",
+    "applicazione_correttivo": false,
+    "DDL": false
+  },
+  "capienza": {
+    "stima_prima_RUN": "PASS con riserva1GiB",
+    "minimo_VM_campionato_byte": 941301760,
+    "riserva_byte": 1073741824,
+    "riserva_violata": true,
+    "conseguenza": "Stima da correggere sul nuovo picco, nessun nuovo tentativo finché spazio e durata non sono qualificati"
+  },
+  "derivati_propri": {
+    "namespace_fuori_tempo_fermato": true,
+    "estrazioni_e_archivi_combinati_temporanei_ritirati": true,
+    "backup_SQL_inventari_chiavi_diagnostici_preservati": true,
+    "oggetti_Git_clone_archiviati_con_integrita_e_ritirati_VM": true,
+    "dipendenze_clone_34112_verificate_e_ritirate": true
+  },
+  "stato": "PARZIALE_BLOCCO_TECNICO_C5",
+  "ampliamento_VM64": "Consenso distinto richiesto, nessun ampliamento eseguito",
+  "nuovi_errori_applicativi_e_FPM_dal_RUN": 0
+}

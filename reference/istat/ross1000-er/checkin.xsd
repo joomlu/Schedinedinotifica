@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://checkin.ws.service.turismo5.gies.it/" xmlns:ns1="V2" elementFormDefault="unqualified" targetNamespace="http://checkin.ws.service.turismo5.gies.it/" version="1.0">
+
+  <xs:import namespace="V2" schemaLocation="v2.xsd"/>
+
+  <xs:element name="arrivo" type="tns:arrivoBean"/>
+
+  <xs:element name="cancellazione" nillable="true" type="xs:anyType"/>
+
+  <xs:element name="eliminazione" type="tns:eliminazioneBean"/>
+
+  <xs:element name="giorno" type="tns:risultatoGiornoV2"/>
+
+  <xs:element name="inviaMovimentazione" type="tns:inviaMovimentazione"/>
+
+  <xs:element name="inviaMovimentazioneList" type="tns:inviaMovimentazioneList"/>
+
+  <xs:element name="inviaMovimentazioneListResponse" type="tns:inviaMovimentazioneListResponse"/>
+
+  <xs:element name="inviaMovimentazioneResponse" type="tns:inviaMovimentazioneResponse"/>
+
+  <xs:element name="movimenti" type="ns1:xmlImportDati"/>
+
+  <xs:element name="movimento" type="tns:movimentoBean"/>
+
+  <xs:element name="partenza" type="tns:partenzaBean"/>
+
+  <xs:element name="prenotazione" type="tns:prenotazioneBean"/>
+
+  <xs:element name="risultati" type="tns:xmlImportRisultati"/>
+
+  <xs:element name="risultato" nillable="true" type="xs:anyType"/>
+
+  <xs:element name="struttura" nillable="true" type="xs:anyType"/>
+
+  <xs:element name="strutture" type="tns:xmlImportRisultatiV2"/>
+
+  <xs:complexType name="inviaMovimentazione">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="movimentazione" type="ns1:xmlImportDati"/>
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <xs:complexType name="movimentoBean">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="data" type="xs:string"/>
+      <xs:element minOccurs="0" name="struttura" type="tns:strutturaBean"/>
+      <xs:element minOccurs="0" name="arrivi" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arrivo" nillable="true" type="tns:arrivoBean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="partenze" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="partenza" nillable="true" type="tns:partenzaBean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="prenotazioni" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="prenotazione" nillable="true" type="tns:prenotazioneBean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="rettifiche" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice maxOccurs="unbounded" minOccurs="0">
+              <xs:element name="eliminazione" nillable="true" type="tns:eliminazioneBean"/>
+              <xs:element name="cancellazione" nillable="true" type="tns:cancellazioneBean"/>
+              <xs:element name="conferma" nillable="true" type="tns:confermaBean"/>
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="strutturaBean">
+    <xs:sequence>
+      <xs:element name="apertura" type="xs:string"/>
+      <xs:element name="camereoccupate" type="xs:string"/>
+      <xs:element name="cameredisponibili" type="xs:string"/>
+      <xs:element name="lettidisponibili" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="arrivoBean">
+    <xs:sequence>
+      <xs:element name="idswh" type="xs:string"/>
+      <xs:element name="tipoalloggiato" type="xs:string"/>
+      <xs:element minOccurs="0" name="idcapo" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="cognome" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="nome" nillable="true" type="xs:string"/>
+      <xs:element name="sesso" type="xs:string"/>
+      <xs:element name="cittadinanza" type="xs:string"/>
+      <xs:element name="statoresidenza" type="xs:string"/>
+      <xs:element name="luogoresidenza" type="xs:string"/>
+      <xs:element name="datanascita" type="xs:string"/>
+      <xs:element minOccurs="0" name="statonascita" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="comunenascita" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoturismo" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="mezzotrasporto" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="canaleprenotazione" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="titolostudio" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="professione" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="esenzioneimposta" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="partenzaBean">
+    <xs:sequence>
+      <xs:element name="idswh" type="xs:string"/>
+      <xs:element name="tipoalloggiato" type="xs:string"/>
+      <xs:element name="arrivo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="prenotazioneBean">
+    <xs:sequence>
+      <xs:element name="idswh" type="xs:string"/>
+      <xs:element name="arrivo" type="xs:string"/>
+      <xs:element name="partenza" type="xs:string"/>
+      <xs:element name="ospiti" type="xs:string"/>
+      <xs:element name="camere" type="xs:string"/>
+      <xs:element minOccurs="0" name="prezzo" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="canaleprenotazione" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="statoprovenienza" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="comuneprovenienza" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="eliminazioneBean">
+    <xs:sequence>
+      <xs:element name="idswh" type="xs:string"/>
+      <xs:element name="tipoalloggiato" type="xs:string"/>
+      <xs:element name="arrivo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cancellazioneBean">
+    <xs:sequence>
+      <xs:element name="idswh" type="xs:string"/>
+      <xs:element name="arrivo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="confermaBean">
+    <xs:sequence>
+      <xs:element name="idswh" type="xs:string"/>
+      <xs:element name="arrivo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="inviaMovimentazioneResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:xmlImportRisultati"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="xmlImportRisultati">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="risultatiGiorno" nillable="true" type="tns:risultatoGiorno"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="risultatoGiorno">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arrivi" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arrivo" nillable="true" type="tns:risultato"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="partenze" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="partenza" nillable="true" type="tns:risultato"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="prenotazioni" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="prenotazione" nillable="true" type="tns:risultato"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="retifiche" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="eliminazione" nillable="true" type="tns:risultato"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="risultato">
+    <xs:sequence>
+      <xs:element name="idswh" type="xs:string"/>
+      <xs:element name="successo" nillable="true" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="errore" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="inviaMovimentazioneList">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="movimentazione" type="ns1:xmlImportDati"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="inviaMovimentazioneListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:xmlImportRisultatiV2"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="xmlImportRisultatiV2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="errore" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="struttura" nillable="true" type="tns:risultatoStrutturaV2"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="risultatoStrutturaV2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="errore" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="giorno" nillable="true" type="tns:risultatoGiornoV2"/>
+    </xs:sequence>
+    <xs:attribute name="codice" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="risultatoGiornoV2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arrivi" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arrivo" nillable="true" type="tns:risultato"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="partenze" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="partenza" nillable="true" type="tns:risultato"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="prenotazioni" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="prenotazione" nillable="true" type="tns:risultato"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="retifiche" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="eliminazione" nillable="true" type="tns:risultato"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="data" type="xs:string"/>
+  </xs:complexType>
+
+</xs:schema>

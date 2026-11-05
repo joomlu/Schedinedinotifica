@@ -1,0 +1,88 @@
+{
+  "esito": "PASS_RILASCIO_ONLINE_SERVER",
+  "HEAD": "8ebf420ff541ec938ecd10f50165071662b32972",
+  "Laravel": "12.69.3",
+  "tabelle": 64,
+  "migrazioni": 154,
+  "conservazione_dati_precedenti": {
+    "esito": "PASS_CONSERVAZIONE_TUTTI_DATI_PRECEDENTI",
+    "tabelle": 64,
+    "righe": 37021,
+    "sole_due_nuove_righe_migrations": true,
+    "ricontrollo_dopo_browser": true
+  },
+  "env_key_upload_logo_identici_S0": true,
+  "file_persistenti_verificati": 74,
+  "provider_mail_flags_conformi": true,
+  "barriera_manutenzione_assenti": true,
+  "FPM_attivo": true,
+  "Git_pulito": true,
+  "sonde9_HTTP_TLS_CSS": {
+    "mail.schedinedinotifica.tanggo.software/": true,
+    "mail.schedinedinotifica.tanggo.software/login": true,
+    "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+    "schedinedinotifica.tanggo.software/": true,
+    "schedinedinotifica.tanggo.software/login": true,
+    "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+    "www.schedinedinotifica.tanggo.software/": true,
+    "www.schedinedinotifica.tanggo.software/login": true,
+    "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+  },
+  "helper_originale_preservato": true,
+  "helper_corrente_sigillato": true,
+  "nonce": "675bd8051937c3eb250ad9f9974e2da91c1af9fd3b38bc94",
+  "S0_verificato": true,
+  "S0_secondi": 138.218,
+  "secondi_rilascio": 218.453,
+  "monitor_campioni": 385,
+  "migrazione_eseguita": [
+    "2026_02_28_000000_prepare_classificazioni_index_for_normalize",
+    "2026_10_14_030000_initialize_tipo_cliente_sistema"
+  ],
+  "nuove_DDL_schema": false,
+  "catalogo_tipo_cliente_ID_originali": true,
+  "titoli_privati": 560,
+  "originali_globali": 82,
+  "titoli_orfani_o_duplicati": 0,
+  "nessun_record_fittizio": true,
+  "nessun_invio_enti": true,
+  "monitor_15_minuti": {
+    "secondi": 917.6994963921607,
+    "campioni": 31,
+    "sonde": 279,
+    "esito": "PASS_MONITOR_ONLINE"
+  },
+  "guardiano_concluso": "Disarmato, inattivo e disabilitato, verificato",
+  "browser_online": {
+    "Superadmin": true,
+    "contesti": [
+      "Hotel Amalfi",
+      "Hotel Dream"
+    ],
+    "catalogo_identico_3_attivi": true,
+    "azioni_modali_switch_assenti": true,
+    "ricerca_reset_pagina2_ritorno_filtro": true,
+    "modifica_catalogo_ID1_GET": 404,
+    "cliente_ID3_struttura1_in_Hotel_Dream_GET": 404,
+    "selettori_3_classi_senza_salvataggio": true,
+    "nessun_dato_fittizio_o_scrittura_applicativa": true,
+    "limite": "CRUD quattro ruoli e salvataggi clienti provati nel namespace isolato; 21 sorgenti SHA identici al codice distribuito"
+  },
+  "tentativi_conservati": {
+    "prima_ricevente_capienza": "Baseline non modificata",
+    "RUN1_dopo_ampliamento": "Pool precedente non quieto; baseline riaperta18.107s",
+    "RUN2_dopo_ampliamento": "Ingresso/gate non conforme; baseline riaperta165.628s",
+    "RUN3": "PASS_C5"
+  },
+  "log_SHA256": {
+    "prepare-01.log": "cdfa358f7aec09f82ce202b0f25b02552ffc25da7d3bfb45814be6be2796a32e",
+    "run-01.log": "972144c604a7ceee3b272135f1eb5e5e90c51395566f02ef0eab59bd9e51af7e",
+    "run-02.log": "972144c604a7ceee3b272135f1eb5e5e90c51395566f02ef0eab59bd9e51af7e",
+    "run-03.log": "94c716e1944c9cfaaec1d0f5a3f2c976e68456e86a1eb9f5f5e348d4d94635dc",
+    "verifica-online.log": "7cd12b7582c640c27dc8517ccae981a2e4df09887c64c86c71d0b721fc13d0e6",
+    "conservazione.log": "53936bde5964bc6892c9926a0151ee2c58618f7ff1d6f1fc9cf5564cb4f4c5ae",
+    "conservazione-dopo-browser.log": "9e0061804c9db58f4bbfc2851f048098df013b9947680834cace60bb41dc69ad",
+    "monitor-online.log": "578302a1d647a43092d08201699490f26c7b0e300cea9d3220019a6b3dafb80d",
+    "corrispondenza-sorgenti.json": "2225445ab6f4ecaa6efb28a1bbae207f38fcbe59b39937bd365db35a14d52253"
+  }
+}

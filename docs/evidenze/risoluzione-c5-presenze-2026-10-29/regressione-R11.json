@@ -1,0 +1,21 @@
+{
+  "esito": "RIPRODOTTO_SU_PR46",
+  "browser_negativi_attesi": 3,
+  "larghezze": [
+    1440,
+    768,
+    390
+  ],
+  "causa": "URL mantiene dal/al del vecchio filtro dopo normalizzazione server; ricarica rilegge il vecchio periodo",
+  "assert_fallito": "toHaveURL /dal=2024-02-01.*al=2024-02-29/",
+  "atteso": [
+    "2024-02-01",
+    "2024-02-29"
+  ],
+  "ricevuto": [
+    "2026-06-01",
+    "2026-09-30"
+  ],
+  "dati_sintetici_isolati": true,
+  "costituisce_qualifica": false
+}

@@ -1,0 +1,707 @@
+{
+  "sola_lettura": true,
+  "nessuna_nuova_restore": true,
+  "differenze": [
+    {
+      "tabella": "admin_fatturazione_righe",
+      "differenze_DDL_sanitizzate": [
+        "-  `descrizione` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `descrizione` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `sconto_tipo` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `sconto_tipo` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `note` text COLLATE utf8mb4_unicode_ci,",
+        "+  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "admin_fatturazioni",
+      "differenze_DDL_sanitizzate": [
+        "-  `numero` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `numero` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `stato` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `intestazione` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `partita_iva` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `codice_fiscale` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `pec` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `indirizzo` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `cap` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `citta` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `provincia` varchar(8) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `stato` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `intestazione` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `partita_iva` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `codice_fiscale` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `pec` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `indirizzo` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `cap` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `citta` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `provincia` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `numero_fattura` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `numero_fattura` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `note` text COLLATE utf8mb4_unicode_ci,",
+        "+  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "admin_servizi",
+      "differenze_DDL_sanitizzate": [
+        "-  `nome` varchar(160) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `tipo_costo` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `nome` varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `tipo_costo` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `note` text COLLATE utf8mb4_unicode_ci,",
+        "+  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "admin_servizio_proprietario",
+      "differenze_DDL_sanitizzate": [
+        "-  `note` text COLLATE utf8mb4_unicode_ci,",
+        "+  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "calendario_eventi",
+      "differenze_DDL_sanitizzate": [
+        "-  `ambito` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `ambito` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `tipo` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `titolo` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `descrizione` text COLLATE utf8mb4_unicode_ci,",
+        "+  `tipo` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `titolo` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `descrizione` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "-  `priorita` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `stato` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `priorita` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `stato` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',"
+      ]
+    },
+    {
+      "tabella": "cestino_items",
+      "differenze_DDL_sanitizzate": [
+        "-  `entity_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `entity_class` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `entity_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `entity_class` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `code` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `circuito` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `source` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `title` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `code` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `circuito` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `source` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,"
+      ]
+    },
+    {
+      "tabella": "clienti",
+      "differenze_DDL_sanitizzate": [
+        "-  `numero_cliente` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `numero_cliente` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `region_reg` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `region_reg` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `cap_reg` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `cap_reg` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `azienda` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `cap_az` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `cf_az` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `pi_az` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `typeaway_az` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `address_az` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `number_az` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `email_az` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `phone_az` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `fax_az` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `cellphone_az` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `country_az` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `city_az` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `region_az` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `province_az` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `azienda` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `cap_az` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `cf_az` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `pi_az` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `typeaway_az` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `address_az` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `number_az` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `email_az` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `phone_az` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `fax_az` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `cellphone_az` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `country_az` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `city_az` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `region_az` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `province_az` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `sdi_az` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `website` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `desc_az` text COLLATE utf8mb4_unicode_ci,",
+        "-  `nota` text COLLATE utf8mb4_unicode_ci,",
+        "-  `rilasciato_reg` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `country_doc_reg` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `city_doc_reg` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `sdi_az` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `website` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `desc_az` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "+  `nota` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "+  `rilasciato_reg` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `country_doc_reg` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `city_doc_reg` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,"
+      ]
+    },
+    {
+      "tabella": "componenti",
+      "differenze_DDL_sanitizzate": [
+        "-  `name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `surname` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `sex` varchar(2) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `relationship` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `exent` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `city_nac` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `province_nac` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `surname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `sex` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `relationship` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `exent` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `city_nac` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `province_nac` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `country_nac` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `regione_nac` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `comune_nac` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `cap_nac` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `country` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `regione` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `province` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `city` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `typeaway` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `address` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `number` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `cap` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `country_nac` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `regione_nac` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `comune_nac` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `cap_nac` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `country` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `regione` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `province` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `city` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `typeaway` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `address` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `cap` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,"
+      ]
+    },
+    {
+      "tabella": "crm_lead_activities",
+      "differenze_DDL_sanitizzate": [
+        "-  `tipo` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `direzione` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `stato` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `titolo` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `descrizione` text COLLATE utf8mb4_unicode_ci,",
+        "+  `tipo` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `direzione` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `stato` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `titolo` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `descrizione` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "crm_leads",
+      "differenze_DDL_sanitizzate": [
+        "-  `lead_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `fonte` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `lead_code` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `fonte` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `stato` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `stato` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `struttura` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `nome_cognome` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `persona_contatto` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `localita` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `email` varchar(160) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `telefono` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `cellulare` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `sito_web` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `modalita_contatto` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `preferenza_contatto_label` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `struttura` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `nome_cognome` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `persona_contatto` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `localita` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `email` varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `telefono` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `cellulare` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `sito_web` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `modalita_contatto` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `preferenza_contatto_label` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `messaggio` text COLLATE utf8mb4_unicode_ci,",
+        "-  `note_interne` text COLLATE utf8mb4_unicode_ci,",
+        "+  `messaggio` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "+  `note_interne` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "customer_import_batches",
+      "differenze_DDL_sanitizzate": [
+        "-  `original_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `stored_path` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `original_name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `stored_path` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',"
+      ]
+    },
+    {
+      "tabella": "customer_import_rows",
+      "differenze_DDL_sanitizzate": [
+        "-  `status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `duplicate_scope` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `duplicate_scope` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,"
+      ]
+    },
+    {
+      "tabella": "istat_exports",
+      "differenze_DDL_sanitizzate": [
+        "-  `filename` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `path` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `filename` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `path` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,"
+      ]
+    },
+    {
+      "tabella": "istat_movimenti_giornalieri",
+      "differenze_DDL_sanitizzate": [
+        "-  `note` text COLLATE utf8mb4_unicode_ci,",
+        "+  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "istat_transmissions",
+      "differenze_DDL_sanitizzate": [
+        "-  `mode` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `mode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `response_code` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `response_message` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `response_detail` text COLLATE utf8mb4_unicode_ci,",
+        "+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `response_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `response_message` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `response_detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "-  `receipt_filename` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `receipt_path` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `receipt_filename` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `receipt_path` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,"
+      ]
+    },
+    {
+      "tabella": "licenza_articoli",
+      "differenze_DDL_sanitizzate": [
+        "-  `nome` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `codice` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `accesso_key` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `descrizione` text COLLATE utf8mb4_unicode_ci,",
+        "+  `nome` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `codice` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `accesso_key` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `descrizione` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "-  `note` text COLLATE utf8mb4_unicode_ci,",
+        "+  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "licenza_assegnazioni",
+      "differenze_DDL_sanitizzate": [
+        "-  `numero_licenza` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `numero_licenza` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `stato_pagamento` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `stato_pagamento` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `note` text COLLATE utf8mb4_unicode_ci,",
+        "+  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "proprietari",
+      "differenze_DDL_sanitizzate": [
+        "-  `cellulare` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `ragione_sociale` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `codice_fiscale` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `partita_iva` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `codice_destinatario` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `codice_unico` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `pec` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `indirizzo` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `numero_civico` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `cap` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `citta` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `provincia` varchar(8) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `regione` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `nazione` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `cellulare` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `ragione_sociale` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `codice_fiscale` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `partita_iva` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `codice_destinatario` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `codice_unico` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `pec` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `indirizzo` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `numero_civico` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `cap` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `citta` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `provincia` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `regione` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `nazione` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `note_amministrative` text COLLATE utf8mb4_unicode_ci,",
+        "+  `note_amministrative` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "proprietario_fatturazione_righe",
+      "differenze_DDL_sanitizzate": [
+        "-  `descrizione` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `descrizione` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `sconto_tipo` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `sconto_tipo` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `note` text COLLATE utf8mb4_unicode_ci,",
+        "+  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "proprietario_fatturazioni",
+      "differenze_DDL_sanitizzate": [
+        "-  `numero` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `numero` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `stato` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `intestazione` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `partita_iva` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `codice_fiscale` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `pec` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `indirizzo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `cap` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `citta` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `provincia` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `stato` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `intestazione` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `partita_iva` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `codice_fiscale` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `pec` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `indirizzo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `cap` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `citta` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `provincia` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `numero_fattura` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `numero_fattura` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `note` text COLLATE utf8mb4_unicode_ci,",
+        "+  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "questura_exports",
+      "differenze_DDL_sanitizzate": [
+        "-  `filename` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `path` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `filename` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `path` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `sha256` char(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `sha256` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `charset` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `charset` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `status` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,"
+      ]
+    },
+    {
+      "tabella": "questura_receipts",
+      "differenze_DDL_sanitizzate": [
+        "-  `filename` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `path` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `mime` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `sha256` char(64) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `filename` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `path` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `mime` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `sha256` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,"
+      ]
+    },
+    {
+      "tabella": "questura_send_reservations",
+      "differenze_DDL_sanitizzate": [
+        "-  `transport_mode` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `transport_mode` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,"
+      ]
+    },
+    {
+      "tabella": "questura_transmission_events",
+      "differenze_DDL_sanitizzate": [
+        "-  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,"
+      ]
+    },
+    {
+      "tabella": "questura_transmissions",
+      "differenze_DDL_sanitizzate": [
+        "-  `mode` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `scope_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `mode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `scope_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `response_code` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `response_message` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `response_detail` text COLLATE utf8mb4_unicode_ci,",
+        "+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `response_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `response_message` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `response_detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "-  `receipt_filename` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `receipt_path` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `receipt_filename` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `receipt_path` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `sha256` char(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `sha256` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `charset` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `charset` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `send_key` char(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `send_key` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,"
+      ]
+    },
+    {
+      "tabella": "schedina",
+      "differenze_DDL_sanitizzate": [
+        "-  `circuito` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `circuito` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `customer_type_housed` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `customer_group` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `customer_subgroup` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `customer_subgroup1` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `customer_email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `customer_phone` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `customer_cellphone` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `customer_fax` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `customer_observation` text COLLATE utf8mb4_unicode_ci,",
+        "-  `customer_anag_observation` text COLLATE utf8mb4_unicode_ci,",
+        "+  `customer_type_housed` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `customer_group` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `customer_subgroup` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `customer_subgroup1` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `customer_email` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `customer_phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `customer_cellphone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `customer_fax` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `customer_observation` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "+  `customer_anag_observation` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "-  `exent` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `exent` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `oa_cap` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `oa_cap` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `or_published_city` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `or_published_city` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `istat_tipo_turismo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `istat_mezzo_trasporto` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `istat_canale_prenotazione` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `istat_titolo_studio` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `istat_professione` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `istat_tipo_turismo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `istat_mezzo_trasporto` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `istat_canale_prenotazione` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `istat_titolo_studio` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `istat_professione` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,"
+      ]
+    },
+    {
+      "tabella": "struttura",
+      "differenze_DDL_sanitizzate": [
+        "-  `istat_codice_struttura` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `istat_ws_url` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `istat_codice_struttura` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `istat_ws_url` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `questura_password` text COLLATE utf8mb4_unicode_ci,",
+        "-  `questura_wskey` text COLLATE utf8mb4_unicode_ci,",
+        "-  `questura_codici` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `questura_puk` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `questura_password` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "+  `questura_wskey` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "+  `questura_codici` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `questura_puk` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `avviso` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `messaggio_offline` text COLLATE utf8mb4_unicode_ci,",
+        "-  `messaggio_avviso` text COLLATE utf8mb4_unicode_ci,",
+        "+  `avviso` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `messaggio_offline` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "+  `messaggio_avviso` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "-  `numero_ricevuta_pagamento` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `numero_ricevuta_pagamento` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,"
+      ]
+    },
+    {
+      "tabella": "struttura_accessi",
+      "differenze_DDL_sanitizzate": [
+        "-  `ip_entrata` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `ip_uscita` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `user_agent` text COLLATE utf8mb4_unicode_ci,",
+        "+  `ip_entrata` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `ip_uscita` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `user_agent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "struttura_audit_logs",
+      "differenze_DDL_sanitizzate": [
+        "-  `route_name` varchar(160) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `metodo` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `entita_tipo` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `entita_id` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `descrizione` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `ip` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `route_name` varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `metodo` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `entita_tipo` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `entita_id` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `descrizione` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `ip` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,"
+      ]
+    },
+    {
+      "tabella": "struttura_comande",
+      "differenze_DDL_sanitizzate": [
+        "-  `titolo` varchar(160) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `messaggio` text COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `priorita` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `stato` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `titolo` varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `messaggio` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `priorita` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `stato` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',"
+      ]
+    },
+    {
+      "tabella": "struttura_zone",
+      "differenze_DDL_sanitizzate": [
+        "-  `tipo` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `nome` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `tipo` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `nome` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,"
+      ]
+    },
+    {
+      "tabella": "support_ticket_messages",
+      "differenze_DDL_sanitizzate": [
+        "-  `messaggio` text COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `messaggio` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,"
+      ]
+    },
+    {
+      "tabella": "support_tickets",
+      "differenze_DDL_sanitizzate": [
+        "-  `ticket_code` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `titolo` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `categoria` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `priorita` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `stato` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "-  `modulo_riferimento` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `descrizione` text COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `ticket_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `titolo` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `categoria` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `priorita` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `stato` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `modulo_riferimento` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `descrizione` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `ultimo_messaggio_da` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `ultimo_messaggio_da` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,"
+      ]
+    },
+    {
+      "tabella": "tipo_alloggiato",
+      "differenze_DDL_sanitizzate": [
+        "-  `codice` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `descrizione` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `codice` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `descrizione` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,"
+      ]
+    },
+    {
+      "tabella": "tipo_cliente",
+      "differenze_DDL_sanitizzate": [
+        "-  `codice` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `descrizione` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `codice` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `descrizione` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,"
+      ]
+    },
+    {
+      "tabella": "users",
+      "differenze_DDL_sanitizzate": [
+        "-  `display_name` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `display_name` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `username` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `username` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `ruolo_operativo` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `ruolo_operativo` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `ultimo_accesso_ip` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `ultimo_logout_ip` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `ultimo_accesso_ip` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `ultimo_logout_ip` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `telefono` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `qualifica` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `ragione_sociale` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `codice_fiscale` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `partita_iva` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `codice_destinatario` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `codice_unico` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `pec` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `indirizzo` varchar(180) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `numero_civico` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `cap` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `citta` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `provincia` varchar(8) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `regione` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `nazione` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `telefono` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `qualifica` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `ragione_sociale` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `codice_fiscale` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `partita_iva` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `codice_destinatario` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `codice_unico` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `pec` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `indirizzo` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `numero_civico` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `cap` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `citta` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `provincia` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `regione` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `nazione` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `google_maps_url` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `google_maps_url` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `note_servizio` text COLLATE utf8mb4_unicode_ci,",
+        "-  `note_amministrative` text COLLATE utf8mb4_unicode_ci,",
+        "+  `note_servizio` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "+  `note_amministrative` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,"
+      ]
+    },
+    {
+      "tabella": "web_checkin_richieste",
+      "differenze_DDL_sanitizzate": [
+        "-  `codice` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `numero_prenotazione` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `whatsapp` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "-  `nome_referente` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `codice` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `numero_prenotazione` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `email` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `whatsapp` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+        "+  `nome_referente` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `note` text COLLATE utf8mb4_unicode_ci,",
+        "-  `token` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "-  `stato` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',",
+        "+  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,",
+        "+  `token` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,",
+        "+  `stato` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '<valore metadata>',"
+      ]
+    }
+  ]
+}

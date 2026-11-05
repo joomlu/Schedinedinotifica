@@ -1,0 +1,48 @@
+{
+  "baseline": "261429e1ad4483925254beb5a873f2c4aab75184",
+  "VM": {
+    "esito": "PASS_RICONCILIAZIONE_VM",
+    "migrazioni": 155,
+    "migrazioni_eseguite": [
+      "2026_02_28_000000_prepare_classificazioni_index_for_normalize",
+      "2026_10_14_030000_initialize_tipo_cliente_sistema"
+    ],
+    "schema_e_tutti_dati_precedenti_identici": true,
+    "tabelle": 64,
+    "record_precedenti": 25875,
+    "catalogo_id_timestamp_extra_e_cliente_vuoto_preservati": true,
+    "checkpoint_cifrato_riletto": true,
+    "custodia": "/home/collaudo.guest/custodia-tipo-cliente-1792048109944095078",
+    "env_e_lock_identici": true,
+    "DDL_applicative": false,
+    "sole_due_righe_migrations_aggiunte": true
+  },
+  "produzione": {
+    "migrazioni": 155,
+    "due_migrazioni_registrate_batch": 65,
+    "schema_gia_normalizzato": true,
+    "catalogo_id": [
+      1,
+      2,
+      3
+    ],
+    "cliente_vuoto": 1
+  },
+  "test": {
+    "PHPUnit": 51,
+    "asserzioni": 338,
+    "guardie": 15,
+    "override_rifiutati": 23,
+    "build_GEO": "PASS",
+    "Chromium": {
+      "prove": 2,
+      "secondi": 36.4,
+      "esito": "PASS"
+    }
+  },
+  "sorgenti_sha256": {
+    "database/migrations/2026_02_28_000000_prepare_classificazioni_index_for_normalize.php": "818cd966eb55fc75539a197857882078d0e79c5fb2266d594dec6b87919aadfe",
+    "database/migrations/2026_10_14_030000_initialize_tipo_cliente_sistema.php": "db961201570d0e1adf5718d17554792cff0d602612d9c1d11ad9fff1f106cf93",
+    "app/Services/TipoClienteSistemaService.php": "b5b9097776f8a30efaae57c02967ba1dfd9cfc4f25f7512710f445dea38bdae3"
+  }
+}

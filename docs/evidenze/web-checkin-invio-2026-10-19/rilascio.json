@@ -1,0 +1,56 @@
+{
+  "esito": "PASS_PUBBLICATO_VERIFICATO_ONLINE_E_MONITORATO",
+  "UTC": "2026-10-19T19:43:35.581378+00:00",
+  "SHA_applicativo": "78e889759b0838f35267496527c42024aa18bd00",
+  "baseline": "447571f45fb9f8059f0d33eb836b221d9bd6ec52",
+  "C5": {
+    "kit": "a305860a8874909931a3afedb9593c589cec922a391872cfaeda825ee1bb898d",
+    "S0_secondi": 161.957,
+    "RUN_secondi": 242.559,
+    "decisione": "CANDIDATO_ACCETTATO",
+    "DDL": false,
+    "migrazioni": 159,
+    "tabelle": 66,
+    "controlli_non_ridotti": true,
+    "guardiani": "Entrambi conclusi,inattivi,disabilitati"
+  },
+  "prove_isolate": {
+    "PHP": 263,
+    "asserzioni": 3074,
+    "browser": 21,
+    "guardie": 17,
+    "override_rifiutati": 23,
+    "solo_VM": true
+  },
+  "QA_online": [
+    "online-circuito",
+    "online-completo",
+    "online-accessi",
+    "online-modelli",
+    "online-visuale",
+    "verifica-visiva-manuale"
+  ],
+  "invii_reali": "Tre accettatiSMTP e ricevutiGmail sul447571f4; successivo correttivoCSS78e8897 verificato online, trasporto invariato",
+  "pulizia": {
+    "tabelle_HMAC_identiche": 66,
+    "persistenti": 75,
+    "restore_DB": false,
+    "contatori_AUTO_INCREMENT": "Non ripristinati; confrontoHMAC riguarda le righe"
+  },
+  "monitor": {
+    "server_secondi": 917.952016164083,
+    "server_campioni": 31,
+    "server_sonde": 279,
+    "Mac_secondi": 921.961322625,
+    "Mac_campioni": 31,
+    "Mac_richieste": 93
+  },
+  "errori_applicativi_e_FPM_dal_primo_T0": 0,
+  "Rita_Giorgetti": "Sola lettura; link revocato e soggiorno trascorso: correggere dati e validità prima di preparare/inviare. Nessuna modifica o invio reale.",
+  "pendenti": [
+    "DKIM sottodominio non configurato; consegnaGmail osservata conSPF",
+    "Audit generaleBASELINE IN AUDIT e anomalieDNS storiche restano separati"
+  ],
+  "lavoro_estraneo_preservato": true,
+  "prima_QA_DB_identico_S0": true
+}

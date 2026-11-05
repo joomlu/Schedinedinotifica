@@ -1,0 +1,15 @@
+{
+  "data": "2026-10-09",
+  "browser": "Chrome reale, sessione preesistente",
+  "contesto": "struttura Tanggo, ruolo mostrato Admin",
+  "percorso": "/struttura → pulsante Configurazione Ross1000 → /istat-tabella-a",
+  "pagina_finale": "https://schedinedinotifica.test/istat-tabella-a",
+  "area_istat_visibile": true,
+  "query_exception_sqlstate_assenti": true,
+  "input_username_password_vuoti": true,
+  "invio_diretto_disabilitato": true,
+  "nessun_save_export_invio": true,
+  "nessuna_schermata_o_dato_personale_conservati": true,
+  "stato_http_numerico": "Non esposto dall’API DOM; access_log nginx disabilitato. Esito documentato come renderizzazione corretta, senza inventare un codice numerico.",
+  "tentativo_diagnostico_performance": "TypeError: Cannot read properties of undefined (reading getEntriesByType); controlloDOM precedente resta valido"
+}

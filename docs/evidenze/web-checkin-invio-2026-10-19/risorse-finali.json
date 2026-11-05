@@ -1,0 +1,19 @@
+{
+  "liberi_VM": 2076852224,
+  "filesystem": "xfs 37290283008",
+  "SELinux": "Enforcing",
+  "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+  "chiave_VM_root_0600": true,
+  "disco_VM_byte": 38654705664,
+  "UTC": "2026-10-19T19:43:24.693239+00:00",
+  "Mac_liberi": 25772613632,
+  "Extra_liberi": 601063342080,
+  "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+  "Extra_formato": "apfs",
+  "Extra_scrittura": true,
+  "Mac_primo_riscontro_byte": 12984459264,
+  "VM_primo_riscontro_byte": 1684930560,
+  "Extra_primo_riscontro_byte": 601887510528,
+  "limite_delta_Mac": "Misure effettive in momenti distinti; nessuna attribuzione causale esclusiva del recupero fisico Mac alle operazioni eseguite.",
+  "esito": "PASS_RISORSE_FINALI"
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "file": "comuni.txt",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/ashx/Download.ashx?ID=0&N=COMUNI",
+    "verifica": "2026-10-05",
+    "encoding": "Windows-1252",
+    "normalizzazione": "Solo CRLF in LF, celle identiche",
+    "sha256_download": "a9d0f21fc5511b3e05bca881914251ee18c1310a2351abc636bae432f47b6454",
+    "sha256_repository": "434186dff420452370666d4c70af660e2b32f86fcaa334fbaf1a70e9720f3016",
+    "record": 11294
+  },
+  {
+    "file": "stati.txt",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/ashx/Download.ashx?ID=1&N=STATI",
+    "verifica": "2026-10-05",
+    "encoding": "Windows-1252",
+    "normalizzazione": "Solo CRLF in LF, celle identiche",
+    "sha256_download": "77f4bb0b0df6bcf10385b9b8892d876a6023c2da40abea72c569b2beb205ced4",
+    "sha256_repository": "dd0bc2bad845851d3fcf3f35ea8d40515c1cc7681af4fecc6b7babc88aff2185",
+    "record": 236
+  },
+  {
+    "file": "tipi.txt",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/ashx/Download.ashx?ID=3&N=TIPO_ALLOGGIATO",
+    "verifica": "2026-10-05",
+    "encoding": "Windows-1252",
+    "normalizzazione": "Solo CRLF in LF, celle identiche",
+    "sha256_download": "3cf46914cf9806e9b0d2307c27bfcf67f849de1432c65ff7e8603cd74b69f4cd",
+    "sha256_repository": "b86f65bb19ddd9cd2122db5b77f1b0f06f0f8f201b1728435a58e14ffdd3280a",
+    "record": 5
+  }
+]

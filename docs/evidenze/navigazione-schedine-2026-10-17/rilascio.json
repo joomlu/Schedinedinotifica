@@ -1,0 +1,90 @@
+{
+  "esito": "PUBBLICATO_E_VERIFICATO",
+  "SHA_applicativo": "dbee3028494eca70b99c5b77f06d07c95688689b",
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "S0_secondi": 241.809,
+    "RUN_secondi": 320.228,
+    "DDL": false,
+    "decisione": "CANDIDATO_ACCETTATO"
+  },
+  "PREPARE_indipendente": true,
+  "monitor": {
+    "esito": "PASS_MONITOR_ONLINE",
+    "secondi": 917.6721026776358,
+    "totale_HTTP_TLS_CSS": 279,
+    "limite": "31 campioni su almeno900 secondi del rilascio attuale; nessun invio enti o scrittura sintetica"
+  },
+  "errori": {
+    "inizio_locale": "2026-10-18T00:10:44.534616",
+    "nuovi_errori_applicativi": {
+      "laravel-2026-09-29.log": 0,
+      "laravel.log": 0
+    },
+    "totale_errori": 0,
+    "FPM_errori_journal": 0,
+    "nessun_contenuto_log_personale_esportato": true
+  },
+  "online": {
+    "db_byte_identico_S0": true,
+    "custom_css_HTTP_sha256": "9d11a9ecc9c9df1a5fd0876a7bba78dc6064a4a46b1c7941c04f49ef6827e67b",
+    "regola_mobile_in_css_pubblico": true,
+    "esito": "PASS_RILASCIO_ONLINE_SERVER",
+    "HEAD": "dbee3028494eca70b99c5b77f06d07c95688689b",
+    "Laravel": "12.69.3",
+    "migrazioni": 156,
+    "tabelle": 64,
+    "geo_comuni": 7896,
+    "env_key_upload_loghi_identici_S0": true,
+    "persistenti": 75,
+    "sorgenti_e_protetti_identici_ai_digest": true,
+    "provider_false_mail_array": true,
+    "Git_pulito": true,
+    "sonde9": {
+      "mail.schedinedinotifica.tanggo.software/": true,
+      "mail.schedinedinotifica.tanggo.software/login": true,
+      "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "schedinedinotifica.tanggo.software/": true,
+      "schedinedinotifica.tanggo.software/login": true,
+      "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "www.schedinedinotifica.tanggo.software/": true,
+      "www.schedinedinotifica.tanggo.software/login": true,
+      "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+    },
+    "S0_secondi": 241.809,
+    "rilascio_secondi": 320.228,
+    "monitor_campioni": 402,
+    "nonce": "3b382a668bfb56b596a46eb4708de4c2da468681bd9a2eb1",
+    "DDL_eseguite": false,
+    "nessun_invio_enti": true
+  },
+  "VM": {
+    "SHA": "dbee3028494eca70b99c5b77f06d07c95688689b",
+    "sorgenti_conformi": true,
+    "liberi_byte": 1599782912,
+    "servizio": "active",
+    "documenti_estranei_preservati": true,
+    "Git_VM_pulito_non_attestato": true,
+    "capienza_verificata_UTC": "2026-10-17T22:33:38.318142+00:00"
+  },
+  "primo_RUN": {
+    "esito": "STOP_PRIMA_ESECUZIONE",
+    "errore": "RuntimeError: Nuovo ingresso nel pool precedente: STOP",
+    "secondi": 21.515,
+    "DB_identico_snapshot": true,
+    "DDL": false,
+    "baseline_riaperta": true
+  },
+  "ripresa": {
+    "quiete_legacy_campioni": 55,
+    "occupati": 0,
+    "nuovo_T0_e_S0": true,
+    "base_PREPARE_verificata_invariata": true,
+    "soglie_guardie_invariate": true
+  },
+  "guardiani_entrambi_inattivi_disabilitati": true,
+  "guardie_infrastruttura": 17,
+  "nessuna_scrittura_di_prova_su_dati_reali": true,
+  "filtro_sintetico_rimosso": true,
+  "limite_online": "Superadmin; creazione/modifica e recupero bozza provati con dati sintetici soltanto in isolamento"
+}

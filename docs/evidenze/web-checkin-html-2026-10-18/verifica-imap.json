@@ -1,0 +1,7 @@
+{
+  "esito": "PASS_IMAP_TLS_CASELLA_PROGETTO",
+  "accesso_sola_lettura": true,
+  "messaggi_letti": 0,
+  "messaggi_modificati": 0,
+  "uso_previsto": "Verifica mirata del solo messaggio sintetico Web Check-in"
+}

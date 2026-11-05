@@ -1,0 +1,61 @@
+{
+  "esito": "PASS_COLLAUDI_CANDIDATO",
+  "candidato": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+  "test_PHP": 192,
+  "asserzioni": 2533,
+  "browser": 6,
+  "viewport": [
+    1440,
+    768,
+    390
+  ],
+  "import_test": 89,
+  "import_asserzioni": 353,
+  "suite_non_sommate": true,
+  "guardie": 17,
+  "override_rifiutati": 23,
+  "build_GEO": "PASS",
+  "deprecazione_PHPUnit_pre_esistente": 1,
+  "logs_sha256": {
+    "flusso-nuovo.log": "84bca3e5af3428f949656390d7a8455f12b77ac7d74b6ad6e5a53ba671669cd8",
+    "import-nuovo.log": "d28591d8502d3e72d642ed2901c33964b1466cf64417756a4aa73ea41fb02bab",
+    "guardie-complete.log": "676aac0354bb4f06bfc2e9ef671212179a86f9b33c4c643afec1bceb082240f5",
+    "preflight-capienza-finale.log": "f1996d45a8a3ca588b15bae6fed1d005175dc84bd178ecef59b09721e5a4624a"
+  },
+  "capienza": {
+    "recupero_precedente_allocato": 681992192,
+    "componenti": {
+      "decoded": 29061120,
+      "extracted": 423358464,
+      "archivio-base-verificato.json": 4096,
+      "dbdata": 206282752,
+      "db-tmp": 0,
+      "db-private.log": 4096,
+      "ridump.sql": 23244800,
+      "custody": 4096,
+      "sign.pub": 4096,
+      "private.php": 4096,
+      "pool.conf": 4096,
+      "fpm.log": 4096,
+      "fpm-console.log": 0,
+      "web": 4096,
+      "closed": 4096,
+      "apache.conf": 4096,
+      "apache-console.log": 0,
+      "apache.log": 4096
+    },
+    "cifrati_base_allocati": 362008576,
+    "liberi_VM": 5885825024,
+    "data_UTC": "2026-10-18T07:09:42.495855+00:00",
+    "margine_prudenziale": 1073741824,
+    "liberi_Mac": 9540300800,
+    "nessuna_rimozione": true,
+    "nessuna_manutenzione": true,
+    "nessun_PREPARE": true,
+    "recupero_storico_completo_prima_pulizia": 939229184,
+    "riserva_nuovo_candidato_per_recupero": 16777216,
+    "fabbisogno_stimato": 3709771776,
+    "limite": "Stima da recupero completo prima della pulizia, mai abbassata per i derivati rimossi;16MiB aggiuntivi per ognuno dei due nuovi recuperi PREPARE/S0, rollback coperto dal checkpoint e monitor nella riserva: non \u00e8 una misura del picco del nuovo candidato. Nessun riuso dello S0 precedente.",
+    "esito": "PASS_STIMA_CAPIENZA"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "data": "2026-10-09",
+  "cron_riferimenti_app": 0,
+  "scheduler_chiamate": 0,
+  "eventi_db": 0,
+  "writer_attivi_campione": 0,
+  "manutenzione_presente": false,
+  "coerenza_db_file": "NON GARANTITA mentre HTTP rimane aperto",
+  "backup_acquisito": false,
+  "copie_restore_create": false,
+  "fasi_R0_R1_R2_stabilita": "IN ATTESA BARRIERA AUTORIZZATA",
+  "hash_supervisor": "Due costanti aggiornate dopo review dei target",
+  "test_supervisor": {
+    "eseguiti": 66,
+    "errori": 0,
+    "saltati": 3
+  },
+  "preflight_produttivo_eseguito": false,
+  "finestra_proposta_minuti": 10,
+  "drenaggio_massimo_secondi": 120,
+  "scritture_remote": 0
+}

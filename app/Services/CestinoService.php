@@ -1,0 +1,800 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\CestinoItem;
+use App\Models\Componenti;
+use App\Models\Customers;
+use App\Models\CrmLead;
+use App\Models\Gruppo;
+use App\Models\LicenzaAssegnazione;
+use App\Models\LicenzaArticolo;
+use App\Models\Proprietario;
+use App\Models\RilasciatoDa;
+use App\Models\Schedina;
+use App\Models\SchedinaCamera;
+use App\Models\Struttura;
+use App\Models\TassaEsenzione;
+use App\Models\TipoAlloggiato;
+use App\Models\TipoCliente;
+use App\Models\TipoDocumento;
+use App\Models\TipoVia;
+use App\Models\Titolo;
+use App\Models\User;
+use App\Models\WebCheckinRichiesta;
+use App\Models\CustomerImportBatch;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+class CestinoService
+{
+    // La natura dell'entità dipende dalla classe, non dall'etichetta o dal solo NULL.
+    public const TENANT_CLASSES = [
+        Customers::class, Schedina::class, Componenti::class, WebCheckinRichiesta::class, Gruppo::class, Titolo::class, TipoVia::class, RilasciatoDa::class,
+        TassaEsenzione::class, LicenzaAssegnazione::class,
+    ];
+
+    public const GLOBAL_CLASSES = [
+        User::class, Proprietario::class, Struttura::class, LicenzaArticolo::class,
+        TipoCliente::class,
+        TipoDocumento::class,
+    ];
+
+    public function archiveModel(Model $model, array $meta = []): CestinoItem
+    {
+        abort_if($model instanceof TipoAlloggiato || $model instanceof TipoDocumento, 403, 'Catalogo ufficiale Questura: non modificabile.');
+        abort_if($model instanceof TipoCliente, 403, 'Classificazioni predefinite del sistema, non modificabili.');
+        if (in_array(get_class($model), [Gruppo::class, Titolo::class, TipoVia::class, RilasciatoDa::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true)) {
+            if (DB::transactionLevel() === 0) {
+                return DB::transaction(fn () => $this->archiveModel($model, $meta));
+            }
+            if ($model->struttura_id) {
+                DB::table('struttura')->where('id', $model->struttura_id)->lockForUpdate()->first();
+                $model->refresh();
+            }
+        }
+        if ($model instanceof Schedina) {
+            WebCheckinRichiesta::where('schedina_id', $model->id)->where('struttura_id', $model->struttura_id)
+                ->whereNull('link_revoked_at')->update(['link_revoked_at' => now()]);
+        }
+        $snapshot = $this->buildSnapshot($model);
+
+        return CestinoItem::query()->create([
+            'struttura_id' => $meta['struttura_id'] ?? $this->resolveStrutturaId($model),
+            'user_id' => $meta['user_id'] ?? Auth::id(),
+            'entity_type' => $meta['entity_type'] ?? $this->resolveEntityType($model),
+            'entity_class' => get_class($model),
+            'original_id' => $model->getKey(),
+            'title' => $meta['title'] ?? ($snapshot['title'] ?? null),
+            'code' => $meta['code'] ?? ($snapshot['code'] ?? null),
+            'circuito' => $meta['circuito'] ?? ($snapshot['circuito'] ?? null),
+            'source' => $meta['source'] ?? ($snapshot['source'] ?? null),
+            'payload' => $this->minimizeRestorePayload($model, $snapshot['payload'] ?? $model->toArray()),
+            'deleted_at' => now(),
+        ]);
+    }
+
+    public function displayPayload(CestinoItem $item): array
+    {
+        $class = $item->entity_class;
+        if (!in_array($class, [...self::TENANT_CLASSES, ...self::GLOBAL_CLASSES], true)) {
+            return [];
+        }
+
+        // Proiezione separata anche per snapshot preesistenti; nessuna scrittura.
+        return $this->withoutSensitiveFields($this->minimizeRestorePayload(
+            new $class(), is_array($item->payload) ? $item->payload : []
+        ));
+    }
+
+    private function minimizeRestorePayload(Model $model, array $payload): array
+    {
+        $extra = match (get_class($model)) {
+            User::class => ['managed_proprietario_ids', 'licenza_admin_ids', 'assigned_crm_lead_ids'],
+            Proprietario::class => ['struttura_ids', 'user_ids', 'licenza_ids', 'import_batch_ids'],
+            Struttura::class => ['access_user_ids', 'licenza_ids', 'crm_lead_ids'],
+            Schedina::class => ['componenti', 'camere'],
+            WebCheckinRichiesta::class => ['schedina', 'comunicazioni_ids'],
+            default => [],
+        };
+        $data = Arr::only($payload, ['id', ...$model->getFillable(), ...$extra]);
+        if ($model instanceof Struttura) {
+            unset($data['questura_password'], $data['questura_wskey'], $data['questura_codici'], $data['questura_puk']);
+        }
+        // I remember token non servono al restore; Web Check-in rigenera il token.
+        unset($data['remember_token']);
+        if ($model instanceof WebCheckinRichiesta) {
+            unset($data['token'], $data['short_token']);
+            if (is_array($data['schedina'] ?? null)) {
+                $data['schedina'] = $this->minimizeRestorePayload(new Schedina(), $data['schedina']);
+            }
+        }
+        if ($model instanceof Schedina) {
+            foreach (['componenti' => Componenti::class, 'camere' => SchedinaCamera::class] as $key => $class) {
+                if (is_array($data[$key] ?? null)) {
+                    $data[$key] = array_map(
+                        fn (array $row) => $this->minimizeRestorePayload(new $class(), $row),
+                        array_values(array_filter($data[$key], 'is_array'))
+                    );
+                }
+            }
+        }
+
+        // Hash User e credenziali Struttura restano per ricreare record assenti.
+        return $data;
+    }
+
+    private function withoutSensitiveFields(array $payload): array
+    {
+        $safe = [];
+        foreach ($payload as $key => $value) {
+            $field = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', (string) $key));
+            if (in_array($field, ['istat_username', 'questura_username', 'questura_codici', 'compilazione_snapshot', 'conversione_snapshot'], true)
+                || preg_match('/password|passwd|token|secret|credential|credenzial|wskey|(^|_)(key|puk)($|_)|auth_code|codic[ei]_auth/', $field)) {
+                continue;
+            }
+            $safe[$key] = is_array($value) ? $this->withoutSensitiveFields($value) : $value;
+        }
+        return $safe;
+    }
+
+    public function restoreItem(CestinoItem $item): Model
+    {
+        abort_if(in_array($item->entity_class, [TipoAlloggiato::class, TipoDocumento::class], true), 403, 'Catalogo ufficiale Questura: non modificabile.');
+        abort_if($item->entity_class === TipoCliente::class, 403, 'Classificazioni predefinite del sistema, non modificabili.');
+        return DB::transaction(function () use ($item) {
+            $item = CestinoItem::query()->lockForUpdate()->findOrFail($item->getKey());
+            if (in_array($item->entity_class, [Gruppo::class, Titolo::class, TipoVia::class, RilasciatoDa::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true) && $item->struttura_id) {
+                DB::table('struttura')->where('id', $item->struttura_id)->lockForUpdate()->first();
+                $item->refresh();
+            }
+            $payload = is_array($item->payload) ? $item->payload : [];
+            $restored = match ($item->entity_class) {
+                Schedina::class => $this->restoreSchedina($payload),
+                WebCheckinRichiesta::class => $this->restoreWebCheckinRichiesta($payload),
+                Customers::class => $this->restoreSimpleModel(Customers::class, $payload),
+                Componenti::class => $this->restoreComponente($payload),
+                Gruppo::class => $this->restoreGruppo($payload),
+                Titolo::class => $this->restoreTitolo($payload),
+                TipoCliente::class => $this->restoreSimpleModel(TipoCliente::class, $payload),
+                TipoVia::class => $this->restoreCatalogoIndirizzi(TipoVia::class, $payload),
+                TipoDocumento::class => $this->restoreSimpleModel(TipoDocumento::class, $payload),
+                RilasciatoDa::class => $this->restoreCatalogoIndirizzi(RilasciatoDa::class, $payload),
+                TassaEsenzione::class => $this->restoreSimpleModel(TassaEsenzione::class, $payload),
+                User::class => $this->restoreAmministratore($payload),
+                Proprietario::class => $this->restoreProprietario($payload),
+                Struttura::class => $this->restoreStruttura($payload),
+                LicenzaArticolo::class => $this->restoreSimpleModel(LicenzaArticolo::class, $payload),
+                LicenzaAssegnazione::class => $this->restoreSimpleModel(LicenzaAssegnazione::class, $payload),
+                default => throw new \RuntimeException('Ripristino non supportato per questa entità.'),
+            };
+
+            $item->delete();
+
+            return $restored;
+        });
+    }
+
+    public function purgeItem(CestinoItem $item): void
+    {
+        abort_if(in_array($item->entity_class, [TipoAlloggiato::class, TipoDocumento::class, TipoCliente::class], true), 403, 'Catalogo di sistema: non eliminabile.');
+        try {
+        DB::transaction(function () use ($item) {
+            $item = CestinoItem::query()->lockForUpdate()->findOrFail($item->getKey());
+            $class = $item->entity_class;
+            $originalId = $item->original_id;
+
+            if (in_array($class, [User::class, Proprietario::class, Struttura::class], true) && $originalId) {
+                $record = $class::query()->withoutGlobalScopes()->lockForUpdate()->find($originalId);
+
+                if ($record && method_exists($record, 'forceDelete')) {
+                    abort_unless($record->trashed(), 409, 'Il record originale è attivo: elemento del cestino conservato.');
+                    $record->forceDelete();
+                }
+            }
+
+            if ($class === WebCheckinRichiesta::class && $originalId
+                && !WebCheckinRichiesta::withoutGlobalScopes()->whereKey($originalId)->exists()) {
+                \App\Models\WebCheckinComunicazione::query()
+                    ->where('struttura_id', $item->struttura_id)->where('richiesta_id', $originalId)->delete();
+            }
+            $item->delete();
+        });
+        } catch (\Illuminate\Database\QueryException $e) {
+            if (($e->errorInfo[1] ?? null) === 1451) abort(409, 'Impossibile eliminare definitivamente: esistono dati collegati. Gli elementi sono stati conservati.');
+            throw $e;
+        }
+    }
+
+    private function buildSnapshot(Model $model): array
+    {
+        if ($model instanceof Schedina) {
+            $model->loadMissing(['componenti', 'camere']);
+            $title = trim(($model->surname ?? '') . ' ' . ($model->name ?? ''));
+
+            return [
+                'title' => $title !== '' ? $title : ($model->scheda ?: 'Schedina'),
+                'code' => $model->scheda,
+                'circuito' => $model->circuito,
+                'source' => $this->labelForCircuito($model->circuito),
+                'payload' => array_merge($model->toArray(), [
+                    'componenti' => $model->componenti->toArray(),
+                    'camere' => $model->camere->toArray(),
+                ]),
+            ];
+        }
+
+        if ($model instanceof WebCheckinRichiesta) {
+            $model->loadMissing(['struttura']);
+            $schedina = $model->schedina_id
+                ? Schedina::query()->withoutGlobalScopes()->where('struttura_id', $model->struttura_id)->with(['componenti', 'camere'])->find($model->schedina_id)
+                : null;
+
+            return [
+                'title' => $model->nome_referente ?: ('Prenotazione ' . $model->numero_prenotazione),
+                'code' => $model->codice,
+                'circuito' => 'web',
+                'source' => 'Web Check-in',
+                'payload' => array_merge($model->toArray(), [
+                    'compilazione_snapshot' => $model->getRawOriginal('compilazione_snapshot'),
+                    'conversione_snapshot' => $model->getRawOriginal('conversione_snapshot'),
+                    'comunicazioni_ids' => \App\Models\WebCheckinComunicazione::where('struttura_id', $model->struttura_id)->where('richiesta_id', $model->id)->pluck('id')->all(),
+                    'schedina' => $schedina?->toArray(),
+                    'schedina_componenti' => $schedina?->componenti?->toArray() ?? [],
+                    'schedina_camere' => $schedina?->camere?->toArray() ?? [],
+                    'struttura' => $model->struttura?->only(['id', 'nome_struttura']),
+                ]),
+            ];
+        }
+
+        if ($model instanceof Customers) {
+            $title = trim(($model->surname ?? '') . ' ' . ($model->name ?? ''));
+
+            return [
+                'title' => $title !== '' ? $title : 'Cliente',
+                'code' => $model->numero_cliente,
+                'source' => 'Clienti',
+                'payload' => $model->toArray(),
+            ];
+        }
+
+        if ($model instanceof User) {
+            return [
+                'title' => $model->name ?: ($model->username ?: $model->email),
+                'code' => $model->username ?: $model->email,
+                'source' => 'Amministratori',
+                'payload' => array_merge($model->getAttributes(), [
+                    'managed_proprietario_ids' => $model->proprietariGestiti()->withoutGlobalScopes()->pluck('id')->all(),
+                    'licenza_admin_ids' => LicenzaAssegnazione::query()->withoutGlobalScopes()->where('admin_id', $model->id)->pluck('id')->all(),
+                    'assigned_crm_lead_ids' => CrmLead::query()->withoutGlobalScopes()->where('assigned_admin_id', $model->id)->pluck('id')->all(),
+                ]),
+            ];
+        }
+
+        if ($model instanceof Proprietario) {
+            return [
+                'title' => $model->nome ?: 'Proprietario',
+                'code' => (string) $model->id,
+                'source' => 'Proprietari',
+                'payload' => array_merge($model->toArray(), [
+                    'struttura_ids' => $model->strutture()->withoutGlobalScopes()->pluck('id')->all(),
+                    'user_ids' => $model->utenti()->withoutGlobalScopes()->pluck('id')->all(),
+                    'licenza_ids' => LicenzaAssegnazione::query()->withoutGlobalScopes()->where('proprietario_id', $model->id)->pluck('id')->all(),
+                    'import_batch_ids' => CustomerImportBatch::query()->withoutGlobalScopes()->where('proprietario_id', $model->id)->pluck('id')->all(),
+                ]),
+            ];
+        }
+
+        if ($model instanceof Componenti) {
+            $title = trim(($model->surname ?? '') . ' ' . ($model->name ?? ''));
+
+            return [
+                'title' => $title !== '' ? $title : 'Componente',
+                'code' => $model->schedina?->scheda,
+                'source' => 'Componenti',
+                'payload' => array_merge($model->toArray(), [
+                    'schedina' => $model->schedina?->only(['id', 'scheda', 'circuito']),
+                ]),
+            ];
+        }
+
+        if ($model instanceof Struttura) {
+            return [
+                'title' => $model->nome_struttura,
+                'code' => (string) $model->id,
+                'source' => 'Strutture',
+                'payload' => array_merge($model->toArray(), [
+                    'access_user_ids' => User::query()->withoutGlobalScopes()->where('struttura_id', $model->id)->pluck('id')->all(),
+                    'licenza_ids' => LicenzaAssegnazione::query()->withoutGlobalScopes()->where('struttura_id', $model->id)->pluck('id')->all(),
+                    'crm_lead_ids' => CrmLead::query()->withoutGlobalScopes()->where('struttura_id', $model->id)->pluck('id')->all(),
+                ]),
+            ];
+        }
+
+        $title = trim((string) ($model->nome ?? $model->name ?? $model->descrizione ?? $model->codice ?? $model->id));
+        $code = $model->codice ?? $model->numero_cliente ?? $model->scheda ?? null;
+
+        return [
+            'title' => $title !== '' ? $title : class_basename($model),
+            'code' => $code ? (string) $code : null,
+            'source' => class_basename($model),
+            'payload' => $model->toArray(),
+        ];
+    }
+
+    private function resolveStrutturaId(Model $model): ?int
+    {
+        $strutturaId = $model->getAttribute('struttura_id');
+        return $strutturaId ? (int) $strutturaId : null;
+    }
+
+    private function restoreSchedina(array $payload): Schedina
+    {
+        $componenti = Arr::pull($payload, 'componenti', []);
+        $camere = Arr::pull($payload, 'camere', []);
+        $normalizedCircuit = !empty($payload['is_arrive']) ? 'arrivi' : $this->normalizedSchedinaCircuit($payload);
+        $strutturaId = isset($payload['struttura_id']) ? (int) $payload['struttura_id'] : null;
+
+        $payload['created_at'] = now();
+        $payload['updated_at'] = now();
+
+        if ($normalizedCircuit === 'arrivi') {
+            $payload['circuito'] = 'arrivi';
+            $payload['is_arrive'] = 1;
+            $payload['arrive'] = \App\Support\ArriviDay::today();
+            // Lo snapshot usa ISO UTC; l'inserimento SQL non applica i cast Eloquent.
+            foreach ((new Schedina)->getCasts() as $field => $cast) {
+                if ($cast === 'datetime' && !empty($payload[$field])) {
+                    $payload[$field] = \Carbon\Carbon::parse($payload[$field])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s');
+                }
+            }
+        } elseif ($normalizedCircuit === 'web') {
+            $payload['circuito'] = 'web';
+            $payload['is_arrive'] = 0;
+        } elseif ($normalizedCircuit === 'bozza') {
+            $payload['circuito'] = 'bozza';
+            $payload['is_arrive'] = 0;
+        } elseif ($normalizedCircuit === 'schedina') {
+            $payload['circuito'] = 'schedina';
+            $payload['is_arrive'] = 0;
+        }
+
+        if ($strutturaId && in_array($normalizedCircuit, ['schedina', 'arrivi', 'web', 'bozza'], true)) {
+            $payload['scheda'] = $this->nextSchedaCode($strutturaId, $normalizedCircuit);
+        }
+
+        /** @var Schedina $schedina */
+        $schedina = $this->restoreSimpleModel(Schedina::class, $payload, [
+            'preserve_id' => false,
+        ]);
+
+        foreach ($componenti as $componentePayload) {
+            if (!is_array($componentePayload)) {
+                continue;
+            }
+
+            $componentePayload['schedina_id'] = $schedina->id;
+            $this->restoreComponente($componentePayload);
+        }
+
+        foreach ($camere as $cameraPayload) {
+            if (!is_array($cameraPayload)) {
+                continue;
+            }
+
+            $cameraPayload['schedina_id'] = $schedina->id;
+            $this->restoreSimpleModel(SchedinaCamera::class, $cameraPayload);
+        }
+
+        return $schedina;
+    }
+
+    private function restoreWebCheckinRichiesta(array $payload): WebCheckinRichiesta
+    {
+        $oldId = $payload['id'] ?? null;
+        $communications = Arr::pull($payload, 'comunicazioni_ids', []);
+        $schedinaPayload = Arr::pull($payload, 'schedina');
+        Arr::pull($payload, 'schedina_componenti');
+        Arr::pull($payload, 'schedina_camere');
+        Arr::pull($payload, 'struttura');
+        $strutturaId = isset($payload['struttura_id']) ? (int) $payload['struttura_id'] : null;
+
+        $existingSheet = !empty($payload['schedina_id']) ? Schedina::withoutGlobalScopes()->where('struttura_id', $strutturaId)->find($payload['schedina_id']) : null;
+        if ($existingSheet) {
+            $payload['schedina_id'] = $existingSheet->id;
+        } elseif (is_array($schedinaPayload) && (int) ($schedinaPayload['struttura_id'] ?? 0) === $strutturaId && ($schedinaPayload['circuito'] ?? null) === 'web' && empty($payload['conversione_snapshot'])) {
+            $schedina = $this->restoreSchedina($schedinaPayload);
+            $payload['schedina_id'] = $schedina->id;
+        } elseif (!empty($payload['schedina_id']) && !$existingSheet) {
+            $payload['schedina_id'] = null;
+        }
+
+        $payload['arrivo'] = $this->normalizeWebDate($payload['arrivo'] ?? null, 'Y-m-d');
+        $payload['partenza'] = $this->normalizeWebDate($payload['partenza'] ?? null, 'Y-m-d');
+        $payload['ultimo_accesso_at'] = $this->normalizeWebDate($payload['ultimo_accesso_at'] ?? null, 'Y-m-d H:i:s');
+        $payload['compilato_at'] = $this->normalizeWebDate($payload['compilato_at'] ?? null, 'Y-m-d H:i:s');
+        $payload['convertito_at'] = $this->normalizeWebDate($payload['convertito_at'] ?? null, 'Y-m-d H:i:s');
+        $payload['created_at'] = now();
+        $payload['updated_at'] = now();
+
+        if ($strutturaId) {
+            $payload['codice'] = $this->nextRichiestaCode($strutturaId);
+        }
+        $payload['token'] = $this->nextWebCheckinToken();
+        $payload['short_token'] = null;
+        $payload['link_revoked_at'] = now();
+        $payload['link_issued_at'] = null;
+        $payload['link_expires_at'] = null;
+
+        /** @var WebCheckinRichiesta $richiesta */
+        $richiesta = $this->restoreSimpleModel(WebCheckinRichiesta::class, $payload, [
+            'preserve_id' => false,
+        ]);
+        $richiesta->forceFill(['short_token' => null, 'link_revoked_at' => now(), 'link_issued_at' => null, 'link_expires_at' => null])->save();
+        if ($oldId && $communications) \App\Models\WebCheckinComunicazione::where('struttura_id', $strutturaId)->where('richiesta_id', $oldId)->whereIn('id', $communications)->update(['richiesta_id' => $richiesta->id]);
+        return $richiesta;
+    }
+
+    private function restoreComponente(array $payload): Componenti
+    {
+        Arr::pull($payload, 'schedina');
+
+        if (!empty($payload['schedina_id']) && !$this->baseQueryForClass(Schedina::class)->whereKey($payload['schedina_id'])->exists()) {
+            $payload['schedina_id'] = null;
+        }
+
+        if (!empty($payload['customer_id']) && !$this->baseQueryForClass(Customers::class)->whereKey($payload['customer_id'])->exists()) {
+            $payload['customer_id'] = null;
+        }
+
+        $payload['created_at'] = now();
+        $payload['updated_at'] = now();
+
+        /** @var Componenti $componente */
+        $componente = $this->restoreSimpleModel(Componenti::class, $payload, [
+            'preserve_id' => false,
+        ]);
+        return $componente;
+    }
+
+    private function restoreAmministratore(array $payload): User
+    {
+        $proprietarioIds = Arr::pull($payload, 'managed_proprietario_ids', []);
+        $licenzaIds = Arr::pull($payload, 'licenza_admin_ids', []);
+        $crmLeadIds = Arr::pull($payload, 'assigned_crm_lead_ids', []);
+
+        /** @var User $admin */
+        $admin = $this->restoreSoftDeletedModel(User::class, $payload);
+
+        Proprietario::query()->withoutGlobalScopes()
+            ->whereIn('id', $proprietarioIds)
+            ->whereNull('admin_id')
+            ->update(['admin_id' => $admin->id]);
+
+        LicenzaAssegnazione::query()->withoutGlobalScopes()
+            ->whereIn('id', $licenzaIds)
+            ->whereNull('admin_id')
+            ->update(['admin_id' => $admin->id]);
+
+        CrmLead::query()->withoutGlobalScopes()
+            ->whereIn('id', $crmLeadIds)
+            ->whereNull('assigned_admin_id')
+            ->update(['assigned_admin_id' => $admin->id]);
+
+        return $admin;
+    }
+
+    private function restoreProprietario(array $payload): Proprietario
+    {
+        $strutturaIds = Arr::pull($payload, 'struttura_ids', []);
+        $userIds = Arr::pull($payload, 'user_ids', []);
+        $licenzaIds = Arr::pull($payload, 'licenza_ids', []);
+        $importBatchIds = Arr::pull($payload, 'import_batch_ids', []);
+
+        /** @var Proprietario $proprietario */
+        $proprietario = $this->restoreSoftDeletedModel(Proprietario::class, $payload);
+
+        Struttura::query()->withoutGlobalScopes()
+            ->whereIn('id', $strutturaIds)
+            ->whereNull('proprietario_id')
+            ->update(['proprietario_id' => $proprietario->id]);
+
+        User::query()->withoutGlobalScopes()
+            ->whereIn('id', $userIds)
+            ->whereNull('proprietario_id')
+            ->update(['proprietario_id' => $proprietario->id]);
+
+        LicenzaAssegnazione::query()->withoutGlobalScopes()
+            ->whereIn('id', $licenzaIds)
+            ->whereNull('proprietario_id')
+            ->update(['proprietario_id' => $proprietario->id]);
+
+        CustomerImportBatch::query()->withoutGlobalScopes()
+            ->whereIn('id', $importBatchIds)
+            ->whereNull('proprietario_id')
+            ->update(['proprietario_id' => $proprietario->id]);
+
+        return $proprietario;
+    }
+
+    private function restoreStruttura(array $payload): Struttura
+    {
+        // Snapshot storici non possono reintrodurre plaintext o cifrare due volte.
+        unset($payload['questura_password'], $payload['questura_wskey'], $payload['questura_codici'], $payload['questura_puk']);
+        $userIds = Arr::pull($payload, 'access_user_ids', []);
+        $licenzaIds = Arr::pull($payload, 'licenza_ids', []);
+        $crmLeadIds = Arr::pull($payload, 'crm_lead_ids', []);
+
+        /** @var Struttura $struttura */
+        $struttura = $this->restoreSoftDeletedModel(Struttura::class, $payload);
+
+        User::query()->withoutGlobalScopes()
+            ->whereIn('id', $userIds)
+            ->whereNull('struttura_id')
+            ->update(['struttura_id' => $struttura->id]);
+
+        LicenzaAssegnazione::query()->withoutGlobalScopes()
+            ->whereIn('id', $licenzaIds)
+            ->whereNull('struttura_id')
+            ->update(['struttura_id' => $struttura->id]);
+
+        CrmLead::query()->withoutGlobalScopes()
+            ->whereIn('id', $crmLeadIds)
+            ->whereNull('struttura_id')
+            ->update(['struttura_id' => $struttura->id]);
+
+        return $struttura;
+    }
+
+    private function restoreSoftDeletedModel(string $class, array $payload): Model
+    {
+        $model = new $class();
+        $data = Arr::only($payload, array_merge(['id'], $model->getFillable()));
+        $id = isset($payload['id']) ? (int) $payload['id'] : null;
+
+        if ($id) {
+            $existing = $this->baseQueryForClass($class)->find($id);
+            if ($existing) {
+                if (method_exists($existing, 'trashed') && $existing->trashed()) {
+                    $existing->restore();
+                }
+
+                $existing->fill(Arr::except($data, ['id']));
+                $existing->save();
+
+                return $existing->fresh();
+            }
+        }
+
+        return $this->restoreSimpleModel($class, $payload);
+    }
+
+    private function restoreCatalogoIndirizzi(string $class, array $payload): Model
+    {
+        $sid = (int) ($payload['struttura_id'] ?? 0);
+        if (!$sid || !\App\Support\StrutturaAccess::query(auth()->user(), true)->whereKey($sid)->exists()
+            || \App\Support\StrutturaCorrente::getId() !== $sid) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['catalogo' => 'Il record storico non ha una struttura autorizzata: originale conservato senza attribuzione.']);
+        }
+        DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
+        $field = $class === TipoVia::class ? 'abbr' : 'name';
+        if (DB::table((new $class)->getTable())->where('struttura_id', $sid)->where($field, $payload[$field])->exists()) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['catalogo' => 'Il record esiste già nella struttura. Nessun dato è stato sovrascritto.']);
+        }
+        return $this->restoreSimpleModel($class, $payload);
+    }
+
+    private function restoreTitolo(array $payload): Model
+    {
+        $sid = (int) ($payload['struttura_id'] ?? 0);
+        if (! $sid || ! \App\Support\StrutturaAccess::query(auth()->user(), true)->whereKey($sid)->exists()
+            || \App\Support\StrutturaCorrente::getId() !== $sid) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['titolo' => 'Il titolo storico non ha una struttura autorizzata: originale conservato senza attribuzione.']);
+        }
+        DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
+        if (DB::table('titolo')->where('struttura_id', $sid)->where(function ($q) use ($payload) {
+            $q->where('nome', $payload['nome']);
+            if (!empty($payload['base_nome'])) $q->orWhere('base_nome', $payload['base_nome']);
+        })->exists()) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['titolo' => 'Il titolo o la sua copia di base esiste già nella struttura. Nessun dato è stato sovrascritto.']);
+        }
+        return $this->restoreSimpleModel(Titolo::class, $payload);
+    }
+
+    private function restoreGruppo(array $payload): Model
+    {
+        $sid = (int) ($payload['struttura_id'] ?? 0);
+        if (!$sid || !\App\Support\StrutturaAccess::query(auth()->user(), true)->whereKey($sid)->exists()
+            || (\App\Support\StrutturaCorrente::getId() !== $sid)) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['gruppo' => 'Il gruppo storico non ha una struttura autorizzata ricostruibile.']);
+        }
+        DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
+        $level = (int) ($payload['livello'] ?? 0);
+        $parent = isset($payload['parent_id']) ? DB::table('gruppi')->where('id', $payload['parent_id'])->where('struttura_id', $sid)->first() : null;
+        if (!in_array($level, [1, 2, 3], true) || ($level === 1 && !empty($payload['parent_id'])) || ($level > 1 && (!$parent || (int) $parent->livello !== $level - 1))) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['gruppo' => 'Ripristina prima il padre corretto del gruppo nella stessa struttura.']);
+        }
+        if (DB::table('gruppi')->where('struttura_id', $sid)->where('livello', $level)->where('parent_id', $payload['parent_id'] ?? null)->where('nome', $payload['nome'])->exists()) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['gruppo' => 'Il gruppo esiste già nella struttura.']);
+        }
+        return $this->restoreSimpleModel(Gruppo::class, $payload);
+    }
+
+    private function restoreSimpleModel(string $class, array $payload, array $options = []): Model
+    {
+        /** @var Model $model */
+        $model = new $class();
+        $table = $model->getTable();
+        $preferredId = isset($payload['id']) ? (int) $payload['id'] : null;
+        $preserveId = (bool) ($options['preserve_id'] ?? true);
+        $data = Arr::only($payload, array_merge(['id'], $model->getFillable()));
+
+        if ($model->usesTimestamps()) {
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+        }
+
+        $baseQuery = $this->baseQueryForClass($class);
+
+        if ($preserveId && $preferredId && !$baseQuery->whereKey($preferredId)->exists()) {
+            $data['id'] = $preferredId;
+            DB::table($table)->insert($data);
+
+            return $this->baseQueryForClass($class)->findOrFail($preferredId);
+        }
+
+        unset($data['id']);
+        $id = DB::table($table)->insertGetId($data);
+
+        return $this->baseQueryForClass($class)->findOrFail($id);
+    }
+
+    private function resolveEntityType(Model $model): string
+    {
+        return match (class_basename($model)) {
+            'User' => 'Amministratore',
+            'Proprietario' => 'Proprietario',
+            'Customers' => 'Cliente',
+            'Schedina' => 'Schedina',
+            'WebCheckinRichiesta' => 'Web Check-in',
+            'Componenti' => 'Componente',
+            'Struttura' => 'Struttura',
+            'Gruppo' => 'Gruppo',
+            'Titolo' => 'Titolo',
+            'TipoCliente' => 'Tipo Cliente',
+            'TipoVia' => 'Tipo Via',
+            'TipoDocumento' => 'Tipo Documento',
+            'RilasciatoDa' => 'Rilasciato da',
+            'TassaEsenzione' => 'Esenzione tassa',
+            'LicenzaArticolo' => 'Articolo',
+            'LicenzaAssegnazione' => 'Licenza',
+            default => class_basename($model),
+        };
+    }
+
+    private function labelForCircuito(?string $circuito): ?string
+    {
+        return match ($circuito) {
+            'schedina' => 'Schedine',
+            'arrivi' => 'Arrivi',
+            'bozza' => 'Schedine Bozze',
+            'web' => 'Web Check-in',
+            default => null,
+        };
+    }
+
+    private function normalizedSchedinaCircuit(array $payload): ?string
+    {
+        $circuito = Str::of((string) ($payload['circuito'] ?? ''))->trim()->lower()->value();
+
+        if (in_array($circuito, ['arrivo', 'arrivi', 'to_arrivi'], true)) {
+            return 'arrivi';
+        }
+
+        if (in_array($circuito, ['web', 'web-checkin', 'web_checkin'], true)) {
+            return 'web';
+        }
+
+        if (in_array($circuito, ['bozza', 'bozze', 'draft'], true)) {
+            return 'bozza';
+        }
+
+        if ($circuito !== '') {
+            return 'schedina';
+        }
+
+        return !empty($payload['is_arrive']) ? 'arrivi' : 'schedina';
+    }
+
+    private function nextSchedaCode(int $strutturaId, string $circuito): string
+    {
+        $yy = now()->format('y');
+        $prefix = $this->circuitCodePrefix($circuito) . '-' . $yy;
+        $pattern = $prefix . '%';
+
+        $last = Schedina::query()
+            ->withoutGlobalScopes()
+            ->where('struttura_id', $strutturaId)
+            ->where('scheda', 'like', $pattern)
+            ->orderByDesc('scheda')
+            ->value('scheda');
+
+        $serial = 1;
+        if (is_string($last) && preg_match('/^[A-Z]-\d{2}(\d{3})$/', $last, $m)) {
+            $serial = ((int) $m[1]) + 1;
+        }
+
+        return sprintf('%s-%s%03d', $this->circuitCodePrefix($circuito), $yy, $serial);
+    }
+
+    private function nextRichiestaCode(int $strutturaId): string
+    {
+        return 'WC'.(string) Str::ulid();
+    }
+
+    private function nextWebCheckinToken(): string
+    {
+        do {
+            $token = Str::random(64);
+        } while (WebCheckinRichiesta::query()->withoutGlobalScopes()->where('token', $token)->exists());
+
+        return $token;
+    }
+
+    private function circuitCodePrefix(string $circuito): string
+    {
+        return match ($circuito) {
+            'arrivi' => 'A',
+            'web' => 'W',
+            default => 'S',
+        };
+    }
+
+    private function baseQueryForClass(string $class)
+    {
+        return $class::query()->withoutGlobalScopes();
+    }
+
+    private function normalizeWebDate($value, string $format): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        try {
+            return \Illuminate\Support\Carbon::parse((string) $value, config('app.timezone'))
+                ->setTimezone(config('app.timezone'))->format($format);
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    private function normalizeDateValue($value): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        try {
+            return now()->parse((string) $value)->toDateString();
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    private function normalizeDateTimeValue($value): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        try {
+            return now()->parse((string) $value)->format('Y-m-d H:i:s');
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+}

@@ -1,0 +1,61 @@
+TEST isolato: /private/tmp/schedine-test-xjmo1mp7; database=test_geo_6ccd17acb7831cf0316e520177524026; MySQL pid=15892, porta=62876; HTTP pid=15899, porta=62877
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PASS SOAP 200 and positive body never prove acceptance; no token/body leaves service
+PASS verification is unknown and retains Test operation
+PASS external constructor exception is contained
+PASS SOAP call exceptions do not escape with their chain
+PASS negative provider text is replaced with a fixed message
+PASS simulation makes no SOAP calls and is never accepted
+PASS nested and unexpected fields discarded; caller acceptance ignored
+PASS allowed slots cannot carry arrays objects or arbitrary strings
+PASS historical success never becomes accepted; history not rewritten
+PASS receipt and tables cannot expose or persist unvalidated bodies
+PASS actual persistence boundary projects injected provider material
+PASS legacy handler aborts before any DB or storage dependency
+PASS controller has no confirmed-send mutation for simulation or attempts
+PASS view never presents legacy provider messages or success as acceptance
+14 safety checks passed; in-memory doubles only
+
+Running 3 tests using 1 worker
+
+  ✓  1 tests/Feature/ross1000-navigation.playwright.spec.js:4:2 › Ross1000: bottone e Tabella A, struttura sintetica incompleta (3.3s)
+  ✓  2 tests/Feature/ross1000-navigation.playwright.spec.js:4:2 › Ross1000: bottone e Tabella A, struttura sintetica completa (2.8s)
+  ✓  3 tests/Feature/ross1000-navigation.playwright.spec.js:4:2 › Ross1000: bottone e Tabella A, struttura sintetica soggiorno-incompleto (2.1s)
+
+  3 passed (10.2s)
+PROXY_CORPO_INCOMPLETO ricevuti=0 mancanti=76047
+PROXY_CORPO_INCOMPLETO ricevuti=0 mancanti=145956
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 63868)
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Isolation/run.py", line 214, in forward
+    content = response.read()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/client.py", line 472, in read
+    s = self._safe_read(self.length)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/client.py", line 615, in _safe_read
+    raise IncompleteRead(data, amt-len(data))
+http.client.IncompleteRead: IncompleteRead(0 bytes read, 145956 more expected)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 683, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 360, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 747, in __init__
+    self.handle()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 434, in handle
+    self.handle_one_request()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 422, in handle_one_request
+    method()
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Isolation/run.py", line 227, in forward
+    self.send_error(502, 'ISOLATED_UPSTREAM_INCOMPLETE')
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 489, in send_error
+    self.wfile.write(body)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 826, in write
+    self._sock.sendall(b)
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-xjmo1mp7

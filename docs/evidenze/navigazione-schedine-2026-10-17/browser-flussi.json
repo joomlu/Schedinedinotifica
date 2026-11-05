@@ -1,0 +1,23 @@
+[
+  {
+    "viewport": 1440,
+    "nuova": "Nuova schedina",
+    "moduli": 1,
+    "elenco": "Elenco schedine",
+    "bozze": "Bozze"
+  },
+  {
+    "viewport": 768,
+    "nuova": "Nuova schedina",
+    "moduli": 1,
+    "elenco": "Elenco schedine",
+    "bozze": "Bozze"
+  },
+  {
+    "viewport": 390,
+    "nuova": "Nuova schedina",
+    "moduli": 1,
+    "elenco": "Elenco schedine",
+    "bozze": "Bozze"
+  }
+]

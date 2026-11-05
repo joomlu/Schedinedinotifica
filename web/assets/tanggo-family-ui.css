@@ -1,0 +1,48 @@
+/* Famiglia Tanggo: navigazione, footer e contatto condivisi. */
+@media(min-width:1281px) {
+  .site-header .header-inner { justify-content:flex-start; gap:18px; }
+  .site-header .site-nav { margin-left:auto; gap:4px; }
+  .site-header .header-access,.site-header .prezzi-header-access { order:3; margin-left:0; }
+  .site-header .site-nav .login-link { display:none; }
+}
+.site-header .header-access { display:inline-flex; align-items:center; justify-content:center; gap:10px; flex:none; min-height:44px; padding:8px 15px; border:1px solid #c9bdb5; border-radius:7px; color:var(--action,#78170c); background:#fff; font-size:.9rem; text-decoration:none; white-space:nowrap; }
+.site-header .header-access:hover { border-color:currentColor; background:#faf6f2; }
+.site-footer,.sn-login .site-footer { background:#f7f3ef; color:#514944; border-top:1px solid #e4dcd5; padding-top:52px; padding-bottom:calc(80px + env(safe-area-inset-bottom,0px)); }
+.site-footer .container,.sn-login .site-footer .container { width:min(calc(100% - 96px),1240px); max-width:1240px; margin-inline:auto; padding-inline:0; }
+.site-footer .footer-grid,.sn-login .footer-grid { display:grid; grid-template-columns:1.3fr 1fr 1.05fr 1.25fr; gap:32px; align-items:start; padding-bottom:32px; }
+.site-footer .footer-grid h2,.sn-login .footer-grid h2 { margin:0 0 18px; color:#342e2b; font:600 .7rem/1.5 Arial,Helvetica,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
+.site-footer .footer-grid > div > a:not(.brand),.sn-login .footer-grid > div > a:not(.brand) { display:block; min-height:28px; margin:6px 0; font-size:.87rem; line-height:1.7; text-decoration:none; overflow-wrap:anywhere; }
+.site-footer .footer-grid p,.sn-login .footer-grid p { font-size:.85rem; line-height:1.7; margin-top:24px; max-width:270px; }
+.site-footer .footer-grid > div:last-child,.sn-login .footer-grid > div:last-child { padding:20px; border:1px solid #e4dcd5; border-radius:9px; background:#fffdfb; }
+.site-footer .tanggo-family-strip,.sn-login .tanggo-family-strip { display:flex; align-items:center; justify-content:space-between; gap:14px 28px; flex-wrap:nowrap; padding-block:20px; border-top:1px solid #e4dcd5; }
+.site-footer .tanggo-family-strip h2,.sn-login .tanggo-family-strip h2 { flex:none; margin:0; color:#342e2b; font:600 .7rem/1.5 Arial,Helvetica,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
+.site-footer .tanggo-family-strip a,.sn-login .tanggo-family-strip a { display:inline-flex; align-items:center; min-height:34px; margin:0; padding:0; font-size:.87rem; line-height:1.5; text-decoration:none; white-space:nowrap; }
+.site-footer .footer-legal-strip,.sn-login .footer-legal-strip { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:10px 30px; padding-block:14px; margin-top:0; border-block:1px solid #e4dcd5; color:#514944; font-size:.8rem; }
+.site-footer .footer-legal-strip a,.site-footer .footer-legal-strip button { display:inline-flex; align-items:center; min-height:34px; margin:0; padding:0; border:0; background:none; color:inherit; font:inherit; text-decoration:none; }
+.site-footer .footer-bottom,.sn-login .footer-bottom { display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap; border:0; margin-top:0; padding-block:22px 0; font-size:.76rem; line-height:1.7; }
+.site-footer .footer-bottom > a { color:var(--action,#78170c); }
+.site-footer .tanggo-family-strip a:hover,.site-footer .footer-grid a:hover,.site-footer .footer-legal-strip a:hover,.site-footer .footer-legal-strip button:hover { text-decoration:underline; }
+.whatsapp-contact,.sn-login .whatsapp-contact,a.whatsapp-contact[data-tanggo-whatsapp] { width:60px; height:60px; min-height:60px; display:grid; place-items:center; padding:16px; border:0!important; border-radius:50%!important; background:#25D366!important; color:#fff!important; box-shadow:0 8px 24px #194c3929,inset 0 1px 0 #ffffff30; text-decoration:none; }
+.whatsapp-contact svg,.sn-login .whatsapp-contact svg,a.whatsapp-contact[data-tanggo-whatsapp] svg { display:block; width:28px; height:28px; filter:none!important; }
+.whatsapp-contact:hover,.sn-login .whatsapp-contact:hover,a.whatsapp-contact[data-tanggo-whatsapp]:hover { background:#25D366!important; }
+@media(max-width:1280px) {
+  .site-header .header-access { margin-left:auto; }
+  .site-header .site-nav { margin-left:0; }
+}
+@media(max-width:1000px) {
+  .site-footer .footer-grid,.sn-login .footer-grid { grid-template-columns:1fr 1fr; }
+  .site-footer .tanggo-family-strip,.sn-login .tanggo-family-strip { flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; }
+}
+@media(max-width:600px) {
+  .site-header .header-access { padding-inline:11px; font-size:.8rem; }
+  .site-footer .container,.sn-login .site-footer .container { width:calc(100% - 36px); }
+  .site-footer .footer-grid,.sn-login .footer-grid { grid-template-columns:1fr; gap:28px; }
+  .site-footer .tanggo-family-strip,.sn-login .tanggo-family-strip { gap:8px 22px; padding-block:16px; }
+  .site-footer .tanggo-family-strip h2,.sn-login .tanggo-family-strip h2 { width:100%; }
+  .site-footer .footer-legal-strip,.sn-login .footer-legal-strip { justify-content:flex-start; gap:8px 24px; }
+  .site-footer .footer-bottom,.sn-login .footer-bottom { flex-direction:column; align-items:flex-start; gap:12px; }
+}
+/* Marchio anche nei login: stesse misure del sito pubblico. */
+.sn-login .sn-login-brand strong,.site-footer .brand strong { display:block; font-family:Arial,Helvetica,sans-serif!important; font-size:19px!important; font-weight:400!important; line-height:1.2!important; letter-spacing:-.025em!important; color:#302b28!important; }
+.sn-login .sn-login-brand small,.site-footer .brand small { display:block; font-family:Arial,Helvetica,sans-serif!important; font-size:10px!important; font-weight:400!important; line-height:1.5!important; letter-spacing:.06em!important; text-transform:none!important; margin-top:5px!important; color:#605954!important; }
+@media(max-width:700px) { .sn-login .sn-login-brand strong,.site-footer .brand strong { font-size:16px!important; } .sn-login .sn-login-brand small,.site-footer .brand small { font-size:9px!important; } }

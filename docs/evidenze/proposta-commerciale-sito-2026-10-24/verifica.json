@@ -1,0 +1,265 @@
+{
+  "stato": "PRONTO_A_REVISIONE_NON_PUBBLICATO",
+  "aggiornamento": "2026-10-25",
+  "baseline": "BASELINE IN AUDIT",
+  "candidato_qualificato": "a78d7bdb80c0c4c9d14bc8ae964b83b2a9eaad9e",
+  "dominio": "https://schedinedinotifica.tanggo.software",
+  "anteprima_locale": "http://127.0.0.1:63351/",
+  "anteprima_form": "Conferma simulata; nessuna registrazione, email o attivazione. Backend verificato separatamente nel runtime effimero.",
+  "PHP_COMM2": {
+    "test": 33,
+    "asserzioni": 303,
+    "esito": "PASS",
+    "suite": [
+      "PublicSiteRenewalTest",
+      "StrutturaAuthorizationTest"
+    ]
+  },
+  "browser_COMM2": {
+    "test": 6,
+    "esito": "PASS",
+    "durata_letterale": "1.2m",
+    "pagine": 5,
+    "larghezze_principali": [
+      1440,
+      768,
+      390
+    ],
+    "combinazioni_pagina_larghezza": 15,
+    "larghezze_intermedie": [
+      1280,
+      1266,
+      1151,
+      1024
+    ],
+    "schermate_originali": 23
+  },
+  "acquisizioni_ACQ1": {
+    "SHA": "5ec03b2de7e80f0242f230568d789bef001f25b3",
+    "test_browser": 1,
+    "secondi": 7.1,
+    "immagini_originali": 5,
+    "dati": "esclusivamente sintetici",
+    "runtime_rimosso": true
+  },
+  "COMM1_conservato": {
+    "PHP": "33 test / 303 asserzioni PASS",
+    "browser": "5 PASS / 1 NONPASS",
+    "causa_osservata": "Immagine tablet: rapporto viewport 0.999279260635376 contro 1; causa tecnica frazionaria non dimostrata.",
+    "correzione": "Centratura esplicita e stabilità tra due frame; stessa asserzione ratio1 e stessi timeout. Scope CSS menu separato dal layout generale."
+  },
+  "controlli": {
+    "override_rifiutati": 23,
+    "build_e_GEO_immutabile": "PASS",
+    "sorgenti_confrontati": 4391,
+    "hash_HTTP": [
+      "CSS",
+      "JS",
+      "5WebP",
+      "sitemap.xml",
+      "robots.txt"
+    ],
+    "CRM": "Richiesta e attività Prova di 7 giorni registrate nel solo DB effimero; nessun account o struttura attivati.",
+    "antispam": "Honeypot e limite6/min con prefisso sito-contatti; settima richiesta429 senza scritture, altroIP indipendente.",
+    "navigazione": "URL/alias/login/registrazione, menu tastiera, FAQ,5pannelli e ancore preservati.",
+    "accessibilita": "Etichette Select2, focus/dialogo/Escape, frecce/Home/End e preferenza movimento ridotto.",
+    "contrasto_base": [
+      {
+        "elemento": "testo",
+        "primo": "#555e5c",
+        "sfondo": "#fbfaf6",
+        "rapporto": 6.4,
+        "soglia": 4.5
+      },
+      {
+        "elemento": "titoli",
+        "primo": "#262b2b",
+        "sfondo": "#fbfaf6",
+        "rapporto": 13.75,
+        "soglia": 4.5
+      },
+      {
+        "elemento": "secondario",
+        "primo": "#68716d",
+        "sfondo": "#fbfaf6",
+        "rapporto": 4.82,
+        "soglia": 4.5
+      },
+      {
+        "elemento": "CTA",
+        "primo": "#ffffff",
+        "sfondo": "#781d32",
+        "rapporto": 10.39,
+        "soglia": 4.5
+      },
+      {
+        "elemento": "link",
+        "primo": "#215f60",
+        "sfondo": "#fbfaf6",
+        "rapporto": 7.0,
+        "soglia": 4.5
+      }
+    ]
+  },
+  "immagini_prodotto": {
+    "origine": "ACQ1, runtime ufficiale effimero e soli dati sintetici",
+    "conversione": "WebP lossless; soli ritagli dell’area operativa, pixel invariati rispetto al PNG originale",
+    "immagini": [
+      {
+        "nome": "arrivi",
+        "fonte": "prodotto-arrivi.png",
+        "sha256_png": "08db50cbbb8d833a9f3ea231bb81199a190eb22fef0bdd7c06c8ca7d2100a83b",
+        "asset": "web/assets/img/prodotto-arrivi.webp",
+        "sha256_webp": "9e0bd1eac3121ab292e015e45cd79844f1489b10ddb9f2607cd5072cc359765f",
+        "dimensioni": [
+          1190,
+          588
+        ],
+        "byte_png": 50610,
+        "byte_webp": 17884,
+        "pixel_identici_nell_area_ripresa": true,
+        "ritaglio_xywh": [
+          0,
+          72,
+          1190,
+          588
+        ]
+      },
+      {
+        "nome": "richiesta",
+        "fonte": "prodotto-richiesta.png",
+        "sha256_png": "c0293da5b065bb9d6812d046ab4ced5459584a48cfecbcfc87d70fc89509deca",
+        "asset": "web/assets/img/prodotto-richiesta.webp",
+        "sha256_webp": "ef6f10efb70c3fe00f28626171bbbf4b456416ec7354847bb4905a2aaa404882",
+        "dimensioni": [
+          1190,
+          828
+        ],
+        "byte_png": 66898,
+        "byte_webp": 31488,
+        "pixel_identici_nell_area_ripresa": true,
+        "ritaglio_xywh": [
+          0,
+          72,
+          1190,
+          828
+        ]
+      },
+      {
+        "nome": "ospite",
+        "fonte": "prodotto-ospite.png",
+        "sha256_png": "799a61efdc20ff7c63b484e7a389fec401cede110de523c5280e92f9b98c83f3",
+        "asset": "web/assets/img/prodotto-ospite.webp",
+        "sha256_webp": "3f806955d3dcf43c4db73bc7e313f4f905b91f3f31703016101fd70202df299b",
+        "dimensioni": [
+          1440,
+          1000
+        ],
+        "byte_png": 93121,
+        "byte_webp": 39206,
+        "pixel_identici_nell_area_ripresa": true,
+        "ritaglio_xywh": [
+          0,
+          0,
+          1440,
+          1000
+        ]
+      },
+      {
+        "nome": "schedina",
+        "fonte": "prodotto-schedina.png",
+        "sha256_png": "b0df225242205f007a94f6d86d701caad2f12b8238b73505f7bf9f683359cd33",
+        "asset": "web/assets/img/prodotto-schedina.webp",
+        "sha256_webp": "faf289f42286f210396a6c30510c1d8f1f837277d93e41c9ca48d035f92e17bf",
+        "dimensioni": [
+          1190,
+          828
+        ],
+        "byte_png": 93879,
+        "byte_webp": 48994,
+        "pixel_identici_nell_area_ripresa": true,
+        "ritaglio_xywh": [
+          0,
+          72,
+          1190,
+          828
+        ]
+      },
+      {
+        "nome": "tassa",
+        "fonte": "prodotto-tassa.png",
+        "sha256_png": "91bc0ad4ad1f040af9f891fd2f70d487eeb6c512aeec623ac07088fff518d131",
+        "asset": "web/assets/img/prodotto-tassa.webp",
+        "sha256_webp": "6f62d9e11c6fc79b96f6d89cd0d7bf29aa119724efacb83f458d81e267294573",
+        "dimensioni": [
+          1000,
+          770
+        ],
+        "byte_png": 87278,
+        "byte_webp": 34600,
+        "pixel_identici_nell_area_ripresa": true,
+        "ritaglio_xywh": [
+          0,
+          0,
+          1000,
+          770
+        ]
+      }
+    ]
+  },
+  "consegna_PNG_SHA256": {
+    "sito-home-hero-desktop.png": "5829ad3ca5952826987a52dfce358f607368ad8bc09c0404637e06e7f0c79aa1",
+    "sito-home-390.png": "f08afb19b771af891955407cc764d04d5e51e44351fead9c159e94e315d448f3",
+    "sito-demo-percorso-768.png": "ff8b2f5db8baba5a31a3109d2a025c8353d15abf22244eac728e7cbd30d1a5cd",
+    "sito-conferma-390.png": "08a9d8237f9ae0581452b9f53713a96a468b1525f25afa1446bc04c0e4ff2cde"
+  },
+  "sorgenti_pertinenti_SHA256": {
+    "public/robots.txt": "24994e43a3da93168f77eaaa18ec69900d4ba4f2e3c8c2391e0bc4b6395d5acf",
+    "public/site-assets/app.js": "4a84e6b701166ecd4499f8b557aa780e9cd51b8bef3f2ac732ec5f91d49591f9",
+    "public/site-assets/styles.css": "460790d9d06dfc9641ce689163fa3d199b5778a3448c453d465e26ef8268e3d3",
+    "public/sitemap.xml": "8eab1a62627b4b77ff4154c44e97e6439b244a99bd1fbc2a88498dc80b754e36",
+    "routes/web.php": "438bfb95e9d2fd042193c86cf8a2dbaee3a504818a643cf99b2a19e9f8905f05",
+    "tests/Feature/PublicSiteRenewalTest.php": "11bff4754880688ffc3330d51d13b72679360d93c4cd687a149eff6878fbfdb1",
+    "tests/Feature/public-product-capture.playwright.spec.js": "8562ae91a14038e6cf82f1db51f7af2a555fb4eeb426f84f9b5669fa8a33c46e",
+    "tests/Feature/public-site-renewal.playwright.spec.js": "3786c6d665cf81627bb07d27abc4ac68612ac3b936fbfbcb4f7d928d737a0cde",
+    "tests/Isolation/public-product-demo-fixtures.php": "a3261364a27aafcd8b148d6bb40b3cf3c0c4740c3d37a673bd58235bdea66e5a",
+    "web/assets/app.js": "4a84e6b701166ecd4499f8b557aa780e9cd51b8bef3f2ac732ec5f91d49591f9",
+    "web/assets/img/prodotto-arrivi.webp": "9e0bd1eac3121ab292e015e45cd79844f1489b10ddb9f2607cd5072cc359765f",
+    "web/assets/img/prodotto-ospite.webp": "3f806955d3dcf43c4db73bc7e313f4f905b91f3f31703016101fd70202df299b",
+    "web/assets/img/prodotto-richiesta.webp": "ef6f10efb70c3fe00f28626171bbbf4b456416ec7354847bb4905a2aaa404882",
+    "web/assets/img/prodotto-schedina.webp": "faf289f42286f210396a6c30510c1d8f1f837277d93e41c9ca48d035f92e17bf",
+    "web/assets/img/prodotto-tassa.webp": "6f62d9e11c6fc79b96f6d89cd0d7bf29aa119724efacb83f458d81e267294573",
+    "web/assets/styles.css": "460790d9d06dfc9641ce689163fa3d199b5778a3448c453d465e26ef8268e3d3",
+    "web/contatti.html": "206ec691b5fe7eb11ff69ddb5db4943456571a10cebdb359e600f4aebb9b2849",
+    "web/demo.html": "ae1eb8b491c87b9aaceb872749710dd6ce515d86ebcb9fe40b8e262272fa9c12",
+    "web/index.html": "6031740cc086f11565d6e76dd04ded30a5195aab03869dfd70eca30cbcd377fe",
+    "web/moduli.html": "c84e576a035ed8e6dccb3743c85b25b8d3f3eee01dda31a8d97342c38d0f6ae7",
+    "web/prezzi.html": "ad8785cf283fc511fd5a939b93f06759d0219492b92188b26b5c70367ba5fa62"
+  },
+  "capacita": {
+    "campioni": 23,
+    "minimo_VM_byte": 2050174976,
+    "minimo_Mac_byte": 28910243840,
+    "riserva_VM_byte": 1073741824,
+    "tutti_conformi": true
+  },
+  "postflight": {
+    "daily": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+    "SELinux": "Enforcing",
+    "liberi_VM_byte": 6241198080,
+    "tre_runtime_rimossi": true,
+    "osservatore_proprio_fermato": true,
+    "VM_restituita_al_fronte_ISTAT": true,
+    "momento": "Prima della riconsegna esplicita al fronte ISTAT"
+  },
+  "limiti_reali": [
+    "Nessun video realizzato: consegnato percorso interattivo con5schermate autentiche.",
+    "Attivazione prova concordata manualmente; nessun accesso immediato o invio email dal modulo.",
+    "Dati societari/privacy, recapiti e condizioni commerciali/listino da confermare prima della pubblicazione.",
+    "Nessuna integrazione sul ramo principale, push o pubblicazione del sito in questa task."
+  ],
+  "ispezione_visiva": {
+    "immagini_aperte": 23,
+    "esito": "Nessun taglio laterale o sovrapposizione che ostacoli la lettura. Nelle viste demo scorse, introduzione parzialmente sopra la viewport; immagine del prodotto intera."
+  }
+}

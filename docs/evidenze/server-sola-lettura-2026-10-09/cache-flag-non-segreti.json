@@ -1,0 +1,15 @@
+{
+  "app.env": "production",
+  "app.debug": false,
+  "app.timezone": "Europe/Rome",
+  "cache.default": "file",
+  "session.driver": "file",
+  "session.secure": true,
+  "queue.default": "sync",
+  "mail.default": "smtp",
+  "services.questura.enabled": null,
+  "services.istat.enabled": null,
+  "qa.enabled": null,
+  "questura_enabled": null,
+  "istat_enabled": null
+}

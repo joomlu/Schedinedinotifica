@@ -1,0 +1,25 @@
+TEST isolato: /private/tmp/schedine-test-8nwp3ic4; database=test_geo_601d2b0bc81048c22cc0357d27f04de9; MySQL pid=97453, porta=61634; HTTP pid=97460, porta=61635
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PASS SOAP 200 and positive body never prove acceptance; no token/body leaves service
+PASS verification is unknown and retains Test operation
+PASS external constructor exception is contained
+PASS SOAP call exceptions do not escape with their chain
+PASS negative provider text is replaced with a fixed message
+PASS simulation makes no SOAP calls and is never accepted
+PASS nested and unexpected fields discarded; caller acceptance ignored
+PASS allowed slots cannot carry arrays objects or arbitrary strings
+PASS historical success never becomes accepted; history not rewritten
+PASS receipt and tables cannot expose or persist unvalidated bodies
+PASS actual persistence boundary projects injected provider material
+PASS legacy handler aborts before any DB or storage dependency
+PASS controller has no confirmed-send mutation for simulation or attempts
+PASS view never presents legacy provider messages or success as acceptance
+14 safety checks passed; in-memory doubles only
+
+Running 1 test using 1 worker
+
+  ✓  1 tests/Feature/dependency-artifact-boundary.playwright.spec.js:3:1 › Artefatto nuovo: editor e grafici non usati esclusi, Swiper ancora disponibile (1.6s)
+
+  1 passed (3.3s)
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-8nwp3ic4

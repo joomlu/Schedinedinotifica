@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Struttura;
+use Illuminate\Support\Facades\Storage;
+
+class WebCheckinIdentita
+{
+    /** Tonalità derivate dal colore salvato; utilizzabili anche dagli snapshot precedenti. */
+    public static function palette(string $color): array
+    {
+        $color = preg_match('/\\A#[a-fA-F0-9]{6}\\z/D', $color) ? $color : '#245563';
+        $channels = array_map('hexdec', str_split(substr($color, 1), 2));
+        $mix = static function (int $target, float $weight) use ($channels): string {
+            return '#'.implode('', array_map(
+                static fn ($channel) => sprintf('%02x', (int) round($channel * (1 - $weight) + $target * $weight)),
+                $channels
+            ));
+        };
+
+        return ['sfondo' => $mix(255, .96), 'tenue' => $mix(255, .91),
+            'bordo' => $mix(255, .68), 'inchiostro' => $mix(0, .60)];
+    }
+
+    public function of(Struttura $s): array
+    {
+        $logo = null;
+        $relative = (string) $s->logo;
+        // Solo immagini locali della struttura: niente URL remoti, traversal o SVG attivi.
+        if (preg_match('~\Astorage/uploads/loghi/[a-zA-Z0-9_.-]+\z~D', $relative)) {
+            $disk = Storage::disk('public');
+            $path = realpath($disk->path(substr($relative, strlen('storage/'))));
+            $root = realpath($disk->path('uploads/loghi'));
+            if ($path && $root && str_starts_with($path, $root.DIRECTORY_SEPARATOR) && is_file($path)
+                && in_array(mime_content_type($path), ['image/png', 'image/jpeg', 'image/gif', 'image/webp'], true)) $logo = $path;
+        }
+        $width = $height = null;
+        if ($logo) {
+            $dimensions = @getimagesize($logo);
+            if (! $dimensions || $dimensions[0] < 1 || $dimensions[1] < 1) $logo = null;
+            else { $scale = min(220 / $dimensions[0], 90 / $dimensions[1]); $width = max(1, (int) round($dimensions[0] * $scale)); $height = max(1, (int) round($dimensions[1] * $scale)); }
+        }
+        $color = preg_match('/\A#[a-fA-F0-9]{6}\z/D', (string) $s->web_checkin_colore) ? $s->web_checkin_colore : '#245563';
+        $luminanceOf = static function (string $hex): float {
+            $rgb = array_map(fn ($p) => hexdec($p) / 255, str_split(substr($hex, 1), 2));
+            $rgb = array_map(fn ($n) => $n <= .04045 ? $n / 12.92 : (($n + .055) / 1.055) ** 2.4, $rgb);
+            return .2126 * $rgb[0] + .7152 * $rgb[1] + .0722 * $rgb[2];
+        };
+        $luminance = $luminanceOf($color);
+        $darkText = ($luminance + .05) / ($luminanceOf('#142025') + .05) >= 4.5 ? '#142025' : '#000000';
+
+        return ['nome' => $s->nome_struttura, 'logo_path' => $logo,
+            'logo_url' => $logo ? rtrim(config('app.url'), '/').'/'.$relative : null,
+            'logo_sha256' => $logo ? hash_file('sha256', $logo) : null, 'logo_width' => $width, 'logo_height' => $height,
+            'colore' => $color, 'testo_colore' => 1.05 / ($luminance + .05) >= 4.5 ? '#ffffff' : $darkText,
+            'email' => filter_var($s->email, FILTER_VALIDATE_EMAIL) ? $s->email : null,
+            'telefono' => $s->telefono];
+    }
+}

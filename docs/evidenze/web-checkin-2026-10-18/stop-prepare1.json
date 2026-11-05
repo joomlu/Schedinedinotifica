@@ -1,0 +1,16 @@
+{
+  "esito": "STOP_PREPARE1_PRIMA_OFFERTA",
+  "SHA_candidato": "39518a6b4ff0f9b1112b0fa6d13debf1854e5061",
+  "causa_verificata": "Inventario mutato durante cattura fuori barriera",
+  "T0_DDL_deploy": false,
+  "backup_non_accettato": true,
+  "artefatti_conservati": true,
+  "diagnosi_tar_successiva": {
+    "nuove_sessioni": 2,
+    "altri_metadati_o_file": 1,
+    "writer_non_attribuito": true,
+    "limite": "Inventario iniziale non persistito dal ramo fallito; non consente attribuzione certa dello STOP al singolo record o writer."
+  },
+  "ripresa": "Nuove base/prebuild r2, stessi kit e gate; nessuna sonda aggiuntiva durante cattura",
+  "stderr_sha256": "be2191aa6857868af5ae4689374102668082d9f972cbbc4eee76bb18d82bbc61"
+}

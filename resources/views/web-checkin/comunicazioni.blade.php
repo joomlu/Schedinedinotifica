@@ -1,0 +1,110 @@
+@extends('layouts.master')
+@section('title', 'Comunicazioni Web Check-in')
+@section('content')
+<div class="card"><div class="card-body">
+@include('web-checkin.partials.dettaglio-header',['sezione'=>'Email'])
+<h2 class="h5">{{ request()->boolean('storico') ? 'Storico comunicazioni' : 'Personalizza email' }}</h2>
+@if(!request()->boolean('storico'))
+<ol class="web-email-steps" aria-label="Passaggi email"><li class="active" aria-current="step">1. Personalizza</li><li>2. Visualizza email</li><li>3. Conferma e invia</li></ol>
+<a class="btn btn-light mb-3" href="{{ route('web_checkin.anteprima_modulo',$richiesta->id) }}">Anteprima modulo ospite</a>
+<p><strong>Destinatario email:</strong> {{ $richiesta->email ?: 'Mancante' }} · <a href="{{ route('web_checkin.edit',$richiesta->id) }}">Correggi destinatario e dati richiesta</a></p>
+@if($comunicazioneUI['impedimento'])<div class="alert alert-warning">{{ $comunicazioneUI['impedimento'] }}</div>@endif
+@if($comunicazioneUI['inviato'])<p>Ultimo invio: {{ $comunicazioneUI['inviato']->accettato_at->timezone('Europe/Rome')->format('d/m/Y H:i') }}. Nuovo invio volontario: verifica destinatario e messaggio. Verrà registrato un nuovo tentativo senza modificare quelli precedenti.</p>@endif
+
+@if($errors->any())<div class="alert alert-danger">{{ $errors->first() }}</div>@endif
+@if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
+@if(!$identita['logo_path'])
+<div class="alert alert-warning">Manca un logo hotel valido. Configuralo prima dell’invio email. La richiesta e il modulo ospite restano accessibili. <a href="{{ route('struttura.edit') }}" target="_blank" rel="noopener">Configura il logo della struttura (nuova scheda)</a></div>
+@else
+<img class="mb-3" src="{{ $identita['logo_url'] }}" alt="{{ $identita['nome'] }}" style="max-width:180px;max-height:80px;object-fit:contain">
+@endif
+<section class="border rounded-3 p-3 mb-4 bg-light-subtle" aria-labelledby="hotel-colore-title">
+<h3 class="h6 mb-2" id="hotel-colore-title">Colore dell’hotel</h3>
+<p class="small text-muted mb-3" id="hotel-colore-help">Scegli un colore coordinato al logo: sarà usato nelle email e nel modulo ospite di questa struttura. Salvalo prima di personalizzare il messaggio.</p>
+<form method="post" action="{{ route('web_checkin.identita', $richiesta->id) }}" id="hotel-colore-form" class="d-flex flex-wrap align-items-end gap-3" data-confirm-ignore>
+@csrf
+<div><label class="form-label" for="invito-colore">Colore principale</label><input type="color" id="invito-colore" name="colore" value="{{ $identita['colore'] }}" data-saved="{{ $identita['colore'] }}" class="form-control form-control-color" aria-describedby="hotel-colore-help hotel-colore-errore"><div id="hotel-colore-errore" class="invalid-feedback" role="alert"></div></div>
+<button class="btn btn-light" type="submit">Salva colore della struttura</button>
+</form>
+<p id="hotel-colore-esito" class="small mt-2 mb-0" role="status"></p>
+<p class="small text-muted mt-2 mb-0">Le email già inviate conservano il loro aspetto. Dopo il salvataggio genera una nuova anteprima email.</p>
+</section>
+<form method="post" action="{{ route('web_checkin.prepara', $richiesta->id) }}" id="invito-form" aria-busy="true"><fieldset id="web-email-fields" disabled>
+@csrf
+@if($comunicazioneUI['ultimo']?->stato === 'esito_incerto')<div class="alert alert-warning"><label><input type="checkbox" name="conferma_nuovo_tentativo" value="1" required> Ho verificato il tentativo incerto con l’amministratore e richiedo un nuovo invio volontario, consapevole del possibile duplicato.</label></div>@endif
+<input type="hidden" name="idempotenza" value="{{ (string) Illuminate\Support\Str::uuid() }}">
+<input type="hidden" name="azione" id="modello-azione" value=""><input type="hidden" name="versione" id="modello-versione" value="1">
+<div class="row g-3">
+<div class="col-md-6"><label class="form-label" for="invito-modello">Modello</label><select class="form-select" name="modello_id" id="invito-modello">
+@forelse($modelli as $m)<option value="{{ $m->id }}" @selected((string)old('modello_id') === (string)$m->id) data-oggetto="{{ $m->oggetto }}" data-corpo="{{ $m->corpo }}" data-versione="{{ $m->versione }}" data-nome="{{ $m->nome }}" data-impostazioni="{{ json_encode($m->impostazioni ?? array_replace(\App\Services\WebCheckinMessaggio::layoutIniziale(), filled($richiesta->messaggio_ospite) ? ['testo'=>$richiesta->messaggio_ospite] : [])) }}">{{ $m->nome }}</option>@empty<option value="">Nessun modello: prepara un nuovo invito</option>@endforelse
+</select></div>
+<div class="col-md-6"><label class="form-label" for="invito-canale">Canale</label><select class="form-select" id="invito-canale" name="canale"><option value="email">Email HTML con versione testuale</option><option value="whatsapp">WhatsApp esterno</option><option value="testo">Testo da copiare</option></select></div>
+<div class="col-12"><label class="form-label" for="invito-oggetto">Oggetto</label><input class="form-control" id="invito-oggetto" name="oggetto" maxlength="255" required></div>
+@foreach(['saluto' => ['Saluto', 500], 'testo' => ['Testo dell’email', 4000], 'pulsante' => ['Etichetta del pulsante principale', 80], 'firma' => ['Firma', 1000]] as $key => [$label, $max])
+<div class="{{ in_array($key, ['saluto','pulsante']) ? 'col-md-6' : 'col-12' }}"><label class="form-label" for="email-{{ $key }}">{{ $label }}</label><textarea class="form-control" name="impostazioni[{{ $key }}]" id="email-{{ $key }}" rows="{{ in_array($key, ['testo','firma']) ? 3 : 1 }}" maxlength="{{ $max }}" required></textarea></div>
+@endforeach
+<div class="col-12"><p class="small text-muted">Logo, riepilogo prenotazione e destinazione del pulsante provengono sempre dalla richiesta e dalla sua struttura. Un modello non assegna il tipo alloggiato. Il testo sotto il pulsante si adatta al numero degli ospiti.</p></div>
+<details class="col-12"><summary>Testo per WhatsApp e dati automatici</summary><div class="col-12"><label class="form-label" for="invito-corpo">Testo da copiare o condividere su WhatsApp</label><textarea class="form-control" id="invito-corpo" name="corpo" rows="5" maxlength="12000" required></textarea><button class="btn btn-sm btn-light mt-2" type="button" id="whatsapp-breve">Usa testo breve WhatsApp</button></div>
+<div class="col-12 small text-muted">Dati automatici: @foreach(['Nome cliente', 'Nome struttura', 'Numero prenotazione', 'Data arrivo', 'Data partenza', 'Numero ospiti', 'Link check-in', 'Scadenza link', 'Email struttura', 'Telefono struttura', 'Messaggio ospite'] as $label)<span class="me-2">«{{ $label }}»</span> @endforeach</div>
+</details><div class="col-12 d-flex flex-wrap gap-2">
+@if($richiesta->stato !== 'convertito' && app(\App\Services\WebCheckinLink::class)->valid($richiesta))<button class="btn btn-primary" type="submit" data-confirm-ignore id="visualizza-email">Visualizza email</button>@else<p>Accesso scaduto, revocato o già preso in carico. <a href="{{ route('web_checkin.attivita',[$richiesta->id,'link']) }}">Gestisci link</a> per l’eventuale nuova emissione esplicita.</p>@endif
+<details class="w-100 mt-3"><summary>Salva o aggiorna un modello</summary><div class="col-md-6"><label class="form-label" for="invito-nome">Nome del modello riutilizzabile</label><input class="form-control" id="invito-nome" name="nome" maxlength="191"></div>
+<div class="d-flex flex-wrap gap-2 mt-2"><button class="btn btn-light" type="submit" name="azione" value="nuovo" formaction="{{ route('web_checkin.modello', $richiesta->id) }}">Salva nuovo modello</button>
+@if($modelli->isNotEmpty())<button class="btn btn-light" type="submit" name="azione" value="duplica" formaction="{{ route('web_checkin.modello', $richiesta->id) }}">Duplica modello</button><button class="btn btn-warning" type="submit" name="azione" value="aggiorna" formaction="{{ route('web_checkin.modello', $richiesta->id) }}">Aggiorna modello</button>@endif
+</div></details></div></div></fieldset></form><div id="email-preview-error" class="alert alert-danger mt-3" role="alert" tabindex="-1" hidden></div><div id="web-email-slot"></div>
+@include('web-checkin.partials.email-ui')
+<details class="mt-4"><summary>Gestisci modelli</summary>
+@foreach($modelli as $m)<form method="post" action="{{ route('web_checkin.modello.elimina', [$richiesta->id, $m->id], false) }}" data-confirm-title="Elimina modello" data-confirm-text="Il modello non verrà ricreato automaticamente. Gli inviti già preparati restano conservati." data-confirm-button="Sì, elimina" class="d-flex flex-wrap align-items-center gap-2 mb-2">@csrf<input type="hidden" name="versione" value="{{ $m->versione }}"><span>{{ $m->nome }}</span><button type="submit" class="btn btn-sm btn-outline-danger">Elimina modello</button></form>@endforeach
+<form method="post" action="{{ route('web_checkin.modelli.ripristina', $richiesta->id) }}">@csrf<button class="btn btn-sm btn-light" type="submit">Ripristina modelli iniziali</button></form>
+<p class="small text-muted">Eliminare un modello non cancella gli inviti preparati. I modelli eliminati non vengono ricreati all’apertura; il ripristino è esplicito e conserva le personalizzazioni.</p>
+</details>
+@endif
+@if(request()->boolean('storico'))<details open class="mt-4"><summary>Storico comunicazioni</summary>
+<form method="post" action="{{ route('web_checkin.cronologia.rimuovi', $richiesta->id) }}">@csrf
+@forelse($storico as $c)<label class="d-block mb-2"><input type="checkbox" name="comunicazioni[]" value="{{ $c->id }}"> <a href="{{ route('web_checkin.comunicazione', [$richiesta->id, $c->id]) }}">{{ $c->created_at->timezone('Europe/Rome')->format('d/m/Y H:i:s') }} — {{ $c->canale }} — {{ ['preparato'=>'Preparato', 'apertura_richiesta'=>'Apertura esterna richiesta', 'invio_in_corso'=>'Tentativo in corso', 'accettato'=>'Inviato · accettato dal trasporto', 'non_riuscito'=>'Invio non riuscito', 'esito_incerto'=>'Esito da verificare'][$c->stato] ?? $c->stato }}</a></label>@empty<p>Nessuna comunicazione nella cronologia visibile.</p>@endforelse
+@if($storico->isNotEmpty())<button type="submit" class="btn btn-outline-danger">Elimina comunicazioni selezionate dalla cronologia</button>@endif
+</form>{{ $storico->links() }}
+<p class="small text-muted">La rimozione dalla cronologia non annulla messaggi già inviati o tentativi in corso. Richiesta, ospiti e metadati tecnici d’idempotenza sono conservati.</p>
+</details>@endif</div></div>
+@endsection
+@push('scripts')
+@php($previousInput = array_replace($ripresa, \Illuminate\Support\Arr::only(session()->getOldInput(), ['nome','oggetto','corpo','canale','impostazioni','modello_id'])))
+@php($layoutDefaults = array_replace(\App\Services\WebCheckinMessaggio::layoutIniziale(), filled($richiesta->messaggio_ospite) ? ['testo'=>$richiesta->messaggio_ospite] : []))
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+const defaults=@json($layoutDefaults), previous=@json($previousInput), select=document.getElementById('invito-modello');if(!select)return;
+const breve=@json($testoBreve), oggettoDefault=@json($oggettoDefault);
+// L'editor mostra nomi leggibili; i modelli e il trasporto conservano il formato canonico.
+const labels={referente:'Nome cliente',struttura:'Nome struttura',prenotazione:'Numero prenotazione',arrivo:'Data arrivo',partenza:'Data partenza',persone:'Numero ospiti',link:'Link check-in',scadenza:'Scadenza link',email_struttura:'Email struttura',telefono_struttura:'Telefono struttura',messaggio_ospite:'Messaggio ospite'};
+const readable=text=>String(text??'').replace(/\{\{\s*([a-z_]+)\s*\}\}/g,(match,key)=>Object.hasOwn(labels,key)?'«'+labels[key]+'»':match);
+const canonical=text=>Object.entries(labels).reduce((value,[key,label])=>value.split('«'+label+'»').join('{'+ '{'+key+'}'+ '}'),String(text??''));
+const editorFields=['oggetto','corpo','impostazioni[saluto]','impostazioni[testo]','impostazioni[pulsante]','impostazioni[firma]'];
+const makeReadable=()=>{for(const name of editorFields){const field=document.getElementById('invito-form').elements.namedItem(name);if(field)field.value=readable(field.value);}};
+document.getElementById('invito-form').addEventListener('formdata',event=>{for(const name of editorFields)if(event.formData.has(name))event.formData.set(name,canonical(event.formData.get(name)));});
+select.addEventListener('change',()=>queueMicrotask(makeReadable));
+const load=()=>{const o=select.selectedOptions[0];for(const key of ['nome','oggetto','corpo'])document.getElementById('invito-'+key).value=o?.dataset[key]??({nome:'',oggetto:oggettoDefault,corpo:breve}[key]);document.getElementById('modello-versione').value=o?.dataset.versione??1;const layout=o?.dataset.impostazioni?JSON.parse(o.dataset.impostazioni):defaults;for(const key of Object.keys(defaults))document.getElementById('email-'+key).value=layout[key]??defaults[key];};
+if(previous.modello_id)select.value=previous.modello_id;select.addEventListener('change',load);load();document.getElementById('whatsapp-breve').addEventListener('click',()=>{document.getElementById('invito-corpo').value=readable(breve);document.getElementById('invito-canale').value='whatsapp';document.getElementById('invito-canale').dispatchEvent(new Event('change'));});
+document.querySelectorAll('#invito-form button[name="azione"]').forEach(b=>b.addEventListener('click',()=>document.getElementById('modello-azione').value=b.value));
+for(const key of ['nome','oggetto','corpo','canale'])if(Object.hasOwn(previous,key))document.getElementById('invito-'+key).value=previous[key]??'';
+for(const[key,value]of Object.entries(previous.impostazioni??{}))if(Object.hasOwn(defaults,key))document.getElementById('email-'+key).value=value;
+makeReadable();
+const colorForm=document.getElementById('hotel-colore-form'), colorField=document.getElementById('invito-colore'), colorError=document.getElementById('hotel-colore-errore'), colorStatus=document.getElementById('hotel-colore-esito');
+colorForm.addEventListener('submit',async event=>{
+ event.preventDefault(); if(colorForm.dataset.saving==='1')return;
+ colorForm.dataset.saving='1'; const button=colorForm.querySelector('[type=submit]'), previewButton=document.getElementById('visualizza-email');
+ button.disabled=true; if(previewButton)previewButton.disabled=true; colorField.classList.remove('is-invalid'); colorField.removeAttribute('aria-invalid'); colorError.textContent='';colorStatus.textContent='';
+ try {
+  const response=await fetch(colorForm.action,{method:'POST',headers:{Accept:'application/json','X-Requested-With':'XMLHttpRequest'},body:new FormData(colorForm)});const data=await response.json();
+  if(!response.ok)throw new Error(data.errors?.colore?.[0]??data.message??'Impossibile salvare il colore.');
+  colorField.value=data.colore;colorField.dataset.saved=data.colore;colorStatus.textContent=data.messaggio;
+  // Elimina soltanto la vista corrente: gli snapshot persistenti restano immutati.
+  const dialog=document.querySelector('#web-email-slot .modal');
+  if(dialog){const modal=bootstrap.Modal.getInstance(dialog);if(dialog.classList.contains('show'))modal?.hide();else dialog.remove();}
+  colorForm.dispatchEvent(new CustomEvent('web-colore-salvato',{bubbles:true}));
+ } catch(error){colorField.classList.add('is-invalid');colorField.setAttribute('aria-invalid','true');colorError.textContent=error.message;colorField.focus();}
+ finally{button.disabled=false;if(previewButton)previewButton.disabled=false;delete colorForm.dataset.saving;delete colorForm.dataset.submitting;}
+});
+document.getElementById('invito-canale').dispatchEvent(new Event('change'));document.getElementById('web-email-fields').disabled=false;document.getElementById('invito-form').removeAttribute('aria-busy');
+});
+</script>
+@endpush

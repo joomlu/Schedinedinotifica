@@ -1,0 +1,20 @@
+{
+  "stato": "PRIMO_RUN_CORRETTIVO_FERMATO_BASELINE_RIAPERTA",
+  "candidato": "78e889759b0838f35267496527c42024aa18bd00",
+  "baseline_online": "447571f45fb9f8059f0d33eb836b221d9bd6ec52",
+  "motivo": "Timeout240s del recuperoLinux indipendente; nessuna accettazione retroattiva del risultato tardivo",
+  "decisione": "BASELINE_NON_MODIFICATA",
+  "DDL": false,
+  "candidato_applicato": false,
+  "guardiano_recupero_secondi": 262.6289106803015,
+  "baseline_online_FPM_barriera_assente_verificati": true,
+  "diagnosi_isolata": {
+    "esito": "PASS_RECUPERO_ISOLATO_ENTRO_240S",
+    "secondi": 202.884610625,
+    "limite": 240,
+    "controlli_completi": true
+  },
+  "causa_rallentamento": "Non attribuita con certezza; confronto fasi indica rallentamento generalizzatoCPU/I-O, nessuna pressione memoria o segnalazione termica osservata",
+  "nuovo_tentativo": "Nuovo piano/T0/S0 richiesti; preflight e55campioni da ripetere",
+  "soglie_modificate": false
+}

@@ -1,0 +1,55 @@
+/vendor/
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Laravel 4 specific
+bootstrap/compiled.php
+app/storage/
+
+# Laravel 5 & Lumen specific
+public/storage
+public/hot
+
+# Laravel 5 & Lumen specific with changed public path
+public_html/storage
+public_html/hot
+
+storage/*.key
+.env
+Homestead.yaml
+Homestead.json
+/.vagrant
+.phpunit.result.cache
+
+# Local artifacts
+.DS_Store
+/output
+/public/build/
+/public/build.zip
+/storage/framework/
+/storage/framework/views/
+/storage/logs/
+/backup/
+/tmp/
+
+# Local release backups
+backups/
+
+# Legacy local SQL dumps
+/schedinedinotifica_backup.sql
+
+# Environment variants, credentials and runtime data
+.env.*
+!.env.example
+*.sql
+*.sql.gz
+*.pem
+*.key
+/public/error_log
+/public/images/[0-9]*
+/reference/vari/
+
+# Generated browser test reports
+/test-results/
+/playwright-report/

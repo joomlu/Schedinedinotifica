@@ -1,0 +1,136 @@
+{
+  "recupero_secondi": 170.69973379099974,
+  "liberi_inizio": 5956374528,
+  "minimo_libero_campionato": 3371540480,
+  "picco_occupazione_aggiuntiva_campionato": 2584834048,
+  "liberi_fine": 4669280256,
+  "intervallo_campionamento_secondi": 0.5,
+  "fasi": [
+    {
+      "secondi": 0.34975285600012285,
+      "fase": "fine",
+      "funzione": "s0_core.py:decrypt",
+      "durata": 0.3422993200001656
+    },
+    {
+      "secondi": 0.5215455990000919,
+      "fase": "fine",
+      "funzione": "s0_core.py:decrypt",
+      "durata": 0.17172148399913567
+    },
+    {
+      "secondi": 0.8367096239999228,
+      "fase": "fine",
+      "funzione": "s0_core.py:decrypt",
+      "durata": 0.31511827999929665
+    },
+    {
+      "secondi": 6.335085265000089,
+      "fase": "fine",
+      "funzione": "s0_core.py:receiver_labels_for",
+      "durata": 5.40513946399733
+    },
+    {
+      "secondi": 24.94666549699832,
+      "fase": "fine",
+      "funzione": "s0_core.py:decrypt",
+      "durata": 18.17671432199859
+    },
+    {
+      "secondi": 25.565072060999228,
+      "fase": "fine",
+      "funzione": "s0_core.py:decrypt",
+      "durata": 0.6172684980010672
+    },
+    {
+      "secondi": 78.5976524860016,
+      "fase": "fine",
+      "funzione": "s0_core.py:receiver_labels_for",
+      "durata": 4.735584802998346
+    },
+    {
+      "secondi": 79.36576148499807,
+      "fase": "fine",
+      "funzione": "s0_core.py:validate_receiver_labels",
+      "durata": 5.553915363998385
+    },
+    {
+      "secondi": 118.56966074999946,
+      "fase": "fine",
+      "funzione": "s0_core.py:restore_metadata",
+      "durata": 1.493768871001521
+    },
+    {
+      "secondi": 118.56976503500118,
+      "fase": "fine",
+      "funzione": "s0_core.py:extract",
+      "durata": 44.75872536099996
+    },
+    {
+      "secondi": 118.61253203700107,
+      "fase": "fine",
+      "funzione": "base_delta.py:extract",
+      "durata": 111.84321741999884
+    },
+    {
+      "secondi": 120.45772936800131,
+      "fase": "fine",
+      "funzione": "s0_core.py:receiver_labels_for",
+      "durata": 1.7998690610002086
+    },
+    {
+      "secondi": 121.04494432800129,
+      "fase": "fine",
+      "funzione": "s0_core.py:validate_receiver_labels",
+      "durata": 2.403089096002077
+    },
+    {
+      "secondi": 140.10561730300105,
+      "fase": "fine",
+      "funzione": "s0_core.py:verify_extracted",
+      "durata": 21.463925402000314
+    },
+    {
+      "secondi": 164.18852557799983,
+      "fase": "fine",
+      "funzione": "s0_native.py:attest",
+      "durata": 0.050883309999335324
+    },
+    {
+      "secondi": 167.5128944120006,
+      "fase": "fine",
+      "funzione": "s0_native.py:restore",
+      "durata": 3.3242898540011083
+    },
+    {
+      "secondi": 167.82727004499975,
+      "fase": "fine",
+      "funzione": "s0_native.py:dump",
+      "durata": 0.31415783000193187
+    },
+    {
+      "secondi": 168.14102785499927,
+      "fase": "fine",
+      "funzione": "probe.py:run",
+      "durata": 0.08627529099976528
+    },
+    {
+      "secondi": 170.58855554199909,
+      "fase": "fine",
+      "funzione": "cold_verify.py:verify",
+      "durata": 170.58433742499983
+    }
+  ],
+  "integrita": {
+    "complete": true,
+    "independent": true,
+    "no_network": true,
+    "db": true,
+    "files": true,
+    "metadata": true,
+    "key": true,
+    "fpm": true,
+    "flags": true,
+    "tls": true
+  }
+}

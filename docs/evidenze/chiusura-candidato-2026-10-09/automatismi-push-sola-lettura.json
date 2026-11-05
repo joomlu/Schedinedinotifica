@@ -1,0 +1,11 @@
+{
+  "hook_locali_eseguibili_non_sample": [],
+  "workflow_versionati": [],
+  "GitHub_workflows": {
+    "total_count": 0,
+    "workflows": []
+  },
+  "GitHub_webhooks": [],
+  "API": "sola lettura; campi config/segreti esclusi",
+  "nessun_push_o_job_avviato": true
+}

@@ -1,0 +1,47 @@
+{
+  "esito": "PASS_CAPIENZA_E_CUSTODIA",
+  "pre_PREPARE": {
+    "VM": 4234452992,
+    "Mac": 17128861696,
+    "Extra": 600671817728,
+    "minimo_VM_prudenziale": 3749969920,
+    "UTC": "2026-10-19T23:08:11.499530+00:00",
+    "stima": "Due recuperi e due ingressi cifrati dal massimo completo storico, 16MiB aggiuntivi e riserva1GiB invariata",
+    "esito": "PASS_STIMA_PRE_PREPARE"
+  },
+  "post_PREPARE": {
+    "recupero_PREPARE_allocato": 960471040,
+    "ingresso_PREPARE_cifrato": 377176064,
+    "liberi_VM": 2885722112,
+    "data_UTC": "2026-10-19T23:13:29.438577+00:00",
+    "margine_invariato": 1073741824,
+    "fabbisogno_residuo_stimato": 2428166144,
+    "liberi_Mac": 14873632768,
+    "esito": "PASS_STIMA_RESIDUA_S0",
+    "limite": "Stima prudenziale dal massimo fra nuova misura e consumo storico completo, con16MiB aggiuntivi e riserva1GiB invariati; S0 ancora da catturare fresco, nessuna stima promossa a misura del suo picco."
+  },
+  "Extra_preflight": {
+    "esito": "PASS_UUID_APFS_SCRITTURA_RILETTURA",
+    "destinazione": "/Volumes/extra/Schedinedinotifica-Web-Email-Modale-20261020",
+    "liberi_Extra": 600671805440,
+    "liberi_Mac": 14255218688
+  },
+  "risorse_finali": {
+    "UTC": "2026-10-19T23:47:34.638843+00:00",
+    "Mac_liberi": 21954879488,
+    "Extra_liberi": 600259387392,
+    "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+    "VM": {
+      "liberi": 1875619840,
+      "filesystem_totale": 37290283008,
+      "tipo_filesystem": "xfs",
+      "SELinux": "Enforcing",
+      "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7"
+    },
+    "disco_VM": "36GiB, invariato",
+    "riserva_VM": 1073741824,
+    "soglia_Mac": 8589934592,
+    "soglia_Extra": 42949672960,
+    "nessuna_crescita_o_arresto_VM": true
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "esito": "PASS_PUBBLICATO_VERIFICATO_ONLINE_E_MONITORATO",
+  "UTC": "2026-10-20T21:45:23.718157+00:00",
+  "PR": 4,
+  "PR_integrata_in_main": true,
+  "SHA_codice_qualificato": "797abf7cb36fd25910f51c2b963ef8110fa342b4",
+  "SHA_integrato": "5e01d7b1153daac8de96a6281cd6203ff92c034d",
+  "SHA_applicativo_online": "5e01d7b1153daac8de96a6281cd6203ff92c034d",
+  "baseline": "1be29e8a55dea841c9c486ea1c5b44d14c249ba1",
+  "C5": {
+    "kit": "f086852da73e07ee963667c1b27fe6299ea15bb5e42ca58057d31aa6d17565cc",
+    "file_kit_conformi_salvo_SHA_tree": 68,
+    "S0_secondi": 131.975,
+    "RUN_secondi": 215.217,
+    "decisione": "CANDIDATO_ACCETTATO",
+    "DDL": false,
+    "migrazioni": 159,
+    "tabelle": 66,
+    "guardiano": "Concluso, disarmato, inattivo e disabilitato",
+    "budget_invariati": [
+      1800,
+      600,
+      1379,
+      421
+    ]
+  },
+  "custodie_nuove": [
+    {
+      "tipo": "PREPARE",
+      "cifrati": 3,
+      "destinazione": "/Volumes/extra/Schedinedinotifica-Web-Testi-Palette-20261020/C5-PREPARE",
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "a60e5e4d4bb494da1d10f0dd8e528fda104ca87579ba1ac97d4d1b6aa3ec85c3"
+    },
+    {
+      "tipo": "S0",
+      "cifrati": 3,
+      "destinazione": "/Volumes/extra/Schedinedinotifica-Web-Testi-Palette-20261020/C5-S0",
+      "HMAC_e_decifratura_integrale": true,
+      "ricevuta_sha256": "233907edef79357e82bd08abb407e98669d45c7203411f679a637c6692ef4102"
+    }
+  ],
+  "collaudo_isolato": {
+    "PHP_R12": [
+      351,
+      3546
+    ],
+    "browser_storici_R12": 12,
+    "browser_dedicati_R13": 9,
+    "browser_distinti": 21,
+    "guardie": 17,
+    "override_rifiutati": 23,
+    "deprecazioni_PHPUnit_preesistenti": 1,
+    "applicativo_R12_R13_identico": true,
+    "ripetizioni_non_sommate": true
+  },
+  "QA_online_eseguita_dalla_VM": [
+    "online-circuito",
+    "online-html",
+    "online-completo",
+    "online-accessi",
+    "online-testi-palette"
+  ],
+  "nessun_POST_invio_email": true,
+  "nessuna_email_o_modifica_a_ospiti_reali": true,
+  "richiesta_134_nessun_nuovo_invio": true,
+  "DB_byte_identico_S0_prima_QA": true,
+  "pulizia": {
+    "tabelle_HMAC_identiche": 66,
+    "persistenti": 92,
+    "nessun_restore_o_reset_contatori": true
+  },
+  "riserva_VM_campionata": {
+    "campioni": 2528,
+    "minimo_VM_libero": 3705212928,
+    "riserva_invariata": 1073741824,
+    "esito": "PASS"
+  },
+  "monitor": {
+    "server_secondi": 918.3760152570903,
+    "server_campioni": 31,
+    "server_sonde": 279,
+    "Mac_secondi": 921.5255979159999,
+    "Mac_campioni": 31,
+    "Mac_richieste": 93
+  },
+  "errori_applicativi_FPM_da_intero_T0": 0,
+  "sorgenti_task_conformi": 111,
+  "sorgenti_e_protetti": 168,
+  "risorse_finali": {
+    "UTC": "2026-10-20T21:45:16.341551+00:00",
+    "Mac_liberi": 16104226816,
+    "Extra_liberi": 599003865088,
+    "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+    "VM": {
+      "liberi": 4421591040,
+      "filesystem_totale": 37290283008,
+      "tipo_filesystem": "xfs",
+      "SELinux": "Enforcing",
+      "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7"
+    },
+    "disco_VM": "36GiB, invariato",
+    "riserva_VM": 1073741824,
+    "soglia_Mac": 8589934592,
+    "soglia_Extra": 42949672960,
+    "nessuna_crescita_o_arresto_VM": true
+  },
+  "anti_standby_temporaneo": {
+    "esito": "PASS_PRESIDIO_TEMPORANEO_TERMINATO",
+    "PID_proprio": 17730,
+    "processo_assente": true,
+    "asserzioni_proprie_rimosse": true,
+    "nessuna_impostazione_permanente_modificata": true,
+    "osservatore_VM_terminato": true,
+    "log_finale_sha256": "a41b5097a66ae4a974450cd33f12028cd9763a5bf0c2920b598976753039a021"
+  },
+  "stato_generale": "BASELINE IN AUDIT",
+  "pendenti_nello_scope": [],
+  "limiti": [
+    "Una deprecazione PHPUnit preesistente e PHP VM8.3.33 diverso dal produttivo8.3.35",
+    "Nessun nuovo recapito email reale verificato; invii e MIME provati soltanto con trasporti sintetici isolati, HTML effettivo verificato online senza invio",
+    "Audit generale e questioni DNS/DKIM storiche distinti",
+    "Commit documentale conclusivo successivo e distinto dal candidato applicativo online"
+  ]
+}

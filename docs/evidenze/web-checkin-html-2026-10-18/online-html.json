@@ -1,0 +1,61 @@
+{
+  "inizio": "2026-10-18T18:15:33.099Z",
+  "prove": [
+    {
+      "larghezza": 1440,
+      "tipo": "OSPITE SINGOLO",
+      "email_HTML": true,
+      "SMTP_accettato": false,
+      "ricezione_MIME_verificata": false,
+      "parziale_ripresa": true,
+      "singolo_senza_componenti_vuoti": true,
+      "componenti_aggiunti_rimossi": false,
+      "conclusione_reception": true,
+      "bozza_e_definitivo_stesso_ID": true,
+      "vecchia_scheda409": true,
+      "cronologia_rimossa_dati_conservati": true,
+      "eliminazione_modelli_annullata_e_confermata": true,
+      "mancata_ricreazione_e_ripristino_esplicito": true,
+      "note_private": true,
+      "errori_JS": []
+    },
+    {
+      "larghezza": 768,
+      "tipo": "CAPO FAMIGLIA",
+      "email_HTML": true,
+      "SMTP_accettato": true,
+      "ricezione_MIME_verificata": true,
+      "parziale_ripresa": true,
+      "singolo_senza_componenti_vuoti": false,
+      "componenti_aggiunti_rimossi": true,
+      "conclusione_reception": true,
+      "bozza_e_definitivo_stesso_ID": true,
+      "vecchia_scheda409": true,
+      "cronologia_rimossa_dati_conservati": true,
+      "eliminazione_modelli_annullata_e_confermata": true,
+      "mancata_ricreazione_e_ripristino_esplicito": true,
+      "note_private": true,
+      "errori_JS": []
+    },
+    {
+      "larghezza": 390,
+      "tipo": "CAPO GRUPPO",
+      "email_HTML": true,
+      "SMTP_accettato": false,
+      "ricezione_MIME_verificata": false,
+      "parziale_ripresa": true,
+      "singolo_senza_componenti_vuoti": false,
+      "componenti_aggiunti_rimossi": true,
+      "conclusione_reception": true,
+      "bozza_e_definitivo_stesso_ID": true,
+      "vecchia_scheda409": true,
+      "cronologia_rimossa_dati_conservati": true,
+      "eliminazione_modelli_annullata_e_confermata": true,
+      "mancata_ricreazione_e_ripristino_esplicito": true,
+      "note_private": true,
+      "errori_JS": []
+    }
+  ],
+  "esito": "PASS_WEB_CHECKIN_HTML_ONLINE",
+  "fine": "2026-10-18T18:16:26.778Z"
+}

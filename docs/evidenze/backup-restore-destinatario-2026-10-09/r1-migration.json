@@ -1,0 +1,43 @@
+{
+  "fase": "R1_sette_migration",
+  "esito": "PASS_DDL",
+  "migration": [
+    {
+      "nome": "2026_10_06_100000_encrypt_questura_credentials",
+      "exit": 0,
+      "secondi": 0.319
+    },
+    {
+      "nome": "2026_10_06_110000_add_questura_archive_integrity",
+      "exit": 0,
+      "secondi": 0.352
+    },
+    {
+      "nome": "2026_10_06_120000_add_questura_retention",
+      "exit": 0,
+      "secondi": 0.378
+    },
+    {
+      "nome": "2026_10_06_130000_add_questura_send_reservations",
+      "exit": 0,
+      "secondi": 0.295
+    },
+    {
+      "nome": "2026_10_07_180000_create_tassa_exports_and_receipt_image",
+      "exit": 0,
+      "secondi": 0.281
+    },
+    {
+      "nome": "2026_10_07_180000_protect_istat_cycle",
+      "exit": 0,
+      "secondi": 0.403
+    },
+    {
+      "nome": "2026_10_09_230000_add_web_checkin_link_lifecycle",
+      "exit": 0,
+      "secondi": 0.299
+    }
+  ],
+  "registrazioni_nuove": 7,
+  "istanza_privata_fermata": true
+}

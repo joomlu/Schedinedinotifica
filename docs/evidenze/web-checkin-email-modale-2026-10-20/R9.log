@@ -1,0 +1,26 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20  1:03:09 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-glzrfhqr; database=test_geo_8e23ebac4b7fff82655d00241362c6eb; MySQL pid=57, porta=49899; HTTP pid=80, porta=54423
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /tmp/schedine-test-glzrfhqr/checkout/phpunit.xml
+
+................................................................. 65 / 67 ( 97%)
+..                                                                67 / 67 (100%)
+
+Time: 00:15.807, Memory: 72.50 MB
+
+OK (67 tests, 651 assertions)
+
+Running 3 tests using 1 worker
+
+  ✓  1 tests/Feature/web-email-modal.playwright.spec.js:4:35 › Email realmente visibile e invio intercettato 1440px (18.7s)
+  ✓  2 tests/Feature/web-email-modal.playwright.spec.js:4:35 › Email realmente visibile e invio intercettato 768px (20.6s)
+  ✓  3 tests/Feature/web-email-modal.playwright.spec.js:4:35 › Email realmente visibile e invio intercettato 390px (21.9s)
+
+  3 passed (1.0m)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-glzrfhqr

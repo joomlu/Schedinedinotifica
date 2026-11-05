@@ -1,0 +1,829 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-25 23:55:15 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-vml50r5q; database=test_geo_3d3daeee6d18d51c8b7d634b21c6d7af; MySQL pid=57, porta=50711; HTTP pid=82, porta=58697
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.36
+Configuration: /tmp/schedine-test-vml50r5q/checkout/phpunit.xml
+
+...............................................................  63 / 113 ( 55%)
+..................................................              113 / 113 (100%)
+
+Time: 00:18.230, Memory: 86.50 MB
+
+OK (113 tests, 1255 assertions)
+XML_FIXTURE_BASE64=PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPG1vdmltZW50aT4KICA8Y29kaWNlPlRFU1QtRklYVFVSRTwvY29kaWNlPgogIDxwcm9kb3R0bz5TY2hlZGluZWRpbm90aWZpY2E8L3Byb2RvdHRvPgogIDxtb3ZpbWVudG8+CiAgICA8ZGF0YT4yMDI2MDQwMTwvZGF0YT4KICAgIDxzdHJ1dHR1cmE+CiAgICAgIDxhcGVydHVyYT5TSTwvYXBlcnR1cmE+CiAgICAgIDxjYW1lcmVvY2N1cGF0ZT4xPC9jYW1lcmVvY2N1cGF0ZT4KICAgICAgPGNhbWVyZWRpc3BvbmliaWxpPjEwPC9jYW1lcmVkaXNwb25pYmlsaT4KICAgICAgPGxldHRpZGlzcG9uaWJpbGk+MjA8L2xldHRpZGlzcG9uaWJpbGk+CiAgICA8L3N0cnV0dHVyYT4KICAgIDxhcnJpdmk+CiAgICAgIDxhcnJpdm8+CiAgICAgICAgPGlkc3doPlM5MDAwMDAxPC9pZHN3aD4KICAgICAgICA8dGlwb2FsbG9nZ2lhdG8+MTc8L3RpcG9hbGxvZ2dpYXRvPgogICAgICAgIDxpZGNhcG8+PC9pZGNhcG8+CiAgICAgICAgPGNvZ25vbWU+RCfDgG5nZWxvICZsdDtUZXN0Jmd0OzwvY29nbm9tZT4KICAgICAgICA8bm9tZT7DiGxpYSAmYW1wOyBGaXh0dXJlPC9ub21lPgogICAgICAgIDxzZXNzbz5NPC9zZXNzbz4KICAgICAgICA8Y2l0dGFkaW5hbnphPjEwMDAwMDEwMDwvY2l0dGFkaW5hbnphPgogICAgICAgIDxzdGF0b3Jlc2lkZW56YT4xMDAwMDAxMDA8L3N0YXRvcmVzaWRlbnphPgogICAgICAgIDxsdW9nb3Jlc2lkZW56YT40MTIwNTgwOTE8L2x1b2dvcmVzaWRlbnphPgogICAgICAgIDxkYXRhbmFzY2l0YT4yMDAwMDEwMTwvZGF0YW5hc2NpdGE+CiAgICAgICAgPHN0YXRvbmFzY2l0YT4xMDAwMDAxMDA8L3N0YXRvbmFzY2l0YT4KICAgICAgICA8Y29tdW5lbmFzY2l0YT40MTIwNTgwOTE8L2NvbXVuZW5hc2NpdGE+CiAgICAgICAgPHRpcG90dXJpc21vPkJhbG5lYXJlPC90aXBvdHVyaXNtbz4KICAgICAgICA8bWV6em90cmFzcG9ydG8+QXV0bzwvbWV6em90cmFzcG9ydG8+CiAgICAgICAgPGNhbmFsZXByZW5vdGF6aW9uZT5EaXJldHRhIHdlYjwvY2FuYWxlcHJlbm90YXppb25lPgogICAgICAgIDx0aXRvbG9zdHVkaW8+PC90aXRvbG9zdHVkaW8+CiAgICAgICAgPHByb2Zlc3Npb25lPjwvcHJvZmVzc2lvbmU+CiAgICAgIDwvYXJyaXZvPgogICAgICA8YXJyaXZvPgogICAgICAgIDxpZHN3aD5DOTAwMDAwMTwvaWRzd2g+CiAgICAgICAgPHRpcG9hbGxvZ2dpYXRvPjE5PC90aXBvYWxsb2dnaWF0bz4KICAgICAgICA8aWRjYXBvPlM5MDAwMDAxPC9pZGNhcG8+CiAgICAgICAgPGNvZ25vbWU+U2ludGV0aWNvPC9jb2dub21lPgogICAgICAgIDxub21lPk1pbm9yZSBGaXh0dXJlPC9ub21lPgogICAgICAgIDxzZXNzbz5GPC9zZXNzbz4KICAgICAgICA8Y2l0dGFkaW5hbnphPjEwMDAwMDEwMDwvY2l0dGFkaW5hbnphPgogICAgICAgIDxzdGF0b3Jlc2lkZW56YT4xMDAwMDAyMTY8L3N0YXRvcmVzaWRlbnphPgogICAgICAgIDxsdW9nb3Jlc2lkZW56YT5CZXJsaW5vPC9sdW9nb3Jlc2lkZW56YT4KICAgICAgICA8ZGF0YW5hc2NpdGE+MjAyMDAyMjk8L2RhdGFuYXNjaXRhPgogICAgICAgIDxzdGF0b25hc2NpdGE+MTAwMDAwMjE2PC9zdGF0b25hc2NpdGE+CiAgICAgICAgPGNvbXVuZW5hc2NpdGE+PC9jb211bmVuYXNjaXRhPgogICAgICAgIDx0aXBvdHVyaXNtbz5CYWxuZWFyZTwvdGlwb3R1cmlzbW8+CiAgICAgICAgPG1lenpvdHJhc3BvcnRvPkF1dG88L21lenpvdHJhc3BvcnRvPgogICAgICAgIDxjYW5hbGVwcmVub3RhemlvbmU+RGlyZXR0YSB3ZWI8L2NhbmFsZXByZW5vdGF6aW9uZT4KICAgICAgICA8dGl0b2xvc3R1ZGlvPjwvdGl0b2xvc3R1ZGlvPgogICAgICAgIDxwcm9mZXNzaW9uZT48L3Byb2Zlc3Npb25lPgogICAgICA8L2Fycml2bz4KICAgIDwvYXJyaXZpPgogIDwvbW92aW1lbnRvPgogIDxtb3ZpbWVudG8+CiAgICA8ZGF0YT4yMDI2MDQwMjwvZGF0YT4KICAgIDxzdHJ1dHR1cmE+CiAgICAgIDxhcGVydHVyYT5TSTwvYXBlcnR1cmE+CiAgICAgIDxjYW1lcmVvY2N1cGF0ZT4wPC9jYW1lcmVvY2N1cGF0ZT4KICAgICAgPGNhbWVyZWRpc3BvbmliaWxpPjEwPC9jYW1lcmVkaXNwb25pYmlsaT4KICAgICAgPGxldHRpZGlzcG9uaWJpbGk+MjA8L2xldHRpZGlzcG9uaWJpbGk+CiAgICA8L3N0cnV0dHVyYT4KICAgIDxwYXJ0ZW56ZT4KICAgICAgPHBhcnRlbnphPgogICAgICAgIDxpZHN3aD5TOTAwMDAwMTwvaWRzd2g+CiAgICAgICAgPHRpcG9hbGxvZ2dpYXRvPjE3PC90aXBvYWxsb2dnaWF0bz4KICAgICAgICA8YXJyaXZvPjIwMjYwNDAxPC9hcnJpdm8+CiAgICAgIDwvcGFydGVuemE+CiAgICAgIDxwYXJ0ZW56YT4KICAgICAgICA8aWRzd2g+QzkwMDAwMDE8L2lkc3doPgogICAgICAgIDx0aXBvYWxsb2dnaWF0bz4xOTwvdGlwb2FsbG9nZ2lhdG8+CiAgICAgICAgPGFycml2bz4yMDI2MDQwMTwvYXJyaXZvPgogICAgICA8L3BhcnRlbnphPgogICAgPC9wYXJ0ZW56ZT4KICA8L21vdmltZW50bz4KPC9tb3ZpbWVudGk+Cg==
+PASS: fixture nota, arrivi=2, partenze=2, presenze=2; XSD e confronto XML sintetico.
+PASS: due processi/connessioni MySQL simultanei, una sola prenotazione ISTAT; zero trasporti.
+PASS: superadmin CRM sintetico nel solo runtime effimero.
+
+Running 20 tests using 1 worker
+
+  ✓   1 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT desktop: configurazione protetta, trasporto OFF e storico (3.6s)
+  ✓   2 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT tablet: configurazione protetta, trasporto OFF e storico (2.2s)
+  ✓   3 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT mobile: configurazione protetta, trasporto OFF e storico (2.1s)
+  ✓   4 tests/Feature/public-contact-confirmation.playwright.spec.js:4:3 › conferma contatto: HTTP200 con JSON senza ricevuta non simula un salvataggio (2.4s)
+  ✓   5 tests/Feature/public-contact-confirmation.playwright.spec.js:4:3 › conferma contatto: HTTP200 con JSON negativo non simula un salvataggio (677ms)
+  ✓   6 tests/Feature/public-contact-confirmation.playwright.spec.js:4:3 › conferma contatto: HTTP200 con risposta non JSON non simula un salvataggio (2.5s)
+  ✘   7 tests/Feature/public-site-completion.playwright.spec.js:20:3 › sito completo: percorso reale, storia browser, versioni e CRM a 1440 (30.1s)
+  ✘   8 tests/Feature/public-site-completion.playwright.spec.js:20:3 › sito completo: percorso reale, storia browser, versioni e CRM a 768 (30.1s)
+  ✘   9 tests/Feature/public-site-completion.playwright.spec.js:20:3 › sito completo: percorso reale, storia browser, versioni e CRM a 390 (30.1s)
+  ✓  10 tests/Feature/public-site-completion.playwright.spec.js:84:1 › form: errore nativo conserva dati, piano, servizio, interesse e motivo anche con hash demo (3.1s)
+  ✓  11 tests/Feature/public-site-completion.playwright.spec.js:120:1 › form: due richieste consecutive conservano il token CSRF senza ricarica (3.8s)
+  ✘  12 tests/Feature/public-site-images.playwright.spec.js:3:3 › ampliamenti: immagini decodificate e viste a 1440 (5.7s)
+  ✘  13 tests/Feature/public-site-images.playwright.spec.js:3:3 › ampliamenti: immagini decodificate e viste a 768 (5.8s)
+  ✘  14 tests/Feature/public-site-images.playwright.spec.js:3:3 › ampliamenti: immagini decodificate e viste a 390 (5.8s)
+  ✘  15 tests/Feature/public-site-renewal.playwright.spec.js:12:3 › sito pubblico: nove pagine, navigazione e accessi a 1440 (7.5s)
+Misure modulo recapiti-aperti [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+Misure modulo errore422 [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+Misure modulo reset-conferma-chiusa [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+  ✓  16 tests/Feature/public-site-renewal.playwright.spec.js:212:3 › contatti: obbligatori, errori, invio sintetico e modale a 1440 (4.5s)
+Misure layout / [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /moduli [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /ampliamenti [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /demo [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /prezzi [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /contatti [33m768[39m {"viewport":768,"scroll":768,"elementi":[{"tag":"INPUT","classe":"form-honeypot","x":-10000,"destra":-9992,"larghezza":8}]}
+Misure layout /note-legali [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /privacy [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /cookie [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+  ✓  17 tests/Feature/public-site-renewal.playwright.spec.js:12:3 › sito pubblico: nove pagine, navigazione e accessi a 768 (22.0s)
+Misure modulo recapiti-aperti [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure modulo errore422 [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure modulo reset-conferma-chiusa [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+  ✓  18 tests/Feature/public-site-renewal.playwright.spec.js:212:3 › contatti: obbligatori, errori, invio sintetico e modale a 768 (4.6s)
+Misure layout / [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /moduli [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /ampliamenti [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /demo [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /prezzi [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /contatti [33m390[39m {"viewport":390,"scroll":390,"elementi":[{"tag":"INPUT","classe":"form-honeypot","x":-10000,"destra":-9992,"larghezza":8}]}
+Misure layout /note-legali [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /privacy [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /cookie [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+  ✓  19 tests/Feature/public-site-renewal.playwright.spec.js:12:3 › sito pubblico: nove pagine, navigazione e accessi a 390 (19.4s)
+Misure modulo recapiti-aperti [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure modulo errore422 [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure modulo reset-conferma-chiusa [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+  ✓  20 tests/Feature/public-site-renewal.playwright.spec.js:212:3 › contatti: obbligatori, errori, invio sintetico e modale a 390 (5.9s)
+
+
+  1) tests/Feature/public-site-completion.playwright.spec.js:20:3 › sito completo: percorso reale, storia browser, versioni e CRM a 1440 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Target page, context or browser has been closed
+    Call log:
+    [2m  - waiting for locator('.site-nav a[href="/prezzi#max-full"]')[22m
+
+
+       8 |     await button.click(); await expect(button).toHaveAccessibleName('Chiudi menu');
+       9 |   }
+    > 10 |   await page.locator(`.site-nav a[href="${path}"]`).click();
+         |                                                     ^
+      11 |   await expect(page).toHaveURL(`${BASE_URL}${path}`);
+      12 |   await page.waitForLoadState('load');
+      13 | }
+        at menu (/tmp/schedine-test-vml50r5q/checkout/tests/Feature/public-site-completion.playwright.spec.js:10:53)
+        at /tmp/schedine-test-vml50r5q/checkout/tests/Feature/public-site-completion.playwright.spec.js:47:41
+
+    Error Context: test-results/public-site-completion.pla-38772-owser-versioni-e-CRM-a-1440/error-context.md
+
+  2) tests/Feature/public-site-completion.playwright.spec.js:20:3 › sito completo: percorso reale, storia browser, versioni e CRM a 768 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Target page, context or browser has been closed
+    Call log:
+    [2m  - waiting for locator('.site-nav a[href="/prezzi#max-full"]')[22m
+
+
+       8 |     await button.click(); await expect(button).toHaveAccessibleName('Chiudi menu');
+       9 |   }
+    > 10 |   await page.locator(`.site-nav a[href="${path}"]`).click();
+         |                                                     ^
+      11 |   await expect(page).toHaveURL(`${BASE_URL}${path}`);
+      12 |   await page.waitForLoadState('load');
+      13 | }
+        at menu (/tmp/schedine-test-vml50r5q/checkout/tests/Feature/public-site-completion.playwright.spec.js:10:53)
+        at /tmp/schedine-test-vml50r5q/checkout/tests/Feature/public-site-completion.playwright.spec.js:47:41
+
+    Error Context: test-results/public-site-completion.pla-cdbee-rowser-versioni-e-CRM-a-768/error-context.md
+
+  3) tests/Feature/public-site-completion.playwright.spec.js:20:3 › sito completo: percorso reale, storia browser, versioni e CRM a 390 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Target page, context or browser has been closed
+    Call log:
+    [2m  - waiting for locator('.site-nav a[href="/prezzi#max-full"]')[22m
+
+
+       8 |     await button.click(); await expect(button).toHaveAccessibleName('Chiudi menu');
+       9 |   }
+    > 10 |   await page.locator(`.site-nav a[href="${path}"]`).click();
+         |                                                     ^
+      11 |   await expect(page).toHaveURL(`${BASE_URL}${path}`);
+      12 |   await page.waitForLoadState('load');
+      13 | }
+        at menu (/tmp/schedine-test-vml50r5q/checkout/tests/Feature/public-site-completion.playwright.spec.js:10:53)
+        at /tmp/schedine-test-vml50r5q/checkout/tests/Feature/public-site-completion.playwright.spec.js:47:41
+
+    Error Context: test-results/public-site-completion.pla-eb89b-rowser-versioni-e-CRM-a-390/error-context.md
+
+  4) tests/Feature/public-site-images.playwright.spec.js:3:3 › ampliamenti: immagini decodificate e viste a 1440 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('main figure')
+    Expected: [32m4[39m
+    Received: [31m5[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - Expect "toHaveCount" with timeout 5000ms[22m
+    [2m  - waiting for locator('main figure')[22m
+    [2m    9 × locator resolved to 5 elements[22m
+    [2m      - unexpected value "5"[22m
+
+
+       5 |     const response = await page.goto(`${BASE_URL}/ampliamenti`, { waitUntil: 'load' });
+       6 |     expect(response.status()).toBe(200);
+    >  7 |     const figures = page.locator('main figure'); await expect(figures).toHaveCount(4);
+         |                                                                        ^
+       8 |     await figures.locator('img').evaluateAll(images => images.forEach(img => { img.loading = 'eager'; }));
+       9 |     await expect.poll(() => figures.locator('img').evaluateAll(images => images.every(img => img.complete && img.naturalWidth > 0))).toBe(true);
+      10 |     for (let i = 0; i < 4; i++) {
+        at /tmp/schedine-test-vml50r5q/checkout/tests/Feature/public-site-images.playwright.spec.js:7:72
+
+    Error Context: test-results/public-site-images.playwri-a34f7-decodificate-e-viste-a-1440/error-context.md
+
+  5) tests/Feature/public-site-images.playwright.spec.js:3:3 › ampliamenti: immagini decodificate e viste a 768 
+
+    Erro
+public-site-completion.pla-38772-owser-versioni-e-CRM-a-1440:
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Vai al contenuto" [ref=e2] [cursor=pointer]:
+    - /url: "#contenuto"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Tanggo Software — pagina iniziale" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]:
+          - strong [ref=e7]: Tanggo Software
+          - generic [ref=e8]: Schedine di Notifica
+      - navigation "Navigazione principale" [ref=e9]:
+        - link "Home" [ref=e10] [cursor=pointer]:
+          - /url: /
+        - link "Funzionalità" [ref=e11] [cursor=pointer]:
+          - /url: /moduli
+        - link "Moduli e ampliamenti" [ref=e12] [cursor=pointer]:
+          - /url: /ampliamenti
+        - link "Prezzi" [ref=e13] [cursor=pointer]:
+          - /url: /prezzi
+        - link "Adatto per" [ref=e14] [cursor=pointer]:
+          - /url: /#adatto-per
+        - link "FAQ" [ref=e15] [cursor=pointer]:
+          - /url: /#faq
+        - link "Demo" [ref=e16] [cursor=pointer]:
+          - /url: /demo
+        - link "Accedi" [ref=e17] [cursor=pointer]:
+          - /url: /login
+        - link "Richiedi una demo" [ref=e18] [cursor=pointer]:
+          - /url: /contatti#demo
+          - text: Richiedi una demo ↗
+  - main [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - paragraph [ref=e22]: Piani e servizi
+        - heading "Il piano giusto. Il supporto che ti serve." [level=1] [ref=e23]:
+          - text: Il piano giusto.
+          - emphasis [ref=e24]: Il supporto che ti serve.
+        - paragraph [ref=e25]: Scegli in base al tuo contesto, poi concorda configurazione e servizi aggiuntivi. Prezzi chiari, criteri distinti per appartamenti e strutture ricettive.
+        - generic [ref=e26]:
+          - link "Confronta i piani ↓" [ref=e27] [cursor=pointer]:
+            - /url: "#piani"
+          - link "Scopri Max Full →" [ref=e28] [cursor=pointer]:
+            - /url: "#max-full"
+      - figure "Scegli il piano. Costruiamo insieme il tuo percorso." [ref=e29]:
+        - img "Reception luminosa di una struttura ricettiva" [ref=e30]
+        - generic [ref=e31]: Scegli il piano. Costruiamo insieme il tuo percorso.
+    - generic [ref=e32]:
+      - generic [ref=e33]:
+        - paragraph [ref=e34]: Un piano per il tuo contesto
+        - heading "Appartamenti o strutture. La scelta è chiara." [level=2] [ref=e35]:
+          - text: Appartamenti o strutture.
+          - text: La scelta è chiara.
+        - paragraph [ref=e36]: Abbonamento annuale. Tutti i prezzi sono IVA esclusa.
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - generic [ref=e39]: "01"
+          - heading "Appartamenti" [level=3] [ref=e40]
+          - paragraph [ref=e41]: Scegli il piano in base agli appartamenti da gestire.
+        - generic [ref=e42]:
+          - article [ref=e43]:
+            - paragraph [ref=e44]: Solo
+            - heading "1 appartamento" [level=3] [ref=e45]
+            - paragraph [ref=e46]: 50 € + IVA / anno
+            - link "Richiedi informazioni" [ref=e47] [cursor=pointer]:
+              - /url: /contatti?piano=solo#demo
+              - text: Richiedi informazioni
+              - generic [ref=e48]: ↗
+          - article [ref=e49]:
+            - paragraph [ref=e50]: Duo
+            - heading "2 appartamenti" [level=3] [ref=e51]
+            - paragraph [ref=e52]: 100 € + IVA / anno
+            - link "Richiedi informazioni" [ref=e53] [cursor=pointer]:
+              - /url: /contatti?piano=duo#demo
+              - text: Richiedi informazioni
+              - generic [ref=e54]: ↗
+          - article [ref=e55]:
+            - paragraph [ref=e56]: Multi
+            - heading "Da 3 a 7 appartamenti" [level=3] [ref=e57]
+            - paragraph [ref=e58]: 200 € + IVA / anno
+            - link "Richiedi informazioni" [ref=e59] [cursor=pointer]:
+              - /url: /contatti?piano=multi#demo
+              - text: Richiedi informazioni
+              - generic [ref=e60]: ↗
+        - generic [ref=e61]:
+          - generic [
+public-site-completion.pla-cdbee-rowser-versioni-e-CRM-a-768:
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - link "Vai al contenuto" [ref=e2] [cursor=pointer]:
+    - /url: "#contenuto"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Tanggo Software — pagina iniziale" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]:
+          - strong [ref=e7]: Tanggo Software
+          - generic [ref=e8]: Schedine di Notifica
+      - button "Chiudi menu" [expanded] [active] [ref=e9] [cursor=pointer]
+      - navigation "Navigazione principale" [ref=e12]:
+        - link "Home" [ref=e13] [cursor=pointer]:
+          - /url: /
+        - link "Funzionalità" [ref=e14] [cursor=pointer]:
+          - /url: /moduli
+        - link "Moduli e ampliamenti" [ref=e15] [cursor=pointer]:
+          - /url: /ampliamenti
+        - link "Prezzi" [ref=e16] [cursor=pointer]:
+          - /url: /prezzi
+        - link "Adatto per" [ref=e17] [cursor=pointer]:
+          - /url: /#adatto-per
+        - link "FAQ" [ref=e18] [cursor=pointer]:
+          - /url: /#faq
+        - link "Demo" [ref=e19] [cursor=pointer]:
+          - /url: /demo
+        - link "Accedi" [ref=e20] [cursor=pointer]:
+          - /url: /login
+        - link "Richiedi una demo" [ref=e21] [cursor=pointer]:
+          - /url: /contatti#demo
+          - text: Richiedi una demo ↗
+  - main [ref=e22]:
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - paragraph [ref=e25]: Piani e servizi
+        - heading "Il piano giusto. Il supporto che ti serve." [level=1] [ref=e26]:
+          - text: Il piano giusto.
+          - emphasis [ref=e27]: Il supporto che ti serve.
+        - paragraph [ref=e28]: Scegli in base al tuo contesto, poi concorda configurazione e servizi aggiuntivi. Prezzi chiari, criteri distinti per appartamenti e strutture ricettive.
+        - generic [ref=e29]:
+          - link "Confronta i piani ↓" [ref=e30] [cursor=pointer]:
+            - /url: "#piani"
+          - link "Scopri Max Full →" [ref=e31] [cursor=pointer]:
+            - /url: "#max-full"
+      - figure "Scegli il piano. Costruiamo insieme il tuo percorso." [ref=e32]:
+        - img "Reception luminosa di una struttura ricettiva" [ref=e33]
+        - generic [ref=e34]: Scegli il piano. Costruiamo insieme il tuo percorso.
+    - generic [ref=e35]:
+      - generic [ref=e36]:
+        - paragraph [ref=e37]: Un piano per il tuo contesto
+        - heading "Appartamenti o strutture. La scelta è chiara." [level=2] [ref=e38]:
+          - text: Appartamenti o strutture.
+          - text: La scelta è chiara.
+        - paragraph [ref=e39]: Abbonamento annuale. Tutti i prezzi sono IVA esclusa.
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - generic [ref=e42]: "01"
+          - heading "Appartamenti" [level=3] [ref=e43]
+          - paragraph [ref=e44]: Scegli il piano in base agli appartamenti da gestire.
+        - generic [ref=e45]:
+          - article [ref=e46]:
+            - paragraph [ref=e47]: Solo
+            - heading "1 appartamento" [level=3] [ref=e48]
+            - paragraph [ref=e49]: 50 € + IVA / anno
+            - link "Richiedi informazioni" [ref=e50] [cursor=pointer]:
+              - /url: /contatti?piano=solo#demo
+              - text: Richiedi informazioni
+              - generic [ref=e51]: ↗
+          - article [ref=e52]:
+            - paragraph [ref=e53]: Duo
+            - heading "2 appartamenti" [level=3] [ref=e54]
+            - paragraph [ref=e55]: 100 € + IVA / anno
+            - link "Richiedi informazioni" [ref=e56] [cursor=pointer]:
+              - /url: /contatti?piano=duo#demo
+              - text: Richiedi informazioni
+              - generic [ref=e57]: ↗
+          - article [ref=e58]:
+            - paragraph [ref=e59]: Multi
+            - heading "Da 3 a 7 appartamenti" [level=3] [ref=e60]
+            - paragraph [ref=e61]: 200 € + IVA / anno
+            - link "Richiedi informazioni" [ref=e62] [cursor=pointer]:
+              - /url: /contatti?piano=multi#demo
+              - text: Richiedi informazioni
+              - gene
+public-site-completion.pla-eb89b-rowser-versioni-e-CRM-a-390:
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - link "Vai al contenuto" [ref=e2] [cursor=pointer]:
+    - /url: "#contenuto"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Tanggo Software — pagina iniziale" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]:
+          - strong [ref=e7]: Tanggo Software
+          - generic [ref=e8]: Schedine di Notifica
+      - button "Chiudi menu" [expanded] [active] [ref=e9] [cursor=pointer]
+      - navigation "Navigazione principale" [ref=e12]:
+        - link "Home" [ref=e13] [cursor=pointer]:
+          - /url: /
+        - link "Funzionalità" [ref=e14] [cursor=pointer]:
+          - /url: /moduli
+        - link "Moduli e ampliamenti" [ref=e15] [cursor=pointer]:
+          - /url: /ampliamenti
+        - link "Prezzi" [ref=e16] [cursor=pointer]:
+          - /url: /prezzi
+        - link "Adatto per" [ref=e17] [cursor=pointer]:
+          - /url: /#adatto-per
+        - link "FAQ" [ref=e18] [cursor=pointer]:
+          - /url: /#faq
+        - link "Demo" [ref=e19] [cursor=pointer]:
+          - /url: /demo
+        - link "Accedi" [ref=e20] [cursor=pointer]:
+          - /url: /login
+        - link "Richiedi una demo" [ref=e21] [cursor=pointer]:
+          - /url: /contatti#demo
+          - text: Richiedi una demo ↗
+  - main [ref=e22]:
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - paragraph [ref=e25]: Piani e servizi
+        - heading "Il piano giusto. Il supporto che ti serve." [level=1] [ref=e26]:
+          - text: Il piano giusto.
+          - emphasis [ref=e27]: Il supporto che ti serve.
+        - paragraph [ref=e28]: Scegli in base al tuo contesto, poi concorda configurazione e servizi aggiuntivi. Prezzi chiari, criteri distinti per appartamenti e strutture ricettive.
+        - generic [ref=e29]:
+          - link "Confronta i piani ↓" [ref=e30] [cursor=pointer]:
+            - /url: "#piani"
+          - link "Scopri Max Full →" [ref=e31] [cursor=pointer]:
+            - /url: "#max-full"
+      - figure "Scegli il piano. Costruiamo insieme il tuo percorso." [ref=e32]:
+        - img "Reception luminosa di una struttura ricettiva" [ref=e33]
+        - generic [ref=e34]: Scegli il piano. Costruiamo insieme il tuo percorso.
+    - generic [ref=e35]:
+      - generic [ref=e36]:
+        - paragraph [ref=e37]: Un piano per il tuo contesto
+        - heading "Appartamenti o strutture. La scelta è chiara." [level=2] [ref=e38]:
+          - text: Appartamenti o strutture.
+          - text: La scelta è chiara.
+        - paragraph [ref=e39]: Abbonamento annuale. Tutti i prezzi sono IVA esclusa.
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - generic [ref=e42]: "01"
+          - heading "Appartamenti" [level=3] [ref=e43]
+          - paragraph [ref=e44]: Scegli il piano in base agli appartamenti da gestire.
+        - generic [ref=e45]:
+          - article [ref=e46]:
+            - paragraph [ref=e47]: Solo
+            - heading "1 appartamento" [level=3] [ref=e48]
+            - paragraph [ref=e49]: 50 € + IVA / anno
+            - link "Richiedi informazioni" [ref=e50] [cursor=pointer]:
+              - /url: /contatti?piano=solo#demo
+              - text: Richiedi informazioni
+              - generic [ref=e51]: ↗
+          - article [ref=e52]:
+            - paragraph [ref=e53]: Duo
+            - heading "2 appartamenti" [level=3] [ref=e54]
+            - paragraph [ref=e55]: 100 € + IVA / anno
+            - link "Richiedi informazioni" [ref=e56] [cursor=pointer]:
+              - /url: /contatti?piano=duo#demo
+              - text: Richiedi informazioni
+              - generic [ref=e57]: ↗
+          - article [ref=e58]:
+            - paragraph [ref=e59]: Multi
+            - heading "Da 3 a 7 appartamenti" [level=3] [ref=e60]
+            - paragraph [ref=e61]: 200 € + IVA / anno
+            - link "Richiedi informazioni" [ref=e62] [cursor=pointer]:
+              - /url: /contatti?piano=multi#demo
+              - text: Richiedi informazioni
+              - gene
+public-site-images.playwri-a34f7-decodificate-e-viste-a-1440:
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Vai al contenuto" [ref=e2] [cursor=pointer]:
+    - /url: "#contenuto"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Tanggo Software — pagina iniziale" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]:
+          - strong [ref=e7]: Tanggo Software
+          - generic [ref=e8]: Schedine di Notifica
+      - navigation "Navigazione principale" [ref=e9]:
+        - link "Home" [ref=e10] [cursor=pointer]:
+          - /url: /
+        - link "Funzionalità" [ref=e11] [cursor=pointer]:
+          - /url: /moduli
+        - link "Moduli e ampliamenti" [ref=e12] [cursor=pointer]:
+          - /url: /ampliamenti
+        - link "Prezzi" [ref=e13] [cursor=pointer]:
+          - /url: /prezzi
+        - link "Adatto per" [ref=e14] [cursor=pointer]:
+          - /url: /#adatto-per
+        - link "FAQ" [ref=e15] [cursor=pointer]:
+          - /url: /#faq
+        - link "Demo" [ref=e16] [cursor=pointer]:
+          - /url: /demo
+        - link "Accedi" [ref=e17] [cursor=pointer]:
+          - /url: /login
+        - link "Richiedi una demo" [ref=e18] [cursor=pointer]:
+          - /url: /contatti#demo
+          - text: Richiedi una demo ↗
+  - main [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - paragraph [ref=e22]: Moduli e ampliamenti
+        - heading "Il percorso giusto. Per la tua struttura." [level=1] [ref=e23]:
+          - text: Il percorso giusto.
+          - emphasis [ref=e24]: Per la tua struttura.
+        - paragraph [ref=e25]: Parti dal lavoro che vuoi semplificare. Scopri cosa offre ogni modulo, quali dati servono e quali servizi vanno configurati insieme.
+        - generic [ref=e26]:
+          - link "Richiedi una demo" [ref=e27] [cursor=pointer]:
+            - /url: /contatti#demo
+          - link "Esplora tutte le funzionalità →" [ref=e28] [cursor=pointer]:
+            - /url: /moduli
+        - navigation "Percorsi e ampliamenti" [ref=e29]:
+          - link "Web Check-in" [ref=e30] [cursor=pointer]:
+            - /url: "#web-checkin"
+          - link "Alloggiati Web" [ref=e31] [cursor=pointer]:
+            - /url: "#alloggiati-web"
+          - link "Statistiche, Tabella A e ISTAT/Ross1000" [ref=e32] [cursor=pointer]:
+            - /url: "#istat-ross1000"
+          - link "Tassa di soggiorno" [ref=e33] [cursor=pointer]:
+            - /url: "#tassa-soggiorno"
+          - link "Strutture, proprietari e accessi" [ref=e34] [cursor=pointer]:
+            - /url: "#strutture"
+          - link "Importazioni, esportazioni e stampe" [ref=e35] [cursor=pointer]:
+            - /url: "#importazioni"
+          - link "Presenze e organizzazione" [ref=e36] [cursor=pointer]:
+            - /url: "#organizzazione"
+          - link "Max Full" [ref=e37] [cursor=pointer]:
+            - /url: "#max-full"
+      - figure "Gli strumenti per accompagnare la crescita della tua gestione." [ref=e38]:
+        - img "Riepilogo dimostrativo della tassa di soggiorno nel software" [ref=e39]
+        - generic [ref=e40]: Gli strumenti per accompagnare la crescita della tua gestione.
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - text: "01"
+        - generic [ref=e43]: Web Check-in
+      - generic [ref=e44]:
+        - paragraph [ref=e45]: Web Check-in
+        - heading "Prepara l’accoglienza prima dell’arrivo." [level=2] [ref=e46]
+        - paragraph [ref=e47]: Raccogli i dati degli ospiti attraverso un link dedicato e ritrova la pratica da verificare alla reception. Richiesta, referente e persone che soggiornano restano distinti.
+        - figure "Schermata del programma con dati dimostrativi" [ref=e48]:
+          - 'img "Schermata del programma: Web Check-in, con dati dimostrativi" [ref=e49]'
+          - generic [ref=e50]: Schermata del programma con dati dimostrativi
+        - generic [ref=e51]:
+          - heading "Un esempio nel tuo lavoro" [level=3] [ref=e52]
+          - paragraph [ref=e53]: Prepara la richiesta, scegli un modello di comun
+public-site-images.playwri-95048--decodificate-e-viste-a-768:
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Vai al contenuto" [ref=e2] [cursor=pointer]:
+    - /url: "#contenuto"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Tanggo Software — pagina iniziale" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]:
+          - strong [ref=e7]: Tanggo Software
+          - generic [ref=e8]: Schedine di Notifica
+      - button "Apri menu" [ref=e9] [cursor=pointer]
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - paragraph [ref=e15]: Moduli e ampliamenti
+        - heading "Il percorso giusto. Per la tua struttura." [level=1] [ref=e16]:
+          - text: Il percorso giusto.
+          - emphasis [ref=e17]: Per la tua struttura.
+        - paragraph [ref=e18]: Parti dal lavoro che vuoi semplificare. Scopri cosa offre ogni modulo, quali dati servono e quali servizi vanno configurati insieme.
+        - generic [ref=e19]:
+          - link "Richiedi una demo" [ref=e20] [cursor=pointer]:
+            - /url: /contatti#demo
+          - link "Esplora tutte le funzionalità →" [ref=e21] [cursor=pointer]:
+            - /url: /moduli
+        - navigation "Percorsi e ampliamenti" [ref=e22]:
+          - link "Web Check-in" [ref=e23] [cursor=pointer]:
+            - /url: "#web-checkin"
+          - link "Alloggiati Web" [ref=e24] [cursor=pointer]:
+            - /url: "#alloggiati-web"
+          - link "Statistiche, Tabella A e ISTAT/Ross1000" [ref=e25] [cursor=pointer]:
+            - /url: "#istat-ross1000"
+          - link "Tassa di soggiorno" [ref=e26] [cursor=pointer]:
+            - /url: "#tassa-soggiorno"
+          - link "Strutture, proprietari e accessi" [ref=e27] [cursor=pointer]:
+            - /url: "#strutture"
+          - link "Importazioni, esportazioni e stampe" [ref=e28] [cursor=pointer]:
+            - /url: "#importazioni"
+          - link "Presenze e organizzazione" [ref=e29] [cursor=pointer]:
+            - /url: "#organizzazione"
+          - link "Max Full" [ref=e30] [cursor=pointer]:
+            - /url: "#max-full"
+      - figure "Gli strumenti per accompagnare la crescita della tua gestione." [ref=e31]:
+        - img "Riepilogo dimostrativo della tassa di soggiorno nel software" [ref=e32]
+        - generic [ref=e33]: Gli strumenti per accompagnare la crescita della tua gestione.
+    - generic [ref=e34]:
+      - generic [ref=e35]:
+        - text: "01"
+        - generic [ref=e36]: Web Check-in
+      - generic [ref=e37]:
+        - paragraph [ref=e38]: Web Check-in
+        - heading "Prepara l’accoglienza prima dell’arrivo." [level=2] [ref=e39]
+        - paragraph [ref=e40]: Raccogli i dati degli ospiti attraverso un link dedicato e ritrova la pratica da verificare alla reception. Richiesta, referente e persone che soggiornano restano distinti.
+        - figure "Schermata del programma con dati dimostrativi" [ref=e41]:
+          - 'img "Schermata del programma: Web Check-in, con dati dimostrativi" [ref=e42]'
+          - generic [ref=e43]: Schermata del programma con dati dimostrativi
+        - generic [ref=e44]:
+          - heading "Un esempio nel tuo lavoro" [level=3] [ref=e45]
+          - paragraph [ref=e46]: Prepara la richiesta, scegli un modello di comunicazione e controlla i dati raccolti. La reception completa il passaggio alla schedina quando la pratica è pronta.
+          - heading "Disponibilità" [level=3] [ref=e47]
+          - paragraph [ref=e48]: Richieste, modelli personalizzabili, anteprime e storico delle comunicazioni sono implementati. Canali di comunicazione e invio richiedono la configurazione prevista per la struttura.
+          - heading "Prima di iniziare" [level=3] [ref=e49]
+          - paragraph [ref=e50]: Struttura configurata, date e referenti corretti, controllo dei documenti e conferma dell’operatore. Il link ospite non concede accesso al gestionale.
+        - generic [ref=e51]:
+          - link "Parliamo di Web Check-in" [ref=e52] [cursor=pointer]:
+            - /url: /contatti?interesse=we
+public-site-images.playwri-23b16--decodificate-e-viste-a-390:
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Vai al contenuto" [ref=e2] [cursor=pointer]:
+    - /url: "#contenuto"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Tanggo Software — pagina iniziale" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]:
+          - strong [ref=e7]: Tanggo Software
+          - generic [ref=e8]: Schedine di Notifica
+      - button "Apri menu" [ref=e9] [cursor=pointer]
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - paragraph [ref=e15]: Moduli e ampliamenti
+        - heading "Il percorso giusto. Per la tua struttura." [level=1] [ref=e16]:
+          - text: Il percorso giusto.
+          - emphasis [ref=e17]: Per la tua struttura.
+        - paragraph [ref=e18]: Parti dal lavoro che vuoi semplificare. Scopri cosa offre ogni modulo, quali dati servono e quali servizi vanno configurati insieme.
+        - generic [ref=e19]:
+          - link "Richiedi una demo" [ref=e20] [cursor=pointer]:
+            - /url: /contatti#demo
+          - link "Esplora tutte le funzionalità →" [ref=e21] [cursor=pointer]:
+            - /url: /moduli
+        - navigation "Percorsi e ampliamenti" [ref=e22]:
+          - link "Web Check-in" [ref=e23] [cursor=pointer]:
+            - /url: "#web-checkin"
+          - link "Alloggiati Web" [ref=e24] [cursor=pointer]:
+            - /url: "#alloggiati-web"
+          - link "Statistiche, Tabella A e ISTAT/Ross1000" [ref=e25] [cursor=pointer]:
+            - /url: "#istat-ross1000"
+          - link "Tassa di soggiorno" [ref=e26] [cursor=pointer]:
+            - /url: "#tassa-soggiorno"
+          - link "Strutture, proprietari e accessi" [ref=e27] [cursor=pointer]:
+            - /url: "#strutture"
+          - link "Importazioni, esportazioni e stampe" [ref=e28] [cursor=pointer]:
+            - /url: "#importazioni"
+          - link "Presenze e organizzazione" [ref=e29] [cursor=pointer]:
+            - /url: "#organizzazione"
+          - link "Max Full" [ref=e30] [cursor=pointer]:
+            - /url: "#max-full"
+      - figure "Gli strumenti per accompagnare la crescita della tua gestione." [ref=e31]:
+        - img "Riepilogo dimostrativo della tassa di soggiorno nel software" [ref=e32]
+        - generic [ref=e33]: Gli strumenti per accompagnare la crescita della tua gestione.
+    - generic [ref=e34]:
+      - generic [ref=e35]:
+        - text: "01"
+        - generic [ref=e36]: Web Check-in
+      - generic [ref=e37]:
+        - paragraph [ref=e38]: Web Check-in
+        - heading "Prepara l’accoglienza prima dell’arrivo." [level=2] [ref=e39]
+        - paragraph [ref=e40]: Raccogli i dati degli ospiti attraverso un link dedicato e ritrova la pratica da verificare alla reception. Richiesta, referente e persone che soggiornano restano distinti.
+        - figure "Schermata del programma con dati dimostrativi" [ref=e41]:
+          - 'img "Schermata del programma: Web Check-in, con dati dimostrativi" [ref=e42]'
+          - generic [ref=e43]: Schermata del programma con dati dimostrativi
+        - generic [ref=e44]:
+          - heading "Un esempio nel tuo lavoro" [level=3] [ref=e45]
+          - paragraph [ref=e46]: Prepara la richiesta, scegli un modello di comunicazione e controlla i dati raccolti. La reception completa il passaggio alla schedina quando la pratica è pronta.
+          - heading "Disponibilità" [level=3] [ref=e47]
+          - paragraph [ref=e48]: Richieste, modelli personalizzabili, anteprime e storico delle comunicazioni sono implementati. Canali di comunicazione e invio richiedono la configurazione prevista per la struttura.
+          - heading "Prima di iniziare" [level=3] [ref=e49]
+          - paragraph [ref=e50]: Struttura configurata, date e referenti corretti, controllo dei documenti e conferma dell’operatore. Il link ospite non concede accesso al gestionale.
+        - generic [ref=e51]:
+          - link "Parliamo di Web Check-in" [ref=e52] [cursor=pointer]:
+            - /url: /contatti?interesse=we
+public-site-renewal.playwr-d1a14-avigazione-e-accessi-a-1440:
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Vai al contenuto" [ref=e2] [cursor=pointer]:
+    - /url: "#contenuto"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Tanggo Software — pagina iniziale" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]:
+          - strong [ref=e7]: Tanggo Software
+          - generic [ref=e8]: Schedine di Notifica
+      - button "Apri menu" [ref=e9] [cursor=pointer]
+  - main [ref=e12]:
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - paragraph [ref=e17]: Tanggo Software · Schedine di Notifica
+        - heading "Il software per accogliere meglio. Schedine di Notifica." [level=1] [ref=e18]:
+          - text: Il software per
+          - text: accogliere meglio.
+          - emphasis [ref=e19]: Schedine di Notifica.
+        - paragraph [ref=e20]: Accogli meglio, ogni giorno. Organizza gli arrivi, ricevi i dati degli ospiti prima del check-in e gestisci schedine e adempimenti da un unico ambiente, pensato per hotel, B&B e appartamenti.
+        - generic [ref=e21]:
+          - paragraph [ref=e22]: Un piano per la tua ospitalità
+          - generic [ref=e23]:
+            - paragraph [ref=e24]:
+              - generic [ref=e25]: 1 appartamento
+              - strong [ref=e26]: 50 € + IVA / anno
+            - paragraph [ref=e27]:
+              - generic [ref=e28]: 1 o 2 strutture ricettive
+              - strong [ref=e29]: 320 € + IVA / anno complessivi
+          - link "Vedi tutti i piani e i servizi →" [ref=e30] [cursor=pointer]:
+            - /url: /prezzi
+          - generic [ref=e31]: Configurazione e servizi aggiuntivi quotati separatamente.
+        - generic [ref=e32]:
+          - link "Richiedi una demo" [ref=e33] [cursor=pointer]:
+            - /url: /contatti#demo
+            - text: Richiedi una demo
+            - generic [ref=e34]: ↗
+          - link "Confronta i piani" [ref=e35] [cursor=pointer]:
+            - /url: /prezzi
+            - text: Confronta i piani
+            - generic [ref=e36]: →
+        - paragraph [ref=e37]: Per hotel, B&B, case vacanza e gestori di appartamenti. Scopri il piano adatto a te.
+      - generic [ref=e38]:
+        - generic [ref=e39]: La tua reception, più semplice
+        - link "Esplora le schermate di Schedine di Notifica" [ref=e41] [cursor=pointer]:
+          - /url: /demo
+          - img "Calendario degli arrivi nel software, con dati dimostrativi" [ref=e42]
+        - generic [ref=e43]:
+          - link "Web Check-in L’ospitalità inizia prima dell’arrivo" [ref=e44] [cursor=pointer]:
+            - /url: /moduli#web-checkin
+            - generic [ref=e45]: ✓
+            - strong [ref=e46]: Web Check-in
+            - generic [ref=e47]: L’ospitalità inizia prima dell’arrivo
+          - link "Il tuo piano Soluzioni per la tua struttura" [ref=e48] [cursor=pointer]:
+            - /url: /prezzi
+            - generic [ref=e49]: ↗
+            - strong [ref=e50]: Il tuo piano
+            - generic [ref=e51]: Soluzioni per la tua struttura
+        - link "Guarda il software in azione" [ref=e52] [cursor=pointer]:
+          - /url: /demo
+          - text: Guarda il software in azione
+          - generic [ref=e53]: →
+    - generic [ref=e55]:
+      - paragraph [ref=e56]:
+        - strong [ref=e57]: Dati più ordinati
+        - generic [ref=e58]: Anagrafiche, ospiti e storico
+      - paragraph [ref=e59]:
+        - strong [ref=e60]: Arrivi da completare
+        - generic [ref=e61]: Un percorso operativo riconoscibile
+      - paragraph [ref=e62]:
+        - strong [ref=e63]: Adempimenti nel contesto
+        - generic [ref=e64]: Servizi e abilitazioni da verificare
+    - region "Meno passaggi. Più ordine in reception." [ref=e65]:
+      - generic [ref=e66]:
+        - paragraph [ref=e67]: Pensato per il tuo lavoro quotidiano
+        - heading "Meno passaggi. Più ordine in reception." [level=2] [ref=e68]:
+          - text: Meno passaggi.
+          - text: Più ordine in reception.
+      - generic [ref=e69]:
+        - artic
+TEST interrotto senza fallback: playwright fallito: 1
+mysql-error.log:
+2026-10-25 23:55:19 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 57
+2026-10-25 23:55:19 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-25 23:55:19 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-25 23:55:19 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-25 23:55:19 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-25 23:55:19 0 [Note] InnoDB: Using Linux native AIO
+2026-10-25 23:55:19 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-25 23:55:19 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-25 23:55:19 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-25 23:55:19 0 [Note] InnoDB: End of log at LSN=45093
+2026-10-25 23:55:19 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-25 23:55:19 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-25 23:55:19 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-25 23:55:19 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-25 23:55:19 0 [Note] InnoDB: log sequence number 45093; transaction id 14
+2026-10-25 23:55:19 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-25 23:55:19 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-25 23:55:19 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-vml50r5q/mysql-data/ib_buffer_pool
+2026-10-25 23:55:19 0 [Note] InnoDB: Buffer pool(s) load completed at 261025 23:55:19
+2026-10-25 23:55:19 0 [Note] Server socket created on IP: '127.0.0.1', port: '50711'.
+2026-10-25 23:55:19 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-25 23:55:19 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-vml50r5q/mysql.sock'  port: 50711  MariaDB Server
+
+http.log:
+build/libs/node-waves/waves.min.js
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57024 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57030 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57102 [200]: GET /build/libs/feather-icons/feather.min.js
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57080 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57108 Accepted
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57112 Accepted
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57108 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57092 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57118 Accepted
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57112 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57102 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57132 Accepted
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57118 [200]: GET /build/libs/particles.js/particles.js
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57142 Accepted
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57132 [200]: GET /build/js/pages/particles.app.js
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57108 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57158 Accepted
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57112 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57142 [200]: GET /build/js/pages/form-validation.init.js
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57162 Accepted
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57158 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57118 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57170 Accepted
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57132 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57162 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57172 Accepted
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57170 [200]: GET /build/icons/remixicon.woff2?t=1718271040674
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57142 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57172 [200]: GET /build/icons/materialdesignicons-webfont.woff2?v=7.2.96
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57170 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57172 Closing
+[Sun Oct 25 23:59:04 2026] 127.0.0.1:57174 Accepted
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57174 Closing
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57176 Accepted
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57176 [200]: GET /site-assets/vendor/select2/css/select2.min.css
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57178 Accepted
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57190 Accepted
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57178 [200]: GET /site-assets/vendor/flatpickr/flatpickr.min.css
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57204 Accepted
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57176 Closing
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57190 Closing
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57214 Accepted
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57204 Closing
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57224 Accepted
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57214 [200]: GET /site-assets/img/logo-tanggo.png
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57178 Closing
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57236 Accepted
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57224 [200]: GET /site-assets/vendor/jquery/jquery.min.js
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57246 Accepted
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57236 [200]: GET /site-assets/vendor/select2/js/select2.full.min.js
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57256 Accepted
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57246 [200]: GET /site-assets/vendor/flatpickr/flatpickr.min.js
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57258 Accepted
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57224 Closing
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57256 [200]: GET /site-assets/vendor/flatpickr/l10n/it.js
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57236 Closing
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57258 Closing
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57246 Closing
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57214 Closing
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57256 Closing
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57262 Accepted
+[Sun Oct 25 23:59:05 2026] 127.0.0.1:57262 Closing
+[Sun Oct 25 23:59:10 2026] 127.0.0.1:57270 Accepted
+[Sun Oct 25 23:59:10 2026] 127.0.0.1:57270 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-vml50r5q

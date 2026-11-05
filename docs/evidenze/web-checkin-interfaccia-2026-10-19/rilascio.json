@@ -1,0 +1,93 @@
+{
+  "esito": "PASS_PUBBLICATO_VERIFICATO_ONLINE_E_MONITORATO",
+  "UTC": "2026-10-19T21:58:12.020298+00:00",
+  "SHA_codice": "d17687c702a4ca438857ef56a1176d2fc9fd6d89",
+  "SHA_applicativo": "42deeaf399910d8e6ac913348306756a9c566277",
+  "baseline": "78e889759b0838f35267496527c42024aa18bd00",
+  "C5": {
+    "kit": "aefdc003d3a97a329ffff6e6594c242be5b07eb70bbe406b166171c8fea77bf3",
+    "S0_secondi": 185.444,
+    "RUN_secondi": 272.726,
+    "decisione": "CANDIDATO_ACCETTATO",
+    "DDL": false,
+    "migrazioni": 159,
+    "tabelle": 66,
+    "controlli_non_ridotti": true,
+    "guardiano": "Concluso, disarmato, inattivo e disabilitato",
+    "unico_RUN": true
+  },
+  "custodie": [
+    {
+      "tipo": "PREPARE",
+      "cifrati": 3,
+      "integrita_HMAC_decifratura": true,
+      "ricevuta_sha256": "68bf157ad6bc6defab1cb72176b985154574ce4fff006fb156592f7c9c41f2b6"
+    },
+    {
+      "tipo": "S0",
+      "cifrati": 3,
+      "integrita_HMAC_decifratura": true,
+      "ricevuta_sha256": "c71dd1a065d2ebb2b4c2a0459b69b91e48714b259ed38bfece487c46c6181886"
+    }
+  ],
+  "prove_isolate": {
+    "R12_PHP": 264,
+    "R12_asserzioni": 3089,
+    "R12_browser_storici": 21,
+    "R14_PHP": 66,
+    "R14_asserzioni": 643,
+    "R14_browser_completi": 3,
+    "guardie": 17,
+    "override_rifiutati": 23,
+    "solo_VM": true,
+    "esecuzioni_non_sommate": true
+  },
+  "QA_online": [
+    "6 percorsi circuito",
+    "3 percorsi nuova interfaccia",
+    "clienti/Bozze/tenancy e24 navigazioni",
+    "revoca/scadenza/rigenerazione",
+    "modelli personalizzati"
+  ],
+  "invii_reali": false,
+  "ospiti_reali_modificati": false,
+  "pulizia": {
+    "tabelle_HMAC_identiche": 66,
+    "persistenti": 75,
+    "restore_DB": false,
+    "contatori_AUTO_INCREMENT": "Non ripristinati; confronto HMAC sulle righe"
+  },
+  "monitor": {
+    "server_secondi": 917.9838604717515,
+    "server_campioni": 31,
+    "server_sonde": 279,
+    "Mac_secondi": 923.431882667,
+    "Mac_campioni": 31,
+    "Mac_richieste": 93
+  },
+  "errori_applicativi_e_FPM_da_T0": 0,
+  "prima_QA_DB_identico_S0": true,
+  "sorgenti_task_conformi": 96,
+  "sorgenti_e_protetti_verificati": 155,
+  "lavoro_estraneo_preservato": true,
+  "pubblicazione_GitHub": "Solo ramo codex/web-checkin-interfaccia-2026-10-19; main non aggiornato dopo rifiuto revisione automatica",
+  "pendenti_scope": [],
+  "risorse_finali": {
+    "UTC": "2026-10-19T21:58:03.190768+00:00",
+    "Mac_liberi": 14159007744,
+    "Extra_liberi": 600671817728,
+    "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+    "VM": {
+      "liberi": 2089549824,
+      "filesystem_totale": 37290283008,
+      "tipo_filesystem": "xfs",
+      "SELinux": "Enforcing",
+      "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7"
+    },
+    "disco_VM": "36GiB, invariato",
+    "riserva_VM": 1073741824,
+    "soglia_Mac": 8589934592,
+    "soglia_Extra": 42949672960,
+    "nessuna_crescita_o_arresto_VM": true
+  }
+}

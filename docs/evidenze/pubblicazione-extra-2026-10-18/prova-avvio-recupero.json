@@ -1,0 +1,12 @@
+{
+  "esito": "PASS_AVVIO_REALE_DISCO_RECUPERATO",
+  "originale_preservato": true,
+  "verifiche": {
+    "avvio": true,
+    "filesystem_XFS": true,
+    "custodia_chiave": true,
+    "disco_recuperato": true,
+    "SELinux": "Enforcing"
+  },
+  "disco_originale_ripristinato": true
+}

@@ -1,0 +1,177 @@
+{
+  "esito": "PASS_TRASFERIMENTO_18_COPIE_C5_CONCLUSE",
+  "file": [
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-2026-10-18/c5/c5-prepare-59awxg38/cifrati-s5oghafp/db.sql.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-20261018/catena-C5-39518a6b/c5-prepare-59awxg38/db.sql.enc",
+      "sha256": "ca840a48c9251315bf95aeaf0bd16ac68b457df7269a14c1c5e54e4f37a41a4a",
+      "byte": 23243632,
+      "originale_conservato": true,
+      "inode": 185937416,
+      "mtime_ns": 1792327559330152106
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-2026-10-18/c5/c5-prepare-59awxg38/cifrati-s5oghafp/fs.tar.gz.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-20261018/catena-C5-39518a6b/c5-prepare-59awxg38/fs.tar.gz.enc",
+      "sha256": "c1cb4b0820ec231c86f8d8ea9fb5e7d0eb2530b3ed31a6e15db242c6e0011058",
+      "byte": 338928464,
+      "originale_conservato": true,
+      "inode": 185937420,
+      "mtime_ns": 1792327644185827548
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-2026-10-18/c5/c5-prepare-59awxg38/cifrati-s5oghafp/inventory.json.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-20261018/catena-C5-39518a6b/c5-prepare-59awxg38/inventory.json.enc",
+      "sha256": "c44284ce870e85f391ca715729bcc1f7bc3d9260dcc3a52bc225cca3a1a4dbab",
+      "byte": 6123696,
+      "originale_conservato": true,
+      "inode": 185939644,
+      "mtime_ns": 1792327645142467833
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-2026-10-18/c5/c5-run-_yzqb2da/cifrati-rxevcwub/db.sql.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-20261018/catena-C5-39518a6b/c5-run-_yzqb2da/db.sql.enc",
+      "sha256": "8e7b276234b963d0e4159eed6b806b7878d86e8b4d409eb5318682e537851f8a",
+      "byte": 23243632,
+      "originale_conservato": true,
+      "inode": 185946502,
+      "mtime_ns": 1792327899255770803
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-2026-10-18/c5/c5-run-_yzqb2da/cifrati-rxevcwub/fs.tar.gz.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-20261018/catena-C5-39518a6b/c5-run-_yzqb2da/fs.tar.gz.enc",
+      "sha256": "c1697b903d432af75a839d37aea20bfcaebd8de76eab16f93824f9a5d473865e",
+      "byte": 1760,
+      "originale_conservato": true,
+      "inode": 185946512,
+      "mtime_ns": 1792327899791954590
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-2026-10-18/c5/c5-run-_yzqb2da/cifrati-rxevcwub/inventory.json.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-20261018/catena-C5-39518a6b/c5-run-_yzqb2da/inventory.json.enc",
+      "sha256": "1e30b11237ef899657112c804b31a370c522d842de94842440dbbef5b6364edb",
+      "byte": 6129888,
+      "originale_conservato": true,
+      "inode": 185946516,
+      "mtime_ns": 1792327900680730858
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-2026-10-18/c5-correzione/c5-prepare-1olhj9f_/cifrati-ihv3_pku/db.sql.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-20261018/catena-C5-e4b81711/c5-prepare-1olhj9f_/db.sql.enc",
+      "sha256": "a92177c30f88029dab5cff96e77ad0a7c3240e3e39ffe32e8bc0a7ad71f65f88",
+      "byte": 23246096,
+      "originale_conservato": true,
+      "inode": 185981274,
+      "mtime_ns": 1792329178016977064
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-2026-10-18/c5-correzione/c5-prepare-1olhj9f_/cifrati-ihv3_pku/fs.tar.gz.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-20261018/catena-C5-e4b81711/c5-prepare-1olhj9f_/fs.tar.gz.enc",
+      "sha256": "98d6a88ef967d7002f979d226e3e8d99827736328c18d579d7353acd9cd4c646",
+      "byte": 339468576,
+      "originale_conservato": true,
+      "inode": 185981278,
+      "mtime_ns": 1792329220569877623
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-2026-10-18/c5-correzione/c5-prepare-1olhj9f_/cifrati-ihv3_pku/inventory.json.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-20261018/catena-C5-e4b81711/c5-prepare-1olhj9f_/inventory.json.enc",
+      "sha256": "2d06df8ff646e566c69415f0825f1927a56d47dc203497a7465a0738e1e5dd26",
+      "byte": 6150624,
+      "originale_conservato": true,
+      "inode": 185982273,
+      "mtime_ns": 1792329221483219871
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-2026-10-18/c5-correzione/c5-run-80uh2gxl/cifrati-lq6chzhy/db.sql.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-20261018/catena-C5-e4b81711/c5-run-80uh2gxl/db.sql.enc",
+      "sha256": "ac58253ef870f54d568103916fef5578c2ba1360cdf219726300474a1473cc24",
+      "byte": 23246096,
+      "originale_conservato": true,
+      "inode": 185987645,
+      "mtime_ns": 1792329437371594847
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-2026-10-18/c5-correzione/c5-run-80uh2gxl/cifrati-lq6chzhy/fs.tar.gz.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-20261018/catena-C5-e4b81711/c5-run-80uh2gxl/fs.tar.gz.enc",
+      "sha256": "59043f297cc49e9ed81d61b7d9fad8236b6fb600bc957567a0f91c1320b0d902",
+      "byte": 1872,
+      "originale_conservato": true,
+      "inode": 185987800,
+      "mtime_ns": 1792329437871299396
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-2026-10-18/c5-correzione/c5-run-80uh2gxl/cifrati-lq6chzhy/inventory.json.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Web-Checkin-20261018/catena-C5-e4b81711/c5-run-80uh2gxl/inventory.json.enc",
+      "sha256": "64781f77efc0e54b75e2ea7d1a877c9335ed2e1e4b56d7e5cb90df6023b742b6",
+      "byte": 6157248,
+      "originale_conservato": true,
+      "inode": 185987803,
+      "mtime_ns": 1792329438690764339
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/arrivi-2026-10-18/c5/c5-prepare-hmyv4kwi/cifrati-ay6al6if/db.sql.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018/catena-C5-263274f4/c5-prepare-hmyv4kwi/db.sql.enc",
+      "sha256": "363ea387aa432e8ab4d133de0e3ab408b07c09fc16322a3b44c3caeb011347cf",
+      "byte": 23243632,
+      "originale_conservato": true,
+      "inode": 185744706,
+      "mtime_ns": 1792316976763823516
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/arrivi-2026-10-18/c5/c5-prepare-hmyv4kwi/cifrati-ay6al6if/fs.tar.gz.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018/catena-C5-263274f4/c5-prepare-hmyv4kwi/fs.tar.gz.enc",
+      "sha256": "12b4fb7368930e03847c5b16b5b5077bdde379d7bc01b0bf2542d8a1c3a6ac62",
+      "byte": 338706944,
+      "originale_conservato": true,
+      "inode": 185744715,
+      "mtime_ns": 1792317049963711849
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/arrivi-2026-10-18/c5/c5-prepare-hmyv4kwi/cifrati-ay6al6if/inventory.json.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018/catena-C5-263274f4/c5-prepare-hmyv4kwi/inventory.json.enc",
+      "sha256": "e049aab0b80159a403451a8470f1d41837b130f6486f86a24df7fe80187f81e0",
+      "byte": 6090912,
+      "originale_conservato": true,
+      "inode": 185744961,
+      "mtime_ns": 1792317051090434581
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/arrivi-2026-10-18/c5/c5-run-f07dz4sy/cifrati-nrxuh9y3/db.sql.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018/catena-C5-263274f4/c5-run-f07dz4sy/db.sql.enc",
+      "sha256": "ac608c0792b48411fa2a49268fb7109e258a4c40bbb5485c34db9ef73a0fb39e",
+      "byte": 23243632,
+      "originale_conservato": true,
+      "inode": 185745951,
+      "mtime_ns": 1792317290198390645
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/arrivi-2026-10-18/c5/c5-run-f07dz4sy/cifrati-nrxuh9y3/fs.tar.gz.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018/catena-C5-263274f4/c5-run-f07dz4sy/fs.tar.gz.enc",
+      "sha256": "763122bf3a8e5287ff2307d1bd52704712c161a3bdc1922b83469940f3bd5af5",
+      "byte": 1760,
+      "originale_conservato": true,
+      "inode": 185745968,
+      "mtime_ns": 1792317290687262457
+    },
+    {
+      "sorgente": "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/arrivi-2026-10-18/c5/c5-run-f07dz4sy/cifrati-nrxuh9y3/inventory.json.enc",
+      "copia_Extra": "/Volumes/extra/Schedinedinotifica-Arrivi-20261018/catena-C5-263274f4/c5-run-f07dz4sy/inventory.json.enc",
+      "sha256": "be0cecae4c731dcecd4d840f17145bb43fe7d873ccdbf85551a299a845d3b18a",
+      "byte": 6097104,
+      "originale_conservato": true,
+      "inode": 185746073,
+      "mtime_ns": 1792317291614348786
+    }
+  ],
+  "recuperabilita_fresca_HMAC_decifratura": true,
+  "cifrati_Extra_conservati": true,
+  "custodia_e_backup_produttivi_VM_preservati": true,
+  "chiave_solo_VM": true,
+  "nessun_utilizzatore": true,
+  "Mac_prima": 7756410880,
+  "Mac_dopo": 7780233216,
+  "byte_nominali": 1193325568,
+  "data_UTC": "2026-10-18T13:31:20.387489+00:00",
+  "limite": "Soli duplicati Mac dei trasporti C5 conclusi. Le ricevute di copia storiche restano prove originali; questo documento registra il ritiro successivo delle sole copie indicate, dopo nuova verifica da Extra."
+}

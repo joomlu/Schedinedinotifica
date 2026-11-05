@@ -1,0 +1,47 @@
+{
+  "stato": "PARZIALE",
+  "produzione_SHA": "7991511d6ce344bcbd24495fab89b2223dd81abb",
+  "filtri": {
+    "q": "VERIFICA-CSV-20261017-ZERO-7991511D",
+    "mode": "general"
+  },
+  "contatori": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "azione": "Clic CSV completo dall’interfaccia ordinaria dopo filtro zero verificato",
+  "esito_browser": "chrome-error://chromewebdata/; Questa pagina è stata bloccata da Chrome; ERR_BLOCKED_BY_CLIENT",
+  "download_completato": false,
+  "HTTP_online": {
+    "status": null,
+    "Content-Type": null,
+    "Content-Disposition": null,
+    "nome_file": null,
+    "intestazioni_CSV": null,
+    "motivo": "Non osservabili con gli strumenti del browser disponibili; nessun download alternativo, fetch, cURL o autenticazione fuori browser."
+  },
+  "diagnosi": "Blocco client osservato; nessuna risposta applicativa 4xx/5xx osservata. Causa specifica del blocco Chrome non determinata; non attribuita a una particolare estensione.",
+  "nessun_dato_personale_scaricato": true,
+  "nessuna_protezione_indebolita": true,
+  "evidenze": {
+    "filtro-zero.jpg": "c6d5d924dbb957628bc1aadbbb9e1e8dd1a2df0ea3d9fdb3400f52d18195b148",
+    "esito-browser.jpg": "2e975675dad1d83917d2bdb1de340cea1f21955bca0ff211b0b94ce428e0961b"
+  },
+  "isolato": {
+    "esito": "PASS",
+    "test": 20,
+    "asserzioni": 337,
+    "browser": 3,
+    "browser_secondi": 48.3,
+    "override_rifiutati": 23,
+    "build_GEO": "PASS",
+    "status": 200,
+    "Content-Type": "text/csv; charset=UTF-8",
+    "Content-Disposition": "attachment; filename=\"clienti_export_generale.csv\"",
+    "contenuto": "Sola riga delle17intestazioni, confronto byte esatto nel test",
+    "log_sha256": "3f6aee693c1e86767564c5b7e2b80ca7829aedd452f53a2ff7b9ca3def6bed00",
+    "test_sha256": "6b9dfead60061a83674704b456f1e92a75a4b35c26f4c0234415726f34637a5d"
+  }
+}

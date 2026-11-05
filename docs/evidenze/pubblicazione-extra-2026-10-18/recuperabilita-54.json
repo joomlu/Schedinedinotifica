@@ -1,0 +1,384 @@
+{
+  "esito": "PASS_DECIFRATURA_INTEGRALE_54_DA_EXTRA",
+  "file": [
+    {
+      "cifrato_sha256": "306fc0fbaf7276233ce166ad3b451f72dced39008654809895eee04ed3ee0bf9",
+      "decifrato_sha256": "3ab087f395e845e3a90a747fef22c9fd4003812ebc7dca0eca715599384a6939",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "62496f69a92bc9f625686d67137e7d549416212a22e0fd079705c588b13bd240",
+      "decifrato_sha256": "caaecef3bdc922c5d0d187dafcf002f472728e1663f362872544adff23143992",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "906d32964d6db03447aff95a66e4b45574ed9ce177146901cb8d340f853543d6",
+      "decifrato_sha256": "4dbd8bba0f00adfef72e9a48e264e9980895c5d6614e6330ad3b8fce6fada10b",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "3fbcf0ac8fd79623d6d73bc98072c94058417ea33329b358e62ff25c6c57356e",
+      "decifrato_sha256": "3ab087f395e845e3a90a747fef22c9fd4003812ebc7dca0eca715599384a6939",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "fcb6c23f718e9de514da6357e67f982cfbc84b4d1ea145ba1b2e8a6756ca94aa",
+      "decifrato_sha256": "dacff3b88519ffae4ad1ee2b49eb357c2b64999a217bf704d99c17b2b2c8a336",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "d07bf8e34c5c09ca6b0611c7ae6d702993a93979610d1b9a1c7e3dc20e5d0aec",
+      "decifrato_sha256": "4b1fba71b677e9c251c20c1ab636cb941a408d364b67fcf12905cec79c7d5bf9",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "185fd35cbcc2569717dc636cae10a5619fae86dec27d6e6f4d6d545195c10189",
+      "decifrato_sha256": "611c677ad601630d43c15b4bc7c19b5b83015a5fbd2584284f687fb762309a6f",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "bb67915c9bbba68f415002cc0592a944f687470df7616f7f7b7267f8d779c12c",
+      "decifrato_sha256": "20511c9c8c6cf3614cc6d5c589b8bc297cfdede389c91a5f9bdae80a5916a490",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "69ece5d80d3a058865e235fede647e82c2247fdf99d291d58d2827df6b06a163",
+      "decifrato_sha256": "7c6c910fb10af251ccda8fa920f4f4d9a26d69d54bc663b4603d57a1e7ea40c2",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "fcb77a83d4d99c4c02f1a6e1584e70d932ea5d45998863826ce9dd2bfd9be8ed",
+      "decifrato_sha256": "81976aa9375b562979db2f7238636daff6814445d8d69ec39ee8c184e57305e7",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "c06a3c188de90e6c1004be9362cf9274ec9fa09e8940cceb8807b8da7cb236f7",
+      "decifrato_sha256": "7aa1f2d779237b4becee37d55e54044b7ffe7126fa6a0885cd64d55e581af1c1",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "aadc0d8221fe7dafdcff6e79cbe81f88d99126edd7617618977e2bd14e89ffda",
+      "decifrato_sha256": "5c5f6d809e3d6587d5ade7df888d6facffefc6a583525ead34cb87960f70c7c4",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "a04f847052bd4c5c1bfc2a241c39e0c69bd695af6d3d7974033af3a9e59c2b81",
+      "decifrato_sha256": "4fe5e4f1e47f933fb62ccb155185bd022353b42cf2adb4a4ea6b55ce06970a9a",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "a79b16b7bf472739aae2f2dd9eccce8860a8d290de83f05c92985d64853e1f49",
+      "decifrato_sha256": "868db28e3814d82e703b92e70ab5be08595df8ea50bec48c984865299be37cf5",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "51132aa8705300b3be00ea24d1354997a5cbb6831b4637c75dfcc0ae9541d8c2",
+      "decifrato_sha256": "c079c31a9fb25f22c16b412644b97dad87bdb060e116f8609ae86409653005a2",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "b1b45074c1c3660762fce8c157f48b4d4d086e19a7cc1c92e5e0776e9d2d07ad",
+      "decifrato_sha256": "8bb92073ef9c9068e365ea02e7d83a323ca6b4dc694b3bff1c444be7d22d5449",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "c4893afed5b3a4ae3e782454a232357ffaea74ae6ac7d11c91b18cebf80f1c62",
+      "decifrato_sha256": "7e08525f7c6ab35db6aecfc3893b9764e16b99e1ddb3d6e57cd18886dccab533",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "0b9de4fcb59842338d24a19d9befb84e26b44dd84b999dcb8455c8ce8a26afa5",
+      "decifrato_sha256": "4d211a17d3f50a16e730eefacb902aa0b81dbe7f050e75f9029d998d43a58355",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "90ee9936c8e804aca046660be0e16be94a29f0b5b1389b3214731c76297abe74",
+      "decifrato_sha256": "185c46d2ca69d2fbf6ffeb58a2caae50c7adc5060c7f6fecd26881250366a6e9",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "b2bfd6f54e325a961dd7961e27a45ad8d6b946904aa82fd9db9c162425ab7497",
+      "decifrato_sha256": "982946f7bf7b373e5dd0d59b5b5fe05c648769870d36257d7a2b4e30ae040640",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "80095dd45d763a36af31e18c3143e90bf198d7cfccc88c5c0723348e48ffe44a",
+      "decifrato_sha256": "07f1a46eacce9cc79f8bdbd9948b7f902595d370fe39dfa7de0c143c8a332b1a",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "63c89c120d199db56b4d20a32a20f9dce8d3914180dd353f974839299b3e78a3",
+      "decifrato_sha256": "794814dfa191e47cf009b8b52bfa808b2af6445d7409de4fb1fa88cf9a746c91",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "c7f7c71a5aa8dc0d1c3016c4c54ab289cdae52acba694b3fff48ecf6f0ed1540",
+      "decifrato_sha256": "910e73be03d0d753d8193a24e6e2cb69c5dcb4d8d3c59f2e900cf9af8ed86dfb",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "2e7f15a490049e233013aac9e549e0da78a095a0cb1db31ec6bdb7bfa985a507",
+      "decifrato_sha256": "96e4277c58cea7a2313bf678c8b9367e68cadea4f2af49ca6b9d7a124f482e06",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "6e689055d899c5cbd79d781911cfc6f6857b79e9cf09d2c48bd857292f31972d",
+      "decifrato_sha256": "794814dfa191e47cf009b8b52bfa808b2af6445d7409de4fb1fa88cf9a746c91",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "6be090b6160a4148419d08f72f445d5492d134f857fd89d2a05272dbb96fd714",
+      "decifrato_sha256": "ee0d28671c6e6662ff3337948b35ce9eebd01b5d7c00dbbfb8bf02b0a7ef00c2",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "6e9626864db44f23eb57d6f20bf3e4c5b0031859a2137980da1b8acb19b85a27",
+      "decifrato_sha256": "a37ebe9d9a50ba009557ce3d73b614983001ca0bc4a01857839977a65a04931a",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "68cb0a910d241a183c9fe89346f16e8690fb36bdc0bd7a09070702b6661b0987",
+      "decifrato_sha256": "81976aa9375b562979db2f7238636daff6814445d8d69ec39ee8c184e57305e7",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "de734e7aeb54fc29c8ac400238914aa6292ba96146cd36f7a012df02bd82b085",
+      "decifrato_sha256": "d06ada07cd208dfd269be0fa7edcb3907a4a2100bca4b1dd902e15ba2ea0b8af",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "557a3c36b01cabd2502d49fb620dbf8c7e43fc9adee218352c70dc7b59133edd",
+      "decifrato_sha256": "e80b43c84fd1d12f7641e0f4465eec22b055955d7642b83a7802a68ed5237b17",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "b8f49bc3d81bbc1768a21225b34cd90fd9da1ae9d680863588107ca87c5c7697",
+      "decifrato_sha256": "3ab087f395e845e3a90a747fef22c9fd4003812ebc7dca0eca715599384a6939",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "f26c4a9e70f3d8778ea69bbe333ed840499c045e5523df7c05d7f930050ed391",
+      "decifrato_sha256": "0c446ca29333d7432a96c5a910806fa2014fe66e9645b4a0631a462340d06c51",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "2e400f20ac3866d59ee839db6bb975e8bfde5669b40f5c5d7bd9a4d1efb258d7",
+      "decifrato_sha256": "b0abde7b5b1457f3301a4ddfcba526819ca689303796854676575cd9c3df2487",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "d6f12b8b6e0c7f5336a50df399e95d0854d77983c947b1ddac55f753728a01b3",
+      "decifrato_sha256": "4fe5e4f1e47f933fb62ccb155185bd022353b42cf2adb4a4ea6b55ce06970a9a",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "11f461c4fc9a540034bc7c3065ec342507442523d81635a726db6aff092d22bf",
+      "decifrato_sha256": "267589f0878414cd3127138a5d2def91ae7c085ca9091ab224ae56f0198fe27b",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "9bb7afda3a4a511f653f4e094ef86c55921cbaeb429f098354d88049a4e87d66",
+      "decifrato_sha256": "88fc1fe5b80f0ec98de844dde709c76b35eccfa5964340accdad377a9e31e74d",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "b590c44143ddfa88af1f6290105d409dc01e3a0264f0c220222834e5b523354e",
+      "decifrato_sha256": "794814dfa191e47cf009b8b52bfa808b2af6445d7409de4fb1fa88cf9a746c91",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "69d8fe0d1399935143c97fcab592eb2dcfb30df64d49cc23e50f12b389371943",
+      "decifrato_sha256": "b5aac0b06063a32e2d36ac75d263b0144616990740f0fc57055352b15192eb9b",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "7b994b686900b34d678e771da7f85bd2ec2f830f78006193f13d6d3edf3877a8",
+      "decifrato_sha256": "383c4072b260f410879af44b97a5824dbcfce07ac37f993eb60b1a6810f8fe10",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "d8324f4e5a2a90584672d8b0c01a8852dd5464c968a36a7cd7c31dfa1faca6e8",
+      "decifrato_sha256": "3ab087f395e845e3a90a747fef22c9fd4003812ebc7dca0eca715599384a6939",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "f2f59863275639bde7a6bfc056f626f71aaa05f281b5df367d47fb608ab28a8a",
+      "decifrato_sha256": "3694a388e9e7b210d1d7a2061925296c103a0bd61e1a325674295895610928ef",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "aee6bad10c8bf6d60cdd40bb9eb15e3b9b6f09468731a1286b45850fb8bdf230",
+      "decifrato_sha256": "eab8aa5b4f9ea20ab60cfdb316bd5a23ded8512396b2ab374ef2718fc75ff00c",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "03a2faee4b364a27330edee67cce9bf086441730a9ed276243c2d53f0c15f5d4",
+      "decifrato_sha256": "3ab087f395e845e3a90a747fef22c9fd4003812ebc7dca0eca715599384a6939",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "d0c618e445d96aef069bc869c730e1fdd2303c253510e005f595f7f83a8271e8",
+      "decifrato_sha256": "73294c485c680ab9a3095e4f314acba4ab3f28768d32bfb4def07280bcd476e3",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "8a0f9b6d4edfca306a6e458ef29458a610d80ac4c4a95144f70966a04572bc76",
+      "decifrato_sha256": "f67d4d92a350740f9f0714cb8bc41496d42304e6eb702a57c6aebd81b6390482",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "a57bff28b61a0544cccbfb3d0137436171c231843f40097111e5e0128ae571d5",
+      "decifrato_sha256": "611c677ad601630d43c15b4bc7c19b5b83015a5fbd2584284f687fb762309a6f",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "1ebf5658fb8ad0a87ee6906ea2282fef66c41145bdd220a7e6b12b25f58094b1",
+      "decifrato_sha256": "555d4d93b97f3a67f6d4b7a0aea20080f0c62e71a8915cb29a9ef59f457995f6",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "a11241a5a209dc78d48a91b951d2f71062fa174ffded769cb965622d72ffbf32",
+      "decifrato_sha256": "87ae4be71bf575fd334257b9a02d08f95bc2563d8b3552cf679c2ca7a12101ad",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "22df1d948b275461650fe695efd5e4a807368aa3fd5e27531fc5afad4f077b76",
+      "decifrato_sha256": "611c677ad601630d43c15b4bc7c19b5b83015a5fbd2584284f687fb762309a6f",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "f6c4f6f04449d6252fadc400aa3ae782ee7639f2ebbf4726156364386c1d0494",
+      "decifrato_sha256": "381693d1b1c9c5691f675fbd8636167761509de099f4f6acb78076573ba2e2d5",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "d1e089bdc385572cc6da476300b4568ba6f515a8d0194b88afa780824b3adb03",
+      "decifrato_sha256": "6de46c9c1b717a38152956f357f8d10d0a8d2b4c6c4693cf1dcca0bfcee3e9d9",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "80a8ce6a7ec6cb0d55360ef2f7e631e2e6828dacaf62c28db63d562d73447e0d",
+      "decifrato_sha256": "794814dfa191e47cf009b8b52bfa808b2af6445d7409de4fb1fa88cf9a746c91",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "98ac5b653823795ab1efdee9554e5a1c9d58662a4abb029dded166645b0c92eb",
+      "decifrato_sha256": "f68c0e75301bc9e28e771a65fb5be4e65514f20f4499c4c4eaddac506b06d7bd",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    },
+    {
+      "cifrato_sha256": "e991b9b0048187964ced3959bc8ea3d5eaf266990876a88ed591a352dd7e546f",
+      "decifrato_sha256": "b28c65b4aade79f9d75e65ee49844c8372d7bfc278ace2bc572e891e4aa53f3e",
+      "HMAC_prima_decifratura": true,
+      "decifratura_integrale": true,
+      "nessuna_scrittura_decifrata_o_temporanea": true
+    }
+  ],
+  "chiave_non_esportata": true
+}

@@ -1,0 +1,14 @@
+{
+  "VM_liberi": 1460969472,
+  "VM_filesystem": 37290283008,
+  "VM_disco": 38654705664,
+  "SELinux": "Enforcing",
+  "data_UTC": "2026-10-18T10:15:34.064276+00:00",
+  "Mac_liberi": 7860310016,
+  "Extra_liberi": 689573548032,
+  "Extra_montaggio": "/Volumes/extra",
+  "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+  "Extra_formato": "apfs",
+  "nessun_formato_o_riduzione_disco": true,
+  "esito": "PASS_CAPIENZA_FINALE_E_RISERVA_VM"
+}

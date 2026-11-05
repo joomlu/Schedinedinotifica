@@ -1,0 +1,599 @@
+<?php
+
+use App\Http\Controllers\Admin\PagamentiController as AdminPagamentiController;
+use App\Http\Controllers\Admin\ProprietariController as AdminProprietariController;
+use App\Http\Controllers\Admin\StruttureController as AdminStruttureController;
+use App\Http\Controllers\ArchivosController;
+use App\Http\Controllers\ArrivalsController;
+use App\Http\Controllers\CalendarioController;
+use App\Http\Controllers\CestinoController;
+use App\Http\Controllers\ComponentiImportController;
+use App\Http\Controllers\CrmController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerExportController;
+use App\Http\Controllers\CustomerImportController;
+use App\Http\Controllers\GeoComuneLogoController;
+use App\Http\Controllers\GeoController;
+use App\Http\Controllers\GestioneOperativaController;
+use App\Http\Controllers\GroupController;
+use App\Http\Controllers\HelpCenterController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IstatTabellaAController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\NotificheController;
+use App\Http\Controllers\PresenzeController;
+use App\Http\Controllers\Proprietario\StruttureController as ProprietarioStruttureController;
+use App\Http\Controllers\PublicSiteController;
+use App\Http\Controllers\QA\DemoMapController;
+use App\Http\Controllers\QaController;
+use App\Http\Controllers\QuesturaExportController;
+use App\Http\Controllers\RilasciatoDaController;
+use App\Http\Controllers\SchedinaController;
+use App\Http\Controllers\StrutturaController;
+use App\Http\Controllers\StrutturaSelezioneController;
+use App\Http\Controllers\StrutturaUserController;
+use App\Http\Controllers\Superadmin\AmministratoriController;
+use App\Http\Controllers\Superadmin\ArticoliController;
+use App\Http\Controllers\Superadmin\ImpersonazioneController;
+use App\Http\Controllers\Superadmin\PagamentiController;
+use App\Http\Controllers\Superadmin\ProprietariController as SuperadminProprietariController;
+use App\Http\Controllers\Superadmin\StruttureController as SuperadminStruttureController;
+use App\Http\Controllers\SupportoController;
+use App\Http\Controllers\TassaDiSoggiornoController;
+use App\Http\Controllers\TassaEsenzioneController;
+use App\Http\Controllers\TassaReportController;
+use App\Http\Controllers\TipoAlloggiatoController;
+use App\Http\Controllers\TipoClienteController;
+use App\Http\Controllers\TipoDocumentoController;
+use App\Http\Controllers\TipoViaController;
+use App\Http\Controllers\TitleController;
+use App\Http\Controllers\WebCheckinController;
+use App\Http\Controllers\WebsiteContactController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+Auth::routes();
+
+Route::get('/', [PublicSiteController::class, 'home'])->name('site.home');
+Route::get('/moduli', fn () => app(PublicSiteController::class)->page('moduli'))->name('site.moduli');
+Route::get('/ampliamenti', fn () => app(PublicSiteController::class)->page('ampliamenti'))->name('site.ampliamenti');
+Route::get('/demo', fn () => app(PublicSiteController::class)->page('demo'))->name('site.demo');
+Route::get('/prezzi', fn () => app(PublicSiteController::class)->page('prezzi'))->name('site.prezzi');
+Route::get('/contatti', fn () => app(PublicSiteController::class)->page('contatti'))->name('site.contatti');
+Route::get('/note-legali', fn () => app(PublicSiteController::class)->page('note-legali'))->name('site.note-legali');
+Route::get('/privacy', fn () => app(PublicSiteController::class)->page('privacy'))->name('site.privacy');
+Route::get('/cookie', fn () => app(PublicSiteController::class)->page('cookie'))->name('site.cookie');
+Route::post('/contatti/richiesta', [WebsiteContactController::class, 'store'])
+    ->middleware('throttle:6,1,sito-contatti')
+    ->name('site.contatti.store');
+Route::redirect('/accesso', '/login')->name('site.accesso');
+Route::redirect('/index.html', '/');
+Route::redirect('/moduli.html', '/moduli');
+Route::redirect('/ampliamenti.html', '/ampliamenti');
+Route::redirect('/demo.html', '/demo');
+Route::redirect('/prezzi.html', '/prezzi');
+Route::redirect('/contatti.html', '/contatti');
+Route::redirect('/accesso.html', '/login');
+Route::get('/site-assets/{path}', [PublicSiteController::class, 'asset'])
+    // Risorse immutabili e senza stato: nessuna sessione o cookie nella risposta condivisibile.
+    ->withoutMiddleware([
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \App\Http\Middleware\VerifyCsrfToken::class,
+        \App\Http\Middleware\Localization::class,
+        \App\Http\Middleware\ImpostaStrutturaCorrente::class,
+        \App\Http\Middleware\AuthenticateAccountSession::class,
+        \App\Http\Middleware\VerificaServizioStruttura::class,
+        \App\Http\Middleware\LogOperativeAudit::class,
+    ])
+    ->where('path', '.*')
+    ->name('site.assets');
+
+Route::middleware(['auth'])->group(function () {
+    // Fallback logout via GET to avoid 419 when no CSRF token is sent
+    Route::get('/logout', function () {
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        return redirect()->route('login');
+    })->name('logout.get');
+
+    // Download Adwords
+    Route::get('/adwords/files/{filename}', function ($filename) {
+        $path = storage_path('app/uploads/adwords/'.$filename);
+
+        if (! file_exists($path)) {
+            abort(404);
+        }
+
+        return response()->file($path);
+    })->name('adwords.files');
+
+    // Geo endpoints
+    Route::prefix('geo')->group(function () {
+        Route::get('/nazioni', [GeoController::class, 'nazioni']);
+        Route::get('/regioni', [GeoController::class, 'regioni']);
+        Route::get('/province', [GeoController::class, 'province']);
+        Route::get('/comuni', [GeoController::class, 'comuni']);
+        Route::get('/cap', [GeoController::class, 'cap']);
+        Route::get('/resolve', [GeoController::class, 'resolve']);
+    });
+
+    Route::prefix('geo')->middleware(['ruolo:super_admin,admin'])->group(function () {
+        Route::get('/comuni/logo', [GeoComuneLogoController::class, 'index'])->name('geo.comuni.logo');
+        Route::post('/comuni/{id}/logo', [GeoComuneLogoController::class, 'store'])->name('geo.comuni.logo.store');
+        Route::delete('/comuni/{id}/logo', [GeoComuneLogoController::class, 'destroy'])->name('geo.comuni.logo.destroy');
+    });
+
+    // Configurazioni base
+    Route::resource('tipo_alloggiato', TipoAlloggiatoController::class)->names('tipo_alloggiato');
+    Route::resource('tipo_cliente', TipoClienteController::class)
+        ->where(['tipo_cliente' => '[0-9]+'])
+        ->only(['index', 'store', 'update', 'destroy'])
+        ->names('tipo_cliente');
+    Route::resource('tipo_documento', TipoDocumentoController::class)->names('tipo_documento');
+
+    Route::get('/tassa_di_soggiorno', [TassaDiSoggiornoController::class, 'edit'])->name('tassa_di_soggiorno.edit');
+    Route::post('/tassa_di_soggiorno/riallinea', [TassaDiSoggiornoController::class, 'riallinea'])->name('tassa_di_soggiorno.riallinea');
+    Route::put('/tassa_di_soggiorno', [TassaDiSoggiornoController::class, 'update'])->name('tassa_di_soggiorno.update');
+    Route::get('/tassa_di_soggiorno/immagine', [TassaDiSoggiornoController::class, 'immagine'])->name('tassa_di_soggiorno.immagine');
+    Route::get('/tassa_di_soggiorno/create', function () {
+        return redirect()->route('tassa_di_soggiorno.edit');
+    });
+
+    Route::get('/tassa_di_soggiorno/rapporto', [TassaReportController::class, 'index'])->name('tassa_di_soggiorno.rapporto');
+    Route::post('/tassa_di_soggiorno/rapporto/consolida', [TassaReportController::class, 'consolida'])->name('tassa_di_soggiorno.export.consolida');
+    Route::get('/tassa_di_soggiorno/export/{id}', [TassaReportController::class, 'downloadStorico'])->name('tassa_di_soggiorno.export.download');
+    Route::get('/tassa_di_soggiorno/rapporto/csv', [TassaReportController::class, 'exportCsv'])->name('tassa_di_soggiorno.rapporto.csv');
+    Route::get('/tassa_di_soggiorno/rapporto/controllo', [TassaReportController::class, 'controllo'])->name('tassa_di_soggiorno.rapporto.controllo');
+    Route::get('/tassa_di_soggiorno/rapporto/controllo/csv', [TassaReportController::class, 'exportControlloCsv'])->name('tassa_di_soggiorno.rapporto.controllo.csv');
+    Route::get('/tassa_di_soggiorno/rapporto/controllo/stampa', [TassaReportController::class, 'printControllo'])->name('tassa_di_soggiorno.rapporto.controllo.print');
+
+    Route::resource('tassa_esenzioni', TassaEsenzioneController::class)->only(['store', 'update', 'destroy'])->names('tassa_esenzioni');
+
+    Route::get('/strutture/nuova', [\App\Http\Controllers\RegistrazioneStrutturaController::class, 'create'])->name('struttura.create');
+    Route::post('/strutture', [\App\Http\Controllers\RegistrazioneStrutturaController::class, 'store'])->name('struttura.store');
+    Route::get('/struttura', [StrutturaController::class, 'edit'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('struttura.edit');
+    Route::put('/struttura', [StrutturaController::class, 'update'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('struttura.update');
+    Route::get('/struttura/zone-suggestions', [StrutturaController::class, 'zoneSuggestions'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('struttura.zone_suggestions');
+    Route::get('/strutture/seleziona', [StrutturaSelezioneController::class, 'index'])->name('strutture.seleziona.index');
+    Route::post('/strutture/{id}/seleziona', [StrutturaSelezioneController::class, 'seleziona'])->name('strutture.seleziona');
+
+    // Gestione utenti per struttura corrente
+    Route::get('/strutture/utenti', [StrutturaUserController::class, 'index'])->name('strutture.utenti.index');
+    Route::get('/strutture/utenti/create', [StrutturaUserController::class, 'create'])->name('strutture.utenti.create');
+    Route::post('/strutture/utenti', [StrutturaUserController::class, 'store'])->name('strutture.utenti.store');
+    Route::post('/strutture/utenti/{id}/reset', [StrutturaUserController::class, 'resetPassword'])->name('strutture.utenti.reset');
+
+    // Rilasciato da CRUD
+    Route::resource('rilasciato', RilasciatoDaController::class)
+        ->only(['index', 'store', 'update', 'destroy'])
+        ->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)
+        ->names('rilasciato');
+
+    // SuperAdmin area
+    Route::prefix('superadmin')->middleware(['ruolo:super_admin'])->group(function () {
+        Route::get('/tassa/configurazione', [\App\Http\Controllers\Superadmin\ConfigurazioneTassaController::class, 'index'])->name('superadmin.tassa.configurazione');
+        Route::post('/tassa/configurazione/conferma', [\App\Http\Controllers\Superadmin\ConfigurazioneTassaController::class, 'conferma'])->name('superadmin.tassa.conferma');
+        Route::post('/tassa/configurazione/verifica', [\App\Http\Controllers\Superadmin\ConfigurazioneTassaController::class, 'verifica'])->middleware('throttle:10,1')->name('superadmin.tassa.verifica');
+        Route::post('/tassa/configurazione/documento', [\App\Http\Controllers\Superadmin\ConfigurazioneTassaController::class, 'documento'])->middleware('throttle:10,1')->name('superadmin.tassa.documento');
+        Route::get('/tassa/configurazione/documenti/{id}', [\App\Http\Controllers\Superadmin\ConfigurazioneTassaController::class, 'download'])->where('id', '[a-f0-9]{64}')->name('superadmin.tassa.download');
+
+        Route::get('/amministratori', [AmministratoriController::class, 'index'])->name('superadmin.amministratori.index');
+        Route::get('/amministratori/create', [AmministratoriController::class, 'create'])->name('superadmin.amministratori.create');
+        Route::post('/amministratori', [AmministratoriController::class, 'store'])->name('superadmin.amministratori.store');
+        Route::get('/amministratori/{id}/edit', [AmministratoriController::class, 'edit'])->name('superadmin.amministratori.edit');
+        Route::put('/amministratori/{id}', [AmministratoriController::class, 'update'])->name('superadmin.amministratori.update');
+        Route::post('/amministratori/{id}/disable', [AmministratoriController::class, 'disable'])->name('superadmin.amministratori.disable');
+        Route::delete('/amministratori/{id}', [AmministratoriController::class, 'destroy'])->name('superadmin.amministratori.destroy');
+        Route::get('/amministratori/{id}/proforme/create', [AmministratoriController::class, 'createProforma'])->name('superadmin.amministratori.proforme.create');
+        Route::post('/amministratori/{id}/proforme', [AmministratoriController::class, 'storeProforma'])->name('superadmin.amministratori.proforme.store');
+        Route::get('/amministratori/{id}/proforme/{fatturazione}', [AmministratoriController::class, 'showProforma'])->name('superadmin.amministratori.proforme.show');
+        Route::get('/amministratori/{id}/proforme/{fatturazione}/edit', [AmministratoriController::class, 'editProforma'])->name('superadmin.amministratori.proforme.edit');
+        Route::put('/amministratori/{id}/proforme/{fatturazione}', [AmministratoriController::class, 'updateProforma'])->name('superadmin.amministratori.proforme.update');
+        Route::post('/amministratori/{id}/proforme/{fatturazione}/close', [AmministratoriController::class, 'closeProforma'])->name('superadmin.amministratori.proforme.close');
+        Route::post('/amministratori/{id}/proforme/{fatturazione}/mark-fatturata', [AmministratoriController::class, 'markFatturata'])->name('superadmin.amministratori.proforme.mark_fatturata');
+        Route::get('/amministratori/{id}/proforme/{fatturazione}/print', [AmministratoriController::class, 'printProforma'])->name('superadmin.amministratori.proforme.print');
+
+        Route::get('/proprietari', [SuperadminProprietariController::class, 'index'])->name('superadmin.proprietari.index');
+        Route::get('/proforme', [SuperadminProprietariController::class, 'indexProforme'])->name('superadmin.proforme.index');
+        Route::get('/proprietari/create', [SuperadminProprietariController::class, 'create'])->name('superadmin.proprietari.create');
+        Route::post('/proprietari', [SuperadminProprietariController::class, 'store'])->name('superadmin.proprietari.store');
+        Route::get('/proprietari/{id}/edit', [SuperadminProprietariController::class, 'edit'])->name('superadmin.proprietari.edit');
+        Route::put('/proprietari/{id}', [SuperadminProprietariController::class, 'update'])->name('superadmin.proprietari.update');
+        Route::post('/proprietari/{id}/disable', [SuperadminProprietariController::class, 'disable'])->name('superadmin.proprietari.disable');
+        Route::delete('/proprietari/{id}', [SuperadminProprietariController::class, 'destroy'])->name('superadmin.proprietari.destroy');
+        Route::put('/proprietari/{id}/assegna-admin', [SuperadminProprietariController::class, 'assegnaAdmin'])->name('superadmin.proprietari.assegna_admin');
+        Route::get('/proprietari/{id}/proforme/create', [SuperadminProprietariController::class, 'createProforma'])->name('superadmin.proprietari.proforme.create');
+        Route::post('/proprietari/{id}/proforme', [SuperadminProprietariController::class, 'storeProforma'])->name('superadmin.proprietari.proforme.store');
+        Route::get('/proprietari/{id}/proforme/{fatturazione}', [SuperadminProprietariController::class, 'showProforma'])->name('superadmin.proprietari.proforme.show');
+        Route::get('/proprietari/{id}/proforme/{fatturazione}/edit', [SuperadminProprietariController::class, 'editProforma'])->name('superadmin.proprietari.proforme.edit');
+        Route::put('/proprietari/{id}/proforme/{fatturazione}', [SuperadminProprietariController::class, 'updateProforma'])->name('superadmin.proprietari.proforme.update');
+        Route::post('/proprietari/{id}/proforme/{fatturazione}/close', [SuperadminProprietariController::class, 'closeProforma'])->name('superadmin.proprietari.proforme.close');
+        Route::post('/proprietari/{id}/proforme/{fatturazione}/mark-fatturata', [SuperadminProprietariController::class, 'markFatturata'])->name('superadmin.proprietari.proforme.mark_fatturata');
+        Route::get('/proprietari/{id}/proforme/{fatturazione}/print', [SuperadminProprietariController::class, 'printProforma'])->name('superadmin.proprietari.proforme.print');
+
+        Route::get('/strutture', [SuperadminStruttureController::class, 'index'])->name('superadmin.strutture.index');
+        Route::get('/strutture/create', [SuperadminStruttureController::class, 'create'])->name('superadmin.strutture.create');
+        Route::post('/strutture', [SuperadminStruttureController::class, 'store'])->name('superadmin.strutture.store');
+        Route::get('/strutture/{id}/edit', [SuperadminStruttureController::class, 'edit'])->name('superadmin.strutture.edit');
+        Route::put('/strutture/{id}', [SuperadminStruttureController::class, 'update'])->name('superadmin.strutture.update');
+        Route::put('/strutture/{id}/servizio', [SuperadminStruttureController::class, 'updateServizio'])->name('superadmin.strutture.servizio');
+        Route::delete('/strutture/{id}', [SuperadminStruttureController::class, 'destroy'])->name('superadmin.strutture.destroy');
+
+        Route::get('/articoli', [ArticoliController::class, 'index'])->name('superadmin.articoli.index');
+        Route::post('/articoli', [ArticoliController::class, 'store'])->name('superadmin.articoli.store');
+        Route::put('/articoli/{id}', [ArticoliController::class, 'update'])->name('superadmin.articoli.update');
+        Route::delete('/articoli/{id}', [ArticoliController::class, 'destroy'])->name('superadmin.articoli.destroy');
+
+        Route::get('/pagamenti', [PagamentiController::class, 'index'])->name('superadmin.pagamenti.index');
+        Route::get('/pagamenti/licenze/{id}/print', [PagamentiController::class, 'printAssegnazione'])->name('superadmin.pagamenti.licenze.print');
+        Route::get('/crm', [CrmController::class, 'index'])->name('superadmin.crm.index');
+        Route::post('/crm', [CrmController::class, 'storeLead'])->name('superadmin.crm.store');
+        Route::post('/crm/example', [CrmController::class, 'createExampleLead'])->name('superadmin.crm.example');
+        Route::post('/crm/agenda', [CrmController::class, 'storeIndexAgenda'])->name('superadmin.crm.agenda.store');
+        Route::get('/crm/{id}', [CrmController::class, 'show'])->name('superadmin.crm.show');
+        Route::put('/crm/{id}', [CrmController::class, 'update'])->name('superadmin.crm.update');
+        Route::post('/crm/{id}/attivita', [CrmController::class, 'storeActivity'])->name('superadmin.crm.attivita.store');
+        Route::put('/crm/{id}/attivita/{activityId}/stato', [CrmController::class, 'updateActivityStatus'])->name('superadmin.crm.attivita.stato');
+        Route::post('/crm/{id}/agenda-esempio', [CrmController::class, 'addExampleAgenda'])->name('superadmin.crm.agenda.example');
+
+        Route::get('/impersonazione', [ImpersonazioneController::class, 'index'])->name('superadmin.impersonazione.index');
+        Route::post('/impersona/{userId}', [ImpersonazioneController::class, 'impersona'])->whereNumber('userId')->name('superadmin.impersona.start');
+    });
+
+    Route::post('/superadmin/impersona/esci', [ImpersonazioneController::class, 'esci'])
+        ->withoutMiddleware(\App\Http\Middleware\VerificaServizioStruttura::class)
+        ->name('superadmin.impersona.stop');
+
+    // QA (solo super_admin)
+    Route::prefix('qa')->middleware(['ruolo:super_admin', 'qa.enabled'])->group(function () {
+        Route::get('/', [QaController::class, 'index'])->name('qa.index');
+        Route::get('/session', [QaController::class, 'session'])->name('qa.session');
+        Route::get('/accesso', [QaController::class, 'accesso'])->name('qa.accesso');
+        Route::get('/tenancy', [QaController::class, 'tenancy'])->name('qa.tenancy');
+        Route::get('/demo-map', [DemoMapController::class, 'index'])->name('qa.demo-map');
+    });
+
+    // Admin area
+    Route::prefix('admin')->middleware(['ruolo:admin'])->group(function () {
+        Route::get('/proprietari', [AdminProprietariController::class, 'index'])->name('admin.proprietari.index');
+        Route::get('/proforme', [AdminProprietariController::class, 'indexProforme'])->middleware('ruolo:super_admin')->name('admin.proforme.index');
+        Route::get('/proprietari/create', [AdminProprietariController::class, 'create'])->name('admin.proprietari.create');
+        Route::post('/proprietari', [AdminProprietariController::class, 'store'])->name('admin.proprietari.store');
+        Route::get('/proprietari/{id}/edit', [AdminProprietariController::class, 'edit'])->name('admin.proprietari.edit');
+        Route::put('/proprietari/{id}', [AdminProprietariController::class, 'update'])->name('admin.proprietari.update');
+        Route::post('/proprietari/{id}/disable', [AdminProprietariController::class, 'disable'])->name('admin.proprietari.disable');
+        Route::delete('/proprietari/{id}', [AdminProprietariController::class, 'destroy'])->name('admin.proprietari.destroy');
+        Route::get('/proprietari/{id}/proforme/create', [AdminProprietariController::class, 'createProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.create');
+        Route::post('/proprietari/{id}/proforme', [AdminProprietariController::class, 'storeProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.store');
+        Route::get('/proprietari/{id}/proforme/{fatturazione}', [AdminProprietariController::class, 'showProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.show');
+        Route::get('/proprietari/{id}/proforme/{fatturazione}/edit', [AdminProprietariController::class, 'editProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.edit');
+        Route::put('/proprietari/{id}/proforme/{fatturazione}', [AdminProprietariController::class, 'updateProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.update');
+        Route::post('/proprietari/{id}/proforme/{fatturazione}/close', [AdminProprietariController::class, 'closeProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.close');
+        Route::post('/proprietari/{id}/proforme/{fatturazione}/mark-fatturata', [AdminProprietariController::class, 'markFatturata'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.mark_fatturata');
+        Route::get('/proprietari/{id}/proforme/{fatturazione}/print', [AdminProprietariController::class, 'printProforma'])->middleware('ruolo:super_admin')->name('admin.proprietari.proforme.print');
+
+        Route::get('/strutture', [AdminStruttureController::class, 'index'])->name('admin.strutture.index');
+        Route::get('/strutture/create', [AdminStruttureController::class, 'create'])->name('admin.strutture.create');
+        Route::post('/strutture', [AdminStruttureController::class, 'store'])->name('admin.strutture.store');
+        Route::get('/strutture/{id}/edit', [AdminStruttureController::class, 'edit'])->name('admin.strutture.edit');
+        Route::put('/strutture/{id}', [AdminStruttureController::class, 'update'])->name('admin.strutture.update');
+        Route::put('/strutture/{id}/servizio', [AdminStruttureController::class, 'updateServizio'])->middleware('ruolo:super_admin')->name('admin.strutture.servizio');
+        Route::delete('/strutture/{id}', [AdminStruttureController::class, 'destroy'])->name('admin.strutture.destroy');
+
+        Route::get('/pagamenti', [AdminPagamentiController::class, 'index'])->name('admin.pagamenti.index');
+        Route::post('/pagamenti/licenze', [AdminPagamentiController::class, 'storeAssegnazione'])->middleware('ruolo:super_admin')->name('admin.pagamenti.licenze.store');
+        Route::put('/pagamenti/licenze/{id}', [AdminPagamentiController::class, 'updateAssegnazione'])->middleware('ruolo:super_admin')->name('admin.pagamenti.licenze.update');
+        Route::delete('/pagamenti/licenze/{id}', [AdminPagamentiController::class, 'destroyAssegnazione'])->middleware('ruolo:super_admin')->name('admin.pagamenti.licenze.destroy');
+        Route::get('/pagamenti/licenze/{id}/print', [AdminPagamentiController::class, 'printAssegnazione'])->name('admin.pagamenti.licenze.print');
+        Route::get('/crm', [CrmController::class, 'index'])->middleware('ruolo:super_admin')->name('admin.crm.index');
+        Route::post('/crm', [CrmController::class, 'storeLead'])->middleware('ruolo:super_admin')->name('admin.crm.store');
+        Route::post('/crm/example', [CrmController::class, 'createExampleLead'])->middleware('ruolo:super_admin')->name('admin.crm.example');
+        Route::post('/crm/agenda', [CrmController::class, 'storeIndexAgenda'])->middleware('ruolo:super_admin')->name('admin.crm.agenda.store');
+        Route::get('/crm/{id}', [CrmController::class, 'show'])->middleware('ruolo:super_admin')->name('admin.crm.show');
+        Route::put('/crm/{id}', [CrmController::class, 'update'])->middleware('ruolo:super_admin')->name('admin.crm.update');
+        Route::post('/crm/{id}/attivita', [CrmController::class, 'storeActivity'])->middleware('ruolo:super_admin')->name('admin.crm.attivita.store');
+        Route::put('/crm/{id}/attivita/{activityId}/stato', [CrmController::class, 'updateActivityStatus'])->middleware('ruolo:super_admin')->name('admin.crm.attivita.stato');
+        Route::post('/crm/{id}/agenda-esempio', [CrmController::class, 'addExampleAgenda'])->middleware('ruolo:super_admin')->name('admin.crm.agenda.example');
+    });
+
+    // Proprietario area
+    Route::prefix('proprietario')->middleware(['ruolo:proprietario'])->group(function () {
+        Route::get('/strutture', [ProprietarioStruttureController::class, 'index'])->name('proprietario.strutture.index');
+    });
+
+    // Root
+    Route::get('/dashboard', [HomeController::class, 'root'])->name('root');
+    Route::get('/home', function () {
+        return redirect()->route('root');
+    })->name('home');
+
+    //archivo txt
+    Route::get('/archivos', [ArchivosController::class, 'generarArchivoHospedados'])->name('archivos');
+
+    // clienti (slug italiano) + alias legacy
+    Route::get('/clienti', [CustomerController::class, 'index'])->name('customers');
+    Route::get('/clienti/import', [CustomerImportController::class, 'index'])->name('customer.import.index');
+    Route::get('/clienti/import/template', [CustomerImportController::class, 'template'])->name('customer.import.template');
+    Route::post('/clienti/import', [CustomerImportController::class, 'store'])->name('customer.import.store');
+    Route::get('/clienti/import/{batch}', [CustomerImportController::class, 'show'])->name('customer.import.show');
+    Route::delete('/clienti/import/{batch}', [CustomerImportController::class, 'destroy'])->name('customer.import.destroy');
+    Route::get('/clienti/import/{batch}/righe/{row}/modifica', [CustomerImportController::class, 'editRow'])->name('customer.import.row.edit');
+    Route::put('/clienti/import/{batch}/righe/{row}', [CustomerImportController::class, 'updateRow'])->name('customer.import.row.update');
+    Route::post('/clienti/import/{batch}/conferma', [CustomerImportController::class, 'commit'])->name('customer.import.commit');
+    Route::get('/clienti/importati', [CustomerImportController::class, 'importedIndex'])->name('customer.imported.index');
+    Route::post('/clienti/importati/{row}/conferma', [CustomerImportController::class, 'confirmImported'])->name('customer.imported.confirm');
+    Route::post('/clienti/importati/{row}/schedina', [CustomerImportController::class, 'useInSchedina'])->name('customer.imported.use_schedina');
+    Route::delete('/clienti/importati/{row}', [CustomerImportController::class, 'deleteImported'])->name('customer.imported.destroy');
+    Route::post('/clienti/importati/elimina-selezionati', [CustomerImportController::class, 'destroySelectedImported'])->name('customer.imported.bulk_destroy');
+    Route::get('/clienti/liste-export', [CustomerExportController::class, 'index'])->name('customer.export.index');
+    Route::get('/clienti/liste-export/csv', [CustomerExportController::class, 'exportCsv'])->name('customer.export.csv');
+    Route::delete('/clienti/liste-export/{id}', [CustomerExportController::class, 'destroy'])->whereNumber('id')->name('customer.export.destroy');
+    Route::get('/clienti/nuovo', [CustomerController::class, 'new'])->name('newcustomer');
+    Route::post('/clienti', [CustomerController::class, 'store'])->name('customer.store');
+    Route::get('/clienti/{id}/modifica', [CustomerController::class, 'edit'])->name('customer.edit');
+    Route::get('/clienti/{id}/visualizza', [CustomerController::class, 'show'])->whereNumber('id')->name('customer.show');
+    Route::get('/clienti/{id}/stampa', [CustomerController::class, 'print'])->name('customer.print');
+    Route::get('/clienti/{id}/storico', [CustomerController::class, 'storico'])->name('customer.storico');
+    Route::put('/clienti/{id}', [CustomerController::class, 'update'])->name('customer.update');
+    Route::delete('/clienti/{id}', [CustomerController::class, 'destroy'])->name('customer.destroy');
+
+    Route::redirect('/customers', '/clienti');
+    Route::redirect('/newcustomer', '/clienti/nuovo');
+    Route::redirect('/customer_store', '/clienti');
+    Route::redirect('/editcustomer/{id}', '/clienti/{id}/modifica');
+    Route::redirect('/customer_update/{id}', '/clienti/{id}');
+    // Rutas per AJAX
+    Route::get('/provinces-by-region', [LocationController::class, 'provincesByRegion'])->name('provincesByRegion');
+    Route::get('/provinces-all', [LocationController::class, 'provincesAll'])->name('provincesAll');
+    Route::get('/cap-by-province', [LocationController::class, 'capByProvince'])->name('capByProvince');
+    Route::get('/cities-by-province', [LocationController::class, 'citiesByProvince'])->name('citiesByProvince');
+
+    // componenti legacy: reindirizzati al tab integrato della schedina
+    Route::get('/componenti', function () {
+        return redirect()->route('schedina')->with('warning', 'I componenti si gestiscono ora dentro la schedina.');
+    })->name('componenti');
+    Route::get('/componenti/nuovo/{schedina_id}/{customer_id}', function (int $schedina_id) {
+        return redirect()->route('schedina.edit', ['id' => $schedina_id, 'active_tab' => 'schedina-step-comp']);
+    })->name('newcomponenti');
+    Route::post('/componenti', function () {
+        $schedinaId = (int) request('schedina_id', 0);
+        if ($schedinaId > 0) {
+            return redirect()
+                ->route('schedina.edit', ['id' => $schedinaId, 'active_tab' => 'schedina-step-comp'])
+                ->with('warning', 'I componenti si salvano dal tab Componenti della schedina.');
+        }
+
+        return redirect()->route('schedina')->with('warning', 'I componenti si gestiscono ora dentro la schedina.');
+    })->name('componenti.store');
+    Route::get('/componenti/{id}/modifica', function (int $id) {
+        $schedinaId = \App\Models\Componenti::query()->whereKey($id)->value('schedina_id');
+        abort_unless($schedinaId, 404);
+
+        return redirect()->route('schedina.edit', ['id' => $schedinaId, 'active_tab' => 'schedina-step-comp']);
+    })->name('componenti.edit');
+    Route::put('/componenti/{id}', function (int $id) {
+        $schedinaId = \App\Models\Componenti::query()->whereKey($id)->value('schedina_id');
+        abort_unless($schedinaId, 404);
+
+        return redirect()
+            ->route('schedina.edit', ['id' => $schedinaId, 'active_tab' => 'schedina-step-comp'])
+            ->with('warning', 'Aggiorna i componenti dal tab Componenti della schedina.');
+    })->name('componenti.update');
+    Route::delete('/componenti/{id}', function (int $id) {
+        $schedinaId = \App\Models\Componenti::query()->whereKey($id)->value('schedina_id');
+        abort_unless($schedinaId, 404);
+
+        return redirect()
+            ->route('schedina.edit', ['id' => $schedinaId, 'active_tab' => 'schedina-step-comp'])
+            ->with('warning', 'Elimina i componenti dal tab Componenti della schedina.');
+    })->name('componenti.destroy');
+
+    Route::redirect('/newcomponenti/{schedina_id}/{customer_id}', '/componenti/nuovo/{schedina_id}/{customer_id}');
+    Route::redirect('/componenti_store', '/componenti');
+    Route::redirect('/editcomponenti/{id}', '/componenti/{id}/modifica');
+    Route::redirect('/componenti_update/{id}', '/componenti/{id}');
+    // schedine (slug italiano) + alias legacy
+    Route::get('/schedine', [SchedinaController::class, 'index'])->name('schedina');
+    Route::get('/schedine/bozze', [SchedinaController::class, 'bozze'])->name('schedina.bozze');
+    Route::get('/schedine/nuova', [SchedinaController::class, 'new'])->name('newschedina');
+    Route::get('/schedine/clienti/ricerca', [SchedinaController::class, 'searchCustomers'])->name('schedina.clienti.ricerca');
+
+    // Flusso HTTP canonico Nuova schedina:
+    // GET pagina import -> POST preview -> POST conferma -> GET download template -> GET ritorno alla schedina.
+    Route::post('/schedine/nuova/componenti/import/prepara', [ComponentiImportController::class, 'newPrepare'])->name('schedina.componenti.import.new.prepare');
+    Route::get('/schedine/nuova/componenti/import', [ComponentiImportController::class, 'newIndex'])->name('schedina.componenti.import.new.index');
+    Route::post('/schedine/nuova/componenti/import', [ComponentiImportController::class, 'newPreview'])->name('schedina.componenti.import.new.preview');
+    Route::post('/schedine/nuova/componenti/import/conferma', [ComponentiImportController::class, 'newConfirm'])->name('schedina.componenti.import.new.confirm');
+    Route::get('/schedine/nuova/componenti/import/modello/{format}', [ComponentiImportController::class, 'newTemplate'])
+        ->whereIn('format', ['csv', 'txt', 'xlsx'])
+        ->name('schedina.componenti.import.new.template');
+
+    Route::post('/schedine/{schedina}/componenti/import/prepara', [ComponentiImportController::class, 'prepare'])->name('schedina.componenti.import.prepare');
+    Route::post('/schedine', [SchedinaController::class, 'store'])->name('schedina.store');
+    Route::get('/schedine/{schedina}/componenti/import', [ComponentiImportController::class, 'index'])->name('schedina.componenti.import.index');
+    Route::post('/schedine/{schedina}/componenti/import', [ComponentiImportController::class, 'preview'])->name('schedina.componenti.import.preview');
+    Route::post('/schedine/{schedina}/componenti/import/conferma', [ComponentiImportController::class, 'confirm'])->name('schedina.componenti.import.confirm');
+    Route::get('/schedine/{schedina}/componenti/import/modello/{format}', [ComponentiImportController::class, 'template'])
+        ->whereIn('format', ['csv', 'txt', 'xlsx'])
+        ->name('schedina.componenti.import.template');
+    Route::get('/schedine/{id}/copia', [SchedinaController::class, 'copy'])->name('schedina.copy');
+    Route::get('/schedine/{id}/modifica', [SchedinaController::class, 'edit'])->name('schedina.edit')->where('id', '[1-9][0-9]{0,17}');
+    Route::put('/schedine/{id}', [SchedinaController::class, 'update'])->name('schedina.update')->where('id', '[1-9][0-9]{0,17}');
+    Route::delete('/schedine/{id}', [SchedinaController::class, 'destroy'])->name('schedina.destroy')->where('id', '[1-9][0-9]{0,17}');
+    Route::get('/schedine/{id}/tassa/anteprima', [SchedinaController::class, 'printTassa'])->name('schedina.tassa.anteprima');
+    Route::get('/schedine/{id}/tassa/print', [SchedinaController::class, 'printTassa'])->name('schedina.tassa.print');
+
+    Route::redirect('/schedina', '/schedine');
+    Route::redirect('/newschedina', '/schedine/nuova');
+    Route::redirect('/schedina_store', '/schedine');
+    Route::redirect('/editschedina/{id}', '/schedine/{id}/modifica');
+    Route::redirect('/schedina_update/{id}', '/schedine/{id}');
+    //gruppi (RESTful, nomi legacy)
+    Route::resource('gruppi', GroupController::class)
+        ->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)
+        ->only(['index', 'store', 'update', 'destroy'])
+        ->names([
+            'index' => 'gruppi',
+            'store' => 'gruppo.store',
+            'update' => 'gruppo.update',
+            'destroy' => 'gruppo.destroy',
+        ]);
+
+    //Titolo (RESTful, nomi legacy)
+    Route::post('titolo/recupera-base', [TitleController::class, 'recover'])
+        ->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('titolo.recover');
+    Route::resource('titolo', TitleController::class)
+        ->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)
+        ->only(['index', 'store', 'update', 'destroy'])
+        ->names([
+            'index' => 'titolo.index',
+            'store' => 'titolo.store',
+            'update' => 'titolo.update',
+            'destroy' => 'titolo.destroy',
+        ]);
+
+    // typeDoc
+    require __DIR__.'/typedoc.php';
+
+    //tipovia
+    Route::get('/tipovia', [TipoViaController::class, 'index'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('tipovia');
+    Route::post('/tipovia_store', [TipoViaController::class, 'store'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('tipovia.store');
+    Route::put('/tipovia_update/{id}', [TipoViaController::class, 'update'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('tipovia.update');
+    Route::delete('/tipovia/{id}', [TipoViaController::class, 'destroy'])->middleware(\App\Http\Middleware\RequireAuthorizedStruttura::class)->name('tipovia.destroy');
+
+    // Arrivi
+    Route::get('/arrivi', [ArrivalsController::class, 'index'])->name('arrivals');
+    Route::get('/arrivi/giorno-operativo', [ArrivalsController::class, 'clock'])->name('arrivals.clock');
+    Route::get('/arrivi/nuovo', [ArrivalsController::class, 'new'])->name('newarrival');
+    Route::post('/arrivi', [ArrivalsController::class, 'store'])->name('arrival.store');
+    Route::post('/arrivi/{id}/elimina', [ArrivalsController::class, 'destroy'])->name('arrivals.destroy')->where('id', '[1-9][0-9]{0,17}');
+    Route::post('/arrivi/{id}/a-schedina', [ArrivalsController::class, 'a_schedina'])->name('a_schedina')->where('id', '[1-9][0-9]{0,17}');
+    Route::get('/search_customers', [ArrivalsController::class, 'search'])->name('search_customers');
+
+    //Update User Details
+    Route::post('/update-profile/{id}', [HomeController::class, 'updateProfile'])->name('updateProfile');
+    Route::post('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
+
+    // Web Check-in
+    Route::post('/web-checkin/{id}/modelli/{model}/elimina', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'eliminaModello'])->name('web_checkin.modello.elimina')->where(['id' => '[1-9][0-9]{0,17}', 'model' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::post('/web-checkin/{id}/modelli/ripristina', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'ripristinaModelli'])->name('web_checkin.modelli.ripristina')->where(['id' => '[1-9][0-9]{0,17}', 'model' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::post('/web-checkin/{id}/cronologia/rimuovi', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'nascondi'])->name('web_checkin.cronologia.rimuovi')->where(['id' => '[1-9][0-9]{0,17}', 'model' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::post('/web-checkin/{id}/identita', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'identita'])->name('web_checkin.identita')->where(['id' => '[1-9][0-9]{0,17}', 'model' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::get('/web-checkin/{id}/comunicazioni/{communication}/anteprima', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'anteprima'])->name('web_checkin.comunicazione.anteprima')->where(['id' => '[1-9][0-9]{0,17}', 'model' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::post('/web-checkin/{id}/comunicazioni/{communication}/invia', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'invia'])->name('web_checkin.comunicazione.invia')->where(['id' => '[1-9][0-9]{0,17}', 'model' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::post('/web-checkin/{id}/comunicazioni/{communication}/apri', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'apri'])->name('web_checkin.comunicazione.apri')->where(['id' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::get('/web-checkin/{id}/comunicazioni', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'index'])->name('web_checkin.comunicazioni')->where('id', '[1-9][0-9]{0,17}');
+    Route::post('/web-checkin/{id}/modelli', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'modello'])->name('web_checkin.modello')->where('id', '[1-9][0-9]{0,17}');
+    Route::post('/web-checkin/{id}/comunicazioni', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'prepara'])->name('web_checkin.prepara')->where('id', '[1-9][0-9]{0,17}');
+    Route::get('/web-checkin/{id}/comunicazioni/{communication}', [\App\Http\Controllers\WebCheckinComunicazioniController::class, 'show'])->name('web_checkin.comunicazione')->where(['id' => '[1-9][0-9]{0,17}', 'communication' => '[1-9][0-9]{0,17}']);
+    Route::get('/web-checkin', [WebCheckinController::class, 'index'])->name('schedina.web');
+    Route::get('/web-checkin/storico', [WebCheckinController::class, 'index'])->name('web_checkin.storico');
+    Route::get('/web-checkin/nuovo', [WebCheckinController::class, 'create'])->name('web_checkin.create');
+    Route::post('/web-checkin', [WebCheckinController::class, 'store'])->name('web_checkin.store');
+    Route::get('/web-checkin/{id}/anteprima-modulo', [WebCheckinController::class, 'anteprimaModulo'])->name('web_checkin.anteprima_modulo')->where('id', '[1-9][0-9]{0,17}');
+    Route::post('/web-checkin/{id}/anteprima-modulo', [WebCheckinController::class, 'anteprimaDimostrazione'])->name('web_checkin.anteprima_modulo.demo')->where('id', '[1-9][0-9]{0,17}');
+    Route::get('/web-checkin/{id}/attivita/{attivita}', [WebCheckinController::class, 'edit'])->name('web_checkin.attivita')->where(['id' => '[1-9][0-9]{0,17}', 'attivita' => 'ospiti|check-in|link|cestino']);
+    Route::get('/web-checkin/{id}/modifica', [WebCheckinController::class, 'edit'])->name('web_checkin.edit');
+    Route::put('/web-checkin/{id}', [WebCheckinController::class, 'update'])->name('web_checkin.update');
+    Route::delete('/web-checkin/{id}', [WebCheckinController::class, 'destroy'])->name('web_checkin.destroy');
+    Route::post('/web-checkin/{id}/revoca', [WebCheckinController::class, 'revoke'])->name('web_checkin.revoke');
+    Route::post('/web-checkin/{id}/rigenera', [WebCheckinController::class, 'regenerate'])->name('web_checkin.regenerate');
+    Route::post('/web-checkin/{id}/converti', [WebCheckinController::class, 'toSchedina'])->name('web_checkin.to_schedina');
+    Route::redirect('/schedine-web', '/web-checkin');
+
+    // Questura
+    Route::get('/questura', [QuesturaExportController::class, 'index'])->name('questura.index');
+    Route::post('/questura/download/periodo', [QuesturaExportController::class, 'downloadPeriodo'])->name('questura.download.periodo');
+    Route::post('/questura/download/schedina/{id}', [QuesturaExportController::class, 'downloadSchedina'])->name('questura.download.schedina');
+    Route::get('/questura/download/storico/{id}', [QuesturaExportController::class, 'downloadStorico'])->name('questura.download.storico');
+    Route::get('/questura/ws/payload/{id}', [QuesturaExportController::class, 'downloadPayload'])->name('questura.ws.payload');
+    Route::post('/questura/ws/tables', [QuesturaExportController::class, 'downloadOfficialTables'])->name('questura.ws.tables');
+    Route::post('/questura/ws/verify', [QuesturaExportController::class, 'verifyPeriodo'])->name('questura.ws.verify');
+    Route::post('/questura/ws/send', [QuesturaExportController::class, 'sendPeriodo'])->name('questura.ws.send');
+    Route::post('/questura/ws/receipt/{id}', [QuesturaExportController::class, 'acquireReceipt'])->name('questura.ws.receipt.acquire');
+    Route::get('/questura/ws/receipt/{id}', [QuesturaExportController::class, 'downloadReceipt'])->name('questura.ws.receipt');
+
+    Route::post('/questura/txt/{id}/ricevuta', [QuesturaExportController::class, 'acquireManualReceipt'])->name('questura.txt.receipt');
+    Route::post('/questura/ws/{id}/finalizza', [QuesturaExportController::class, 'finalizeTransmission'])->name('questura.ws.finalize');
+    Route::get('/questura/ricevute/{id}', [QuesturaExportController::class, 'downloadArchivedReceipt'])->name('questura.receipts.download');
+
+    // Tavola A / ISTAT
+    Route::post('/istat-tabella-a/configurazione', [IstatTabellaAController::class, 'configure'])->name('istat.tabella_a.configure');
+    Route::post('/istat-tabella-a/manuale/{id}', [IstatTabellaAController::class, 'registerManual'])->name('istat.tabella_a.manual');
+    Route::post('/istat-tabella-a/riconcilia/{id}', [IstatTabellaAController::class, 'reconcile'])->name('istat.tabella_a.reconcile');
+    Route::get('/istat-tabella-a', [IstatTabellaAController::class, 'index'])->name('istat.tabella_a.index');
+    Route::post('/istat-tabella-a/controllo', [IstatTabellaAController::class, 'saveControllo'])->name('istat.tabella_a.controllo.save');
+    Route::get('/istat-tabella-a/stampa-riepilogo', [IstatTabellaAController::class, 'printSummary'])->name('istat.tabella_a.print.summary');
+    Route::post('/istat-tabella-a/download/xml', [IstatTabellaAController::class, 'downloadXml'])->name('istat.tabella_a.download.xml');
+    Route::get('/istat-tabella-a/download/storico/{id}', [IstatTabellaAController::class, 'downloadStorico'])->name('istat.tabella_a.download.storico');
+    Route::post('/istat-tabella-a/ws/verify', [IstatTabellaAController::class, 'verifyPeriodo'])->name('istat.tabella_a.ws.verify');
+    Route::post('/istat-tabella-a/ws/send', [IstatTabellaAController::class, 'sendPeriodo'])->name('istat.tabella_a.ws.send');
+    Route::get('/istat-tabella-a/ws/receipt/{id}', [IstatTabellaAController::class, 'downloadReceipt'])->name('istat.tabella_a.ws.receipt');
+
+    // Presenze / statistica
+    Route::get('/statistica/presenze', [PresenzeController::class, 'index'])->name('presenze.index');
+    Route::get('/statistica/presenze/stampa-riepilogo', [PresenzeController::class, 'printRiepilogo'])->name('presenze.print.riepilogo');
+    Route::get('/statistica/presenze/stampa-dettaglio', [PresenzeController::class, 'printDettaglio'])->name('presenze.print.dettaglio');
+
+    // Calendario condiviso struttura
+    Route::get('/calendario', [CalendarioController::class, 'index'])->name('calendario.index');
+    Route::post('/calendario', [CalendarioController::class, 'store'])->name('calendario.store');
+    Route::put('/calendario/{id}', [CalendarioController::class, 'update'])->name('calendario.update');
+    Route::post('/calendario/{id}/stato', [CalendarioController::class, 'updateStatus'])->name('calendario.status');
+
+    // Cestino
+    Route::get('/cestino', [CestinoController::class, 'index'])->name('cestino.index');
+    Route::post('/cestino/{id}/ripristina', [CestinoController::class, 'restore'])->name('cestino.restore');
+    Route::delete('/cestino/selezionati', [CestinoController::class, 'destroySelected'])->name('cestino.destroySelected');
+    Route::delete('/cestino/svuota', [CestinoController::class, 'empty'])->name('cestino.empty');
+    Route::delete('/cestino/{id}', [CestinoController::class, 'destroy'])->name('cestino.destroy');
+
+    // Utenti, consegne e notifiche interne
+    Route::get('/gestione-operativa', [GestioneOperativaController::class, 'index'])->name('gestione.operativa.index');
+    Route::put('/gestione-operativa/profilo', [GestioneOperativaController::class, 'updateProfile'])->name('gestione.operativa.profile.update');
+    Route::post('/gestione-operativa/profilo/password', [GestioneOperativaController::class, 'updateMyPassword'])->name('gestione.operativa.profile.password');
+    Route::post('/gestione-operativa/utenti', [GestioneOperativaController::class, 'storeUtente'])->name('gestione.operativa.utenti.store');
+    Route::put('/gestione-operativa/utenti/{id}', [GestioneOperativaController::class, 'updateUtente'])->name('gestione.operativa.utenti.update');
+    Route::post('/gestione-operativa/utenti/{id}/password', [GestioneOperativaController::class, 'resetPassword'])->name('gestione.operativa.utenti.password');
+    Route::post('/gestione-operativa/consegne', [GestioneOperativaController::class, 'storeComanda'])->name('gestione.operativa.comande.store');
+    Route::post('/gestione-operativa/consegne/{id}/vista', [GestioneOperativaController::class, 'markComandaRead'])->name('gestione.operativa.comande.read');
+    Route::post('/gestione-operativa/consegne/{id}/chiudi', [GestioneOperativaController::class, 'closeComanda'])->name('gestione.operativa.comande.close');
+    Route::get('/notifiche', [NotificheController::class, 'index'])->name('notifiche.index');
+
+    // Centro assistenza
+    Route::get('/aiuto', [HelpCenterController::class, 'index'])->name('help.index');
+    Route::get('/aiuto/generale', [HelpCenterController::class, 'general'])->name('help.general');
+    Route::get('/aiuto/admin', [HelpCenterController::class, 'admin'])->name('help.admin');
+    Route::get('/aiuto/stampa', [HelpCenterController::class, 'print'])->name('help.print');
+    Route::get('/aiuto/moduli/{slug}', [HelpCenterController::class, 'module'])->name('help.module');
+    Route::get('/aiuto/gestione/{slug}', [HelpCenterController::class, 'management'])->name('help.management');
+
+    // Centro di supporto
+    Route::get('/supporto', [SupportoController::class, 'index'])->name('supporto.index');
+    Route::post('/supporto', [SupportoController::class, 'store'])->name('supporto.store');
+    Route::get('/supporto/{id}', [SupportoController::class, 'show'])->name('supporto.show');
+    Route::post('/supporto/{id}/rispondi', [SupportoController::class, 'reply'])->name('supporto.reply');
+    Route::post('/supporto/{id}/stato', [SupportoController::class, 'updateStatus'])->name('supporto.status');
+    Route::post('/supporto/{id}/assegna', [SupportoController::class, 'assign'])->name('supporto.assign');
+
+});
+
+Route::get('/checkin/{token}', [WebCheckinController::class, 'publicShow'])->name('web_checkin.public.show');
+Route::post('/checkin/{token}', [WebCheckinController::class, 'publicStore'])->name('web_checkin.public.store');
+Route::get('/checkin/{token}/completato', [WebCheckinController::class, 'publicCompleted'])->name('web_checkin.public.completed');
+Route::get('/w/{token}', [WebCheckinController::class, 'publicShowShort'])->name('web_checkin.public.short.show');
+Route::post('/w/{token}', [WebCheckinController::class, 'publicStoreShort'])->name('web_checkin.public.short.store');
+Route::get('/w/{token}/completato', [WebCheckinController::class, 'publicCompletedShort'])->name('web_checkin.public.short.completed');
+
+Route::middleware(['auth'])->group(function () {
+    // Catch-all
+    // Non intercettare richieste ad asset pubblici (es. /build/*), altrimenti
+    // Laravel salva URL errati come "intended" durante il login.
+    Route::get('{any}', [HomeController::class, 'index'])
+        ->where('any', '^(?!build/|storage/|images/|css/|js/|favicon\\.ico$|checkin/).*$')
+        ->name('index');
+});

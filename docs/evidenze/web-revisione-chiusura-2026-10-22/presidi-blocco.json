@@ -1,0 +1,9 @@
+{
+  "esito": "PRESIDI_TEMPORANEI_TERMINATI_PER_BLOCCO_AUTOREVIEW",
+  "UTC": "2026-10-21T22:48:46.654787+00:00",
+  "caffeinate_PID_proprio": 19338,
+  "caffeinate_terminato": true,
+  "osservatore_VM_proprio_terminato": true,
+  "nessuna_modifica_globale_al_risparmio_energetico": true,
+  "ripresa_richiede_nuovo_preflight_e_nuovi_presidi": true
+}

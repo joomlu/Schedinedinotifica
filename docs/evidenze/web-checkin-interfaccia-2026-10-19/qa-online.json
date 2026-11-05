@@ -1,0 +1,258 @@
+{
+  "online-circuito": {
+    "inizio": "2026-10-19T21:37:54.139Z",
+    "prove": [
+      {
+        "scenario": "Compilazione, revisione e check-in OSPITE SINGOLO 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Storico e Cestino OSPITE SINGOLO 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Compilazione, revisione e check-in CAPO FAMIGLIA 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Storico e Cestino CAPO FAMIGLIA 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Compilazione, revisione e check-in CAPO GRUPPO 390px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Storico e Cestino CAPO GRUPPO 390px",
+        "esito": "PASS"
+      }
+    ],
+    "esito": "PASS_SCENARI_ONLINE",
+    "fine": "2026-10-19T21:39:11.954Z"
+  },
+  "online-interfaccia": {
+    "inizio": "2026-10-19T21:39:12.717Z",
+    "prove": [
+      {
+        "scenario": "Percorsi separati Web Check-in a 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Percorsi separati Web Check-in a 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Percorsi separati Web Check-in a 390px",
+        "esito": "PASS"
+      }
+    ],
+    "esito": "PASS_SCENARI_ONLINE",
+    "fine": "2026-10-19T21:39:57.199Z"
+  },
+  "online-completo": {
+    "inizio": "2026-10-19T21:39:57.801Z",
+    "SHA": "42deeaf399910d8e6ac913348306756a9c566277",
+    "prove": [
+      {
+        "regressione_Nuova_schedina": true,
+        "ricerca_nome_cognome": true,
+        "selezione_cliente": true,
+        "bozza_e_ripresa": true
+      },
+      {
+        "creazione_reale_struttura_B_senza_collisioni": true,
+        "modelli_B_indipendenti": true,
+        "richiesta_B_negata_ad_A404": true
+      },
+      {
+        "ricerca_struttura_B_solo_proprio_cliente": true
+      }
+    ],
+    "responsive": [
+      {
+        "width": 1440,
+        "pagina": "/web-checkin",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/web-checkin/nuovo",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/web-checkin/storico",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/cestino?tipo=Web%20Check-in",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/schedine/nuova",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/schedine",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/schedine/bozze",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/arrivi",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/web-checkin",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/web-checkin/nuovo",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/web-checkin/storico",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/cestino?tipo=Web%20Check-in",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/schedine/nuova",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/schedine",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/schedine/bozze",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/arrivi",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/web-checkin",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/web-checkin/nuovo",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/web-checkin/storico",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/cestino?tipo=Web%20Check-in",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/schedine/nuova",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/schedine",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/schedine/bozze",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/arrivi",
+        "nessun_overflow": true
+      }
+    ],
+    "esito": "PASS_ONLINE_REGRESSIONI_NUOVA_SCHEDINA_TENANCY",
+    "errori_JS": [],
+    "fine": "2026-10-19T21:40:16.123Z"
+  },
+  "online-accessi": {
+    "inizio": "2026-10-19T21:41:11.014Z",
+    "prove": [
+      {
+        "scaduto404": true,
+        "date_sintetiche_modificate_da_reception": true,
+        "clock_produzione_invariato": true,
+        "dati_conservati": true
+      },
+      {
+        "revoca_GET_POST404": true,
+        "rigenerazione_esplicita": true,
+        "vecchio_link404_nuovo200": true,
+        "scrittura_rifiutata_non_persistita": true,
+        "note_private": true,
+        "noindex_no_store": true
+      }
+    ],
+    "esito": "PASS_ACCESSI_WEB_ONLINE",
+    "fine": "2026-10-19T21:41:27.897Z"
+  },
+  "online-modelli": {
+    "esito": "PASS_GESTIONE_MODELLI_HTML_ONLINE",
+    "creazione_esplicita": true,
+    "layout_personalizzato_conservato": true,
+    "duplicazione_indipendente": true,
+    "aggiornamento_versionato": true,
+    "conferma_eliminazione_effettiva": true,
+    "nessuna_ricreazione_automatica": true,
+    "nessuna_email_inviata": true,
+    "errori_JS": []
+  },
+  "schermate": {
+    "online-elenco-1440.png": "a81dce5a3d6abc0fcdf4e001af1add7c35a0e84ca044c22e98ffd9d9b5aa124a",
+    "online-elenco-768.png": "01e3f3a7a4fafcfe700cdb047a60f512356eaf68876b6c53fb1bd6340115a751",
+    "online-elenco-390.png": "2a1e3605938d0ed5b475bf886c569e4379c8fb699eb8f97f24c9849064ee91c1",
+    "online-anteprima-390.png": "18890862971e7903fe6f42f3a7f09b4b9e761d497caefa2f021a275daf1d84d8",
+    "online-modifica-390.png": "6226377c23b34c7353e4f2447e9ddd3d2d62f6c43989039aa9e7e7d9d2a61a28",
+    "online-check-in-768.png": "a3d8394c25ddc4a1200f04bc5aec2325ac09671e77eea31264d251a1bd536096"
+  },
+  "nessuna_email_reale": true,
+  "rettifica_metadato": {
+    "esito": "PASS_RETTIFICA_SOLO_METADATO_SHA",
+    "originale_sha256": "b65f081e0647534a4c60229c4641e81f4fe62bf51708aa8a1f4321d2b9fe6977",
+    "precedente": "114c3e879d9916876f238d8e306955ec6374f63f",
+    "SHA_produzione_riletto": "42deeaf399910d8e6ac913348306756a9c566277",
+    "UTC": "2026-10-19T21:41:23.054307+00:00",
+    "causa": "Resoconto leggeva il vecchio kit locale inattivo; corretto il percorso al kit C5 realmente eseguito. Tempi e risultati delle prove invariati; originale preservato."
+  },
+  "prove_intermedie": {
+    "circuito_R1": "NON PASS: dato sintetico non presente nel catalogo produttivo; adattato a PASSAPORTO ORDINARIO",
+    "circuito_R2": "404 corretto sulla doppia associazione della scheda precedente, ripresa la richiesta sintetica originale",
+    "accessi_R1": "Adattatore fermo davanti alla nuova conferma esplicita di emissione; completata la conferma, successivo PASS"
+  },
+  "log_intermedi_sha256": {
+    "online-accessi-R1.log": "f1b46df1a39ae7d07a3d4bbe6189e7c7ec231901d3e77a1465b681c13b8a1c69",
+    "online-circuito-R1.log": "219b817d728302ef32d5f8c28667663ba82190c82445e0015e1327bdc18a77be",
+    "online-circuito-R2.log": "d0bcbb124659ce0da908442d1248375c8b9eed0c0921fc075d3fbdea0b7e0f38"
+  },
+  "UTC": "2026-10-19T21:42:37.242113+00:00",
+  "ispezione_visuale": "Panorama di tutte le30 schermate online, desktop a dimensione leggibile e dettagli mobile/tablet ispezionati; nessun overflow o sovrapposizione"
+}

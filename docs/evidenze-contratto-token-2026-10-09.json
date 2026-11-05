@@ -1,0 +1,646 @@
+{
+  "data": "2026-10-09",
+  "stato": "BASELINE IN AUDIT — NON VALIDATA",
+  "verdetto_locale": "POSITIVO nel contratto e perimetro verificati; nessuna validazione produttiva",
+  "decisioni_approvate": [
+    "D1",
+    "D2",
+    "R1",
+    "R2",
+    "D3",
+    "D4",
+    "D5"
+  ],
+  "decisioni_pendenti": [],
+  "risultati": {
+    "globale_definitiva": {
+      "test": 750,
+      "asserzioni": 8252,
+      "seed": 20261009,
+      "errori": 0,
+      "fallimenti": 0,
+      "skip": 0,
+      "junit": "docs/evidenze/contratto-token-2026-10-09/token-globale-17.xml"
+    },
+    "regressioni_contratto": {
+      "test": 22,
+      "asserzioni": 600,
+      "incluse_nella_globale": true
+    },
+    "supplementari": {
+      "test": 14,
+      "asserzioni": 101,
+      "concorrenza": "4/50",
+      "migration_roundtrip": "1/8",
+      "junit": "docs/evidenze/contratto-token-2026-10-09/token-finali-browser-15.xml"
+    },
+    "browser_reale": {
+      "motore": "Chromium",
+      "test": 9,
+      "pass": 9,
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-browser-originale-16.log",
+      "vista_cestino_originale_servita": true
+    },
+    "guardrail": 5,
+    "policy_db": 10,
+    "proxy_in_memoria": 2,
+    "istat_in_memoria": 22,
+    "pint_file": 15
+  },
+  "classi_globale": {
+    "Tests\\Feature\\QuesturaLoggingPrivacyTest": [
+      17,
+      1290
+    ],
+    "Tests\\Feature\\QuesturaLegacyMigrationTest": [
+      1,
+      5
+    ],
+    "Tests\\Feature\\QuesturaTestSendSnapshotTest": [
+      2,
+      32
+    ],
+    "Tests\\Feature\\ArriviCustomerReferenceSecurityTest": [
+      7,
+      45
+    ],
+    "Tests\\Feature\\SchedinaCustomerReferenceSecurityTest": [
+      34,
+      143
+    ],
+    "Tests\\Feature\\QuesturaIdempotencyTest": [
+      18,
+      200
+    ],
+    "Tests\\Feature\\QuesturaCredentialEncryptionTest": [
+      5,
+      26
+    ],
+    "Tests\\Feature\\AccountSessionSecurityTest": [
+      9,
+      47
+    ],
+    "Tests\\Feature\\StrutturaAuthorizationTest": [
+      22,
+      84
+    ],
+    "Tests\\Feature\\WebCheckinParentSecurityTest": [
+      14,
+      47
+    ],
+    "Tests\\Feature\\TassaBellariaVersionamentoTest": [
+      5,
+      66
+    ],
+    "Tests\\Feature\\SmokePagesQaTest": [
+      4,
+      13
+    ],
+    "Tests\\Feature\\ExampleTest": [
+      1,
+      5
+    ],
+    "Tests\\Feature\\AccessTest": [
+      4,
+      11
+    ],
+    "Tests\\Feature\\TassaBellariaRiallineamentoTest": [
+      4,
+      45
+    ],
+    "Tests\\Feature\\CestinoSecurityTest": [
+      29,
+      241
+    ],
+    "Tests\\Feature\\TassaBellariaCompletenessTest": [
+      18,
+      976
+    ],
+    "Tests\\Feature\\QuesturaPayloadCoherenceTest": [
+      23,
+      214
+    ],
+    "Tests\\Feature\\StrutturaSelezioneTest": [
+      3,
+      26
+    ],
+    "Tests\\Feature\\TenancyTest": [
+      1,
+      4
+    ],
+    "Tests\\Feature\\LegacyUserCreationSecurityTest": [
+      12,
+      89
+    ],
+    "Tests\\Feature\\QuesturaFinalAuditTest": [
+      22,
+      284
+    ],
+    "Tests\\Feature\\IstatCycleTest": [
+      33,
+      263
+    ],
+    "Tests\\Feature\\SchedinaStoreTest": [
+      3,
+      39
+    ],
+    "Tests\\Feature\\WebCheckinFiscalContextTest": [
+      11,
+      73
+    ],
+    "Tests\\Feature\\RecoveryFlashDiagnosticTest": [
+      1,
+      11
+    ],
+    "Tests\\Feature\\QuesturaC1MigrationAcceptanceTest": [
+      1,
+      32
+    ],
+    "Tests\\Feature\\CustomerImportedFiltersDeleteTest": [
+      2,
+      7
+    ],
+    "Tests\\Feature\\TassaBellariaAnteprimaTest": [
+      8,
+      112
+    ],
+    "Tests\\Feature\\IstatConformitaTest": [
+      29,
+      133
+    ],
+    "Tests\\Feature\\QuesturaConclusiveAuditTest": [
+      9,
+      114
+    ],
+    "Tests\\Feature\\QuesturaUxTest": [
+      9,
+      146
+    ],
+    "Tests\\Feature\\ArriviEsenzioniTest": [
+      1,
+      8
+    ],
+    "Tests\\Feature\\QuesturaTransportGuardTest": [
+      55,
+      906
+    ],
+    "Tests\\Feature\\LegacyPasswordAuthorizationTest": [
+      6,
+      16
+    ],
+    "Tests\\Feature\\WebCheckinShortLinkTest": [
+      22,
+      109
+    ],
+    "Tests\\Feature\\WebCheckinLifecycleTest": [
+      22,
+      600
+    ],
+    "Tests\\Feature\\SuiteResourceIsolationTest": [
+      2,
+      7
+    ],
+    "Tests\\Feature\\TassaBellariaConfigurazioneAutomaticaTest": [
+      6,
+      209
+    ],
+    "Tests\\Feature\\TopbarRenderingTest": [
+      1,
+      3
+    ],
+    "Tests\\Feature\\WebCheckinGroupAtomicityTest": [
+      7,
+      36
+    ],
+    "Tests\\Feature\\IstatTransmissionSecurityTest": [
+      3,
+      14
+    ],
+    "Tests\\Feature\\ImpersonazioneSecurityTest": [
+      14,
+      112
+    ],
+    "Tests\\Feature\\WebCheckinCameraIsolationTest": [
+      9,
+      72
+    ],
+    "Tests\\Feature\\QuesturaBoundaryTest": [
+      16,
+      236
+    ],
+    "Tests\\Feature\\QuesturaWsContractTest": [
+      5,
+      33
+    ],
+    "Tests\\Feature\\QuesturaRetentionTest": [
+      21,
+      138
+    ],
+    "Tests\\Feature\\TassaBellariaEtaCsvTest": [
+      9,
+      164
+    ],
+    "Tests\\Feature\\GeoComuneLogoTest": [
+      13,
+      132
+    ],
+    "Tests\\Unit\\ComponentiImportServiceTest": [
+      67,
+      248
+    ],
+    "Tests\\Unit\\DatiComponenteNormalizzatiTest": [
+      26,
+      43
+    ],
+    "Tests\\Unit\\TassaDiSoggiornoServiceTest": [
+      2,
+      14
+    ],
+    "Tests\\Unit\\ComponentiImportFormTest": [
+      16,
+      103
+    ],
+    "Tests\\Unit\\PianoSyncComponentiTest": [
+      17,
+      39
+    ],
+    "Tests\\Unit\\TipoAlloggiatoCatalogoTest": [
+      11,
+      21
+    ],
+    "Tests\\Unit\\CustomerImportServiceTest": [
+      8,
+      77
+    ],
+    "Tests\\Unit\\ComponentiImportReviewStatusTest": [
+      1,
+      2
+    ],
+    "Tests\\Unit\\ComponentiImportP1Test": [
+      6,
+      40
+    ],
+    "Tests\\Unit\\ExampleTest": [
+      1,
+      1
+    ],
+    "Tests\\Unit\\ContrattoImportazioneComponentiV1Test": [
+      9,
+      23
+    ],
+    "Tests\\Unit\\EtaOperativaTest": [
+      10,
+      15
+    ],
+    "Tests\\Unit\\SingleNodeBatchLockTest": [
+      3,
+      8
+    ]
+  },
+  "sorgenti_definitivi_sha256": {
+    "app/Http/Controllers/WebCheckinController.php": "2111361adfd7a1fd215b74e482676e6f4dfe2e7e0b1b73f9c7f710fdfde9e643",
+    "app/Http/Controllers/SchedinaController.php": "26e89047b093a2cdafe8d70296b36b030d84fa6a252ef695635fb4b19e1b0343",
+    "app/Http/Kernel.php": "476674d2cd46c66584eea51f6fbcdc3608415a480cf5afe11769256167c8ce98",
+    "app/Models/WebCheckinRichiesta.php": "5d3ddd2e30bc3877bff88d21f53646bb650c17b44d722a766b40151cd088267d",
+    "app/Services/CestinoService.php": "83c00c9e259cf5e1fd74de223abcf1fe25ea713c83159412dfac8588cd3754b1",
+    "app/Services/WebCheckinLink.php": "47094e6bce1473ceb92e251f8fd24818f03d5a463d15b24a0f72ea23405ba242",
+    "app/Http/Middleware/WebCheckinRateLimit.php": "b04f0b046910556c9e9cd0a1d9a79103371665e1312961291c2069ad0703489a",
+    "routes/web.php": "0a9f2d9fd56b93ded14cf0f5957e7c90cd6a8f042784865be536f78196412482",
+    "resources/views/web-checkin/form.blade.php": "9a938e462240e70795fb1205d6a9fcde478d0583bc6b59751e1513b41b9af9f3",
+    "resources/views/web-checkin/index.blade.php": "8561d55a5283ce8c2e1717f3bfa189a90a35529c550ac7e3ad67ee90aeba8cb0",
+    "resources/views/cestino/index.blade.php": "41ed67601392add66af7a663188610cf9d95e6639dcedbcad1bfd5f38cdcea07",
+    "database/migrations/2026_10_09_230000_add_web_checkin_link_lifecycle.php": "69ba345db9358ba90d0dab2cd248850937698dfa1fd5e297e07e0791b24cd5c4",
+    "tests/Support/IsolatedTestStorage.php": "4c6487cf72fd4bfd4d3d6e0a75a2a843722dbcadddb76002e6543510ead3cdf8"
+  },
+  "preservazione": {
+    "file_iniziali": 8381,
+    "file_byte_identici": 8363,
+    "modificati_preesistenti": [
+      "app/Models/WebCheckinRichiesta.php",
+      "app/Http/Kernel.php",
+      "app/Http/Controllers/WebCheckinController.php",
+      "app/Http/Controllers/SchedinaController.php",
+      "app/Services/CestinoService.php",
+      "resources/views/web-checkin/form.blade.php",
+      "resources/views/web-checkin/index.blade.php",
+      "tests/Support/IsolatedTestStorage.php",
+      "tests/Feature/WebCheckinShortLinkTest.php",
+      "tests/Feature/CestinoSecurityTest.php",
+      "tests/Feature/WebCheckinParentSecurityTest.php",
+      "tests/Feature/WebCheckinGroupAtomicityTest.php",
+      "tests/Feature/WebCheckinCameraIsolationTest.php",
+      "tests/Feature/WebCheckinFiscalContextTest.php",
+      "docs/contratto-token-proposta-2026-10-09.md",
+      "docs/baseline-applicativa-audit-2026-10-08.md",
+      "docs/maestro/MAESTRO-SCHEDINE-DI-NOTIFICA.md",
+      "routes/web.php"
+    ],
+    "eliminazioni": [],
+    "storico_contratto_integrale_sha256": "04998b5bf2d97d651448e73422b011e29bb84f1a9669446214a41f92bb1116dc",
+    "prefissi_documentali_preservati": {
+      "docs/baseline-applicativa-audit-2026-10-08.md": 228061,
+      "docs/maestro/MAESTRO-SCHEDINE-DI-NOTIFICA.md": 348965
+    },
+    "copie_storiche": [
+      {
+        "file": "tests/Diagnostics/token-precontratto-2026-10-09/WebCheckinShortLinkTest.php",
+        "sha256": "dc0e5fb767ad28207e84a647010a551220a84766fe4df6a5e9598ea996d497f9"
+      },
+      {
+        "file": "tests/Diagnostics/token-precontratto-2026-10-09/CestinoSecurityTest.php",
+        "sha256": "85433f46e148f740af5cbe01af62a41924ea3ce017df0fc607b44f76d31d3718"
+      },
+      {
+        "file": "tests/Diagnostics/token-precontratto-2026-10-09/WebCheckinParentSecurityTest.php",
+        "sha256": "4d383e802a26e4c386297a00f5e62500ff0da65f8414726ca87e6fd29c864352"
+      },
+      {
+        "file": "tests/Diagnostics/token-precontratto-2026-10-09/WebCheckinGroupAtomicityTest.php",
+        "sha256": "e07700c2a02d7b744d8771cf2a65093d6389d7ceb8a2cdc12fd36c2c65fbb7de"
+      },
+      {
+        "file": "tests/Diagnostics/token-precontratto-2026-10-09/WebCheckinCameraIsolationTest.php",
+        "sha256": "4f0d47ae5315b0051220451b0d6b6e78f3cbf45ff3a11bf7d0c32dbd1b82daf0"
+      },
+      {
+        "file": "tests/Diagnostics/token-precontratto-2026-10-09/cestino-index-originale.blade.php",
+        "sha256": "41ed67601392add66af7a663188610cf9d95e6639dcedbcad1bfd5f38cdcea07"
+      },
+      {
+        "file": "tests/Diagnostics/token-precontratto-2026-10-09/WebCheckinFiscalContextTest.php",
+        "sha256": "04ddd6e7f463c8e3c2ec65fc34137cc9f7590b0a38a921a401ca58a3d106af33"
+      }
+    ]
+  },
+  "runtime": [
+    {
+      "directory": "/private/tmp/schedine-test-5qb52yxa",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-mirati-browser-04.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-sye788k_",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-mirati-browser-05.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-xwb34duy",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-mirati-07.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-yucxcvxc",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-globale-10.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-m51_qf1d",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-concorrenza-01.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-qobhnku3",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-globale-01.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-va9w6o2f",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-globale-14.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-4l6mymng",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-mirati-03.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-otylum76",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-concorrenza-02.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-vaqdzp6l",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-globale-17.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-k1xu9o0r",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-mirati-02.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-5m1mpfjw",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-finali-09.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-sx7znuuq",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-browser-originale-16.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-1x_lkwjz",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-browser-13.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-9w0o9j3_",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-browser-12.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-dyu8v_l4",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-browser-06.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-_hcaijpa",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-finali-browser-11.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-pmd6j3gz",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-globale-08.log",
+      "rimosso": true,
+      "attestato23": true
+    },
+    {
+      "directory": "/private/tmp/schedine-test-qrqicnnp",
+      "log": "docs/evidenze/contratto-token-2026-10-09/token-finali-browser-15.log",
+      "rimosso": true,
+      "attestato23": true
+    }
+  ],
+  "artefatti": {
+    "docs/evidenze/contratto-token-2026-10-09/token-browser-06.log": {
+      "sha256": "cfd44e6020f2249f222d12a0661d41e54be64916bf2eda7f8ccfbe48872875ae",
+      "byte": 2528
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-browser-12.log": {
+      "sha256": "ac8361e3dd517d65a1e34e806e61a5cac1fa469f1cf07cb340ade2c46c6a2210",
+      "byte": 17222
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-browser-13.log": {
+      "sha256": "c6dbac4088f7503858183f38be2782d8d6ec624628ea38edb7d2bc8bf16660d0",
+      "byte": 17305
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-browser-originale-16.log": {
+      "sha256": "ddf07e24e554fa041438a0e237e1070d9bb89cac7098160a35461fec05c4ebfb",
+      "byte": 3190
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-concorrenza-01.log": {
+      "sha256": "1f54784a68af7a820599e1403003d0bafa105f6459490e22a8a898ab999a906d",
+      "byte": 2147
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-concorrenza-02.log": {
+      "sha256": "2e686ddcee4ceab472b19e0e446aa05b5513d046ed7da3680e636a7dc9bbbed5",
+      "byte": 702
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-finali-09.log": {
+      "sha256": "e89f33376d272b5be7e43421fb90c58dc7b50f1c46f3057e5b6c5779cc57bc7c",
+      "byte": 15407
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-finali-browser-11.log": {
+      "sha256": "ed53921c7b9217778bed24fb75a28a5247fa2ff901a00e34eb8ce4a2042c095c",
+      "byte": 16547
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-finali-browser-15.log": {
+      "sha256": "93e50c744e6ea0de791acf99fbd957b5063e37f656691e2dd2c45e36ff085eb9",
+      "byte": 16781
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-globale-01.log": {
+      "sha256": "2e7c7f80622cb47a649cead5562dcaf8374d63f09d639ebc35d5974c633d95b3",
+      "byte": 13235
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-globale-08.log": {
+      "sha256": "9af4d9ba7328007bc107eb212c8acc3321c5a756502b844cc33bc70fd7a59513",
+      "byte": 2667
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-globale-10.log": {
+      "sha256": "19f261350bc94ab652bc0278518369a5c92ee5f85c20fe6c307cf3deb2b7614d",
+      "byte": 2667
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-globale-14.log": {
+      "sha256": "2421faab99700383e1a7d0b7f242d047836ee150f22f2fd19f8314031fcfaacc",
+      "byte": 2667
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-globale-17.log": {
+      "sha256": "297066256949f78c364cbefc982b837cfd8070dbe4a59fe3e56902278992fda8",
+      "byte": 2667
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-istat-sicurezza.log": {
+      "sha256": "f23710f58fbfda28475a455f0ca6d4b6684fa7b381cf046f5811547917ee6918",
+      "byte": 912
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-mirati-01.log": {
+      "sha256": "c84cef80c7e5bf6a9e2224b073e73122b47eb19b69192ee938dcafbb4459b282",
+      "byte": 515
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-mirati-02.log": {
+      "sha256": "7fd6a656cb1f7f12a2389d75804ee9d335dd882bd7e9e725cf7c93bc08cd6919",
+      "byte": 8660
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-mirati-03.log": {
+      "sha256": "761ad9d7984dea7e5557956704ed2cc749e227e68468c2cb0692e45b23ae111c",
+      "byte": 3783
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-mirati-07.log": {
+      "sha256": "b50f5dc852c1e9561f517eb0cf7536e3966510ffd479d470b23aab6a94bd7970",
+      "byte": 3792
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-mirati-browser-04.log": {
+      "sha256": "ad026bcc20419152b5db5dc4b17bae54f36007895af15fbcc3415481466b25d9",
+      "byte": 15169
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-mirati-browser-05.log": {
+      "sha256": "b30588b1730435b7a6022090546b552a3695710e6ca3288bd33a1a00f446b9cc",
+      "byte": 15307
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-pint-14.log": {
+      "sha256": "63a9e92c9368ef46d5ce2bffc2398498ef5e27e0b23a7460089052740ea5d132",
+      "byte": 319
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-pint-2.log": {
+      "sha256": "58c10ce8104432a87859be470d0d08d68963d82e92280df138c6ba139ba55c0c",
+      "byte": 391
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-pint-3.log": {
+      "sha256": "13dd28f64a2337593c9cd91db8365fbc38ea280bb6b1abaf98068ca6a9a5be7c",
+      "byte": 392
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-pint-finale.log": {
+      "sha256": "63a9e92c9368ef46d5ce2bffc2398498ef5e27e0b23a7460089052740ea5d132",
+      "byte": 319
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-pint.log": {
+      "sha256": "3720b2beec67ee482b468fdbf99b76d223d90fe792650451b7fb744746bf8484",
+      "byte": 928
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-globale-10.xml": {
+      "sha256": "6a8841f676726619c133e4f9c0d3f526359308baee294cc7739f8c622a8bb7c8",
+      "byte": 275705
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-globale-14.xml": {
+      "sha256": "3943faf2752f159e241d02e9df39c08df8bd64236d2be5462c92ad15de4cd325",
+      "byte": 276040
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-globale-17.xml": {
+      "sha256": "47510b2c7855bd5af01c0c66647cf107b70ff3950f2b3c9cc154ad817dfbe6bb",
+      "byte": 276040
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-finali-browser-11.xml": {
+      "sha256": "74b08d38273140bfedaf8080d214d8b93527a51771b1b66bff4287d09d82d7ee",
+      "byte": 6554
+    },
+    "docs/evidenze/contratto-token-2026-10-09/token-finali-browser-15.xml": {
+      "sha256": "4f26ae8e66ce43c2d0f10a41fe8c5ef215de677c854298d49f2718d80192ab25",
+      "byte": 6554
+    }
+  },
+  "limiti": [
+    "Solo MySQL8.0.36/Chromium locali e dati sintetici effimeri; non produzione",
+    "Due processi sullo stesso nodo, non cluster; attendibilitàIP e filecache in produzione da verificare",
+    "Date reali legacy/provenienza dall’operatore e revoche non registrate non inventariate né ricostruite",
+    "Controlli fiscali preesistenti preservati; anni non certificati/configurazioni discordanti ancora422",
+    "Primo logRED del launcher limitato10000caratteri, JUnit di quelRED non acquisito; nessuna ricostruzione di output mancanti"
+  ],
+  "diagnostici_preservati": [
+    "A14 originale flash dopo secondoGET; copia separata8casi",
+    "A04 originale/copia e timeoutcamere storico invariati",
+    "Cestino: selettoreformvuoto/modalhidden, vista originale funziona; tentativoUI annullato",
+    "Confronto localtime/JSONUTC e setupfork/confermeUI conservati nei log"
+  ],
+  "gate_produttivi": [
+    "MariaDB/Linux isolato,CLI/FPM/SPanel",
+    "backup/restore/rollbackmigration con autorizzazione e dati reali",
+    "qualità/provenienza date legacy e revoche storiche",
+    "IP/proxy,cachefile/lock/topologia reali",
+    "releaseSHA/config/cache/storage/ownership/queue/cron/SSL",
+    "accettazioniQuestura/ISTAT/mail e regole fiscali future"
+  ],
+  "operazioni_escluse": {
+    "db_operativo": false,
+    "config_schema_operativo": false,
+    "commit": false,
+    "push": false,
+    "deploy": false,
+    "trasmissioni_reali": false
+  }
+}

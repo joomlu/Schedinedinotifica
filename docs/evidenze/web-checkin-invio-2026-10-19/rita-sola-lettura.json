@@ -1,0 +1,11 @@
+{
+  "esito": "ISPEZIONE_SOLA_LETTURA_CON_BLOCCO_LEGITTIMO",
+  "richiesta": "Rita Giorgetti",
+  "blocco": "Collegamento revocato e soggiorno trascorso; non inviare senza correggere richiesta e validità",
+  "azione_di_correzione": "Apri richiesta / Correggi richiesta o link",
+  "dati_modificati": false,
+  "email_inviate": 0,
+  "prova_originale_privata_sha256": "10577cd04819905a0557597bb0e2bc44e29e06b3406712b89a5fd76a6d1df680",
+  "conservazione_successiva": "HMAC66tabelle prima/dopo entrambe le fixture, nessuna riga preesistente modificata",
+  "ambito": "Operazioni di questa attività; nessuna deduzione sugli invii storici"
+}

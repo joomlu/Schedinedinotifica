@@ -1,0 +1,12 @@
+PHP temp directory (/var/tmp/) does not exist or is not writable to Composer. Set sys_temp_dir in your php.ini
+The following exception probably indicates you are offline or have misconfigured DNS resolver(s)
+If you intend to run Composer without connecting to the internet, run the command again prefixed with COMPOSER_DISABLE_NETWORK=1 to make Composer run in offline mode.
+
+In CurlDownloader.php line 407:
+                                                                               
+  curl error 6 while downloading https://repo.packagist.org/packages.json: Co  
+  uld not resolve host: repo.packagist.org                                     
+                                                                               
+
+audit [--no-dev] [-f|--format FORMAT] [--locked] [--abandoned ABANDONED] [--ignore-severity IGNORE-SEVERITY] [--ignore-unreachable]
+

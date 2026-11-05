@@ -1,0 +1,21 @@
+import {test,expect,BASE_URL} from '../Support/playwright.js';
+import {readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+test.use({headless:true});
+test('Proxy: download sintetico completo oltre 262144 byte', async({page},info)=>{
+ const ids=await (await page.request.get(`${BASE_URL}/proxy-synthetic-ids.json`)).json();
+ await page.goto(`${BASE_URL}/proxy-synthetic-ids.json`);
+ await page.setContent(`<a href="${BASE_URL}/proxy-synthetic.csv" download="sintetico.csv">Scarica fixture effimera</a>`);
+ const pending=page.waitForEvent('download');
+ await page.getByRole('link',{name:'Scarica fixture effimera'}).click();
+ const download=await pending;
+ expect(await download.failure()).toBeNull();
+ const file=info.outputPath('sintetico.csv');
+ await download.saveAs(file);
+ const data=await readFile(file);
+ expect(data.length).toBe(ids.bytes);
+ expect(data.length).toBeGreaterThan(262144);
+ expect(createHash('sha256').update(data).digest('hex')).toBe(ids.sha256);
+ expect(data.toString().trimEnd().split('\n')).toHaveLength(ids.righe);
+ console.log('DOWNLOAD_SINTETICO '+JSON.stringify(ids));
+});

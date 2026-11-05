@@ -1,0 +1,25 @@
+{
+  "inizio": "2026-10-18T19:37:09.234Z",
+  "prove": [
+    {
+      "larghezza": 390,
+      "tipo": "CAPO FAMIGLIA",
+      "email_HTML": true,
+      "SMTP_accettato": true,
+      "ricezione_MIME_verificata": false,
+      "parziale_ripresa": true,
+      "singolo_senza_componenti_vuoti": false,
+      "componenti_aggiunti_rimossi": true,
+      "conclusione_reception": true,
+      "bozza_e_definitivo_stesso_ID": true,
+      "vecchia_scheda409": true,
+      "cronologia_rimossa_dati_conservati": true,
+      "eliminazione_modelli_annullata_e_confermata": true,
+      "mancata_ricreazione_e_ripristino_esplicito": true,
+      "note_private": true,
+      "errori_JS": []
+    }
+  ],
+  "esito": "PASS_WEB_CHECKIN_HTML_ONLINE",
+  "fine": "2026-10-18T19:37:31.547Z"
+}

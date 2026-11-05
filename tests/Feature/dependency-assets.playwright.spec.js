@@ -1,0 +1,22 @@
+import {test,expect,BASE_URL} from '../Support/playwright.js';
+test.use({headless:true});
+test('Asset corretti: dialogo operativo, date e evidenziazione in Chromium',async({page})=>{
+ await page.goto(`${BASE_URL}/login`);
+ await page.getByLabel(/Nome di accesso o email/i).fill('ross-completa');
+ await page.getByLabel(/Password personale/i).fill('Password-ross-sintetica-123!');
+ await page.getByRole('button',{name:/Entra/i}).click();
+ await expect(page).not.toHaveURL(/\/login$/);
+ await page.goto(`${BASE_URL}/struttura`);
+ expect(await page.evaluate(()=>window.Swal.version)).toBe('11.22.4');
+ await page.evaluate(()=>{window.Swal.fire({title:'Conferma sintetica',showCancelButton:true,confirmButtonText:'Conferma'});});
+ await expect(page.getByRole('dialog')).toBeVisible();
+ await page.getByRole('button',{name:'Conferma',exact:true}).click();
+ await expect(page.getByRole('dialog')).not.toBeVisible();
+ const date=await page.evaluate(async url=>{const {default:moment}=await import(url);return {version:moment.version,date:moment('2026-10-09','YYYY-MM-DD',true).format('DD/MM/YYYY')};},`${BASE_URL}/build/libs/moment/moment.js`);
+ expect(date.version).toBe('2.31.0');
+ expect(date.date).toBe('09/10/2026');
+ await page.evaluate(()=>{window.Prism={manual:true};});
+ await page.addScriptTag({url:`${BASE_URL}/build/libs/prismjs/prism.js`});
+ const highlighted=await page.evaluate(()=>window.Prism.highlight('const dato = 1;',window.Prism.languages.javascript,'javascript'));
+ expect(highlighted).toContain('token keyword');
+});

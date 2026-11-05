@@ -1,0 +1,291 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20 22:18:41 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-_ngr_mwo; database=test_geo_f4e14e80f05ec3d683326928e53b6d2d; MySQL pid=57, porta=50547; HTTP pid=83, porta=56337
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+
+Running 9 tests using 1 worker
+
+  ✘  1 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 1440 (2.0m)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 1440
+
+    [31mTest timeout of 120000ms exceeded.[39m
+
+    Error: locator.click: Target page, context or browser has been closed
+    Call log:
+    [2m  - waiting for locator('#schedina-step-res')[22m
+    [2m    - locator resolved to <button role="tab" type="button" tabindex="-1" class="nav-link" data-bs-toggle="pill" aria-selected="false" id="schedina-step-res" aria-controls="schedina-step-res-pane" data-bs-target="#schedina-step-res-pane">Residenza / Doc.</button>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div class="swal2-success-ring"></div> from <div data-swal2-theme="light" class="swal2-container swal2-center swal2-backdrop-show">…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div class="swal2-success-ring"></div> from <div data-swal2-theme="light" class="swal2-container swal2-center swal2-backdrop-show">…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m    - waiting for element to be visible, enabled and stable[22m
+    [2m    - element is not stable[22m
+    [2m  44 × retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div data-swal2-theme="light" class="swal2-container swal2-center swal2-backdrop-show">…</div> intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div class="swal2-success-ring"></div> from <div data-swal2-theme="light" class="swal2-container swal2-center swal2-backdrop-show">…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div class="swal2-success-ring"></div> from <div data-swal2-theme="light" class="swal2-container swal2-center swal2-backdrop-show">…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div data-swal2-theme="light" class="swal2-container swal2-center swal2-backdrop-show">…</div> intercepts pointer events[22m
+    [2m  - retrying click action[22m
+    [2m    - waiting 500ms[22m
+    [2m    - waiting for element to be visible, enabled and stable[22m
+    [2m    - element is visible, enabled and stable[22m
+    [2m    - scrolling into view if needed[22m
+    [2m    - done scrolling[22m
+
+
+      18 |  await page.locator('#web-conferma').click();await expect(page.locator('body')).toContainText('Grazie! Abbiamo ricevuto i tuoi dati.');await page.goto(link);await expect(page.locator('[name=name]').first()).toHaveValue('Titolare GEO');await page.locator('[data-web-section=res]').click();await expect(resRoot.locator('[data-role=nazione] option:checked')).toHaveText(/Francia/i);await resRoot.locator('summary').click();await expect(resRoot.locator('input[name=or_city]')).toHaveValue('Parigi');
+      19 |  // Lo stesso formulario nella Schedina gestionale: errore estero nella sezione richiusa.
+    > 20 |  await login(page);const sheet=f.links[width].sheet_url;await page.goto(sheet);await page.locator('#schedina-step-res').click();const staffRes=page.locator('[name=or_country]').locator('xpath=ancestor::*[@data-initial][1]');await expect(staffRes.locator('[data-role=nazione] option:checked')).toHaveText(/Francia/i);await staffRes.locator('summary').click();await staffRes.locator('input[name=or_city]').evaluate(e=>e.value='x'.repeat(151));await page.locator('#schedina-step-contact').click();
+         |                                                                                                                         ^
+      21 |  await page.locator('#schedina-form').evaluate(form=>HTMLFormElement.prototype.submit.call(form));await page.getByRole('dialog',{name:'Attenzione',exact:true}).getByRole('button',{name:'OK',exact:true}).click();await expect(page.locator('#schedina-step-res-pane')).toBeVisible();await expect(staffRes.locator('details')).toHaveAttribute('open','');await expect(staffRes.locator('input[name=or_city]')).toHaveAttribute('aria-invalid','true');await expect(staffRes.locator('.invalid-feedback').last()).toBeVisible();await staffRes.locator('input[name=or_city]').fill('Parigi');await page.screenshot({path:info.outputPath('schedina-geo-'+width+'.png'),fullPage:true});
+      22 |  await page.locator('#save-mode').evaluate(e=>e.value='draft');await page.locator('#schedina-form').evaluate(form=>HTMLFormElement.prototype.submit.call(form));await expect(page).toHaveURL(/\/schedine\/bozze/);await page.goto(sheet);await page.locator('#schedina-step-res').click();await expect(page.locator('[name=or_address]')).toHaveValue('Rue conservata');await expect(staffRes.locator('[data-role=nazione] option:checked')).toHaveText(/Francia/i);
+      23 |  await page.locator('#save-mode').evaluate(e=>e.value='full');await page.locator('#schedina-form').evaluate(form=>HTMLFormElement.prototype.submit.call(form));await expect(page).toHaveURL(/\/schedine$/);await page.goto(sheet);await expect(page.locator('[name=name]').first()).toHaveValue('Titolare GEO');
+        at /tmp/schedine-test-_ngr_mwo/checkout/tests/Feature/web-testi-palette.playwright.spec.js:20:121
+
+    Error Context: test-results/web-testi-palette.playwrig-fa9a7-ansizioni-e-componenti-1440/error-context.md
+
+  1 failed
+    tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 1440
+  8 did not run
+  1 error was not a part of any test, see above for details
+web-testi-palette.playwrig-fa9a7-ansizioni-e-componenti-1440:
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - button [ref=e7] [cursor=pointer]
+        - generic [ref=e12]:
+          - generic [ref=e14]:
+            - button [ref=e15] [cursor=pointer]:
+              - generic [ref=e16]: 
+              - text: "Struttura: Hotel Browser"
+              - generic [ref=e17]: 
+            - text: 
+          - link [ref=e19] [cursor=pointer]:
+            - /url: http://127.0.0.1:56337/calendario
+            - generic [ref=e20]: 
+          - generic [ref=e21]:
+            - button [ref=e22] [cursor=pointer]:
+              - generic [ref=e23]: 
+            - text:  
+          - button [ref=e25] [cursor=pointer]:
+            - generic [ref=e26]: 
+          - generic [ref=e27]:
+            - button [ref=e28] [cursor=pointer]:
+              - generic [ref=e29]:
+                - img [ref=e31]
+                - generic [ref=e32]:
+                  - generic [ref=e33]: Utente
+                  - generic [ref=e34]: Super Admin
+            - text: 󰀉      󰍃
+    - generic [ref=e35]:
+      - link [ref=e37] [cursor=pointer]:
+        - /url: http://127.0.0.1:56337/dashboard
+        - img [ref=e39]
+      - list [ref=e42]:
+        - listitem [ref=e43]:
+          - generic [ref=e44]: Menu
+        - listitem [ref=e45]:
+          - link [ref=e46] [cursor=pointer]:
+            - /url: http://127.0.0.1:56337/dashboard
+            - generic [ref=e47]: Dashboard
+        - listitem [ref=e48]:
+          - button [ref=e49] [cursor=pointer]:
+            - generic [ref=e50]: SuperAdmin
+            - text: 󰅂
+        - listitem [ref=e51]:
+          - link [ref=e52] [cursor=pointer]:
+            - /url: http://127.0.0.1:56337/struttura
+            - generic [ref=e53]: Dati struttura
+        - listitem [ref=e54]:
+          - button [ref=e55] [cursor=pointer]:
+            - generic [ref=e56]: Configurazioni
+            - text: 󰅂
+        - listitem [ref=e57]:
+          - button [ref=e58] [cursor=pointer]:
+            - generic [ref=e59]: Clienti
+            - text: 󰅂
+        - listitem [ref=e60]:
+          - button [expanded] [ref=e61] [cursor=pointer]:
+            - generic [ref=e62]: Schedine
+            - text: 󰅂
+          - list [ref=e64]:
+            - listitem [ref=e65]:
+              - link [ref=e66] [cursor=pointer]:
+                - /url: http://127.0.0.1:56337/schedine/nuova
+                - text: Nuova / Elenco / Bozze
+            - listitem [ref=e67]:
+              - link [ref=e68] [cursor=pointer]:
+                - /url: http://127.0.0.1:56337/arrivi
+                - text: Schedine arrivi
+        - listitem [ref=e69]:
+          - link [ref=e70] [cursor=pointer]:
+            - /url: http://127.0.0.1:56337/web-checkin
+            - generic [ref=e71]: Web Check-in
+        - listitem [ref=e72]:
+          - button [ref=e73] [cursor=pointer]:
+            - generic [ref=e74]: Invio telematico
+            - text: 󰅂
+        - listitem [ref=e75]:
+          - button [ref=e76] [cursor=pointer]:
+            - generic [ref=e77]: Statistica
+            - text: 󰅂
+        - listitem [ref=e78]:
+          - link [ref=e79] [cursor=pointer]:
+            - /url: http://127.0.0.1:56337/calendario
+            - generic [ref=e80]: Calendario
+        - listitem [ref=e81]:
+          - link [ref=e82] [cursor=pointer]:
+            - /url: http://127.0.0.1:56337/cestino
+            - generic [ref=e83]: Cestino
+    - generic [ref=e85]:
+      - generic [ref=e87]:
+        - generic [ref=e90]:
+          - heading [level=4] [ref=e91]: Modifica schedina
+          - list [ref=e93]:
+            - listitem [ref=e94]:
+              - link [ref=e95] [cursor=pointer]:
+                - /url: "javascript: void(0);"
+                - text: Schedine
+            - listitem [ref=e96]: 󰅂 Modifica schedina
+        - navigation [ref=e97]:
+          - link [ref=e98] [cursor=pointer]:
+            - /url: http://127.0.0.1:56337/schedine/nuova
+            - text: Nuova schedi
+TEST interrotto senza fallback: playwright fallito: 1
+mysql-error.log:
+2026-10-20 22:19:07 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 57
+2026-10-20 22:19:07 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-20 22:19:07 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-20 22:19:07 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-20 22:19:07 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-20 22:19:07 0 [Note] InnoDB: Using Linux native AIO
+2026-10-20 22:19:07 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-20 22:19:07 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-20 22:19:07 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-20 22:19:07 0 [Note] InnoDB: End of log at LSN=45434
+2026-10-20 22:19:07 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-20 22:19:07 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-20 22:19:07 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-20 22:19:07 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-20 22:19:07 0 [Note] InnoDB: log sequence number 45434; transaction id 14
+2026-10-20 22:19:07 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-20 22:19:07 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-20 22:19:07 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-_ngr_mwo/mysql-data/ib_buffer_pool
+2026-10-20 22:19:07 0 [Note] InnoDB: Buffer pool(s) load completed at 261020 22:19:07
+2026-10-20 22:19:07 0 [Note] Server socket created on IP: '127.0.0.1', port: '50547'.
+2026-10-20 22:19:08 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-20 22:19:08 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-_ngr_mwo/mysql.sock'  port: 50547  MariaDB Server
+
+http.log:
+.1:48478 Closing
+[Tue Oct 20 22:19:48 2026] 127.0.0.1:48458 Closing
+[Tue Oct 20 22:19:48 2026] 127.0.0.1:48488 Closing
+[Tue Oct 20 22:19:48 2026] 127.0.0.1:48490 Accepted
+[Tue Oct 20 22:19:49 2026] 127.0.0.1:48490 Closing
+[Tue Oct 20 22:19:49 2026] 127.0.0.1:48496 Accepted
+[Tue Oct 20 22:19:49 2026] 127.0.0.1:48496 Closing
+[Tue Oct 20 22:19:49 2026] 127.0.0.1:48504 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48504 [200]: GET /build/css/icons.min.css
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48514 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48516 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48514 [200]: GET /build/libs/select2/css/select2.min.css
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48524 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48516 [200]: GET /build/css/bootstrap.min.css
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48538 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48524 [200]: GET /build/libs/flatpickr/flatpickr.min.css
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48552 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48514 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48538 [200]: GET /build/css/custom.min.css
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48560 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48552 [200]: GET /build/css/app.min.css
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48562 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48504 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48516 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48560 [200]: GET /build/js/app2.js
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48524 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48576 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48538 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48562 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48580 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48576 [200]: GET /build/libs/jquery/jquery.min.js
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48596 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48580 [200]: GET /build/libs/select2/js/select2.full.min.js
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48610 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48596 [200]: GET /build/libs/bootstrap/js/bootstrap.bundle.min.js
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48552 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48626 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48576 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48610 [200]: GET /build/libs/simplebar/simplebar.min.js
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48642 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48580 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48626 [200]: GET /build/libs/node-waves/waves.min.js
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48648 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48642 [200]: GET /build/libs/feather-icons/feather.min.js
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48560 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48596 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48660 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48648 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48610 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48670 Accepted
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48660 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48626 Closing
+[Tue Oct 20 22:19:50 2026] 127.0.0.1:48680 Accepted
+[Tue Oct 20 22:19:51 2026] 127.0.0.1:48670 Closing
+[Tue Oct 20 22:19:51 2026] 127.0.0.1:48642 Closing
+[Tue Oct 20 22:19:51 2026] 127.0.0.1:48696 Accepted
+[Tue Oct 20 22:19:51 2026] 127.0.0.1:48680 [200]: GET /build/icons/remixicon.woff2?t=1718271040674
+[Tue Oct 20 22:19:51 2026] 127.0.0.1:48648 Closing
+[Tue Oct 20 22:19:51 2026] 127.0.0.1:48712 Accepted
+[Tue Oct 20 22:19:51 2026] 127.0.0.1:48660 Closing
+[Tue Oct 20 22:19:51 2026] 127.0.0.1:48696 [200]: GET /build/icons/boxicons.woff2
+[Tue Oct 20 22:19:51 2026] 127.0.0.1:48712 [200]: GET /build/icons/materialdesignicons-webfont.woff2?v=7.2.96
+[Tue Oct 20 22:19:51 2026] 127.0.0.1:48696 Closing
+[Tue Oct 20 22:19:51 2026] 127.0.0.1:48680 Closing
+[Tue Oct 20 22:19:51 2026] 127.0.0.1:48712 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-_ngr_mwo

@@ -1,0 +1,57 @@
+{
+  "data_UTC": "2026-10-25T08:23:17.725356+00:00",
+  "strumento": "ImageGen integrato",
+  "tipo": "Ambientazioni fotografiche illustrative originali generate con AI",
+  "provenienza": "Generate appositamente per questo progetto, senza usare immagini del sito di riferimento o immagini di terzi. Non rappresentano personale, clienti o strutture reali e non sono schermate del prodotto.",
+  "ottimizzazione": "WebP qualità82, ridimensionamento proporzionale, nessun contenuto aggiunto; originaliPNG conservati nella custodia locale di generazione.",
+  "asset": [
+    {
+      "file": "web/assets/img/foto-reception.webp",
+      "dimensioni": [
+        1600,
+        900
+      ],
+      "byte": 139374,
+      "SHA256": "b20caca7f494ef434b855a39b424b6897583912808adbfe3df9f1ccdcd7fda4a",
+      "originale_file": "exec-bf6cee77-ec2a-4767-9f50-1687ef5f7bc2.png",
+      "originale_dimensioni": [
+        1672,
+        941
+      ],
+      "originale_SHA256": "06c486eb03d16c6e92dc8ef4103dc287ff46591e4feca05e9f0399a4e51eb0d6",
+      "prompt": "Uso: fotografia illustrativa originale per la testata di un sito commerciale italiano di software alberghiero, Tango Soft Pro / Schedine di Notifica. Crea una singola fotografia editoriale fotorealistica orizzontale ampia, rapporto 16:9, di una reception di un piccolo hotel italiano contemporaneo, accogliente e professionale. Una receptionist adulta assiste una coppia di ospiti adulti con discrezione, vicino a un banco elegante di legno chiaro e pietra, dettagli blu scuro e turchese, luce naturale morbida, piante e profondità architettonica. Composizione pulita e naturale con respiro per il layout e ampie superfici tranquille, persone prevalentemente nella metà destra e contesto leggibile anche con ritaglio verticale. Nessun testo, logo, marchio, insegna leggibile, dato personale, documento, schermata riconoscibile o interfaccia software: l'immagine è un'ambientazione illustrativa, non la prova di una struttura o di clienti reali. Eventuale monitor visto dal retro. Evita resa da illustrazione, plasticità, elementi futuristici o mani deformate. Atmosfera luminosa e curata, colori credibili, contrasto morbido, dettagli fotografici realistici."
+    },
+    {
+      "file": "web/assets/img/foto-assistenza.webp",
+      "dimensioni": [
+        1280,
+        720
+      ],
+      "byte": 83840,
+      "SHA256": "b2ad5f7b2aa4e24116a8b1dd1cb0962f88f28522bf923a387588c4ba2e2bbc05",
+      "originale_file": "exec-be03fe54-27ea-4d1d-b18a-4679b67b1bd6.png",
+      "originale_dimensioni": [
+        1672,
+        941
+      ],
+      "originale_SHA256": "8f208f55cd57265c41e991f9997bf10fc1f105470a595091943d3658a9bb70b1",
+      "prompt": "Uso: fotografia illustrativa originale per la sezione Max Full di un sito di software gestionale per strutture ricettive. Una singola fotografia editoriale fotorealistica orizzontale, rapporto 16:9: un consulente tecnico adulto e una responsabile di una piccola struttura ricettiva adulta lavorano fianco a fianco a un tavolo ordinato nella zona ufficio di un hotel italiano contemporaneo, osservando insieme un computer portatile di cui lo schermo non è leggibile. Espressioni naturali, collaborazione concreta e professionale, luce diurna, materiali caldi, accenti blu scuro e turchese, composizione ampia con profondità e volti ben visibili, arredo sobrio senza lusso ostentato. Nessun testo, logo, divisa identificabile, dato personale, documento leggibile o finta schermata del software. Non rappresenta dipendenti, clienti o testimonial reali: solo ambientazione illustrativa. Nessun call center, cuffia, vigilanza continua o simbolo 24/7. Evita pose da stretta di mano, sorrisi esagerati, mani deformate, ripetizioni e look futuristico."
+    },
+    {
+      "file": "web/assets/img/foto-sviluppo.webp",
+      "dimensioni": [
+        1280,
+        720
+      ],
+      "byte": 77548,
+      "SHA256": "97664a786694925cc546c31a1307909bde0a860f24c777df933452395b5e001a",
+      "originale_file": "exec-a6f1d4c3-aebb-4d2f-b803-f99e6f3e7a79.png",
+      "originale_dimensioni": [
+        1672,
+        941
+      ],
+      "originale_SHA256": "dd750b95c73df5c78a6e378f8236665ffcc43fe5694b45d2d3ff94988dfbc542",
+      "prompt": "Uso: fotografia illustrativa originale per una sezione dedicata allo sviluppo e alla cura di software gestionale alberghiero. Una singola fotografia editoriale fotorealistica orizzontale, rapporto 16:9, ravvicinata ma ariosa: scrivania di un piccolo studio software contemporaneo, due professionisti adulti che discutono un lavoro al computer, inquadrati in tre quarti con dettagli naturali, tastiera e monitor con contenuto astratto sfocato e completamente illeggibile. Luce naturale laterale, ambiente ordinato ma vissuto, piccolo taccuino senza scritte leggibili, accenti blu petrolio, turchese e fondi chiari. Tono credibile, umano e professionale, profondità di campo fotografica moderata. Nessun logo, marchio, codice leggibile, credenziale, nome di persona, finto dashboard di prodotto o interfaccia che possa essere scambiata per una cattura reale di Schedine di Notifica. L'immagine è illustrativa e non rappresenta il personale reale dell'azienda. Evita neon, ologrammi, cliché hacker, diagrammi sospesi, mani deformate e testo aggiunto."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+import pathlib,subprocess,os,json,resource,importlib.util
+resource.setrlimit(resource.RLIMIT_CORE,(0,0));os.umask(0o077)
+r=pathlib.Path('/work/cli-proof-v4');r.mkdir(mode=0o700);(r/'.env').write_text('APP_KEY=sintetica\n')
+spec=importlib.util.spec_from_file_location('d','/work/runner-v4/scripts/deployment/deploy.py');d=importlib.util.module_from_spec(spec);spec.loader.exec_module(d)
+a=d.Deployment(r,pathlib.Path('/work/runner-v4'),php='/opt/remi/php83/root/usr/bin/php',composer='/usr/bin/composer');a.seal=d.EnvironmentSeal(r)
+meta="echo json_encode(['cli'=>ini_get('opcache.enable_cli'),'ioncube'=>function_exists('ioncube_loader_version'),'extensions'=>get_loaded_extensions(true)]);"
+results=[json.loads(a.project([a.php,'-r',meta],cwd=r)) for _ in range(20)]
+assert all(x['cli']=='0' and x['ioncube'] for x in results)
+# Il processo figlio è esclusivamente sintetico: verifica che -d non venga ereditato.
+(r/'child.php').write_text("<?php file_put_contents(__DIR__.'/child.json', json_encode(['cli'=>ini_get('opcache.enable_cli')]));")
+(r/'composer.json').write_text(json.dumps({'name':'audit/sintetico','scripts':{'probe':'@php child.php'}}))
+e=os.environ.copy();e.update({'COMPOSER_DISABLE_NETWORK':'1','COMPOSER_HOME':str(r/'home')})
+p=subprocess.run([a.php,'-d','opcache.enable_cli=0','/usr/bin/composer','--no-plugins','run-script','probe'],cwd=r,env=e,capture_output=True);(r/'composer-child.log').write_bytes(p.stdout+p.stderr)
+report={'config_effettiva_20':results,'env_sigillato':True,'figlio_composer_exit':p.returncode,'figlio_composer':json.loads((r/'child.json').read_text()) if (r/'child.json').exists() else None,'runner_install_no_scripts_no_plugins':True,'reti_esterne_assenti':len(pathlib.Path('/proc/net/route').read_text().splitlines())==1}
+a.seal.verify();(r/'manifest-sanitizzato.json').write_text(json.dumps(report,indent=2));print(json.dumps(report))

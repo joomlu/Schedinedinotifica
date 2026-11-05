@@ -1,0 +1,11 @@
+{
+  "clone_Git_privato": "PASS",
+  "policy_path_migration": "PASS",
+  "archive_bundle_identico": "PASS",
+  "tree_rifiutato_come_commit": "PASS",
+  "commit_del_candidato_creati": 0,
+  "ref_del_repository_condiviso_modificati": false,
+  "prepare_execute_integrale": "PENDENTE: richiede commit approvato e sandbox attestata",
+  "identificatore_tree": "calcolato e consegnato separatamente per evitare autoriferimento",
+  "HEAD_condiviso": "faef3cf01f43d19b20d1558c1fbd3ae32e48d849"
+}

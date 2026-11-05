@@ -1,0 +1,29 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-24 23:20:12 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-o5kzh4_4; database=test_geo_a976767710e121deab8fe0dc56f4a05c; MySQL pid=57, porta=56853; HTTP pid=83, porta=51619
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.36
+Configuration: /tmp/schedine-test-o5kzh4_4/checkout/phpunit.xml
+
+...............................................................  63 / 171 ( 36%)
+............................................................... 126 / 171 ( 73%)
+.............................................                   171 / 171 (100%)
+
+Time: 00:45.832, Memory: 84.50 MB
+
+OK (171 tests, 1647 assertions)
+PASS: fixture nota, arrivi=2, partenze=2, presenze=2; XSD e confronto XML sintetico.
+PASS: due processi/connessioni MySQL simultanei, una sola prenotazione ISTAT; zero trasporti.
+
+Running 3 tests using 1 worker
+
+  ✓  1 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT desktop: configurazione protetta, trasporto OFF e storico (7.9s)
+  ✓  2 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT tablet: configurazione protetta, trasporto OFF e storico (5.4s)
+  ✓  3 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT mobile: configurazione protetta, trasporto OFF e storico (2.9s)
+
+  3 passed (21.6s)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-o5kzh4_4

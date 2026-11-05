@@ -1,0 +1,18 @@
+{
+  "UTC": "2026-10-21T12:42:54.045957+00:00",
+  "Mac_liberi": 16281276416,
+  "Extra_liberi": 598098976768,
+  "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+  "VM": {
+    "liberi": 6100701184,
+    "filesystem_totale": 37290283008,
+    "tipo_filesystem": "xfs",
+    "SELinux": "Enforcing",
+    "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7"
+  },
+  "disco_VM": "36GiB, invariato",
+  "riserva_VM": 1073741824,
+  "soglia_Mac": 8589934592,
+  "soglia_Extra": 42949672960,
+  "nessuna_crescita_o_arresto_VM": true
+}

@@ -1,0 +1,234 @@
+{
+  "online-circuito": {
+    "inizio": "2026-10-20T10:36:32.729Z",
+    "prove": [
+      {
+        "scenario": "Compilazione, revisione e check-in OSPITE SINGOLO 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Storico e Cestino OSPITE SINGOLO 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Compilazione, revisione e check-in CAPO FAMIGLIA 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Storico e Cestino CAPO FAMIGLIA 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Compilazione, revisione e check-in CAPO GRUPPO 390px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Storico e Cestino CAPO GRUPPO 390px",
+        "esito": "PASS"
+      }
+    ],
+    "POST_invii": 0,
+    "esito": "PASS_SCENARI_ONLINE",
+    "fine": "2026-10-20T10:38:27.009Z"
+  },
+  "online-completo": {
+    "inizio": "2026-10-20T10:38:51.039Z",
+    "SHA": "1be29e8a55dea841c9c486ea1c5b44d14c249ba1",
+    "prove": [
+      {
+        "regressione_Nuova_schedina": true,
+        "ricerca_nome_cognome": true,
+        "selezione_cliente": true,
+        "bozza_e_ripresa": true
+      },
+      {
+        "creazione_reale_struttura_B_senza_collisioni": true,
+        "modelli_B_indipendenti": true,
+        "richiesta_B_negata_ad_A404": true
+      },
+      {
+        "ricerca_struttura_B_solo_proprio_cliente": true
+      }
+    ],
+    "responsive": [
+      {
+        "width": 1440,
+        "pagina": "/web-checkin",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/web-checkin/nuovo",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/web-checkin/storico",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/cestino?tipo=Web%20Check-in",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/schedine/nuova",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/schedine",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/schedine/bozze",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/arrivi",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/web-checkin",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/web-checkin/nuovo",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/web-checkin/storico",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/cestino?tipo=Web%20Check-in",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/schedine/nuova",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/schedine",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/schedine/bozze",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/arrivi",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/web-checkin",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/web-checkin/nuovo",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/web-checkin/storico",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/cestino?tipo=Web%20Check-in",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/schedine/nuova",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/schedine",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/schedine/bozze",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/arrivi",
+        "nessun_overflow": true
+      }
+    ],
+    "POST_invii": 0,
+    "esito": "PASS_ONLINE_REGRESSIONI_NUOVA_SCHEDINA_TENANCY",
+    "errori_JS": [],
+    "fine": "2026-10-20T10:39:26.004Z"
+  },
+  "online-accessi": {
+    "inizio": "2026-10-20T10:39:27.038Z",
+    "prove": [
+      {
+        "scaduto404": true,
+        "date_sintetiche_modificate_da_reception": true,
+        "clock_produzione_invariato": true,
+        "dati_conservati": true
+      },
+      {
+        "revoca_GET_POST404": true,
+        "rigenerazione_esplicita": true,
+        "vecchio_link404_nuovo200": true,
+        "scrittura_rifiutata_non_persistita": true,
+        "note_private": true,
+        "noindex_no_store": true
+      }
+    ],
+    "POST_invii": 0,
+    "esito": "PASS_ACCESSI_WEB_ONLINE",
+    "fine": "2026-10-20T10:39:48.970Z"
+  },
+  "online-html": {
+    "inizio": "2026-10-20T10:39:49.397Z",
+    "prove": [
+      {
+        "scenario": "Email HTML e modulo guidato OSPITE SINGOLO 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Cronologia e gestione modelli OSPITE SINGOLO 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Email HTML e modulo guidato CAPO FAMIGLIA 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Cronologia e gestione modelli CAPO FAMIGLIA 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Email HTML e modulo guidato CAPO GRUPPO 390px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Cronologia e gestione modelli CAPO GRUPPO 390px",
+        "esito": "PASS"
+      }
+    ],
+    "POST_invii": 0,
+    "esito": "PASS_SCENARI_ONLINE",
+    "fine": "2026-10-20T10:41:38.336Z"
+  }
+}

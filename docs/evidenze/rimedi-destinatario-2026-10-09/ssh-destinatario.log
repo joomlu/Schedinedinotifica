@@ -1,0 +1,5 @@
+Destinatario: root@217.174.149.23, porta6543
+BatchMode=yes StrictHostKeyChecking=yes ConnectTimeout=10 ConnectionAttempts=1
+Exit255: root@217.174.149.23: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).
+Agente SSH locale: The agent has no identities.
+Nessun comando remoto eseguito; chiave host non disabilitata; nessun segreto letto. Il precedente dominio:22 non verifica questo destinatario.

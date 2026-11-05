@@ -1,0 +1,337 @@
+{
+  "stato": "APPROFONDIMENTO COMPLETO PRONTO A REVISIONE; NON PUBBLICATO",
+  "baseline": "BASELINE IN AUDIT",
+  "ramo": "codex/rinnovo-sito-pubblico-2026-10-24",
+  "base_approfondimento": "160e8641f98f5214b9475ce322a6b9c06e93d521",
+  "sha_candidato_finale": "5188ce446d5c67c6cac880514800618b9aeccade",
+  "qualificazione": {
+    "PHP": {
+      "run": "R6",
+      "sha": "a26f77ea5960ebe3867033854de64f21b274c02a",
+      "test": 35,
+      "asserzioni": 330,
+      "esito": "PASS",
+      "selezione": [
+        "PublicSiteRenewalTest (8 casi)",
+        "TassaVerificaIntegraleTest",
+        "AnagraficaGeografiaAuditTest",
+        "StrutturaAuthorizationTest"
+      ]
+    },
+    "browser": {
+      "run": "R7",
+      "sha": "5188ce446d5c67c6cac880514800618b9aeccade",
+      "percorsi": 6,
+      "esito": "PASS",
+      "secondi": 42.6,
+      "larghezze": [
+        1440,
+        768,
+        390
+      ],
+      "pagine": 5,
+      "combinazioni_pagina_larghezza": 15,
+      "immagini": 19,
+      "overflow": 0,
+      "errori_JS": 0,
+      "errori_asset": 0,
+      "asset_HTTP_SHA256": "PASS",
+      "menu_ancore_FAQ_accessi": "PASS",
+      "form_CRM_sintetico_errori_focus": "PASS"
+    },
+    "prove_runtime_R7": {
+      "override_rifiutati": 23,
+      "build_asset_GEO": "PASS",
+      "sorgenti_attestate": 4383,
+      "runtime": "VM ufficiale, namespace/processi/database/HTTP effimeri attestati",
+      "cleanup": "Processi e directory temporanei conclusi e rimossi"
+    },
+    "relazione_R6_R7": "Dal candidato R6 al R7 cambia soltanto lo spec browser di cattura: HTML, CSS, JS, applicativo, configurazioni e test PHP byte-identici. Non è dichiarata una suite PHP eseguita in R7. Esecuzioni sovrapposte non sommate."
+  },
+  "tentativi_preservati": [
+    {
+      "run": "R5",
+      "sha": "d56c78819a05514e822b9098069fd94cbb6a9036",
+      "PHP": [
+        35,
+        330
+      ],
+      "browser_PASS": 3,
+      "browser_NONPASS": 3,
+      "diagnosi": "Locator obsoleto includeva la freccia decorativa, ora aria-hidden; usato il nome accessibile esatto senza cambiare sito, timeout o controlli."
+    },
+    {
+      "run": "R6",
+      "PHP": "35/330 PASS",
+      "browser": "6 PASS; 44,5 secondi",
+      "visuale": "Tre immagini Prezzi escluse dalla consegna: artefatto fullPage dopo scroll sulla FAQ, con sticky/fixed compositati in posizione intermedia. Ripetuta acquisizione in R7 da scrollY0, header0 e dimensioni stabili tra due frame; nessuna modifica CSS o occultamento."
+    }
+  ],
+  "immagini_finali_R7": [
+    {
+      "file": "sito-conferma-390.png",
+      "larghezza": 390,
+      "altezza": 1000,
+      "sha256": "dae2bc22824014708b3345e2a76e7c744916c18adb500ca9b8fae692c121cd10",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-contatti-768.png",
+      "larghezza": 768,
+      "altezza": 2562,
+      "sha256": "95ae735e78a64c5bd45c6b4b227dd31ef731f993594c31cb43e5a1bbca791071",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-demo-768.png",
+      "larghezza": 768,
+      "altezza": 4804,
+      "sha256": "b2ad26c58f963dd01b8ed876fdaec88875d5b718fb5afe0aaf316decfc97c075",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-home-768.png",
+      "larghezza": 768,
+      "altezza": 6076,
+      "sha256": "ad1211a5964a83fe7c3758579bc660a274dea51ed79aae1bfef7251355b508e7",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-moduli-768.png",
+      "larghezza": 768,
+      "altezza": 8964,
+      "sha256": "77155b57f5e15672792a1725c5092e888c44318d18ade8e5ce1f14279074e7e1",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-prezzi-768.png",
+      "larghezza": 768,
+      "altezza": 1894,
+      "sha256": "058a2ae7ec4a4d8c6d3aee28285b609e246c7a73ea47aff5c49114bb0823c50f",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-conferma-1440.png",
+      "larghezza": 1440,
+      "altezza": 1000,
+      "sha256": "5c63caebc019056dfbec8a0e5ef0bde5b115f019bc62c4142298728d79f85c76",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-conferma-768.png",
+      "larghezza": 768,
+      "altezza": 1000,
+      "sha256": "2316f4d04fc4e7379cd866a1212c9b847ed8da8b087d9c307a42944796400a7c",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-contatti-390.png",
+      "larghezza": 390,
+      "altezza": 3132,
+      "sha256": "983278a2c58b5b3f28412d025d914fd2ff60c648df7539260366e9500e5a4c47",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-demo-390.png",
+      "larghezza": 390,
+      "altezza": 6252,
+      "sha256": "619646cc324e3acef8f3af519772cc0c39791cfba8918cb11d48acbda5b078e2",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-home-390.png",
+      "larghezza": 390,
+      "altezza": 8094,
+      "sha256": "d4c574fd9331f78a0698f3dc4ce5d7214bdbd27c5164046a32dd44d2863eae50",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-moduli-390.png",
+      "larghezza": 390,
+      "altezza": 10079,
+      "sha256": "840167ce236f5601b4891c40ed6cca326323345a64406cfab95ac991c42ca3db",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-prezzi-390.png",
+      "larghezza": 390,
+      "altezza": 2461,
+      "sha256": "48d789c55a6893c07191d65cd1cd2fe7b95e2ef87dfd999dd5d61a2ec30c1016",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-contatti-1440.png",
+      "larghezza": 1440,
+      "altezza": 2031,
+      "sha256": "79e7762b753a245be28b2ab9c41d21d7456a3aff7a22099a883645c1ece0b7b5",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-demo-1440.png",
+      "larghezza": 1440,
+      "altezza": 4755,
+      "sha256": "3815b5872507479b4deefc649fa64fd884cbc9560d343d5f27d06e609d308401",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-home-1440.png",
+      "larghezza": 1440,
+      "altezza": 5749,
+      "sha256": "e8d91e251fc097163151bb3c1e1dd82ef3b0815a7bc43c986c3fe67b19836bec",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-moduli-1440.png",
+      "larghezza": 1440,
+      "altezza": 7739,
+      "sha256": "9fe1dc5675a230e2570558caa3f26f2ac76b83d9c81175842c73cb338f627212",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-novita-desktop.png",
+      "larghezza": 1440,
+      "altezza": 1000,
+      "sha256": "a5675e101a2f5ae91326e23eeee3b809416c04339244cedbba45fe3c9064b008",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    },
+    {
+      "file": "sito-prezzi-1440.png",
+      "larghezza": 1440,
+      "altezza": 1877,
+      "sha256": "509bfc5898f22578604c43a6d58250a75982aaa6a71b9a7d7ca92675d6b616e7",
+      "ispezione": "PASS: impaginazione coerente senza tagli o sovrapposizioni rilevati"
+    }
+  ],
+  "immagini_consegna": {
+    "novita-desktop.png": {
+      "origine_R7": "sito-novita-desktop.png",
+      "sha256": "a5675e101a2f5ae91326e23eeee3b809416c04339244cedbba45fe3c9064b008"
+    },
+    "home-mobile.png": {
+      "origine_R7": "sito-home-390.png",
+      "sha256": "d4c574fd9331f78a0698f3dc4ce5d7214bdbd27c5164046a32dd44d2863eae50"
+    },
+    "moduli-tablet.png": {
+      "origine_R7": "sito-moduli-768.png",
+      "sha256": "77155b57f5e15672792a1725c5092e888c44318d18ade8e5ce1f14279074e7e1"
+    },
+    "conferma-mobile.png": {
+      "origine_R7": "sito-conferma-390.png",
+      "sha256": "dae2bc22824014708b3345e2a76e7c744916c18adb500ca9b8fae692c121cd10"
+    }
+  },
+  "raccolta": "Nuovo collettore per singola etichetta: nessun riuso di directory cumulative. Soltanto 19 PNG R7 contati. Le prove R4 e i relativi quattro PNG/ricevuta restano invariati nella cartella padre. R5/R6 originali preservati privatamente, nessun log integrale pubblicato.",
+  "contenuti": {
+    "URL_invariate": [
+      "/",
+      "/moduli",
+      "/demo",
+      "/prezzi",
+      "/contatti"
+    ],
+    "sezioni_moduli": [
+      "Clienti e schedine",
+      "Arrivi",
+      "Web Check-in",
+      "Percorso ospite",
+      "Tassa di soggiorno",
+      "Adempimenti",
+      "Questura / Alloggiati Web",
+      "Tabella A / ISTAT Emilia-Romagna",
+      "Organizzazione e supporto"
+    ],
+    "aggiunte": [
+      "Destinatari e problemi della reception",
+      "Avvio in tre passi",
+      "Novità reali del percorso di ottobre",
+      "Distinzione richiesta/referente/compilazione/revisione/soggiorno effettivo",
+      "Disponibile / In verifica / Da definire all’avvio",
+      "Ambiente Tanggo documentato",
+      "Titoli e descrizioni unici, Open Graph, canonical e favicon"
+    ],
+    "roadmap": "Nessuna nuova funzione o data di rilascio inventata; roadmap approvata non disponibile."
+  },
+  "SEO": {
+    "fonte": "Conferma esplicita dell’utente: sito pubblico schedinedinotifica.tanggo.software; coincidente con APP_URL e canonical già qualificati",
+    "host_stessa_installazione": [
+      "tanggo.software",
+      "schedinedinotifica.tanggo.software"
+    ],
+    "verifica_host": "GET HTTP200/TLS0 entrambi; DocumentRoot comune verificato dal principale in sola lettura",
+    "distinzione": "tango.software con una g osservato403/TLS0; nessuna equivalenza assunta",
+    "da_revisionare": "Revisione anteprima prima della pubblicazione; nessun DNS/vhost/redirect modificato",
+    "dominio_pubblico_confermato": "https://schedinedinotifica.tanggo.software",
+    "conferma_senza_modifiche_applicative": true
+  },
+  "sorgenti_SHA256": {
+    "public/site-assets/styles.css": "db8b5aac048a30b871e9e2a167b0e9539e2bb2f3f2d5447205aa09f59de2f92f",
+    "tests/Feature/PublicSiteRenewalTest.php": "773e738dac261b8c7077855d2b1c8f9c2ce653b456d1454694a9366066c6e74c",
+    "tests/Feature/public-site-renewal.playwright.spec.js": "d4a12dcc487de70c982a3bab34b828749eeaa8a5f95fc159f3ae57bce0cbc735",
+    "web/assets/styles.css": "db8b5aac048a30b871e9e2a167b0e9539e2bb2f3f2d5447205aa09f59de2f92f",
+    "web/contatti.html": "3e22e2dae071208720bac3f745f23a3ebc6fada4b23d36dbfe25f27d250eae95",
+    "web/demo.html": "805fc9a25d6eaaadf566a39ad65a61a1156a98927217b2399251d522f7f6ce2f",
+    "web/index.html": "15cb9b83e203de8ed5924af4fe5b9052137f9abf0e127e28a32fb86038654036",
+    "web/moduli.html": "793363427f74b6e629231a85406711101f47a317e43941f8ce0005a149ddc514",
+    "web/prezzi.html": "5825bc89cba3b7e4503d5ccdaf51b35ebe63317a5677adfc036dff6bf112f7d6"
+  },
+  "parita_specchi": {
+    "styles.css": {
+      "web": "db8b5aac048a30b871e9e2a167b0e9539e2bb2f3f2d5447205aa09f59de2f92f",
+      "public": "db8b5aac048a30b871e9e2a167b0e9539e2bb2f3f2d5447205aa09f59de2f92f",
+      "uguali": true
+    },
+    "app.js": {
+      "web": "3108c97bbb178a95164816ff22d6780dcbbcfef259244b4948fc4bfa84298dcb",
+      "public": "3108c97bbb178a95164816ff22d6780dcbbcfef259244b4948fc4bfa84298dcb",
+      "uguali": true
+    }
+  },
+  "capacita_osservata_approfondimento": {
+    "campioni": 21,
+    "minimo_VM_byte": 1603276800,
+    "riserva_VM_byte": 1073741824,
+    "tutti_oltre_riserva": true,
+    "minimo_Mac_byte": 30519492608
+  },
+  "coordinamento": "VM restituita libera e accesa al principale per ISTAT; daily945ef553 e SELinuxEnforcing preservati, soli osservatori propri conclusi. Nessun test concorrente.",
+  "anteprima": "Solo loopback, conferma dimostrativa etichettata dal helper senza DB/email; distinta dal POST CRM reale ma soltanto effimero nei test VM.",
+  "pendenti_prima_pubblicazione": [
+    "Revisione utente del sito",
+    "Dati societari/P.IVA/privacy/recapiti",
+    "Listino e condizioni commerciali",
+    "Abilitazioni/accettazioni esterne per il contesto della struttura"
+  ],
+  "esclusioni": [
+    "Nessun dato reale o database condiviso modificato",
+    "Nessuna modifica interna a route/controller/auth/migrazioni/config",
+    "Nessuna trasmissione Questura/ISTAT/StayTour o email reale",
+    "Nessun push, merge su main o deploy"
+  ],
+  "consuntivo_successivo": "Solo rapporto, README ed evidenze dopo qualifica; nessuna modifica ai sorgenti applicativi qualificati.",
+  "metodo_ispezione_visuale": {
+    "originali_R7_byte_identici_a_R6_gia_ispezionati": [
+      "sito-contatti-390.png",
+      "sito-demo-390.png",
+      "sito-moduli-390.png",
+      "sito-home-390.png",
+      "sito-contatti-1440.png",
+      "sito-demo-1440.png",
+      "sito-moduli-1440.png",
+      "sito-home-1440.png",
+      "sito-novita-desktop.png",
+      "sito-moduli-768.png",
+      "sito-contatti-768.png",
+      "sito-demo-768.png",
+      "sito-home-768.png"
+    ],
+    "altri_originali_R7_ispezionati_direttamente": [
+      "sito-prezzi-390.png",
+      "sito-conferma-390.png",
+      "sito-prezzi-1440.png",
+      "sito-prezzi-768.png",
+      "sito-conferma-768.png",
+      "sito-conferma-1440.png"
+    ],
+    "totale": 19
+  }
+}

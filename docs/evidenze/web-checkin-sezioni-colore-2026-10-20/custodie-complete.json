@@ -1,0 +1,92 @@
+{
+  "esito": "PASS_12_CIFRATI_EXTRA_ENTRAMBI_TENTATIVI",
+  "UTC": "2026-10-20T10:45:00.852986+00:00",
+  "file": [
+    {
+      "tipo": "PREPARE_tentativo1",
+      "file": "db.sql",
+      "cifrato_SHA256": "1227a6ac1eff90f3a26e8efbfa6b67bbb1bf78203f97ba7ff9044d549b05b247",
+      "decifrato_SHA256": "70b26c224a2f6e69cb95d52385b9a6c6754137d6916c0b2ad63c76a0785a0238",
+      "HMAC_decifratura_integrale": true
+    },
+    {
+      "tipo": "PREPARE_tentativo1",
+      "file": "fs.tar.gz",
+      "cifrato_SHA256": "9770beb606447d6ef612b11d087b976cad9408c76b1973ef04d60359c47657fb",
+      "decifrato_SHA256": "c7ff41157b6c3e30f09429c40110227661ffe4f2e9f6f72143ea54ef5a482e65",
+      "HMAC_decifratura_integrale": true
+    },
+    {
+      "tipo": "PREPARE_tentativo1",
+      "file": "inventory.json",
+      "cifrato_SHA256": "d7bc9434f808e984da53bcac8e7a304f5d8284cc9558e3fe71b166bb5041571d",
+      "decifrato_SHA256": "690058d0c687e33be2b92cecf7456f32626b168c0adaf2a09d2383bb51f04e48",
+      "HMAC_decifratura_integrale": true
+    },
+    {
+      "tipo": "S0_tentativo1_non_accettato",
+      "file": "db.sql",
+      "cifrato_SHA256": "4c3a4845bed59fa3dcd4957feb5b59126247b7d6d257d20a9d77c57426f3f1f2",
+      "decifrato_SHA256": "70b26c224a2f6e69cb95d52385b9a6c6754137d6916c0b2ad63c76a0785a0238",
+      "HMAC_decifratura_integrale": true
+    },
+    {
+      "tipo": "S0_tentativo1_non_accettato",
+      "file": "fs.tar.gz",
+      "cifrato_SHA256": "3c1d73808d1adfec89756a10b44f9332a80239c5650759549b61cd6f2ef31893",
+      "decifrato_SHA256": "a4b142d013299d78062a5216edd0fd4166d5c5a968198eeba01c4940e7e23306",
+      "HMAC_decifratura_integrale": true
+    },
+    {
+      "tipo": "S0_tentativo1_non_accettato",
+      "file": "inventory.json",
+      "cifrato_SHA256": "3985a7f2a9ea258e347e71f1448a166545c13e3cb3efc88a8cc7ff10bb587f33",
+      "decifrato_SHA256": "332a921e8378f2df7b9eb1c4ac9a00ed9f9a165c5f15101aebf371b8b36e3235",
+      "HMAC_decifratura_integrale": true
+    },
+    {
+      "tipo": "PREPARE_tentativo2",
+      "file": "db.sql",
+      "cifrato_SHA256": "328789eaaabb9243aac1cb114d27191eeaaa7627c4428060f0d10b6175111719",
+      "decifrato_SHA256": "70b26c224a2f6e69cb95d52385b9a6c6754137d6916c0b2ad63c76a0785a0238",
+      "HMAC_decifratura_integrale": true
+    },
+    {
+      "tipo": "PREPARE_tentativo2",
+      "file": "fs.tar.gz",
+      "cifrato_SHA256": "c7386dc606a5af44b30eddba63974b0d8203604a6ced8c755b5f9d9e4fb3da82",
+      "decifrato_SHA256": "98a4da436bd5c50b25bdad169b6d17df272cbc4c3fd87e4a76617fac706ba017",
+      "HMAC_decifratura_integrale": true
+    },
+    {
+      "tipo": "PREPARE_tentativo2",
+      "file": "inventory.json",
+      "cifrato_SHA256": "1779ffeda6415a2c036b3a54655f3a0922e8cd148312cb05664182b50c963c47",
+      "decifrato_SHA256": "74f462af0387f937256904105c5a5f9e4aee3a1b0b68603c27b0663282632134",
+      "HMAC_decifratura_integrale": true
+    },
+    {
+      "tipo": "S0_tentativo2_accettato",
+      "file": "db.sql",
+      "cifrato_SHA256": "407116a5c06c90c01a89d60c2c9ef60d8c92af6c3a39f9ff07653fb41cce603b",
+      "decifrato_SHA256": "70b26c224a2f6e69cb95d52385b9a6c6754137d6916c0b2ad63c76a0785a0238",
+      "HMAC_decifratura_integrale": true
+    },
+    {
+      "tipo": "S0_tentativo2_accettato",
+      "file": "fs.tar.gz",
+      "cifrato_SHA256": "adcd35e75f3e98d2c0664587d895bd40f502b08fd5e7d972c493603a4a4be250",
+      "decifrato_SHA256": "5d0b8c295cb3e527fcb4e66ed16bcea35f4ddec10e14bdff9e4b115136431501",
+      "HMAC_decifratura_integrale": true
+    },
+    {
+      "tipo": "S0_tentativo2_accettato",
+      "file": "inventory.json",
+      "cifrato_SHA256": "8a1ec1bc633a11d87fa0c91710da994b83506600c841a14c9164d76f6a6a339d",
+      "decifrato_SHA256": "e9ea4a48d929231a45479ec65b32825d7d09df9f79c715a37dd5b3aa28a09ac6",
+      "HMAC_decifratura_integrale": true
+    }
+  ],
+  "chiave_separata_VM": true,
+  "nessuna_scrittura_decifrata": true
+}

@@ -1,0 +1,275 @@
+{
+  "stato": "PASS_ISTAT_PUBBLICATO_E_VERIFICATO_ONLINE",
+  "data_UTC": "2026-10-24T23:35:03.644535+00:00",
+  "BASELINE": "IN AUDIT",
+  "PR": "https://github.com/joomlu/Schedinedinotifica/pull/21",
+  "SHA_produzione": "a90d63aa6bd85f668d1ba61a4a5d776e5529cb98",
+  "commit_applicativo": "31f5bdf38e18e556266abd217e6c82bf62db4970",
+  "qualifica_revisionata": "f836b0687abe02a83a4ebde1c47ff7b39df6b985",
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "S0_secondi": 158.611,
+    "RUN_secondi": 267.519,
+    "DDL": false,
+    "decisione": "CANDIDATO_ACCETTATO"
+  },
+  "sorgenti_e_protetti_verificati": 250,
+  "prima_QA": {
+    "ambito": "Verifica subito dopo rilascio, precedente al collaudo sintetico online",
+    "data_epoch": 1792883802.2640646,
+    "db_byte_identico_S0": true,
+    "dati_e_schema_preesistenti_identici_S0": true,
+    "delta_DB_autorizzato": {
+      "esito": "PASS_DB_BYTE_IDENTICO_S0",
+      "tabelle_preesistenti_identiche": 66
+    },
+    "custom_css_HTTP_sha256": "9d11a9ecc9c9df1a5fd0876a7bba78dc6064a4a46b1c7941c04f49ef6827e67b",
+    "regola_mobile_in_css_pubblico": true,
+    "esito": "PASS_RILASCIO_ONLINE_SERVER",
+    "HEAD": "a90d63aa6bd85f668d1ba61a4a5d776e5529cb98",
+    "Laravel": "12.69.3",
+    "migrazioni": 159,
+    "tabelle": 66,
+    "cataloghi": {
+      "rilasciato_da": {
+        "globali": 86,
+        "gruppi_privati_verificati": 7,
+        "minimo_record_privati": 73
+      },
+      "tipo_via": {
+        "globali": 198,
+        "gruppi_privati_verificati": 7,
+        "minimo_record_privati": 156
+      }
+    },
+    "geo_comuni": 7896,
+    "env_key_upload_loghi_identici_S0": true,
+    "persistenti": 92,
+    "sorgenti_e_protetti_identici_ai_digest": true,
+    "provider_false_mail_array": true,
+    "Git_pulito": true,
+    "sonde9": {
+      "mail.schedinedinotifica.tanggo.software/": true,
+      "mail.schedinedinotifica.tanggo.software/login": true,
+      "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "schedinedinotifica.tanggo.software/": true,
+      "schedinedinotifica.tanggo.software/login": true,
+      "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "www.schedinedinotifica.tanggo.software/": true,
+      "www.schedinedinotifica.tanggo.software/login": true,
+      "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+    },
+    "S0_secondi": 158.611,
+    "rilascio_secondi": 267.519,
+    "monitor_campioni": 421,
+    "DDL_eseguite": false,
+    "migrazioni_applicate": [],
+    "nessun_invio_enti": true
+  },
+  "QA": {
+    "inizio": "2026-10-24T23:17:59.022Z",
+    "prove": [
+      {
+        "larghezza": 1440,
+        "XML": {
+          "errors": 0,
+          "giornate": 30,
+          "arrivi": 2,
+          "partenze": 2,
+          "camere": 2
+        },
+        "sha256": "6126962682ae116eb0c3bca248c20fcd99ce895bff6d3a57b19d8c256e69f27b",
+        "presenze_riepilogo": 4,
+        "stesso_XML_storico": true,
+        "validazione_locale": true,
+        "invio_disabilitato": true,
+        "tenant_estraneo403": true
+      },
+      {
+        "larghezza": 768,
+        "XML": {
+          "errors": 0,
+          "giornate": 30,
+          "arrivi": 2,
+          "partenze": 2,
+          "camere": 2
+        },
+        "sha256": "6126962682ae116eb0c3bca248c20fcd99ce895bff6d3a57b19d8c256e69f27b",
+        "presenze_riepilogo": 4,
+        "stesso_XML_storico": true,
+        "validazione_locale": true,
+        "invio_disabilitato": true,
+        "tenant_estraneo403": true
+      },
+      {
+        "larghezza": 390,
+        "XML": {
+          "errors": 0,
+          "giornate": 30,
+          "arrivi": 2,
+          "partenze": 2,
+          "camere": 2
+        },
+        "sha256": "6126962682ae116eb0c3bca248c20fcd99ce895bff6d3a57b19d8c256e69f27b",
+        "presenze_riepilogo": 4,
+        "stesso_XML_storico": true,
+        "validazione_locale": true,
+        "invio_disabilitato": true,
+        "tenant_estraneo403": true
+      }
+    ],
+    "dichiarazioni_statistiche": 0,
+    "esito": "PASS_ISTAT_ONLINE",
+    "storico_altro_tenant404": true,
+    "reception_lettura": true,
+    "POST_estranei": 0,
+    "fine": "2026-10-24T23:18:16.112Z"
+  },
+  "pulizia": {
+    "esito": "PASS_FIXTURE_RIMOSSA_E_DATI_PREESISTENTI_IDENTICI",
+    "tabelle_differenti": [],
+    "tabelle_confrontate": 66,
+    "nessun_restore_DB": true,
+    "limite": "HMAC di tutte le righe, esclusi contatori AUTO_INCREMENT; scritture reali concorrenti da riconciliare senza restore"
+  },
+  "persistenti": {
+    "esito": "PASS_PERSISTENTI_DOPO_PULIZIA",
+    "voci": 92,
+    "env_upload_loghi_contenuti_e_metadati_identici_S0": true,
+    "eccezione": "Solo mtime delle directory, inevitabilmente aggiornato dalla creazione/rimozione dei soli loghi sintetici; ogni altro metadato/file invariato."
+  },
+  "monitor_server": {
+    "secondi": 919.1298132431693,
+    "campioni": 31,
+    "sonde_HTTP_TLS_CSS": 279
+  },
+  "monitor_Mac": {
+    "secondi": 921.0200452079999,
+    "campioni": 31,
+    "richieste_HTTPS": 93,
+    "DNS_TLS_ordinari": true
+  },
+  "errori_intero_RUN": {
+    "inizio_locale": "2026-10-25T01:11:51",
+    "nuovi_errori_applicativi": {
+      "laravel-2026-09-29.log": 0,
+      "laravel-2026-10-18.log": 0,
+      "laravel-2026-10-21.log": 0,
+      "laravel-2026-10-23.log": 0,
+      "laravel.log": 0,
+      "php-avvio-20261021-custodito.log": 0,
+      "laravel-2026-10-24.log": 0
+    },
+    "totale_errori": 0,
+    "FPM_errori_journal": 0,
+    "nessun_contenuto_log_personale_esportato": true,
+    "intero_RUN_finale_incluso": true
+  },
+  "capienza": {
+    "campioni": 119,
+    "min_VM_byte": 2170011648,
+    "min_Mac_byte": 17026891776,
+    "riserva_VM_byte": 1073741824,
+    "soglia_Mac_byte": 8589934592,
+    "soglia_Extra_byte": 42949672960
+  },
+  "VM": {
+    "esito": "PASS_VM_FINALE_PRESERVATA",
+    "stato": "Stopped",
+    "disco_byte": 42949672960,
+    "guest_finale": {
+      "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+      "SELinux": "Enforcing",
+      "DB_logico_sha256": "edac137fc0ccf709f1960512f9cea90de1878044204c966ed0cc7620f0294ffb",
+      "DB_byte": 3332249,
+      "protetti_count": 84,
+      "protetti_manifest_sha256": "2829405e13cb406bc86671117fee9b534c2abe62e41c98469626664169bea25b",
+      "VM_liberi": 2996629504
+    },
+    "DB_e_84_protetti_identici_al_precedente": true,
+    "runtimes_propri_conclusi": true,
+    "osservatore_capacita_proprio_concluso": true,
+    "backup_chiavi_SQL_recuperi_preservati": true
+  },
+  "dipendenze_reali": {
+    "strutture_attive": 4,
+    "strutture_ER": 4,
+    "codice_istat_presente": 0,
+    "credenziali_istat_presenti_non_autenticate": 0,
+    "export": 0,
+    "trasmissioni": 0,
+    "sola_lettura": true
+  },
+  "accettazione_ente": "NON VERIFICATA: codici Ross1000 e credenziali/abilitazione mancanti",
+  "nessuna_dichiarazione_statistica": true,
+  "sito_nuovo_escluso": true,
+  "diagnostici_conservati": [
+    "PREPARE1 timeout recupero240s",
+    "PREPARE2 timeout trasferimento120s",
+    "PREPARE3 base mutata prima trasferimento",
+    "PREPARE4 PASS",
+    "Timeout revisione automatica prima custodia Extra, unico retry riuscito",
+    "QA primo confronto testo celle NONPASS; confronto delle tre celle esatte e ripetizione completa PASS",
+    "Doppio trasferimento fixture QA rifiutato O_EXCL; copia già trasferita identica e0600 verificata senza sovrascrittura"
+  ],
+  "custodie_Extra": {
+    "PREPARE": {
+      "esito": "PASS_PREPARE_EXTRA_INTEGRITA_RECUPERO",
+      "file": [
+        {
+          "nome": "db.sql",
+          "byte": 23342848,
+          "cifrato_SHA256": "11ba748cc221dd54e7349636710020c75baf6e374cc726318a047ef8407d30a4"
+        },
+        {
+          "nome": "fs.tar.gz",
+          "byte": 455971008,
+          "cifrato_SHA256": "5ede206c3ed0ec25ce2e53a98d835f71ed78ac002ebb2b96420ca2fb3d6529e3"
+        },
+        {
+          "nome": "inventory.json",
+          "byte": 6640176,
+          "cifrato_SHA256": "22384d87e63fb119cce9843bc4688e3cc3de4c25584ea6d23b6572982dc7d8ea"
+        }
+      ],
+      "autenticazione_e_decifratura_integrale": true,
+      "chiave_separata": true
+    },
+    "S0": {
+      "esito": "PASS_S0_EXTRA_INTEGRITA_RECUPERO",
+      "file": [
+        {
+          "nome": "db.sql",
+          "byte": 23342848,
+          "cifrato_SHA256": "36cfc011f60b56e92baa0e00543cb9c36b0c4c4e0bc3773ecbc7ae491e645e5e"
+        },
+        {
+          "nome": "fs.tar.gz",
+          "byte": 2432,
+          "cifrato_SHA256": "64395a822549cf4a272ac28a8bf07dc3532b8743e97efb3300a6292b520f9e78"
+        },
+        {
+          "nome": "inventory.json",
+          "byte": 6647760,
+          "cifrato_SHA256": "cb38cddbb56eea1370fe998dec31a3fd7af9ab2db6b3fa901037a10fe5fc8c1b"
+        }
+      ],
+      "autenticazione_e_decifratura_integrale": true,
+      "chiave_separata": true
+    }
+  },
+  "guardiano": {
+    "esito": "PASS_GUARDIANO_CONCLUSO",
+    "guardiano": "PASS_GUARDIANO_DISARMATO",
+    "servizio_concluso_inattivo_disabilitato": true,
+    "presidi_originali_preservati": true
+  },
+  "schermate_online_SHA256": {
+    "online-istat-riepilogo-1440.png": "09b8f67123f234a6787bdaabb39451d806f140bf707712041d59e97b5880c532",
+    "online-istat-riepilogo-390.png": "7b9b8394b1d5b0de307971c9906f128494531df5164af26601887c039434d593",
+    "online-istat-riepilogo-768.png": "6cc0b9fe8ee9f332a5ed4e60edd55c2af8b67af75029ebf903ee207b7922e3ea",
+    "online-istat-storico-1440.png": "4621344e0f4b48d3def159c1972967369bf842b619764ad2b96bec85a326b5e1",
+    "online-istat-storico-768.png": "18dd1767fb016a45415a03494a563fd0fab96dee50818031c1c0b76340cb2028",
+    "online-istat-storico-390.png": "aefc56221636dd83beb3a8dc40d9523b4350b8b5015235a99f54f57b09d41243"
+  }
+}

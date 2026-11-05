@@ -1,0 +1,18 @@
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 0 installs, 12 updates, 0 removals
+  - Upgrading guzzlehttp/guzzle (7.9.2 => 7.15.5)
+  - Upgrading guzzlehttp/promises (2.0.4 => 2.5.3)
+  - Upgrading guzzlehttp/psr7 (2.7.0 => 2.13.1)
+  - Upgrading league/commonmark (2.5.3 => 2.10.3)
+  - Upgrading league/flysystem (3.29.1 => 3.36.0)
+  - Upgrading nesbot/carbon (3.8.2 => 3.14.2)
+  - Upgrading psy/psysh (v0.12.4 => v0.12.24)
+  - Upgrading symfony/http-foundation (v7.1.7 => v7.4.20)
+  - Upgrading symfony/mailer (v7.1.6 => v7.4.19)
+  - Upgrading symfony/mime (v7.1.6 => v7.4.19)
+  - Upgrading symfony/polyfill-intl-idn (v1.31.0 => v1.43.0)
+  - Upgrading symfony/routing (v7.1.6 => v7.4.20)
+Writing lock file
+Found 11 security vulnerability advisories affecting 3 packages.
+Run "composer audit" for a full list of advisories.

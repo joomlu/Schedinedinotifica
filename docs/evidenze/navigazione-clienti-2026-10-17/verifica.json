@@ -1,0 +1,75 @@
+{
+  "scope": "Solo riordino visivo Nuovo / Lista Clienti",
+  "PHPUnit": {
+    "test": 36,
+    "asserzioni": 356,
+    "esito": "PASS"
+  },
+  "browser_esistenti": {
+    "test": 11,
+    "esito": "PASS"
+  },
+  "browser_navigazione": {
+    "test": 3,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "esito": "PASS"
+  },
+  "primo_tentativo_navigazione": "1 PASS / 2 FAIL; attesa inizializzazione script aggiunta nel solo test; nessun aumento timeout/retry",
+  "build_GEO": "PASS",
+  "override_rifiutati": 23,
+  "sorgenti_sha256": {
+    "resources/views/layouts/sidebar.blade.php": "a3d151c4b2109d12485fdda23df47b51b56b77bdc358f615346d2506dee96fd1",
+    "resources/views/customers/area-tabs.blade.php": "36a697fdb90872cd67d608fe2728cb3eb272b1788be350a90095605c9e66f74a",
+    "resources/views/customers/new.blade.php": "8e9afed1b0576edc6e926626e2e0665f9fa1e812c994f6c11f245d754b5c4acd",
+    "resources/views/customers/list.blade.php": "a783280bfa330c9458ba3a0851388993ebb611116e721ed742ccb2209d97069b",
+    "tests/Feature/customer-navigation.playwright.spec.js": "441c31159843815af8ee823b7eff16f7776817dce4c1685ab05006d25c60772a"
+  },
+  "log_sha256": {
+    "verifica.log": "9e22380dac5e3c042ea120c22bad392634d268e36532253c9553f47a36dabe4f",
+    "navigazione.log": "b0351a7b68b3771ab3b0500dd62246b6e896606f9ed92d522994ab20de0f7547",
+    "navigazione-r2.log": "4bfba6c64c1a402cf910efdfcf6dd801214f3dda973f5206619fa137e90d1d52",
+    "confronto-sorgenti.json": "36e29bbc5258e08ce242c0d6f0c2e8b7d4d28cbb899fbc7e230482d447d818a9"
+  },
+  "preflight": {
+    "recupero_precedente_allocato": 681992192,
+    "componenti": {
+      "decoded": 29061120,
+      "extracted": 423358464,
+      "archivio-base-verificato.json": 4096,
+      "dbdata": 206282752,
+      "db-tmp": 0,
+      "db-private.log": 4096,
+      "ridump.sql": 23244800,
+      "custody": 4096,
+      "sign.pub": 4096,
+      "private.php": 4096,
+      "pool.conf": 4096,
+      "fpm.log": 4096,
+      "fpm-console.log": 0,
+      "web": 4096,
+      "closed": 4096,
+      "apache.conf": 4096,
+      "apache-console.log": 0,
+      "apache.log": 4096
+    },
+    "cifrati_base_allocati": 362008576,
+    "liberi_VM": 1509302272,
+    "data_UTC": "2026-10-17T16:08:45.031970+00:00",
+    "margine_prudenziale": 1073741824,
+    "liberi_Mac": 12925800448,
+    "nessuna_rimozione": true,
+    "nessuna_manutenzione": true,
+    "nessun_PREPARE": true,
+    "recupero_storico_completo_prima_pulizia": 939229184,
+    "riserva_nuovo_candidato_per_recupero": 16777216,
+    "fabbisogno_stimato": 3709771776,
+    "limite": "Stima da recupero completo prima della pulizia, mai abbassata per i derivati rimossi;16MiB aggiuntivi per ognuno dei due nuovi recuperi PREPARE/S0, rollback coperto dal checkpoint e monitor nella riserva: non è una misura del picco del nuovo candidato. Nessun riuso dello S0 precedente.",
+    "esito": "STOP_CAPIENZA_PRIMA_PREPARE"
+  },
+  "pubblicazione": "STOP prima PREPARE per capienza, nessuna manutenzione o deploy",
+  "stato": "BASELINE IN AUDIT"
+}

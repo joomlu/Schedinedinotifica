@@ -1,0 +1,51 @@
+{
+  "esito": "PASS_RIMOZIONE_SOLI_DERIVATI_VERIFICATI",
+  "audit": {
+    "free_before": 5225259008,
+    "count": 48256,
+    "allocated_nominal": 1028956160,
+    "cow_nominal": 0,
+    "cifrati_HMAC_verificati": [
+      "/tmp/schedine-linux-cold-input-e2e-1GwVi7fh/cipher",
+      "/tmp/schedine-linux-cold-input-e2e-3OqWBTyn/cipher",
+      "/tmp/schedine-linux-cold-input-e2e-DsG942Ca/cipher",
+      "/tmp/schedine-linux-cold-input-e2e-GCerxqUu/cipher"
+    ],
+    "protetti_non_candidati": [
+      "DB",
+      "SQL",
+      "chiavi",
+      "cifrati originali",
+      "upload",
+      "loghi",
+      "diagnostici",
+      "sorgenti e documenti"
+    ],
+    "nessun_processo_mount": true
+  },
+  "rimozione": {
+    "deleted_files": 48256,
+    "repliche_CoW": 0,
+    "free_after": 6267699200,
+    "recovered_real": 1042440192
+  },
+  "discard": {
+    "esito": "PASS_DISCARD_SOLI_BLOCCHI_LIBERI",
+    "prima": {
+      "Mac_liberi": 7762112512,
+      "disk_nominale": 38654705664,
+      "disk_allocato": 30587498496
+    },
+    "dopo": {
+      "Mac_liberi": 7791951872,
+      "disk_nominale": 38654705664,
+      "disk_allocato": 29593673728
+    },
+    "output_fstrim": "/: 34.8 GiB (37395345408 bytes) trimmed",
+    "env_lock_preservati": true,
+    "limite": "Il contatore trimmed non \u00e8 il recupero fisico del Mac; misure separate, nessuna riscrittura o riduzione del disco."
+  },
+  "script_sha256": "95784025b3b9d286e41e8eb867316865955d381b59423b79750d7eb6f10ac2ee",
+  "protetti_preservati": true,
+  "limite": "Misure VM e Mac distinte; contatore fstrim non equiparato a recupero fisico del Mac."
+}

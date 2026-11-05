@@ -1,0 +1,36 @@
+{
+  "width": 390,
+  "scroll": 409,
+  "elements": [
+    {
+      "tag": "DIV",
+      "id": "",
+      "cls": "d-flex gap-2",
+      "rect": {
+        "x": 238.765625,
+        "y": -1570.828125,
+        "width": 170.09375,
+        "height": 28.375,
+        "top": -1570.828125,
+        "right": 408.859375,
+        "bottom": -1542.453125,
+        "left": 238.765625
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "btn btn-soft-danger btn-sm remove-componente",
+      "rect": {
+        "x": 327.4375,
+        "y": -1570.828125,
+        "width": 81.421875,
+        "height": 28.375,
+        "top": -1570.828125,
+        "right": 408.859375,
+        "bottom": -1542.453125,
+        "left": 327.4375
+      }
+    }
+  ]
+}

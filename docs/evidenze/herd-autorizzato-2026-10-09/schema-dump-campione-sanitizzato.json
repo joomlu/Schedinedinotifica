@@ -1,0 +1,23 @@
+{
+    "users": {
+        "dumpDDL_identico_SHOWCREATE_sorgente": true,
+        "sorgente_AUTO_INCREMENT": "52",
+        "dump_AUTO_INCREMENT": "52",
+        "colonne": 43,
+        "righeDDL": 51
+    },
+    "istat_exports": {
+        "dumpDDL_identico_SHOWCREATE_sorgente": true,
+        "sorgente_AUTO_INCREMENT": null,
+        "dump_AUTO_INCREMENT": null,
+        "colonne": 12,
+        "righeDDL": 16
+    },
+    "tipo_cliente": {
+        "dumpDDL_identico_SHOWCREATE_sorgente": true,
+        "sorgente_AUTO_INCREMENT": "4",
+        "dump_AUTO_INCREMENT": "4",
+        "colonne": 6,
+        "righeDDL": 9
+    }
+}

@@ -1,0 +1,2117 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Componenti;
+use App\Models\CustomerImportRow;
+use App\Models\Customers;
+use App\Models\GeoComune;
+use App\Models\GeoNazione;
+use App\Models\GeoProvincia;
+use App\Models\GeoRegione;
+use App\Models\Gruppo;
+use App\Models\RilasciatoDa;
+use App\Models\Schedina;
+use App\Models\Struttura;
+use App\Models\TassaDiSoggiorno;
+use App\Models\TassaEsenzione;
+use App\Models\TipoCliente;
+use App\Models\TipoDocumento;
+use App\Models\TipoVia;
+use App\Models\Titolo;
+use App\Services\CestinoService;
+use App\Services\CustomerImportService;
+use App\Services\TassaDiSoggiornoService;
+use App\Support\Componenti\DatiComponenteNormalizzati;
+use App\Support\Componenti\PianoSyncComponenti;
+use App\Support\Componenti\TipoAlloggiatoCatalogo;
+use App\Support\StrutturaCorrente;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
+
+class SchedinaController extends Controller
+{
+    protected TassaDiSoggiornoService $tassaService;
+
+    public function __construct(TassaDiSoggiornoService $tassaService)
+    {
+        $this->tassaService = $tassaService;
+    }
+
+    public function index()
+    {
+        $q = trim((string) request('q', ''));
+        $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
+        $strutturaInfo = $currentId ? Struttura::find($currentId) : null;
+        if ($currentId) {
+            $this->resequenceCircuitCodes($currentId, 'schedina');
+        }
+        [$tassaConfig, $esenzioni] = $this->loadTassaContext($strutturaInfo);
+
+        $schedinas = Schedina::query()
+            ->where('is_arrive', 0)
+            ->where(function ($query) {
+                $query->where('circuito', 'schedina')
+                    ->orWhere(function ($legacy) {
+                        $legacy->whereNull('circuito')
+                            ->where('is_arrive', 0);
+                    });
+            })
+            ->with('componenti')
+            ->when($q !== '', function ($query) use ($q) {
+                $like = '%'.$q.'%';
+                $query->where(function ($inner) use ($like) {
+                    $inner->where('id', 'like', $like)
+                        ->orWhere('scheda', 'like', $like)
+                        ->orWhere('name', 'like', $like)
+                        ->orWhere('surname', 'like', $like)
+                        ->orWhere('arrive', 'like', $like)
+                        ->orWhere('departure', 'like', $like)
+                        ->orWhere('oa_country', 'like', $like)
+                        ->orWhere('oa_city', 'like', $like)
+                        ->orWhere('room', 'like', $like)
+                        ->orWhere('beds', 'like', $like)
+                        ->orWhere('relationship', 'like', $like);
+                });
+            })
+            ->orderByDesc('scheda')
+            ->orderByDesc('id')
+            ->paginate(10)
+            ->withQueryString();
+
+        $schedinas->getCollection()->transform(function (Schedina $schedina) use ($tassaConfig, $esenzioni, $strutturaInfo) {
+            $schedina = $this->decorateSchedina($schedina);
+            $dettaglio = $this->dettaglioTassaPerGestione(
+                $schedina,
+                $schedina->componenti ?? collect(),
+                $tassaConfig,
+                $esenzioni,
+                $strutturaInfo
+            );
+            $schedina->tassa_totale = $dettaglio['totale'];
+            $schedina->tassa_righe = (int) count($dettaglio['righe'] ?? []);
+            $schedina->tassa_configurata = empty($dettaglio['errore']);
+            $schedina->tassa_warning = collect($dettaglio['righe'] ?? [])
+                ->pluck('motivo')
+                ->filter()
+                ->unique()
+                ->implode(' · ');
+
+            return $schedina;
+        });
+
+        return view('schedina.list', ['schedinas' => $schedinas]);
+    }
+
+    public function bozze()
+    {
+        $q = trim((string) request('q', ''));
+        $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
+        $strutturaInfo = $currentId ? Struttura::find($currentId) : null;
+        if ($currentId) {
+            $this->resequenceCircuitCodes($currentId, 'bozza');
+        }
+        [$tassaConfig, $esenzioni] = $this->loadTassaContext($strutturaInfo);
+
+        $schedinas = Schedina::query()
+            ->where('is_arrive', 0)
+            ->where('circuito', 'bozza')
+            ->with('componenti')
+            ->when($q !== '', function ($query) use ($q) {
+                $like = '%'.$q.'%';
+                $query->where(function ($inner) use ($like) {
+                    $inner->where('id', 'like', $like)
+                        ->orWhere('scheda', 'like', $like)
+                        ->orWhere('name', 'like', $like)
+                        ->orWhere('surname', 'like', $like)
+                        ->orWhere('arrive', 'like', $like)
+                        ->orWhere('departure', 'like', $like)
+                        ->orWhere('oa_country', 'like', $like)
+                        ->orWhere('oa_city', 'like', $like)
+                        ->orWhere('room', 'like', $like)
+                        ->orWhere('beds', 'like', $like)
+                        ->orWhere('relationship', 'like', $like);
+                });
+            })
+            ->orderByDesc('id')
+            ->paginate(10)
+            ->withQueryString();
+
+        $schedinas->getCollection()->transform(function (Schedina $schedina) use ($tassaConfig, $esenzioni, $strutturaInfo) {
+            $schedina = $this->decorateSchedina($schedina);
+            $dettaglio = $this->dettaglioTassaPerGestione(
+                $schedina,
+                $schedina->componenti ?? collect(),
+                $tassaConfig,
+                $esenzioni,
+                $strutturaInfo
+            );
+            $schedina->tassa_totale = $dettaglio['totale'];
+            $schedina->tassa_righe = (int) count($dettaglio['righe'] ?? []);
+            $schedina->tassa_configurata = empty($dettaglio['errore']);
+            $schedina->tassa_warning = collect($dettaglio['righe'] ?? [])
+                ->pluck('motivo')
+                ->filter()
+                ->unique()
+                ->implode(' · ');
+
+            return $schedina;
+        });
+
+        return view('schedina.list', [
+            'schedinas' => $schedinas,
+            'pageTitle' => 'Schedine Bozze',
+            'pageSubtitle' => 'Elenco delle schedine in compilazione non ancora complete',
+            'createText' => 'Nuova bozza schedina',
+        ]);
+    }
+
+    public function new(Request $request)
+    {
+        $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
+        if (! $currentId) {
+            return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
+        }
+
+        $strutturaInfo = Struttura::find($currentId);
+        if (! $strutturaInfo) {
+            return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Struttura non valida.']);
+        }
+
+        $schedina = new Schedina;
+        $componenti = collect();
+
+        $draftState = $request->session()->get($this->newSchedinaDraftComponentiKey(), []);
+        if (! empty($draftState)) {
+            $oldInput = $request->session()->getOldInput();
+            $mergedInput = empty($oldInput) ? $draftState : array_replace_recursive($draftState, $oldInput);
+            $mergedInput = array_diff_key($mergedInput, array_flip(['id', 'schedina_id', 'schedina']));
+            $request->session()->flashInput($mergedInput);
+            $componenti = collect($mergedInput['componenti'] ?? []);
+        }
+
+        $request->validate(['customer_id' => ['nullable', 'integer', 'min:1']]);
+        $customerId = $request->query('customer_id');
+        $customerImportRowId = (int) $request->old('customer_import_row_id', $request->query('customer_import_row_id', 0));
+        $customerImportRow = null;
+        $prefilledCustomer = $customerId ? Customers::withoutGlobalScopes()
+            ->where('struttura_id', $currentId)->findOrFail($customerId) : null;
+
+        if ($customerImportRowId > 0) {
+            $customerImportRow = CustomerImportRow::query()
+                ->whereHas('batch', fn ($query) => $query->where('struttura_id', $currentId))
+                ->whereNull('imported_customer_id')
+                ->findOrFail($customerImportRowId);
+
+            if ($customerImportRow) {
+                $prefilledCustomer = $this->importedRowToPrefilledCustomer($customerImportRow);
+            }
+        }
+
+        [$schedina, $componenti] = $this->previewFromOldInput($request, $schedina, $componenti, $prefilledCustomer);
+
+        if ($request->boolean('arrival')) $schedina->forceFill(['circuito'=>'arrivi', 'is_arrive'=>true, 'arrive'=>\App\Support\ArriviDay::today()]);
+        [$tassaConfig, $esenzioni] = $this->loadTassaContext($strutturaInfo);
+        $tassaDettaglio = $this->dettaglioTassaPerGestione($schedina, $componenti, $tassaConfig, $esenzioni, $strutturaInfo);
+
+        return view('schedina.new', array_merge(
+            $this->commonFormData(),
+            [
+                'schedina' => $schedina,
+                'strutturaInfo' => $strutturaInfo,
+                'tassaConfig' => $tassaConfig,
+                'esenzioni' => $esenzioni,
+                'geoEndpoints' => [],
+                'tassaDettaglio' => $tassaDettaglio,
+                'componenti' => $componenti,
+                'prefilledCustomer' => $prefilledCustomer,
+                'customerImportRowId' => $customerImportRow?->id,
+                'importedTipoAlloggiato' => $customerImportRow?->normalized_payload['tipo_alloggiato'] ?? null,
+                'nextSchedaCode' => $this->nextSchedaCode($currentId, $schedina->isInArrivi() ? 'arrivi' : 'schedina'),
+            ]
+        ));
+    }
+
+    public function searchCustomers(Request $request)
+    {
+        $request->validate(['query' => ['nullable', 'string', 'max:100'], 'selected' => ['nullable', 'integer', 'min:1']]);
+        $currentId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
+        abort_unless($currentId, 403);
+        \App\Support\SchedinaFormContext::validate($request, (int) $currentId);
+        $customers = Customers::withoutGlobalScopes()->where('struttura_id', $currentId);
+        if ($request->filled('selected')) {
+            $customer = $customers->findOrFail($request->input('selected'));
+            return response()->json(array_merge($this->customerToSchedinaDefaults($customer), [
+                'customer_id' => $customer->id, 'numero_cliente' => $customer->numero_cliente,
+            ]))->header('Cache-Control', 'no-store');
+        }
+        $query = trim((string) $request->input('query', ''));
+        if (mb_strlen($query) < 2) return response()->json([]);
+        $results = $customers->where(function ($q) use ($query) {
+            $q->where('name', 'like', '%'.$query.'%')->orWhere('surname', 'like', '%'.$query.'%');
+        })->orderBy('surname')->orderBy('name')->orderBy('id')->limit(10)
+            ->get(['id', 'name', 'surname', 'nac_reg', 'city', 'city_reg']);
+        return response()->json($results)->header('Cache-Control', 'no-store');
+    }
+
+    public function store(Request $request)
+    {
+        $currentId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
+        if (! $currentId) {
+            return back()->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.'])->withInput();
+        }
+
+        \App\Support\SchedinaFormContext::validate($request, (int) (StrutturaCorrente::getId() ?? $request->user()?->struttura_id));
+        $this->authorizedCustomerReference($request);
+        $saveMode = $this->resolveSaveMode($request);
+        abort_if($saveMode === 'convert_arrivi', 422, 'Salva prima la scheda in Arrivi.');
+        abort_if($saveMode === 'review_web', 422, 'La revisione richiede una richiesta Web Check-in esistente.');
+        if ($saveMode === 'to_arrivi') $request->merge(['arrive' => \App\Support\ArriviDay::today()]);
+        if (in_array($saveMode, ['draft', 'to_arrivi', 'review_web'], true)) $this->validateSchedinaRequest($request, false);
+        if ($saveMode === 'component') {
+            return $this->handleSingleComponentSave($request, null, false);
+        }
+
+        if ($saveMode === 'componenti') {
+            $this->validateComponentiRows($request);
+            $this->validatePeopleConsistencyForComponentSave($request);
+
+            $draft = $this->persistNewSchedinaDraftState($request);
+
+            return redirect()
+                ->route('newschedina', ['active_tab' => 'schedina-step-comp'])
+                ->withInput($draft)
+                ->with('success', 'Componenti salvati temporaneamente. Completa la schedina e poi salva definitivamente.')
+                ->with('active_tab', 'schedina-step-comp');
+        }
+
+        if ($saveMode === 'full') {
+            $this->validateSchedinaRequest($request);
+            $this->validateComponentiRows($request);
+            $this->validatePeopleConsistency($request);
+        } elseif ($saveMode === 'to_arrivi') {
+            $this->validateArriviModeRequest($request);
+        }
+
+        $persist = function (?CustomerImportRow $importRow = null) use ($request, $currentId, $saveMode): Schedina {
+            $customer = $this->resolveCustomerFromRequest($request);
+            $defaults = $customer ? $this->customerToSchedinaDefaults($customer) : ($importRow ? $this->customerToSchedinaDefaults($this->importedRowToPrefilledCustomer($importRow)) : []);
+
+            $payload = $this->buildSchedinaPayload($request, $defaults);
+            $payload['struttura_id'] = $currentId;
+            $payload['customer_id'] = $customer?->id;
+            $this->applySaveModeState($payload, $currentId, $saveMode, null);
+
+            $schedina = Schedina::query()->create($payload);
+            $this->syncCamere($schedina, $request);
+            $this->syncComponenti($schedina, $request);
+            $this->syncCircuitNumbering($currentId, null, (string) ($payload['circuito'] ?? 'schedina'));
+
+            return $schedina;
+        };
+
+        if ($request->filled('customer_import_row_id')) {
+            $request->validate([
+                'customer_import_row_id' => ['required', 'integer', 'min:1'],
+                'customer_type_housed' => ['nullable', Rule::in(['Ospite', 'Componente', 'Richiesta'])],
+            ]);
+            if ($saveMode !== 'full') {
+                throw ValidationException::withMessages([
+                    'customer_import_row_id' => 'Completa la schedina e usa Salva per confermare il cliente importato.',
+                ]);
+            }
+            $schedina = DB::transaction(function () use ($request, $currentId, $persist) {
+                Struttura::withoutGlobalScopes()->whereKey($currentId)->lockForUpdate()->firstOrFail();
+                $row = CustomerImportRow::query()
+                    ->whereHas('batch', fn ($query) => $query->where('struttura_id', $currentId))
+                    ->lockForUpdate()->findOrFail($request->input('customer_import_row_id'));
+                if ($row->imported_customer_id) {
+                    // Un secondo invio non deve creare né una schedina né un Customer.
+                    return null;
+                }
+                if ($request->filled('customer_id')) {
+                    Customers::query()->where('struttura_id', $currentId)->findOrFail($request->input('customer_id'));
+                }
+                $saved = $persist($row);
+                app(CustomerImportService::class)->completeFromSchedina($row, $saved);
+
+                return $saved;
+            });
+            if (! $schedina) {
+                return redirect()->route('customer.imported.index')
+                    ->with('success', 'Cliente importato già confermato: nessun duplicato creato.');
+            }
+        } else {
+            $schedina = DB::transaction(function () use ($currentId, $persist) {
+                Struttura::withoutGlobalScopes()->whereKey($currentId)->lockForUpdate()->firstOrFail();
+
+                return $persist();
+            });
+        }
+
+        $this->clearNewSchedinaDraftComponenti();
+
+        return $this->redirectAfterSave($schedina, $request, $saveMode, false);
+    }
+
+    public function edit(int $id)
+    {
+        $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
+        if (! $currentId) {
+            return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
+        }
+
+        $strutturaInfo = Struttura::find($currentId);
+        if (! $strutturaInfo) {
+            return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Struttura non valida.']);
+        }
+
+        $schedina = Schedina::query()->findOrFail($id);
+        $componenti = Componenti::query()->where('schedina_id', $id)->get();
+        [$schedina, $componenti] = $this->previewFromOldInput($request = request(), $schedina, $componenti, $schedina->customer_id ? Customers::query()->find($schedina->customer_id) : null);
+        [$tassaConfig, $esenzioni] = $this->loadTassaContext($strutturaInfo);
+        $tassaDettaglio = $this->dettaglioTassaPerGestione($schedina, $componenti, $tassaConfig, $esenzioni, $strutturaInfo);
+        $prefilledCustomer = $schedina->customer_id ? Customers::query()->find($schedina->customer_id) : null;
+
+        $webGestione = \App\Models\WebCheckinRichiesta::where('struttura_id', $schedina->struttura_id)->where('schedina_id', $schedina->id)->first();
+
+        return view('schedina.edit', array_merge(
+            $this->commonFormData(),
+            [
+                'schedina' => $schedina,
+                'webGestione' => $webGestione,
+                'webVersioneGestione' => $webGestione ? app(\App\Services\WebCheckinVersione::class)->of($webGestione) : null,
+                'strutturaInfo' => $strutturaInfo,
+                'tassaConfig' => $tassaConfig,
+                'esenzioni' => $esenzioni,
+                'geoEndpoints' => [],
+                'tassaDettaglio' => $tassaDettaglio,
+                'componenti' => $componenti,
+                'prefilledCustomer' => $prefilledCustomer,
+                'nextSchedaCode' => null,
+            ]
+        ));
+    }
+
+    public function copy(int $id)
+    {
+        $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
+        if (! $currentId) {
+            return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
+        }
+
+        $schedina = Schedina::query()
+            ->where('struttura_id', $currentId)
+            ->with(['camere', 'componenti'])
+            ->findOrFail($id);
+
+        $payload = $this->schedinaCopyPayload($schedina);
+
+        return redirect()
+            ->route('newschedina')
+            ->withInput($payload)
+            ->with('success', 'Schedina storica copiata in una nuova schedina modificabile.');
+    }
+
+    public function update(Request $request, int $id)
+    {
+        return DB::transaction(function () use ($request, $id) {
+            $sid = (int) (StrutturaCorrente::getId() ?? $request->user()?->struttura_id);
+            \App\Support\SchedinaFormContext::validate($request, $sid);
+            Struttura::withoutGlobalScopes()->whereKey($sid)->lockForUpdate()->firstOrFail();
+            $schedina = Schedina::query()->where('struttura_id', $sid)->lockForUpdate()->findOrFail($id);
+            $previousCircuit = $this->normalizeSchedaCircuit($schedina);
+            $this->authorizedCustomerReference($request);
+            $saveMode = $this->resolveSaveMode($request);
+            $webGestione = \App\Models\WebCheckinRichiesta::where('struttura_id', $sid)->where('schedina_id', $schedina->id)->lockForUpdate()->first();
+            if ($webGestione) {
+                $request->validate(['web_versione_gestione' => ['required', 'string', 'size:64']], ['web_versione_gestione.required' => 'Riapri la scheda Web Check-in prima di salvarla.']);
+                abort_unless(hash_equals(app(\App\Services\WebCheckinVersione::class)->of($webGestione), $request->input('web_versione_gestione')), 409, 'I dati Web Check-in sono cambiati o sono già stati convertiti. Riapri la scheda prima di salvare.');
+            }
+            if ($schedina->circuito === 'web' && !$webGestione && in_array($saveMode, ['full', 'draft', 'to_arrivi'], true)) throw ValidationException::withMessages(['save_mode' => 'Prepara prima la richiesta dalla scheda Web precedente: gli ospiti saranno conservati e il check-in resterà tracciato.']);
+            if ($saveMode === 'convert_arrivi' && !$schedina->isInArrivi()) {
+                abort_unless($schedina->circuito === 'schedina' && !$schedina->is_arrive, 409);
+                return redirect()->route('schedina.edit', ['id' => $id])->with('success', 'Passaggio a schedina già completato: nessun duplicato creato.');
+            }
+            abort_if($request->boolean('arrivi_context') && !$schedina->isInArrivi(), 409, 'La scheda è già uscita da Arrivi. Riaprila prima di modificarla.');
+            if ($schedina->isInArrivi()) {
+                $request->merge(['arrive' => \App\Support\ArriviDay::today()]);
+                if ($saveMode === 'convert_arrivi') {
+                    $request->validate(['confirm_conversion' => ['required', 'accepted']]);
+                    $saveMode = 'full';
+                } elseif (!in_array($saveMode, ['component', 'componenti'], true)) {
+                    $saveMode = 'to_arrivi';
+                }
+            }
+            if (in_array($saveMode, ['draft', 'to_arrivi', 'review_web'], true)) $this->validateSchedinaRequest($request, false);
+
+            if ($saveMode === 'component') {
+                return $this->handleSingleComponentSave($request, $schedina, true);
+            }
+
+            if ($saveMode === 'componenti') {
+                $this->validateComponentiRows($request);
+                $this->validatePeopleConsistencyForComponentSave($request);
+                $this->syncComponenti($schedina, $request);
+
+                return redirect()
+                    ->route('schedina.edit', ['id' => $schedina->id, 'active_tab' => 'schedina-step-comp'])
+                    ->withInput($request->except(['componenti']))
+                    ->with('success', 'Componente salvato con successo.')
+                    ->with('active_tab', 'schedina-step-comp');
+            }
+
+            if ($saveMode === 'review_web') abort_unless($webGestione && ! $webGestione->processata() && in_array($schedina->circuito, ['web', 'bozza'], true), 409);
+            if ($saveMode === 'full') {
+                if ($webGestione && !$request->exists('componenti')) $request->merge(['componenti' => $this->componentiForSchedina($schedina)->get()->map->getAttributes()->all()]);
+                $this->validateSchedinaRequest($request);
+                $this->validateComponentiRows($request);
+                $this->validatePeopleConsistency($request);
+                if ($webGestione && ! $webGestione->processata()) {
+                    $request->validate(['arrive' => ['in:'.$webGestione->arrivo->toDateString()], 'departure' => ['in:'.$webGestione->partenza->toDateString()]]);
+                    app(\App\Services\WebCheckinCircuito::class)->verificaPersone($webGestione, $request);
+                }
+            } elseif ($saveMode === 'to_arrivi') {
+                $this->validateArriviModeRequest($request);
+            }
+
+            \App\Models\WebCheckinRichiesta::where('schedina_id', $schedina->id)->where('struttura_id', $schedina->struttura_id)->lockForUpdate()->get();
+            $customer = $this->resolveCustomerFromRequest($request);
+            $defaults = $customer ? $this->customerToSchedinaDefaults($customer) : [];
+            if ((int) $schedina->customer_id === (int) $customer?->id) {
+                foreach (['privacy', 'marketing', 'communication'] as $consent) {
+                    $field = 'customer_'.$consent.'_consent';
+                    $defaults[$field] = $schedina->$field;
+                    $defaults[$field.'_at'] = $schedina->{$field.'_at'};
+                }
+            }
+
+            if ($webGestione) $defaults = array_replace($schedina->getAttributes(), $defaults);
+            $payload = $this->buildSchedinaPayload($request, $defaults);
+            if ($webGestione) {
+                foreach (['fonte_prenotazione', 'id_prenotazione_esterna', 'customer_email', 'customer_phone', 'customer_cellphone', 'customer_observation', 'customer_anag_observation', 'observation'] as $field) {
+                    if (! $request->exists($field)) $payload[$field] = $schedina->{$field};
+                }
+            }
+            $payload['customer_id'] = $customer?->id;
+            $this->applySaveModeState($payload, (int) $schedina->struttura_id, $saveMode, $schedina);
+
+            foreach (\App\Models\WebCheckinRichiesta::where('schedina_id', $schedina->id)->where('struttura_id', $schedina->struttura_id)->get() as $web) {
+                $recipientChanged = false;
+                foreach (['customer_email', 'customer_cellphone', 'name', 'surname'] as $field) {
+                    if (array_key_exists($field, $payload) && $payload[$field] !== $schedina->{$field}) {
+                        $recipientChanged = true;
+                    }
+                }
+                if ($recipientChanged) {
+                    $web->link_revoked_at = $web->link_revoked_at ?? now();
+                }
+                $web->save();
+            }
+            $schedina->fill($payload)->save();
+            if (! $webGestione || $request->exists('camere')) $this->syncCamere($schedina, $request);
+            if (! $webGestione || $request->exists('componenti')) $this->syncComponenti($schedina, $request);
+            $this->syncCircuitNumbering((int) $schedina->struttura_id, $previousCircuit, (string) ($payload['circuito'] ?? $previousCircuit));
+
+            if (($payload['circuito'] ?? null) === 'schedina') {
+                if ($webGestione && ! $webGestione->processata()) app(\App\Services\WebCheckinCircuito::class)->finalizza($webGestione, $schedina);
+            }
+
+            if ($saveMode === 'review_web') return redirect()->route('web_checkin.attivita', [$webGestione->id, 'ospiti'])->with('success', 'Correzioni salvate. Il check-in resta da effettuare separatamente.');
+
+            return $this->redirectAfterSave($schedina, $request, $saveMode, true);
+        });
+    }
+
+    public function convertArrival(Request $request, int $id)
+    {
+        $request->validate(['confirm_conversion' => ['required', 'accepted']]);
+        $sid = (int) (StrutturaCorrente::getId() ?? $request->user()?->struttura_id);
+        \App\Support\SchedinaFormContext::validate($request, $sid);
+        return DB::transaction(function () use ($request, $sid, $id) {
+            Struttura::withoutGlobalScopes()->whereKey($sid)->lockForUpdate()->firstOrFail();
+            $row = Schedina::query()->where('struttura_id', $sid)->lockForUpdate()->findOrFail($id);
+            // Non sovrascrivere il contesto ricevuto: una scheda di un altro tenant resta vietata.
+            $request->merge(array_merge($row->getAttributes(), ['save_mode' => 'convert_arrivi',
+                'confirm_conversion' => '1', 'componenti' => $row->componenti->toArray()]));
+            $this->update($request, $id);
+            return redirect()->route('schedina.edit', ['id' => $id])->with('success', 'Passaggio a schedina completato.');
+        });
+    }
+
+    public function destroy(int $id)
+    {
+        $schedina = Schedina::query()->findOrFail($id);
+        app(CestinoService::class)->archiveModel($schedina, [
+            'source' => 'Schedine',
+            'circuito' => $schedina->isInArrivi() ? 'arrivi' : 'schedina',
+        ]);
+        $schedina->delete();
+
+        return redirect()->back()->with('success', 'Schedina spostata nel cestino.');
+    }
+
+    private function schedinaCopyPayload(Schedina $schedina): array
+    {
+        $excluded = [
+            'id',
+            'scheda',
+            'circuito',
+            'is_arrive',
+            'struttura_id',
+            'created_at',
+            'updated_at',
+            'questura_exported_at',
+            'questura_export_count',
+            'last_questura_export_id',
+            'questura_sent_at',
+            'questura_send_count',
+            'last_questura_transmission_id',
+            'istat_exported_at',
+            'istat_export_count',
+            'last_istat_export_id',
+            'istat_sent_at',
+            'istat_send_count',
+            'last_istat_transmission_id',
+            'agganciata_il',
+            'agganciata_da',
+        ];
+
+        $payload = Arr::except($schedina->only($schedina->getFillable()), $excluded);
+
+        $payload['save_mode'] = 'full';
+        $payload['save_mode_intent'] = '';
+
+        $payload['camere'] = $schedina->camere->map(function ($camera) {
+            return [
+                'numero_camera' => $camera->numero_camera,
+                'posti_letto' => $camera->posti_letto,
+                'note' => $camera->note,
+                'fonte_camera' => $camera->fonte_camera,
+                'camera_esterna_id' => $camera->camera_esterna_id,
+            ];
+        })->values()->all();
+
+        $payload['componenti'] = $schedina->componenti->map(function ($componente) {
+            return [
+                'name' => $componente->name,
+                'surname' => $componente->surname,
+                'sex' => $componente->sex,
+                'relationship' => $componente->relationship,
+                'exent' => $componente->exent,
+                'city_nac' => $componente->city_nac,
+                'province_nac' => $componente->province_nac,
+                'country_nac' => $componente->country_nac,
+                'regione_nac' => $componente->regione_nac,
+                'comune_nac' => $componente->comune_nac,
+                'cap_nac' => $componente->cap_nac,
+                'date_nac' => $componente->date_nac,
+                'country' => $componente->country,
+                'regione' => $componente->regione,
+                'province' => $componente->province,
+                'city' => $componente->city,
+                'typeaway' => $componente->typeaway,
+                'address' => $componente->address,
+                'number' => $componente->number,
+                'cap' => $componente->cap,
+            ];
+        })->values()->all();
+
+        return $payload;
+    }
+
+    private function dettaglioTassaPerGestione(Schedina $schedina, $componenti, ?TassaDiSoggiorno $config, $esenzioni, ?Struttura $struttura): array
+    {
+        if ($schedina->isInArrivi()) return ['totale' => null, 'righe' => [], 'errore' => 'Scheda in Arrivi: esclusa dal calcolo della Tassa.'];
+        try {
+            if ($struttura) {
+                $config = $this->tassaService->configurazioneAutomatica($struttura, $config, $this->tassaService->parseDate($schedina->arrive) ?? now());
+            }
+            if (! $config || $config->tassa_soggiorno === null || $config->giorni_massimo === null || ! $config->inizio || ! $config->fine) {
+                throw \Illuminate\Validation\ValidationException::withMessages(['configurazione_tassa' => 'Configurazione fiscale incompleta.']);
+            }
+
+            return array_merge($this->tassaService->dettaglioSchedina($schedina, $componenti, $config, $esenzioni, $struttura), ['configurazione_effettiva' => $config]);
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            return ['totale' => null, 'righe' => [], 'errore' => collect($exception->errors())->flatten()->first().' La Schedina può essere registrata, ma il calcolo della Tassa non è disponibile.'];
+        }
+    }
+
+    public function printTassa(Request $request, int $id)
+    {
+        $anteprima = $request->routeIs('schedina.tassa.anteprima');
+        if ($request->filled('export_id')) {
+            $request->validate(['export_id' => 'integer|min:1']);
+            $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
+            $export = \App\Models\TassaExport::query()->when($currentId, fn ($q) => $q->where('struttura_id', $currentId))->findOrFail($request->integer('export_id'));
+            $snapshot = $export->snapshot;
+            abort_unless(hash_equals($export->sha256, hash('sha256', $snapshot['csv'])), 409, 'Integrità export Tassa non verificata.');
+            $saved = $snapshot['calcoli'][$id] ?? null;
+            abort_unless($saved, 404);
+            $schedina = (new Schedina)->forceFill($saved['schedina']);
+            $struttura = (new Struttura)->forceFill($snapshot['struttura']);
+            $tassaConfig = new TassaDiSoggiorno($saved['configurazione'] ?? $snapshot['configurazione'] ?? []);
+
+            return view('schedina.print-tassa', [
+                'anteprima' => $anteprima, 'schedina' => $schedina, 'struttura' => $struttura, 'tassaConfig' => $tassaConfig,
+                'dettaglio' => $saved['dettaglio'], 'componenti' => collect(),
+                'arrivo' => $this->tassaService->parseDate($schedina->arrive),
+                'partenza' => $this->tassaService->parseDate($schedina->departure),
+                'logoComune' => $this->resolveLogoComune($struttura), 'storicoVersione' => $export->versione,
+            ]);
+        }
+        $schedina = Schedina::query()->findOrFail($id);
+        abort_if($schedina->isInArrivi() || ($schedina->circuito === 'bozza' || $this->normalizeSchedaCircuit($schedina) === 'web'), 404);
+        $componenti = Componenti::query()->where('schedina_id', $id)->get();
+        $currentId = $schedina->struttura_id;
+        $struttura = $currentId ? Struttura::find($currentId) : null;
+        [$tassaConfig, $esenzioni] = $this->loadTassaContext($struttura);
+        try {
+            if ($struttura) {
+                $tassaConfig = $this->tassaService->configurazioneAutomatica($struttura, $tassaConfig, $this->tassaService->parseDate($schedina->arrive) ?? now());
+            }
+            abort_if(! $tassaConfig || $tassaConfig->tassa_soggiorno === null || $tassaConfig->giorni_massimo === null, 422, 'Configurare la Tassa prima di stampare la ricevuta.');
+            $dettaglio = $this->tassaService->dettaglioSchedina($schedina, $componenti, $tassaConfig, $esenzioni, $struttura);
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            if ($request->expectsJson()) {
+                throw $exception;
+            }
+
+            return response()->view('schedina.print-tassa', [
+                'erroreCalcolo' => collect($exception->errors())->flatten()->first(),
+                'schedina' => $schedina, 'struttura' => $struttura,
+                'annoFiscale' => $this->tassaService->parseDate($schedina->arrive)?->year,
+            ], 422);
+        }
+        $arrivo = $this->tassaService->parseDate($schedina->arrive);
+        $partenza = $this->tassaService->parseDate($schedina->departure);
+        $logoComune = $this->resolveLogoComune($struttura);
+
+        return view('schedina.print-tassa', [
+            'schedina' => $schedina,
+            'anteprima' => $anteprima,
+            'storicoVersione' => null,
+            'componenti' => $componenti,
+            'struttura' => $struttura,
+            'tassaConfig' => $tassaConfig,
+            'dettaglio' => $dettaglio,
+            'arrivo' => $arrivo,
+            'partenza' => $partenza,
+            'logoComune' => $logoComune,
+        ]);
+    }
+
+    protected function commonFormData(?int $webStrutturaId = null): array
+    {
+        $catalog = fn (string $model) => $webStrutturaId === null ? $model::query() : $model::withoutGlobalScopes()->where('struttura_id', $webStrutturaId);
+        $cittadinanze = GeoNazione::query()
+            ->whereNotNull('cittadinanza')
+            ->where('cittadinanza', '<>', '')
+            ->orderBy('cittadinanza')
+            ->pluck('cittadinanza')
+            ->unique()
+            ->values();
+
+        $rilasciatoDa = Schema::hasTable('rilasciato_da')
+            ? $catalog(RilasciatoDa::class)
+                ->when(Schema::hasColumn('rilasciato_da', 'attivo'), fn ($query) => $query->where('attivo', true))
+                ->orderBy('name')
+                ->get(['id', 'name'])
+            : collect();
+
+        return [
+            'titoli' => $catalog(Titolo::class)->where('attivo', true)->orderBy('nome')->get(['id', 'nome as name']),
+            'tipiCliente' => TipoCliente::query()->diSistema()
+                ->when(Schema::hasColumn('tipo_cliente', 'attivo'), fn ($query) => $query->where('attivo', true))
+                ->orderBy('descrizione')
+                ->get(['id', 'codice', 'descrizione as nome']),
+            'groups' => Schema::hasTable('gruppi')
+                ? $catalog(Gruppo::class)->orderBy('livello')->orderBy('nome')->get(['id', 'nome', 'livello', 'parent_id'])
+                : collect(),
+            'gruppiLivello1' => Schema::hasTable('gruppi')
+                ? $catalog(Gruppo::class)->where('livello', 1)->orderBy('nome')->get(['id', 'nome', 'parent_id'])
+                : collect(),
+            'gruppiLivello2' => Schema::hasTable('gruppi')
+                ? $catalog(Gruppo::class)->where('livello', 2)->orderBy('nome')->get(['id', 'nome', 'parent_id'])
+                : collect(),
+            'gruppiLivello3' => Schema::hasTable('gruppi')
+                ? $catalog(Gruppo::class)->where('livello', 3)->orderBy('nome')->get(['id', 'nome', 'parent_id'])
+                : collect(),
+            'tipiVia' => $catalog(TipoVia::class)->orderBy('nome')->get(['id', 'nome as name']),
+            'tipiDocumento' => TipoDocumento::query()->orderBy('descrizione')->get(['id', 'descrizione as name']),
+            'nations' => GeoNazione::query()->orderBy('nome')->get(['id', 'nome', 'cittadinanza', 'codice_iso2']),
+            'regions' => GeoRegione::query()->orderBy('nome')->get(['id', 'nome']),
+            'provinces' => GeoProvincia::query()->orderBy('nome')->get(['id', 'nome', 'sigla']),
+            'ciudades' => GeoComune::query()->orderBy('nome')->get(['id', 'nome']),
+            'cittadinanze' => $cittadinanze,
+            'rilasciatoDa' => $rilasciatoDa,
+            'tipoAlloggiatoCapoOptions' => TipoAlloggiatoCatalogo::opzioniCapoSchedina(),
+            'tipoAlloggiatoComponenteOptions' => TipoAlloggiatoCatalogo::opzioniComponente(),
+        ];
+    }
+
+    protected function loadTassaContext(?Struttura $struttura): array
+    {
+        $tassaConfig = $struttura ? TassaDiSoggiorno::query()->where('struttura_id', $struttura->id)->first() : null;
+        $esenzioni = collect();
+
+        if ($struttura && Schema::hasTable('tassa_esenzioni')) {
+            $esenzioni = TassaEsenzione::query()
+                ->where('struttura_id', $struttura->id)
+                ->where('attivo', true)
+                ->where('codice', '<>', '777')
+                ->orderBy('ordine')
+                ->orderBy('codice')
+                ->get();
+        }
+
+        if ($struttura) {
+            $esenzioni = $this->tassaService->catalogoBellaria($struttura, $esenzioni);
+        }
+
+        return [$tassaConfig, $esenzioni];
+    }
+
+    protected function validateSchedinaRequest(Request $request, bool $complete = true, ?int $webStrutturaId = null, ?Schedina $webSheet = null, bool $publicGuest = false): void
+    {
+        $existing = $webSheet ?? ($request->route('id') ? Schedina::query()->find($request->route('id')) : null);
+        $titles = $webStrutturaId === null ? Titolo::query() : Titolo::withoutGlobalScopes()->where('struttura_id', $webStrutturaId);
+        $titleValues = $titles->where('attivo', true)->pluck('nome')->all();
+        if ($existing?->type) $titleValues[] = $existing->type;
+        $istatRule = function (string $field, array $options) use ($existing) {
+            $values = array_keys($options);
+            if ($existing && filled($existing->$field)) $values[] = $existing->$field;
+            return Rule::in($values);
+        };
+        $byteText = function ($attribute, $value, $fail) {
+            if (is_string($value) && strlen($value) > 65535) $fail('Il testo è troppo lungo per questo campo: riducilo prima di salvare.');
+        };
+        $rules = [
+            'customer_id' => ['nullable', 'integer'],
+            'customer_type_housed' => ['nullable', 'string', 'max:100'],
+            'customer_group' => ['nullable', 'string', 'max:191'],
+            'customer_subgroup' => ['nullable', 'string', 'max:191'],
+            'customer_subgroup1' => ['nullable', 'string', 'max:191'],
+            'customer_email' => ['nullable', 'email', 'max:191'],
+            'customer_phone' => ['nullable', 'string', 'max:50'],
+            'customer_cellphone' => ['nullable', 'string', 'max:50'],
+            'customer_fax' => ['nullable', 'string', 'max:50'],
+            'customer_observation' => ['nullable', 'string', $byteText],
+            'customer_anag_observation' => ['nullable', 'string', $byteText],
+            'customer_privacy_consent' => ['required', 'boolean'],
+            'customer_marketing_consent' => ['nullable', 'boolean'],
+            'customer_communication_consent' => ['nullable', 'boolean'],
+            'type' => ['nullable', 'string', 'max:50', Rule::in($titleValues)],
+            'name' => ['required', 'string', 'max:100'],
+            'surname' => ['required', 'string', 'max:100'],
+            'sex' => ['required', 'in:M,F'],
+            'relationship' => ['nullable', 'string', 'max:50'],
+            'exent' => ['nullable', 'string', 'max:191', Rule::notIn(['777'])],
+            'arrive' => ['required', 'date'],
+            'departure' => ['required', 'date', 'after:arrive'],
+            'cant_people' => ['required', 'integer', 'min:1', 'max:999'],
+            'room' => ['required', 'integer', 'min:1', 'max:999'],
+            'beds' => ['required', 'integer', 'min:1', 'max:999'],
+            'observation' => ['nullable', 'string', $byteText],
+            'oa_country' => ['required', 'string', 'max:100'],
+            'oa_city' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('oa_country'))), 'nullable', 'string', 'max:150'],
+            'oa_region' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('oa_country'))), 'nullable', 'string', 'max:150'],
+            'oa_prov' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('oa_country'))), 'nullable', 'string', 'max:150'],
+            'oa_city_nac' => ['required', 'string', 'max:150'],
+            'oa_date_nac' => ['required', 'date', 'before_or_equal:today', 'before_or_equal:arrive'],
+            'or_country' => ['required', 'string', 'max:100'],
+            'or_city' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:150'],
+            'or_region' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:150'],
+            'or_prov' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:150'],
+            'or_cap' => ['nullable', 'string', 'max:20'],
+            'or_typeaway' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:100'],
+            'or_address' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:150'],
+            'or_num' => [Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_country'))), 'nullable', 'string', 'max:20'],
+            'or_doc' => ['required', 'string', 'max:150'],
+            'or_doctype' => ['required', 'string', 'max:100'],
+            'or_published_date' => ['required', 'date', 'before_or_equal:today', 'before_or_equal:or_expire', 'after_or_equal:oa_date_nac'],
+            'or_expire' => ['required', 'date'],
+            'or_published' => ['required', 'string', 'max:150'],
+            'or_published_country' => ['required', 'string', 'max:150'],
+            'or_published_city' => [
+                Rule::requiredIf(fn () => $this->isItalianCountry($request->input('or_published_country'))),
+                'nullable',
+                'string',
+                'max:150',
+            ],
+            'componenti' => ['nullable', 'array'],
+            'componenti.*.name' => ['nullable', 'string', 'max:100'],
+            'componenti.*.surname' => ['nullable', 'string', 'max:100'],
+            'componenti.*.sex' => ['nullable', 'in:M,F'],
+            'componenti.*.relationship' => ['nullable', 'string', 'max:50'],
+            'componenti.*.exent' => ['nullable', 'string', 'max:50', Rule::notIn(['777'])],
+            'componenti.*.city_nac' => ['nullable', 'string', 'max:150'],
+            'componenti.*.province_nac' => ['nullable', 'string', 'max:150'],
+            'componenti.*.country_nac' => ['nullable', 'string', 'max:150'],
+            'componenti.*.regione_nac' => ['nullable', 'string', 'max:150'],
+            'componenti.*.comune_nac' => ['nullable', 'string', 'max:150'],
+            'componenti.*.cap_nac' => ['nullable', 'string', 'max:20'],
+            'componenti.*.date_nac' => ['nullable', 'date'],
+            'componenti.*.country' => ['nullable', 'string', 'max:150'],
+            'componenti.*.regione' => ['nullable', 'string', 'max:150'],
+            'componenti.*.province' => ['nullable', 'string', 'max:150'],
+            'componenti.*.city' => ['nullable', 'string', 'max:150'],
+            'componenti.*.typeaway' => ['nullable', 'string', 'max:100'],
+            'componenti.*.address' => ['nullable', 'string', 'max:150'],
+            'componenti.*.number' => ['nullable', 'string', 'max:20'],
+            'componenti.*.cap' => ['nullable', 'string', 'max:20'],
+            'camere.*.numero_camera' => ['nullable', 'string', 'max:30'],
+            'camere.*.posti_letto' => ['nullable', 'integer', 'min:0', 'max:20'],
+            'camere.*.note' => ['nullable', 'string', 'max:255'],
+            'camere.*.fonte_camera' => ['nullable', 'string', 'max:30'],
+            'camere.*.camera_esterna_id' => ['nullable', 'string', 'max:100'],
+            'fonte_prenotazione' => ['nullable', 'string', 'max:30'],
+            'id_prenotazione_esterna' => ['nullable', 'string', 'max:100'],
+            'istat_tipo_turismo' => ['nullable', 'string', 'max:30', $istatRule('istat_tipo_turismo', \App\Services\IstatTabellaAService::TIPO_TURISMO)],
+            'istat_mezzo_trasporto' => ['nullable', 'string', 'max:30', $istatRule('istat_mezzo_trasporto', \App\Services\IstatTabellaAService::MEZZO_TRASPORTO)],
+            'istat_canale_prenotazione' => ['nullable', 'string', 'max:30', $istatRule('istat_canale_prenotazione', \App\Services\IstatTabellaAService::CANALE_PRENOTAZIONE)],
+            'istat_titolo_studio' => ['nullable', 'string', 'max:30', $istatRule('istat_titolo_studio', \App\Services\IstatTabellaAService::TITOLO_STUDIO)],
+            'istat_professione' => ['nullable', 'string', 'max:120'],
+            'istat_non_turista' => ['nullable', 'boolean'],
+        ];
+        if ($publicGuest) {
+            // Camera e letti sono completati dalla reception; nessun valore inventato.
+            $rules['room'] = ['nullable', 'integer', 'min:1', 'max:999'];
+            $rules['beds'] = ['nullable', 'integer', 'min:1', 'max:999'];
+        }
+        if (!$complete) {
+            // La bozza ammette dati mancanti, ma non valori che causerebbero errori SQL.
+            foreach ($rules as $field=>$constraints) {
+                $rules[$field] = array_merge(['nullable'], array_values(array_filter($constraints, function ($rule) {
+                    if ($rule instanceof \Closure) return true;
+                    return is_string($rule) && !str_starts_with($rule, 'required')
+                        && !str_starts_with($rule, 'after') && !str_starts_with($rule, 'before');
+                })));
+            }
+        }
+        $request->validate($rules, $this->schedinaValidationMessages(), $this->schedinaValidationAttributes());
+        if (!$complete) return;
+        $currentId = $webStrutturaId ?? StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
+        app(\App\Services\SchedinaAnagraficaValidation::class)->validate($request, (int) $currentId, true);
+        app(\App\Services\SchedinaSoggiornoValidation::class)->validate(
+            Struttura::query()->findOrFail($currentId), $request->input('arrive'), $request->input('departure')
+        );
+        app(\App\Services\GruppiStrutturaService::class)->validateSelection([
+            'group' => $request->input('customer_group'), 'subgroup' => $request->input('customer_subgroup'),
+            'subgroup1' => $request->input('customer_subgroup1'),
+        ], (int) $currentId, $existing ? ['group'=>$existing->customer_group, 'subgroup'=>$existing->customer_subgroup, 'subgroup1'=>$existing->customer_subgroup1] : [], 'customer_');
+    }
+
+    private function isItalianCountry($value): bool
+    {
+        if (! is_scalar($value)) return false;
+        return GeoNazione::query()->where('is_italia', true)->where(function ($q) use ($value) {
+            $q->where('nome', $value)->orWhere('codice_iso2', $value);
+            if (ctype_digit((string) $value)) $q->orWhere('id', $value);
+        })->exists();
+    }
+
+    private function validateArriviModeRequest(Request $request): void
+    {
+        $request->validate([
+            'customer_id' => ['nullable', 'integer'],
+            'name' => ['required', 'string', 'max:100'],
+            'surname' => ['required', 'string', 'max:100'],
+            'arrive' => ['required', 'date'],
+            'departure' => ['nullable', 'date'],
+        ], $this->schedinaValidationMessages(), $this->schedinaValidationAttributes());
+    }
+
+    private function resolveCustomerFromRequest(Request $request): ?Customers
+    {
+        $currentStrutturaId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
+        $customer = $this->authorizedCustomerReference($request);
+        if (! $customer) {
+            return null;
+        }
+
+        if ((int) $customer->struttura_id === (int) $currentStrutturaId) {
+            return $customer;
+        }
+
+        return $this->localizeChainCustomerForCurrentStruttura($customer, (int) $currentStrutturaId);
+    }
+
+    private function authorizedCustomerReference(Request $request): ?Customers
+    {
+        $request->validate(['customer_id' => ['nullable', 'integer', 'min:1']]);
+        if (! $request->filled('customer_id')) {
+            return null;
+        }
+
+        $currentId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
+        $customer = $currentId ? Customers::withoutGlobalScopes()
+            ->whereIn('struttura_id', $this->customerSearchStructureIds((int) $currentId))
+            ->find($request->input('customer_id')) : null;
+        if (! $customer) {
+            throw ValidationException::withMessages([
+                'customer_id' => 'Il cliente selezionato non è disponibile per la struttura corrente.',
+            ]);
+        }
+
+        return $customer;
+    }
+
+    private function importedRowToPrefilledCustomer(CustomerImportRow $row): Customers
+    {
+        $payload = $row->normalized_payload ?? [];
+
+        // Una riga staging non è un Customer: non trasferire il suo ID nel customer_id.
+        return new Customers([
+            'numero_cliente' => $payload['numero_cliente'] ?? null,
+            'type_housed' => $payload['tipo_cliente'] ?? 'Componente',
+            'type' => null,
+            'group' => $payload['gruppo'] ?? $payload['nome_gruppo'] ?? null,
+            'subgroup' => $payload['subgroup'] ?? null,
+            'subgroup1' => $payload['subgroup1'] ?? null,
+            'email' => $payload['email'] ?? null,
+            'phone' => $payload['telefono'] ?? null,
+            'cellphone' => $payload['cellulare'] ?? null,
+            'fax' => $payload['fax'] ?? null,
+            'observation' => $payload['note'] ?? null,
+            'observation_reg' => null,
+            'privacy_consent' => false,
+            'privacy_consent_at' => null,
+            'marketing_consent' => false,
+            'marketing_consent_at' => null,
+            'communication_consent' => false,
+            'communication_consent_at' => null,
+            'name' => $payload['nome'] ?? null,
+            'surname' => $payload['cognome'] ?? null,
+            'sex' => $payload['sesso'] ?? null,
+            'country_reg' => $payload['nazione_nascita'] ?? $payload['nazione_residenza'] ?? null,
+            'city_reg' => $payload['comune_nascita'] ?? null,
+            'region_reg' => null,
+            'prov_reg' => $payload['provincia_nascita'] ?? null,
+            'cap_reg' => null,
+            'ciudadania_reg' => $payload['cittadinanza'] ?? null,
+            'nac_reg' => $payload['data_nascita'] ?? null,
+            'country' => $payload['nazione_residenza'] ?? null,
+            'city' => $payload['comune_residenza'] ?? null,
+            'region' => null,
+            'province' => $payload['provincia_residenza'] ?? null,
+            'cap' => $payload['cap_residenza'] ?? null,
+            'typeaway' => $payload['tipo_via_strada'] ?? null,
+            'address' => $payload['indirizzo_residenza'] ?? null,
+            'number' => $payload['numero_civico_residenza'] ?? null,
+            'num_doc_reg' => $payload['numero_documento'] ?? null,
+            'type_doc_reg' => $payload['tipo_documento'] ?? null,
+            'date_pub_reg' => $payload['data_rilascio'] ?? null,
+            'expire_reg' => $payload['data_scadenza'] ?? null,
+            'rilasciato_reg' => $payload['rilasciato_da'] ?? null,
+            'country_doc_reg' => null,
+            'city_doc_reg' => null,
+        ]);
+    }
+
+    private function customerToSchedinaDefaults(Customers $customer): array
+    {
+        return [
+            'customer_type_housed' => $customer->type_housed,
+            'customer_group' => $customer->group,
+            'customer_subgroup' => $customer->subgroup,
+            'customer_subgroup1' => $customer->subgroup1,
+            'customer_email' => $customer->email,
+            'customer_phone' => $customer->phone,
+            'customer_cellphone' => $customer->cellphone,
+            'customer_fax' => $customer->fax,
+            'customer_observation' => $customer->observation,
+            'customer_anag_observation' => $customer->observation_reg,
+            'customer_privacy_consent' => $customer->privacy_consent,
+            'customer_privacy_consent_at' => $customer->privacy_consent_at,
+            'customer_marketing_consent' => $customer->marketing_consent,
+            'customer_marketing_consent_at' => $customer->marketing_consent_at,
+            'customer_communication_consent' => $customer->communication_consent,
+            'customer_communication_consent_at' => $customer->communication_consent_at,
+            'type' => $customer->type,
+            'name' => $customer->name,
+            'surname' => $customer->surname,
+            'sex' => $customer->sex,
+            'oa_country' => $customer->country_reg,
+            'oa_city' => $customer->city_reg,
+            'oa_region' => $customer->region_reg ?: $customer->region,
+            'oa_prov' => $customer->prov_reg,
+            'oa_cap' => $customer->cap_reg,
+            'oa_city_nac' => $customer->ciudadania_reg,
+            'oa_date_nac' => $customer->nac_reg,
+            'or_country' => $customer->country,
+            'or_city' => $customer->city,
+            'or_region' => $customer->region,
+            'or_prov' => $customer->province,
+            'or_cap' => $customer->cap,
+            'or_typeaway' => $customer->typeaway,
+            'or_address' => $customer->address,
+            'or_num' => $customer->number,
+            'or_doc' => $customer->num_doc_reg,
+            'or_doctype' => $customer->type_doc_reg,
+            'or_published_date' => $customer->date_pub_reg,
+            'or_expire' => $customer->expire_reg,
+            'or_published' => $customer->rilasciato_reg,
+            'or_published_country' => $customer->country_doc_reg ?: $customer->country_reg,
+            'or_published_city' => $customer->city_doc_reg ?: $customer->city_reg,
+        ];
+    }
+
+    protected function buildSchedinaPayload(Request $request, array $defaults = []): array
+    {
+        $inputOr = function (string $key, $default = null) use ($request) {
+            // Un campo inviato vuoto è una scelta esplicita, non un invito a ricopiarlo dal cliente.
+            return $request->exists($key) ? $request->input($key) : $default;
+        };
+
+        $consentDate = function (string $field) use ($request, $defaults) {
+            if (!$request->boolean($field, (bool) ($defaults[$field] ?? false))) return null;
+            // Un consenso già presente non viene rinnovato, neppure se manca la data storica.
+            return !empty($defaults[$field]) ? ($defaults[$field.'_at'] ?? null) : now();
+        };
+
+        return $this->resolveGeoLabelsFromInput([
+            'customer_type_housed' => $inputOr('customer_type_housed', $defaults['customer_type_housed'] ?? null),
+            'customer_group' => $inputOr('customer_group', $defaults['customer_group'] ?? null),
+            'customer_subgroup' => $inputOr('customer_subgroup', $defaults['customer_subgroup'] ?? null),
+            'customer_subgroup1' => $inputOr('customer_subgroup1', $defaults['customer_subgroup1'] ?? null),
+            'customer_email' => $inputOr('customer_email', $defaults['customer_email'] ?? null),
+            'customer_phone' => $inputOr('customer_phone', $defaults['customer_phone'] ?? null),
+            'customer_cellphone' => $inputOr('customer_cellphone', $defaults['customer_cellphone'] ?? null),
+            'customer_fax' => $inputOr('customer_fax', $defaults['customer_fax'] ?? null),
+            'customer_observation' => $inputOr('customer_observation', $defaults['customer_observation'] ?? null),
+            'customer_anag_observation' => $inputOr('customer_anag_observation', $defaults['customer_anag_observation'] ?? null),
+            'customer_privacy_consent' => (bool) $request->boolean('customer_privacy_consent', (bool) ($defaults['customer_privacy_consent'] ?? false)),
+            'customer_privacy_consent_at' => $consentDate('customer_privacy_consent'),
+            'customer_marketing_consent' => (bool) $request->boolean('customer_marketing_consent', (bool) ($defaults['customer_marketing_consent'] ?? false)),
+            'customer_marketing_consent_at' => $consentDate('customer_marketing_consent'),
+            'customer_communication_consent' => (bool) $request->boolean('customer_communication_consent', (bool) ($defaults['customer_communication_consent'] ?? false)),
+            'customer_communication_consent_at' => $consentDate('customer_communication_consent'),
+            'type' => $inputOr('type', $defaults['type'] ?? null),
+            'name' => $inputOr('name', $defaults['name'] ?? null),
+            'surname' => $inputOr('surname', $defaults['surname'] ?? null),
+            'sex' => $inputOr('sex', $defaults['sex'] ?? null),
+            'relationship' => $inputOr('relationship', 'OSPITE SINGOLO'),
+            'exent' => $inputOr('exent', 'NO'),
+            'arrive' => $this->normalizeDateForDb($request->input('arrive')),
+            'departure' => $this->normalizeDateForDb($request->input('departure')),
+            'cant_people' => $inputOr('cant_people'),
+            'room' => $inputOr('room'),
+            'beds' => $inputOr('beds'),
+            'observation' => $inputOr('observation'),
+            'oa_country' => $inputOr('oa_country', $defaults['oa_country'] ?? null),
+            'oa_city' => $inputOr('oa_city', $defaults['oa_city'] ?? null),
+            'oa_region' => $inputOr('oa_region', $defaults['oa_region'] ?? null),
+            'oa_prov' => $inputOr('oa_prov', $defaults['oa_prov'] ?? null),
+            'oa_cap' => $inputOr('oa_cap', $defaults['oa_cap'] ?? null),
+            'oa_city_nac' => $inputOr('oa_city_nac', $defaults['oa_city_nac'] ?? null),
+            'oa_date_nac' => $this->normalizeDateForDb($inputOr('oa_date_nac', $defaults['oa_date_nac'] ?? null)),
+            'or_country' => $inputOr('or_country', $defaults['or_country'] ?? null),
+            'or_city' => $inputOr('or_city', $defaults['or_city'] ?? null),
+            'or_region' => $inputOr('or_region', $defaults['or_region'] ?? null),
+            'or_prov' => $inputOr('or_prov', $defaults['or_prov'] ?? null),
+            'or_cap' => $inputOr('or_cap', $defaults['or_cap'] ?? null),
+            'or_typeaway' => $inputOr('or_typeaway', $defaults['or_typeaway'] ?? null),
+            'or_address' => $inputOr('or_address', $defaults['or_address'] ?? null),
+            'or_num' => $inputOr('or_num', $defaults['or_num'] ?? null),
+            'or_doc' => $inputOr('or_doc', $defaults['or_doc'] ?? null),
+            'or_doctype' => $inputOr('or_doctype', $defaults['or_doctype'] ?? null),
+            'or_published_date' => $this->normalizeDateForDb($inputOr('or_published_date', $defaults['or_published_date'] ?? null)),
+            'or_expire' => $this->normalizeDateForDb($inputOr('or_expire', $defaults['or_expire'] ?? null)),
+            'or_published' => $inputOr('or_published', $defaults['or_published'] ?? null),
+            'or_published_country' => $inputOr('or_published_country', $defaults['or_published_country'] ?? null),
+            'or_published_city' => $inputOr('or_published_city', $defaults['or_published_city'] ?? null),
+            'fonte_prenotazione' => $inputOr('fonte_prenotazione'),
+            'id_prenotazione_esterna' => $inputOr('id_prenotazione_esterna'),
+            'istat_tipo_turismo' => $inputOr('istat_tipo_turismo'),
+            'istat_mezzo_trasporto' => $inputOr('istat_mezzo_trasporto'),
+            'istat_canale_prenotazione' => $inputOr('istat_canale_prenotazione'),
+            'istat_titolo_studio' => $inputOr('istat_titolo_studio'),
+            'istat_professione' => $inputOr('istat_professione'),
+            'istat_non_turista' => $request->boolean('istat_non_turista'),
+            'agganciata_il' => $inputOr('agganciata_il'),
+            'agganciata_da' => $inputOr('agganciata_da'),
+        ]);
+    }
+
+    private function resolveSaveMode(Request $request): string
+    {
+        $request->validate(['arrivi_q'=>['nullable','string','max:100'], 'arrivi_page'=>['nullable','integer','min:1']]);
+        $mode = (string) $request->input('save_mode', $request->input('save_mode_intent', 'full'));
+        if (!in_array($mode, ['full', 'draft', 'to_arrivi', 'component', 'componenti', 'convert_arrivi', 'review_web'], true)) throw ValidationException::withMessages(['save_mode' => 'Azione di salvataggio non valida.']);
+        return $mode;
+    }
+
+    private function applySaveModeState(array &$payload, int $strutturaId, string $saveMode, ?Schedina $schedina = null): void
+    {
+        if ($saveMode === 'review_web') {
+            $payload['circuito'] = $schedina->circuito;
+            $payload['is_arrive'] = 0;
+            $payload['scheda'] = $schedina?->scheda;
+            return;
+        }
+        if ($saveMode === 'draft') {
+            $payload['circuito'] = 'bozza';
+            $payload['is_arrive'] = 0;
+            $payload['scheda'] = $schedina?->scheda ?: null;
+
+            return;
+        }
+
+        if ($saveMode === 'to_arrivi') {
+            $payload['circuito'] = 'arrivi';
+            $payload['is_arrive'] = 1;
+            $payload['scheda'] = $this->shouldKeepCircuitCode($schedina, 'arrivi')
+                ? ($schedina?->scheda ?: $this->nextSchedaCode($strutturaId, 'arrivi'))
+                : $this->nextSchedaCode($strutturaId, 'arrivi');
+            $this->applyOperationalArriviDates($payload);
+
+            return;
+        }
+
+        $payload['circuito'] = 'schedina';
+        $payload['is_arrive'] = 0;
+        $payload['scheda'] = $this->shouldKeepCircuitCode($schedina, 'schedina')
+            ? ($schedina?->scheda ?: $this->nextSchedaCode($strutturaId, 'schedina'))
+            : $this->nextSchedaCode($strutturaId, 'schedina');
+    }
+
+    private function customerSearchStructureIds(int $currentStrutturaId): array
+    {
+        $struttura = Struttura::query()->find($currentStrutturaId);
+        if (! $struttura) {
+            return [$currentStrutturaId];
+        }
+
+        if (empty($struttura->proprietario_id)) {
+            return [$currentStrutturaId];
+        }
+
+        $ids = \App\Support\StrutturaAccess::query(auth()->user())
+            ->where('proprietario_id', $struttura->proprietario_id)
+            ->pluck('id')
+            ->all();
+
+        return ! empty($ids) ? $ids : [$currentStrutturaId];
+    }
+
+    private function localizeChainCustomerForCurrentStruttura(Customers $sourceCustomer, int $currentStrutturaId): Customers
+    {
+        $existing = $this->findEquivalentCustomerInStruttura($sourceCustomer, $currentStrutturaId);
+        if ($existing) {
+            return $existing;
+        }
+
+        $copy = $sourceCustomer->replicate();
+        $copy->struttura_id = $currentStrutturaId;
+        $copy->numero_cliente = null;
+        $copy->created_at = now();
+        $copy->updated_at = now();
+        $copy->save();
+
+        $this->ensureNumeroClienteForLocalizedCustomer($copy);
+        $copy->save();
+
+        return $copy;
+    }
+
+    private function findEquivalentCustomerInStruttura(Customers $sourceCustomer, int $currentStrutturaId): ?Customers
+    {
+        $query = Customers::query()
+            ->withoutGlobalScopes()
+            ->where('struttura_id', $currentStrutturaId)
+            ->where('name', $sourceCustomer->name)
+            ->where('surname', $sourceCustomer->surname);
+
+        if (! empty($sourceCustomer->num_doc_reg)) {
+            return $query
+                ->where('num_doc_reg', $sourceCustomer->num_doc_reg)
+                ->when(! empty($sourceCustomer->nac_reg), fn ($inner) => $inner->where('nac_reg', $sourceCustomer->nac_reg))
+                ->latest('id')
+                ->first();
+        }
+
+        if (! empty($sourceCustomer->email)) {
+            return (clone $query)
+                ->where('email', $sourceCustomer->email)
+                ->latest('id')
+                ->first();
+        }
+
+        if (! empty($sourceCustomer->cellphone)) {
+            return (clone $query)
+                ->where('cellphone', $sourceCustomer->cellphone)
+                ->latest('id')
+                ->first();
+        }
+
+        if (! empty($sourceCustomer->phone)) {
+            return (clone $query)
+                ->where('phone', $sourceCustomer->phone)
+                ->latest('id')
+                ->first();
+        }
+
+        return null;
+    }
+
+    private function ensureNumeroClienteForLocalizedCustomer(Customers $customer): void
+    {
+        $prefix = $this->prefixByTipoCliente($customer->type_housed);
+        $yearTwoDigits = $customer->created_at
+            ? $customer->created_at->format('y')
+            : now()->format('y');
+        $expectedStart = "{$prefix}-{$yearTwoDigits}-";
+        $currentCode = (string) ($customer->numero_cliente ?? '');
+
+        if ($currentCode !== '' && str_starts_with($currentCode, $expectedStart)) {
+            return;
+        }
+
+        $nextSerial = $this->nextNumeroClienteSerialForStruttura((int) $customer->struttura_id, $prefix, $yearTwoDigits);
+        $customer->numero_cliente = sprintf('%s-%s-%04d', $prefix, $yearTwoDigits, $nextSerial);
+    }
+
+    private function prefixByTipoCliente(?string $tipoCliente): string
+    {
+        return match (trim((string) $tipoCliente)) {
+            'Richiesta' => 'R',
+            'Componente' => 'C',
+            default => 'O',
+        };
+    }
+
+    private function nextNumeroClienteSerialForStruttura(int $strutturaId, string $prefix, string $yearTwoDigits): int
+    {
+        $pattern = "{$prefix}-{$yearTwoDigits}-%";
+
+        $lastCode = Customers::query()
+            ->withoutGlobalScopes()
+            ->where('struttura_id', $strutturaId)
+            ->where('numero_cliente', 'like', $pattern)
+            ->orderByDesc('numero_cliente')
+            ->value('numero_cliente');
+
+        if (! $lastCode || ! preg_match('/-(\d{4})$/', $lastCode, $matches)) {
+            return 1;
+        }
+
+        return ((int) $matches[1]) + 1;
+    }
+
+    private function redirectAfterSave(Schedina $schedina, Request $request, string $saveMode, bool $isUpdate)
+    {
+        if ($saveMode === 'draft') {
+            return redirect()
+                ->route('schedina.bozze')
+                ->with('warning', $isUpdate ? 'Bozza schedina aggiornata: dati non completi.' : 'Bozza schedina salvata: dati non completi.');
+        }
+
+        if ($saveMode === 'to_arrivi') {
+            return redirect()
+                ->route('arrivals', array_filter(['q'=>$request->input('arrivi_q'), 'page'=>$request->integer('arrivi_page') > 1 ? $request->integer('arrivi_page') : null]))
+                ->with('success', $isUpdate ? 'Schedina salvata nel circuito Arrivi.' : 'Schedina registrata nel circuito Arrivi.');
+        }
+
+        return redirect()
+            ->route('schedina')
+            ->with('success', $isUpdate ? 'Schedina aggiornata con successo.' : 'Schedina creata con successo.');
+    }
+
+    private function newSchedinaDraftComponentiKey(): string
+    {
+        $userId = (int) (auth()->id() ?? 0);
+        $strutturaId = (int) (StrutturaCorrente::getId() ?? auth()->user()?->struttura_id ?? 0);
+
+        return 'componenti_import_new_schedina.'.$userId.'.'.$strutturaId;
+    }
+
+    private function handleSingleComponentSave(Request $request, ?Schedina $schedina, bool $isPersisted): \Illuminate\Http\RedirectResponse
+    {
+        [$index, $row, $componentId] = $this->resolveSingleComponentSelection($request);
+
+        if (! is_array($row) || $index === null) {
+            throw ValidationException::withMessages([
+                'componenti' => 'Seleziona un componente valido da salvare.',
+            ]);
+        }
+
+        $normalized = DatiComponenteNormalizzati::normalizzaRighe([$row]);
+        if (empty($normalized)) {
+            throw ValidationException::withMessages([
+                'componenti' => 'Il componente selezionato non contiene dati validi.',
+            ]);
+        }
+
+        $singleRow = $normalized[0];
+        $singleErrors = DatiComponenteNormalizzati::validaRighe([$singleRow]);
+        if (! empty($singleErrors)) {
+            throw ValidationException::withMessages($singleErrors);
+        }
+
+        $review = DatiComponenteNormalizzati::classificaRiga($singleRow);
+        $singleRow = array_merge($singleRow, $review['metadata']);
+
+        if ($isPersisted) {
+            if ($componentId === null || $componentId === '') {
+                throw ValidationException::withMessages([
+                    'componenti' => 'Nessun componente valido identificato per il salvataggio.',
+                ]);
+            }
+
+            $componente = Componenti::query()
+                ->where('schedina_id', $schedina->id)
+                ->find((int) $componentId);
+
+            if (! $componente) {
+                throw ValidationException::withMessages([
+                    'componenti' => 'Il componente non appartiene alla schedina corrente.',
+                ]);
+            }
+
+            $payload = $this->buildComponentePayload($schedina, $singleRow);
+            $componente->fill($payload)->save();
+
+            return redirect()
+                ->route('schedina.edit', ['id' => $schedina->id, 'active_tab' => 'schedina-step-comp'])
+                ->withInput($request->except(['componenti']))
+                ->with('success', 'Componente salvato correttamente.')
+                ->with('active_tab', 'schedina-step-comp');
+        }
+
+        $draft = session()->get($this->newSchedinaDraftComponentiKey(), []);
+        $draft = is_array($draft) ? $draft : [];
+        $draftComponenti = is_array($draft['componenti'] ?? null) ? $draft['componenti'] : [];
+        $draftComponenti[$index] = $singleRow;
+        $draft['componenti'] = array_values($draftComponenti);
+        session()->put($this->newSchedinaDraftComponentiKey(), $draft);
+        session()->flashInput($draft);
+
+        return redirect()
+            ->route('newschedina', ['active_tab' => 'schedina-step-comp'])
+            ->withInput($draft)
+            ->with('success', 'Componente salvato correttamente.')
+            ->with('active_tab', 'schedina-step-comp');
+    }
+
+    private function resolveSingleComponentSelection(Request $request): array
+    {
+        $rows = (array) $request->input('componenti', []);
+        $componentIndex = $request->input('component_index');
+        $componentId = $request->input('component_id');
+
+        if ($componentId !== null && $componentId !== '') {
+            foreach ($rows as $index => $row) {
+                if (! is_array($row)) {
+                    continue;
+                }
+
+                if ((string) ($row['id'] ?? '') === (string) $componentId || (string) ($row['id'] ?? '') === (string) ((int) $componentId)) {
+                    return [(int) $index, $row, (int) $componentId];
+                }
+            }
+        }
+
+        if ($componentIndex !== null && $componentIndex !== '') {
+            $index = (int) $componentIndex;
+            $row = $rows[$index] ?? null;
+            if (is_array($row)) {
+                return [$index, $row, $row['id'] ?? null];
+            }
+        }
+
+        return [null, null, null];
+    }
+
+    private function persistNewSchedinaDraftState(Request $request): array
+    {
+        $draft = session()->get($this->newSchedinaDraftComponentiKey(), []);
+        $draft = is_array($draft) ? $draft : [];
+
+        $submitted = $request->except(['_token', '_method', 'save_mode', 'save_mode_intent', 'active_tab', 'component_index', 'component_id']);
+        $merged = array_replace_recursive($draft, $submitted);
+        $merged['componenti'] = $this->normalizedComponentiRows($request);
+
+        session()->put($this->newSchedinaDraftComponentiKey(), $merged);
+        session()->flashInput($merged);
+
+        return $merged;
+    }
+
+    private function clearNewSchedinaDraftComponenti(): void
+    {
+        session()->forget($this->newSchedinaDraftComponentiKey());
+    }
+
+    private function applyOperationalArriviDates(array &$payload): void
+    {
+        $payload['arrive'] = \App\Support\ArriviDay::today();
+    }
+
+    private function safeParseDateValue($value): ?Carbon
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        try {
+            return Carbon::parse((string) $value)->startOfDay();
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    protected function camereForSchedina(Schedina $schedina): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $schedina->camere();
+    }
+
+    protected function syncCamere(Schedina $schedina, Request $request): void
+    {
+        $camerePayload = collect($request->input('camere', []))
+            ->map(function ($row) use ($schedina) {
+                return [
+                    'struttura_id' => $schedina->struttura_id,
+                    'numero_camera' => $row['numero_camera'] ?? null,
+                    'posti_letto' => $row['posti_letto'] ?? null,
+                    'note' => $row['note'] ?? null,
+                    'fonte_camera' => $row['fonte_camera'] ?? null,
+                    'camera_esterna_id' => $row['camera_esterna_id'] ?? null,
+                ];
+            })
+            ->filter(function ($row) {
+                return ! empty($row['numero_camera']) || ! empty($row['note']) || (! is_null($row['posti_letto']));
+            })
+            ->values()
+            ->all();
+
+        $camere = $this->camereForSchedina($schedina);
+        $camere->delete();
+        if (! empty($camerePayload)) {
+            $camere->createMany($camerePayload);
+        }
+    }
+
+    protected function validateComponentiRows(Request $request): void
+    {
+        $request->validate([
+            'componenti' => ['nullable', 'array'],
+            'componenti.*.id' => ['nullable', 'integer'],
+            'componenti_intenzione' => ['nullable', 'in:elimina_tutti'],
+        ]);
+
+        $rows = $this->normalizedComponentiRows($request);
+        if (empty($rows)) {
+            return;
+        }
+
+        $errors = DatiComponenteNormalizzati::validaRighe($rows);
+
+        $reviewBlocks = $this->componentiWithBlockingReview($request);
+        if (! empty($reviewBlocks)) {
+            throw ValidationException::withMessages([
+                'componenti' => 'Impossibile salvare la schedina. Ci sono '.count($reviewBlocks).' componenti da verificare o da completare.',
+            ]);
+        }
+
+        if (! empty($errors)) {
+            throw ValidationException::withMessages($errors);
+        }
+    }
+
+    protected function validatePeopleConsistency(Request $request): void
+    {
+        $totalPeople = (int) $request->input('cant_people', 0);
+        if ($totalPeople <= 0) {
+            return;
+        }
+
+        if ($request->routeIs('schedina.store', 'schedina.update', 'web_checkin.public.*')) {
+            $head = collect(TipoAlloggiatoCatalogo::opzioniCapoSchedina())->first(
+                fn ($option) => TipoAlloggiatoCatalogo::valoreCompatibileConOpzione($request->input('relationship'), $option)
+            );
+            if (!$head) throw ValidationException::withMessages(['relationship'=>'Seleziona il tipo alloggiato dal catalogo ufficiale.']);
+            $headCode = (int) $head['codice'];
+            if (($headCode === 16 && $totalPeople !== 1) || ($headCode !== 16 && $totalPeople < 2)) {
+                throw ValidationException::withMessages(['cant_people'=>'Ospite singolo richiede una persona; famiglia e gruppo richiedono il titolare e almeno un componente.']);
+            }
+            $seen = [];
+            $identity = fn ($name,$surname,$birth) => mb_strtolower(trim((string) $name)).'|'.mb_strtolower(trim((string) $surname)).'|'.substr((string) $birth,0,10);
+            $seen[$identity($request->input('name'),$request->input('surname'),$request->input('oa_date_nac'))] = true;
+            foreach ($this->normalizedComponentiRows($request) as $index=>$row) {
+                $option = collect(TipoAlloggiatoCatalogo::opzioniComponente())->first(
+                    fn ($option) => TipoAlloggiatoCatalogo::valoreCompatibileConOpzione($row['relationship'] ?? null, $option)
+                );
+                if (!$option || (int) $option['codice'] !== ($headCode === 17 ? 19 : 20)) {
+                    throw ValidationException::withMessages(["componenti.$index.relationship"=>'Il tipo del componente deve essere coerente con famiglia o gruppo del titolare.']);
+                }
+                $key=$identity($row['name'] ?? null,$row['surname'] ?? null,$row['date_nac'] ?? null);
+                if (isset($seen[$key])) throw ValidationException::withMessages(["componenti.$index.name"=>'La stessa persona è già presente come titolare o componente.']);
+                $seen[$key]=true;
+                if (!empty($row['date_nac']) && Carbon::parse($row['date_nac'])->gt(Carbon::parse($request->input('arrive')))) {
+                    throw ValidationException::withMessages(["componenti.$index.date_nac"=>'La nascita non può essere successiva all’arrivo.']);
+                }
+            }
+
+        }
+
+        $componentiCount = count($this->normalizedComponentiRows($request));
+        $expectedComponenti = max(0, $totalPeople - 1);
+
+        if ($componentiCount !== $expectedComponenti) {
+            $message = $expectedComponenti === 0
+                ? 'Con quantità persone pari a 1 non devono essere presenti componenti.'
+                : "Con quantità persone pari a {$totalPeople} devono essere presenti {$expectedComponenti} componenti oltre all ospite principale.";
+
+            throw ValidationException::withMessages([
+                'cant_people' => $message,
+            ]);
+        }
+    }
+
+    private function validatePeopleConsistencyForComponentSave(Request $request): void
+    {
+        $totalPeople = (int) $request->input('cant_people', 0);
+        if ($totalPeople <= 0) {
+            return;
+        }
+
+        $componentiCount = count($this->normalizedComponentiRows($request));
+        $expectedComponenti = max(0, $totalPeople - 1);
+
+        if ($expectedComponenti === 0 && $componentiCount > 0) {
+            throw ValidationException::withMessages([
+                'cant_people' => 'Con quantità persone pari a 1 non devono essere presenti componenti.',
+            ]);
+        }
+
+        if ($componentiCount > $expectedComponenti) {
+            throw ValidationException::withMessages([
+                'cant_people' => "Con quantità persone pari a {$totalPeople} non puoi salvare più di {$expectedComponenti} componenti oltre all ospite principale.",
+            ]);
+        }
+    }
+
+    private function schedinaValidationMessages(): array
+    {
+        return [
+            'required' => 'Il campo :attribute è obbligatorio.',
+            'date' => 'Inserisci una data valida per :attribute.',
+            'departure.after' => 'La partenza deve essere successiva all’arrivo. Correggila prima di passare a schedina.',
+            'before_or_equal' => 'La data di :attribute non deve essere successiva a :date.',
+            'string' => 'Il campo :attribute deve contenere testo.',
+            'integer' => 'Il campo :attribute deve contenere un numero intero.',
+            'boolean' => 'Il valore di :attribute non è valido.',
+            'in' => 'Seleziona un valore valido per :attribute.',
+            'not_in' => 'Il valore selezionato per :attribute non è ammesso.',
+            'max' => 'Il campo :attribute supera il limite consentito (:max).',
+            'min' => 'Il campo :attribute deve essere almeno :min.',
+            'email' => 'Inserisci un indirizzo email valido per :attribute.',
+        ];
+    }
+
+    private function schedinaValidationAttributes(): array
+    {
+        return [
+            'customer_privacy_consent' => 'privacy',
+            'name' => 'nome',
+            'surname' => 'cognome',
+            'sex' => 'sesso',
+            'arrive' => 'arrivo',
+            'departure' => 'partenza',
+            'cant_people' => 'quantità persone',
+            'room' => 'camera',
+            'beds' => 'letti',
+            'oa_country' => 'nazione anagrafica',
+            'oa_city' => 'città anagrafica',
+            'oa_region' => 'regione anagrafica',
+            'oa_prov' => 'provincia anagrafica',
+            'oa_city_nac' => 'cittadinanza',
+            'oa_date_nac' => 'data di nascita',
+            'or_country' => 'nazione residenza',
+            'or_city' => 'città residenza',
+            'or_region' => 'regione residenza',
+            'or_prov' => 'provincia residenza',
+            'or_typeaway' => 'tipo via',
+            'or_address' => 'indirizzo',
+            'or_num' => 'numero civico',
+            'or_doc' => 'documento',
+            'or_doctype' => 'tipo documento',
+            'or_published_date' => 'data rilascio',
+            'or_expire' => 'scadenza',
+            'or_published' => 'rilasciato da',
+            'or_published_country' => 'paese rilascio',
+            'or_published_city' => 'città rilascio',
+        ];
+    }
+
+    private function previewFromOldInput(Request $request, Schedina $schedina, $componenti, ?Customers $prefilledCustomer = null): array
+    {
+        $old = $request->session()->getOldInput();
+        if (empty($old)) {
+            return [$schedina, $componenti];
+        }
+
+        $previewRequest = Request::create('/', 'POST', $old);
+        $defaults = $prefilledCustomer ? $this->customerToSchedinaDefaults($prefilledCustomer) : [];
+        $schedina->fill($this->buildSchedinaPayload($previewRequest, $defaults));
+
+        if (! array_key_exists('componenti', $old)) {
+            return [$schedina, $componenti];
+        }
+
+        $componentiPreview = collect($this->normalizedComponentiRows($previewRequest))
+            ->map(fn (array $row) => new Componenti($this->resolveComponenteGeoLabels($row)));
+
+        return [$schedina, $componentiPreview];
+    }
+
+    private function normalizedComponentiRows(Request $request): array
+    {
+        return DatiComponenteNormalizzati::normalizzaRighe((array) $request->input('componenti', []), $request->routeIs('web_checkin.public.*') || $request->filled('web_versione_gestione'));
+    }
+
+    protected function componentiForSchedina(Schedina $schedina): \Illuminate\Database\Eloquent\Builder
+    {
+        return Componenti::query()->where('schedina_id', $schedina->id);
+    }
+
+    protected function syncComponenti(Schedina $schedina, Request $request): void
+    {
+        $rows = $this->normalizedComponentiRows($request);
+        $rawRows = (array) $request->input('componenti', []);
+        $eliminazioneTotaleIntenzionale = $this->componenteDeleteAllIntenzionale($request);
+
+        $callback = function () use ($schedina, $rows, $rawRows, $eliminazioneTotaleIntenzionale) {
+            $esistenti = $this->componentiForSchedina($schedina)
+                ->get()
+                ->keyBy('id');
+
+            if (PianoSyncComponenti::devePreservareEsistentiSuPlaceholder(
+                $esistenti->count(),
+                $rawRows,
+                $rows,
+                $eliminazioneTotaleIntenzionale
+            )) {
+                return;
+            }
+
+            if (empty($rows)) {
+                $this->componentiForSchedina($schedina)
+                    ->delete();
+
+                return;
+            }
+
+            $piano = PianoSyncComponenti::costruisci($rows, $esistenti->keys()->all());
+            if (! empty($piano->errori)) {
+                throw ValidationException::withMessages($piano->errori);
+            }
+
+            foreach ($rows as $row) {
+                $payload = $this->buildComponentePayload($schedina, $row);
+                $id = $row['id'] ?? null;
+
+                if ($id === null || $id === '') {
+                    Componenti::query()->create($payload);
+
+                    continue;
+                }
+
+                $componente = $esistenti->get((int) $id);
+                if (! $componente) {
+                    throw ValidationException::withMessages([
+                        'componenti' => 'Impossibile aggiornare un componente esterno alla schedina corrente.',
+                    ]);
+                }
+
+                $componente->fill($payload);
+                $componente->save();
+            }
+
+            if (! empty($piano->idDaEliminare)) {
+                $this->componentiForSchedina($schedina)
+                    ->whereIn('id', $piano->idDaEliminare)
+                    ->delete();
+            }
+        };
+
+        if (DB::transactionLevel() > 0) {
+            $callback();
+
+            return;
+        }
+
+        DB::transaction($callback);
+    }
+
+    protected function componenteDeleteAllIntenzionale(Request $request): bool
+    {
+        if ($request->input('componenti_intenzione') !== 'elimina_tutti') {
+            return false;
+        }
+
+        $routeName = (string) optional($request->route())->getName();
+        if (str_starts_with($routeName, 'web_checkin.public.')) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function buildComponentePayload(Schedina $schedina, array $row): array
+    {
+        $filtered = [];
+        foreach (['struttura_id', 'schedina_id', 'customer_id', 'name', 'surname', 'sex', 'relationship', 'exent', 'city_nac', 'province_nac', 'country_nac', 'regione_nac', 'comune_nac', 'cap_nac', 'date_nac', 'country', 'regione', 'province', 'city', 'typeaway', 'address', 'number', 'cap'] as $field) {
+            if (array_key_exists($field, $row)) {
+                $filtered[$field] = $row[$field];
+            }
+        }
+
+        return $this->resolveComponenteGeoLabels([
+            'struttura_id' => $schedina->struttura_id,
+            'schedina_id' => $schedina->id,
+            'customer_id' => $schedina->customer_id,
+            'name' => $filtered['name'] ?? null,
+            'surname' => $filtered['surname'] ?? null,
+            'sex' => $filtered['sex'] ?? null,
+            'relationship' => $filtered['relationship'] ?? null,
+            'exent' => $filtered['exent'] ?? null,
+            'city_nac' => $filtered['city_nac'] ?? null,
+            'province_nac' => $filtered['province_nac'] ?? null,
+            'country_nac' => $filtered['country_nac'] ?? null,
+            'regione_nac' => $filtered['regione_nac'] ?? null,
+            'comune_nac' => $filtered['comune_nac'] ?? null,
+            'cap_nac' => $filtered['cap_nac'] ?? null,
+            'date_nac' => DatiComponenteNormalizzati::normalizzaData($filtered['date_nac'] ?? null),
+            'country' => $filtered['country'] ?? null,
+            'regione' => $filtered['regione'] ?? null,
+            'province' => $filtered['province'] ?? null,
+            'city' => $filtered['city'] ?? null,
+            'typeaway' => $filtered['typeaway'] ?? null,
+            'address' => $filtered['address'] ?? null,
+            'number' => $filtered['number'] ?? null,
+            'cap' => $filtered['cap'] ?? null,
+        ]);
+    }
+
+    private function componentiWithBlockingReview(Request $request): array
+    {
+        $rows = (array) $request->input('componenti', []);
+        $problematic = [];
+
+        foreach ($rows as $index => $row) {
+            if (! is_array($row)) {
+                continue;
+            }
+
+            $status = strtoupper((string) ($row['_review_status'] ?? $row['review_status'] ?? $row['status'] ?? ''));
+            if (in_array($status, [DatiComponenteNormalizzati::STATO_DA_VERIFICARE, DatiComponenteNormalizzati::STATO_DA_COMPLETARE], true)) {
+                $problematic[] = trim((string) (($row['surname'] ?? '').' '.($row['name'] ?? '')));
+            }
+        }
+
+        return array_values(array_filter($problematic, fn ($value) => $value !== ''));
+    }
+
+    private function resolveGeoLabelsFromInput(array $data): array
+    {
+        foreach (['oa_country', 'or_country', 'or_published_country'] as $field) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
+                continue;
+            }
+
+            $nazione = GeoNazione::query()->find((int) $data[$field], ['nome']);
+            if ($nazione) {
+                $data[$field] = $nazione->nome;
+            }
+        }
+
+        foreach (['oa_region', 'or_region'] as $field) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
+                continue;
+            }
+
+            $regione = GeoRegione::query()->find((int) $data[$field], ['nome']);
+            if ($regione) {
+                $data[$field] = $regione->nome;
+            }
+        }
+
+        foreach (['oa_prov', 'or_prov'] as $field) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
+                continue;
+            }
+
+            $provincia = GeoProvincia::query()->find((int) $data[$field], ['nome', 'sigla']);
+            if ($provincia) {
+                $data[$field] = $provincia->sigla ?: $provincia->nome;
+            }
+        }
+
+        foreach (['oa_city', 'or_city', 'or_published_city'] as $field) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
+                continue;
+            }
+
+            $comune = GeoComune::query()->find((int) $data[$field], ['nome']);
+            if ($comune) {
+                $data[$field] = $comune->nome;
+            }
+        }
+
+        return $data;
+    }
+
+    private function resolveComponenteGeoLabels(array $data): array
+    {
+        foreach (['country_nac', 'country'] as $field) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
+                continue;
+            }
+
+            $nazione = GeoNazione::query()->find((int) $data[$field], ['nome']);
+            if ($nazione) {
+                $data[$field] = $nazione->nome;
+            }
+        }
+
+        foreach (['regione_nac', 'regione'] as $field) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
+                continue;
+            }
+
+            $regione = GeoRegione::query()->find((int) $data[$field], ['nome']);
+            if ($regione) {
+                $data[$field] = $regione->nome;
+            }
+        }
+
+        foreach (['province_nac', 'province'] as $field) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
+                continue;
+            }
+
+            $provincia = GeoProvincia::query()->find((int) $data[$field], ['nome', 'sigla']);
+            if ($provincia) {
+                $data[$field] = $provincia->sigla ?: $provincia->nome;
+            }
+        }
+
+        foreach (['comune_nac', 'city'] as $field) {
+            if (! array_key_exists($field, $data) || ! is_numeric($data[$field])) {
+                continue;
+            }
+
+            $comune = GeoComune::query()->find((int) $data[$field], ['nome']);
+            if ($comune) {
+                $data[$field] = $comune->nome;
+            }
+        }
+
+        return $data;
+    }
+
+    private function decorateSchedina(Schedina $schedina): Schedina
+    {
+        $schedina->oa_country = $this->resolveGeoLabelValue($schedina->oa_country, GeoNazione::query(), 'nome');
+        $schedina->oa_city = $this->resolveGeoLabelValue($schedina->oa_city, GeoComune::query(), 'nome');
+        $schedina->or_country = $this->resolveGeoLabelValue($schedina->or_country, GeoNazione::query(), 'nome');
+        $schedina->or_city = $this->resolveGeoLabelValue($schedina->or_city, GeoComune::query(), 'nome');
+
+        return $schedina;
+    }
+
+    private function resolveGeoLabelValue($raw, $query, string $labelColumn): string
+    {
+        $value = trim((string) $raw);
+        if ($value === '') {
+            return '';
+        }
+
+        if (! ctype_digit($value)) {
+            return $value;
+        }
+
+        return (string) ((clone $query)->whereKey((int) $value)->value($labelColumn) ?? $value);
+    }
+
+    protected function nextSchedaCode(int $strutturaId, string $circuito = 'schedina'): string
+    {
+        $yy = now()->format('y');
+        $prefix = $this->circuitCodePrefix($circuito).'-'.$yy;
+        $pattern = $prefix.'%';
+
+        $last = Schedina::query()
+            ->withoutGlobalScopes()
+            ->where('struttura_id', $strutturaId)
+            ->where('scheda', 'like', $pattern)
+            ->orderByDesc('scheda')
+            ->value('scheda');
+
+        $serial = 1;
+        if (is_string($last) && preg_match('/^[A-Z]-\d{2}(\d{3})$/', $last, $m)) {
+            $serial = ((int) $m[1]) + 1;
+        }
+
+        return sprintf('%s-%s%03d', $this->circuitCodePrefix($circuito), $yy, $serial);
+    }
+
+    protected function syncCircuitNumbering(int $strutturaId, ?string $previousCircuit, string $currentCircuit): void
+    {
+        $circuits = collect([$previousCircuit, $currentCircuit])
+            ->filter()
+            ->map(fn ($c) => $this->normalizeCircuitName((string) $c))
+            ->filter(fn ($c) => in_array($c, ['schedina', 'arrivi', 'web'], true))
+            ->unique()
+            ->values();
+
+        foreach ($circuits as $circuito) {
+            $this->resequenceCircuitCodes($strutturaId, $circuito);
+        }
+    }
+
+    protected function resequenceCircuitCodes(int $strutturaId, string $circuito): void
+    {
+        $rows = Schedina::query()
+            ->withoutGlobalScopes()
+            ->where('struttura_id', $strutturaId)
+            ->where(function ($query) use ($circuito) {
+                $normalized = $this->normalizeCircuitName($circuito);
+
+                if ($normalized === 'arrivi') {
+                    $query->where('circuito', 'arrivi')
+                        ->orWhere(function ($legacy) {
+                            $legacy->whereNull('circuito')
+                                ->where('is_arrive', 1);
+                        });
+
+                    return;
+                }
+
+                if ($normalized === 'web') {
+                    $query->where('circuito', 'web');
+
+                    return;
+                }
+
+                $query->where('circuito', 'schedina')
+                    ->orWhere(function ($legacy) {
+                        $legacy->whereNull('circuito')
+                            ->where('is_arrive', 0)
+                            ->whereNotNull('scheda')
+                            ->where('scheda', '!=', '');
+                    });
+            })
+            ->orderByRaw('arrive IS NULL')
+            ->orderBy('arrive')
+            ->orderBy('created_at')
+            ->orderBy('id')
+            ->get(['id', 'scheda', 'arrive', 'created_at']);
+
+        if ($rows->isEmpty()) {
+            return;
+        }
+
+        $prefix = $this->circuitCodePrefix($circuito);
+        $grouped = $rows->groupBy(fn ($row) => $this->codeYearForRecord($row));
+
+        foreach ($grouped as $yy => $records) {
+            foreach ($records->values() as $index => $record) {
+                $newCode = sprintf('%s-%s%03d', $prefix, $yy, $index + 1);
+                if ((string) $record->scheda !== $newCode) {
+                    Schedina::query()->withoutGlobalScopes()->whereKey($record->id)->update(['scheda' => $newCode]);
+                }
+            }
+        }
+    }
+
+    protected function circuitCodePrefix(string $circuito): string
+    {
+        return match ($this->normalizeCircuitName($circuito)) {
+            'arrivi' => 'A',
+            'web' => 'W',
+            default => 'S',
+        };
+    }
+
+    protected function normalizeCircuitName(string $circuito): string
+    {
+        $value = Str::of($circuito)->trim()->lower()->value();
+
+        return match ($value) {
+            'arrivo', 'arrivi', 'to_arrivi' => 'arrivi',
+            'web', 'web-checkin', 'web_checkin' => 'web',
+            default => 'schedina',
+        };
+    }
+
+    protected function normalizeSchedaCircuit(?Schedina $schedina): ?string
+    {
+        if (! $schedina) {
+            return null;
+        }
+
+        $circuito = trim((string) ($schedina->circuito ?? ''));
+        if ($circuito !== '') {
+            return $this->normalizeCircuitName($circuito);
+        }
+
+        return (bool) ($schedina->is_arrive ?? false) ? 'arrivi' : 'schedina';
+    }
+
+    protected function shouldKeepCircuitCode(?Schedina $schedina, string $targetCircuit): bool
+    {
+        return $schedina && $this->normalizeSchedaCircuit($schedina) === $this->normalizeCircuitName($targetCircuit);
+    }
+
+    protected function codeYearForRecord($row): string
+    {
+        try {
+            return ($row->arrive ? Carbon::parse($row->arrive) : Carbon::parse($row->created_at))->format('y');
+        } catch (\Throwable $e) {
+            return now()->format('y');
+        }
+    }
+
+    private function normalizeDateForDb($value): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        foreach (['Y-m-d', 'd/m/Y', 'd-m-Y'] as $format) {
+            try {
+                return Carbon::createFromFormat($format, (string) $value)->format('Y-m-d');
+            } catch (\Throwable $e) {
+                // try next format
+            }
+        }
+
+        try {
+            return Carbon::parse((string) $value)->format('Y-m-d');
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    private function resolveLogoComune(?Struttura $struttura): ?string
+    {
+        if (! $struttura) {
+            return null;
+        }
+
+        $comune = GeoComune::query()->where('nome', $struttura->citta)->first();
+        if ($comune && ($comune->logo_citta || $comune->logo)) {
+            return $comune->logo_citta ?: $comune->logo;
+        }
+
+        return $struttura->logo_citta ?: null;
+    }
+}

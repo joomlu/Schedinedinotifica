@@ -1,0 +1,19 @@
+{
+  "base": 80,
+  "originali": 82,
+  "corrispondenza_nome_descrizione": true,
+  "extra_conservati": [
+    "Sig.s",
+    "Sigg."
+  ],
+  "origine_autore_non_attestata": true,
+  "HEAD_online_prima": "fdd03d1fadf1d903c5a821754b525c6c185f494e",
+  "FK_ID_titolo": "",
+  "relazioni": {
+    "clienti_titoli": "1\tAmm.\t2\n1\tArch.\t1\n1\tSig.\t5\n1\tSig.ra\t4",
+    "schedina_titoli": "1\tAmm.\t6\n1\tArch.\t3\n1\tSig.\t4\n1\tSig.ra\t2",
+    "schema_colonne_titolo_in_tabelle": "calendario_eventi\ttitolo\ncestino_items\ttitle\nclienti\ttype\ncrm_lead_activities\ttitolo\nschedina\ttype\nschedina\tistat_titolo_studio\nstruttura_comande\ttitolo\nsupport_tickets\ttitolo",
+    "strutture_solo_conteggi": "7\t3"
+  },
+  "limite_date": "Timestamp letti dal DB: non prova autore, importazione o struttura di origine."
+}

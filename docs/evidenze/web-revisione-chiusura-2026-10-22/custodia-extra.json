@@ -1,0 +1,124 @@
+{
+  "PREPARE": {
+    "esito": "PASS_PREPARE_EXTRA_INTEGRITA_RECUPERO",
+    "origine": "/var/lib/schedine-release/bases/96d1d4e90040bed6e1193dd90266941310164bd7ef3eff9e",
+    "destinazione": "/Volumes/extra/Schedinedinotifica-Web-Chiusura-20261022/C5-PREPARE",
+    "file": [
+      {
+        "nome": "db.sql",
+        "byte": 23342832,
+        "sigillo": {
+          "plain_sha256": "160308215fcab063821e772e5aa3c8eb3a0cabf024e3ddd1fff9f4738115f6e9",
+          "cipher_sha256": "72dec8a5a58d3523b088363c321b78e3def4f8b04fd05a14e0dc4f1224eff6cf",
+          "hmac": "e1f0e99a4bdd0ac513f0144a24426b0e70b8a06825aa7d49f3d34cf34bd6a43f",
+          "byte": 23342832
+        },
+        "recupero": {
+          "cifrato_sha256": "72dec8a5a58d3523b088363c321b78e3def4f8b04fd05a14e0dc4f1224eff6cf",
+          "decifrato_sha256": "160308215fcab063821e772e5aa3c8eb3a0cabf024e3ddd1fff9f4738115f6e9",
+          "HMAC_prima_decifratura": true,
+          "decifratura_integrale": true,
+          "nessuna_scrittura_decifrata_o_temporanea": true
+        }
+      },
+      {
+        "nome": "fs.tar.gz",
+        "byte": 438764160,
+        "sigillo": {
+          "plain_sha256": "2204d75c3edcb9bce16a975881f71586887baac7aefd9fb147524bf2d901a791",
+          "cipher_sha256": "2a442bf3efba39c7541471db0555a23f4d07f5c7ea44cf18761066de68e0ae76",
+          "hmac": "aa455585a6d2f06cedc1a22b3e3477a9271e27ac275d580f3d56675e45ca126c",
+          "byte": 438764160
+        },
+        "recupero": {
+          "cifrato_sha256": "2a442bf3efba39c7541471db0555a23f4d07f5c7ea44cf18761066de68e0ae76",
+          "decifrato_sha256": "2204d75c3edcb9bce16a975881f71586887baac7aefd9fb147524bf2d901a791",
+          "HMAC_prima_decifratura": true,
+          "decifratura_integrale": true,
+          "nessuna_scrittura_decifrata_o_temporanea": true
+        }
+      },
+      {
+        "nome": "inventory.json",
+        "byte": 6464096,
+        "sigillo": {
+          "plain_sha256": "fe4932945454fd8698234cca7f09aa2b0657b3ec1807ad8391a111d60a3b83d4",
+          "cipher_sha256": "06d11d9237ac0062b6d068cb883e54a2521785d1152946b1653df48eec1ae6d2",
+          "hmac": "20089632d4868ca48c8deb0e0102621abfd62185baaed55dd4b8b725b0e9f600",
+          "byte": 6464096
+        },
+        "recupero": {
+          "cifrato_sha256": "06d11d9237ac0062b6d068cb883e54a2521785d1152946b1653df48eec1ae6d2",
+          "decifrato_sha256": "fe4932945454fd8698234cca7f09aa2b0657b3ec1807ad8391a111d60a3b83d4",
+          "HMAC_prima_decifratura": true,
+          "decifratura_integrale": true,
+          "nessuna_scrittura_decifrata_o_temporanea": true
+        }
+      }
+    ],
+    "chiave_separata_VM": true,
+    "liberi_Extra": 597623099392,
+    "liberi_Mac": 11978493952
+  },
+  "S0": {
+    "esito": "PASS_S0_EXTRA_INTEGRITA_RECUPERO",
+    "origine": "/var/lib/schedine-release/operations/27866f13d3c2581d9ba510ad216348ae427d6f32064da5cb/snapshot",
+    "destinazione": "/Volumes/extra/Schedinedinotifica-Web-Chiusura-20261022/C5-S0",
+    "file": [
+      {
+        "nome": "db.sql",
+        "byte": 23342832,
+        "sigillo": {
+          "plain_sha256": "160308215fcab063821e772e5aa3c8eb3a0cabf024e3ddd1fff9f4738115f6e9",
+          "cipher_sha256": "de7f6fd002cfc810ea23d74f8705b4ae7ee77b784be9cd3ec1b85f9e63e65c7b",
+          "hmac": "66b179a97263f0d0414d4a46f91d5e0e93789b6b0236ec4db7b6481e15de18b4",
+          "byte": 23342832
+        },
+        "recupero": {
+          "cifrato_sha256": "de7f6fd002cfc810ea23d74f8705b4ae7ee77b784be9cd3ec1b85f9e63e65c7b",
+          "decifrato_sha256": "160308215fcab063821e772e5aa3c8eb3a0cabf024e3ddd1fff9f4738115f6e9",
+          "HMAC_prima_decifratura": true,
+          "decifratura_integrale": true,
+          "nessuna_scrittura_decifrata_o_temporanea": true
+        }
+      },
+      {
+        "nome": "fs.tar.gz",
+        "byte": 1760,
+        "sigillo": {
+          "plain_sha256": "7ebf9e1496d7b7e887817cc8df68fda3b23f47353e60d719f31a90d8f5a34a9e",
+          "cipher_sha256": "d60e1f82d0228a01a4b178648d87b73d17183a948b3a5eb8f09fecd5dfa40f24",
+          "hmac": "3db5b04caa8bcb266e576c71847488f9c26a58fae68d341543a8201bee5f0ddb",
+          "byte": 1760
+        },
+        "recupero": {
+          "cifrato_sha256": "d60e1f82d0228a01a4b178648d87b73d17183a948b3a5eb8f09fecd5dfa40f24",
+          "decifrato_sha256": "7ebf9e1496d7b7e887817cc8df68fda3b23f47353e60d719f31a90d8f5a34a9e",
+          "HMAC_prima_decifratura": true,
+          "decifratura_integrale": true,
+          "nessuna_scrittura_decifrata_o_temporanea": true
+        }
+      },
+      {
+        "nome": "inventory.json",
+        "byte": 6470288,
+        "sigillo": {
+          "plain_sha256": "c7c8c04ba57d1370bcb732a1258385598c77553366c5c0f515c5ed5c35ddb5ce",
+          "cipher_sha256": "4fddcc0d3c0008f01656f29ac15d1f507af8c22b88d222c4a080da0f427bd70a",
+          "hmac": "3c302f68df2dd592cb1e45fb3f69180d8e046100fda70239d5d0b0195f05dd79",
+          "byte": 6470288
+        },
+        "recupero": {
+          "cifrato_sha256": "4fddcc0d3c0008f01656f29ac15d1f507af8c22b88d222c4a080da0f427bd70a",
+          "decifrato_sha256": "c7c8c04ba57d1370bcb732a1258385598c77553366c5c0f515c5ed5c35ddb5ce",
+          "HMAC_prima_decifratura": true,
+          "decifratura_integrale": true,
+          "nessuna_scrittura_decifrata_o_temporanea": true
+        }
+      }
+    ],
+    "chiave_separata_VM": true,
+    "liberi_Extra": 597592137728,
+    "liberi_Mac": 14023766016
+  }
+}

@@ -1,0 +1,144 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Models\GeoComune;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Storage;
+use Tests\Support\GeoLogoFixtures as Fixture;
+use Tests\TestCase;
+
+class GeoLogoAtomicitaTest extends TestCase
+{
+    use DatabaseTransactions;
+
+    public function test_errore_scrittura_mostra_messaggio_e_conserva_logo_precedente(): void
+    {
+        Storage::fake('public');
+        $this->actingAs(Fixture::user('admin'));
+        $comune = Fixture::comune('Rimini', '099014');
+        $old = Fixture::existingLogo($comune);
+        $disk = Storage::disk('public');
+        $failedDisk = \Mockery::mock(\Illuminate\Filesystem\FilesystemAdapter::class);
+        $failedDisk->shouldReceive('putFileAs')->once()->andThrow(new \RuntimeException('Errore sintetico di scrittura'));
+        $failedDisk->shouldReceive('delete')->once()->andReturn(false);
+        Storage::shouldReceive('disk')->with('public')->andReturn($failedDisk);
+        try {
+            $this->from('/geo/comuni/logo?q=Rimini')->post('/geo/comuni/'.$comune->id.'/logo', [
+                'q' => 'Rimini', 'logo' => Fixture::upload('rimini.png'),
+            ])->assertRedirect('/geo/comuni/logo?q=Rimini')->assertSessionHasErrors([
+                'logo' => 'Caricamento non riuscito. Il logo precedente è stato conservato.',
+            ]);
+            $this->get('/geo/comuni/logo?q=Rimini')->assertOk()
+                ->assertSee('Caricamento non riuscito. Il logo precedente è stato conservato.');
+            $this->assertSame('storage/'.$old, $comune->fresh()->logo_citta);
+            $this->assertTrue($disk->exists($old));
+        } finally {
+            Fixture::releaseUploads();
+        }
+    }
+
+    public function test_errore_database_conserva_logo_precedente_e_non_lascia_orfani(): void
+    {
+        Storage::fake('public');
+        $this->actingAs(Fixture::user('admin'));
+        $comune = Fixture::comune();
+        $old = Fixture::existingLogo($comune);
+        $files = Storage::disk('public')->allFiles();
+        $dispatcher = GeoComune::getEventDispatcher();
+        GeoComune::setEventDispatcher(clone $dispatcher);
+        GeoComune::updating(function () {
+            throw new \RuntimeException('Errore sintetico persistenza logo');
+        });
+        try {
+            $this->post('/geo/comuni/'.$comune->id.'/logo', ['logo' => Fixture::upload('nuovo.png')])->assertSessionHasErrors('logo');
+        } finally {
+            GeoComune::setEventDispatcher($dispatcher);
+            Fixture::releaseUploads();
+        }
+        $this->assertSame('storage/'.$old, $comune->fresh()->logo_citta);
+        Storage::disk('public')->assertExists($old);
+        $this->assertSame($files, Storage::disk('public')->allFiles());
+    }
+
+    public function test_logo_precedente_ancora_usato_da_altra_entita_non_viene_eliminato(): void
+    {
+        Storage::fake('public');
+        $this->actingAs(Fixture::user('admin'));
+        $a = Fixture::comune();
+        $old = Fixture::existingLogo($a);
+        $b = GeoComune::create(['geo_provincia_id' => $a->geo_provincia_id, 'nome' => 'Secondo Comune', 'codice_istat' => '990002', 'logo_citta' => 'storage/'.$old]);
+        try {
+            $this->post('/geo/comuni/'.$a->id.'/logo', ['logo' => Fixture::upload('nuovo.png')])->assertSessionHasNoErrors();
+            Storage::disk('public')->assertExists($old);
+            $this->assertSame('storage/'.$old, $b->fresh()->logo_citta);
+            $this->assertNotSame($b->fresh()->logo_citta, $a->fresh()->logo_citta);
+        } finally {
+            Fixture::releaseUploads();
+        }
+    }
+
+    public function test_dimensioni_eccessive_non_sostituiscono_logo(): void
+    {
+        Storage::fake('public');
+        $this->actingAs(Fixture::user('admin'));
+        $comune = Fixture::comune();
+        $old = Fixture::existingLogo($comune);
+        $chunk = fn ($type, $data) => pack('N', strlen($data)).$type.$data.pack('N', crc32($type.$data));
+        $png = "\x89PNG\r\n\x1a\n".$chunk('IHDR', pack('NNCCCCC', 4097, 1, 8, 2, 0, 0, 0)).$chunk('IDAT', gzcompress("\0".str_repeat("\0", 4097 * 3))).$chunk('IEND', '');
+        try {
+            $this->post('/geo/comuni/'.$comune->id.'/logo', ['logo' => Fixture::upload('enorme.png', $png)])->assertSessionHasErrors('logo');
+        } finally {
+            Fixture::releaseUploads();
+        }
+        $this->assertSame('storage/'.$old, $comune->fresh()->logo_citta);
+        $this->assertSame([$old], Storage::disk('public')->allFiles());
+    }
+
+    public function test_due_percorsi_legacy_distinti_non_lasciano_file_orfani(): void
+    {
+        Storage::fake('public');
+        $this->actingAs(Fixture::user('admin'));
+        $comune = Fixture::comune();
+        $a = Fixture::existingLogo($comune);
+        $b = 'geo_comuni/logo/'.$comune->id.'-secondo-legacy.png';
+        Storage::disk('public')->put($b, Fixture::image());
+        $comune->update(['logo' => 'storage/'.$b]);
+        try {
+            $this->post('/geo/comuni/'.$comune->id.'/logo', ['logo' => Fixture::upload('nuovo.png')])->assertSessionHasNoErrors();
+        } finally {
+            Fixture::releaseUploads();
+        }
+        Storage::disk('public')->assertMissing($a);
+        Storage::disk('public')->assertMissing($b);
+        $new = substr($comune->fresh()->logo_citta, strlen('storage/'));
+        $this->assertSame([$new], Storage::disk('public')->allFiles());
+        Storage::disk('public')->put($b, Fixture::image());
+        $comune->refresh()->update(['logo' => 'storage/'.$b]);
+        $this->delete('/geo/comuni/'.$comune->id.'/logo')->assertSessionHasNoErrors();
+        $this->assertSame([], Storage::disk('public')->allFiles());
+    }
+    public function test_rimozione_esplicita_non_riattiva_file_legacy_ancora_condiviso(): void
+    {
+        Storage::fake('public');
+        $this->actingAs(Fixture::user('admin'));
+        $comune = Fixture::comune('Comune Fixture Logo');
+        $path = 'geo_comuni/logo/'.$comune->id.'-comune-fixture-logo.png';
+        Storage::disk('public')->put($path, Fixture::image());
+        $comune->update(['logo_citta' => 'storage/'.$path]);
+        $other = GeoComune::create(['geo_provincia_id' => $comune->geo_provincia_id, 'nome' => 'Altro Comune', 'codice_istat' => '990003', 'logo_citta' => 'storage/'.$path]);
+        $this->delete('/geo/comuni/'.$comune->id.'/logo')->assertSessionHasNoErrors();
+        $comune->refresh();
+        Storage::disk('public')->assertExists($path);
+        $this->assertSame('storage/'.$path, $other->fresh()->logo_citta);
+        foreach ([\App\Http\Controllers\GeoController::class, \App\Http\Controllers\Admin\StruttureController::class, \App\Http\Controllers\Superadmin\StruttureController::class] as $class) {
+            $method = new \ReflectionMethod($class, 'resolveComuneLogoPath');
+            $this->assertNull($method->invoke(app($class), $comune));
+            // I record legacy mai rimossi mantengono il recupero del file storico.
+            $comune->logo_citta = null;
+            $this->assertSame('storage/'.$path, $method->invoke(app($class), $comune));
+            $comune->logo_citta = '';
+        }
+    }
+
+}

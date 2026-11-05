@@ -1,0 +1,12 @@
+import pathlib,os,subprocess,json
+os.umask(0o077);root=pathlib.Path('/work/cli-operazioni-v3/candidato');php='/opt/remi/php83/root/usr/bin/php'
+p=root/'.env';old=p.read_bytes();(root/'.env-prima-guard-riservata').write_bytes(old)
+s=p.read_text().replace('APP_ENV="testing"','APP_ENV="production"').replace('APP_URL="http://127.0.0.1"','APP_URL="https://schedinedinotifica.tanggo.software"');p.write_text(s)
+q=subprocess.run([php,'-d','opcache.enable_cli=0','artisan','config:clear'],cwd=root,capture_output=True)
+original=(root/'scripts/deployment/artisan.php').read_text();copy=pathlib.Path('/work/guard-diagnosi-identificata.php')
+copy.write_text(original.replace('} catch (Throwable $e) {',"} catch (Throwable $e) {\n    file_put_contents('/work/guard-causa-riservata.json',json_encode(['classe'=>get_class($e),'messaggio'=>$e->getMessage()]));"))
+a=subprocess.run([php,'-d','opcache.enable_cli=0',str(copy),str(root),'pending',str(root/'database/migrations')],capture_output=True)
+(root/'guard-originale-stdout-riservato.log').write_bytes(a.stdout);(root/'guard-originale-stderr-riservato.log').write_bytes(a.stderr)
+v=json.loads(pathlib.Path('/work/guard-causa-riservata.json').read_text()) if pathlib.Path('/work/guard-causa-riservata.json').exists() else {}
+print(json.dumps({'exit_guard':a.returncode,'blocca_Laravel11':v.get('messaggio')=='Laravel 11 required.','PHP_cli_opcache_disattivato':True,'guard_validator_invariati':True,'copia_identificata_catch_only':True,'app_env_copia':'production','config_clear_exit':q.returncode}))
+p.write_bytes(old)

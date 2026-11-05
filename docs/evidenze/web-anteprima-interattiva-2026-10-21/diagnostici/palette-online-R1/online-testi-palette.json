@@ -1,0 +1,48 @@
+{
+  "inizio": "2026-10-21T12:17:07.597Z",
+  "prove": [
+    {
+      "scenario": "GEO condiviso estero, transizioni e componenti 1440",
+      "esito": "PASS",
+      "errori_JS": 0
+    },
+    {
+      "scenario": "GEO condiviso estero, transizioni e componenti 768",
+      "esito": "PASS",
+      "errori_JS": 0
+    },
+    {
+      "scenario": "GEO condiviso estero, transizioni e componenti 390",
+      "esito": "PASS",
+      "errori_JS": 0
+    },
+    {
+      "scenario": "Editor riutilizzabile e FormData completo 1440",
+      "esito": "PASS",
+      "errori_JS": 0
+    },
+    {
+      "scenario": "Editor riutilizzabile e FormData completo 768",
+      "esito": "PASS",
+      "errori_JS": 0
+    },
+    {
+      "scenario": "Editor riutilizzabile e FormData completo 390",
+      "esito": "PASS",
+      "errori_JS": 0
+    },
+    {
+      "scenario": "Palette chiara e scura completa 1440",
+      "esito": "PASS",
+      "errori_JS": 0
+    },
+    {
+      "scenario": "Palette chiara e scura completa 768",
+      "esito": "PASS",
+      "errori_JS": 0
+    }
+  ],
+  "POST_invii": 0,
+  "esito": "NONPASS",
+  "errore": "Error: expect(locator).toHaveValue(expected) failed\n\nLocator:  locator('#invito-colore')\nExpected: \"#ffffee\"\nReceived: \"#123456\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.value\" with timeout 5000ms\n  - waiting for locator('#invito-colore')\n    9 × locator resolved to <input type=\"color\" name=\"colore\" value=\"#123456\" id=\"invito-colore\" data-saved=\"#123456\" class=\"form-control form-control-color\" aria-describedby=\"hotel-colore-help hotel-colore-errore\"/>\n      - unexpected value \"#123456\"\n"
+}

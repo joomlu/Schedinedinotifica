@@ -1,0 +1,12 @@
+{
+  "commit_locale": "31f5bdf38e18e556266abd217e6c82bf62db4970",
+  "ramo": "codex/istat-integrale-2026-10-24",
+  "remoto_verificato": "https://github.com/joomlu/Schedinedinotifica",
+  "repository_pubblico": true,
+  "push": "BLOCCATO_REVISIONE_AUTOMATICA",
+  "motivazione": "Richiesta autorizzazione esplicita alla destinazione pubblica e al payload del push",
+  "richiesta_utente_inviata": true,
+  "PR_creata": false,
+  "deploy": false,
+  "piano_capienza": "36→40GiB proposto, autorizzazione specifica pendente"
+}

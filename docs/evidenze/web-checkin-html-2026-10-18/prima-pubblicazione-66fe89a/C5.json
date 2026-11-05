@@ -1,0 +1,45 @@
+{
+  "esito": "PASS_AGGIORNAMENTO_C5",
+  "root": "/var/lib/schedine-release",
+  "produzione_toccata": true,
+  "T0_produttivo": true,
+  "S0_produttivo": true,
+  "flag_originale_bytes": null,
+  "S0_verificato_fisico": true,
+  "prepare": true,
+  "uscita_manutenzione_interna": true,
+  "verifica_conservazione_candidato": {
+    "scope_produzione_non_eseguito": true
+  },
+  "execute": true,
+  "FPM_versione": "12.69.3",
+  "FPM_configurazione": true,
+  "apertura_pubblica": {
+    "mail.schedinedinotifica.tanggo.software/": true,
+    "mail.schedinedinotifica.tanggo.software/login": true,
+    "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+    "schedinedinotifica.tanggo.software/": true,
+    "schedinedinotifica.tanggo.software/login": true,
+    "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+    "www.schedinedinotifica.tanggo.software/": true,
+    "www.schedinedinotifica.tanggo.software/login": true,
+    "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+  },
+  "decisione_candidato_provata": true,
+  "budget": {
+    "finestra": 1800,
+    "cutoff": 1379,
+    "riserva": 421,
+    "S0_limite": 600,
+    "S0_secondi": 162.588
+  },
+  "nonce": "fa8c8d648f76d29074bca1ab3359f81dfb4778424d393edd",
+  "T0": 2401440.998380831,
+  "flag_finale": false,
+  "stopped": true,
+  "decision": "CANDIDATO_ACCETTATO",
+  "S0_verified": true,
+  "ddl_started": true,
+  "secondi_T0": 242.34,
+  "monitor_campioni": 400
+}

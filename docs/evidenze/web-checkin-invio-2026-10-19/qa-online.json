@@ -1,0 +1,48 @@
+{
+  "online-circuito": {
+    "esito": "PASS_WEB_CHECKIN_CIRCUITO_ONLINE",
+    "resoconto_originale_sha256": "b1d63e43a2c737245b309fbb1f39f19c11d79b573a04415501f2321873c30894"
+  },
+  "online-completo": {
+    "esito": "PASS_ONLINE_REGRESSIONI_NUOVA_SCHEDINA_TENANCY",
+    "resoconto_originale_sha256": "e86ba6eab0398d696b1299014e4fe6484f10325e76be38277e6364c15e559e22"
+  },
+  "online-accessi": {
+    "esito": "PASS_ACCESSI_WEB_ONLINE",
+    "resoconto_originale_sha256": "0303500714a84a8102a5f1c77c3d86083447c3f90621e5b901d34254ee49b417"
+  },
+  "online-modelli": {
+    "esito": "PASS_GESTIONE_MODELLI_HTML_ONLINE",
+    "resoconto_originale_sha256": "8d6cfe5b402f3acacc6e313b207559ddbfd895ace786897c6ed41c6b70283c29"
+  },
+  "online-visuale": {
+    "esito": "PASS_VISUALE_ONLINE_DOM",
+    "resoconto_originale_sha256": "8ac933f1877d6d7e03f822fa65737ebe10c8289fe458d9564a3a92733a593fa1"
+  },
+  "verifica-visiva-manuale": {
+    "esito": "PASS_ISPEZIONE_VISIVA_CORRETTIVO_ONLINE",
+    "resoconto_originale_sha256": "9471a13c68d68668cdd2e2870b07a0738e81e0dbcf49871f609fb269da1e8f71"
+  },
+  "SHA_effettivo": "78e889759b0838f35267496527c42024aa18bd00",
+  "rettifica_metadato": {
+    "esito": "RETTIFICA_SOLO_METADATO_SHA_PROVA",
+    "resoconto_originale": "online-completo.json",
+    "SHA_etichetta_obsoleta": "447571f45fb9f8059f0d33eb836b221d9bd6ec52",
+    "SHA_effettivo_verificato": "78e889759b0838f35267496527c42024aa18bd00",
+    "causa": "Lettura ../c5/meta.json invece di ../c5-layout/meta.json nel solo campo informativoSHA; test funzionali senza dipendenza da quel campo",
+    "attribuzione_verificata": [
+      "Verifica online server prima QA conSHA78e8897 e94sorgenti",
+      "Fixture PHP verificaHEAD controidentity.json prima di ogni modalità, inclusecrea echiudi; entrambePASS",
+      "Guardiano concluso e nessun nuovo deploy duranteQA"
+    ],
+    "risultato_originale_immutato_sha256": "e86ba6eab0398d696b1299014e4fe6484f10325e76be38277e6364c15e559e22",
+    "script_futuro_corretto": true,
+    "controlli_e_risultati_funzionali_non_modificati": true
+  },
+  "scritture": "Sole fixture sintetiche, rimosse; HMAC66tabelle e75persistentiPASS",
+  "larghezze": [
+    1440,
+    768,
+    390
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "liberi_VM": 6239690752,
+  "disco_byte": 38654705664,
+  "filesystem_byte": 37290283008,
+  "SELinux": "Enforcing",
+  "liberi_Mac": 7731445760,
+  "liberi_Extra": 684559118336,
+  "Extra_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+  "Extra_APFS_scrivibile": true,
+  "data_UTC": "2026-10-18T13:44:21.204835+00:00",
+  "esito": "PASS_CAPIENZA_FINALE",
+  "limite": "Misura finale distinta dai gate prima PREPARE/RUN e ampliamento; nessuna stima ridotta retroattivamente."
+}

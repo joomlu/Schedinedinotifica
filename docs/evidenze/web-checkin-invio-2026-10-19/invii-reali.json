@@ -1,0 +1,26 @@
+{
+  "stato": "PASS_TRE_INVII_REALI_RICEZIONE_GMAIL_HTML_E_PERCORSO_MOBILE",
+  "SHA_prova_reale": "447571f45fb9f8059f0d33eb836b221d9bd6ec52",
+  "candidato_finale": "78e889759b0838f35267496527c42024aa18bd00",
+  "delta_successivo": "Sola disposizioneCSS elenco e controllo browser; nessuna modificaPHP,trasporto,SMTP o schema",
+  "casella": "Destinatario controllato esplicitamente autorizzato",
+  "invii": 3,
+  "casi": [
+    "Creazione e invio con doppioPOST, un solo messaggio accettato",
+    "Reinvio esplicito con nuova anteprima",
+    "Richiesta persistente riaperta dopo nuovo accesso, stessoID"
+  ],
+  "Google_SMTP": "PASS_TRE_CONSEGNE_ACCETTATE_DA_GOOGLE_SMTP",
+  "Gmail_ricezione": "PASS_GMAIL_RICEZIONE_HTML_REALE_E_PULSANTE",
+  "pulsante_e_modulo_corrispondenti": true,
+  "HTML_logo_dati_firma_scadenza": true,
+  "percorso_mobile_fino_reception_e_storico": "PASS_EMAIL_REALE_COMPILAZIONE_RECEPTION_STORICO_MOBILE",
+  "MIME_Gmail_estratto": false,
+  "limite": "Ricezione reale osservata nellaUI Gmail; proveMIME eTLS di errore in laboratorio isolate e distinte. Nessuna garanzia universale di recapito futuro. Nessun ulteriore invio nel correttivoCSS finale.",
+  "evidenze_originali_sha256": {
+    "online-invio.json": "2110fc229c9c9dfa3abc7ac704e69bc27b2ac1b4774a51e1d6cbe18fc791cdab",
+    "Gmail-ricezione.json": "38842579f9a00465348cc48ee4c25964b1c12a2ba359edddd37e032393f6579a",
+    "Google-SMTP.json": "02d3eca9b74f71e998f309c6840fd7c2e3836055d8286f58304981b715c29dfe",
+    "online-invio-compilazione.json": "c5147d00c08b06c5971a4a4e7b7b1cd7659cab5e119d6d7153fe48209c60ea20"
+  }
+}

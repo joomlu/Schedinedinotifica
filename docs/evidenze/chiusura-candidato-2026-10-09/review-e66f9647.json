@@ -1,0 +1,40 @@
+{
+  "tree_atteso": "e66f9647c48de84b7383e88d9d9eb3a7d9ba3c41",
+  "file": 471,
+  "hash_manifest": "PASS",
+  "categorie": {
+    "app": 25,
+    "composer.json": 1,
+    "composer.lock": 1,
+    "database": 2,
+    "docs": 308,
+    "package-copy-config.json": 1,
+    "package-lock.json": 1,
+    "package.json": 1,
+    "resources": 13,
+    "routes": 1,
+    "scripts": 3,
+    "tests": 114
+  },
+  "pattern_segreti": [],
+  "APP_KEY_letterali_classificati": "Due fixtureAAAA32, nessuna chiave operativa",
+  "archivio_storico": {
+    "file": "docs/evidenze/integrazione-laravel12-2026-10-09/candidato-318-indice.tar.gz",
+    "membri_regolari": 318,
+    "rilievi": 0,
+    "ambito": "sorgenti e evidenze, non backup operativo"
+  },
+  "origine_osservata": {
+    "url": "https://github.com/joomlu/Schedinedinotifica",
+    "branch": "main",
+    "SHA": "faef3cf01f43d19b20d1558c1fbd3ae32e48d849",
+    "metodo": "ls-remote, sola lettura",
+    "rilevato_UTC": "2026-10-09T21:50:19.373767+00:00"
+  },
+  "blocchi": [
+    "preflightpending11.31.0rifiutato primaComposer12",
+    "runnerintegrale su futurocommitnonprovato",
+    "gateproduttivi separati"
+  ],
+  "codice_modificato_questa_task": false
+}

@@ -1,0 +1,17 @@
+{
+  "esito": "BUG_GLOBALE_RIPRODOTTO_E_CORREZIONE_IN_COLLAUDO",
+  "SHA_online_riproduzione": "39518a6b4ff0f9b1112b0fa6d13debf1854e5061",
+  "endpoint": "POST /web-checkin",
+  "errore": "SQLSTATE23000/1062 codiceWC1 duplicato",
+  "causa": "Indice SQLglobale, generatore storico limitato alla struttura",
+  "tentativi_sintetici500": 3,
+  "orari_log_Europe_Rome": [
+    "2026-10-18 14:56:46",
+    "2026-10-18 14:58:42",
+    "2026-10-18 14:59:52"
+  ],
+  "rimedio": "Nuovi identificativi alfanumerici globaliWC+ULID,28caratteri; codici e alias gi\u00e0 esistenti invariati",
+  "nuova_DDL": false,
+  "dati_precedenti_preservati": "HMAC di tutte le righe delle66tabelle identici dopo rimozione delle prime fixture; AUTO_INCREMENT non azzerati",
+  "log_non_cancellati": true
+}

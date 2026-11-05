@@ -1,0 +1,20 @@
+{
+  "data": "2026-10-09",
+  "destinatario": "root@217.174.149.23:6543",
+  "identita_pubblica": "SHA256:CTwvC9v41u3VbBq0el3Qyp7yDZGbmKfIQaTC8JyqiqU",
+  "comando_remoto_proposto": "true",
+  "exit": 255,
+  "chiave_offerta": true,
+  "chiave_accettata": false,
+  "errore_originale": "Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).",
+  "agente": "nessuna identità",
+  "comandi_remoti_eseguiti": false,
+  "passo_manuale": "Verificare autorizzazione della chiave pubblica e policy root sul servizio6543 via console/canale fidato; eventuale installazione server non autorizzata ora",
+  "letture_bloccate": [
+    "PHP CLI/FPM",
+    "MariaDB",
+    "segfault storici",
+    "metadata migration",
+    "catalogo backup/restore"
+  ]
+}

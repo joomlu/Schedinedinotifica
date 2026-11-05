@@ -1,0 +1,48 @@
+TEST isolato: /private/tmp/schedine-test-cmkrhrj3; database=test_geo_058701d5bebbb628ec1926bc91f00a91; MySQL pid=11364, porta=62133; HTTP pid=11373, porta=62134
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 10.5.38 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /private/tmp/schedine-test-cmkrhrj3/checkout/phpunit.xml
+
+F                                                                   1 / 1 (100%)
+
+Time: 00:03.640, Memory: 42.50 MB
+
+There was 1 failure:
+
+1) Tests\Feature\Ross1000NavigationAudit::test_configurazione_e_tabella_per_operatore_sintetico_con_dati_incompleti
+Expected response status code [200] but received 404.
+Failed asserting that 404 is identical to 200.
+
+
+FAILURES!
+Tests: 1, Assertions: 1, Failures: 1.
+TEST interrotto senza fallback: phpunit-1 fallito: 1
+mysql-error.log:
+2026-10-09T15:53:40.953047Z 0 [System] [MY-013169] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld (mysqld 8.0.36) initializing of server in progress as process 11363
+2026-10-09T15:53:40.963499Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /private/tmp/schedine-test-cmkrhrj3/mysql-data/ is case insensitive
+2026-10-09T15:53:40.979179Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2026-10-09T15:53:41.051828Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2026-10-09T15:53:41.881326Z 5 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+2026-10-09T15:53:42.194250Z 0 [System] [MY-013172] [Server] Received SHUTDOWN from user <via user signal>. Shutting down mysqld (Version: 8.0.36).
+2026-10-09T15:53:43.414457Z 0 [Warning] [MY-010101] [Server] Insecure configuration for --secure-file-priv: Location is accessible to all OS users. Consider choosing a different directory.
+2026-10-09T15:53:43.414539Z 0 [System] [MY-010116] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld (mysqld 8.0.36) starting as process 11364
+2026-10-09T15:53:43.416781Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /private/tmp/schedine-test-cmkrhrj3/mysql-data/ is case insensitive
+2026-10-09T15:53:43.460189Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2026-10-09T15:53:43.526288Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2026-10-09T15:53:43.706695Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2026-10-09T15:53:43.706723Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2026-10-09T15:53:43.709805Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/private/tmp' in the path is accessible to all OS users. Consider choosing a different directory.
+2026-10-09T15:53:43.721266Z 0 [System] [MY-010931] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld: ready for connections. Version: '8.0.36'  socket: '/private/tmp/schedine-test-cmkrhrj3/mysql.sock'  port: 62133  MySQL Community Server - GPL.
+
+http.log:
+[Fri Oct  9 17:53:44 2026] PHP 8.3.33 Development Server (http://127.0.0.1:62134) started
+[Fri Oct  9 17:53:44 2026] 127.0.0.1:62147 Accepted
+[Fri Oct  9 17:53:44 2026] 127.0.0.1:62147 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri Oct  9 17:53:44 2026] 127.0.0.1:62147 Closing
+[Fri Oct  9 17:53:44 2026] 127.0.0.1:62157 Accepted
+[Fri Oct  9 17:53:44 2026] 127.0.0.1:62157 Closing
+
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-cmkrhrj3

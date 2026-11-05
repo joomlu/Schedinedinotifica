@@ -1,0 +1,20 @@
+<svg width="960" height="720" viewBox="0 0 960 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="720" rx="44" fill="#FBF8F3"/>
+  <rect x="54" y="54" width="852" height="612" rx="34" fill="#FFFDFB" stroke="#E6DED4"/>
+  <rect x="112" y="132" width="368" height="388" rx="28" fill="#FFFFFF" stroke="#E6DED4"/>
+  <rect x="152" y="174" width="182" height="18" rx="9" fill="#EAD8DC"/>
+  <rect x="152" y="214" width="278" height="16" rx="8" fill="#EEE6DB"/>
+  <rect x="152" y="248" width="240" height="16" rx="8" fill="#EEE6DB"/>
+  <rect x="152" y="296" width="288" height="78" rx="22" fill="#F7F3EE"/>
+  <rect x="152" y="396" width="244" height="78" rx="22" fill="#E8F3F4"/>
+  <circle cx="662" cy="224" r="64" fill="#EAD8DC"/>
+  <circle cx="662" cy="214" r="28" fill="#8C1D2C"/>
+  <path d="M608 308C608 276.52 633.52 251 665 251C696.48 251 722 276.52 722 308V384H608V308Z" fill="#741826"/>
+  <rect x="544" y="418" width="236" height="132" rx="28" fill="#FFFFFF" stroke="#E6DED4"/>
+  <path d="M598 474H728" stroke="#1F6F78" stroke-width="16" stroke-linecap="round"/>
+  <path d="M598 516H694" stroke="#E0D6CA" stroke-width="14" stroke-linecap="round"/>
+  <path d="M598 554H652" stroke="#E0D6CA" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="808" cy="140" r="26" fill="#1F6F78"/>
+  <path d="M798 140H818" stroke="#FFF" stroke-width="8" stroke-linecap="round"/>
+  <path d="M808 130V150" stroke="#FFF" stroke-width="8" stroke-linecap="round"/>
+</svg>

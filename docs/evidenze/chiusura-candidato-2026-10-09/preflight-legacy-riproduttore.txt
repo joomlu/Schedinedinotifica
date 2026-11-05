@@ -1,0 +1,12 @@
+import os,pathlib,importlib.util,subprocess,json
+r=pathlib.Path.cwd();os.environ['DEPLOY_TEST_VENDOR']=str(r/'vendor')
+spec=importlib.util.spec_from_file_location('guardtests',r/'tests/Deployment/test_deploy_guards.py');t=importlib.util.module_from_spec(spec);spec.loader.exec_module(t)
+x=t.ArtisanIntegrationTests('test_actual_individual_cache_commands');x.setUp()
+try:
+ root=x.root;(root/'database/migrations').mkdir(parents=True)
+ helper=root/'guard-identificata.php';original=(r/'scripts/deployment/artisan.php').read_text();helper.write_text(original.replace('} catch (Throwable $e) {',"} catch (Throwable $e) {\n file_put_contents(__DIR__.'/causa-fixture.json',json_encode(['classe'=>get_class($e),'messaggio'=>$e->getMessage()]));"))
+ p=subprocess.run(['php','-d','opcache.enable_cli=0',str(helper),str(root),'pending',str(root/'database/migrations')],cwd=root,env=x.clean_env,capture_output=True,timeout=30)
+ cause=json.loads((root/'causa-fixture.json').read_text());assert p.returncode!=0 and cause['messaggio']=='Approved Laravel 12.69.3 required.',cause
+ report={'fase':'preflight_pending_legacy','exit':p.returncode,'causa_sanitizzata':cause,'guard_originale_non_modificata':True,'copia_identificata':'solo osservabilità catch','fixture_vendor':'Laravel11.31.0','DB':'endpoint sintetico127.0.0.1:1; rigetto prima della querypending','app_key':'fixtureAAAA','invocazione_php_mitigata':True,'effetto':'prepare termina prima di execute/install vendor12'}
+ pathlib.Path('/private/tmp/preflight-legacy-diagnosi.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))
+finally:x.doCleanups()

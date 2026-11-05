@@ -1,0 +1,85 @@
+{
+  "PHPUnit": {
+    "esito": "PASS",
+    "test": 39,
+    "asserzioni": 206
+  },
+  "browser": {
+    "esito": "PASS",
+    "test": 3,
+    "viewport": [
+      1440,
+      768,
+      390
+    ],
+    "stile_effettivo_uguale_Clienti": true,
+    "scritture_navigazione": 0
+  },
+  "guardie": {
+    "esito": "PASS",
+    "metodi": 5,
+    "override_rifiutati": 23,
+    "primo_tentativo": "Node non presente nel PATH; ripetuto con runtime previsto"
+  },
+  "sorgenti_sha256": {
+    "resources/views/layouts/sidebar.blade.php": "dc7cda4464d8234f551e63133ec516b2dbf6ae4be6d387b5a72ae013ad07cd0a",
+    "resources/views/schedina/partials/area-tabs.blade.php": "210c0a32a29a28a38a588209f364e3248c3d751093e3838ea417ed9ffb5836c0",
+    "resources/views/schedina/new.blade.php": "acfb231ea10e0bc5caaff9b3aaa85cc3991021aeeeb9ba411ac8043d0e6e1231",
+    "resources/views/schedina/edit.blade.php": "5d016657bbb2cb193d315c35f2e473002d034862293c1282dce73d7ab47cb50a",
+    "resources/views/schedina/list.blade.php": "40aab8dd745e4144654832170759f909697186f274f7d5084121fe0b1299d42c"
+  },
+  "protetti_sha256": {
+    "app/Http/Controllers/SchedinaController.php": "5bcc051b3df7b6d6a32321b8be497f8978f8819a7942b0e566751bc3c1b76028",
+    "app/Models/Schedina.php": "ebf403c54dc9b9678a6fe949a8798acba36a3ebcedcbf9807ee2e6cd6897c84e",
+    "routes/web.php": "86792b0a407b715b03b80e69c79cb15649c45272e38eed45d693a5a3245a61e1",
+    "resources/views/schedina/partials/form.blade.php": "71b8d3cb80623b4584953dc4c65ccb7f1005bb1a22c524de6685cf6159e403fb",
+    "resources/views/schedina/partials/scripts.blade.php": "5ba7282ab5767b01eef0ea401c01413d1864d409ae6431fa6b924a1acba8c06a",
+    "resources/scss/custom.scss": "34bd426f71a84c056b62da4d5b69e23424fc7b62b55eb86ff04ec9ddac41d63f"
+  },
+  "log_sha256": {
+    "verifica.log": "3406f048903f90482142b5d4398f64966fcd6bdd302df76520672171d4b4626e",
+    "verifica-stile.log": "e350a703f8d8c6502c40b9664e5c75dad52115da7d807da2a2ad0f22f1410f33",
+    "verifica-stile-r2.log": "8e23c90046fef7c2c59d21ea77f4bdbb679cef6fadfd279dbebdf2fe381b0a38"
+  },
+  "preflight": {
+    "recupero_precedente_allocato": 681992192,
+    "componenti": {
+      "decoded": 29061120,
+      "extracted": 423358464,
+      "archivio-base-verificato.json": 4096,
+      "dbdata": 206282752,
+      "db-tmp": 0,
+      "db-private.log": 4096,
+      "ridump.sql": 23244800,
+      "custody": 4096,
+      "sign.pub": 4096,
+      "private.php": 4096,
+      "pool.conf": 4096,
+      "fpm.log": 4096,
+      "fpm-console.log": 0,
+      "web": 4096,
+      "closed": 4096,
+      "apache.conf": 4096,
+      "apache-console.log": 0,
+      "apache.log": 4096
+    },
+    "cifrati_base_allocati": 362008576,
+    "liberi_VM": 3746631680,
+    "data_UTC": "2026-10-17T21:52:28.153249+00:00",
+    "margine_prudenziale": 1073741824,
+    "liberi_Mac": 3763355648,
+    "nessuna_rimozione": true,
+    "nessuna_manutenzione": true,
+    "nessun_PREPARE": true,
+    "recupero_storico_completo_prima_pulizia": 939229184,
+    "riserva_nuovo_candidato_per_recupero": 16777216,
+    "fabbisogno_stimato": 3709771776,
+    "limite": "Stima da recupero completo prima della pulizia, mai abbassata per i derivati rimossi;16MiB aggiuntivi per ognuno dei due nuovi recuperi PREPARE/S0, rollback coperto dal checkpoint e monitor nella riserva: non \u00e8 una misura del picco del nuovo candidato. Nessun riuso dello S0 precedente.",
+    "esito": "PASS_STIMA_CAPIENZA"
+  },
+  "limiti": [
+    "Timeout tablet nel primo confronto stile, successivo run completo PASS con timeout/retry invariati",
+    "Due BrokenPipe del proxy durante chiusura del primo run dopo i PASS; diagnostici conservati",
+    "Pubblicazione e monitor ancora da eseguire"
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "stato": "PASS_DELTA_TRASPORTO_CIFRATI",
+  "candidato_applicativo": "fa75a1f05ec013e6338ef423f8dc9f5db3e18e11",
+  "kit_precedente": "ddaf0807ba6c64ccc0cc386f6659ddf0932201939d18cd25212026755dc0b883",
+  "kit_nuovo": "f03a9cc82f4b151ab9ee8e34e5c0b3a368e289d192c40e5341298b96cf67e4da",
+  "componenti": {
+    "esito": "PASS_COMPONENTI_TRASPORTO_PARALLELO",
+    "casi": [
+      {
+        "caso": "positivo",
+        "esito": "PASS",
+        "errore_atteso": null,
+        "secondi": 0.131466
+      },
+      {
+        "caso": "limite-massimo",
+        "esito": "PASS",
+        "errore_atteso": null,
+        "secondi": 0.130973709
+      },
+      {
+        "caso": "delta",
+        "esito": "PASS",
+        "errore_atteso": null,
+        "secondi": 0.125638333
+      },
+      {
+        "caso": "hash-alterato",
+        "esito": "PASS",
+        "errore_atteso": "RuntimeError",
+        "secondi": 0.09953070900000005
+      },
+      {
+        "caso": "parte-troncata",
+        "esito": "PASS",
+        "errore_atteso": "RuntimeError",
+        "secondi": 0.05668712500000006
+      },
+      {
+        "caso": "parte-eccedente",
+        "esito": "PASS",
+        "errore_atteso": "TimeoutError",
+        "secondi": 0.05404437500000003
+      },
+      {
+        "caso": "timeout-globale",
+        "esito": "PASS",
+        "errore_atteso": "TimeoutError",
+        "secondi": 0.6075047089999999
+      },
+      {
+        "caso": "symlink-rifiutato",
+        "esito": "PASS",
+        "errore_atteso": "FileExistsError",
+        "secondi": 0.0006045000000001188
+      },
+      {
+        "caso": "file-esistente-rifiutato",
+        "esito": "PASS",
+        "errore_atteso": "FileExistsError",
+        "secondi": 0.00044187499999992497
+      },
+      {
+        "caso": "sorgente-errata",
+        "esito": "PASS",
+        "errore_atteso": "RuntimeError",
+        "secondi": 7.874999999879506e-06
+      },
+      {
+        "caso": "offerta-invalida",
+        "esito": "PASS",
+        "errore_atteso": "RuntimeError",
+        "secondi": 1.7041999999856117e-05
+      },
+      {
+        "caso": "errore-scrittura",
+        "esito": "PASS",
+        "errore_atteso": "OSError",
+        "secondi": 0.0708930000000001
+      }
+    ],
+    "concorrenza_massima_osservata": 4,
+    "limite_globale_invariato": 120,
+    "hash_finali_e_permessi": true,
+    "processi_timeout_conclusi": true,
+    "nessuna_rete_reale_o_dato_operativo": true,
+    "sorgente_SHA256": "aa86cde87bf23eb20599d70505a1861e699a8dc21204bc87501a7e50b8e5c434"
+  },
+  "reale": {
+    "esito": "PASS_TRASPORTO_CIFRATI",
+    "secondi": 45.322112790999995,
+    "budget_globale": 120,
+    "flussi_massimi": 4,
+    "byte_ricevuti": 544582256,
+    "parti": 34,
+    "parti_previste": 34,
+    "ambito": "Sola qualifica trasporto su cifrati del PREPARE interrotto; NON ricevuta C5, nessuna accettazione di base o rilascio"
+  },
+  "delta": "Solo receiver.fetch e nuovo modulo parallel_fetch; restanti componenti byte-identici",
+  "invarianti": [
+    "offerta autenticata",
+    "HMAC e SHA completi",
+    "volume e custodie",
+    "chiave separata VM",
+    "120s globali per trasferimento e hash",
+    "recupero indipendente completo",
+    "riserva1GiB e gateMac8/Extra40GiB",
+    "PREPARE e S0 nuovi",
+    "guardiano e RUN invariati"
+  ],
+  "NONPASS_precedenti": "Primo collaudo rifiuta la terminazione dei gruppi della fixture sul Mac; sostituita con chiusura/reap dei soli figli SSH. Prima misura concorrenza non valida fra clock monotoni di processi distinti: misura aggiornata a timestamp condivisi. Esiti precedenti non sommati.",
+  "nessun_rilascio_da_questa_prova": true
+}

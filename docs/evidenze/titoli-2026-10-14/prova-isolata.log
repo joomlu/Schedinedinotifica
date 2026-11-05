@@ -1,0 +1,77 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-14  1:01:11 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-8cunh60t; database=test_geo_c9e87408bed4a709c55c4cb72bec0c47; MySQL pid=56, porta=49893; HTTP pid=81, porta=54809
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /tmp/schedine-test-8cunh60t/checkout/phpunit.xml
+
+..FF                                                                4 / 4 (100%)
+
+Time: 00:00.624, Memory: 42.50 MB
+
+There were 2 failures:
+
+1) Tests\Feature\TitoliFormularioAudit::test_switch_deselezionato_deve_disattivare
+Il formulario omette attivo quando lo switch è deselezionato.
+Failed asserting that true is false.
+
+/tmp/schedine-test-8cunh60t/checkout/tests/Feature/TitoliFormularioAudit.php:62
+
+2) Tests\Feature\TitoliFormularioAudit::test_record_creato_in_a_non_deve_essere_letto_o_modificato_in_b
+La struttura B legge o modifica il titolo creato da A.
+Failed asserting that true is false.
+
+/tmp/schedine-test-8cunh60t/checkout/tests/Feature/TitoliFormularioAudit.php:76
+
+FAILURES!
+Tests: 4, Assertions: 38, Failures: 2.
+TEST interrotto senza fallback: phpunit-1 fallito: 1
+mysql-error.log:
+2026-10-14  1:01:17 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 56
+2026-10-14  1:01:17 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-14  1:01:17 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-14  1:01:17 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-14  1:01:17 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-14  1:01:17 0 [Note] InnoDB: Using Linux native AIO
+2026-10-14  1:01:17 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-14  1:01:17 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-14  1:01:17 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-14  1:01:17 0 [Note] InnoDB: End of log at LSN=45568
+2026-10-14  1:01:17 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-14  1:01:17 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-14  1:01:17 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-14  1:01:17 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-14  1:01:17 0 [Note] InnoDB: log sequence number 45568; transaction id 14
+2026-10-14  1:01:17 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-14  1:01:17 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-8cunh60t/mysql-data/ib_buffer_pool
+2026-10-14  1:01:17 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-14  1:01:17 0 [Note] InnoDB: Buffer pool(s) load completed at 261014  1:01:17
+2026-10-14  1:01:18 0 [Note] Server socket created on IP: '127.0.0.1', port: '49893'.
+2026-10-14  1:01:18 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-14  1:01:18 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-8cunh60t/mysql.sock'  port: 49893  MariaDB Server
+
+http.log:
+[Wed Oct 14 01:01:18 2026] PHP 8.3.33 Development Server (http://127.0.0.1:54809) started
+[Wed Oct 14 01:01:18 2026] 127.0.0.1:33624 Accepted
+[Wed Oct 14 01:01:18 2026] 127.0.0.1:33624 Closed without sending a request; it was probably just an unused speculative preconnection
+[Wed Oct 14 01:01:18 2026] 127.0.0.1:33624 Closing
+[Wed Oct 14 01:01:19 2026] 127.0.0.1:33634 Accepted
+[Wed Oct 14 01:01:19 2026] 127.0.0.1:33634 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-8cunh60t
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/scripts/development/ambiente-interno.py", line 76, in <module>
+    isolated(['python3',WORK+'/tests/Isolation/run.py','--phpunit',*args.file])
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/scripts/development/ambiente-interno.py", line 49, in isolated
+    guest(['sudo','bash',TOOLS+'/namespace-selinux-visibile.sh','runuser','-u','collaudo','--','env','-i','HOME=/home/collaudo.guest','PATH='+PATH,'LANG=C.UTF-8',*argv])
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/scripts/development/ambiente-interno.py", line 9, in guest
+    return subprocess.run(['limactl','shell',VM,*argv],check=True,**kw)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['limactl', 'shell', 'schedine-sviluppo-interno', 'sudo', 'bash', '/opt/schedine-sviluppo/strumenti/namespace-selinux-visibile.sh', 'runuser', '-u', 'collaudo', '--', 'env', '-i', 'HOME=/home/collaudo.guest', 'PATH=/usr/local/bin:/opt/schedine-runner-runtime-Q4WIbkDa/node-v20.18.2-linux-arm64/bin:/usr/bin:/bin', 'LANG=C.UTF-8', 'python3', '/home/collaudo.guest/schedine-sviluppo/tests/Isolation/run.py', '--phpunit', 'tests/Feature/TitoliFormularioAudit.php']' returned non-zero exit status 1.

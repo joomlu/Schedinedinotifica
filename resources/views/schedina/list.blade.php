@@ -1,0 +1,147 @@
+@extends('layouts.master')
+@section('title', 'Schedine')
+
+@section('content')
+@component('components.breadcrumb')
+    @slot('li_1')
+        Tabelle
+    @endslot
+    @slot('title')
+        Schedine
+    @endslot
+@endcomponent
+
+@include('schedina.partials.area-tabs')
+
+@php
+    $pageTitle = $pageTitle ?? 'Schedine';
+    $pageSubtitle = $pageSubtitle ?? 'Elenco schedine della struttura';
+    $createText = $createText ?? 'Nuova Schedina';
+    $formatShortDate = function ($value) {
+        if (!$value) {
+            return '-';
+        }
+
+        try {
+            return \Carbon\Carbon::parse($value)->format('j/n/y');
+        } catch (\Throwable $e) {
+            return $value;
+        }
+    };
+@endphp
+
+<div class="row">
+    <div class="col-lg-12">
+        <x-crud-table
+            :title="$pageTitle"
+            :subtitle="$pageSubtitle"
+            searchPlaceholder="Cerca per codice, nome, cognome, arrivo, partenza, nazione, città o camera..."
+            searchId="schedineSearch"
+            :createText="$createText"
+            createHref="{{ route('newschedina') }}"
+            createTarget="#"
+            tableId="schedineTable"
+            :paginator="$schedinas"
+        >
+            <x-slot name="columns">
+                <tr>
+                    <th style="width: 10%;">Codice</th>
+                    <th style="width: 13%;">Nome</th>
+                    <th style="width: 13%;">Cogn.</th>
+                    <th style="width: 8%;">Arr.</th>
+                    <th style="width: 8%;">Part.</th>
+                    <th style="width: 12%;">Naz.</th>
+                    <th style="width: 11%;">Città</th>
+                    <th style="width: 6%;">Per.</th>
+                    <th style="width: 6%;">Cam.</th>
+                    <th style="width: 13%;">Tassa</th>
+                    <th class="text-end" style="width: 14%; min-width: 190px;">Azioni</th>
+                </tr>
+            </x-slot>
+
+            <x-slot name="rows">
+                @foreach($schedinas as $schedina)
+                    <tr
+                        class="data-row"
+                        data-id="{{ $schedina->id }}"
+                        data-codice="{{ $schedina->scheda }}"
+                        data-nome="{{ $schedina->name }}"
+                        data-cognome="{{ $schedina->surname }}"
+                        data-arrivo="{{ $schedina->arrive }}"
+                        data-partenza="{{ $schedina->departure }}"
+                        data-nazione="{{ $schedina->oa_country }}"
+                        data-citta="{{ $schedina->oa_city }}"
+                        data-persone="{{ $schedina->cant_people }}"
+                        data-camera="{{ $schedina->room }}"
+                        data-tassa="{{ $schedina->tassa_configurata ? number_format($schedina->tassa_totale, 2, ',', '.') : 'Calcolo non disponibile' }}"
+                    >
+                        <td class="align-middle">
+                            @if($schedina->scheda)
+                                <span class="badge bg-dark-subtle text-dark">{{ $schedina->scheda }}</span>
+                            @else
+                                <span class="badge bg-warning-subtle text-warning">Da generare</span>
+                            @endif
+                        </td>
+                        <td class="align-middle">{{ $schedina->name ?: '-' }}</td>
+                        <td class="align-middle">{{ $schedina->surname ?: '-' }}</td>
+                        <td class="align-middle text-nowrap">{{ $formatShortDate($schedina->arrive) }}</td>
+                        <td class="align-middle text-nowrap">{{ $formatShortDate($schedina->departure) }}</td>
+                        <td class="align-middle">{{ $schedina->oa_country ?: '-' }}</td>
+                        <td class="align-middle">{{ $schedina->oa_city ?: '-' }}</td>
+                        <td class="align-middle">{{ $schedina->cant_people ?: '-' }}</td>
+                        <td class="align-middle">{{ $schedina->room ?: '-' }}</td>
+                        <td class="align-middle">
+                            @if($schedina->tassa_configurata)
+                                <span class="fw-semibold">{{ number_format((float) ($schedina->tassa_totale ?? 0), 2, ',', '.') }} €</span>
+                                @if(!empty($schedina->tassa_warning))
+                                    <div class="small text-muted mt-1">{{ $schedina->tassa_warning }}</div>
+                                @endif
+                            @else
+                                <span class="text-muted">Calcolo non disponibile</span>
+                            @endif
+                        </td>
+                        <td class="text-end align-middle">
+                            <div class="d-inline-flex gap-1">
+                                <a href="{{ route('schedina.copy', ['id' => $schedina->id]) }}" class="btn btn-soft-primary btn-sm" title="Copia schedina">
+                                    <i class="ri-file-copy-line fs-16 align-middle"></i>
+                                </a>
+                                <a href="{{ route('schedina.tassa.anteprima', ['id' => $schedina->id]) }}" class="btn btn-soft-secondary btn-sm" title="Anteprima ricevuta" aria-label="Anteprima ricevuta" target="_blank" rel="noopener">
+                                    <i class="ri-printer-line fs-16 align-middle"></i>
+                                </a>
+                                <a href="{{ route('schedina.edit', ['id' => $schedina->id]) }}" class="btn btn-soft-info btn-sm" title="{{ request()->routeIs('schedina.bozze') ? 'Riprendi compilazione' : 'Modifica' }}" aria-label="{{ request()->routeIs('schedina.bozze') ? 'Riprendi compilazione' : 'Modifica' }}">
+                                    <i class="ri-edit-line fs-16 align-middle"></i>
+                                </a>
+                                <form
+                                    action="{{ route('schedina.destroy', ['id' => $schedina->id]) }}"
+                                    method="POST"
+                                    class="d-inline js-schedina-delete-form"
+                                    data-confirm-label="{{ $schedina->scheda ? 'la schedina ' . $schedina->scheda . (trim(($schedina->name ?: '') . ' ' . ($schedina->surname ?: '')) !== '' ? ' di ' . trim(($schedina->name ?: '') . ' ' . ($schedina->surname ?: '')) : '') : (trim(($schedina->name ?: '') . ' ' . ($schedina->surname ?: '')) !== '' ? 'la schedina di ' . trim(($schedina->name ?: '') . ' ' . ($schedina->surname ?: '')) : 'questa schedina') }}"
+                                >
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-soft-danger btn-sm" title="Elimina">
+                                        <i class="ri-delete-bin-line fs-16 align-middle"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </x-slot>
+        </x-crud-table>
+    </div>
+</div>
+@endsection
+
+@section('script')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.js-schedina-delete-form').forEach(function (form) {
+            form.addEventListener('click', function (event) {
+                event.stopPropagation();
+            });
+        });
+
+    });
+</script>
+@endsection

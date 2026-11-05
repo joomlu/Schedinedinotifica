@@ -1,0 +1,13 @@
+{
+  "stato": "SOSPESA_TRA_SCENARI_PER_DIFETTO_CALENDARIO",
+  "uscita_coordinamento": 75,
+  "errore_funzionale_nello_scenario_regressioni": false,
+  "scenari_completati": {
+    "anteprima": 3,
+    "circuito": 6,
+    "html": 6
+  },
+  "nessun_browser_interrotto": true,
+  "nessun_invio_reale": true,
+  "fixture_rimosse": true
+}

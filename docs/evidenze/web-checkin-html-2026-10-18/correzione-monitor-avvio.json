@@ -1,0 +1,10 @@
+{
+  "esito": "MONITOR_FINALE_AVVIATO_DOPO_PULIZIA",
+  "inizio_UTC": "2026-10-18T18:17:38.457035+00:00",
+  "unit": "schedine-html-monitor-1c3b7a6c",
+  "script_sha256": "da6b74d0b20b7f2257f5320aaceda028efa778acc37b010e95e64fde4e7ca760",
+  "campioni_richiesti": 31,
+  "durata_minima_secondi": 900,
+  "HTTP_TLS_CSS_richiesti": 279,
+  "SMTP_FPM_blocchi_verificati_a_ogni_campione": true
+}

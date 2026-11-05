@@ -1,0 +1,16 @@
+{
+  "migration": "2026_10_07_180000_protect_istat_cycle",
+  "database": "schedinedinotifica",
+  "migration_eseguita": true,
+  "migration_exit": 0,
+  "esito": "PASS",
+  "restore_precondizione": "PASS",
+  "checksum_backup": "PASS",
+  "integrita61tabelle_originali": "PASS",
+  "credenziali_contenitori_decifrabili_e_valori_identici": "PASS",
+  "altre_migration_non_applicate": true,
+  "nuove_tabelle": 2,
+  "solo_migration_autorizzata": true,
+  "trasmissioni": false,
+  "browser": "da verificare"
+}

@@ -1,0 +1,72 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-26  0:04:48 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-6mredw2l; database=test_geo_d1eebdf4dc8fc3f4386689f728c8e2df; MySQL pid=56, porta=50645; HTTP pid=79, porta=53865
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+XML_FIXTURE_BASE64=PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPG1vdmltZW50aT4KICA8Y29kaWNlPlRFU1QtRklYVFVSRTwvY29kaWNlPgogIDxwcm9kb3R0bz5TY2hlZGluZWRpbm90aWZpY2E8L3Byb2RvdHRvPgogIDxtb3ZpbWVudG8+CiAgICA8ZGF0YT4yMDI2MDQwMTwvZGF0YT4KICAgIDxzdHJ1dHR1cmE+CiAgICAgIDxhcGVydHVyYT5TSTwvYXBlcnR1cmE+CiAgICAgIDxjYW1lcmVvY2N1cGF0ZT4xPC9jYW1lcmVvY2N1cGF0ZT4KICAgICAgPGNhbWVyZWRpc3BvbmliaWxpPjEwPC9jYW1lcmVkaXNwb25pYmlsaT4KICAgICAgPGxldHRpZGlzcG9uaWJpbGk+MjA8L2xldHRpZGlzcG9uaWJpbGk+CiAgICA8L3N0cnV0dHVyYT4KICAgIDxhcnJpdmk+CiAgICAgIDxhcnJpdm8+CiAgICAgICAgPGlkc3doPlM5MDAwMDAxPC9pZHN3aD4KICAgICAgICA8dGlwb2FsbG9nZ2lhdG8+MTc8L3RpcG9hbGxvZ2dpYXRvPgogICAgICAgIDxpZGNhcG8+PC9pZGNhcG8+CiAgICAgICAgPGNvZ25vbWU+RCfDgG5nZWxvICZsdDtUZXN0Jmd0OzwvY29nbm9tZT4KICAgICAgICA8bm9tZT7DiGxpYSAmYW1wOyBGaXh0dXJlPC9ub21lPgogICAgICAgIDxzZXNzbz5NPC9zZXNzbz4KICAgICAgICA8Y2l0dGFkaW5hbnphPjEwMDAwMDEwMDwvY2l0dGFkaW5hbnphPgogICAgICAgIDxzdGF0b3Jlc2lkZW56YT4xMDAwMDAxMDA8L3N0YXRvcmVzaWRlbnphPgogICAgICAgIDxsdW9nb3Jlc2lkZW56YT40MTIwNTgwOTE8L2x1b2dvcmVzaWRlbnphPgogICAgICAgIDxkYXRhbmFzY2l0YT4yMDAwMDEwMTwvZGF0YW5hc2NpdGE+CiAgICAgICAgPHN0YXRvbmFzY2l0YT4xMDAwMDAxMDA8L3N0YXRvbmFzY2l0YT4KICAgICAgICA8Y29tdW5lbmFzY2l0YT40MTIwNTgwOTE8L2NvbXVuZW5hc2NpdGE+CiAgICAgICAgPHRpcG90dXJpc21vPkJhbG5lYXJlPC90aXBvdHVyaXNtbz4KICAgICAgICA8bWV6em90cmFzcG9ydG8+QXV0bzwvbWV6em90cmFzcG9ydG8+CiAgICAgICAgPGNhbmFsZXByZW5vdGF6aW9uZT5EaXJldHRhIHdlYjwvY2FuYWxlcHJlbm90YXppb25lPgogICAgICAgIDx0aXRvbG9zdHVkaW8+PC90aXRvbG9zdHVkaW8+CiAgICAgICAgPHByb2Zlc3Npb25lPjwvcHJvZmVzc2lvbmU+CiAgICAgIDwvYXJyaXZvPgogICAgICA8YXJyaXZvPgogICAgICAgIDxpZHN3aD5DOTAwMDAwMTwvaWRzd2g+CiAgICAgICAgPHRpcG9hbGxvZ2dpYXRvPjE5PC90aXBvYWxsb2dnaWF0bz4KICAgICAgICA8aWRjYXBvPlM5MDAwMDAxPC9pZGNhcG8+CiAgICAgICAgPGNvZ25vbWU+U2ludGV0aWNvPC9jb2dub21lPgogICAgICAgIDxub21lPk1pbm9yZSBGaXh0dXJlPC9ub21lPgogICAgICAgIDxzZXNzbz5GPC9zZXNzbz4KICAgICAgICA8Y2l0dGFkaW5hbnphPjEwMDAwMDEwMDwvY2l0dGFkaW5hbnphPgogICAgICAgIDxzdGF0b3Jlc2lkZW56YT4xMDAwMDAyMTY8L3N0YXRvcmVzaWRlbnphPgogICAgICAgIDxsdW9nb3Jlc2lkZW56YT5CZXJsaW5vPC9sdW9nb3Jlc2lkZW56YT4KICAgICAgICA8ZGF0YW5hc2NpdGE+MjAyMDAyMjk8L2RhdGFuYXNjaXRhPgogICAgICAgIDxzdGF0b25hc2NpdGE+MTAwMDAwMjE2PC9zdGF0b25hc2NpdGE+CiAgICAgICAgPGNvbXVuZW5hc2NpdGE+PC9jb211bmVuYXNjaXRhPgogICAgICAgIDx0aXBvdHVyaXNtbz5CYWxuZWFyZTwvdGlwb3R1cmlzbW8+CiAgICAgICAgPG1lenpvdHJhc3BvcnRvPkF1dG88L21lenpvdHJhc3BvcnRvPgogICAgICAgIDxjYW5hbGVwcmVub3RhemlvbmU+RGlyZXR0YSB3ZWI8L2NhbmFsZXByZW5vdGF6aW9uZT4KICAgICAgICA8dGl0b2xvc3R1ZGlvPjwvdGl0b2xvc3R1ZGlvPgogICAgICAgIDxwcm9mZXNzaW9uZT48L3Byb2Zlc3Npb25lPgogICAgICA8L2Fycml2bz4KICAgIDwvYXJyaXZpPgogIDwvbW92aW1lbnRvPgogIDxtb3ZpbWVudG8+CiAgICA8ZGF0YT4yMDI2MDQwMjwvZGF0YT4KICAgIDxzdHJ1dHR1cmE+CiAgICAgIDxhcGVydHVyYT5TSTwvYXBlcnR1cmE+CiAgICAgIDxjYW1lcmVvY2N1cGF0ZT4wPC9jYW1lcmVvY2N1cGF0ZT4KICAgICAgPGNhbWVyZWRpc3BvbmliaWxpPjEwPC9jYW1lcmVkaXNwb25pYmlsaT4KICAgICAgPGxldHRpZGlzcG9uaWJpbGk+MjA8L2xldHRpZGlzcG9uaWJpbGk+CiAgICA8L3N0cnV0dHVyYT4KICAgIDxwYXJ0ZW56ZT4KICAgICAgPHBhcnRlbnphPgogICAgICAgIDxpZHN3aD5TOTAwMDAwMTwvaWRzd2g+CiAgICAgICAgPHRpcG9hbGxvZ2dpYXRvPjE3PC90aXBvYWxsb2dnaWF0bz4KICAgICAgICA8YXJyaXZvPjIwMjYwNDAxPC9hcnJpdm8+CiAgICAgIDwvcGFydGVuemE+CiAgICAgIDxwYXJ0ZW56YT4KICAgICAgICA8aWRzd2g+QzkwMDAwMDE8L2lkc3doPgogICAgICAgIDx0aXBvYWxsb2dnaWF0bz4xOTwvdGlwb2FsbG9nZ2lhdG8+CiAgICAgICAgPGFycml2bz4yMDI2MDQwMTwvYXJyaXZvPgogICAgICA8L3BhcnRlbnphPgogICAgPC9wYXJ0ZW56ZT4KICA8L21vdmltZW50bz4KPC9tb3ZpbWVudGk+Cg==
+PASS: fixture nota, arrivi=2, partenze=2, presenze=2; XSD e confronto XML sintetico.
+PASS: due processi/connessioni MySQL simultanei, una sola prenotazione ISTAT; zero trasporti.
+PASS: superadmin CRM sintetico nel solo runtime effimero.
+
+Running 20 tests using 1 worker
+
+  ✓   1 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT desktop: configurazione protetta, trasporto OFF e storico (2.5s)
+  ✓   2 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT tablet: configurazione protetta, trasporto OFF e storico (2.1s)
+  ✓   3 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT mobile: configurazione protetta, trasporto OFF e storico (2.0s)
+  ✓   4 tests/Feature/public-contact-confirmation.playwright.spec.js:4:3 › conferma contatto: HTTP200 con JSON senza ricevuta non simula un salvataggio (2.5s)
+  ✓   5 tests/Feature/public-contact-confirmation.playwright.spec.js:4:3 › conferma contatto: HTTP200 con JSON negativo non simula un salvataggio (2.5s)
+  ✓   6 tests/Feature/public-contact-confirmation.playwright.spec.js:4:3 › conferma contatto: HTTP200 con risposta non JSON non simula un salvataggio (2.4s)
+  ✓   7 tests/Feature/public-site-completion.playwright.spec.js:20:3 › sito completo: percorso reale, storia browser, versioni e CRM a 1440 (16.6s)
+  ✓   8 tests/Feature/public-site-completion.playwright.spec.js:20:3 › sito completo: percorso reale, storia browser, versioni e CRM a 768 (16.3s)
+  ✓   9 tests/Feature/public-site-completion.playwright.spec.js:20:3 › sito completo: percorso reale, storia browser, versioni e CRM a 390 (17.5s)
+  ✓  10 tests/Feature/public-site-completion.playwright.spec.js:85:1 › form: errore nativo conserva dati, piano, servizio, interesse e motivo anche con hash demo (2.8s)
+  ✓  11 tests/Feature/public-site-completion.playwright.spec.js:121:1 › form: due richieste consecutive conservano il token CSRF senza ricarica (3.7s)
+  ✓  12 tests/Feature/public-site-images.playwright.spec.js:3:3 › ampliamenti: immagini decodificate e viste a 1440 (2.2s)
+  ✓  13 tests/Feature/public-site-images.playwright.spec.js:3:3 › ampliamenti: immagini decodificate e viste a 768 (2.1s)
+  ✓  14 tests/Feature/public-site-images.playwright.spec.js:3:3 › ampliamenti: immagini decodificate e viste a 390 (1.9s)
+Misure layout / [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+Misure layout /moduli [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+Misure layout /ampliamenti [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+Misure layout /demo [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+Misure layout /prezzi [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+Misure layout /contatti [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[{"tag":"INPUT","classe":"form-honeypot","x":-10000,"destra":-9992,"larghezza":8}]}
+Misure layout /note-legali [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+Misure layout /privacy [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+Misure layout /cookie [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+  ✓  15 tests/Feature/public-site-renewal.playwright.spec.js:12:3 › sito pubblico: nove pagine, navigazione e accessi a 1440 (24.4s)
+Misure modulo recapiti-aperti [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+Misure modulo errore422 [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+Misure modulo reset-conferma-chiusa [33m1440[39m {"viewport":1440,"scroll":1440,"elementi":[]}
+  ✓  16 tests/Feature/public-site-renewal.playwright.spec.js:214:3 › contatti: obbligatori, errori, invio sintetico e modale a 1440 (7.6s)
+Misure layout / [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /moduli [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /ampliamenti [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /demo [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /prezzi [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /contatti [33m768[39m {"viewport":768,"scroll":768,"elementi":[{"tag":"INPUT","classe":"form-honeypot","x":-10000,"destra":-9992,"larghezza":8}]}
+Misure layout /note-legali [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /privacy [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure layout /cookie [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+  ✓  17 tests/Feature/public-site-renewal.playwright.spec.js:12:3 › sito pubblico: nove pagine, navigazione e accessi a 768 (19.0s)
+Misure modulo recapiti-aperti [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure modulo errore422 [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+Misure modulo reset-conferma-chiusa [33m768[39m {"viewport":768,"scroll":768,"elementi":[]}
+  ✓  18 tests/Feature/public-site-renewal.playwright.spec.js:214:3 › contatti: obbligatori, errori, invio sintetico e modale a 768 (6.8s)
+Misure layout / [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /moduli [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /ampliamenti [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /demo [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /prezzi [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /contatti [33m390[39m {"viewport":390,"scroll":390,"elementi":[{"tag":"INPUT","classe":"form-honeypot","x":-10000,"destra":-9992,"larghezza":8}]}
+Misure layout /note-legali [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /privacy [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure layout /cookie [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+  ✓  19 tests/Feature/public-site-renewal.playwright.spec.js:12:3 › sito pubblico: nove pagine, navigazione e accessi a 390 (17.6s)
+Misure modulo recapiti-aperti [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure modulo errore422 [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+Misure modulo reset-conferma-chiusa [33m390[39m {"viewport":390,"scroll":390,"elementi":[]}
+  ✓  20 tests/Feature/public-site-renewal.playwright.spec.js:214:3 › contatti: obbligatori, errori, invio sintetico e modale a 390 (6.1s)
+
+  20 passed (2.7m)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-6mredw2l

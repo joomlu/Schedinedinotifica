@@ -1,0 +1,50 @@
+{
+  "data": "2026-10-09",
+  "stato": "DeltaLaravel12 verificato, separato dal candidato318",
+  "worktree": "/Users/jorgeluccitelli/.codex/worktrees/laravel12-verifica/Schedinedinotifica",
+  "head": "faef3cf01f43d19b20d1558c1fbd3ae32e48d849",
+  "candidato_preservato_sha256": "f0f957881de55377b8cda0c91818f961240e08a81f1f832b6398d7e6c8f7255a",
+  "file_delta": [
+    {
+      "percorso": "composer.json",
+      "sha256": "01f998ab9b65ad9cf210f574b77940c2d5684a295a84fe0c7cf7cd1c41783c56",
+      "byte": 1931,
+      "prima_sha256": "895f8ada2b4eeeff8b36d4f493e1ec1d50955afc6c9dcb5908b1bef2db87204c"
+    },
+    {
+      "percorso": "composer.lock",
+      "sha256": "857bc7f6eb12f80852e49cfa3c46b04db064585175427a17fb176f5c06bef3e4",
+      "byte": 341101,
+      "prima_sha256": "ace4bae15b0e49d891ed4a97acb8f9821574f57840e62cad871ccca7390560e4"
+    },
+    {
+      "percorso": "tests/Unit/ComponentiImportFormTest.php",
+      "sha256": "93f2b53c24ba93155535afb81e7dba9227915340257468dd53eae41172c78c32",
+      "byte": 20243,
+      "prima_sha256": "5426d5daa63a519f491357ffd8d2c9de882b854f83fc5e50b3bf957de26b5c59"
+    },
+    {
+      "percorso": "tests/Feature/Laravel12ResidualExposureAudit.php",
+      "sha256": "4ad279b7514094e0f20f967f2901a795a1676dbfc2d3cfd97c457d87a77ee99d",
+      "byte": 2402,
+      "prima_sha256": null
+    }
+  ],
+  "prove": {
+    "globale": "750/8252 PASS;5deprecazioniPHPUnit",
+    "mirati_import": "16/103 PASS",
+    "sicurezza": "2/16 PASS",
+    "browser": "26/26 PASS",
+    "build": "PASS nei runtimeisolati",
+    "composer_audit": "0avvisi,0abbandonati",
+    "php_no_dev": "PASS8.3.33 installazione84pacchetti/autoload12.69.3"
+  },
+  "limiti": [
+    "MinimoPHP8.3 effettivo, verificareCLI/FPMdestinatario",
+    "npm53avvisi già classificati, nessun aggiornamento di asset in questa fase",
+    "PHPUnit5deprecazioni mantenuteP2",
+    "messaggio proxy corpo incompleto dopo8browserPASS: evidenza preservata, non attribuita adapp",
+    "Nessun test o deploy produttivo, nessuna trasmissione, nessun commit/push",
+    "Herd rimane framework11.31.0, delta non integrato nel candidato principale"
+  ]
+}

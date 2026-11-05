@@ -1,0 +1,188 @@
+test_actual_cache_clear_failures_are_nonzero (test_deploy_guards.ArtisanIntegrationTests) ... FAIL
+test_actual_cache_writes_fail_on_readonly_runtime (test_deploy_guards.ArtisanIntegrationTests) ... FAIL
+test_actual_individual_cache_commands (test_deploy_guards.ArtisanIntegrationTests) ... ERROR
+test_all_environment_path_overrides_blocked (test_deploy_guards.ArtisanIntegrationTests) ... ok
+test_cached_config_cannot_hide_unsafe_raw_config (test_deploy_guards.ArtisanIntegrationTests) ... FAIL
+test_configured_app_key_cannot_diverge_from_dotenv (test_deploy_guards.ArtisanIntegrationTests) ... ok
+test_each_configurable_runtime_path_is_restricted (test_deploy_guards.ArtisanIntegrationTests) ... ok
+test_internal_cache_write_failure_is_nonzero (test_deploy_guards.ArtisanIntegrationTests) ... ok
+test_internal_view_compilation_failure_is_nonzero (test_deploy_guards.ArtisanIntegrationTests) ... ok
+test_storage_link_real_command_and_exact_target (test_deploy_guards.ArtisanIntegrationTests) ... FAIL
+test_view_compiled_path_cannot_delete_persistent_data (test_deploy_guards.ArtisanIntegrationTests) ... ok
+test_env_change_during_exit_cleanup_is_critical_and_closes_site (test_deploy_guards.EnvironmentTests) ... ok
+test_every_env_mutation_is_critical (test_deploy_guards.EnvironmentTests) ... ok
+test_exit_detects_env_change_before_maintenance (test_deploy_guards.EnvironmentTests) ... ok
+test_failing_project_command_cannot_hide_env_change (test_deploy_guards.EnvironmentTests) ... ok
+test_literal_key_required (test_deploy_guards.EnvironmentTests) ... ok
+test_success_exit_rechecks_env_and_releases_lock (test_deploy_guards.EnvironmentTests) ... ok
+test_symlink_and_hardlink_env_rejected (test_deploy_guards.EnvironmentTests) ... ok
+test_bad_assets_rejected (test_deploy_guards.ExecutionTests) ... ok
+test_build_pipeline_changes_blocked_before_execution (test_deploy_guards.ExecutionTests) ... ok
+test_composer_installation_paths_restricted (test_deploy_guards.ExecutionTests) ... ok
+test_each_deployment_stage_failure_retains_guard (test_deploy_guards.ExecutionTests) ... ok
+test_every_cache_failure_stops_the_sequence (test_deploy_guards.ExecutionTests) ... ok
+test_https_errors_and_wrong_status_propagate (test_deploy_guards.ExecutionTests) ... ok
+test_migrations_require_explicit_authorization (test_deploy_guards.ExecutionTests) ... ok
+test_nonzero_commands_and_timeouts_propagate (test_deploy_guards.ExecutionTests) ... ok
+test_candidate_git_failures_propagate (test_deploy_guards.GitTests) ... ok
+test_clean_and_dirty (test_deploy_guards.GitTests) ... ok
+test_env_added_rejected (test_deploy_guards.GitTests) ... ok
+test_existing_migration_change_rejected (test_deploy_guards.GitTests) ... ok
+test_git_errors_never_become_clean (test_deploy_guards.GitTests) ... ok
+test_move_into_public_images_rejected (test_deploy_guards.GitTests) ... ok
+test_move_into_storage_app_rejected (test_deploy_guards.GitTests) ... ok
+test_move_out_of_public_images_rejected (test_deploy_guards.GitTests) ... ok
+test_move_out_of_storage_app_rejected (test_deploy_guards.GitTests) ... ok
+test_new_migration_allowed_for_review (test_deploy_guards.GitTests) ... ok
+test_persistent_deletion_rejected (test_deploy_guards.GitTests) ... ok
+test_regular_fast_forward_allowed (test_deploy_guards.GitTests) ... ok
+test_untracked_and_hidden_index_flags (test_deploy_guards.GitTests) ... ok
+test_altered_index_rejected_before_maintenance (test_deploy_guards.MaintenanceTests) ... ok
+test_before_maintenance_failure_keeps_original_site (test_deploy_guards.MaintenanceTests) ... ok
+test_cleanup_failure_after_open_recloses_site (test_deploy_guards.MaintenanceTests) ... ok
+test_failed_child_cleanup_does_not_claim_safe_state (test_deploy_guards.MaintenanceTests) ... ok
+test_failed_recovery_never_claims_maintenance (test_deploy_guards.MaintenanceTests) ... ok
+test_failure_after_open_reinstates_verified_guard (test_deploy_guards.MaintenanceTests) ... ok
+test_malformed_cookie_still_returns_503 (test_deploy_guards.MaintenanceTests) ... ok
+test_only_signed_cookie_bypasses_guard (test_deploy_guards.MaintenanceTests) ... ok
+test_partial_down_file_failure_keeps_static_guard (test_deploy_guards.MaintenanceTests) ... ok
+test_real_http_503_headers_without_vendor (test_deploy_guards.MaintenanceTests) ... ok
+test_static_503_with_broken_vendor (test_deploy_guards.MaintenanceTests) ... ok
+test_static_503_without_vendor_or_bootstrap (test_deploy_guards.MaintenanceTests) ... ok
+test_all_project_php_calls_disable_cli_opcache (test_deploy_guards.PHPCliTests) ... ok
+test_conflicting_cli_flags_and_no_ini_rejected (test_deploy_guards.PHPCliTests) ... ok
+test_version_gate_is_exact_and_no_other_validator_removed (test_deploy_guards.PHPCliTests) ... ok
+test_indirect_storage_link_is_rejected (test_deploy_guards.PathTests) ... ok
+test_permissions_do_not_touch_persistent_files (test_deploy_guards.PathTests) ... ok
+test_provider_manifest_symlink_rejected (test_deploy_guards.PathTests) ... ok
+test_provider_manifests_only_are_removed (test_deploy_guards.PathTests) ... ok
+test_runtime_hardlink_rejected (test_deploy_guards.PathTests) ... ok
+test_runtime_symlink_rejected (test_deploy_guards.PathTests) ... ok
+test_storage_link_postcondition (test_deploy_guards.PathTests) ... ok
+test_walk_error_is_failure (test_deploy_guards.PathTests) ... ok
+test_world_writable_directory_rejected (test_deploy_guards.PathTests) ... ok
+test_detached_daemon_is_reaped (test_deploy_guards.ProcessTests) ... skipped 'Linux subreaper requires /proc and prctl; run again on Rocky'
+test_lock_exclusion_and_release (test_deploy_guards.ProcessTests) ... ok
+test_sigkill_cannot_leave_lock_inherited_by_child (test_deploy_guards.ProcessTests) ... skipped 'Orphan adoption test requires Linux subreaper'
+test_signals_reap_detached_descendants_ignoring_term (test_deploy_guards.ProcessTests) ... skipped 'Linux double-fork cleanup requires /proc and prctl'
+test_signals_stop_child_release_lock_and_retain_guard (test_deploy_guards.ProcessTests) ... ok
+test_subprocess_does_not_inherit_lock_descriptor (test_deploy_guards.ProcessTests) ... ok
+
+======================================================================
+ERROR: test_actual_individual_cache_commands (test_deploy_guards.ArtisanIntegrationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 701, in test_actual_individual_cache_commands
+    self.assertEqual((self.root/'bootstrap/cache/config.php').stat().st_mode & 0o777, 0o600)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1222, in stat
+    return self._accessor.stat(self)
+FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/jk/07vqhl2j3rld5hqw9_51ksn40000gn/T/spanel-regression-vfmqame2/app/bootstrap/cache/config.php'
+
+======================================================================
+FAIL: test_actual_cache_clear_failures_are_nonzero (test_deploy_guards.ArtisanIntegrationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 805, in test_actual_cache_clear_failures_are_nonzero
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 1 != 0 : b'[deploy] Guarded Artisan operation failed; inspect configuration privately.\n'
+
+======================================================================
+FAIL: test_actual_cache_writes_fail_on_readonly_runtime (test_deploy_guards.ArtisanIntegrationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 786, in test_actual_cache_writes_fail_on_readonly_runtime
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 1 != 0 : b'[deploy] Guarded Artisan operation failed; inspect configuration privately.\n'
+
+======================================================================
+FAIL: test_actual_individual_cache_commands (test_deploy_guards.ArtisanIntegrationTests) (command='config:clear')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 700, in test_actual_individual_cache_commands
+    self.assertEqual(result.returncode,0,result.stderr.decode()+result.stdout.decode())
+AssertionError: 1 != 0 : [deploy] Guarded Artisan operation failed; inspect configuration privately.
+
+
+======================================================================
+FAIL: test_actual_individual_cache_commands (test_deploy_guards.ArtisanIntegrationTests) (command='route:clear')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 700, in test_actual_individual_cache_commands
+    self.assertEqual(result.returncode,0,result.stderr.decode()+result.stdout.decode())
+AssertionError: 1 != 0 : [deploy] Guarded Artisan operation failed; inspect configuration privately.
+
+
+======================================================================
+FAIL: test_actual_individual_cache_commands (test_deploy_guards.ArtisanIntegrationTests) (command='view:clear')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 700, in test_actual_individual_cache_commands
+    self.assertEqual(result.returncode,0,result.stderr.decode()+result.stdout.decode())
+AssertionError: 1 != 0 : [deploy] Guarded Artisan operation failed; inspect configuration privately.
+
+
+======================================================================
+FAIL: test_actual_individual_cache_commands (test_deploy_guards.ArtisanIntegrationTests) (command='event:clear')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 700, in test_actual_individual_cache_commands
+    self.assertEqual(result.returncode,0,result.stderr.decode()+result.stdout.decode())
+AssertionError: 1 != 0 : [deploy] Guarded Artisan operation failed; inspect configuration privately.
+
+
+======================================================================
+FAIL: test_actual_individual_cache_commands (test_deploy_guards.ArtisanIntegrationTests) (command='config:cache')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 700, in test_actual_individual_cache_commands
+    self.assertEqual(result.returncode,0,result.stderr.decode()+result.stdout.decode())
+AssertionError: 1 != 0 : [deploy] Guarded Artisan operation failed; inspect configuration privately.
+
+
+======================================================================
+FAIL: test_actual_individual_cache_commands (test_deploy_guards.ArtisanIntegrationTests) (command='route:cache')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 700, in test_actual_individual_cache_commands
+    self.assertEqual(result.returncode,0,result.stderr.decode()+result.stdout.decode())
+AssertionError: 1 != 0 : [deploy] Guarded Artisan operation failed; inspect configuration privately.
+
+
+======================================================================
+FAIL: test_actual_individual_cache_commands (test_deploy_guards.ArtisanIntegrationTests) (command='view:cache')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 700, in test_actual_individual_cache_commands
+    self.assertEqual(result.returncode,0,result.stderr.decode()+result.stdout.decode())
+AssertionError: 1 != 0 : [deploy] Guarded Artisan operation failed; inspect configuration privately.
+
+
+======================================================================
+FAIL: test_actual_individual_cache_commands (test_deploy_guards.ArtisanIntegrationTests) (command='event:cache')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 700, in test_actual_individual_cache_commands
+    self.assertEqual(result.returncode,0,result.stderr.decode()+result.stdout.decode())
+AssertionError: 1 != 0 : [deploy] Guarded Artisan operation failed; inspect configuration privately.
+
+
+======================================================================
+FAIL: test_cached_config_cannot_hide_unsafe_raw_config (test_deploy_guards.ArtisanIntegrationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 731, in test_cached_config_cannot_hide_unsafe_raw_config
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 1 != 0 : b'[deploy] Guarded Artisan operation failed; inspect configuration privately.\n'
+
+======================================================================
+FAIL: test_storage_link_real_command_and_exact_target (test_deploy_guards.ArtisanIntegrationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/tests/Deployment/test_deploy_guards.py", line 777, in test_storage_link_real_command_and_exact_target
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 1 != 0 : b'[deploy] Guarded Artisan operation failed; inspect configuration privately.\n'
+
+----------------------------------------------------------------------
+Ran 69 tests in 9.464s
+
+FAILED (failures=12, errors=1, skipped=3)

@@ -1,0 +1,50 @@
+{
+  "invii_totali_task": 1,
+  "richiesta": 177,
+  "oggetto": "TEST Web Check-in — verifica circuito",
+  "HTML_logo_colore_link": "PASS",
+  "HTML_generato": {
+    "esito": "PASS_HTML_GENERATO_UNICO_INVIO",
+    "richiesta": 177,
+    "SHA_applicativo_invio": "047a7a19e2fcda8a48d53a0f32ba47e01920f745",
+    "SHA_finale": "f414900b9626240dc34f1de0a449615b66d7413a",
+    "HTML_generato_byte": 2511,
+    "HTML_generato_sha256": "d19c941428254421649afc9b99b1cca5e718be9cf69a3a828abe76beefb1ef0f",
+    "colore": "#812db5",
+    "testo_personalizzato": true,
+    "logo_struttura_presente_e_self_hosted": true,
+    "href_pulsante_identico_link_collaudato": true,
+    "codice_email_immutato_dopo_invio": true,
+    "delta_applicativo_successivo": [
+      "resources/views/web-checkin/public.blade.php"
+    ],
+    "limite": "HTML dell’anteprima inviata conservato privatamente; identità con il trasporto verificata in VM salvo CID/CRLF. MIME ricevuto e rendering inbox non ispezionati autonomamente; ricezione confermata dall’utente."
+  },
+  "SMTP": {
+    "esito": "PASS_UNICO_MESSAGGIO_ACCETTATO_DA_GOOGLE_SMTP",
+    "messaggi": [
+      {
+        "coda_sha256": "8161ae87fca9f45864aeb42c58bb90d01e8a497460bedccbc58576bdf8852bcf",
+        "ora_registro_UTC": "2026-10-21 09:16:13",
+        "oggetto_correlato_se_presente": false,
+        "Google_SMTP_250": true,
+        "differimenti": 0,
+        "rifiuti_permanenti": 0,
+        "transazione_conclusa": true,
+        "diagnosi_rifiuti": []
+      }
+    ],
+    "limite": "Accettazione SMTP remota distinta dalla presenza nella casella e dalla visualizzazione del messaggio; nessun registro estraneo esportato."
+  },
+  "ricezione": {
+    "esito": "RICEZIONE_CONFERMATA_DALL_UTENTE",
+    "UTC_registrazione": "2026-10-21T11:21:17.106361+00:00",
+    "richiesta": 177,
+    "oggetto": "TEST Web Check-in — verifica circuito",
+    "evidenza": "Risposta esplicita dell’utente: Ricevuto",
+    "nessun_secondo_invio": true,
+    "limite": "Conferma umana di ricezione; rendering nella casella non ispezionato autonomamente"
+  },
+  "richiesta_134_non_riutilizzata": true,
+  "nessun_invio_per_correzione_solo_CSS": true
+}

@@ -1,0 +1,48 @@
+{
+  "esito": "PASS_BACKUP_E_AMPLIAMENTO_VM_44_48",
+  "consenso": "autorizo tutto, risposta alla richiesta specifica di push pubblico/PR e ampliamento44→48GiB con backup integrale cifrato verificato Extra e chiave separata Mac",
+  "backup": {
+    "esito": "PASS_BACKUP_VM_CIFRATO_VERIFICATO",
+    "file": 12,
+    "byte_cifrati": 27042126393,
+    "sha256_cifrato": "e559a1e0642638a52d0be6c381c994ed4ce2332de354434b838b42578fb8c189",
+    "volume_UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+    "formato": "SDNVMG1 AES256GCM frames8MiB con footer autenticato, gzip tar",
+    "chiave_separata_fisicamente": true,
+    "decifratura_integrale_e_impronte_conformi": true,
+    "originali_riletti_identici": true
+  },
+  "ampliamento": {
+    "esito": "PASS_CRESCITA_VM_44_48_GIB",
+    "backup": "PASS_BACKUP_VM_CIFRATO_VERIFICATO",
+    "disco_byte": 51539607552,
+    "XFS_prima_byte": 45880217600,
+    "XFS_dopo_byte": 50175184896,
+    "sola_configurazione_disco_variata": true,
+    "database_e_84_protetti_identici": true,
+    "prima": {
+      "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+      "SELinux": "Enforcing",
+      "DB_logico_sha256": "edac137fc0ccf709f1960512f9cea90de1878044204c966ed0cc7620f0294ffb",
+      "DB_byte": 3332249,
+      "protetti_count": 84,
+      "protetti_manifest_sha256": "2829405e13cb406bc86671117fee9b534c2abe62e41c98469626664169bea25b",
+      "VM_liberi": 2782883840
+    },
+    "dopo": {
+      "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+      "SELinux": "Enforcing",
+      "DB_logico_sha256": "edac137fc0ccf709f1960512f9cea90de1878044204c966ed0cc7620f0294ffb",
+      "DB_byte": 3332249,
+      "protetti_count": 84,
+      "protetti_manifest_sha256": "2829405e13cb406bc86671117fee9b534c2abe62e41c98469626664169bea25b",
+      "VM_liberi": 6993809408
+    }
+  },
+  "riserve_invariate_GiB": {
+    "VM": 1,
+    "Mac": 8,
+    "Extra": 40
+  },
+  "nessun_backup_originale_rimosso": true
+}

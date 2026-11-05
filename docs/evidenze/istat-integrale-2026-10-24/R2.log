@@ -1,0 +1,357 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-24 23:17:26 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-cr5suo0i; database=test_geo_8ea023543d5ee3a252be3b7f82629a8d; MySQL pid=57, porta=50831; HTTP pid=82, porta=52077
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.36
+Configuration: /tmp/schedine-test-cr5suo0i/checkout/phpunit.xml
+
+................................................................. 65 / 68 ( 95%)
+...                                                               68 / 68 (100%)
+
+Time: 00:14.775, Memory: 80.50 MB
+
+OK (68 tests, 428 assertions)
+PASS: fixture nota, arrivi=2, partenze=2, presenze=2; XSD e confronto XML sintetico.
+PASS: due processi/connessioni MySQL simultanei, una sola prenotazione ISTAT; zero trasporti.
+
+Running 2 tests using 1 worker
+
+  ✘  1 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT desktop: configurazione protetta, trasporto OFF e storico (4.1s)
+  ✘  2 tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT mobile: configurazione protetta, trasporto OFF e storico (2.8s)
+
+
+  1) tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT desktop: configurazione protetta, trasporto OFF e storico
+
+    Error: ENOENT: no such file or directory, open '/private/tmp/istat-cycle-desktop.png'
+
+      22 |     await expect(page.locator('#istat-preview')).toContainText('C9000001');
+      23 |     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    > 24 |     await page.screenshot({ path: `/private/tmp/istat-cycle-${name}.png` });
+         |     ^
+      25 |   });
+      26 | }
+      27 |
+        at /tmp/schedine-test-cr5suo0i/checkout/tests/Feature/istat-cycle.playwright.spec.js:24:5
+
+    Error Context: test-results/istat-cycle.playwright-IST-c86ff-tta-trasporto-OFF-e-storico/error-context.md
+
+  2) tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT mobile: configurazione protetta, trasporto OFF e storico
+
+    Error: ENOENT: no such file or directory, open '/private/tmp/istat-cycle-mobile.png'
+
+      22 |     await expect(page.locator('#istat-preview')).toContainText('C9000001');
+      23 |     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    > 24 |     await page.screenshot({ path: `/private/tmp/istat-cycle-${name}.png` });
+         |     ^
+      25 |   });
+      26 | }
+      27 |
+        at /tmp/schedine-test-cr5suo0i/checkout/tests/Feature/istat-cycle.playwright.spec.js:24:5
+
+    Error Context: test-results/istat-cycle.playwright-IST-be4ed-tta-trasporto-OFF-e-storico/error-context.md
+
+  2 failed
+    tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT desktop: configurazione protetta, trasporto OFF e storico
+    tests/Feature/istat-cycle.playwright.spec.js:4:3 › ISTAT mobile: configurazione protetta, trasporto OFF e storico
+istat-cycle.playwright-IST-c86ff-tta-trasporto-OFF-e-storico:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - button [ref=e7] [cursor=pointer]
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic "Struttura":
+            - generic: 
+            - text: "Struttura: Fixture Hotel 67980d45-fd65-4365-9cf4-669ebdde9a8e"
+        - link "" [ref=e15] [cursor=pointer]:
+          - /url: http://127.0.0.1:52077/calendario
+          - generic [ref=e16]: 
+        - generic [ref=e17]:
+          - button "" [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: 
+          - text:  
+        - button "" [ref=e21] [cursor=pointer]:
+          - generic [ref=e22]: 
+        - generic [ref=e23]:
+          - button "Avatar Sabino Struttura" [ref=e24] [cursor=pointer]:
+            - generic [ref=e25]:
+              - img "Avatar" [ref=e27]
+              - generic [ref=e28]:
+                - generic [ref=e29]: Sabino
+                - generic [ref=e30]: Struttura
+          - text: 󰀉      󰍃
+  - generic [ref=e31]:
+    - link "Tango" [ref=e33] [cursor=pointer]:
+      - /url: http://127.0.0.1:52077/dashboard
+      - img "Tango" [ref=e35]
+    - list [ref=e38]:
+      - listitem [ref=e39]:
+        - generic [ref=e40]: Menu
+      - listitem [ref=e41]:
+        - link "Dashboard" [ref=e42] [cursor=pointer]:
+          - /url: http://127.0.0.1:52077/dashboard
+          - generic [ref=e43]: Dashboard
+      - listitem [ref=e44]:
+        - link "Dati struttura" [ref=e45] [cursor=pointer]:
+          - /url: http://127.0.0.1:52077/struttura
+          - generic [ref=e46]: Dati struttura
+      - listitem [ref=e47]:
+        - button "Configurazioni 󰅂" [ref=e48] [cursor=pointer]:
+          - generic [ref=e49]: Configurazioni
+          - text: 󰅂
+      - listitem [ref=e50]:
+        - button "Clienti 󰅂" [ref=e51] [cursor=pointer]:
+          - generic [ref=e52]: Clienti
+          - text: 󰅂
+      - listitem [ref=e53]:
+        - button "Schedine 󰅂" [ref=e54] [cursor=pointer]:
+          - generic [ref=e55]: Schedine
+          - text: 󰅂
+      - listitem [ref=e56]:
+        - link "Web Check-in" [ref=e57] [cursor=pointer]:
+          - /url: http://127.0.0.1:52077/web-checkin
+          - generic [ref=e58]: Web Check-in
+      - listitem [ref=e59]:
+        - button "Invio telematico 󰅂" [expanded] [ref=e60] [cursor=pointer]:
+          - generic [ref=e61]: Invio telematico
+          - text: 󰅂
+        - list [ref=e63]:
+          - listitem [ref=e64]:
+            - link "Tassa di soggiorno" [ref=e65] [cursor=pointer]:
+              - /url: http://127.0.0.1:52077/tassa_di_soggiorno/rapporto
+          - listitem [ref=e66]:
+            - link "Tavola A" [ref=e67] [cursor=pointer]:
+              - /url: http://127.0.0.1:52077/istat-tabella-a
+          - listitem [ref=e68]:
+            - link "Questura" [ref=e69] [cursor=pointer]:
+              - /url: http://127.0.0.1:52077/questura
+      - listitem [ref=e70]:
+        - button "Statistica 󰅂" [ref=e71] [cursor=pointer]:
+          - generic [ref=e72]: Statistica
+          - text: 󰅂
+      - listitem [ref=e73]:
+        - link "Calendario" [ref=e74] [cursor=pointer]:
+          - /url: http://127.0.0.1:52077/calendario
+          - generic [ref=e75]: Calendario
+      - listitem [ref=e76]:
+        - link "Cestino" [ref=e77] [cursor=pointer]:
+          - /url: http://127.0.0.1:52077/cestino
+          - generic [ref=e78]: Cestino
+  - generic [ref=e80]:
+    - generic [ref=e83]:
+      - generic [ref=e86]:
+        - heading "Tabella A Emilia-Romagna" [level=4] [ref=e87]
+        - list [ref=e89]:
+          - listitem [ref=e90]:
+            - link "Invio Telematico" [ref=e91] [cursor=pointer]:
+              - /url: "javascript: void(0);"
+          - listitem [ref=e92]: 󰅂 Tabella A Emilia-Romagna
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - heading "Tabella A Emilia-Romagna" [level=4] [ref=e96]
+            - generic [ref=e97]: XML Ross1000 Emilia-Romagna, validazione loca
+istat-cycle.playwright-IST-be4ed-tta-trasporto-OFF-e-storico:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - button [ref=e7] [cursor=pointer]
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic "Struttura":
+            - generic: 
+            - text: "Struttura: Fixture Hotel 67980d45-fd65-4365-9cf4-669ebdde9a8e"
+        - link "" [ref=e15] [cursor=pointer]:
+          - /url: http://127.0.0.1:52077/calendario
+          - generic [ref=e16]: 
+        - generic [ref=e17]:
+          - button "" [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: 
+          - text:  
+        - button "" [ref=e21] [cursor=pointer]:
+          - generic [ref=e22]: 
+        - generic [ref=e23]:
+          - button "Avatar" [ref=e24] [cursor=pointer]:
+            - img "Avatar" [ref=e27]
+          - text: 󰀉      󰍃
+  - list [ref=e31]:
+    - listitem [ref=e32]:
+      - generic [ref=e33]: Menu
+    - listitem [ref=e34]:
+      - link "Dashboard" [ref=e35] [cursor=pointer]:
+        - /url: http://127.0.0.1:52077/dashboard
+        - generic [ref=e36]: Dashboard
+    - listitem [ref=e37]:
+      - link "Dati struttura" [ref=e38] [cursor=pointer]:
+        - /url: http://127.0.0.1:52077/struttura
+        - generic [ref=e39]: Dati struttura
+    - listitem [ref=e40]:
+      - button "Configurazioni 󰅂" [ref=e41] [cursor=pointer]:
+        - generic [ref=e42]: Configurazioni
+        - text: 󰅂
+    - listitem [ref=e43]:
+      - button "Clienti 󰅂" [ref=e44] [cursor=pointer]:
+        - generic [ref=e45]: Clienti
+        - text: 󰅂
+    - listitem [ref=e46]:
+      - button "Schedine 󰅂" [ref=e47] [cursor=pointer]:
+        - generic [ref=e48]: Schedine
+        - text: 󰅂
+    - listitem [ref=e49]:
+      - link "Web Check-in" [ref=e50] [cursor=pointer]:
+        - /url: http://127.0.0.1:52077/web-checkin
+        - generic [ref=e51]: Web Check-in
+    - listitem [ref=e52]:
+      - button "Invio telematico 󰅂" [expanded] [ref=e53] [cursor=pointer]:
+        - generic [ref=e54]: Invio telematico
+        - text: 󰅂
+      - list [ref=e56]:
+        - listitem [ref=e57]:
+          - link "Tassa di soggiorno" [ref=e58] [cursor=pointer]:
+            - /url: http://127.0.0.1:52077/tassa_di_soggiorno/rapporto
+        - listitem [ref=e59]:
+          - link "Tavola A" [ref=e60] [cursor=pointer]:
+            - /url: http://127.0.0.1:52077/istat-tabella-a
+        - listitem [ref=e61]:
+          - link "Questura" [ref=e62] [cursor=pointer]:
+            - /url: http://127.0.0.1:52077/questura
+    - listitem [ref=e63]:
+      - button "Statistica 󰅂" [ref=e64] [cursor=pointer]:
+        - generic [ref=e65]: Statistica
+        - text: 󰅂
+    - listitem [ref=e66]:
+      - link "Calendario" [ref=e67] [cursor=pointer]:
+        - /url: http://127.0.0.1:52077/calendario
+        - generic [ref=e68]: Calendario
+    - listitem [ref=e69]:
+      - link "Cestino" [ref=e70] [cursor=pointer]:
+        - /url: http://127.0.0.1:52077/cestino
+        - generic [ref=e71]: Cestino
+  - generic [ref=e73]:
+    - generic [ref=e76]:
+      - generic [ref=e79]:
+        - heading "Tabella A Emilia-Romagna" [level=4] [ref=e80]
+        - list [ref=e82]:
+          - listitem [ref=e83]:
+            - link "Invio Telematico" [ref=e84] [cursor=pointer]:
+              - /url: "javascript: void(0);"
+          - listitem [ref=e85]: 󰅂 Tabella A Emilia-Romagna
+      - generic [ref=e86]:
+        - generic [ref=e87]:
+          - generic [ref=e88]:
+            - heading "Tabella A Emilia-Romagna" [level=4] [ref=e89]
+            - generic [ref=e90]: XML Ross1000 Emilia-Romagna, validazione locale e storico operativo.
+          - generic [ref=e92]: Invio diretto configurato
+        - generic [ref=e93]:
+          - generic [ref=e94]:
+            - generic [ref=e95]:
+              - generic [ref=e96]: 
+              - heading "Verifica configurazione Tabella A" [level=5] [ref=e97]
+            - generic [ref=e99]:
+              - generic [ref=e100]:
+                - generic [ref=e101]: Regione struttura
+
+TEST interrotto senza fallback: playwright fallito: 1
+mysql-error.log:
+2026-10-24 23:17:31 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 57
+2026-10-24 23:17:31 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-24 23:17:31 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-24 23:17:31 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-24 23:17:31 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-24 23:17:31 0 [Note] InnoDB: Using Linux native AIO
+2026-10-24 23:17:31 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-24 23:17:31 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-24 23:17:31 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-24 23:17:31 0 [Note] InnoDB: End of log at LSN=45109
+2026-10-24 23:17:31 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-24 23:17:31 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-24 23:17:31 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-24 23:17:31 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-24 23:17:31 0 [Note] InnoDB: log sequence number 45109; transaction id 14
+2026-10-24 23:17:31 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-24 23:17:31 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-24 23:17:31 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-cr5suo0i/mysql-data/ib_buffer_pool
+2026-10-24 23:17:31 0 [Note] InnoDB: Buffer pool(s) load completed at 261024 23:17:31
+2026-10-24 23:17:32 0 [Note] Server socket created on IP: '127.0.0.1', port: '50831'.
+2026-10-24 23:17:32 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-24 23:17:32 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-cr5suo0i/mysql.sock'  port: 50831  MariaDB Server
+
+http.log:
+d/libs/flatpickr/flatpickr.min.js
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46450 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46442 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46464 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46418 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46450 [200]: GET /build/css/bootstrap.min.css
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46428 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46474 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46430 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46464 [200]: GET /build/css/icons.min.css
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46490 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46442 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46474 [200]: GET /build/libs/select2/css/select2.min.css
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46494 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46490 [200]: GET /build/css/app.min.css
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46502 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46450 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46494 [200]: GET /build/libs/flatpickr/flatpickr.min.css
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46510 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46474 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46502 [200]: GET /build/css/custom.min.css
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46518 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46510 [200]: GET /build/js/app2.js
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46518 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46494 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46534 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46490 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46502 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46464 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46534 [200]: GET /build/libs/jquery/jquery.min.js
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46546 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46562 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46546 [200]: GET /build/libs/select2/js/select2.full.min.js
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46574 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46534 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46562 [200]: GET /build/libs/bootstrap/js/bootstrap.bundle.min.js
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46576 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46510 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46574 [200]: GET /build/libs/node-waves/waves.min.js
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46592 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46576 [200]: GET /build/libs/simplebar/simplebar.min.js
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46546 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46604 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46562 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46592 [200]: GET /build/libs/feather-icons/feather.min.js
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46618 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46604 [200]: GET /build/icons/remixicon.woff2?t=1718271040674
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46574 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46632 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46576 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46618 [200]: GET /build/icons/boxicons.woff2
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46638 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46632 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46592 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46648 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46638 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46660 Accepted
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46648 [200]: GET /build/icons/materialdesignicons-webfont.woff2?v=7.2.96
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46604 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46618 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46632 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46660 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46638 Closing
+[Sat Oct 24 23:18:08 2026] 127.0.0.1:46648 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-cr5suo0i

@@ -1,0 +1,54 @@
+{
+  "esito": "PASS_DIAGNOSI",
+  "prove": [
+    {
+      "sql": "CREATE TABLE tipologie_struttura(id BIGINT UNSIGNED NOT NULL PRIMARY KEY) ENGINE=InnoDB",
+      "exit": 0,
+      "errore": ""
+    },
+    {
+      "sql": "CREATE TABLE classificazioni(id BIGINT UNSIGNED NOT NULL PRIMARY KEY,tipologia_struttura_id BIGINT UNSIGNED NOT NULL,nome VARCHAR(150),CONSTRAINT classificazioni_tipologia_struttura_id_foreign FOREIGN KEY(tipologia_struttura_id) REFERENCES tipologie_struttura(id),UNIQUE KEY classificazioni_tipologia_struttura_id_nome_unique(tipologia_struttura_id,nome)) ENGINE=InnoDB",
+      "exit": 0,
+      "errore": ""
+    },
+    {
+      "sql": "ALTER TABLE classificazioni DROP FOREIGN KEY classificazioni_tipologia_struttura_id_foreign",
+      "exit": 0,
+      "errore": ""
+    },
+    {
+      "sql": "SHOW CREATE TABLE classificazioni",
+      "exit": 0,
+      "errore": ""
+    },
+    {
+      "sql": "ALTER TABLE classificazioni DROP tipologia_struttura_id",
+      "exit": 1,
+      "errore": "--------------\nALTER TABLE classificazioni DROP tipologia_struttura_id\n--------------\n\nERROR 1072 (42000) at line 1: Key column 'tipologia_struttura_id' doesn't exist in table\n"
+    },
+    {
+      "sql": "ALTER TABLE classificazioni DROP INDEX classificazioni_tipologia_struttura_id_nome_unique",
+      "exit": 0,
+      "errore": ""
+    },
+    {
+      "sql": "ALTER TABLE classificazioni DROP tipologia_struttura_id",
+      "exit": 0,
+      "errore": ""
+    },
+    {
+      "sql": "ALTER TABLE classificazioni ADD UNIQUE(nome)",
+      "exit": 0,
+      "errore": ""
+    },
+    {
+      "sql": "SELECT VERSION()",
+      "exit": 0,
+      "errore": ""
+    }
+  ],
+  "schema_pre_drop": "Table\tCreate Table\nclassificazioni\tCREATE TABLE `classificazioni` (\\n  `id` bigint(20) unsigned NOT NULL,\\n  `tipologia_struttura_id` bigint(20) unsigned NOT NULL,\\n  `nome` varchar(150) DEFAULT NULL,\\n  PRIMARY KEY (`id`),\\n  UNIQUE KEY `classificazioni_tipologia_struttura_id_nome_unique` (`tipologia_struttura_id`,`nome`)\\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci\n",
+  "errore_1072_riprodotto": true,
+  "versione": "VERSION()\n11.8.9-MariaDB",
+  "DB_privato_fermato": true
+}

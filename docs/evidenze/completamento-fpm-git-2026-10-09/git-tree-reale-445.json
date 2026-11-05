@@ -1,0 +1,13 @@
+{
+  "commit_creati": 0,
+  "refs_originali_modificate": false,
+  "prove": [],
+  "tree_candidato445": "c4e62d5ea70080878f079cae08aa2a787f2621ec",
+  "tipo_oggetto": "tree",
+  "delta_445_policy_path_migration": "PASS",
+  "archive_bundle_identico": "PASS",
+  "tree_rifiutato_come_commit": "PASS",
+  "HEAD_originale": "faef3cf01f43d19b20d1558c1fbd3ae32e48d849",
+  "server_antenato_HEAD_exit": 0,
+  "nessun_deploy": "prepare/execute non eseguiti; serve commit approvato e disponibile nell\u2019origine ammessa"
+}

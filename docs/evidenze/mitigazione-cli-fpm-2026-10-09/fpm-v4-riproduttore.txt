@@ -1,0 +1,55 @@
+import os,pathlib,subprocess,socket,struct,time,json,resource,concurrent.futures
+resource.setrlimit(resource.RLIMIT_CORE,(0,0));os.umask(0o077)
+r=pathlib.Path('/work/fpm-diagnosi-v4');r.mkdir(mode=0o700)
+sock=str(r/'fastcgi.sock');php='/opt/remi/php83/root/usr/sbin/php-fpm'
+(r/'sentinella.php').write_text("<?php header('Content-Type: application/json'); echo json_encode(['sentinella'=>'OK','sapi'=>PHP_SAPI,'php'=>PHP_VERSION,'opcache'=>ini_get('opcache.enable'),'cli'=>ini_get('opcache.enable_cli'),'zend'=>get_loaded_extensions(true)]);")
+(r/'pool.conf').write_text(f'''[global]\npid = {r}/fpm.pid\nerror_log = {r}/fpm.log\ndaemonize = no\n[isolato]\nlisten = {sock}\nlisten.mode = 0600\npm = static\npm.max_children = 2\npm.max_requests = 100\nrequest_terminate_timeout = 10s\ncatch_workers_output = yes\nclear_env = yes\nphp_admin_value[memory_limit] = 128M\n''')
+def rec(t,b):return struct.pack('!BBHHBB',1,t,1,len(b),0,0)+b
+def param(k,v):
+ k=k.encode();v=v.encode()
+ def ln(n):return bytes([n]) if n<128 else struct.pack('!I',n|0x80000000)
+ return ln(len(k))+ln(len(v))+k+v
+
+def request(c,i):
+ t=time.monotonic();s=socket.socket(socket.AF_UNIX);s.settimeout(12);s.connect(sock)
+ params={'SCRIPT_FILENAME':str(r/'sentinella.php'),'REQUEST_METHOD':'GET','SCRIPT_NAME':'/sentinella.php','SERVER_PROTOCOL':'HTTP/1.1','SERVER_NAME':'isolato','SERVER_PORT':'0','REMOTE_ADDR':'127.0.0.1','QUERY_STRING':''}
+ s.sendall(rec(1,struct.pack('!HB5x',1,0))+rec(4,b''.join(param(k,v) for k,v in params.items()))+rec(4,b'')+rec(5,b''))
+ out=b'';err=b'';status=None
+ def read(n):
+  b=b''
+  while len(b)<n:
+   z=s.recv(n-len(b))
+   if not z:raise RuntimeError('FastCGI risposta tronca')
+   b+=z
+  return b
+ while True:
+  _,typ,req,n,pad,_=struct.unpack('!BBHHBB',read(8));b=read(n)
+  if pad:read(pad)
+  if typ==6:out+=b
+  elif typ==7:err+=b
+  elif typ==3:status=struct.unpack('!IB3x',b);break
+ s.close();head,body=out.split(b'\r\n\r\n',1)
+ prefix=r/f'c{c:02d}-r{i:03d}';pathlib.Path(str(prefix)+'-headers.log').write_bytes(head);pathlib.Path(str(prefix)+'-body.json').write_bytes(body);pathlib.Path(str(prefix)+'-stderr.log').write_bytes(err)
+ data=json.loads(body);assert data['sentinella']=='OK' and data['sapi']=='fpm-fcgi' and status==(0,0) and not err
+ meta={'ciclo':c,'richiesta':i,'secondi':round(time.monotonic()-t,6),'status_fastcgi':status,'config':data};pathlib.Path(str(prefix)+'-meta.json').write_text(json.dumps(meta));return meta
+report={'rete_senza_route':len(pathlib.Path('/proc/net/route').read_text().splitlines())==1,'risultati':[],'processi_fermati':[],'flussi_laravel':'PENDENTE'}
+try:
+ for c in range(10):
+  log=open(r/f'avvio-{c}.log','wb');p=subprocess.Popen([php,'-F','-y',str(r/'pool.conf'),'-c','/etc/opt/remi/php83/php.ini'],stdout=log,stderr=log)
+  try:
+   deadline=time.monotonic()+15
+   while not pathlib.Path(sock).exists():
+    if p.poll() is not None or time.monotonic()>deadline:raise RuntimeError('Avvio FPM fallito')
+    time.sleep(.05)
+   # Prima richiesta fredda, poi richieste concorrenti calde.
+   report['risultati'].append(request(c,0))
+   with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex:report['risultati']+=list(ex.map(lambda i:request(c,i),range(1,20)))
+   assert p.poll() is None
+  finally:
+   if p.poll() is None:p.terminate()
+   p.wait(timeout=15);log.close();report['processi_fermati'].append({'pid':p.pid,'exit':p.returncode})
+   if pathlib.Path(sock).exists():pathlib.Path(sock).unlink()
+  if 'SIGSEGV' in (r/'fpm.log').read_text() or 'signal 11' in (r/'fpm.log').read_text():raise RuntimeError('Crash FPM osservato')
+ report['esito']='PASS_SENTINELLA'
+except Exception as e:report['esito']='FAIL';report['errore']=str(e)
+(r/'manifest-sanitizzato.json').write_text(json.dumps(report,indent=2));print(json.dumps(report))

@@ -1,0 +1,20 @@
+{
+  "esito": "PASS_GMAIL_POSTA_IN_ARRIVO_HTML_E_PULSANTE",
+  "data_UTC": "2026-10-18T19:38:14.686Z",
+  "messaggio_sintetico_univoco": true,
+  "posta_in_arrivo": true,
+  "logo_html_pulsante_prenotazione_firma_scadenza_visibili": true,
+  "href_identico_richiesta_mobile_verificata": true,
+  "pulsante_cliccato": true,
+  "destinazione_reale_conferma_dati_ricevuti": true,
+  "nessun_messaggio_estraneo_aperto": true,
+  "logo_ricevuto_caricato": {
+    "altezza": 70,
+    "caricato": true,
+    "larghezza": 220
+  },
+  "dettagli_Gmail": {
+    "proveniente_da": "schedinedinotifica.tanggo.software",
+    "crittografia": "TLS"
+  }
+}

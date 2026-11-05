@@ -1,0 +1,76 @@
+{
+  "base": "5e3d58b5d8b89995a011e5a166f8bb771c1d4607",
+  "sorgenti_sha256": {
+    "app/Http/Controllers/CustomerController.php": "a915a31c7332b5f58169d6200a7e1a1beb08ed62eccc1f5e1a7c7a986dd434a9",
+    "resources/views/admin/proprietari/form.blade.php": "8b9719b3479e28e91fab6c7f1e543a227e1ab3a7a600e2f35586a94001dcd052",
+    "resources/views/admin/proprietari/index.blade.php": "4a4439e528843f87d0070c5fdd30319e4e15d394d666550117eaf1dbf1b2e612",
+    "resources/views/admin/strutture/index.blade.php": "da9684724db6f29e8219d3d179ae660e856ca9664a48da14a06cbfe96f12f88a",
+    "resources/views/customers/edit.blade.php": "29bebee5cea348de24bb4b2d10d29de1d925fd22b407cda3f56828e17c454926",
+    "resources/views/customers/list.blade.php": "1109984b84b6060d18bfaecc77345bba627c2e201b9e7bcfd7c36001e6bd99c6",
+    "resources/views/customers/print.blade.php": "45bfc6aee2302d75267930359ea666c652b30ef351523619b8bea0aa5fead9c2",
+    "resources/views/layouts/sidebar.blade.php": "0153b1fe6625e7f904d287e29490ff2e1324b6966e96d6b8a6d79cec74d2cbde",
+    "resources/views/proprietario/strutture/index.blade.php": "6957ed6a98502cf774480b922509acd375ebbaa9a2c8469afc1f91f248df4996",
+    "resources/views/superadmin/amministratori/form.blade.php": "b2b005936d29aca91f996afdedcd183aa9447c133dffd60f7b078640b958b51f",
+    "resources/views/superadmin/amministratori/index.blade.php": "8fe47fa1a02248f5aebe9a941e2281fbd582c32492b200a055ade227150ed286",
+    "resources/views/superadmin/proprietari/form.blade.php": "9d3d3d9281be9a2924f41c5c22fc9323da259fdf032622e312cd1e2f8cad8354",
+    "resources/views/superadmin/proprietari/index.blade.php": "b1f9c31209a0aa7817d58519d85e31cd1b9feb90bcddc410f5a5049f68a590c6",
+    "resources/views/superadmin/strutture/index.blade.php": "e09dd6a42c958fb2dd5d59b57a989ab787891624f823a80f38d2ad06889f7526",
+    "resources/views/superadmin/tassa/configurazione.blade.php": "ed4c98846510c2c616bacaa06ccb5ad5fbd2c7f28cee36e1f35fa499842409dd"
+  },
+  "protetti_immutati_sha256": {
+    "routes/web.php": "d9113b9dbccb2fb660147b24bb7f535a11bcfb78808b673c872c6c47f0e953df",
+    "app/Models/Customers.php": "6541f29bb76255d470016815092dcd3f8153f1fe0ee1f827c292abf8e2f86c08",
+    "app/Models/Concerns/AppartieneAStruttura.php": "e8b077d54c5e3f094ca68590f46616088bd4341fcaab3c57aeafc741b3d3b7da",
+    "app/Http/Middleware/RequireAuthorizedStruttura.php": "7f237bc63b8e718601bc7300ae3742905ae8fdfb06cc9ca15e00cef25447f7d3",
+    "app/Services/CustomerWizardValidation.php": "d5be0432abe27be6e32dcab1a424a7c1f5013a4e649af63d7481c83f3d5ac6f7",
+    "app/Services/TassaDiSoggiornoService.php": "7dac31ad449660aa8072b2b745107a29d536519cff854a14fd62c6dfa7007913",
+    "config/tassa_profili.php": "79de91ae3464b69526c2a1ca43c8a94e2f7322f6f6d344f423c11d75bdc4be6c",
+    "resources/views/customers/partials/scheda-cliente-form.blade.php": "9a4dbf26606639b0f0504c2bafc05e6fdb1f198fbb686d401592c4c8241d4d52",
+    "resources/views/customers/partials/scheda-cliente-scripts.blade.php": "6e7aa02c258f23e71dc3c8e3c6b9b4b1861ad86d6c87254bdea411b874a2c4f0",
+    "tests/Isolation/run.py": "aecb88c1009d6f90974a0706b3c57aff4f53fa92458ee08d6c78e470134c2b8e",
+    "composer.lock": "857bc7f6eb12f80852e49cfa3c46b04db064585175427a17fb176f5c06bef3e4",
+    "package-lock.json": "34873f00e2deeef212b21720a6b93644ce52b9c082eb3b2aab38800776bbc08c",
+    "app/Services/TassaConfig/GestioneProfiliTassa.php": "6fbdd38495dd4931051d5c5fcf1de3793e852e38e2bcafccd5a5ca67a41d62a1",
+    "app/Services/TassaConfig/ProfiloTassaRepository.php": "036e88a7255c30a7632ef84fd78df78b7db44c5e572821a028898d10a36d7235"
+  },
+  "PHPUnit": {
+    "test": 134,
+    "asserzioni": 1116,
+    "esito": "PASS"
+  },
+  "guardie": 15,
+  "override_rifiutati": 23,
+  "Chromium": {
+    "esito": "PASS",
+    "prove_uniche": 9,
+    "gestione_desktop_mobile_e_ruoli": 4,
+    "regressioni_wizard_e_layout": 5,
+    "stampa_definitiva": "4 prove PASS / 43,3 secondi; 3 test backend / 111 asserzioni PASS",
+    "log_gestione": "output/riordino-superadmin-clienti-2026-10-16/stampa-finale.log",
+    "log_regressioni": "output/riordino-superadmin-clienti-2026-10-16/browser-finale.log",
+    "nota_log_regressioni": "Contiene anche due errori della precedente riapertura nel test; cinque regressioni wizard e due ruoli PASS, gestione ripetuta correttamente nel log definitivo."
+  },
+  "deploy": false,
+  "schema_modificato": false,
+  "invii_enti": false,
+  "BASELINE_IN_AUDIT": true,
+  "stampa_A4": {
+    "esito": "PASS",
+    "pagine_per_PDF": 4,
+    "PDF": 2,
+    "pagine_ispezionate": 8,
+    "soggiorni_inclusi": 11,
+    "ripetizioni_nota_lunga": 80
+  },
+  "test_mirati_layout_definitivo": {
+    "test": 3,
+    "asserzioni": 111,
+    "esito": "PASS"
+  },
+  "C5": "STOP_CAPIENZA_PRIMA_PREPARE",
+  "capienza": {
+    "liberi_VM": 2498899968,
+    "fabbisogno_stimato": 3676217344,
+    "stima_non_picco_misurato": true
+  }
+}

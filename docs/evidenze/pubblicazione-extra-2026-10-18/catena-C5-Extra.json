@@ -1,0 +1,63 @@
+{
+  "esito": "PASS_COPIA_CATENA_C5_CIFRATA",
+  "destinazione": "/Volumes/extra/Schedinedinotifica-pubblicazione-20261018/C5-attuale",
+  "file": [
+    {
+      "nonce": "67c1cc5679731cd31bdefa22d0d14180b2c87e848ca3e041",
+      "nome": "db.sql.enc",
+      "byte": 23243632,
+      "sha256": "db8d904471fc3a7402621eeaa6e5c249d3a579abc6a681a706f7972c95a04513"
+    },
+    {
+      "nonce": "67c1cc5679731cd31bdefa22d0d14180b2c87e848ca3e041",
+      "nome": "fs.tar.gz.enc",
+      "byte": 337286416,
+      "sha256": "9e1df8b45fd2d3519245ca481964d0a26d9ab88822cfa9eda8a86971d0d3557e"
+    },
+    {
+      "nonce": "67c1cc5679731cd31bdefa22d0d14180b2c87e848ca3e041",
+      "nome": "inventory.json.enc",
+      "byte": 6018560,
+      "sha256": "2a71cf613f06e6c1a745bee38866ceb8f48f07e07c896e7fbaba1bceabcceb56"
+    },
+    {
+      "nonce": "25fcd1a22566e4377e6cdfe4935dc64f763f813035bdbef7",
+      "nome": "db.sql.enc",
+      "byte": 23243632,
+      "sha256": "06b277bed0629bbfb7d8e775d4606600d198f256fc39c072e173ed8a9bd859b2"
+    },
+    {
+      "nonce": "25fcd1a22566e4377e6cdfe4935dc64f763f813035bdbef7",
+      "nome": "fs.tar.gz.enc",
+      "byte": 30224,
+      "sha256": "0e468a4598bf7a066241b073ca5dd8a8167549099abf93f893ed2f925b2d1f07"
+    },
+    {
+      "nonce": "25fcd1a22566e4377e6cdfe4935dc64f763f813035bdbef7",
+      "nome": "inventory.json.enc",
+      "byte": 6132368,
+      "sha256": "d57ee0584967f0a5ddf33b60a186690f5923d5e363b8d13d10ee3ce8ade8170b"
+    },
+    {
+      "nonce": "89f8bebbe1bca8504ec68f088afd4af46ef11a35747f843e",
+      "nome": "db.sql.enc",
+      "byte": 23243632,
+      "sha256": "5b8facb600adc4894a9dd789bd352b8055d35b67b3aeb8e89efedfe146280999"
+    },
+    {
+      "nonce": "89f8bebbe1bca8504ec68f088afd4af46ef11a35747f843e",
+      "nome": "fs.tar.gz.enc",
+      "byte": 1872,
+      "sha256": "5b7364b58595fd76e95bc8ee46eb52986be90144a454a7055422d168078dc5d2"
+    },
+    {
+      "nonce": "89f8bebbe1bca8504ec68f088afd4af46ef11a35747f843e",
+      "nome": "inventory.json.enc",
+      "byte": 6024976,
+      "sha256": "f7c87c08cd5312e3f7779cf362e7b53ece8853e5fa714c9eb7499e881c8d9a8a"
+    }
+  ],
+  "chiave_non_esportata": true,
+  "copie_interne_conservate": true,
+  "recupero_indipendente": "PREPARE e S0 accettato gi\u00e0 recuperati integralmente in VM durante C5; copia Extra verificata SHA256, non secondo restore separato"
+}

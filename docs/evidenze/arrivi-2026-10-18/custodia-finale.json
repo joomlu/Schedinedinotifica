@@ -1,0 +1,13 @@
+{
+  "esito": "PASS_CUSTODIE_SEPARATE",
+  "backup_VM_precedente_cifrato": true,
+  "backup_VM_precedente_smontato": true,
+  "limite": "Non è una nuova prova di avvio del backup VM precedente: il nuovo recupero indipendente riguarda PREPARE/S0 C5 del candidato corrente.",
+  "chiave_recupero_VM_separata_Mac_file0600_dir0700": true,
+  "chiave_C5_separata_VM": {
+    "chiave_C5_owner_root": true,
+    "file0600_dir0700": true,
+    "valore_non_esposto": true
+  },
+  "nessun_valore_chiave_esposto": true
+}

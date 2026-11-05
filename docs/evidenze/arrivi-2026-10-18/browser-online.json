@@ -1,0 +1,108 @@
+{
+  "inizio": "2026-10-18T09:59:30.802Z",
+  "SHA": "263274f48614e9215acec91da697c384e9600dfc",
+  "prove": [
+    "Ricerca nome/cognome, isolamento risultati, parcheggio con partenza scaduta, annullamento senza POST e conversione invalida bloccata senza perdita",
+    "Arrivi da cliente, salvataggio ordinario conserva stato, componente e relazioni riletti",
+    "Conferma esplicita, una sola schedina con stesso ID, componente e cliente conservati, retry idempotente e vecchia scheda409",
+    "Regressione bozza: salvataggio distinto da Arrivi e ripresa",
+    "Account strutturaB: solo cliente proprio, schedaA404, contesto giorno strutturaA422"
+  ],
+  "responsive": [
+    {
+      "width": 1440,
+      "pagina": "Arrivi",
+      "larghezzaDocumento": 1440,
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "Modifica Arrivi",
+      "larghezzaDocumento": 1440,
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "Nuova",
+      "larghezzaDocumento": 1440,
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "Elenco",
+      "larghezzaDocumento": 1440,
+      "nessun_overflow": true
+    },
+    {
+      "width": 1440,
+      "pagina": "Bozze",
+      "larghezzaDocumento": 1440,
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "Arrivi",
+      "larghezzaDocumento": 768,
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "Modifica Arrivi",
+      "larghezzaDocumento": 768,
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "Nuova",
+      "larghezzaDocumento": 768,
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "Elenco",
+      "larghezzaDocumento": 768,
+      "nessun_overflow": true
+    },
+    {
+      "width": 768,
+      "pagina": "Bozze",
+      "larghezzaDocumento": 768,
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "Arrivi",
+      "larghezzaDocumento": 390,
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "Modifica Arrivi",
+      "larghezzaDocumento": 390,
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "Nuova",
+      "larghezzaDocumento": 390,
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "Elenco",
+      "larghezzaDocumento": 390,
+      "nessun_overflow": true
+    },
+    {
+      "width": 390,
+      "pagina": "Bozze",
+      "larghezzaDocumento": 390,
+      "nessun_overflow": true
+    }
+  ],
+  "arrivo_id": 92,
+  "arrivo_scaduto_id": 91,
+  "errori_JS": [],
+  "esito": "PASS_BROWSER_ONLINE_ARRIVI",
+  "fine": "2026-10-18T10:00:00.530Z"
+}

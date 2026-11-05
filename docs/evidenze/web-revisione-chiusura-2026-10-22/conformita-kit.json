@@ -1,0 +1,9 @@
+{
+  "esito": "CORE_C5_INVARIATO_SALVO_SHA_TREE",
+  "file": 68,
+  "kit_sha256": "5a539060a7ead1979366e6489df70edbdf64197b06c5ff10cc8e524f827fcedc",
+  "sorgenti_attesi": 170,
+  "baseline": "f414900b9626240dc34f1de0a449615b66d7413a",
+  "candidato": "67b4c45f94a349d0b27c7874aacbbe770bc1cf00",
+  "nessuna_DDL_o_modifica_config": true
+}

@@ -1,0 +1,16 @@
+{
+  "fase": "R2_snapshot_completo",
+  "esito": "PASS",
+  "file_verificati": 16516,
+  "file_integrita": "PASS",
+  "credenziali": {
+    "esito": "PASS",
+    "campi": {
+      "vuoti": 25,
+      "plaintext_legacy": 3,
+      "cifrati_decifrati": 0
+    },
+    "APP_KEY_copia_usata": true
+  },
+  "istanza_privata_fermata": true
+}

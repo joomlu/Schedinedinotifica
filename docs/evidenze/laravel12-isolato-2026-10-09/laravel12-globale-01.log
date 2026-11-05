@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/.codex/worktrees/laravel12-verifica/Schedinedinotifica/tests/Isolation/run.py", line 336, in <module>
+    raise SystemExit(main())
+  File "/Users/jorgeluccitelli/.codex/worktrees/laravel12-verifica/Schedinedinotifica/tests/Isolation/run.py", line 71, in main
+    engine = vendor(subprocess.check_output([mysqld, '--version'], text=True))
+  File "/Users/jorgeluccitelli/.codex/worktrees/laravel12-verifica/Schedinedinotifica/tests/Isolation/database_policy.py", line 18, in vendor
+    raise RuntimeError('Vendor ambiguo/sconosciuto: BLOCK')
+RuntimeError: Vendor ambiguo/sconosciuto: BLOCK

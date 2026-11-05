@@ -1,0 +1,9 @@
+{
+  "esito": "PASS_KIT_QUALIFICATO_SOLO_PARAMETRI",
+  "file": 68,
+  "kit_precedente": "b97cb9922677731cd81ced07e60f283d692e04de373a0abd453e69ec155d504f",
+  "kit_corrente": "719841d80992efe3efb7af288059f1d79674a24c2e4a8c24066781677e45f917",
+  "gate_soglie_invariati": true,
+  "guardia_anticipata_proprieta_runtime": "Aggiuntiva nel preparatore fuori kit, prima PREPARE, equivalente al controllo esistente del runner",
+  "preparatore_sha256": "54f1c4d1a7643861c804ad367f9cdcd8dd4fc929508597a07f27957278d4188b"
+}

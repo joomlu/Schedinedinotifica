@@ -1,0 +1,25 @@
+{
+  "liberi_VM": 1524535296,
+  "XFS_byte_effettivi": 37290283008,
+  "disco_VM_byte": 38654705664,
+  "SELinux": "Enforcing",
+  "HEAD_quotidiano": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+  "custodia_chiave_trasporto_root0700_0600": true,
+  "data_UTC": "2026-10-18T19:53:09.612418+00:00",
+  "liberi_Mac": 13812396032,
+  "liberi_Extra": 672378396672,
+  "Extra": {
+    "montaggio": "/Volumes/extra",
+    "formato": "apfs",
+    "UUID": "488ACB8D-6B99-49AE-8A3C-175FD66F5466",
+    "dispositivo": "disk5s1",
+    "scrittura_rilettura4096": true
+  },
+  "backup_VM_storico_cifrato_chiuso": true,
+  "custodia_chiave_VM_Mac0700_0600": true,
+  "riserva_VM": 1073741824,
+  "gate_Mac": 8589934592,
+  "gate_Extra": 42949672960,
+  "limite": "Stato finale del rilascio corrente, non preflight gia superato per futuri C5; il backupVM storico non sostituisce le nuove catene PREPARE/S0.",
+  "esito": "PASS_CAPIENZA_FINALE_CUSTODIE"
+}

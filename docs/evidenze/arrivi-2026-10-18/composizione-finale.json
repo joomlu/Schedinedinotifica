@@ -1,0 +1,13 @@
+{
+  "sha": "263274f48614e9215acec91da697c384e9600dfc",
+  "tree": "0c5842d53d04058d8f3e9a342b15c2178ebb0842",
+  "kit_sha": "719841d80992efe3efb7af288059f1d79674a24c2e4a8c24066781677e45f917",
+  "server_kit": "/opt/schedine-release/263274f48614e9215acec91da697c384e9600dfc/composizione-arrivi",
+  "server_bundle": "/opt/schedine-release/263274f48614e9215acec91da697c384e9600dfc",
+  "server_root": "/root/schedine-arrivi-263274f4",
+  "verifier": "/tmp/schedine-e2e-arrivi-263274f4",
+  "baseline_sha": "0e0c33cad30a7620180b1d045e65cfd0e52083d5",
+  "private_probe": "/etc/schedine-release/helpers/probe-arrivi-263274f4.php",
+  "migrations": [],
+  "probe_sha256": "4633107a4ce4c991186982ba8853dfed1d1c589df7b04c5a8aec847a0314ea30"
+}

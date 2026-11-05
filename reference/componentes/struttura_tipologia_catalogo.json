@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "locale": "it-IT",
+  "tipologie_generali": [
+    {
+      "nome": "Alberghiera",
+      "tipologie_struttura": [
+        { "nome": "Hotel", "classificazioni": ["1 stella", "2 stelle", "3 stelle", "3 stelle superior", "4 stelle", "4 stelle superior", "5 stelle", "5 stelle lusso"] },
+        { "nome": "Residenza turistico-alberghiera (RTA)", "classificazioni": ["2 stelle", "3 stelle", "4 stelle"] },
+        { "nome": "Albergo diffuso", "classificazioni": ["1 stella", "2 stelle", "3 stelle", "3 stelle superior", "4 stelle", "4 stelle superior", "5 stelle", "5 stelle lusso"] },
+        { "nome": "Villaggio-albergo", "classificazioni": ["1 stella", "2 stelle", "3 stelle", "3 stelle superior", "4 stelle", "4 stelle superior", "5 stelle", "5 stelle lusso"] },
+        { "nome": "Condohotel", "classificazioni": ["1 stella", "2 stelle", "3 stelle", "3 stelle superior", "4 stelle", "4 stelle superior", "5 stelle", "5 stelle lusso"] },
+        { "nome": "Motel", "classificazioni": ["1 stella", "2 stelle", "3 stelle", "3 stelle superior", "4 stelle", "4 stelle superior", "5 stelle", "5 stelle lusso"] },
+        { "nome": "Meuble / Garni", "classificazioni": ["1 stella", "2 stelle", "3 stelle", "3 stelle superior", "4 stelle", "4 stelle superior", "5 stelle", "5 stelle lusso"] },
+        { "nome": "Resort", "classificazioni": ["1 stella", "2 stelle", "3 stelle", "3 stelle superior", "4 stelle", "4 stelle superior", "5 stelle", "5 stelle lusso"] }
+      ]
+    },
+    {
+      "nome": "Extra-alberghiera",
+      "tipologie_struttura": [
+        { "nome": "Agriturismo", "classificazioni": ["1 girasole", "2 girasoli", "3 girasoli", "4 girasoli", "5 girasoli", "1 spiga", "2 spighe", "3 spighe", "4 spighe", "5 spighe"] },
+        { "nome": "Affittacamere", "classificazioni": ["Nessuna"] },
+        { "nome": "Bed & Breakfast", "classificazioni": ["Nessuna"] },
+        { "nome": "Case e appartamenti per vacanze (CAV)", "classificazioni": ["Nessuna"] },
+        { "nome": "Locazione turistica imprenditoriale", "classificazioni": ["Nessuna"] },
+        { "nome": "Ostello", "classificazioni": ["Nessuna"] },
+        { "nome": "Casa per ferie", "classificazioni": ["Nessuna"] },
+        { "nome": "Rifugio alpino", "classificazioni": ["Nessuna"] },
+        { "nome": "Rifugio escursionistico", "classificazioni": ["Nessuna"] }
+      ]
+    },
+    {
+      "nome": "All'aperto",
+      "tipologie_struttura": [
+        { "nome": "Campeggio", "classificazioni": ["1 stella", "2 stelle", "3 stelle", "4 stelle", "5 stelle"] },
+        { "nome": "Villaggio turistico", "classificazioni": ["1 stella", "2 stelle", "3 stelle", "4 stelle", "5 stelle"] },
+        { "nome": "Camping village", "classificazioni": ["1 stella", "2 stelle", "3 stelle", "4 stelle", "5 stelle"] },
+        { "nome": "Area di sosta camper", "classificazioni": ["Nessuna"] },
+        { "nome": "Marina resort", "classificazioni": ["1 stella", "2 stelle", "3 stelle", "4 stelle", "5 stelle"] }
+      ]
+    }
+  ]
+}

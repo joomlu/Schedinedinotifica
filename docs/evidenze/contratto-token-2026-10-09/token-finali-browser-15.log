@@ -1,0 +1,263 @@
+TEST isolato: /private/tmp/schedine-test-qrqicnnp; database=test_geo_88907965d029cf860484ebcd1c90da8c; MySQL pid=20362, porta=61411; HTTP pid=20369, porta=61412
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 10.5.38 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /private/tmp/schedine-test-qrqicnnp/checkout/phpunit.xml
+
+.............\nA14 {"attivo":false,"reset_status":302,"autenticato":false,"access_status":302}\n.                                                    14 / 14 (100%)
+
+Time: 00:25.816, Memory: 52.50 MB
+
+OK (14 tests, 101 assertions)
+PASS SOAP 200 and positive body never prove acceptance; no token/body leaves service
+PASS verification is unknown and retains Test operation
+PASS external constructor exception is contained
+PASS SOAP call exceptions do not escape with their chain
+PASS negative provider text is replaced with a fixed message
+PASS simulation makes no SOAP calls and is never accepted
+PASS nested and unexpected fields discarded; caller acceptance ignored
+PASS allowed slots cannot carry arrays objects or arbitrary strings
+PASS historical success never becomes accepted; history not rewritten
+PASS receipt and tables cannot expose or persist unvalidated bodies
+PASS actual persistence boundary projects injected provider material
+PASS legacy handler aborts before any DB or storage dependency
+PASS controller has no confirmed-send mutation for simulation or attempts
+PASS view never presents legacy provider messages or success as acceptance
+14 safety checks passed; in-memory doubles only
+Fixture Tassa sintetiche create esclusivamente nel database effimero.
+Fixture anteprime sintetiche create esclusivamente nel database effimero.
+
+Running 9 tests using 1 worker
+
+  ✓  1 tests/Feature/web-checkin-lifecycle.playwright.spec.js:7:1 › Ciclo reale: invito indipendente, form, salvataggio e correzione (3.8s)
+  ✓  2 tests/Feature/web-checkin-lifecycle.playwright.spec.js:17:1 › Conversione: ogni alias e completed contiene solo conferma; scaduti e revocati rifiutati; legacy80 valido (1.3s)
+  ✓  3 tests/Feature/web-checkin-lifecycle.playwright.spec.js:24:1 › Operatore reale: revoca, nuova emissione e invalidazione vecchi alias (6.9s)
+  ✓  4 tests/Feature/web-checkin-lifecycle.playwright.spec.js:30:1 › Riprogrammazione gestionale nel browser: attivo aggiornato e scaduto non riattivato (2.5s)
+  ✓  5 tests/Feature/web-checkin-lifecycle.playwright.spec.js:40:1 › Conversione reale dall’interfaccia in Arrivo: dati operatore conservati, link senza dati (4.1s)
+  ✘  6 tests/Feature/web-checkin-lifecycle.playwright.spec.js:46:1 › Cestino nel browser: cancellazione, ripristino bloccato, emissione autorizzata nuova (7.5s)
+  -  7 tests/Feature/web-checkin-lifecycle.playwright.spec.js:55:1 › Limite letture reale: alias condivisi, altri ospiti e strutture Wi-Fi indipendenti
+  -  8 tests/Feature/web-checkin-lifecycle.playwright.spec.js:60:1 › Limite POST reale20/10min: CSRF valido, nessuna modifica, letture indipendenti
+  -  9 tests/Feature/web-checkin-lifecycle.playwright.spec.js:65:1 › Limite generale Wi-Fi condiviso300 prima del lookup, anche altre strutture
+
+
+  1) tests/Feature/web-checkin-lifecycle.playwright.spec.js:46:1 › Cestino nel browser: cancellazione, ripristino bloccato, emissione autorizzata nuova 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('button', { name: 'Ripristina', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('button', { name: 'Ripristina', exact: true })[22m
+
+
+      48 |  expect((await page.request.post(`${BASE_URL}/web-checkin/${r.trash.id}`,{form:{_token:csrf,_method:'DELETE'},maxRedirects:0})).status()).toBe(302);expect((await page.request.get(`${BASE_URL}/w/${r.trash.short}`)).status()).toBe(404);
+      49 |  const deleted=await (await page.request.get(`${BASE_URL}/audit-token/state/trash`)).json();expect(deleted.request).toBeNull();await page.goto(`${BASE_URL}/cestino`);
+    > 50 |  const restore=page.getByRole('button',{name:'Ripristina',exact:true});await expect(restore).toBeVisible();expect(await restore.evaluate(b=>b.form?.action)).toBe(`${BASE_URL}/cestino/${deleted.item}/ripristina`);await restore.click();await page.getByRole('button',{name:/Sì, salva/}).click();await page.getByRole('button',{name:'OK',exact:true}).click();await page.waitForLoadState('load');
+         |                                                                                              ^
+      51 |  await expect.poll(async()=>{const state=await(await page.request.get(`${BASE_URL}/audit-token/state/trash`)).json();return state.request?.id;}).toBeTruthy();
+      52 |  const restored=await(await page.request.get(`${BASE_URL}/audit-token/state/trash`)).json();expect(restored.request.link_revoked_at).toBeTruthy();expect(restored.request.token).toHaveLength(64);expect((await page.request.get(`${BASE_URL}/checkin/${restored.request.token}`)).status()).toBe(404);
+      53 |  await page.goto(`${BASE_URL}/web-checkin/${restored.request.id}/modifica`);await azione(page,'Emetti nuovo link','Sì, emetti','/rigenera');const fresh=await(await page.request.get(`${BASE_URL}/audit-token/state/trash`)).json();expect(fresh.request.short_token).toHaveLength(32);expect((await page.request.get(`${BASE_URL}/w/${fresh.request.short_token}`)).status()).toBe(200);expect((await page.request.get(`${BASE_URL}/w/${r.trash.short}`)).status()).toBe(404);
+        at /private/tmp/schedine-test-qrqicnnp/checkout/tests/Feature/web-checkin-lifecycle.playwright.spec.js:50:94
+
+    Error Context: test-results/web-checkin-lifecycle.play-edd6e-emissione-autorizzata-nuova/error-context.md
+
+  1 failed
+    tests/Feature/web-checkin-lifecycle.playwright.spec.js:46:1 › Cestino nel browser: cancellazione, ripristino bloccato, emissione autorizzata nuova 
+  3 did not run
+  5 passed (28.6s)
+web-checkin-lifecycle.play-edd6e-emissione-autorizzata-nuova:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - button [ref=e7] [cursor=pointer]
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic "Struttura":
+            - generic: 
+            - text: "Struttura: Hotel anteprime sintetiche"
+        - link "" [ref=e15] [cursor=pointer]:
+          - /url: http://127.0.0.1:61412/calendario
+          - generic [ref=e16]: 
+        - generic [ref=e17]:
+          - button "" [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: 
+          - text:  
+        - button "" [ref=e21] [cursor=pointer]:
+          - generic [ref=e22]: 
+        - generic [ref=e23]:
+          - button "Avatar Gianantonio Struttura" [ref=e24] [cursor=pointer]:
+            - generic [ref=e25]:
+              - img "Avatar" [ref=e27]
+              - generic [ref=e28]:
+                - generic [ref=e29]: Gianantonio
+                - generic [ref=e30]: Struttura
+          - text: 󰀉      󰍃
+  - generic [ref=e31]:
+    - link "Tango" [ref=e33] [cursor=pointer]:
+      - /url: http://127.0.0.1:61412/dashboard
+      - img "Tango" [ref=e35]
+    - list [ref=e38]:
+      - listitem [ref=e39]:
+        - generic [ref=e40]: Menu
+      - listitem [ref=e41]:
+        - link "Dashboard" [ref=e42] [cursor=pointer]:
+          - /url: http://127.0.0.1:61412/dashboard
+          - generic [ref=e43]: Dashboard
+      - listitem [ref=e44]:
+        - link "Dati struttura" [ref=e45] [cursor=pointer]:
+          - /url: http://127.0.0.1:61412/struttura
+          - generic [ref=e46]: Dati struttura
+      - listitem [ref=e47]:
+        - button "Configurazioni 󰅂" [ref=e48] [cursor=pointer]:
+          - generic [ref=e49]: Configurazioni
+          - text: 󰅂
+      - listitem [ref=e50]:
+        - button "Clienti 󰅂" [ref=e51] [cursor=pointer]:
+          - generic [ref=e52]: Clienti
+          - text: 󰅂
+      - listitem [ref=e53]:
+        - button "Schedine 󰅂" [ref=e54] [cursor=pointer]:
+          - generic [ref=e55]: Schedine
+          - text: 󰅂
+      - listitem [ref=e56]:
+        - link "Web Check-in" [ref=e57] [cursor=pointer]:
+          - /url: http://127.0.0.1:61412/web-checkin
+          - generic [ref=e58]: Web Check-in
+      - listitem [ref=e59]:
+        - button "Invio telematico 󰅂" [ref=e60] [cursor=pointer]:
+          - generic [ref=e61]: Invio telematico
+          - text: 󰅂
+      - listitem [ref=e62]:
+        - button "Statistica 󰅂" [ref=e63] [cursor=pointer]:
+          - generic [ref=e64]: Statistica
+          - text: 󰅂
+      - listitem [ref=e65]:
+        - link "Calendario" [ref=e66] [cursor=pointer]:
+          - /url: http://127.0.0.1:61412/calendario
+          - generic [ref=e67]: Calendario
+      - listitem [ref=e68]:
+        - link "Cestino" [ref=e69] [cursor=pointer]:
+          - /url: http://127.0.0.1:61412/cestino
+          - generic [ref=e70]: Cestino
+  - generic [ref=e72]:
+    - generic [ref=e74]:
+      - generic [ref=e77]:
+        - heading "Cestino" [level=4] [ref=e78]
+        - list [ref=e80]:
+          - listitem [ref=e81]:
+            - link "Sistema" [ref=e82] [cursor=pointer]:
+              - /url: "javascript: void(0);"
+          - listitem [ref=e83]: 󰅂 Cestino
+      - generic [ref=e86]:
+        - generic [ref=e88]:
+          - generic [ref=e89]:
+            - heading "Cestino" [level=5] [ref=e90]
+            - text: Archivio centrale di tutti gli elementi eliminati dal sistema, organizzato per sezione
+          - generic [ref=e91]:
+            - generic [ref=e92]:
+              - generic [ref=e95]:
+                - combobox [ref=e96]
+                - combobox "Seleziona..." [ref=e99] [cursor=pointer]:
+                  - textbox "Seleziona..." [ref=e100]
+              - generic [ref=e102]:
+                - generic [ref=e104]: 
+                - textbox "Cerca per tipo, codice, titolo o origine..." [ref=e105]
+                - text: 
+            - button "" [ref=e106] [cursor=pointer]:
+              - generic [ref=e107]: 
+        - gen
+TEST interrotto senza fallback: playwright fallito: 1
+mysql-error.log:
+2026-10-09T15:04:23.802731Z 0 [System] [MY-013169] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld (mysqld 8.0.36) initializing of server in progress as process 20361
+2026-10-09T15:04:23.806581Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /private/tmp/schedine-test-qrqicnnp/mysql-data/ is case insensitive
+2026-10-09T15:04:23.810616Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2026-10-09T15:04:23.886193Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2026-10-09T15:04:24.532744Z 5 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+2026-10-09T15:04:24.877365Z 0 [System] [MY-013172] [Server] Received SHUTDOWN from user <via user signal>. Shutting down mysqld (Version: 8.0.36).
+2026-10-09T15:04:25.402506Z 0 [Warning] [MY-010101] [Server] Insecure configuration for --secure-file-priv: Location is accessible to all OS users. Consider choosing a different directory.
+2026-10-09T15:04:25.402618Z 0 [System] [MY-010116] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld (mysqld 8.0.36) starting as process 20362
+2026-10-09T15:04:25.404915Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /private/tmp/schedine-test-qrqicnnp/mysql-data/ is case insensitive
+2026-10-09T15:04:25.409153Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2026-10-09T15:04:25.455657Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2026-10-09T15:04:25.546753Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2026-10-09T15:04:25.546781Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2026-10-09T15:04:25.548723Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/private/tmp' in the path is accessible to all OS users. Consider choosing a different directory.
+2026-10-09T15:04:25.557323Z 0 [System] [MY-010931] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld: ready for connections. Version: '8.0.36'  socket: '/private/tmp/schedine-test-qrqicnnp/mysql.sock'  port: 61411  MySQL Community Server - GPL.
+
+http.log:
+1:49734 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49742 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49742 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49750 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49750 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49758 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49758 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49770 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49771 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49772 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49770 [200]: GET /build/css/bootstrap.min.css
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49773 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49771 [200]: GET /build/css/icons.min.css
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49772 [200]: GET /build/libs/select2/css/select2.min.css
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49774 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49773 [200]: GET /build/css/app.min.css
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49776 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49774 [200]: GET /build/libs/flatpickr/flatpickr.min.css
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49782 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49770 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49772 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49776 [200]: GET /build/css/custom.min.css
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49784 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49782 [200]: GET /build/js/app2.js
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49788 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49784 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49774 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49773 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49788 [200]: GET /build/libs/jquery/jquery.min.js
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49776 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49798 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49771 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49799 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49798 [200]: GET /build/libs/simplebar/simplebar.min.js
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49800 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49799 [200]: GET /build/libs/node-waves/waves.min.js
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49788 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49801 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49800 [200]: GET /build/libs/bootstrap/js/bootstrap.bundle.min.js
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49805 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49798 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49801 [200]: GET /build/libs/select2/js/select2.full.min.js
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49782 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49808 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49799 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49805 [200]: GET /build/icons/remixicon.woff2?t=1718271040674
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49812 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49808 [200]: GET /build/icons/boxicons.woff2
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49800 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49813 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49801 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49812 [200]: GET /build/icons/materialdesignicons-webfont.woff2?v=7.2.96
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49816 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49813 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49819 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49816 [200]: GET /build/libs/feather-icons/feather.min.js
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49808 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49805 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49823 Accepted
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49819 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49823 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49816 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49812 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49819 Closing
+[Fri Oct  9 17:05:31 2026] 127.0.0.1:49823 Closing
+
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-qrqicnnp

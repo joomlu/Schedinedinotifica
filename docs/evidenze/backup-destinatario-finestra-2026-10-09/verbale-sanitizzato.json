@@ -1,0 +1,18 @@
+{
+  "backup": "INCOMPLETO",
+  "riapertura": true,
+  "inizio_utc": "2026-10-09T20:35:23Z",
+  "errore": "Marker503 mancante",
+  "secondi_manutenzione": 0.031,
+  "fine_utc": "2026-10-09T20:35:23Z",
+  "dump_iniziato": false,
+  "restore_eseguito": false,
+  "migration_isolate_eseguite": false,
+  "stabilita_eseguita": false,
+  "limite_diagnostico": "Controllo unico marker+Retry-After fallito; risposte503 originali sovrascritte dal controllo riapertura200 nella sola directoryriservata, attribuzione precisa non dimostrata",
+  "http503_codice_controllato": true,
+  "APP_KEY_env_sigillo_verificato_prima_riapertura": true,
+  "maintenance_file_assente_confermato": true,
+  "down_assente_confermato": true,
+  "esito": "ACQUISIZIONE ABORTITA PRIMA DEL DUMP; NON BACKUP VALIDO"
+}

@@ -1,0 +1,22 @@
+{
+  "esito": "PASS",
+  "baseline": "c9d8427a83c53dfb44e3ed0134bdbfaa15540b2e",
+  "ambiente": "VM ufficiale, namespace senza rete, DB e processi effimeri",
+  "PHPUnit": {
+    "test": 76,
+    "asserzioni": 1005
+  },
+  "Playwright": {
+    "prove": 2,
+    "richieste_mutative_bloccate_quattro_ruoli": 32,
+    "righe_confrontate": 100,
+    "viewport": [
+      1440,
+      390
+    ]
+  },
+  "guardie": 15,
+  "override_rifiutati": 23,
+  "build_GEO": "PASS",
+  "trasmissioni_reali": false
+}

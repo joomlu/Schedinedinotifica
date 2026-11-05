@@ -1,0 +1,17 @@
+{
+  "esito": "PASS_DOPO_AMPLIAMENTO_DATI_IDENTICI",
+  "tabelle": 64,
+  "righe": 25878,
+  "migrazioni": 156,
+  "dati_schema_protetti_identici": true,
+  "machine_id_UUID_SELinux_SHA_identici": true,
+  "servizio_web": "ATTIVO",
+  "liberi_byte": 5865099264,
+  "disco_prima_GiB": 24,
+  "disco_dopo_GiB": 28,
+  "CPU_RAM_rete_config_invariate": true,
+  "copia_CoW_integrale_riletta": true,
+  "backup": "/Users/jorgeluccitelli/.lima/schedine-sviluppo-interno/custodia-capienza-wizard-1792147478739224000",
+  "liberi_GiB": 5.462299346923828,
+  "nessuna_cancellazione_aggiuntiva": true
+}

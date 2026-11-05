@@ -1,0 +1,110 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1600" height="900" fill="#DCC8B7"/>
+<rect width="1600" height="900" fill="url(#bg)"/>
+<rect width="1600" height="900" fill="url(#mist)" opacity="0.72"/>
+
+<circle cx="1334" cy="160" r="214" fill="url(#sun)" opacity="0.28"/>
+<circle cx="226" cy="786" r="264" fill="url(#wineGlow)" opacity="0.24"/>
+
+<rect x="0" y="592" width="1600" height="308" fill="url(#floor)"/>
+<rect x="120" y="212" width="1360" height="322" rx="28" fill="url(#wallPanel)" stroke="#B79A84" stroke-width="4"/>
+
+<rect x="214" y="274" width="424" height="168" rx="16" fill="#D6C1B0" stroke="#BCA390" stroke-width="3"/>
+<text x="426" y="334" text-anchor="middle" fill="#8C1D2C" font-family="Georgia, 'Times New Roman', serif" font-size="38" font-weight="700" letter-spacing="6">RECEPTION</text>
+<path d="M286 378H566" stroke="#B68A3A" stroke-width="5" stroke-linecap="round"/>
+<path d="M322 402H530" stroke="#D0B07A" stroke-width="4" stroke-linecap="round"/>
+
+<rect x="1010" y="242" width="304" height="226" rx="18" fill="#D2BCAB" stroke="#B99F8A" stroke-width="3"/>
+<rect x="1044" y="278" width="236" height="60" rx="12" fill="#8C1D2C"/>
+<text x="1162" y="317" text-anchor="middle" fill="#FFF8F0" font-family="Georgia, 'Times New Roman', serif" font-size="27" font-weight="700">HOTEL</text>
+<rect x="1050" y="362" width="86" height="72" rx="12" fill="#E7D7C9" stroke="#BFA48E" stroke-width="3"/>
+<rect x="1118" y="362" width="86" height="72" rx="12" fill="#E7D7C9" stroke="#BFA48E" stroke-width="3"/>
+<rect x="1186" y="362" width="86" height="72" rx="12" fill="#E7D7C9" stroke="#BFA48E" stroke-width="3"/>
+<circle cx="1093" cy="398" r="10" fill="#C6A15B"/>
+<circle cx="1161" cy="398" r="10" fill="#C6A15B"/>
+<circle cx="1229" cy="398" r="10" fill="#C6A15B"/>
+
+<g opacity="0.96">
+<path d="M796 268C847.915 268 890 225.915 890 174C890 122.085 847.915 80 796 80C744.085 80 702 122.085 702 174C702 225.915 744.085 268 796 268Z" fill="url(#head)"/>
+<path d="M697 202C723 146 765 118 819 118C871 118 910 145 933 205C909 185 885 175 858 175C834 175 814 183 796 198C778 183 758 175 734 175C721 175 709 178 697 202Z" fill="#2A2526"/>
+<path d="M715 305C715 267.997 744.997 238 782 238H810C847.003 238 877 267.997 877 305V417H715V305Z" fill="url(#jacket)"/>
+<path d="M754 251H838L816 352H775L754 251Z" fill="#FFF7ED"/>
+<path d="M781 251H812L826 296L796 322L767 296L781 251Z" fill="#C6A15B"/>
+<rect x="728" y="322" width="136" height="95" rx="22" fill="#8C1D2C"/>
+<path d="M721 292L658 364" stroke="#183644" stroke-width="26" stroke-linecap="round"/>
+<path d="M872 292L935 364" stroke="#183644" stroke-width="26" stroke-linecap="round"/>
+<path d="M658 364L600 430" stroke="#E1BE92" stroke-width="22" stroke-linecap="round"/>
+<path d="M935 364L993 430" stroke="#E1BE92" stroke-width="22" stroke-linecap="round"/>
+</g>
+
+<g>
+<rect x="250" y="456" width="1100" height="198" rx="24" fill="url(#deskFront)" stroke="#5B101C" stroke-width="5"/>
+<rect x="230" y="430" width="1140" height="48" rx="22" fill="url(#deskTop)"/>
+<rect x="314" y="510" width="972" height="108" rx="18" fill="rgba(255,248,240,0.08)" stroke="rgba(255,239,220,0.18)" stroke-width="2"/>
+</g>
+
+<g opacity="0.98">
+<path d="M1120 420C1120 370.295 1160.29 330 1210 330C1259.71 330 1300 370.295 1300 420V429C1352.87 453.083 1389.2 507.965 1389.2 571.4V644L1423.78 693.454C1433.13 706.837 1423.55 725 1407.22 725H1012.78C996.451 725 986.873 706.837 996.224 693.454L1030.8 644V571.4C1030.8 507.965 1067.13 453.083 1120 429V420Z" fill="url(#bell)" stroke="#5B101C" stroke-width="8"/>
+<path d="M1096 447H1324" stroke="#F5DEAA" stroke-width="10" stroke-linecap="round" opacity="0.65"/>
+<circle cx="1210" cy="338" r="18" fill="#D4AE67"/>
+<rect x="1046" y="725" width="328" height="58" rx="20" fill="#251A18"/>
+<rect x="1096" y="643" width="228" height="60" rx="18" fill="#E8C57D" stroke="#5B101C" stroke-width="6"/>
+<circle cx="1210" cy="627" r="27" fill="#D3AB61" stroke="#5B101C" stroke-width="7"/>
+</g>
+
+<g opacity="0.6">
+<path d="M512 772C648 742 770 734 902 740C1047 747 1146 770 1266 810" stroke="#8C1D2C" stroke-width="3" stroke-linecap="round"/>
+<path d="M478 804C613 783 790 778 956 791C1073 801 1167 823 1282 852" stroke="#B68A3A" stroke-width="4" stroke-linecap="round"/>
+</g>
+
+<defs>
+<linearGradient id="bg" x1="800" y1="0" x2="800" y2="900" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D6B8A5"/>
+<stop offset="0.45" stop-color="#C9A995"/>
+<stop offset="1" stop-color="#A67C69"/>
+</linearGradient>
+<linearGradient id="mist" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F4DED0" stop-opacity="0.88"/>
+<stop offset="0.48" stop-color="#C59789" stop-opacity="0.42"/>
+<stop offset="1" stop-color="#6E1623" stop-opacity="0.16"/>
+</linearGradient>
+<radialGradient id="sun" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1334 160) rotate(90) scale(214)">
+<stop stop-color="#E9C985"/>
+<stop offset="1" stop-color="#E9C985" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="wineGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(226 786) rotate(90) scale(264)">
+<stop stop-color="#8C1D2C"/>
+<stop offset="1" stop-color="#8C1D2C" stop-opacity="0"/>
+</radialGradient>
+<linearGradient id="floor" x1="800" y1="592" x2="800" y2="900" gradientUnits="userSpaceOnUse">
+<stop stop-color="#B58F7A"/>
+<stop offset="1" stop-color="#805B4C"/>
+</linearGradient>
+<linearGradient id="wallPanel" x1="800" y1="212" x2="800" y2="534" gradientUnits="userSpaceOnUse">
+<stop stop-color="#CBAE99"/>
+<stop offset="1" stop-color="#B08D79"/>
+</linearGradient>
+<linearGradient id="deskFront" x1="800" y1="456" x2="800" y2="654" gradientUnits="userSpaceOnUse">
+<stop stop-color="#B02739"/>
+<stop offset="0.52" stop-color="#8C1D2C"/>
+<stop offset="1" stop-color="#61111D"/>
+</linearGradient>
+<linearGradient id="deskTop" x1="800" y1="430" x2="800" y2="478" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D5B173"/>
+<stop offset="1" stop-color="#B68A3A"/>
+</linearGradient>
+<linearGradient id="head" x1="796" y1="80" x2="796" y2="268" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F0D0B0"/>
+<stop offset="1" stop-color="#E4B88E"/>
+</linearGradient>
+<linearGradient id="jacket" x1="796" y1="238" x2="796" y2="417" gradientUnits="userSpaceOnUse">
+<stop stop-color="#224554"/>
+<stop offset="1" stop-color="#183644"/>
+</linearGradient>
+<linearGradient id="bell" x1="1210" y1="330" x2="1210" y2="725" gradientUnits="userSpaceOnUse">
+<stop stop-color="#BA3042"/>
+<stop offset="0.52" stop-color="#8C1D2C"/>
+<stop offset="1" stop-color="#62121E"/>
+</linearGradient>
+</defs>
+</svg>

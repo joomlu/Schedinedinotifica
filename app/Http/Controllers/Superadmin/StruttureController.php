@@ -1,0 +1,772 @@
+<?php
+
+namespace App\Http\Controllers\Superadmin;
+
+use App\Http\Controllers\Controller;
+use App\Models\CrmLead;
+use App\Models\GeoComune;
+use App\Models\GeoComuneCap;
+use App\Models\GeoNazione;
+use App\Models\GeoProvincia;
+use App\Models\GeoRegione;
+use App\Models\LicenzaArticolo;
+use App\Models\LicenzaAssegnazione;
+use App\Models\Proprietario;
+use App\Models\Struttura;
+use App\Models\StrutturaZona;
+use App\Models\User;
+use App\Services\CestinoService;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+
+class StruttureController extends Controller
+{
+    public function index()
+    {
+        $strutture = Struttura::with('proprietario')->orderBy('nome_struttura')->get();
+        $proprietari = Proprietario::orderBy('nome')->get();
+
+        return view('superadmin.strutture.index', [
+            'strutture' => $strutture,
+            'proprietari' => $proprietari,
+        ]);
+    }
+
+    public function create()
+    {
+        $proprietari = Proprietario::orderBy('nome')->get();
+
+        return view('superadmin.strutture.form', $this->buildFormViewData(
+            new Struttura,
+            $proprietari,
+            'create'
+        ));
+    }
+
+    public function store(Request $request)
+    {
+        return \DB::transaction(function () use ($request) {
+            $data = $this->validateFormData($request);
+
+            $data = $this->storeStructureLogoUpload($request, $data);
+            $struttura = Struttura::create($this->extractStrutturaPayload($data));
+            $this->syncPrimaryLicenzaFromStruttura($struttura, $struttura->proprietario?->admin_id, $data['articolo_id'] ?? null);
+            $this->syncPrimaryAccessUser($struttura, $data);
+
+            return redirect()->route('superadmin.strutture.index')->with('status', 'Struttura creata');
+
+        });
+    }
+
+    public function edit(int $id)
+    {
+        $struttura = Struttura::findOrFail($id);
+        $proprietari = Proprietario::orderBy('nome')->get();
+
+        return view('superadmin.strutture.form', $this->buildFormViewData(
+            $struttura,
+            $proprietari,
+            'edit'
+        ));
+    }
+
+    public function update(Request $request, int $id)
+    {
+        return \DB::transaction(function () use ($request, $id) {
+            $struttura = Struttura::query()->lockForUpdate()->findOrFail($id);
+            $data = $this->validateFormData($request, $this->resolvePrimaryAccessUser($struttura));
+
+            $data = $this->storeStructureLogoUpload($request, $data, $struttura);
+            $oldOwner = $struttura->proprietario_id;
+            $struttura->update($this->extractStrutturaPayload($data, $struttura));
+            if ((int) $oldOwner !== (int) $struttura->proprietario_id) {
+                User::where('struttura_id', $struttura->id)->where('ruolo', 'struttura_user')
+                    ->update(['attivo' => false, 'struttura_id' => null]);
+            }
+            $struttura = $struttura->fresh();
+            if (array_intersect(array_keys($data), ['articolo_id', 'attiva', 'scadenza_servizio', 'piano', 'stato_pagamento'])) {
+                $this->syncPrimaryLicenzaFromStruttura($struttura, $struttura->proprietario?->admin_id, $data['articolo_id'] ?? null);
+            }
+            $this->syncPrimaryAccessUser($struttura, $data);
+
+            return redirect()->route('superadmin.strutture.index')->with('status', 'Struttura aggiornata');
+
+        });
+    }
+
+    public function updateServizio(Request $request, int $id)
+    {
+        return \DB::transaction(function () use ($request, $id) {
+            $struttura = Struttura::findOrFail($id);
+
+            $data = $request->validate([
+                'articolo_id' => ['nullable', 'integer', 'exists:licenza_articoli,id'],
+                'attiva' => ['nullable', 'boolean'],
+                'avviso' => ['nullable', 'string', 'max:30'],
+                'scadenza_servizio' => ['nullable', 'date'],
+                'piano' => ['nullable', 'string', 'max:100'],
+                'stato_pagamento' => ['nullable', 'string', 'max:100'],
+            ]);
+
+            $struttura->update([
+                'attiva' => $data['attiva'] ?? $struttura->attiva,
+                'avviso' => $data['avviso'] ?? $struttura->avviso,
+                'scadenza_servizio' => $data['scadenza_servizio'] ?? $struttura->scadenza_servizio,
+                'piano' => $data['piano'] ?? $struttura->piano,
+                'stato_pagamento' => $data['stato_pagamento'] ?? $struttura->stato_pagamento,
+            ]);
+            $this->syncPrimaryLicenzaFromStruttura($struttura->fresh(), $struttura->proprietario?->admin_id, $data['articolo_id'] ?? null);
+
+            return redirect()->route('superadmin.strutture.index')->with('status', 'Servizio aggiornato');
+
+        });
+    }
+
+    public function destroy(int $id)
+    {
+        $struttura = Struttura::findOrFail($id);
+
+        \DB::transaction(function () use ($struttura) {
+            app(CestinoService::class)->archiveModel($struttura, [
+                'entity_type' => 'Struttura',
+                'source' => 'Strutture',
+                'title' => $struttura->nome_struttura,
+            ]);
+
+            User::query()->where('struttura_id', $struttura->id)->update(['struttura_id' => null]);
+            LicenzaAssegnazione::query()->where('struttura_id', $struttura->id)->update(['struttura_id' => null]);
+            CrmLead::query()->where('struttura_id', $struttura->id)->update(['struttura_id' => null]);
+
+            $struttura->delete();
+        });
+
+        return redirect()->route('superadmin.strutture.index')->with('status', 'Struttura spostata nel cestino.');
+    }
+
+    private function buildFormViewData(Struttura $struttura, $proprietari, string $mode): array
+    {
+        $this->hydrateGeoLogo($struttura);
+        $geoComuneId = $this->resolveGeoComuneId($struttura->citta);
+
+        return array_merge(app(\App\Services\AnagraficaStruttura::class)->formData($struttura), [
+            'struttura' => $struttura,
+            'proprietari' => $proprietari,
+            'mode' => $mode,
+            'accessoPrincipale' => $this->resolvePrimaryAccessUser($struttura),
+            'licenzeStorico' => $this->loadLicenzeStorico($struttura),
+            'articoliCatalogo' => LicenzaArticolo::query()->where('attivo', true)->whereNull('parent_id')->orderBy('ordine')->orderBy('nome')->get(),
+            'zoneOptions' => $this->buildZoneOptions($struttura, $geoComuneId, 'zona'),
+            'localitaOptions' => $this->buildZoneOptions($struttura, $geoComuneId, 'localita'),
+        ]);
+    }
+
+    private function validateFormData(Request $request, ?User $accessoPrincipale = null): array
+    {
+        abort_if($request->hasAny(['id', 'struttura_id', 'admin_id', 'ruolo', 'ruolo_operativo', 'tipologia_generale', 'tipologia_struttura', 'classificazione']), 403);
+        $current = $accessoPrincipale?->struttura;
+        if (! $current && $request->route('id')) {
+            $current = Struttura::findOrFail($request->route('id'));
+        }
+        $domain = app(\App\Services\AnagraficaStruttura::class)->validate($request, $current, $request->isMethod('post'));
+        $request->merge(\Illuminate\Support\Arr::except($domain, ['logo', 'logo_citta_upload']));
+
+        return array_merge($domain, $request->validate(
+            [
+                'nome_struttura' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:150'],
+                'nazione' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:100'],
+                'regione' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:100'],
+                'citta' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:150'],
+                'provincia' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:2'],
+                'localita' => ['nullable', 'string', 'max:255'],
+                'zona' => ['nullable', 'string', 'max:255'],
+                'indirizzo' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:191'],
+                'numero_civico' => ['nullable', 'string', 'max:30'],
+                'cap' => [$request->isMethod('post') ? 'required' : 'sometimes', 'filled', 'string', 'max:10'],
+                'latitudine' => ['nullable', 'string', 'max:50'],
+                'longitudine' => ['nullable', 'string', 'max:50'],
+                'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+                'logo_citta_upload' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+                'logo_citta' => ['nullable', 'string', 'max:255'],
+                'articolo_id' => ['nullable', 'integer', 'exists:licenza_articoli,id'],
+                'proprietario_id' => ['nullable', 'integer', 'exists:proprietari,id'],
+                'attiva' => ['nullable', 'boolean'],
+                'avviso' => ['nullable', Rule::in(['attivo', 'sospeso', 'inattivo'])],
+                'messaggio_offline' => ['nullable', 'string'],
+                'messaggio_avviso' => ['nullable', 'string'],
+                'scadenza_servizio' => ['nullable', 'date'],
+                'piano' => ['nullable', 'string', 'max:100'],
+                'stato_pagamento' => ['nullable', Rule::in(['ok', 'pagato', 'da_pagare', 'sospeso'])],
+                'numero_ricevuta_pagamento' => ['nullable', 'string', 'max:120'],
+                'accesso_nome' => ['nullable', 'string', 'max:255'],
+                'accesso_username' => [
+                    'nullable',
+                    'required_with:accesso_email,accesso_password,accesso_nome',
+                    'string',
+                    'max:120',
+                    Rule::unique('users', 'username')->whereNull('deleted_at')->ignore($accessoPrincipale?->id),
+                ],
+                'accesso_email' => [
+                    'nullable',
+                    'email',
+                    'max:255',
+                    Rule::unique('users', 'email')->whereNull('deleted_at')->ignore($accessoPrincipale?->id),
+                ],
+                'accesso_password' => [
+                    Rule::requiredIf(function () use ($request, $accessoPrincipale) {
+                        if ($accessoPrincipale) {
+                            return false;
+                        }
+
+                        return filled($request->input('accesso_username'))
+                            || filled($request->input('accesso_email'))
+                            || filled($request->input('accesso_nome'));
+                    }),
+                    'nullable',
+                    'string',
+                    'min:8',
+                ],
+            ],
+            [
+                'accesso_username.required_with' => 'Inserisci il nome di accesso principale della struttura.',
+                'accesso_username.unique' => 'Il nome di accesso e gia utilizzato da un altro utente.',
+                'accesso_email.unique' => 'L\'email di accesso e gia utilizzata da un altro utente.',
+                'accesso_password.required' => 'Inserisci una password per creare l\'accesso principale della struttura.',
+                'accesso_password.min' => 'La password di accesso deve contenere almeno 8 caratteri.',
+            ]
+        ));
+    }
+
+    private function extractStrutturaPayload(array $data, ?Struttura $struttura = null): array
+    {
+        $payload = app(\App\Services\AnagraficaStruttura::class)->payload($data, $struttura);
+        $payload = array_merge($payload, \Illuminate\Support\Arr::only($data, ['proprietario_id', 'attiva', 'avviso', 'messaggio_offline', 'messaggio_avviso', 'scadenza_servizio', 'piano', 'stato_pagamento', 'numero_ricevuta_pagamento']));
+        if (! $struttura?->exists) {
+            $payload += ['attiva' => false, 'telefono' => '', 'email' => ''];
+        }
+
+        return $this->normalizeGeoLabels($payload);
+    }
+
+    private function storeStructureLogoUpload(Request $request, array $data, ?Struttura $struttura = null): array
+    {
+        if (! $request->hasFile('logo')) {
+            return $this->storeGeoComuneLogoUpload($request, $data, $struttura);
+        }
+
+        $path = $request->file('logo')->store('uploads/loghi', 'public');
+        $data['logo'] = 'storage/'.$path;
+
+        return $this->storeGeoComuneLogoUpload($request, $data, $struttura);
+    }
+
+    private function storeGeoComuneLogoUpload(Request $request, array $data, ?Struttura $struttura = null): array
+    {
+        $file = $request->file('logo_citta_upload');
+        if (! $file) {
+            return $data;
+        }
+
+        $geoComuneId = $this->resolveGeoComuneId($data['citta'] ?? ($struttura->citta ?? null));
+        if (! $geoComuneId) {
+            $path = $file->store('uploads/loghi_citta', 'public');
+            $data['logo_citta'] = 'storage/'.$path;
+
+            return $data;
+        }
+
+        $comune = GeoComune::find($geoComuneId);
+        if (! $comune) {
+            $path = $file->store('uploads/loghi_citta', 'public');
+            $data['logo_citta'] = 'storage/'.$path;
+
+            return $data;
+        }
+
+        $slug = Str::slug($comune->nome) ?: 'comune';
+        $filename = $comune->id.'-'.$slug.'.'.$file->getClientOriginalExtension();
+        Storage::disk('public')->makeDirectory('geo_comuni/logo');
+        $storedPath = $file->storeAs('geo_comuni/logo', $filename, 'public');
+        $publicPath = 'storage/'.$storedPath;
+
+        $oldComuneLogo = $comune->logo_citta ?? $comune->logo;
+        if ($oldComuneLogo && $oldComuneLogo !== $publicPath) {
+            $this->deleteStoredLogo($oldComuneLogo);
+        }
+
+        $comune->update([
+            'logo_citta' => $publicPath,
+        ]);
+
+        $data['logo_citta'] = $publicPath;
+
+        return $data;
+    }
+
+    private function deleteStoredLogo(?string $path): void
+    {
+        $path = trim((string) $path);
+        if ($path === '') {
+            return;
+        }
+
+        $relative = str_starts_with($path, 'storage/') ? substr($path, 8) : $path;
+        if ($relative !== '') {
+            Storage::disk('public')->delete($relative);
+        }
+    }
+
+    private function enrichGeoDefaults(array $data): array
+    {
+        $geoComuneId = $this->resolveGeoComuneId($data['citta'] ?? null);
+        if (! $geoComuneId) {
+            return $data;
+        }
+
+        $comune = GeoComune::query()->find($geoComuneId, ['id', 'nome', 'lat', 'lng', 'logo_citta', 'logo']);
+        if (! $comune) {
+            return $data;
+        }
+
+        if (blank($data['latitudine'] ?? null) && ! blank($comune->lat)) {
+            $data['latitudine'] = $comune->lat;
+        }
+
+        if (blank($data['longitudine'] ?? null) && ! blank($comune->lng)) {
+            $data['longitudine'] = $comune->lng;
+        }
+
+        if (blank($data['logo_citta'] ?? null)) {
+            $logoComune = $this->resolveComuneLogoPath($comune);
+            if ($logoComune) {
+                $data['logo_citta'] = $logoComune;
+            }
+        }
+
+        return $data;
+    }
+
+    private function loadLicenzeStorico(Struttura $struttura)
+    {
+        if (! $struttura->exists) {
+            return collect();
+        }
+
+        return LicenzaAssegnazione::query()
+            ->with('articolo')
+            ->where('struttura_id', $struttura->id)
+            ->orderByDesc('data_scadenza')
+            ->orderByDesc('id')
+            ->get();
+    }
+
+    private function resolvePrimaryAccessUser(Struttura $struttura): ?User
+    {
+        if (! $struttura->exists) {
+            return null;
+        }
+
+        return User::query()
+            ->where('struttura_id', $struttura->id)
+            ->where('ruolo', 'struttura_user')
+            ->orderByDesc('attivo')
+            ->orderByDesc('ruolo_operativo')
+            ->orderBy('id')
+            ->first();
+    }
+
+    private function syncPrimaryAccessUser(Struttura $struttura, array $data): void
+    {
+        if (! array_intersect(array_keys($data), ['accesso_nome', 'accesso_username', 'accesso_email', 'accesso_password'])) {
+            return;
+        }
+        $accesso = $this->resolvePrimaryAccessUser($struttura);
+        $hasInput = filled($data['accesso_username'] ?? null)
+            || filled($data['accesso_email'] ?? null)
+            || filled($data['accesso_password'] ?? null)
+            || filled($data['accesso_nome'] ?? null);
+
+        if (! $accesso && ! $hasInput) {
+            return;
+        }
+
+        $username = trim((string) ($data['accesso_username'] ?? $accesso?->username ?? ''));
+        if ($username === '') {
+            return;
+        }
+
+        $name = trim((string) ($data['accesso_nome'] ?? $accesso?->name ?? ($struttura->nome_struttura.' Accesso')));
+        $email = trim((string) ($data['accesso_email'] ?? $accesso?->email ?? ''));
+        if ($email === '') {
+            $email = $this->fallbackAccessEmail($username, $struttura->id);
+        }
+
+        $payload = [
+            'name' => $name !== '' ? $name : ($struttura->nome_struttura.' Accesso'),
+            'display_name' => $name !== '' ? $name : ($struttura->nome_struttura.' Accesso'),
+            'username' => $username,
+            'email' => $email,
+            'avatar' => $accesso?->avatar ?? '',
+            'ruolo' => 'struttura_user',
+            'ruolo_operativo' => $accesso?->ruolo_operativo ?? 'proprietario',
+            'struttura_id' => $struttura->id,
+            'proprietario_id' => $struttura->proprietario_id,
+            'attivo' => (bool) $struttura->attiva,
+        ];
+
+        if ($accesso) {
+            $accesso->fill($payload);
+            if (filled($data['accesso_password'] ?? null)) {
+                $accesso->password = Hash::make((string) $data['accesso_password']);
+            }
+            $accesso->save();
+
+            return;
+        }
+
+        if (! filled($data['accesso_password'] ?? null)) {
+            return;
+        }
+
+        User::create($payload + [
+            'password' => Hash::make((string) $data['accesso_password']),
+        ]);
+    }
+
+    private function fallbackAccessEmail(string $username, int $strutturaId): string
+    {
+        $base = preg_replace('/[^a-z0-9]+/i', '.', strtolower($username));
+        $base = trim((string) $base, '.');
+        if ($base === '') {
+            $base = 'struttura';
+        }
+
+        return $base.'.'.$strutturaId.'@tanggo.local';
+    }
+
+    private function normalizeGeoLabels(array $data): array
+    {
+        if (isset($data['nazione']) && is_numeric($data['nazione'])) {
+            $nazione = GeoNazione::find((int) $data['nazione']);
+            if ($nazione) {
+                $data['nazione'] = $nazione->nome;
+            }
+        }
+
+        if (isset($data['regione']) && is_numeric($data['regione'])) {
+            $regione = GeoRegione::find((int) $data['regione']);
+            if ($regione) {
+                $data['regione'] = $regione->nome;
+            }
+        }
+
+        if (isset($data['provincia']) && is_numeric($data['provincia'])) {
+            $provincia = GeoProvincia::find((int) $data['provincia']);
+            if ($provincia) {
+                $data['provincia'] = $provincia->sigla ?: $provincia->nome;
+            }
+        }
+
+        if (isset($data['citta']) && is_numeric($data['citta'])) {
+            $comune = GeoComune::find((int) $data['citta']);
+            if ($comune) {
+                $data['citta'] = $comune->nome;
+            }
+        }
+
+        return $data;
+    }
+
+    private function buildZoneOptions(Struttura $struttura, ?int $geoComuneId, string $tipo): array
+    {
+        $values = collect();
+
+        if ($tipo === 'zona') {
+            $values = $values->merge([
+                'Mare',
+                'Monte',
+                'Centro',
+                'Collina',
+                'Lago',
+                'Stazione',
+                'Fiera',
+                'Porto',
+                'Campagna',
+                'Terme',
+            ]);
+        }
+
+        if ($struttura->exists) {
+            $catalogo = StrutturaZona::query()
+                ->where('struttura_id', $struttura->id)
+                ->where('tipo', $tipo)
+                ->where('attiva', true)
+                ->when($geoComuneId, function ($query) use ($geoComuneId) {
+                    $query->where(function ($sub) use ($geoComuneId) {
+                        $sub->whereNull('geo_comune_id')
+                            ->orWhere('geo_comune_id', $geoComuneId);
+                    });
+                })
+                ->orderBy('ordine')
+                ->orderBy('nome')
+                ->pluck('nome');
+
+            $values = $values->merge($catalogo);
+        }
+
+        if ($tipo === 'localita' && $geoComuneId) {
+            $localitaGeo = GeoComuneCap::query()
+                ->where('geo_comune_id', $geoComuneId)
+                ->whereNotNull('localita')
+                ->where('localita', '<>', '')
+                ->orderByDesc('principale')
+                ->orderBy('priorita')
+                ->pluck('localita');
+
+            $values = $values->merge($localitaGeo);
+        }
+
+        $cityName = $geoComuneId
+            ? GeoComune::query()->whereKey($geoComuneId)->value('nome')
+            : $struttura->citta;
+
+        if ($tipo === 'localita' && $cityName) {
+            $values->push($cityName);
+        }
+
+        if ($struttura->exists && $cityName) {
+            $values = $values->merge($this->collectSiblingZoneValues($struttura, $cityName, $tipo));
+        }
+
+        return $values
+            ->map(fn ($item) => trim((string) $item))
+            ->filter()
+            ->unique(fn ($item) => mb_strtolower($item))
+            ->values()
+            ->all();
+    }
+
+    private function resolveGeoComuneId($value): ?int
+    {
+        if (blank($value)) {
+            return null;
+        }
+
+        if (is_numeric($value)) {
+            return GeoComune::query()->whereKey((int) $value)->value('id');
+        }
+
+        return GeoComune::query()
+            ->where('nome', (string) $value)
+            ->value('id');
+    }
+
+    private function hydrateGeoLogo(Struttura $struttura): void
+    {
+        if (filled($struttura->logo_citta)) {
+            return;
+        }
+
+        $geoComuneId = $this->resolveGeoComuneId($struttura->citta);
+        if (! $geoComuneId) {
+            return;
+        }
+
+        $comune = GeoComune::query()->find($geoComuneId, ['id', 'nome', 'logo_citta', 'logo']);
+        if (! $comune) {
+            return;
+        }
+
+        $logoComune = $this->resolveComuneLogoPath($comune);
+        if ($logoComune) {
+            $struttura->logo_citta = $logoComune;
+        }
+    }
+
+    private function resolveComuneLogoPath(GeoComune $comune): ?string
+    {
+        // Un file storico ancora condiviso non deve annullare una rimozione esplicita.
+        if ($comune->logo_citta === '' && $comune->logo === null) {
+            return null;
+        }
+
+        foreach ([$comune->logo_citta, $comune->logo] as $candidate) {
+            $normalized = $this->normalizeLogoPath($candidate);
+            if ($normalized) {
+                return $normalized;
+            }
+        }
+
+        $slug = trim((string) preg_replace('/[^a-z0-9]+/i', '-', mb_strtolower($comune->nome)), '-');
+        foreach (['png', 'jpg', 'jpeg', 'webp'] as $extension) {
+            $relative = 'geo_comuni/logo/'.$comune->id.'-'.$slug.'.'.$extension;
+            if (Storage::disk('public')->exists($relative)) {
+                return 'storage/'.$relative;
+            }
+        }
+
+        return null;
+    }
+
+    private function normalizeLogoPath(?string $path): ?string
+    {
+        $path = trim((string) $path);
+        if ($path === '') {
+            return null;
+        }
+
+        if (preg_match('#^https?://#i', $path) || str_starts_with($path, '/')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'storage/geo_comuni/logo/')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'geo_comuni/logo/')) {
+            return 'storage/'.$path;
+        }
+
+        return $path;
+    }
+
+    private function resolveStrutturaCityColumn(): string
+    {
+        if (Schema::hasColumn('struttura', 'citta')) {
+            return 'citta';
+        }
+
+        if (Schema::hasColumn('struttura', 'città')) {
+            return 'città';
+        }
+
+        return 'citta';
+    }
+
+    private function collectSiblingZoneValues(Struttura $struttura, string $cityName, string $tipo)
+    {
+        foreach (array_unique([$this->resolveStrutturaCityColumn(), 'citta', 'città']) as $cityColumn) {
+            try {
+                return \App\Support\StrutturaAccess::query(auth()->user())
+                    ->where('id', '<>', $struttura->id)
+                    ->where($cityColumn, $cityName)
+                    ->whereNotNull($tipo)
+                    ->where($tipo, '<>', '')
+                    ->pluck($tipo);
+            } catch (QueryException $e) {
+                if (! $this->isMissingColumnException($e)) {
+                    throw $e;
+                }
+            }
+        }
+
+        return collect();
+    }
+
+    private function isMissingColumnException(QueryException $e): bool
+    {
+        $message = mb_strtolower($e->getMessage());
+
+        return str_contains($message, 'unknown column')
+            || str_contains($message, 'column not found');
+    }
+
+    private function syncPrimaryLicenzaFromStruttura(Struttura $struttura, ?int $adminId, ?int $selectedArticoloId = null): void
+    {
+        $primaryLicenza = LicenzaAssegnazione::query()
+            ->with('articolo')
+            ->where('struttura_id', $struttura->id)
+            ->whereHas('articolo', fn ($query) => $query->whereNull('parent_id'))
+            ->orderByDesc('attiva')
+            ->orderByDesc('data_scadenza')
+            ->orderByDesc('id')
+            ->first();
+
+        $articolo = $this->resolvePrimaryArticolo($struttura, $selectedArticoloId ?: $primaryLicenza?->articolo_id);
+        if (! $primaryLicenza && ! $articolo) {
+            return;
+        }
+
+        $payload = [
+            'articolo_id' => $articolo?->id ?? $primaryLicenza?->articolo_id,
+            'proprietario_id' => $struttura->proprietario_id,
+            'struttura_id' => $struttura->id,
+            'admin_id' => $adminId,
+            'quantita' => max(1, (int) ($primaryLicenza?->quantita ?? 1)),
+            'prezzo' => (float) ($primaryLicenza?->prezzo ?? $articolo?->prezzo_base ?? 0),
+            'stato_pagamento' => $struttura->stato_pagamento ?: ($primaryLicenza?->stato_pagamento ?? 'pagato'),
+            'data_inizio' => $primaryLicenza?->data_inizio ?: now()->toDateString(),
+            'data_scadenza' => $struttura->scadenza_servizio,
+            'attiva' => (bool) $struttura->attiva,
+            'note' => $primaryLicenza?->note,
+        ];
+
+        if ($primaryLicenza) {
+            $primaryLicenza->update($payload);
+
+            return;
+        }
+
+        LicenzaAssegnazione::create(array_merge($payload, [
+            'numero_licenza' => $this->nextLicenzaNumber(),
+        ]));
+    }
+
+    private function resolvePrimaryArticolo(Struttura $struttura, ?int $existingArticoloId = null): ?LicenzaArticolo
+    {
+        if ($existingArticoloId) {
+            $existing = LicenzaArticolo::query()->whereKey($existingArticoloId)->whereNull('parent_id')->first();
+            if ($existing) {
+                return $existing;
+            }
+        }
+
+        $query = LicenzaArticolo::query()->where('attivo', true)->whereNull('parent_id');
+        $piano = mb_strtolower(trim((string) $struttura->piano));
+
+        if ($piano !== '') {
+            $match = (clone $query)->get()->first(function (LicenzaArticolo $articolo) use ($piano) {
+                $haystack = mb_strtolower(trim(implode(' ', array_filter([
+                    $articolo->nome,
+                    $articolo->codice,
+                    $articolo->accesso_key,
+                ]))));
+
+                return str_contains($haystack, $piano);
+            });
+
+            if ($match) {
+                return $match;
+            }
+        }
+
+        return (clone $query)->orderBy('ordine')->orderBy('nome')->first();
+    }
+
+    private function nextLicenzaNumber(): string
+    {
+        $latest = LicenzaAssegnazione::query()
+            ->whereNotNull('numero_licenza')
+            ->where('numero_licenza', 'like', 'LIC-%')
+            ->orderByDesc('numero_licenza')
+            ->pluck('numero_licenza')
+            ->first();
+
+        $next = 1;
+        if ($latest && preg_match('/LIC-(\d+)/', $latest, $matches)) {
+            $next = ((int) $matches[1]) + 1;
+        }
+
+        do {
+            $candidate = 'LIC-'.str_pad((string) $next, 6, '0', STR_PAD_LEFT);
+            $exists = LicenzaAssegnazione::where('numero_licenza', $candidate)->exists();
+            $next++;
+        } while ($exists);
+
+        return $candidate;
+    }
+}

@@ -1,0 +1,59 @@
+{
+  "inizio": "2026-10-24T23:17:59.022Z",
+  "prove": [
+    {
+      "larghezza": 1440,
+      "XML": {
+        "errors": 0,
+        "giornate": 30,
+        "arrivi": 2,
+        "partenze": 2,
+        "camere": 2
+      },
+      "sha256": "6126962682ae116eb0c3bca248c20fcd99ce895bff6d3a57b19d8c256e69f27b",
+      "presenze_riepilogo": 4,
+      "stesso_XML_storico": true,
+      "validazione_locale": true,
+      "invio_disabilitato": true,
+      "tenant_estraneo403": true
+    },
+    {
+      "larghezza": 768,
+      "XML": {
+        "errors": 0,
+        "giornate": 30,
+        "arrivi": 2,
+        "partenze": 2,
+        "camere": 2
+      },
+      "sha256": "6126962682ae116eb0c3bca248c20fcd99ce895bff6d3a57b19d8c256e69f27b",
+      "presenze_riepilogo": 4,
+      "stesso_XML_storico": true,
+      "validazione_locale": true,
+      "invio_disabilitato": true,
+      "tenant_estraneo403": true
+    },
+    {
+      "larghezza": 390,
+      "XML": {
+        "errors": 0,
+        "giornate": 30,
+        "arrivi": 2,
+        "partenze": 2,
+        "camere": 2
+      },
+      "sha256": "6126962682ae116eb0c3bca248c20fcd99ce895bff6d3a57b19d8c256e69f27b",
+      "presenze_riepilogo": 4,
+      "stesso_XML_storico": true,
+      "validazione_locale": true,
+      "invio_disabilitato": true,
+      "tenant_estraneo403": true
+    }
+  ],
+  "dichiarazioni_statistiche": 0,
+  "esito": "PASS_ISTAT_ONLINE",
+  "storico_altro_tenant404": true,
+  "reception_lettura": true,
+  "POST_estranei": 0,
+  "fine": "2026-10-24T23:18:16.112Z"
+}

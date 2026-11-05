@@ -1,0 +1,140 @@
+{
+  "stato": "PASS_RILASCIO_C5_QA_PULIZIA_MONITOR",
+  "stato_settore": "PARZIALE_BASELINE_IN_AUDIT",
+  "data": "2026-10-23",
+  "SHA_applicativo": "4a9c0c55ce9319bef89dea97b9a1885c1ace5e66",
+  "PR_integrate": {
+    "10": "118d5d20b309e15226ab63c2b84e40318d99b136",
+    "11": "46736ee26f692376d7c3bc8e95a8e0ae5ae96b2e",
+    "12": "74300449d4704619259b2d7ba8b40291f26e94c2",
+    "13": "4a9c0c55ce9319bef89dea97b9a1885c1ace5e66"
+  },
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "S0_secondi": 145.39,
+    "RUN_secondi": 248.253,
+    "DDL": false,
+    "decisione": "CANDIDATO_ACCETTATO"
+  },
+  "qualificazione_VM": {
+    "test_PHP": 294,
+    "asserzioni": 4593,
+    "browser": 7,
+    "guardie_pure": 15,
+    "rifiuti_override": 23,
+    "errori_fallimenti_salti": 0,
+    "PHP": "8.3.36",
+    "PDF": 13,
+    "pagine": 14,
+    "sorgenti_qualificati": 44
+  },
+  "SHA_online": {
+    "Git_pulito": true,
+    "sonda_FPM_autenticata": true,
+    "digest": 205,
+    "sonde_HTTPS_TLS_CSS": 9,
+    "DB_identico_S0_prima_QA": true
+  },
+  "QA": {
+    "scenari_Web": 29,
+    "percorsi_Tassa": 3,
+    "viewport": [
+      1440,
+      768,
+      390
+    ],
+    "immagini": 62,
+    "PDF_Tassa": 3,
+    "riconciliazione": [
+      {
+        "width": 1440,
+        "notti": 20,
+        "esenti": 10,
+        "oltre": 8,
+        "imposta": 3,
+        "stampa": true
+      },
+      {
+        "width": 768,
+        "notti": 20,
+        "esenti": 10,
+        "oltre": 8,
+        "imposta": 3,
+        "stampa": true
+      },
+      {
+        "width": 390,
+        "notti": 20,
+        "esenti": 10,
+        "oltre": 8,
+        "imposta": 3,
+        "stampa": true
+      }
+    ],
+    "consolidamento_rettifica_storico": true,
+    "tenancy": true,
+    "nascita_residente_bloccati_422": true,
+    "modulo_Web_compilabile": true,
+    "nessun_invio_reale": true
+  },
+  "pulizia": {
+    "HMAC_tabelle_preesistenti_identici": 66,
+    "persistenti_conformi": 92,
+    "nessun_restore_o_reset": true,
+    "limite": "AUTO_INCREMENT non confrontati o ripristinati; solo fixture proprie rimosse"
+  },
+  "monitor_server": {
+    "esito": "PASS_MONITOR_ONLINE",
+    "secondi": 918.3716526632197,
+    "campioni": 31,
+    "sonde": 279
+  },
+  "monitor_Mac": {
+    "esito": "PASS_MONITOR_DNS_HTTPS_MAC",
+    "secondi": 920.257641417,
+    "campioni": 31,
+    "sonde": 93,
+    "DNS_TLS_ordinari": true,
+    "timeout_secondi": 15
+  },
+  "errori": {
+    "inizio_locale": "2026-10-23T10:41:55",
+    "Laravel": 0,
+    "FPM": 0
+  },
+  "ambiente": {
+    "daily_HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+    "SELinux": "Enforcing",
+    "filesystem": "1B-blocks Type\n37290283008 xfs",
+    "liberi_VM": 2020249600,
+    "watch_proprio_fermato": true,
+    "campioni_capienza": 10686,
+    "minimo_VM": 1140035584,
+    "VM_stato_finale": "Stopped",
+    "esito": "PASS_AMBIENTE_ORIGINALE_PRESERVATO_VM_RESTITUITA_SPENTA",
+    "HEAD_originale": "6a652b72d9db91c1e25c855ed34a67054eb3a8d0",
+    "quattro_documenti_preesistenti_invariati": true,
+    "caffeinate_proprio_concluso": true,
+    "liberi_Mac": 16143073280,
+    "liberi_Extra": 595565039616,
+    "UTC": "2026-10-23T10:09:45.411840+00:00"
+  },
+  "tentativi_NONPASS": [
+    "QA743: modulo fiscale incompleto bloccato; corretto in PR13",
+    "QA4a9-primo: socket hang up al controllo link dopo ripristino Cestino; ripetizione integrale invariata PASS",
+    "QA_Tassa: selettore CSRF meta assente; adattatore sul token del modulo reale, controlli invariati PASS"
+  ],
+  "accettazione_StayTour": "NON VERIFICATA",
+  "pendenti": [
+    "Sessione gestore SPID/CIE o ambiente ufficiale senza effetti fiscali non disponibile",
+    "Mappatura tecnica StayTour450 non attestata dalla specifica vigente",
+    "Tre classificazioni e una nascita operativa mancanti, nessun dato inventato",
+    "Causa esclusiva del timeout storico di decifratura non dimostrata; nuovi recuperi C5 PASS a limiti invariati",
+    "Compleanno incluso: conferma operativa umana storica conservata, nessuna nuova attestazione comunale"
+  ],
+  "fonti": "fonti-ripresa.json",
+  "immagini_sintetiche_SHA256": {
+    "stampa-online.png": "a43bec4ad3ac2a22cdb19b70faf6e47f67d2e2710f926df26ed1eb7b83e44a63",
+    "controllo-mobile-online.png": "d3b75b2334072d75e9c6dce2e8dad5c6446e3b54ea298ccf89544bcc5bb503fc"
+  }
+}

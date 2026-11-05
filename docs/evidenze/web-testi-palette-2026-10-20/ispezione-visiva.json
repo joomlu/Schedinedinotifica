@@ -1,0 +1,23 @@
+{
+  "esito": "PASS_ISPEZIONE_VISIVA_NELLO_SCOPE",
+  "schermate_ispezionate": {
+    "palette-calendario-390-ffffee.png": "cfdf8b4c772f6ad4af7f828213af735adc910c56bf388a03d550ef60caeacb4c",
+    "palette-calendario-768-123456.png": "e95e8da8f4a559692eacc6bf6e0b79a2c0cb594a9f5a0f2affb1fad69255bc4b",
+    "palette-email-1440-123456.png": "6192499d5086e894a5377d929496d2cc269f234a22260b0d0c491366232f7f05",
+    "palette-calendario-1440-ffffee.png": "f7f5657407ded5aa58d3c4bd182870d2eeaab5255e74670e25ad273608fab00f",
+    "geo-errore-390.png": "fe6f530fe9ef472f0e8076f7a0144230338cadd1336beae3d44d8fdde2f2af0f",
+    "editor-390.png": "f0b632046c8371c012695f1fc5c69d161bfc9ec9a3b3e16ac7d374c4277c2627",
+    "palette-ricevuta-390-123456.png": "04c63b0d67688116ea1f68745403c968b0c898d81f6c6ce9638da428ec583952"
+  },
+  "riscontri": [
+    "Nazione FRANCIA visibile, nessun ID interno, dettagli esteri facoltativi e dati conservati",
+    "Errore rosso vicino al controllo visibile con sezione aperta, senza popup residuo",
+    "Calendario chiaro/scuro opaco e leggibile dopo animazione a 1440/768/390",
+    "Modello con Referente alternativo 390 e nessun dato del primo referente",
+    "Ricevuta mobile leggibile, pulsanti e toni coordinati, logo blu invariato"
+  ],
+  "limiti": [
+    "Viewport Chromium, non dispositivi fisici o certificazione universale di accessibilità",
+    "Anteprime email visualizzate nella modale scorribile esistente; nessun invio effettuato"
+  ]
+}

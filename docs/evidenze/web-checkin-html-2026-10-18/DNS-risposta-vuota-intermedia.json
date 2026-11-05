@@ -1,0 +1,42 @@
+{
+  "esito": "BLOCCO_DNS_O_PROPAGAZIONE_NON_CONFORME",
+  "data_UTC": "2026-10-18T19:47:42.819346+00:00",
+  "verifiche": {
+    "aron.ns.cloudflare.com": {
+      "codice_uscita": 0,
+      "SPF": [
+        "v=spf1 ip4:217.174.149.23 -all"
+      ],
+      "record_previsto": true,
+      "DKIM_default": [],
+      "DKIM_codice_uscita": 0
+    },
+    "jakub.ns.cloudflare.com": {
+      "codice_uscita": 0,
+      "SPF": [
+        "v=spf1 ip4:217.174.149.23 -all"
+      ],
+      "record_previsto": true,
+      "DKIM_default": [],
+      "DKIM_codice_uscita": 0
+    },
+    "1.1.1.1": {
+      "codice_uscita": 0,
+      "SPF": [
+        "v=spf1 ip4:217.174.149.23 -all"
+      ],
+      "record_previsto": true,
+      "DKIM_default": [],
+      "DKIM_codice_uscita": 0
+    },
+    "8.8.8.8": {
+      "codice_uscita": 0,
+      "SPF": [],
+      "record_previsto": false,
+      "DKIM_default": [],
+      "DKIM_codice_uscita": 0
+    }
+  },
+  "nuovo_invio_reale_necessario_prima_di_attestare_consegna": true,
+  "nessuna_modifica_DNS_eseguita_da_questa_verifica": true
+}

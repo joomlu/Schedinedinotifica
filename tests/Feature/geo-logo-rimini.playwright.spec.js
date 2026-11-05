@@ -1,0 +1,60 @@
+import {test,expect,BASE_URL} from '../Support/playwright.js';
+import {logoImages} from '../Support/logo-images.js';
+test.use({headless:true});
+for(const width of [1440,390]) for(const image of logoImages) test(`Rimini: upload ${image.extension} con ricerca tardiva a ${width}px`,async({page})=>{
+ await page.setViewportSize({width,height:900});
+ await page.goto(`${BASE_URL}/login`);
+ await page.locator('[name="login"]').fill('fixture-admin');
+ await page.locator('[name="password"]').fill('Password-fixture-123!');
+ await page.getByRole('button',{name:'Entra',exact:true}).click();
+ await expect(page).not.toHaveURL(/\/login$/);
+ await page.goto(`${BASE_URL}/geo/comuni/logo`);await page.waitForLoadState('networkidle');
+ let releaseResponse,markReady,markDelivered;
+ const gate=new Promise(resolve=>{releaseResponse=resolve});
+ const ready=new Promise(resolve=>{markReady=resolve});
+ const delivered=new Promise(resolve=>{markDelivered=resolve});
+ await page.route('**/geo/comuni/logo?*',async route=>{
+  if(route.request().headers()['x-requested-with']!=='XMLHttpRequest'){await route.continue();return;}
+  const response=await route.fetch();markReady();await gate;await route.fulfill({response});markDelivered();
+ });
+ const search=page.locator('#geo-comuni-search');
+ await search.fill('Rimini');await search.press('Enter');await ready;
+ const row=page.locator('tbody tr').filter({hasText:'Rimini'});
+ const file=row.locator('input[name="logo"]');
+ await file.setInputFiles({name:'rimini.'+image.extension,mimeType:image.mime,buffer:image.buffer});
+ releaseResponse();await delivered;
+ await expect.poll(()=>file.evaluate(e=>e.files.length)).toBe(1);
+ await row.getByRole('button',{name:'Carica',exact:true}).click();
+ await page.getByRole('button',{name:'Sì, salva',exact:true}).click();
+ const responsePromise=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname.includes('/geo/comuni/'));
+ await page.getByRole('button',{name:'OK',exact:true}).click();
+ const response=await responsePromise;expect(response.status()).toBe(302);
+ console.log('Upload sintetico',image.extension,width,'HTTP',response.status());
+ await expect(page.locator('.alert-success').first()).toContainText('Logo caricato');
+ await page.getByRole('button',{name:'OK',exact:true}).click();
+ await expect(page).toHaveURL(/q=Rimini/);
+ await expect(page.getByAltText('Logo Rimini')).toBeVisible();
+ await expect.poll(()=>page.getByAltText('Logo Rimini').evaluate(e=>e.complete&&e.naturalWidth>0)).toBe(true);
+ await expect(row.getByRole('button',{name:'Rimuovi',exact:true})).toBeVisible();
+ expect(await page.locator('tbody tr').count()).toBe(1);
+});
+
+test('Rimini: immagine non valida mostra errore e conserva il logo',async({page})=>{
+ await page.goto(`${BASE_URL}/login`);
+ await page.locator('[name="login"]').fill('fixture-admin');
+ await page.locator('[name="password"]').fill('Password-fixture-123!');
+ await page.getByRole('button',{name:'Entra',exact:true}).click();
+ await expect(page).not.toHaveURL(/\/login$/);
+ await page.goto(`${BASE_URL}/geo/comuni/logo?q=Rimini`);await page.waitForLoadState('networkidle');
+ const oldImage=page.getByAltText('Logo Rimini');await expect(oldImage).toBeVisible();
+ const oldSrc=await oldImage.getAttribute('src');
+ const row=page.locator('tbody tr').filter({hasText:'Rimini'});
+ await row.locator('input[name="logo"]').setInputFiles({name:'errore.png',mimeType:'image/png',buffer:Buffer.from('Contenuto sintetico non immagine')});
+ await row.getByRole('button',{name:'Carica',exact:true}).click();
+ await page.getByRole('button',{name:'Sì, salva',exact:true}).click();
+ const pending=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname.includes('/geo/comuni/'));
+ await page.getByRole('button',{name:'OK',exact:true}).click();
+ expect((await pending).status()).toBe(302);
+ await expect(page.locator('.alert-danger:visible').first()).toBeVisible();
+ await expect(page.getByAltText('Logo Rimini')).toHaveAttribute('src',oldSrc);
+});

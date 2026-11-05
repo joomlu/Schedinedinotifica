@@ -1,0 +1,2350 @@
+{
+  "data": "2026-10-09",
+  "profilo": {
+    "origine": ".env senza bootstrap",
+    "host": "127.0.0.1",
+    "porta": "3306",
+    "database_attesa": "schedinedinotifica"
+  },
+  "database_effettiva": "schedinedinotifica",
+  "versione": "8.0.44",
+  "migration": [
+    {
+      "migration": "2014_10_12_000000_create_users_table",
+      "batch": 1
+    },
+    {
+      "migration": "2014_10_12_100000_create_password_resets_table",
+      "batch": 1
+    },
+    {
+      "migration": "2019_08_19_000000_create_failed_jobs_table",
+      "batch": 1
+    },
+    {
+      "migration": "2019_12_14_000001_create_personal_access_tokens_table",
+      "batch": 1
+    },
+    {
+      "migration": "2024_11_13_125626_create_customers_table",
+      "batch": 1
+    },
+    {
+      "migration": "2024_11_18_171922_create_groups_table",
+      "batch": 1
+    },
+    {
+      "migration": "2024_11_21_130450_create_type_docs_table",
+      "batch": 1
+    },
+    {
+      "migration": "2024_11_21_130510_create_releaseds_table",
+      "batch": 1
+    },
+    {
+      "migration": "2024_11_21_130537_create_type_streets_table",
+      "batch": 1
+    },
+    {
+      "migration": "2024_11_26_131435_create_arrivals_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_14_140414_rename_typedocs_to_tipo_documento",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_14_140426_update_tipo_documento_fields",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_14_150000_drop_type_docs_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_14_161000_add_fields_to_struttura_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_14_170000_create_struttura_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_14_170100_drop_strutture_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_14_180000_alter_struttura_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_000001_add_rilasciato_da_to_tipo_documento_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_000001_create_or_update_tipo_documento_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_000001_rename_released_to_rilasciato_da_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_000002_rename_released_to_rilasciato_da_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_000003_rename_released_to_rilasciato_da_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_100000_update_tipo_documento_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_200000_add_rilasciato_da_to_tipo_documento",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_222000_add_rilasciato_da_to_tipo_documento_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_230000_add_rilasciato_da_to_tipo_documento_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_235900_rename_releaseds_to_rilasciato_da_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_rename_codice_column_in_tipo_documento_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_rename_Codice_to_codice_in_tipo_documento_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_15_rename_released_to_rilasciato_da_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_000001_rename_groups_to_gruppi",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_000001_rename_type_streets_to_tipo_via",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_000002_add_descrizione_to_tipo_via",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_000002_create_tassa_di_soggiorno_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_000002_update_gruppi_columns",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_000003_fix_tipo_via_nome_descrizione",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_000004_add_descrizione_to_tipo_via_after_nome",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_000005_fix_nome_descrizione_tipo_via",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_100000_rename_title_to_titolo",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_100001_rename_title_columns",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_110000_add_descrizione_to_titolo_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_120000_add_nome_to_gruppi_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_120000_add_struttura_id_to_tassa_di_soggiorno_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_120100_add_nullable_struttura_id_to_tassa_di_soggiorno",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_120200_popola_struttura_id_tassa_di_soggiorno",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_120300_struttura_id_notnull_fk_tassa_di_soggiorno",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_120400_delete_orfani_tassa_di_soggiorno",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_130000_add_note_to_tassa_di_soggiorno_table",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_140000_remove_descrizione_from_tipo_via",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_140100_remove_rilasciato_da_from_tipo_documento",
+      "batch": 1
+    },
+    {
+      "migration": "2025_11_16_203000_add_logo_citta_to_struttura_table",
+      "batch": 1
+    },
+    {
+      "migration": "2026_02_27_000001_rename_customers_to_clienti",
+      "batch": 1
+    },
+    {
+      "migration": "2026_02_27_101500_drop_arrivals_table",
+      "batch": 1
+    },
+    {
+      "migration": "2026_02_27_103500_create_arrivi_table",
+      "batch": 1
+    },
+    {
+      "migration": "2026_02_27_120000_create_tipologia_relations",
+      "batch": 1
+    },
+    {
+      "migration": "2026_02_28_000001_normalize_classificazioni",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_01_150000_create_geo_tables",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_01_170500_drop_comuni_table",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_01_171500_drop_state_nac_table",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_01_172500_drop_released_tables",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_02_000001_create_proprietari_table",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_02_000002_update_users_for_roles_and_links",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_02_000003_update_struttura_with_proprietario_and_status",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_02_000004_add_struttura_to_business_tables",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_02_120000_create_impersonation_logs_table",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_02_120000_create_schedina_camere_table",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_02_120100_add_prenotazione_fields_to_schedina_table",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_02_130000_add_camere_reali_enabled_to_struttura_table",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_02_140000_add_ruolo_and_struttura_to_users_table",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_02_141000_add_servizio_fields_to_struttura_table",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_02_142000_add_struttura_to_business_tables",
+      "batch": 1
+    },
+    {
+      "migration": "2026_03_03_000001_update_tipo_via_add_abbr_descrizione_attivo",
+      "batch": 2
+    },
+    {
+      "migration": "2026_03_03_120500_create_titolo_table",
+      "batch": 2
+    },
+    {
+      "migration": "2026_03_04_000500_add_hierarchy_to_gruppi_table",
+      "batch": 5
+    },
+    {
+      "migration": "2026_03_04_120000_add_name_to_rilasciato_da_table",
+      "batch": 3
+    },
+    {
+      "migration": "2026_03_04_121500_add_attivo_to_rilasciato_da_table",
+      "batch": 4
+    },
+    {
+      "migration": "2026_03_05_120000_add_logo_to_geo_comuni_table",
+      "batch": 7
+    },
+    {
+      "migration": "2026_03_05_121000_create_tassa_esenzioni_table",
+      "batch": 7
+    },
+    {
+      "migration": "2026_03_05_130000_create_schedina_table_if_missing",
+      "batch": 8
+    },
+    {
+      "migration": "2026_03_05_130100_create_schedina_camere_table_if_missing",
+      "batch": 8
+    },
+    {
+      "migration": "2026_03_05_140000_add_logo_citta_to_geo_comuni_table",
+      "batch": 9
+    },
+    {
+      "migration": "2026_03_10_120000_create_tipo_alloggiato_table",
+      "batch": 10
+    },
+    {
+      "migration": "2026_03_10_210000_create_tipo_cliente_table",
+      "batch": 11
+    },
+    {
+      "migration": "2026_03_10_230000_add_missing_fields_to_clienti_for_scheda_cliente",
+      "batch": 12
+    },
+    {
+      "migration": "2026_03_11_120000_add_numero_cliente_to_clienti_table",
+      "batch": 13
+    },
+    {
+      "migration": "2026_03_11_130000_add_azienda_fields_to_clienti_table",
+      "batch": 14
+    },
+    {
+      "migration": "2026_03_11_131000_normalize_rilasciato_reg_in_clienti_table",
+      "batch": 14
+    },
+    {
+      "migration": "2026_03_11_150000_add_or_published_city_to_schedina_table",
+      "batch": 15
+    },
+    {
+      "migration": "2026_03_11_170000_create_componenti_table_if_missing",
+      "batch": 16
+    },
+    {
+      "migration": "2026_03_11_174000_add_foreign_keys_to_componenti_table",
+      "batch": 17
+    },
+    {
+      "migration": "2026_03_11_180000_add_anagrafica_geo_fields_to_componenti_table",
+      "batch": 18
+    },
+    {
+      "migration": "2026_03_11_210500_add_cap_nac_to_componenti_table",
+      "batch": 19
+    },
+    {
+      "migration": "2026_03_11_232500_add_oa_cap_to_schedina_table",
+      "batch": 20
+    },
+    {
+      "migration": "2026_03_12_001000_add_circuito_to_schedina_table",
+      "batch": 21
+    },
+    {
+      "migration": "2026_03_12_010000_create_web_checkin_richieste_table",
+      "batch": 22
+    },
+    {
+      "migration": "2026_03_12_120000_create_cestino_items_table",
+      "batch": 23
+    },
+    {
+      "migration": "2026_03_12_140000_create_questura_exports_table",
+      "batch": 24
+    },
+    {
+      "migration": "2026_03_12_150000_add_questura_ws_fields_and_transmissions",
+      "batch": 25
+    },
+    {
+      "migration": "2026_03_12_160000_add_questura_ws_simulation_to_struttura",
+      "batch": 26
+    },
+    {
+      "migration": "2026_03_12_170000_add_istat_tabella_a_fields_and_tables",
+      "batch": 27
+    },
+    {
+      "migration": "2026_03_12_171500_add_istat_non_turista_to_schedina",
+      "batch": 28
+    },
+    {
+      "migration": "2026_03_13_100000_add_operativa_fields_to_users_and_create_operativa_tables",
+      "batch": 29
+    },
+    {
+      "migration": "2026_03_13_113000_drop_unique_username_on_users",
+      "batch": 30
+    },
+    {
+      "migration": "2026_03_13_140000_create_support_tickets_tables",
+      "batch": 31
+    },
+    {
+      "migration": "2026_03_14_120000_create_calendario_eventi_table",
+      "batch": 32
+    },
+    {
+      "migration": "2026_03_14_170000_create_struttura_zone_table",
+      "batch": 33
+    },
+    {
+      "migration": "2026_03_15_120000_add_document_release_fields_to_clienti_table",
+      "batch": 34
+    },
+    {
+      "migration": "2026_03_15_140000_add_anagrafica_geo_fields_to_clienti_table",
+      "batch": 35
+    },
+    {
+      "migration": "2026_03_15_190000_add_customer_mirror_fields_to_schedina_table",
+      "batch": 36
+    },
+    {
+      "migration": "2026_03_15_210000_add_consensi_to_clienti_table",
+      "batch": 37
+    },
+    {
+      "migration": "2026_03_15_210100_add_customer_consensi_to_schedina_table",
+      "batch": 37
+    },
+    {
+      "migration": "2026_03_15_221000_change_schedina_exent_to_string",
+      "batch": 38
+    },
+    {
+      "migration": "2026_03_20_120000_add_locked_to_tipo_documento_table",
+      "batch": 6
+    },
+    {
+      "migration": "2026_03_22_120000_add_admin_profile_fields_to_users_table",
+      "batch": 39
+    },
+    {
+      "migration": "2026_03_22_130000_add_admin_geo_fields_to_users_table",
+      "batch": 40
+    },
+    {
+      "migration": "2026_03_22_140000_create_admin_servizi_table",
+      "batch": 41
+    },
+    {
+      "migration": "2026_03_22_150000_create_admin_servizio_proprietario_table",
+      "batch": 42
+    },
+    {
+      "migration": "2026_03_22_160000_create_admin_fatturazioni_table",
+      "batch": 43
+    },
+    {
+      "migration": "2026_03_22_161000_create_admin_fatturazione_righe_table",
+      "batch": 43
+    },
+    {
+      "migration": "2026_03_22_162000_add_pricing_fields_to_admin_fatturazioni_tables",
+      "batch": 44
+    },
+    {
+      "migration": "2026_03_22_170000_add_profile_fields_to_proprietari_table",
+      "batch": 45
+    },
+    {
+      "migration": "2026_03_22_171000_create_proprietario_fatturazioni_table",
+      "batch": 45
+    },
+    {
+      "migration": "2026_03_22_172000_create_proprietario_fatturazione_righe_table",
+      "batch": 45
+    },
+    {
+      "migration": "2026_03_22_180000_create_licenza_articoli_table",
+      "batch": 46
+    },
+    {
+      "migration": "2026_03_22_181000_create_licenza_assegnazioni_table",
+      "batch": 46
+    },
+    {
+      "migration": "2026_03_22_182000_add_numero_licenza_to_licenza_assegnazioni_table",
+      "batch": 47
+    },
+    {
+      "migration": "2026_03_22_190000_add_quantita_default_to_admin_servizi_table",
+      "batch": 48
+    },
+    {
+      "migration": "2026_03_22_191000_expand_calendario_eventi_for_personal_context",
+      "batch": 49
+    },
+    {
+      "migration": "2026_03_22_232700_add_struttura_id_to_admin_servizio_proprietario_table",
+      "batch": 50
+    },
+    {
+      "migration": "2026_04_04_160000_add_avviso_to_struttura_table",
+      "batch": 51
+    },
+    {
+      "migration": "2026_04_04_193000_add_admin_messages_to_struttura_table",
+      "batch": 52
+    },
+    {
+      "migration": "2026_04_04_201000_add_payment_receipt_to_struttura_table",
+      "batch": 53
+    },
+    {
+      "migration": "2026_04_04_230000_add_cellulare_to_proprietari_table",
+      "batch": 54
+    },
+    {
+      "migration": "2026_04_05_103000_add_payment_fields_to_proprietario_fatturazioni_table",
+      "batch": 55
+    },
+    {
+      "migration": "2026_04_05_130000_add_payment_fields_to_admin_fatturazioni_table",
+      "batch": 56
+    },
+    {
+      "migration": "2026_04_06_020000_create_crm_leads_table",
+      "batch": 57
+    },
+    {
+      "migration": "2026_04_06_020100_create_crm_lead_activities_table",
+      "batch": 57
+    },
+    {
+      "migration": "2026_04_06_023000_add_direzione_to_crm_lead_activities_table",
+      "batch": 58
+    },
+    {
+      "migration": "2026_04_24_231500_add_struttura_id_to_crm_leads_table",
+      "batch": 59
+    },
+    {
+      "migration": "2026_04_25_101000_create_customer_import_batches_table",
+      "batch": 60
+    },
+    {
+      "migration": "2026_04_25_101100_create_customer_import_rows_table",
+      "batch": 60
+    },
+    {
+      "migration": "2026_04_30_120000_enable_soft_delete_for_hierarchy_and_nullable_admin_on_proprietari",
+      "batch": 61
+    },
+    {
+      "migration": "2026_10_06_100000_encrypt_questura_credentials",
+      "batch": 62
+    },
+    {
+      "migration": "2026_10_06_110000_add_questura_archive_integrity",
+      "batch": 62
+    },
+    {
+      "migration": "2026_10_06_120000_add_questura_retention",
+      "batch": 62
+    },
+    {
+      "migration": "2026_10_06_130000_add_questura_send_reservations",
+      "batch": 62
+    }
+  ],
+  "file_confrontati": [
+    {
+      "migration": "2014_10_12_000000_create_users_table",
+      "percorso": "database/migrations/2014_10_12_000000_create_users_table.php",
+      "sha256": "b96d03c7e78cba43cf0bea4be2a3ddfb8f99cca3314ac19c673571ead799869d",
+      "registrata": true
+    },
+    {
+      "migration": "2014_10_12_100000_create_password_resets_table",
+      "percorso": "database/migrations/2014_10_12_100000_create_password_resets_table.php",
+      "sha256": "4523ad86b515b1d37c4e182e12973247b793e50511f1065d8ef9d57fac71c45d",
+      "registrata": true
+    },
+    {
+      "migration": "2019_08_19_000000_create_failed_jobs_table",
+      "percorso": "database/migrations/2019_08_19_000000_create_failed_jobs_table.php",
+      "sha256": "b7ff81d0a2324199c07ef4141748a839a73b04b01bfe6d32bda6635987136fae",
+      "registrata": true
+    },
+    {
+      "migration": "2019_12_14_000001_create_personal_access_tokens_table",
+      "percorso": "database/migrations/2019_12_14_000001_create_personal_access_tokens_table.php",
+      "sha256": "be34fc2b6d751cf72f23befbd4195e9bfed690784a5573b7f9188de8f74221c6",
+      "registrata": true
+    },
+    {
+      "migration": "2024_11_13_125626_create_customers_table",
+      "percorso": "database/migrations/2024_11_13_125626_create_customers_table.php",
+      "sha256": "8beb23fffb1d89c9a6bb335ea47af566a7c639c6686b233fb669fcfa844031bf",
+      "registrata": true
+    },
+    {
+      "migration": "2024_11_18_171922_create_groups_table",
+      "percorso": "database/migrations/2024_11_18_171922_create_groups_table.php",
+      "sha256": "ce9bc0c1d498eb7c9e71222f9db972b7661a2d778c2d4de3b442141b79180518",
+      "registrata": true
+    },
+    {
+      "migration": "2024_11_21_130450_create_type_docs_table",
+      "percorso": "database/migrations/2024_11_21_130450_create_type_docs_table.php",
+      "sha256": "ce823228cfa41db54607bdfe7b52ed335f62606d5f6ac68bf341ef72b749e083",
+      "registrata": true
+    },
+    {
+      "migration": "2024_11_21_130510_create_releaseds_table",
+      "percorso": "database/migrations/2024_11_21_130510_create_releaseds_table.php",
+      "sha256": "ad62a7077b09df74772c45b4757bcebd95141fd7f1aef3f9a5d9d6cd0148fccf",
+      "registrata": true
+    },
+    {
+      "migration": "2024_11_21_130537_create_type_streets_table",
+      "percorso": "database/migrations/2024_11_21_130537_create_type_streets_table.php",
+      "sha256": "e87fc7bd07d26e66d2243df30260eb2a5e552d25c98cb45fc29bc7bbbae1446d",
+      "registrata": true
+    },
+    {
+      "migration": "2024_11_26_131435_create_arrivals_table",
+      "percorso": "database/migrations/2024_11_26_131435_create_arrivals_table.php",
+      "sha256": "0f71c28afdb6e35f664650345c37bdb59cc8bb15d0ceaa3fa3246aafee37ee08",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_14_140414_rename_typedocs_to_tipo_documento",
+      "percorso": "database/migrations/2025_11_14_140414_rename_typedocs_to_tipo_documento.php",
+      "sha256": "83db9f45c3bb634e2e76a2f16e192278b55e117acbf33d92973a02a0d41b8ede",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_14_140426_update_tipo_documento_fields",
+      "percorso": "database/migrations/2025_11_14_140426_update_tipo_documento_fields.php",
+      "sha256": "2a0166f8d2334825da340ea2d27961f5cf1f469d6f1d2912ad3bc0aabd6b4022",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_14_150000_drop_type_docs_table",
+      "percorso": "database/migrations/2025_11_14_150000_drop_type_docs_table.php",
+      "sha256": "b30c5ff7dae4e7d911cc7d6a4d925f1a1520ff9f54f820e8e3384bceca71393d",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_14_161000_add_fields_to_struttura_table",
+      "percorso": "database/migrations/2025_11_14_161000_add_fields_to_struttura_table.php",
+      "sha256": "84a13d9127e273f6922f6b2b182f33882c006e61968df1bad151d276ed1368a9",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_14_170000_create_struttura_table",
+      "percorso": "database/migrations/2025_11_14_170000_create_struttura_table.php",
+      "sha256": "9d959bb4182c9f972500f57653c4248a7f93185368f84c365ded093fd7230c12",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_14_170100_drop_strutture_table",
+      "percorso": "database/migrations/2025_11_14_170100_drop_strutture_table.php",
+      "sha256": "dcf67b7fd7c60abeb3b25b6e20423d805dc6d2fce428835167cc79ad69d35d4f",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_14_180000_alter_struttura_table",
+      "percorso": "database/migrations/2025_11_14_180000_alter_struttura_table.php",
+      "sha256": "f5a69bc4eee201c296212001aa44cb44f3437c5a8f4c8005f31a7ecbdb76c5f4",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_000001_add_rilasciato_da_to_tipo_documento_table",
+      "percorso": "database/migrations/2025_11_15_000001_add_rilasciato_da_to_tipo_documento_table.php",
+      "sha256": "2d3ba57da8e2e846ae53b47871b82e453bdd845b9121cc60c7a170a0843c6bc8",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_000001_create_or_update_tipo_documento_table",
+      "percorso": "database/migrations/2025_11_15_000001_create_or_update_tipo_documento_table.php",
+      "sha256": "c70cf01408f89fce7b31b4c2fa842120a875782e94b244161c977ff9c56e107f",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_000001_rename_released_to_rilasciato_da_table",
+      "percorso": "database/migrations/2025_11_15_000001_rename_released_to_rilasciato_da_table.php",
+      "sha256": "423bce44c3beb79522c051aa06d4a3b840524e9b38ead7dfb029638b170dceae",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_000002_rename_released_to_rilasciato_da_table",
+      "percorso": "database/migrations/2025_11_15_000002_rename_released_to_rilasciato_da_table.php",
+      "sha256": "773b9346adc74f089bb257a4c1223a4790106b4de150532228d4993074d3f0b4",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_000003_rename_released_to_rilasciato_da_table",
+      "percorso": "database/migrations/2025_11_15_000003_rename_released_to_rilasciato_da_table.php",
+      "sha256": "773b9346adc74f089bb257a4c1223a4790106b4de150532228d4993074d3f0b4",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_100000_update_tipo_documento_table",
+      "percorso": "database/migrations/2025_11_15_100000_update_tipo_documento_table.php",
+      "sha256": "f21defeb03a4df38763a22603bd7143873ec457100e95aae0b011602cf2ff58d",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_200000_add_rilasciato_da_to_tipo_documento",
+      "percorso": "database/migrations/2025_11_15_200000_add_rilasciato_da_to_tipo_documento.php",
+      "sha256": "c91b9da27653f0a20b816cf1e23d2312cda5d0a892b8eaffe191f1615f11cc81",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_222000_add_rilasciato_da_to_tipo_documento_table",
+      "percorso": "database/migrations/2025_11_15_222000_add_rilasciato_da_to_tipo_documento_table.php",
+      "sha256": "81d84852f98be6b725ea6bb32af398c44d2e63e544552373ba9708a8a2c7e697",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_230000_add_rilasciato_da_to_tipo_documento_table",
+      "percorso": "database/migrations/2025_11_15_230000_add_rilasciato_da_to_tipo_documento_table.php",
+      "sha256": "81d84852f98be6b725ea6bb32af398c44d2e63e544552373ba9708a8a2c7e697",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_235900_rename_releaseds_to_rilasciato_da_table",
+      "percorso": "database/migrations/2025_11_15_235900_rename_releaseds_to_rilasciato_da_table.php",
+      "sha256": "4490c9b73c2c0e8afc7720313c2e76557c75e307f330904f5b330b76d6a3f9d2",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_rename_Codice_to_codice_in_tipo_documento_table",
+      "percorso": "database/migrations/2025_11_15_rename_Codice_to_codice_in_tipo_documento_table.php",
+      "sha256": "65dc63acfcd4da99def75d0fc24d11ba0632ec6eda65aadb7e731b510d47df90",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_rename_codice_column_in_tipo_documento_table",
+      "percorso": "database/migrations/2025_11_15_rename_codice_column_in_tipo_documento_table.php",
+      "sha256": "686f243acf8d5476e049d087defe2483e2c7619be72d5e3f9add18fd69dd0958",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_15_rename_released_to_rilasciato_da_table",
+      "percorso": "database/migrations/2025_11_15_rename_released_to_rilasciato_da_table.php",
+      "sha256": "e2b3951a73f47089c54798630eb64e57b3932929a4c35eb981d00d155de38d94",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_000001_rename_groups_to_gruppi",
+      "percorso": "database/migrations/2025_11_16_000001_rename_groups_to_gruppi.php",
+      "sha256": "adb3db4477e51118cb3c3e78464faaf3542f435a289435d190e99af0babdaffe",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_000001_rename_type_streets_to_tipo_via",
+      "percorso": "database/migrations/2025_11_16_000001_rename_type_streets_to_tipo_via.php",
+      "sha256": "338a78a2bbf1667d6ff5d0f8c1c6dad9f4f7db1e2cb72e5d0511bf35fd0a6c34",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_000002_add_descrizione_to_tipo_via",
+      "percorso": "database/migrations/2025_11_16_000002_add_descrizione_to_tipo_via.php",
+      "sha256": "cc407cdce11d2516e6a9180288a88745d2e8fed30231f169e1c4bb1871b9d1f9",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_000002_create_tassa_di_soggiorno_table",
+      "percorso": "database/migrations/2025_11_16_000002_create_tassa_di_soggiorno_table.php",
+      "sha256": "0beac098630fe8b0138b9bd09c78673590651ff5634bd7add50bf978e1a9bdd1",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_000002_update_gruppi_columns",
+      "percorso": "database/migrations/2025_11_16_000002_update_gruppi_columns.php",
+      "sha256": "983f29d1e27f5ba870cc689fe891e90ce5ac980508360f13fca1c7226b1f6876",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_000003_fix_tipo_via_nome_descrizione",
+      "percorso": "database/migrations/2025_11_16_000003_fix_tipo_via_nome_descrizione.php",
+      "sha256": "ad6f768ad879b4697f7b4176851d1816dcf506ad7c8174d805189c8e62a36a13",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_000004_add_descrizione_to_tipo_via_after_nome",
+      "percorso": "database/migrations/2025_11_16_000004_add_descrizione_to_tipo_via_after_nome.php",
+      "sha256": "bd97d8cf0ba736eb42988890ab185a2b951284f14963e95f4ad51da2675b1fae",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_000005_fix_nome_descrizione_tipo_via",
+      "percorso": "database/migrations/2025_11_16_000005_fix_nome_descrizione_tipo_via.php",
+      "sha256": "17d21afff806bf474543bedbe2b6b6faa7b31d8c0ef5dcfc4ceab97c372fe32d",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_100000_rename_title_to_titolo",
+      "percorso": "database/migrations/2025_11_16_100000_rename_title_to_titolo.php",
+      "sha256": "53a99ae28177f65b13371f75820f2244f4c6ae7595b7419923a96136eda75ca8",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_100001_rename_title_columns",
+      "percorso": "database/migrations/2025_11_16_100001_rename_title_columns.php",
+      "sha256": "440c25c96843dbf5e81fe3286589d66820cbf2d137131f56fcf46b79fd95953c",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_110000_add_descrizione_to_titolo_table",
+      "percorso": "database/migrations/2025_11_16_110000_add_descrizione_to_titolo_table.php",
+      "sha256": "2eb501cb6e2a04e8f8c137345f91259c1e6914d9c2ac41f006c6b14e7748b83a",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_120000_add_nome_to_gruppi_table",
+      "percorso": "database/migrations/2025_11_16_120000_add_nome_to_gruppi_table.php",
+      "sha256": "3e290417bd82629c9fc218ccee7c984e256a5037ac555583c99ce355b680bf8a",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_120000_add_struttura_id_to_tassa_di_soggiorno_table",
+      "percorso": "database/migrations/2025_11_16_120000_add_struttura_id_to_tassa_di_soggiorno_table.php",
+      "sha256": "ffe576941de5ac31a6b1bafc0f7c3cebb5cb35ce4eedc8d16262396df1afaa0a",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_120100_add_nullable_struttura_id_to_tassa_di_soggiorno",
+      "percorso": "database/migrations/2025_11_16_120100_add_nullable_struttura_id_to_tassa_di_soggiorno.php",
+      "sha256": "a5be40600041a6d869a3a25a1e825856bfdd740041090cc8c0508370f689fc13",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_120200_popola_struttura_id_tassa_di_soggiorno",
+      "percorso": "database/migrations/2025_11_16_120200_popola_struttura_id_tassa_di_soggiorno.php",
+      "sha256": "37eec813b37a6df2d72788a6d685efc45f0b880a8312c4b36b8eac6ddeee79bc",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_120300_struttura_id_notnull_fk_tassa_di_soggiorno",
+      "percorso": "database/migrations/2025_11_16_120300_struttura_id_notnull_fk_tassa_di_soggiorno.php",
+      "sha256": "cf904ccaa471e5593a844ac3853b0d5288d03837c292af32a8355e8322675f5e",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_120400_delete_orfani_tassa_di_soggiorno",
+      "percorso": "database/migrations/2025_11_16_120400_delete_orfani_tassa_di_soggiorno.php",
+      "sha256": "f357bf23aab0ccb87b55245f9ed8d6c706043e5612ec83a083bd350240f2c9af",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_130000_add_note_to_tassa_di_soggiorno_table",
+      "percorso": "database/migrations/2025_11_16_130000_add_note_to_tassa_di_soggiorno_table.php",
+      "sha256": "b23f4b17dc368d5e7e0ea78b49d94b6f54596514a834bbc86d7d2cced0939c21",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_140000_remove_descrizione_from_tipo_via",
+      "percorso": "database/migrations/2025_11_16_140000_remove_descrizione_from_tipo_via.php",
+      "sha256": "4c08fae9c5b48ed081d04a4b15b86237dfe7e20aa74f311042b54d2313cd5bfd",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_140100_remove_rilasciato_da_from_tipo_documento",
+      "percorso": "database/migrations/2025_11_16_140100_remove_rilasciato_da_from_tipo_documento.php",
+      "sha256": "e3324fa2fa195fc2c91e2ad764471276e4eff28e82807cd1a0d2928a44d26bed",
+      "registrata": true
+    },
+    {
+      "migration": "2025_11_16_203000_add_logo_citta_to_struttura_table",
+      "percorso": "database/migrations/2025_11_16_203000_add_logo_citta_to_struttura_table.php",
+      "sha256": "66930392578ba5e98b350ead437983f35452cd6b51c79319f7ef2ff0e8994085",
+      "registrata": true
+    },
+    {
+      "migration": "2026_02_27_000001_rename_customers_to_clienti",
+      "percorso": "database/migrations/2026_02_27_000001_rename_customers_to_clienti.php",
+      "sha256": "96529257a2f7b57c08b524ec4baafe41d6dd076a6338a637437b423b38c177bc",
+      "registrata": true
+    },
+    {
+      "migration": "2026_02_27_101500_drop_arrivals_table",
+      "percorso": "database/migrations/2026_02_27_101500_drop_arrivals_table.php",
+      "sha256": "e4ee892b4a4dbb794041309bf26ab61f636460f5ad84f721ca06302aba97d247",
+      "registrata": true
+    },
+    {
+      "migration": "2026_02_27_103500_create_arrivi_table",
+      "percorso": "database/migrations/2026_02_27_103500_create_arrivi_table.php",
+      "sha256": "4a3a354d310d4161061e671a5c327b29e06c6616bbfc5bfaebcd2417224cfe0d",
+      "registrata": true
+    },
+    {
+      "migration": "2026_02_27_120000_create_tipologia_relations",
+      "percorso": "database/migrations/2026_02_27_120000_create_tipologia_relations.php",
+      "sha256": "c46000ed04960b6e1971899c2d458be9a69e302ef5b0c74c476fda01fae32cb6",
+      "registrata": true
+    },
+    {
+      "migration": "2026_02_28_000001_normalize_classificazioni",
+      "percorso": "database/migrations/2026_02_28_000001_normalize_classificazioni.php",
+      "sha256": "5edb8dfd6002901a90d79ec8b287142ed8b7678d5c25409278c26941de065fd6",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_01_150000_create_geo_tables",
+      "percorso": "database/migrations/2026_03_01_150000_create_geo_tables.php",
+      "sha256": "1f24bfbe8addeb1f7eaf508e10b32fe284386975b0b510bd10f01da47c7274cb",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_01_170500_drop_comuni_table",
+      "percorso": "database/migrations/2026_03_01_170500_drop_comuni_table.php",
+      "sha256": "3e48c2c371931d40d4a29f14842bd1235dbf1dad25dfffde81bbadf265975cde",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_01_171500_drop_state_nac_table",
+      "percorso": "database/migrations/2026_03_01_171500_drop_state_nac_table.php",
+      "sha256": "4015c09d478ef982d6220e57030df3b47c18ac90e00713ffd520fa37bea77bec",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_01_172500_drop_released_tables",
+      "percorso": "database/migrations/2026_03_01_172500_drop_released_tables.php",
+      "sha256": "e024e574f4089cfbea54b21ec045cb64aa29b75543d233cd2821578cbbc4a029",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_02_000001_create_proprietari_table",
+      "percorso": "database/migrations/2026_03_02_000001_create_proprietari_table.php",
+      "sha256": "dba585dcddb3e2ff1e37870e0dcf16090b4776a7adf8eddc268816be8aaa8ba4",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_02_000002_update_users_for_roles_and_links",
+      "percorso": "database/migrations/2026_03_02_000002_update_users_for_roles_and_links.php",
+      "sha256": "21ed16cce17f70d2c23eadbd23c0a4ff5f20628a26ad98482c99f284725214af",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_02_000003_update_struttura_with_proprietario_and_status",
+      "percorso": "database/migrations/2026_03_02_000003_update_struttura_with_proprietario_and_status.php",
+      "sha256": "e69449377da26130603813cf5fc5592f33d2b125a9e9168b01a2a8ae55c5f366",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_02_000004_add_struttura_to_business_tables",
+      "percorso": "database/migrations/2026_03_02_000004_add_struttura_to_business_tables.php",
+      "sha256": "1307f62d6cdf9de49dd578edc0926a5022d0662abbf5d451fa4c97a1d9906114",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_02_120000_create_impersonation_logs_table",
+      "percorso": "database/migrations/2026_03_02_120000_create_impersonation_logs_table.php",
+      "sha256": "bb12434e99534568d1100476632dcc0a74a711f025612bdaa2499b6fe0f4a3d7",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_02_120000_create_schedina_camere_table",
+      "percorso": "database/migrations/2026_03_02_120000_create_schedina_camere_table.php",
+      "sha256": "d25bf576d1445cc1a0d2b17c211a1bf6458d8426dbec09c31ab9c3a9cdb108b2",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_02_120100_add_prenotazione_fields_to_schedina_table",
+      "percorso": "database/migrations/2026_03_02_120100_add_prenotazione_fields_to_schedina_table.php",
+      "sha256": "5fea3ebb9f68443682232166faa52573a1237ce4019ee2615e81d11c855d4ced",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_02_130000_add_camere_reali_enabled_to_struttura_table",
+      "percorso": "database/migrations/2026_03_02_130000_add_camere_reali_enabled_to_struttura_table.php",
+      "sha256": "869b2e9ee25df283f8f4f74266edb835ea237c44d149160ff0428337a761da35",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_02_140000_add_ruolo_and_struttura_to_users_table",
+      "percorso": "database/migrations/2026_03_02_140000_add_ruolo_and_struttura_to_users_table.php",
+      "sha256": "5fd51ef2c3a564bc61ed3f261a904c4003d261de55deb0439392dc5c6ccea9f4",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_02_141000_add_servizio_fields_to_struttura_table",
+      "percorso": "database/migrations/2026_03_02_141000_add_servizio_fields_to_struttura_table.php",
+      "sha256": "83dcb9b9ae697b8296b12c5dccdeb1e6b9c1b9ac750b06fbaf6a8706d0d9e02f",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_02_142000_add_struttura_to_business_tables",
+      "percorso": "database/migrations/2026_03_02_142000_add_struttura_to_business_tables.php",
+      "sha256": "f5e9488afbdd63bb5b4d1af2845db4e35e66437d1f07da66d13502d9a5a67800",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_03_000001_update_tipo_via_add_abbr_descrizione_attivo",
+      "percorso": "database/migrations/2026_03_03_000001_update_tipo_via_add_abbr_descrizione_attivo.php",
+      "sha256": "6348df5e0d41bc88f87c600c460eb5a875d96910224db2b4fbe521882b545983",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_03_120500_create_titolo_table",
+      "percorso": "database/migrations/2026_03_03_120500_create_titolo_table.php",
+      "sha256": "9df8fd1e4068c780c96bf03627c5d12fcc260de88f2c36daf1c5a97d5f562c3e",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_04_000500_add_hierarchy_to_gruppi_table",
+      "percorso": "database/migrations/2026_03_04_000500_add_hierarchy_to_gruppi_table.php",
+      "sha256": "0967b592692a571e0d70b931307d2c7518542279bd38f7b1ae0965d20e825e38",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_04_120000_add_name_to_rilasciato_da_table",
+      "percorso": "database/migrations/2026_03_04_120000_add_name_to_rilasciato_da_table.php",
+      "sha256": "355eab5f7752387c0438284d1692c58c8938a22c25a12eb090da80ccbbb88f98",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_04_121500_add_attivo_to_rilasciato_da_table",
+      "percorso": "database/migrations/2026_03_04_121500_add_attivo_to_rilasciato_da_table.php",
+      "sha256": "f63ca0c1eb91e61a52656f7c17b9251bbfa7241c6426da7f979d63368f568f01",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_05_120000_add_logo_to_geo_comuni_table",
+      "percorso": "database/migrations/2026_03_05_120000_add_logo_to_geo_comuni_table.php",
+      "sha256": "c4295e8380c5095560b53b26b5dddc13ef31664df24543009bba62fc529adda3",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_05_121000_create_tassa_esenzioni_table",
+      "percorso": "database/migrations/2026_03_05_121000_create_tassa_esenzioni_table.php",
+      "sha256": "fa230230027d6037fbbab58e74c3f646babf19a6bf421d0809ec2594cd4521a8",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_05_130000_create_schedina_table_if_missing",
+      "percorso": "database/migrations/2026_03_05_130000_create_schedina_table_if_missing.php",
+      "sha256": "15ba8003b31e663a307a2d0a467ca60524b723ab2760dd6ce8f7815886e1348f",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_05_130100_create_schedina_camere_table_if_missing",
+      "percorso": "database/migrations/2026_03_05_130100_create_schedina_camere_table_if_missing.php",
+      "sha256": "ab85b34a657cd8178df544330fc7d7831b5c853fbf1ce12d86b4044fe01aaf79",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_05_140000_add_logo_citta_to_geo_comuni_table",
+      "percorso": "database/migrations/2026_03_05_140000_add_logo_citta_to_geo_comuni_table.php",
+      "sha256": "3385bcbade740eb6de76ca6001bbf976027e608cc38679b54a0a0a130b744309",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_10_120000_create_tipo_alloggiato_table",
+      "percorso": "database/migrations/2026_03_10_120000_create_tipo_alloggiato_table.php",
+      "sha256": "2a763b292db2c6e86404636390fdd194984846291aea70fc44a142b25e5421d7",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_10_210000_create_tipo_cliente_table",
+      "percorso": "database/migrations/2026_03_10_210000_create_tipo_cliente_table.php",
+      "sha256": "08ef0d72c7f655ce591adcb118b3c6f5090435d073e888355685f81c17d6a15e",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_10_230000_add_missing_fields_to_clienti_for_scheda_cliente",
+      "percorso": "database/migrations/2026_03_10_230000_add_missing_fields_to_clienti_for_scheda_cliente.php",
+      "sha256": "32b94b36f99270d4359388553781220bbd44fdf6f5ab6b4551e8381de98165de",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_11_120000_add_numero_cliente_to_clienti_table",
+      "percorso": "database/migrations/2026_03_11_120000_add_numero_cliente_to_clienti_table.php",
+      "sha256": "d31fe9bdbcff772ad2bc3f2be24e758d94be8f9af72bb40673cbd3195b5fa4dc",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_11_130000_add_azienda_fields_to_clienti_table",
+      "percorso": "database/migrations/2026_03_11_130000_add_azienda_fields_to_clienti_table.php",
+      "sha256": "34432b0e80cfd93a6be14baf364eedf1bb6a2f719e943e243d19c3dc7e1b9bc9",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_11_131000_normalize_rilasciato_reg_in_clienti_table",
+      "percorso": "database/migrations/2026_03_11_131000_normalize_rilasciato_reg_in_clienti_table.php",
+      "sha256": "6113238635cc5e577d722d2517769f1235bceb880ef02cd3b2296a7684a45ae1",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_11_150000_add_or_published_city_to_schedina_table",
+      "percorso": "database/migrations/2026_03_11_150000_add_or_published_city_to_schedina_table.php",
+      "sha256": "d7b8fc1b7dbab3bbb1a33aba90fb03632b5ee186b0d733d8d144175262e078b3",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_11_170000_create_componenti_table_if_missing",
+      "percorso": "database/migrations/2026_03_11_170000_create_componenti_table_if_missing.php",
+      "sha256": "1e27ba17fa91a8659dc9e7bb41a6193084d7b857aa55af26a56693e3dcf49148",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_11_174000_add_foreign_keys_to_componenti_table",
+      "percorso": "database/migrations/2026_03_11_174000_add_foreign_keys_to_componenti_table.php",
+      "sha256": "45e8d360659110762e44755f4d1394211db0d83c338bee06cfd6fd1624e25dce",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_11_180000_add_anagrafica_geo_fields_to_componenti_table",
+      "percorso": "database/migrations/2026_03_11_180000_add_anagrafica_geo_fields_to_componenti_table.php",
+      "sha256": "31160221a48c34a796aa90a0055556013268ee44f9525ca32fc256773b80985e",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_11_210500_add_cap_nac_to_componenti_table",
+      "percorso": "database/migrations/2026_03_11_210500_add_cap_nac_to_componenti_table.php",
+      "sha256": "6c2a7afe79352cde9897d6720140d48a6be0e13f40f8306f71e00c3d99e18de9",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_11_232500_add_oa_cap_to_schedina_table",
+      "percorso": "database/migrations/2026_03_11_232500_add_oa_cap_to_schedina_table.php",
+      "sha256": "f74c04921a88dc5fb03eb4c307fe99d215ae2c73bb34e078e367765b61d1a035",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_12_001000_add_circuito_to_schedina_table",
+      "percorso": "database/migrations/2026_03_12_001000_add_circuito_to_schedina_table.php",
+      "sha256": "80441152f61a53c96df3f8e28899c6dc4dd308ac8e97126eaff73b3c9c0cc264",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_12_010000_create_web_checkin_richieste_table",
+      "percorso": "database/migrations/2026_03_12_010000_create_web_checkin_richieste_table.php",
+      "sha256": "ee2656c6aa6f7a61c9ccb29003471ba90880f76288a3c9208598630559c95d4f",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_12_120000_create_cestino_items_table",
+      "percorso": "database/migrations/2026_03_12_120000_create_cestino_items_table.php",
+      "sha256": "28de8adbcf21c349bed30bb28e055384574c286631172998b26021840ca8c12f",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_12_140000_create_questura_exports_table",
+      "percorso": "database/migrations/2026_03_12_140000_create_questura_exports_table.php",
+      "sha256": "8e80a7e080cd70e2ea7dc297fb7325d4adfe463e6b2438cebab558d29ecc8d43",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_12_150000_add_questura_ws_fields_and_transmissions",
+      "percorso": "database/migrations/2026_03_12_150000_add_questura_ws_fields_and_transmissions.php",
+      "sha256": "e31cb552bdfb18bd1e0f8459becbac1ee3be63168fcb6618351a591c235da699",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_12_160000_add_questura_ws_simulation_to_struttura",
+      "percorso": "database/migrations/2026_03_12_160000_add_questura_ws_simulation_to_struttura.php",
+      "sha256": "44bc0c0e3cc9802b9406dc31c20346a5aa994f32092bccffa57577f70d051727",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_12_170000_add_istat_tabella_a_fields_and_tables",
+      "percorso": "database/migrations/2026_03_12_170000_add_istat_tabella_a_fields_and_tables.php",
+      "sha256": "602112ecaacdf373e2f4f36ea0ace947f371c55fc7f16484412687d85ad12823",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_12_171500_add_istat_non_turista_to_schedina",
+      "percorso": "database/migrations/2026_03_12_171500_add_istat_non_turista_to_schedina.php",
+      "sha256": "e51a4684f3f697d1a0f1df5284a68118dd6df644f032c4bef9bec2abc4bfedb9",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_13_100000_add_operativa_fields_to_users_and_create_operativa_tables",
+      "percorso": "database/migrations/2026_03_13_100000_add_operativa_fields_to_users_and_create_operativa_tables.php",
+      "sha256": "8d5e4ab2ea826eedd16ff92918457731d0d9c5bba26c79e400036834aa696f08",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_13_113000_drop_unique_username_on_users",
+      "percorso": "database/migrations/2026_03_13_113000_drop_unique_username_on_users.php",
+      "sha256": "4a4d5c514baac3d2d7872a4701342841685bd029de7adb111a49514eb69fde70",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_13_140000_create_support_tickets_tables",
+      "percorso": "database/migrations/2026_03_13_140000_create_support_tickets_tables.php",
+      "sha256": "d93810c991caac5bc800c0bdedad742a734e98eef88103aada62987f61a0d7ca",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_14_120000_create_calendario_eventi_table",
+      "percorso": "database/migrations/2026_03_14_120000_create_calendario_eventi_table.php",
+      "sha256": "c3da043a87ec589540bc1ac5a05660c297573634b587431dcd911caea810162e",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_14_170000_create_struttura_zone_table",
+      "percorso": "database/migrations/2026_03_14_170000_create_struttura_zone_table.php",
+      "sha256": "1ae476ed0156eef860e76adac91d76b65ab9bccc0dcba1e1a98065cdf759eeaa",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_15_120000_add_document_release_fields_to_clienti_table",
+      "percorso": "database/migrations/2026_03_15_120000_add_document_release_fields_to_clienti_table.php",
+      "sha256": "7e0d37a20deeb133db9c4e24eab9a096c00cd8aaf1cd1b9a046f5888d80d5162",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_15_140000_add_anagrafica_geo_fields_to_clienti_table",
+      "percorso": "database/migrations/2026_03_15_140000_add_anagrafica_geo_fields_to_clienti_table.php",
+      "sha256": "4ed660d94f50bf8beba53444b938079c163843651508ed42c052813e26582251",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_15_190000_add_customer_mirror_fields_to_schedina_table",
+      "percorso": "database/migrations/2026_03_15_190000_add_customer_mirror_fields_to_schedina_table.php",
+      "sha256": "865ea00d9c28356dd198e417922a8d8b1168ced9ee722d41d5b239593ba39281",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_15_210000_add_consensi_to_clienti_table",
+      "percorso": "database/migrations/2026_03_15_210000_add_consensi_to_clienti_table.php",
+      "sha256": "667920b75ddf0d001c5481ea4b7ef35147fe8290e80b2fd9f5039178a17acb51",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_15_210100_add_customer_consensi_to_schedina_table",
+      "percorso": "database/migrations/2026_03_15_210100_add_customer_consensi_to_schedina_table.php",
+      "sha256": "bc9e5789f1e4d655441c1c3a6117a0ab05341bd4fc627585b3dddaf0272d4f17",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_15_221000_change_schedina_exent_to_string",
+      "percorso": "database/migrations/2026_03_15_221000_change_schedina_exent_to_string.php",
+      "sha256": "9d3fa8d8df1533e7aa9f3ef3beffdc43194b21c9b2f65a7445f27b0d942d29da",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_20_120000_add_locked_to_tipo_documento_table",
+      "percorso": "database/migrations/2026_03_20_120000_add_locked_to_tipo_documento_table.php",
+      "sha256": "9b42c0007cfcfe6597cda891f11f996acc22018afcb4aed1ec6ce6c64372d907",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_120000_add_admin_profile_fields_to_users_table",
+      "percorso": "database/migrations/2026_03_22_120000_add_admin_profile_fields_to_users_table.php",
+      "sha256": "8fb25f0bac08cabd55ff03506944c4437eca024006736d0e48d3bac251f374b2",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_130000_add_admin_geo_fields_to_users_table",
+      "percorso": "database/migrations/2026_03_22_130000_add_admin_geo_fields_to_users_table.php",
+      "sha256": "69c9ae7d5a81ab43dc5486b1d687c3c0bf4001647fddd197e883f41a1a22ffea",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_140000_create_admin_servizi_table",
+      "percorso": "database/migrations/2026_03_22_140000_create_admin_servizi_table.php",
+      "sha256": "fbf54b74ec1304b89e2e0ee7769314f4b738df8e4f7a9d3bb2878b92134de356",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_150000_create_admin_servizio_proprietario_table",
+      "percorso": "database/migrations/2026_03_22_150000_create_admin_servizio_proprietario_table.php",
+      "sha256": "528406dbbfdd78ee5231e76560693e856983588b58f89c07ffc63051fcf88531",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_160000_create_admin_fatturazioni_table",
+      "percorso": "database/migrations/2026_03_22_160000_create_admin_fatturazioni_table.php",
+      "sha256": "98365d8a30cc0ae3fa2a1e74fb1c1682ef683bca041769ca761e20598d34eec3",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_161000_create_admin_fatturazione_righe_table",
+      "percorso": "database/migrations/2026_03_22_161000_create_admin_fatturazione_righe_table.php",
+      "sha256": "beefa4e44a1b68b170ead7bc9e2899ca4ab1e9f47cebc6f1cc005b6f2bfa605c",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_162000_add_pricing_fields_to_admin_fatturazioni_tables",
+      "percorso": "database/migrations/2026_03_22_162000_add_pricing_fields_to_admin_fatturazioni_tables.php",
+      "sha256": "da7244070dc1da3162d552ac8a7a37f2df0fb29b78efdfd14db62e9918b49303",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_170000_add_profile_fields_to_proprietari_table",
+      "percorso": "database/migrations/2026_03_22_170000_add_profile_fields_to_proprietari_table.php",
+      "sha256": "9c4664f071205ec82c3e986234930a06f7166e86a3b41d1275d01db983c860b9",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_171000_create_proprietario_fatturazioni_table",
+      "percorso": "database/migrations/2026_03_22_171000_create_proprietario_fatturazioni_table.php",
+      "sha256": "b060245d90ed951c35bf632dbb4ae63cb778166748d649d1110d53bccd1ff67e",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_172000_create_proprietario_fatturazione_righe_table",
+      "percorso": "database/migrations/2026_03_22_172000_create_proprietario_fatturazione_righe_table.php",
+      "sha256": "48d5cd33595ee06ae55800bd2a7fd404771c2c459aae0e723d539af7bcdb4f53",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_180000_create_licenza_articoli_table",
+      "percorso": "database/migrations/2026_03_22_180000_create_licenza_articoli_table.php",
+      "sha256": "f83d4868cc8ac274ab3513b8078663c908cad73c5a71270c61a5a8293a3bb00e",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_181000_create_licenza_assegnazioni_table",
+      "percorso": "database/migrations/2026_03_22_181000_create_licenza_assegnazioni_table.php",
+      "sha256": "8917461198f7b6166efa6878538f861d3a235077bb723799c8e828029adeed2b",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_182000_add_numero_licenza_to_licenza_assegnazioni_table",
+      "percorso": "database/migrations/2026_03_22_182000_add_numero_licenza_to_licenza_assegnazioni_table.php",
+      "sha256": "32595a9e9bc2655086975bebf1af93910fc8b497b2376089f984dbda02767d38",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_190000_add_quantita_default_to_admin_servizi_table",
+      "percorso": "database/migrations/2026_03_22_190000_add_quantita_default_to_admin_servizi_table.php",
+      "sha256": "d86720f9b46fa34ccd6c810ec9a7cfaffb38612da5bdd983c42dd424757a5797",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_191000_expand_calendario_eventi_for_personal_context",
+      "percorso": "database/migrations/2026_03_22_191000_expand_calendario_eventi_for_personal_context.php",
+      "sha256": "768fff94539a15537cc2f81fccad58cc2392944ab810640827154014ca3f0b76",
+      "registrata": true
+    },
+    {
+      "migration": "2026_03_22_232700_add_struttura_id_to_admin_servizio_proprietario_table",
+      "percorso": "database/migrations/2026_03_22_232700_add_struttura_id_to_admin_servizio_proprietario_table.php",
+      "sha256": "213c8d5b3487b3f693c0a20fda9653d232e601faba77434042e2ba5bd214de6d",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_04_160000_add_avviso_to_struttura_table",
+      "percorso": "database/migrations/2026_04_04_160000_add_avviso_to_struttura_table.php",
+      "sha256": "5ba94dd2e9cc2224a9aa410436800d091e174643e1c88bd68c3dfef09387f037",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_04_193000_add_admin_messages_to_struttura_table",
+      "percorso": "database/migrations/2026_04_04_193000_add_admin_messages_to_struttura_table.php",
+      "sha256": "7fd3fff7367768150142d7e906028fc27be862c160696993be3552aebcaab270",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_04_201000_add_payment_receipt_to_struttura_table",
+      "percorso": "database/migrations/2026_04_04_201000_add_payment_receipt_to_struttura_table.php",
+      "sha256": "397032c7004a86f2ffb7d971f181b290d6f0ad18ab2140a32f5af2b63111726e",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_04_230000_add_cellulare_to_proprietari_table",
+      "percorso": "database/migrations/2026_04_04_230000_add_cellulare_to_proprietari_table.php",
+      "sha256": "08352a02175987ed308a1181e818890ba7a98cd59c58244ab48ced1ec2370aba",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_05_103000_add_payment_fields_to_proprietario_fatturazioni_table",
+      "percorso": "database/migrations/2026_04_05_103000_add_payment_fields_to_proprietario_fatturazioni_table.php",
+      "sha256": "acc75791037b106f83ec3ea4ecf92a56c431bbb438bd051b9c1837db2cf51c24",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_05_130000_add_payment_fields_to_admin_fatturazioni_table",
+      "percorso": "database/migrations/2026_04_05_130000_add_payment_fields_to_admin_fatturazioni_table.php",
+      "sha256": "f5a3c5b3b486eb673f92ed835a0b8dfba2192b2c708a29263756b208385b3f2d",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_06_020000_create_crm_leads_table",
+      "percorso": "database/migrations/2026_04_06_020000_create_crm_leads_table.php",
+      "sha256": "9bb5cbe08e80a455602355ccaf75ef16545d9a687c4ea7823a440799fa96b115",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_06_020100_create_crm_lead_activities_table",
+      "percorso": "database/migrations/2026_04_06_020100_create_crm_lead_activities_table.php",
+      "sha256": "742ebe83e4f7a16fe059701082dc930caa7aa654481a29dbece8c2c6244db900",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_06_023000_add_direzione_to_crm_lead_activities_table",
+      "percorso": "database/migrations/2026_04_06_023000_add_direzione_to_crm_lead_activities_table.php",
+      "sha256": "40390628aed9616e7dfb390be4aafdf642fb497b1da388a25654ab29abcba928",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_24_231500_add_struttura_id_to_crm_leads_table",
+      "percorso": "database/migrations/2026_04_24_231500_add_struttura_id_to_crm_leads_table.php",
+      "sha256": "9c768a2594feb79b9737256822a1449281b97ef897dcec28e608d3669ce6e1e8",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_25_101000_create_customer_import_batches_table",
+      "percorso": "database/migrations/2026_04_25_101000_create_customer_import_batches_table.php",
+      "sha256": "08ba2f8809ce965cb63dccb5a7ab38f097fc072f88e7dcc403992a8d3fb8d852",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_25_101100_create_customer_import_rows_table",
+      "percorso": "database/migrations/2026_04_25_101100_create_customer_import_rows_table.php",
+      "sha256": "313ad5d52f17af8e356e7c48d567f75c923163036eeeb21c7f0fd162afbe9989",
+      "registrata": true
+    },
+    {
+      "migration": "2026_04_30_120000_enable_soft_delete_for_hierarchy_and_nullable_admin_on_proprietari",
+      "percorso": "database/migrations/2026_04_30_120000_enable_soft_delete_for_hierarchy_and_nullable_admin_on_proprietari.php",
+      "sha256": "53c2356b1d194cf050324f474b8b67e7ae9ec972ab5f47721304e3f0f634ddda",
+      "registrata": true
+    },
+    {
+      "migration": "2026_10_06_100000_encrypt_questura_credentials",
+      "percorso": "database/migrations/2026_10_06_100000_encrypt_questura_credentials.php",
+      "sha256": "64317c70ca8aeb6b78298e951f1fb69200645d41d56d464270fd73d53265ed18",
+      "registrata": true
+    },
+    {
+      "migration": "2026_10_06_110000_add_questura_archive_integrity",
+      "percorso": "database/migrations/2026_10_06_110000_add_questura_archive_integrity.php",
+      "sha256": "957840470c31e18f6a50dbfe7dd62d0fe843fa632119f78920d6f949ac346d0f",
+      "registrata": true
+    },
+    {
+      "migration": "2026_10_06_120000_add_questura_retention",
+      "percorso": "database/migrations/2026_10_06_120000_add_questura_retention.php",
+      "sha256": "ffe519a02f914facf52261190a123e97e9ff5ba918745eece2f268a06db62232",
+      "registrata": true
+    },
+    {
+      "migration": "2026_10_06_130000_add_questura_send_reservations",
+      "percorso": "database/migrations/2026_10_06_130000_add_questura_send_reservations.php",
+      "sha256": "5d6be76a79b6707a1efb032c75cfe33301c042775ea20533c66f268e79aafa38",
+      "registrata": true
+    },
+    {
+      "migration": "2026_10_07_180000_create_tassa_exports_and_receipt_image",
+      "percorso": "database/migrations/2026_10_07_180000_create_tassa_exports_and_receipt_image.php",
+      "sha256": "4b742294edbfa2da6e1136869fe3d503fe5dfaf6d65e272c466e6fdb20e9c277",
+      "registrata": false
+    },
+    {
+      "migration": "2026_10_07_180000_protect_istat_cycle",
+      "percorso": "database/migrations/2026_10_07_180000_protect_istat_cycle.php",
+      "sha256": "55cace558d6575888140f7b34cd76a7ad486a96f4b41b66f94a28a1be4950969",
+      "registrata": false
+    },
+    {
+      "migration": "2026_10_09_230000_add_web_checkin_link_lifecycle",
+      "percorso": "database/migrations/2026_10_09_230000_add_web_checkin_link_lifecycle.php",
+      "sha256": "69ba345db9358ba90d0dab2cd248850937698dfa1fd5e297e07e0791b24cd5c4",
+      "registrata": false
+    }
+  ],
+  "pendenti": [
+    {
+      "migration": "2026_10_07_180000_create_tassa_exports_and_receipt_image",
+      "percorso": "database/migrations/2026_10_07_180000_create_tassa_exports_and_receipt_image.php",
+      "sha256": "4b742294edbfa2da6e1136869fe3d503fe5dfaf6d65e272c466e6fdb20e9c277",
+      "registrata": false
+    },
+    {
+      "migration": "2026_10_07_180000_protect_istat_cycle",
+      "percorso": "database/migrations/2026_10_07_180000_protect_istat_cycle.php",
+      "sha256": "55cace558d6575888140f7b34cd76a7ad486a96f4b41b66f94a28a1be4950969",
+      "registrata": false
+    },
+    {
+      "migration": "2026_10_09_230000_add_web_checkin_link_lifecycle",
+      "percorso": "database/migrations/2026_10_09_230000_add_web_checkin_link_lifecycle.php",
+      "sha256": "69ba345db9358ba90d0dab2cd248850937698dfa1fd5e297e07e0791b24cd5c4",
+      "registrata": false
+    }
+  ],
+  "motori": [
+    {
+      "TABLE_NAME": "admin_fatturazione_righe",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "admin_fatturazioni",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "admin_servizi",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "admin_servizio_proprietario",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "arrivi",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "calendario_eventi",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "cestino_items",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "classificazione_tipologia",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "classificazioni",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "clienti",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "componenti",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "crm_lead_activities",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "crm_leads",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "customer_import_batches",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "customer_import_rows",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "failed_jobs",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "geo_cap",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "geo_comuni",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "geo_comuni_cap",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "geo_nazioni",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "geo_province",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "geo_regioni",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "gruppi",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "impersonation_logs",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "istat_exports",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "istat_movimenti_giornalieri",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "licenza_articoli",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "licenza_assegnazioni",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "migrations",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "password_resets",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "personal_access_tokens",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "proprietari",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "proprietario_fatturazione_righe",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "proprietario_fatturazioni",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "questura_exports",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "questura_receipts",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "questura_send_reservations",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "questura_transmission_events",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "questura_transmissions",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "rilasciato_da",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "schedina",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "schedina_camere",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "struttura_accessi",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "struttura_audit_logs",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "struttura_comande",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "struttura_zone",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "support_ticket_messages",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "support_tickets",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "tassa_di_soggiorno",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "tassa_esenzioni",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "tipo_alloggiato",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "tipo_cliente",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "tipo_documento",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "tipo_via",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "tipologie_generali",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "tipologie_struttura",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "titolo",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "users",
+      "ENGINE": "InnoDB"
+    },
+    {
+      "TABLE_NAME": "web_checkin_richieste",
+      "ENGINE": "InnoDB"
+    }
+  ],
+  "colonne_istat": [
+    {
+      "TABLE_NAME": "istat_exports",
+      "COLUMN_NAME": "id",
+      "COLUMN_TYPE": "bigint unsigned",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "istat_exports",
+      "COLUMN_NAME": "struttura_id",
+      "COLUMN_TYPE": "bigint unsigned",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_exports",
+      "COLUMN_NAME": "user_id",
+      "COLUMN_TYPE": "bigint unsigned",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_exports",
+      "COLUMN_NAME": "dal",
+      "COLUMN_TYPE": "date",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "istat_exports",
+      "COLUMN_NAME": "al",
+      "COLUMN_TYPE": "date",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "istat_exports",
+      "COLUMN_NAME": "filename",
+      "COLUMN_TYPE": "varchar(191)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "istat_exports",
+      "COLUMN_NAME": "path",
+      "COLUMN_TYPE": "varchar(191)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "istat_exports",
+      "COLUMN_NAME": "schedine_count",
+      "COLUMN_TYPE": "int unsigned",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "istat_exports",
+      "COLUMN_NAME": "movimenti_count",
+      "COLUMN_TYPE": "int unsigned",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "istat_exports",
+      "COLUMN_NAME": "schedina_ids",
+      "COLUMN_TYPE": "json",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_exports",
+      "COLUMN_NAME": "created_at",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_exports",
+      "COLUMN_NAME": "updated_at",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "id",
+      "COLUMN_TYPE": "bigint unsigned",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "struttura_id",
+      "COLUMN_TYPE": "bigint unsigned",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "user_id",
+      "COLUMN_TYPE": "bigint unsigned",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "istat_export_id",
+      "COLUMN_TYPE": "bigint unsigned",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "mode",
+      "COLUMN_TYPE": "varchar(20)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "dal",
+      "COLUMN_TYPE": "date",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "al",
+      "COLUMN_TYPE": "date",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "schedina_ids",
+      "COLUMN_TYPE": "json",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "schedine_count",
+      "COLUMN_TYPE": "int unsigned",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "movimenti_count",
+      "COLUMN_TYPE": "int unsigned",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "status",
+      "COLUMN_TYPE": "varchar(20)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "response_code",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "response_message",
+      "COLUMN_TYPE": "varchar(191)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "response_detail",
+      "COLUMN_TYPE": "text",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "payload",
+      "COLUMN_TYPE": "json",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "result",
+      "COLUMN_TYPE": "json",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "receipt_filename",
+      "COLUMN_TYPE": "varchar(191)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "receipt_path",
+      "COLUMN_TYPE": "varchar(191)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "executed_at",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "created_at",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "istat_transmissions",
+      "COLUMN_NAME": "updated_at",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "id",
+      "COLUMN_TYPE": "bigint unsigned",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "proprietario_id",
+      "COLUMN_TYPE": "bigint unsigned",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "logo",
+      "COLUMN_TYPE": "varchar(255)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "logo_citta",
+      "COLUMN_TYPE": "varchar(255)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "nome_struttura",
+      "COLUMN_TYPE": "varchar(150)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "cir",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "tipologia_generale",
+      "COLUMN_TYPE": "enum('All’aperto','Alberghiera','Extra-alberghiera')",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "tipologia_generale_id",
+      "COLUMN_TYPE": "bigint unsigned",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "tipologia_struttura",
+      "COLUMN_TYPE": "varchar(100)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "tipologia_struttura_id",
+      "COLUMN_TYPE": "bigint unsigned",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "classificazione",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "classificazione_id",
+      "COLUMN_TYPE": "bigint unsigned",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "tipo_apertura",
+      "COLUMN_TYPE": "enum('Annuale','Stagionale')",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "data_apertura",
+      "COLUMN_TYPE": "date",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "data_chiusura",
+      "COLUMN_TYPE": "date",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "nazione",
+      "COLUMN_TYPE": "varchar(100)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "regione",
+      "COLUMN_TYPE": "varchar(100)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "provincia",
+      "COLUMN_TYPE": "varchar(2)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "città",
+      "COLUMN_TYPE": "varchar(150)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "logo_città",
+      "COLUMN_TYPE": "varchar(255)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "zona",
+      "COLUMN_TYPE": "varchar(100)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "località",
+      "COLUMN_TYPE": "varchar(150)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "indirizzo",
+      "COLUMN_TYPE": "varchar(191)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "numero_civico",
+      "COLUMN_TYPE": "varchar(20)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "cap",
+      "COLUMN_TYPE": "varchar(10)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "latitudine",
+      "COLUMN_TYPE": "decimal(10,7)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "longitudine",
+      "COLUMN_TYPE": "decimal(10,7)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "ragione_sociale",
+      "COLUMN_TYPE": "varchar(191)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "partita_iva",
+      "COLUMN_TYPE": "varchar(20)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "codice_fiscale",
+      "COLUMN_TYPE": "varchar(16)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "cin",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "codice_unico",
+      "COLUMN_TYPE": "varchar(7)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "camere_disponibili",
+      "COLUMN_TYPE": "smallint unsigned",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "letti_disponibili",
+      "COLUMN_TYPE": "smallint unsigned",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "letti_agg",
+      "COLUMN_TYPE": "smallint unsigned",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "istat_username",
+      "COLUMN_TYPE": "varchar(100)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "istat_password",
+      "COLUMN_TYPE": "varchar(100)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "istat_codice_struttura",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "istat_ws_url",
+      "COLUMN_TYPE": "varchar(191)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "istat_ws_simulazione",
+      "COLUMN_TYPE": "tinyint(1)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "questura_username",
+      "COLUMN_TYPE": "varchar(100)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "questura_password",
+      "COLUMN_TYPE": "text",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "questura_wskey",
+      "COLUMN_TYPE": "text",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "questura_codici",
+      "COLUMN_TYPE": "varchar(191)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "questura_puk",
+      "COLUMN_TYPE": "varchar(191)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "questura_ws_simulazione",
+      "COLUMN_TYPE": "tinyint(1)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "camere_reali_enabled",
+      "COLUMN_TYPE": "tinyint(1)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "telefono",
+      "COLUMN_TYPE": "varchar(20)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "telefono_secondario",
+      "COLUMN_TYPE": "varchar(20)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "fax",
+      "COLUMN_TYPE": "varchar(20)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "email",
+      "COLUMN_TYPE": "varchar(191)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "sito_web",
+      "COLUMN_TYPE": "varchar(191)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "created_at",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "updated_at",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "attiva",
+      "COLUMN_TYPE": "tinyint(1)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "avviso",
+      "COLUMN_TYPE": "varchar(30)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "messaggio_offline",
+      "COLUMN_TYPE": "text",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "messaggio_avviso",
+      "COLUMN_TYPE": "text",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "scadenza_servizio",
+      "COLUMN_TYPE": "date",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "piano",
+      "COLUMN_TYPE": "varchar(30)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "stato_pagamento",
+      "COLUMN_TYPE": "varchar(30)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "numero_ricevuta_pagamento",
+      "COLUMN_TYPE": "varchar(120)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "TABLE_NAME": "struttura",
+      "COLUMN_NAME": "deleted_at",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "YES"
+    }
+  ],
+  "strumenti": {
+    "PHP_CLI": "8.3.33",
+    "mysql_client": "8.0.36",
+    "mysqldump": "8.0.36"
+  },
+  "config_senza_segreti": {
+    "utente": "tanggo",
+    "DATABASE_URL_presente": false,
+    "DB_SOCKET_presente": false,
+    "overrideDB_CLI": [],
+    "cache_config_presente": false,
+    "FPM_override_attestati": false
+  }
+}

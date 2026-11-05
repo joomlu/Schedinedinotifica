@@ -1,0 +1,20 @@
+{
+  "inizio": "2026-10-18T13:28:27.588Z",
+  "prove": [
+    {
+      "scaduto404": true,
+      "dati_gestionali_conservati": true,
+      "clock_produzione_invariato": true
+    },
+    {
+      "revoca404": true,
+      "pagina_aperta_prima_e_POST_dopo_revoca404": true,
+      "rigenerazione_esplicita": true,
+      "vecchio_link404_nuovo200": true,
+      "nessuna_scrittura_rifiutata_persistita": true,
+      "note_private": true
+    }
+  ],
+  "esito": "PASS_ACCESSI_WEB_ONLINE",
+  "fine": "2026-10-18T13:28:34.571Z"
+}

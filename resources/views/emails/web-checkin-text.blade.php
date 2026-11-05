@@ -1,0 +1,1 @@
+{!! $testo_email !!}

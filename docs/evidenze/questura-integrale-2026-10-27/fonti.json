@@ -1,0 +1,62 @@
+[
+  {
+    "file": "comuni.csv",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/ashx/Download.ashx?ID=0&N=COMUNI",
+    "acquisizione": "2026-10-27",
+    "sha256": "a9d0f21fc5511b3e05bca881914251ee18c1310a2351abc636bae432f47b6454",
+    "byte": 369511,
+    "snapshot_identico": true,
+    "contenuto_identico_CRLF_LF": true
+  },
+  {
+    "file": "stati.csv",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/ashx/Download.ashx?ID=1&N=STATI",
+    "acquisizione": "2026-10-27",
+    "sha256": "77f4bb0b0df6bcf10385b9b8892d876a6023c2da40abea72c569b2beb205ced4",
+    "byte": 6113,
+    "snapshot_identico": true,
+    "contenuto_identico_CRLF_LF": true
+  },
+  {
+    "file": "documenti.csv",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/ashx/Download.ashx?ID=2&N=DOCUMENTI",
+    "acquisizione": "2026-10-27",
+    "sha256": "b411088e0c5baf01c16cd64ca32c427258dde74eb9cdf13455dff904e1a00663",
+    "byte": 2943,
+    "snapshot_identico": true,
+    "contenuto_identico_CRLF_LF": true
+  },
+  {
+    "file": "tipi.csv",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/ashx/Download.ashx?ID=3&N=TIPO_ALLOGGIATO",
+    "acquisizione": "2026-10-27",
+    "sha256": "3cf46914cf9806e9b0d2307c27bfcf67f849de1432c65ff7e8603cd74b69f4cd",
+    "byte": 105,
+    "snapshot_identico": true,
+    "contenuto_identico_CRLF_LF": true
+  },
+  {
+    "file": "service.wsdl",
+    "url": "https://alloggiatiweb.poliziadistato.it/service/service.asmx?WSDL",
+    "acquisizione": "2026-10-27",
+    "sha256": "36d5279a0577f0b116ac74f6664246532685bc0178b1d6c6a1f7926c11235cab",
+    "byte": 28736,
+    "snapshot_identico": true
+  },
+  {
+    "file": "MANUALEWS.pdf",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/Download/Manuali/MANUALEWS.pdf",
+    "acquisizione": "2026-10-27",
+    "sha256": "72d6c612ef616453e417f15e723b8fe44fd271cffab38671ec40823d568763a1",
+    "byte": 595167,
+    "snapshot_identico": null
+  },
+  {
+    "file": "MANUALEALBERGHI.pdf",
+    "url": "https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/Download/Manuali/MANUALEALBERGHI.pdf",
+    "acquisizione": "2026-10-27",
+    "sha256": "28857705e0c419a3911317f943ac4c1782893f6503a8c9d6484a5018b31462c6",
+    "byte": 936621,
+    "snapshot_identico": null
+  }
+]

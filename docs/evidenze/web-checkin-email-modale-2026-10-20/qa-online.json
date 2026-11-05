@@ -1,0 +1,251 @@
+{
+  "online-modale": {
+    "inizio": "2026-10-19T23:27:54.017Z",
+    "prove": [
+      {
+        "scenario": "Email realmente visibile online senza invio 1440px",
+        "esito": "PASS",
+        "nessun_invio_reale": true
+      },
+      {
+        "scenario": "Email realmente visibile online senza invio 768px",
+        "esito": "PASS",
+        "nessun_invio_reale": true
+      },
+      {
+        "scenario": "Email realmente visibile online senza invio 390px",
+        "esito": "PASS",
+        "nessun_invio_reale": true
+      }
+    ],
+    "esito": "PASS_MODALE_ONLINE_SENZA_INVIO",
+    "fine": "2026-10-19T23:28:31.550Z"
+  },
+  "online-circuito": {
+    "inizio": "2026-10-19T23:25:35.340Z",
+    "prove": [
+      {
+        "scenario": "Compilazione, revisione e check-in OSPITE SINGOLO 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Storico e Cestino OSPITE SINGOLO 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Compilazione, revisione e check-in CAPO FAMIGLIA 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Storico e Cestino CAPO FAMIGLIA 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Compilazione, revisione e check-in CAPO GRUPPO 390px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Storico e Cestino CAPO GRUPPO 390px",
+        "esito": "PASS"
+      }
+    ],
+    "esito": "PASS_SCENARI_ONLINE",
+    "fine": "2026-10-19T23:26:46.038Z"
+  },
+  "online-interfaccia": {
+    "inizio": "2026-10-19T23:27:09.476Z",
+    "prove": [
+      {
+        "scenario": "Percorsi separati Web Check-in a 1440px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Percorsi separati Web Check-in a 768px",
+        "esito": "PASS"
+      },
+      {
+        "scenario": "Percorsi separati Web Check-in a 390px",
+        "esito": "PASS"
+      }
+    ],
+    "esito": "PASS_SCENARI_ONLINE",
+    "fine": "2026-10-19T23:27:53.332Z"
+  },
+  "online-completo": {
+    "inizio": "2026-10-19T23:28:32.158Z",
+    "SHA": "8edeb15104e8c8a1c9a61e0415ec207e2bacd202",
+    "prove": [
+      {
+        "regressione_Nuova_schedina": true,
+        "ricerca_nome_cognome": true,
+        "selezione_cliente": true,
+        "bozza_e_ripresa": true
+      },
+      {
+        "creazione_reale_struttura_B_senza_collisioni": true,
+        "modelli_B_indipendenti": true,
+        "richiesta_B_negata_ad_A404": true
+      },
+      {
+        "ricerca_struttura_B_solo_proprio_cliente": true
+      }
+    ],
+    "responsive": [
+      {
+        "width": 1440,
+        "pagina": "/web-checkin",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/web-checkin/nuovo",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/web-checkin/storico",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/cestino?tipo=Web%20Check-in",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/schedine/nuova",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/schedine",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/schedine/bozze",
+        "nessun_overflow": true
+      },
+      {
+        "width": 1440,
+        "pagina": "/arrivi",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/web-checkin",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/web-checkin/nuovo",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/web-checkin/storico",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/cestino?tipo=Web%20Check-in",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/schedine/nuova",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/schedine",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/schedine/bozze",
+        "nessun_overflow": true
+      },
+      {
+        "width": 768,
+        "pagina": "/arrivi",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/web-checkin",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/web-checkin/nuovo",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/web-checkin/storico",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/cestino?tipo=Web%20Check-in",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/schedine/nuova",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/schedine",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/schedine/bozze",
+        "nessun_overflow": true
+      },
+      {
+        "width": 390,
+        "pagina": "/arrivi",
+        "nessun_overflow": true
+      }
+    ],
+    "esito": "PASS_ONLINE_REGRESSIONI_NUOVA_SCHEDINA_TENANCY",
+    "errori_JS": [],
+    "fine": "2026-10-19T23:28:49.725Z"
+  },
+  "online-accessi": {
+    "inizio": "2026-10-19T23:28:51.124Z",
+    "prove": [
+      {
+        "scaduto404": true,
+        "date_sintetiche_modificate_da_reception": true,
+        "clock_produzione_invariato": true,
+        "dati_conservati": true
+      },
+      {
+        "revoca_GET_POST404": true,
+        "rigenerazione_esplicita": true,
+        "vecchio_link404_nuovo200": true,
+        "scrittura_rifiutata_non_persistita": true,
+        "note_private": true,
+        "noindex_no_store": true
+      }
+    ],
+    "esito": "PASS_ACCESSI_WEB_ONLINE",
+    "fine": "2026-10-19T23:29:05.389Z"
+  },
+  "online-modelli": {
+    "esito": "PASS_GESTIONE_MODELLI_HTML_ONLINE",
+    "creazione_esplicita": true,
+    "layout_personalizzato_conservato": true,
+    "duplicazione_indipendente": true,
+    "aggiornamento_versionato": true,
+    "conferma_eliminazione_effettiva": true,
+    "nessuna_ricreazione_automatica": true,
+    "nessuna_email_inviata": true,
+    "errori_JS": []
+  }
+}

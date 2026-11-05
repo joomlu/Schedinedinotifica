@@ -1,0 +1,9 @@
+{
+  "blocksize": 512,
+  "encrypted": true,
+  "max-key-count": 1,
+  "passphrase-count": 1,
+  "private-key-count": 0,
+  "uuid": "4F899139-3946-483B-BE6B-E747B58C8567",
+  "version": 2
+}

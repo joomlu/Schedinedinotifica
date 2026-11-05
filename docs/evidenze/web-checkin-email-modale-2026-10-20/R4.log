@@ -1,0 +1,29 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20  0:25:31 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-b13xutt9; database=test_geo_897b71a7f09400d4d7249976b9045faa; MySQL pid=57, porta=52729; HTTP pid=84, porta=54207
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /tmp/schedine-test-b13xutt9/checkout/phpunit.xml
+
+...............................................................  63 / 265 ( 23%)
+............................................................... 126 / 265 ( 47%)
+............................................................... 189 / 265 ( 71%)
+..............................................................\nA15 {"status":422,"collegamenti_cross_tenant":0}\n. 252 / 265 ( 95%)
+\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n..........                                                   265 / 265 (100%)
+
+Time: 01:16.030, Memory: 82.50 MB
+
+OK (265 tests, 3097 assertions)
+
+Running 3 tests using 1 worker
+
+  ✓  1 tests/Feature/web-email-modal.playwright.spec.js:4:35 › Email realmente visibile e invio intercettato 1440px (29.2s)
+  ✓  2 tests/Feature/web-email-modal.playwright.spec.js:4:35 › Email realmente visibile e invio intercettato 768px (25.6s)
+  ✓  3 tests/Feature/web-email-modal.playwright.spec.js:4:35 › Email realmente visibile e invio intercettato 390px (27.5s)
+
+  3 passed (1.4m)
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-b13xutt9

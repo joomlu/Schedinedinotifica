@@ -1,0 +1,9 @@
+{
+  "esito": "PASS_PRESIDI_TEMPORANEI_CONCLUSI",
+  "UTC": "2026-10-22T08:16:19.220089+00:00",
+  "caffeinate_proprio_PID": 42205,
+  "caffeinate_proprio_terminato": true,
+  "osservatore_VM_proprio_terminato": true,
+  "impostazioni_standby_globali_non_modificate": true,
+  "altri_processi_non_interrotti": true
+}

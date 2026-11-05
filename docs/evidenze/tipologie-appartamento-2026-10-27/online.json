@@ -1,0 +1,113 @@
+{
+  "stato": "PASS_QA_ONLINE_R5",
+  "browser_VM": {
+    "inizio": "2026-10-27T15:21:18.401Z",
+    "prove": [
+      {
+        "larghezza": 1440,
+        "cinque_tipologie_salvate_rilette": true,
+        "girasoli_agriturismo": true,
+        "ritorno_hotel": true,
+        "profilo_appartamenti_ID0": true,
+        "ritorno_standard_senza_ID": true,
+        "tenant403": true,
+        "canale_OFF": true,
+        "errori_JS": 0
+      },
+      {
+        "larghezza": 768,
+        "cinque_tipologie_salvate_rilette": true,
+        "girasoli_agriturismo": true,
+        "ritorno_hotel": true,
+        "profilo_appartamenti_ID0": true,
+        "ritorno_standard_senza_ID": true,
+        "tenant403": true,
+        "canale_OFF": true,
+        "errori_JS": 0
+      },
+      {
+        "larghezza": 390,
+        "cinque_tipologie_salvate_rilette": true,
+        "girasoli_agriturismo": true,
+        "ritorno_hotel": true,
+        "profilo_appartamenti_ID0": true,
+        "ritorno_standard_senza_ID": true,
+        "tenant403": true,
+        "canale_OFF": true,
+        "errori_JS": 0
+      }
+    ],
+    "trasmissioni": 0,
+    "esito": "PASS_TIPOLOGIE_APPARTAMENTO_ONLINE",
+    "POST_estranei": 0,
+    "reception_sola_lettura": true,
+    "fine": "2026-10-27T15:23:24.151Z"
+  },
+  "catture": {
+    "tipologie-1440.png": {
+      "sha256": "8c8b095c2983f34ddd939cb67d2398c03283d2e1391a912ed12bd9d7bca94108",
+      "byte": 13912,
+      "ispezionata": true,
+      "dati_sintetici": true
+    },
+    "appartamento-390.png": {
+      "sha256": "2e329bc6ed09edde9e387af7ec2101eaca2a0809c552317d46a347dfaa820d50",
+      "byte": 61500,
+      "ispezionata": true,
+      "dati_sintetici": true
+    },
+    "appartamento-768.png": {
+      "sha256": "7c2b26d752d63778ed53ee7a045a581bd381786b8a56943b8f01d0b297a3fc7f",
+      "byte": 101509,
+      "ispezionata": true,
+      "dati_sintetici": true
+    },
+    "tipologie-390.png": {
+      "sha256": "345066182ce781fab6edd5bd88d190cd683e76fba89d1762f1dda2e747654be0",
+      "byte": 15232,
+      "ispezionata": true,
+      "dati_sintetici": true
+    },
+    "tipologie-768.png": {
+      "sha256": "b51932dd62c9f5ed33628925da64238ee251a2346b7ee648be4231b542b3913c",
+      "byte": 13118,
+      "ispezionata": true,
+      "dati_sintetici": true
+    },
+    "appartamento-1440.png": {
+      "sha256": "8bf0db819a2e12fc2c24b8e42f56ec2561f469d78830a91c95aec83e22175252",
+      "byte": 119102,
+      "ispezionata": true,
+      "dati_sintetici": true
+    }
+  },
+  "pulizia": {
+    "esito": "PASS_FIXTURE_RIMOSSA_E_DATI_PREESISTENTI_IDENTICI",
+    "tabelle_differenti": [],
+    "sessioni_sintetiche_residue_rimosse": 4,
+    "tabelle_confrontate": 66,
+    "nessun_restore_DB": true,
+    "limite": "HMAC di tutte le righe, esclusi contatori AUTO_INCREMENT; scritture reali concorrenti da riconciliare senza restore"
+  },
+  "persistenti_S0_conformi": 104,
+  "runtime_QA": {
+    "esito": "PASS_RUNTIME_QA_PROPRIO_RIMOSSO",
+    "file_copiati_verificati": 12,
+    "clone_dipendenze_preservato": true,
+    "dati_produzione_non_toccati": true
+  },
+  "diagnostici_preservati": {
+    "R1_fixture": "Operazione chown residua di vecchi export, transazione rollback verificata su tutto DB/schema esclusi AUTO_INCREMENT; nessun restore/reset",
+    "R2_browser": "Attesa dialogo Sì assente in produzione; primo Agriturismo già salvato e riletto, adattata attesa a POST/navigazione",
+    "R3_browser": "Helper logout cercava solo meta CSRF; cinque tipologie1440 già verificate",
+    "R4_browser": "Tre larghezze verificate, logout reception senza form/token; helper usa pagina Questura autenticata",
+    "R5": "Percorso completo e logout tutti i ruoli PASS, nessuna modifica applicativa fra i tentativi"
+  },
+  "rollback_R1": {
+    "esito": "PASS_ROLLBACK_QA1_DATI_SCHEMA_IDENTICI",
+    "limite": "Soli contatori AUTO_INCREMENT esclusi; nessun reset/restore",
+    "file_fixture_conservato": true,
+    "nessun_dato_fixture_committato": true
+  },
+  "nessun_reset_restore": true
+}

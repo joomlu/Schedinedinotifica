@@ -1,0 +1,113 @@
+{
+  "stato": "PARZIALE: correzione verificata in isolamento, pubblicazione e CSV online pendenti",
+  "base_locale": "1313982fa14a400408fae5c7008b4489ae08108d",
+  "produzione_SHA": "7991511d6ce344bcbd24495fab89b2223dd81abb",
+  "PHPUnit": {
+    "test": 21,
+    "asserzioni": 385,
+    "esito": "PASS"
+  },
+  "browser_R2": {
+    "prove": 3,
+    "esito": "PASS"
+  },
+  "browser_R3": {
+    "prove": 3,
+    "secondi": 59.5,
+    "esito": "PASS",
+    "criterio": "Ricerca ferma aprendoFiltri"
+  },
+  "guardie_complete": {
+    "prove": 17,
+    "esito": "PASS"
+  },
+  "CSV_online": {
+    "versione": "7991511d",
+    "q": "VERIFICA-FILTRI-20261017-ZERO-1313982",
+    "contatori": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "esito": "ERR_BLOCKED_BY_CLIENT",
+    "download_completato": false,
+    "HTTP_header_online_verificati": false,
+    "nuova_versione_online_verificata": false
+  },
+  "importatore": {
+    "validazione_completa_wizard_condivisa": false,
+    "normalizzazione_autonoma_via_civico": false,
+    "modificato": false
+  },
+  "nessuna_modifica_dati_schema": true,
+  "sorgenti_sha256": {
+    "app/Http/Controllers/CustomerExportController.php": "ab983f7848c6fbdded70b2b111fe030bf90c0699e0b3be0b75694e917afff45a",
+    "app/Support/CustomerListReturn.php": "4e71d4bd1e4f17f86f797575e8ecbfa0bb4c1ef99290f1ec684d29a535590604",
+    "resources/views/customers/export.blade.php": "2bf2490095027c43183a0875312d54c11504296d6790851c85a87c1b783b6cd6",
+    "resources/views/customers/area-tabs.blade.php": "34d9296c91e6013f88a56820f3e954254cc57c6993bfa0510252be1bfd167d29",
+    "tests/Feature/CustomerExchangeAreaTest.php": "15648a107f42513f5e01e5a21e339c04b6e5772bac5dfc185b672f5cf42981c3",
+    "tests/Feature/customer-exchange-area.playwright.spec.js": "bbc64eee40b338e5e2a3387cb9295d284a1cb38318156560aabdbee5bdeda4aa"
+  },
+  "importatore_sha256": "8051e7ea15a27aa79bc58629253af0fe61450b807e7a6bea5b8b51e8951aa529",
+  "browser_finali": {
+    "prove": 3,
+    "secondi": 47.4,
+    "esito": "PASS",
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "criteri": "Clic/Invio/Spazio, chiuso iniziale, ricerca visibile e ferma, valori catalogo, ritorni/reset/import, niente overflow/JSerror"
+  },
+  "capienza_C5": {
+    "recupero_precedente_allocato": 681992192,
+    "componenti": {
+      "decoded": 29061120,
+      "extracted": 423358464,
+      "archivio-base-verificato.json": 4096,
+      "dbdata": 206282752,
+      "db-tmp": 0,
+      "db-private.log": 4096,
+      "ridump.sql": 23244800,
+      "custody": 4096,
+      "sign.pub": 4096,
+      "private.php": 4096,
+      "pool.conf": 4096,
+      "fpm.log": 4096,
+      "fpm-console.log": 0,
+      "web": 4096,
+      "closed": 4096,
+      "apache.conf": 4096,
+      "apache-console.log": 0,
+      "apache.log": 4096
+    },
+    "cifrati_base_allocati": 362008576,
+    "liberi_VM": 1578352640,
+    "data_UTC": "2026-10-17T08:39:40.849321+00:00",
+    "margine_prudenziale": 1073741824,
+    "liberi_Mac": 15532232704,
+    "nessuna_rimozione": true,
+    "nessuna_manutenzione": true,
+    "nessun_PREPARE": true,
+    "recupero_storico_completo_prima_pulizia": 939229184,
+    "riserva_nuovo_candidato_per_recupero": 16777216,
+    "fabbisogno_stimato": 3709771776,
+    "limite": "Stima da recupero completo prima della pulizia, mai abbassata per i derivati rimossi;16MiB aggiuntivi per ognuno dei due nuovi recuperi PREPARE/S0, rollback coperto dal checkpoint e monitor nella riserva: non è una misura del picco del nuovo candidato. Nessun riuso dello S0 precedente.",
+    "esito": "STOP_CAPIENZA_PRIMA_PREPARE"
+  },
+  "VM": "Sei delta temporanei ripristinati dopo confrontoSHA ai byte7991511d; modifiche estranee preservate",
+  "log_sha256": {
+    "regressione-R1.log": "759c49e8cfd44a536fd8bcb6ced6f8387b3eb3acaf6f3c57ea7799cf4c19b460",
+    "regressione.log": "472d777e733fe0544a8188bcbbf89a22a2519b0d7546387de2436d21133a4c10",
+    "browser-R3.log": "a8e32c39072b23bf25f2eeb6d100359a9d7115f306b85e158374b7c47bc52441",
+    "browser-finale.log": "9f8e43e582fa89eecf1716f056c5c0d9da76777cc105864a6941116fe6be2099",
+    "guardie-R1.log": "40ebfcb33627ccb37008b5cf36a13012013f6836e46c1b0949405646965a5873",
+    "guardie-complete.log": "bf332c9f02eddf1d222e29809b66c1f971344d0c8e370a9fcd49798466cc9d18",
+    "online-zero.jpg": "bdefe01242613489a57a381a283d8aaaad199f842bd03f1416d09a178c38ece1",
+    "online-blocco.jpg": "2e975675dad1d83917d2bdb1de340cea1f21955bca0ff211b0b94ce428e0961b",
+    "liste-1440.png": "095447f9b40193bf96a7694bd2e8b2915f39bb56f108e78c6dbc82c61ed91e72",
+    "liste-390.png": "4cf45521bea0cc463112537f4ef5463f384ced3317152c8b2e79b72611a49162"
+  }
+}

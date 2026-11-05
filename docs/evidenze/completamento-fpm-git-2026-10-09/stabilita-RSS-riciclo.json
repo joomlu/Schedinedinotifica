@@ -1,0 +1,89 @@
+{
+  "worker_distinti_campionati": 10,
+  "worker_pid_sintetici": [
+    61,
+    62,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79
+  ],
+  "riciclo_dimostrato": true,
+  "campioni": 7262,
+  "drift_per_worker_descritto_non_gate": [
+    {
+      "pid": 61,
+      "campioni": 387,
+      "mediana_primo_quartile_MiB": 48.977,
+      "mediana_ultimo_quartile_MiB": 48.98,
+      "picco_MiB": 48.984
+    },
+    {
+      "pid": 62,
+      "campioni": 397,
+      "mediana_primo_quartile_MiB": 49.891,
+      "mediana_ultimo_quartile_MiB": 49.891,
+      "picco_MiB": 49.949
+    },
+    {
+      "pid": 72,
+      "campioni": 525,
+      "mediana_primo_quartile_MiB": 46.359,
+      "mediana_ultimo_quartile_MiB": 46.359,
+      "picco_MiB": 46.367
+    },
+    {
+      "pid": 73,
+      "campioni": 526,
+      "mediana_primo_quartile_MiB": 46.371,
+      "mediana_ultimo_quartile_MiB": 46.371,
+      "picco_MiB": 46.434
+    },
+    {
+      "pid": 74,
+      "campioni": 526,
+      "mediana_primo_quartile_MiB": 46.363,
+      "mediana_ultimo_quartile_MiB": 46.371,
+      "picco_MiB": 46.375
+    },
+    {
+      "pid": 75,
+      "campioni": 524,
+      "mediana_primo_quartile_MiB": 46.363,
+      "mediana_ultimo_quartile_MiB": 46.375,
+      "picco_MiB": 46.406
+    },
+    {
+      "pid": 76,
+      "campioni": 524,
+      "mediana_primo_quartile_MiB": 46.363,
+      "mediana_ultimo_quartile_MiB": 46.363,
+      "picco_MiB": 46.375
+    },
+    {
+      "pid": 77,
+      "campioni": 536,
+      "mediana_primo_quartile_MiB": 46.375,
+      "mediana_ultimo_quartile_MiB": 46.375,
+      "picco_MiB": 46.418
+    },
+    {
+      "pid": 78,
+      "campioni": 458,
+      "mediana_primo_quartile_MiB": 46.375,
+      "mediana_ultimo_quartile_MiB": 46.375,
+      "picco_MiB": 48.215
+    },
+    {
+      "pid": 79,
+      "campioni": 437,
+      "mediana_primo_quartile_MiB": 46.363,
+      "mediana_ultimo_quartile_MiB": 46.375,
+      "picco_MiB": 47.93
+    }
+  ]
+}

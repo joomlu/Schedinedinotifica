@@ -1,0 +1,242 @@
+TEST isolato: /private/tmp/schedine-test-oral2xav; database=test_geo_911d610e91108d99fbfd9e4aa0499203; MySQL pid=94728, porta=60921; HTTP pid=94735, porta=60922
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PASS SOAP 200 and positive body never prove acceptance; no token/body leaves service
+PASS verification is unknown and retains Test operation
+PASS external constructor exception is contained
+PASS SOAP call exceptions do not escape with their chain
+PASS negative provider text is replaced with a fixed message
+PASS simulation makes no SOAP calls and is never accepted
+PASS nested and unexpected fields discarded; caller acceptance ignored
+PASS allowed slots cannot carry arrays objects or arbitrary strings
+PASS historical success never becomes accepted; history not rewritten
+PASS receipt and tables cannot expose or persist unvalidated bodies
+PASS actual persistence boundary projects injected provider material
+PASS legacy handler aborts before any DB or storage dependency
+PASS controller has no confirmed-send mutation for simulation or attempts
+PASS view never presents legacy provider messages or success as acceptance
+14 safety checks passed; in-memory doubles only
+
+Running 1 test using 1 worker
+
+  ✘  1 tests/Feature/dependency-http.playwright.spec.js:3:1 › Client HTTP condiviso: GET autenticata e PUT con CSRF e validazione422 (3.4s)
+
+
+  1) tests/Feature/dependency-http.playwright.spec.js:3:1 › Client HTTP condiviso: GET autenticata e PUT con CSRF e validazione422 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 1[39m
+
+    [2m  Object {[22m
+    [32m-   "csrf": true,[39m
+    [31m+   "csrf": false,[39m
+    [2m    "errors": true,[22m
+    [2m    "status": 422,[22m
+    [2m  }[22m
+
+       9 |   return {readStatus:read.status,hasRoss:read.data.includes('Configurazione Ross1000'),write};
+      10 |  });
+    > 11 |  expect(result.readStatus).toBe(200);expect(result.hasRoss).toBe(true);expect(result.write).toEqual({status:422,errors:true,csrf:true});
+         |                                                                                             ^
+      12 | });
+      13 |
+        at /private/tmp/schedine-test-oral2xav/checkout/tests/Feature/dependency-http.playwright.spec.js:11:93
+
+    Error Context: test-results/dependency-http.playwright-7e9c9-T-con-CSRF-e-validazione422/error-context.md
+
+  1 failed
+    tests/Feature/dependency-http.playwright.spec.js:3:1 › Client HTTP condiviso: GET autenticata e PUT con CSRF e validazione422 
+dependency-http.playwright-7e9c9-T-con-CSRF-e-validazione422:
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - button [ref=e7] [cursor=pointer]
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic "Struttura":
+            - generic: 
+            - text: "Struttura: tanggo sintetica completa"
+        - link "" [ref=e15] [cursor=pointer]:
+          - /url: http://127.0.0.1:60922/calendario
+          - generic [ref=e16]: 
+        - generic [ref=e17]:
+          - button "" [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: 
+          - text:  
+        - button "" [ref=e21] [cursor=pointer]:
+          - generic [ref=e22]: 
+        - generic [ref=e23]:
+          - button "Avatar Dante Struttura" [ref=e24] [cursor=pointer]:
+            - generic [ref=e25]:
+              - img "Avatar" [ref=e27]
+              - generic [ref=e28]:
+                - generic [ref=e29]: Dante
+                - generic [ref=e30]: Struttura
+          - text: 󰀉      󰍃
+  - generic [ref=e31]:
+    - link "Tango" [ref=e33] [cursor=pointer]:
+      - /url: http://127.0.0.1:60922/dashboard
+      - img "Tango" [ref=e35]
+    - list [ref=e38]:
+      - listitem [ref=e39]:
+        - generic [ref=e40]: Menu
+      - listitem [ref=e41]:
+        - link "Dashboard" [ref=e42] [cursor=pointer]:
+          - /url: http://127.0.0.1:60922/dashboard
+          - generic [ref=e43]: Dashboard
+      - listitem [ref=e44]:
+        - link "Dati struttura" [ref=e45] [cursor=pointer]:
+          - /url: http://127.0.0.1:60922/struttura
+          - generic [ref=e46]: Dati struttura
+      - listitem [ref=e47]:
+        - button "Configurazioni 󰅂" [ref=e48] [cursor=pointer]:
+          - generic [ref=e49]: Configurazioni
+          - text: 󰅂
+      - listitem [ref=e50]:
+        - button "Clienti 󰅂" [ref=e51] [cursor=pointer]:
+          - generic [ref=e52]: Clienti
+          - text: 󰅂
+      - listitem [ref=e53]:
+        - button "Schedine 󰅂" [ref=e54] [cursor=pointer]:
+          - generic [ref=e55]: Schedine
+          - text: 󰅂
+      - listitem [ref=e56]:
+        - link "Web Check-in" [ref=e57] [cursor=pointer]:
+          - /url: http://127.0.0.1:60922/web-checkin
+          - generic [ref=e58]: Web Check-in
+      - listitem [ref=e59]:
+        - button "Invio telematico 󰅂" [ref=e60] [cursor=pointer]:
+          - generic [ref=e61]: Invio telematico
+          - text: 󰅂
+      - listitem [ref=e62]:
+        - button "Statistica 󰅂" [ref=e63] [cursor=pointer]:
+          - generic [ref=e64]: Statistica
+          - text: 󰅂
+      - listitem [ref=e65]:
+        - link "Calendario" [ref=e66] [cursor=pointer]:
+          - /url: http://127.0.0.1:60922/calendario
+          - generic [ref=e67]: Calendario
+      - listitem [ref=e68]:
+        - link "Cestino" [ref=e69] [cursor=pointer]:
+          - /url: http://127.0.0.1:60922/cestino
+          - generic [ref=e70]: Cestino
+  - generic [ref=e72]:
+    - generic [ref=e74]:
+      - generic [ref=e77]:
+        - heading "Dati struttura" [level=4] [ref=e78]
+        - list [ref=e80]:
+          - listitem [ref=e81]:
+            - link "Anagrafica" [ref=e82] [cursor=pointer]:
+              - /url: "javascript: void(0);"
+          - listitem [ref=e83]: 󰅂 Dati struttura
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - generic [ref=e91]:
+            - generic [ref=e92]:
+              - generic [ref=e93]: 
+              - heading "Identità Struttura" [level=5] [ref=e94]
+            - generic [ref=e95]:
+              - generic [ref=e96]:
+                - generic [ref=e97]:
+                  - generic [ref=e98]:
+                    - generic [ref=e99]: Tipologia generale *
+                    - combobox [ref=e100]
+                    - combobox "Alberghiera" [ref=e103] [cursor=pointer]:
+                      - textbox "Alberghiera" [ref=e104]
+                  - generic [ref=e105]:
+                    - generic [ref=e106]: Tipologia struttura *
+                    - combobox [ref=e107]
+                    - combobox "Fixture hotel
+TEST interrotto senza fallback: playwright fallito: 1
+mysql-error.log:
+2026-10-09T16:56:50.223244Z 0 [System] [MY-013169] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld (mysqld 8.0.36) initializing of server in progress as process 94721
+2026-10-09T16:56:50.234845Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /private/tmp/schedine-test-oral2xav/mysql-data/ is case insensitive
+2026-10-09T16:56:50.251310Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2026-10-09T16:56:50.334121Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2026-10-09T16:56:51.063057Z 5 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+2026-10-09T16:56:51.429445Z 0 [System] [MY-013172] [Server] Received SHUTDOWN from user <via user signal>. Shutting down mysqld (Version: 8.0.36).
+2026-10-09T16:56:51.984942Z 0 [Warning] [MY-010101] [Server] Insecure configuration for --secure-file-priv: Location is accessible to all OS users. Consider choosing a different directory.
+2026-10-09T16:56:51.985279Z 0 [System] [MY-010116] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld (mysqld 8.0.36) starting as process 94728
+2026-10-09T16:56:51.989880Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /private/tmp/schedine-test-oral2xav/mysql-data/ is case insensitive
+2026-10-09T16:56:52.017602Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2026-10-09T16:56:52.076562Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2026-10-09T16:56:52.281957Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2026-10-09T16:56:52.282242Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2026-10-09T16:56:52.286720Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/private/tmp' in the path is accessible to all OS users. Consider choosing a different directory.
+2026-10-09T16:56:52.313382Z 0 [System] [MY-010931] [Server] /Users/Shared/Herd/services/mysql/8.0.36/bin/mysqld: ready for connections. Version: '8.0.36'  socket: '/private/tmp/schedine-test-oral2xav/mysql.sock'  port: 60921  MySQL Community Server - GPL.
+
+http.log:
+ 9 18:57:12 2026] 127.0.0.1:61126 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61125 [200]: GET /build/libs/flatpickr/flatpickr.min.css
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61121 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61140 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61123 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61126 [200]: GET /build/css/custom.min.css
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61143 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61140 [200]: GET /build/js/app2.js
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61125 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61143 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61149 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61124 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61122 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61126 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61150 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61149 [200]: GET /build/libs/jquery/jquery.min.js
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61151 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61150 [200]: GET /build/libs/select2/js/select2.full.min.js
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61158 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61151 [200]: GET /build/libs/bootstrap/js/bootstrap.bundle.min.js
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61159 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61149 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61158 [200]: GET /build/libs/simplebar/simplebar.min.js
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61163 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61140 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61150 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61159 [200]: GET /build/libs/node-waves/waves.min.js
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61168 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61163 [200]: GET /build/icons/remixicon.woff2?t=1718271040674
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61151 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61167 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61168 [200]: GET /build/icons/materialdesignicons-webfont.woff2?v=7.2.96
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61158 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61171 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61167 [200]: GET /build/icons/boxicons.woff2
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61159 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61175 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61171 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61178 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61175 [200]: GET /build/libs/feather-icons/feather.min.js
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61163 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61185 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61178 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61167 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61185 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61175 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61168 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61178 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61185 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61192 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61192 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61193 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61194 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61193 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61196 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61194 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61211 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61196 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61212 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61211 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61220 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61212 Closing
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61228 Accepted
+[Fri Oct  9 18:57:12 2026] 127.0.0.1:61220 Closing
+[Fri Oct  9 18:57:13 2026] 127.0.0.1:61228 Closing
+[Fri Oct  9 18:57:13 2026] 127.0.0.1:61248 Accepted
+[Fri Oct  9 18:57:13 2026] 127.0.0.1:61248 Closing
+
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-oral2xav

@@ -1,0 +1,253 @@
+{
+  "stato": "PRONTO A REVISIONE; NON PUBBLICATO; BASELINE IN AUDIT invariata",
+  "candidato_qualificato": "d830988255f707ba880efc2cadff892a86864ef7",
+  "ramo": "codex/rinnovo-sito-pubblico-2026-10-24",
+  "base_fase": "17bff03f2495d0be9f8e7bc5b2ee27f07f23a9f5",
+  "dominio_ufficiale": "https://schedinedinotifica.tanggo.software/",
+  "anteprima": {
+    "URL": "http://127.0.0.1:63351/",
+    "tipo": "Pagine e catalogo del candidato; conferma contatti esplicitamente simulata, senza DB o invii"
+  },
+  "TSP2": {
+    "esito": "PASS",
+    "PHP_test": 34,
+    "PHP_asserzioni": 315,
+    "PHP_secondi": 8.609,
+    "browser_percorsi": 6,
+    "browser_durata_riportata": "1.2m",
+    "override_rifiutati": 23,
+    "build_GEO": "PASS",
+    "sorgenti_digest_conformi": 4396,
+    "manifest_sorgenti_SHA256": "733d358a46a96d3f295d002e16e029cf44f5da5c6543ec3bdca39d050f529a88",
+    "log_SHA256": "38f9399f572eff012ef6c57a52df225305c990773fbf0f07a99bb6e2057b50b6",
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "pagine_per_larghezza": 5,
+    "nav_larghezze_aggiuntive": [
+      1280,
+      1266,
+      1151,
+      1024
+    ],
+    "overflow_form_recapiti_errori_reset": "assente nelle nove combinazioni controllate"
+  },
+  "TSP1": {
+    "candidato": "8b8b0159bf51d842e0f103c1827e37af1722a2ee",
+    "esito": "NONPASS browser4/6; PHP34/315 PASS",
+    "causa": "Checkbox della preferenza oraria ereditava width100% e min-height47px dai campi; overflow dopo apertura recapiti e reset a768/390. Ordine CSS vendor sovrascriveva inoltre stile Select2.",
+    "correzione": "Checkbox18x18 specifico, CSS sito dopo vendor, misure e asserzioni conservate e ampliate; nessun occultamento overflow o aumento timeout.",
+    "log_SHA256": "7cea2a8c2d875e847042aaa75a4b770b214033e0657328a7d630bed5b478ea2a"
+  },
+  "immagini_ispezionate": [
+    {
+      "file": "public-site-renewal.playwr-27da5-io-sintetico-e-modale-a-390/sito-conferma-390.png",
+      "SHA256": "553b9c229dfc28869d831b587ac2d9c240825f016e5cf3d65bf70bd383005de1",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-30777-navigazione-e-accessi-a-768/sito-contatti-768.png",
+      "SHA256": "9f7b1e37772acd0433cd22a330e4e6d14ddd28d6e3d441cdd11332af09ee45ae",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-30777-navigazione-e-accessi-a-768/sito-demo-768.png",
+      "SHA256": "e80f0a8143c93d29d913df7e6dd50283a0857286c0edef78a35426ebc9ddbf5d",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-30777-navigazione-e-accessi-a-768/sito-demo-percorso-768.png",
+      "SHA256": "6897cecca782e73f773c01b71c3489b0bc884c43c52fcd4d8207ef798ea5825b",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-30777-navigazione-e-accessi-a-768/sito-home-768.png",
+      "SHA256": "6df1299445fe67bc39a76a1de450bb8a6d6ac9c354d4ba24a5636d419ec395d9",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-30777-navigazione-e-accessi-a-768/sito-moduli-768.png",
+      "SHA256": "a3ffba5b30fcc3e80b02cf0a7897627235a5559ebf92baeacc698455d523bcdb",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-30777-navigazione-e-accessi-a-768/sito-prezzi-768.png",
+      "SHA256": "a9c9cc8948c2c64734db9fda1d754382a0f1c066a42a7407691e3ffe2e163cfc",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-50008-o-sintetico-e-modale-a-1440/sito-conferma-1440.png",
+      "SHA256": "b8269dedf0e926cfbe3a9c097dfab294844cd0c1e399ca36e1c657e5fda03ec4",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-50b71-io-sintetico-e-modale-a-768/sito-conferma-768.png",
+      "SHA256": "7ea21250f871d48c5308bfd3b29693746fd19270dc88787d2aaf70eae6c0882f",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-63a57-navigazione-e-accessi-a-390/sito-contatti-390.png",
+      "SHA256": "a5dafa124729ee2d1ab76f88243fd7a397253a4367a667b6770b2a866610f581",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-63a57-navigazione-e-accessi-a-390/sito-demo-390.png",
+      "SHA256": "270f871ef8f79e79ffafacc83c8486947c32408bc5ed8931e4caa3ec20fc3e93",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-63a57-navigazione-e-accessi-a-390/sito-demo-percorso-390.png",
+      "SHA256": "ae12c70af5c864c18e16c0fbc893e6878942df319ad4060744e8494766b4707a",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-63a57-navigazione-e-accessi-a-390/sito-home-390.png",
+      "SHA256": "4cc220cd1ad06a7c490153156b6e8d326f779006c04886c87c2aee88ea279d11",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-63a57-navigazione-e-accessi-a-390/sito-moduli-390.png",
+      "SHA256": "c29159387dd367d066fe8ee5412335dd207a3626fee2ffa1f7282e410d214041",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-63a57-navigazione-e-accessi-a-390/sito-prezzi-390.png",
+      "SHA256": "027f9e6937456d7d9b02eba3db6425dbfc2fae6feac09300aad12b75d93edede",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-d42b1-avigazione-e-accessi-a-1440/sito-contatti-1440.png",
+      "SHA256": "6890e716bd86a21be5df2d3acc58465f002861f7b0d922dcd7013ac8cabbb092",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-d42b1-avigazione-e-accessi-a-1440/sito-demo-1440.png",
+      "SHA256": "0d3ca8b7a1b8ed7bb8da67e6e0eb7dca39701dfbbe8dd5ed8dea5f5c94e23009",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-d42b1-avigazione-e-accessi-a-1440/sito-demo-percorso-1440.png",
+      "SHA256": "1fe8ddb45b1d71fbf560f58908f836e73bc38156d576eebffdd7ce423b50c135",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-d42b1-avigazione-e-accessi-a-1440/sito-home-1440.png",
+      "SHA256": "b8207b5dba595b0e82c843bc4e7f6a59e5b9f2cd0f160b8c432f910b93e8f69f",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-d42b1-avigazione-e-accessi-a-1440/sito-home-hero-desktop.png",
+      "SHA256": "389a1d8853820ab9d21546ba5febd254614ebef04d8a6202fec245173e9747b4",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-d42b1-avigazione-e-accessi-a-1440/sito-moduli-1440.png",
+      "SHA256": "e730c8f77d486d4327d0e661ad0120cdc8b42cb26a84abd9a3fed295bdf42019",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-d42b1-avigazione-e-accessi-a-1440/sito-novita-desktop.png",
+      "SHA256": "a691fdf9b04aee8ebf1dc7f1487c8d21426391ea5abde2c2aa9954c27e2f4038",
+      "ispezionata": true
+    },
+    {
+      "file": "public-site-renewal.playwr-d42b1-avigazione-e-accessi-a-1440/sito-prezzi-1440.png",
+      "SHA256": "448c17ed60266b69e2190f6e47031469e0fdfd398ebbaf32fc8b4ed0bcf3ea9f",
+      "ispezionata": true
+    }
+  ],
+  "immagini_consegnate": {
+    "home-desktop.png": "389a1d8853820ab9d21546ba5febd254614ebef04d8a6202fec245173e9747b4",
+    "home-mobile.png": "4cc220cd1ad06a7c490153156b6e8d326f779006c04886c87c2aee88ea279d11",
+    "prezzi-max-full-desktop.png": "448c17ed60266b69e2190f6e47031469e0fdfd398ebbaf32fc8b4ed0bcf3ea9f",
+    "conferma-mobile.png": "553b9c229dfc28869d831b587ac2d9c240825f016e5cf3d65bf70bd383005de1"
+  },
+  "contrasti_misurati": [
+    {
+      "testo": "#4c626e",
+      "sfondo": "#fbfcfd",
+      "rapporto": 6.234
+    },
+    {
+      "testo": "#4c626e",
+      "sfondo": "#edf5f6",
+      "rapporto": 5.791
+    },
+    {
+      "testo": "#17384b",
+      "sfondo": "#fbfcfd",
+      "rapporto": 12.0
+    },
+    {
+      "testo": "#07777a",
+      "sfondo": "#fbfcfd",
+      "rapporto": 5.204
+    },
+    {
+      "testo": "#07777a",
+      "sfondo": "#edf5f6",
+      "rapporto": 4.834
+    },
+    {
+      "testo": "#082232",
+      "sfondo": "#41d3c3",
+      "rapporto": 8.816
+    },
+    {
+      "testo": "#ffffff",
+      "sfondo": "#102f45",
+      "rapporto": 13.865
+    },
+    {
+      "testo": "#ffffff",
+      "sfondo": "#082232",
+      "rapporto": 16.34
+    }
+  ],
+  "capacita": {
+    "campioni": 32,
+    "minimo_VM": 2487021568,
+    "minimo_Mac": 15837028352,
+    "riserva_VM_PASS": true,
+    "stato_VM_finale": "Stopped",
+    "disco_VM": 42949672960
+  },
+  "postflight": {
+    "epoch": 1792918057.932171,
+    "daily_SHA": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+    "SELinux": "Enforcing",
+    "liberi_VM": 2957725696,
+    "runtime_rimossi": true
+  },
+  "catalogo_SHA256": "b3c21b3169d9143abd20c359e1d7ee28e02ad92784d2ab113b3e06d5ee6d554d",
+  "file_fase": [
+    "app/Http/Controllers/PublicSiteController.php",
+    "app/Http/Controllers/WebsiteContactController.php",
+    "app/Support/PublicSiteCatalog.php",
+    "docs/SITO-TANGO-SOFT-PRO-2026-10-25.md",
+    "public/site-assets/app.js",
+    "public/site-assets/styles.css",
+    "tests/Feature/PublicSiteRenewalTest.php",
+    "tests/Feature/public-site-renewal.playwright.spec.js",
+    "web/README.md",
+    "web/assets/app.js",
+    "web/assets/catalogo-commerciale.json",
+    "web/assets/img/foto-assistenza.webp",
+    "web/assets/img/foto-reception.webp",
+    "web/assets/img/foto-sviluppo.webp",
+    "web/assets/styles.css",
+    "web/contatti.html",
+    "web/demo.html",
+    "web/index.html",
+    "web/moduli.html",
+    "web/prezzi.html"
+  ],
+  "pendenti": [
+    "Revisione grafica e commerciale del proprietario",
+    "Dati societari, privacy e recapiti aggiuntivi verificati prima della pubblicazione",
+    "Attività, frequenza, canali e tempi di Max Full definiti nel preventivo"
+  ],
+  "nessun_deploy_push_merge_pagamento_dato_reale": true
+}

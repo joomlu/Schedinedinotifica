@@ -1,0 +1,13 @@
+{
+  "campioni": 516,
+  "minimo_libero": 2017611776,
+  "liberi_inizio": 4669464576,
+  "liberi_fine": 3345522688,
+  "picco_aggiuntivo": 2651852800,
+  "intervallo_secondi": 0.5,
+  "tempi": {
+    "RUN_secondi": 265.062,
+    "S0_secondi": 161.731,
+    "esito": "PASS_AGGIORNAMENTO_C5"
+  }
+}

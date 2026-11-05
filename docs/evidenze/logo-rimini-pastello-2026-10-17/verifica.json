@@ -1,0 +1,95 @@
+{
+  "scope": "Solo caricamento loghi GEO Comuni e selezione pastello Nuovo / Lista",
+  "causa": "Una risposta AJAX tardiva stacca dal DOM il modulo con il file selezionato; nessun POST parte dopo le conferme. Riprodotto in isolamento.",
+  "PHPUnit": {
+    "test": 21,
+    "asserzioni": 178,
+    "esito": "PASS"
+  },
+  "browser": {
+    "test": 12,
+    "esito": "PASS",
+    "upload": [
+      "PNG",
+      "WebP",
+      "JPG",
+      "JPEG"
+    ],
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "POST_HTTP": 302,
+    "errore_visibile_logo_precedente_conservato": true
+  },
+  "guardie": 15,
+  "override_rifiutati": 23,
+  "build_GEO": "PASS",
+  "sorgenti_sha256": {
+    "resources/views/geo/comuni-logo.blade.php": "eff98c0782cc4f53d2d429c1b58442f5192835996c2a750a8349d848dc208dab",
+    "resources/views/customers/area-tabs.blade.php": "e9e8f3ba2bc157b810b4b05f9e107a84c67902948bd6e3ecfa6157867071446a",
+    "resources/scss/custom.scss": "34bd426f71a84c056b62da4d5b69e23424fc7b62b55eb86ff04ec9ddac41d63f",
+    "tests/Feature/GeoLogoAtomicitaTest.php": "cbd36348395ccaf6fc380bcccf61da797df290ef031c07fe984dc507630810ab",
+    "tests/Feature/geo-logo-rimini.playwright.spec.js": "4d3581d73f30b64a1f283e7e21309354968e8671207ea2661c7afe5306d3a10e",
+    "tests/Feature/customer-entry-pastel.playwright.spec.js": "75fc361dfa266ecb73a52e0629721ad0a2fb0620a0edd183f3901f0893522a06",
+    "tests/Support/logo-images.js": "0273ccc837f605fff22e589e8c2da5dfeeba4b42a0fc48d1774399d3f5ff770f",
+    "tests/Isolation/seed-logo-rimini.php": "990ab4f61022f01ab6609f209ee28c4d7ea0e67034234b13fd0ba4a343a488f2"
+  },
+  "protetti_sha256": {
+    "app/Http/Controllers/GeoComuneLogoController.php": "fc2c20e579e1dc4a2a612963298b359b3686d49a95a0785fb2592b2889bc3f27",
+    "app/Models/GeoComune.php": "1db7fe1f58398540fddbc799c181bc9fbb163eaf60008854a69ba01926b21fa4",
+    "routes/web.php": "86792b0a407b715b03b80e69c79cb15649c45272e38eed45d693a5a3245a61e1",
+    "composer.lock": "857bc7f6eb12f80852e49cfa3c46b04db064585175427a17fb176f5c06bef3e4",
+    "package-lock.json": "34873f00e2deeef212b21720a6b93644ce52b9c082eb3b2aab38800776bbc08c",
+    "resources/js/ui/config-ux.js": "b2267cddb51af69f0dfe3c2e0ef969befdb315d928225abe5f472cf0fc890d7e"
+  },
+  "preflight": {
+    "recupero_precedente_allocato": 681992192,
+    "componenti": {
+      "decoded": 29061120,
+      "extracted": 423358464,
+      "archivio-base-verificato.json": 4096,
+      "dbdata": 206282752,
+      "db-tmp": 0,
+      "db-private.log": 4096,
+      "ridump.sql": 23244800,
+      "custody": 4096,
+      "sign.pub": 4096,
+      "private.php": 4096,
+      "pool.conf": 4096,
+      "fpm.log": 4096,
+      "fpm-console.log": 0,
+      "web": 4096,
+      "closed": 4096,
+      "apache.conf": 4096,
+      "apache-console.log": 0,
+      "apache.log": 4096
+    },
+    "cifrati_base_allocati": 362008576,
+    "liberi_VM": 3815899136,
+    "data_UTC": "2026-10-17T17:52:24.826119+00:00",
+    "margine_prudenziale": 1073741824,
+    "liberi_Mac": 7870500864,
+    "nessuna_rimozione": true,
+    "nessuna_manutenzione": true,
+    "nessun_PREPARE": true,
+    "recupero_storico_completo_prima_pulizia": 939229184,
+    "riserva_nuovo_candidato_per_recupero": 16777216,
+    "fabbisogno_stimato": 3709771776,
+    "limite": "Stima da recupero completo prima della pulizia, mai abbassata per i derivati rimossi;16MiB aggiuntivi per ognuno dei due nuovi recuperi PREPARE/S0, rollback coperto dal checkpoint e monitor nella riserva: non è una misura del picco del nuovo candidato. Nessun riuso dello S0 precedente.",
+    "esito": "PASS_STIMA_CAPIENZA"
+  },
+  "log_sha256": {
+    "diagnosi-isolata.log": "d72785e753e047fdc84f2aae533182c977d23297bcacb6855f7802f1e2df167e",
+    "diagnosi-isolata-r2.log": "19a1ecd4c5e550ed4daf3f0c5ee6637be0982204429749251bd52d360e454aac",
+    "diagnosi-isolata-r3.log": "548d5d9d487e24829704d51c19730fae9ea9f510a730e39de0564847e79a082a",
+    "diagnosi-isolata-r4.log": "0d5ab6dc47d9cf8ecdf05db4ab6666fda24f2fa4a14af11c93808be5381cc32e",
+    "verifica-fix.log": "6f23192b420c5b0dcce9d00c2f4c06e3cc1897d79fe1a456c98f6863b545e44e",
+    "verifica-formati.log": "78affab6b0e41e4d11cf4b9c7fe4c1bb6b79ff7bbd8789d7e0af25992d7e690c",
+    "verifica-finale.log": "00206d27bceb806ab82b68d5048d1cb39b1fa29e581c08074927743a3d040911",
+    "guardie.log": "d5c758979aee032b4f04f62fc748e2f3486d5b4206116a4aa31813b74b9a18f1"
+  },
+  "pubblicazione": "NON ANCORA ESEGUITA",
+  "stato_generale": "BASELINE IN AUDIT"
+}

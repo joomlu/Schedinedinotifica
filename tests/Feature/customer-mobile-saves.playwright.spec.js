@@ -1,0 +1,127 @@
+import {test as isolatedTest, expect, BASE_URL} from '../Support/playwright.js';
+import {withCustomerObservation} from '../Support/customer-observation.js';
+const test=withCustomerObservation(isolatedTest);
+test.use({headless:true}); test.setTimeout(180000);
+async function login(page) {
+ await page.goto(`${BASE_URL}/login`);
+ await page.locator('[name="login"]').fill('fixture-super_admin');
+ await page.locator('[name="password"]').fill('Password-fixture-123!');
+ await page.getByRole('button',{name:'Entra',exact:true}).click();
+ await expect(page).not.toHaveURL(/\/login$/);
+ await page.goto(`${BASE_URL}/clienti/nuovo`);
+ await page.waitForLoadState('networkidle');
+ if(await page.getByRole('button',{name:/Struttura: Hotel Browser(?! B)/}).count()===0){
+ await page.getByRole('button',{name:/Struttura:/}).click();
+ await page.getByRole('button',{name:'Hotel Browser',exact:true}).click();
+ const confirm = page.getByRole('button',{name:'Sì, salva',exact:true});
+ if(await confirm.isVisible()) await accept(page);
+ await page.waitForLoadState('networkidle');
+
+ }
+ await expect(page.getByRole('button',{name:/Struttura: Hotel Browser(?! B)/})).toBeVisible();
+}
+async function accept(page, label='Sì, salva') {
+ await page.getByRole('button',{name:label,exact:true}).click();
+ await page.getByRole('button',{name:'OK',exact:true}).click();
+ await page.waitForLoadState('networkidle');
+ const ok=page.getByRole('button',{name:'OK',exact:true});
+ if(await ok.isVisible()) await ok.click();
+}
+for(const round of [1,2]) {
+for(const width of [390]) test(`Wizard cliente: contatti, navigazione, salvataggio e riapertura a ${width}, ripetizione ${round}`,async({page})=>{
+ await page.setViewportSize({width,height:900});
+ const errors=[];page.on('pageerror',e=>{errors.push(e.message); console.log('Errore browser sintetico:', e.message);});
+ await login(page);
+ for(const contact of ['email','phone','cellphone']) {
+  await page.goto(`${BASE_URL}/clienti/nuovo`); await page.waitForLoadState('networkidle');
+  await page.locator('[name="type_cliente"]').selectOption('Richiesta');
+  await page.locator('[name="name"]').fill('Persona');
+  await page.locator('[name="surname"]').fill('Sintetica');
+  await expect(page.locator('#steparrow-gen-info button[type="button"]', {hasText:'Anagrafica'})).toHaveCount(0);
+  await page.locator('#steparrow-description-info-tab').click();
+  await expect(page.locator('#steparrow-description-info')).toBeVisible();
+  await expect(page).toHaveURL(/\/clienti\/nuovo$/);
+  await page.locator('#steparrow-contact-info-tab').click();
+  await page.getByRole('button',{name:/Salva a cliente/}).last().click();
+  await expect(page).toHaveURL(/\/clienti\/nuovo$/);
+  const ok=page.getByRole('button',{name:'OK',exact:true});if(await ok.isVisible())await ok.click();
+  await page.locator(`[name="${contact}"]`).fill(contact==='email'?'persona@example.test':'+39 333 1234567');
+  await page.getByRole('button',{name:/Salva a cliente/}).last().click();
+  await accept(page);
+  await expect(page).toHaveURL(/\/clienti$/);
+  await expect(page.locator('body')).toContainText('Sintetica');
+  await page.locator('a[href$="/modifica"]').first().click();
+  await expect(page.locator('[name="type_cliente"]')).toHaveValue('Richiesta');
+  await page.waitForLoadState('networkidle');
+  await page.locator('#steparrow-contact-info-tab').click();
+  await expect(page.locator('#steparrow-contact-info')).toBeVisible();
+  await expect(page.locator(`[name="${contact}"]`)).toHaveValue(contact==='email'?'persona@example.test':'+39 333 1234567');
+  await expect(page.locator('#privacy_consent_switch')).not.toBeChecked();
+ }
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBeTruthy();
+ expect(errors).toEqual([]);
+});
+for(const width of [390]) test(`Wizard cliente: minimi Componente e passaggio Ospite a schedina a ${width}, ripetizione ${round}`,async({page})=>{
+ await page.setViewportSize({width,height:900});
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await login(page);
+ const ids=await(await page.request.get(`${BASE_URL}/wizard-fixture-ids.json`)).json();
+ await page.goto(`${BASE_URL}/clienti/${ids.componente}/modifica`);await page.waitForLoadState('networkidle');
+ await expect(page.locator('[name="type_cliente"]')).toHaveValue('Componente');
+ await page.locator('#steparrow-description-info-tab').click();
+ await expect(page.locator('[data-prefix="birth"]')).toContainText('Francia');
+ await expect(page.locator('[name="num_doc_reg"]')).toHaveValue('');
+ await page.getByRole('button',{name:/Salva a cliente/}).first().click();
+ await accept(page,'Sì, modifica');
+ await expect(page).toHaveURL(/\/clienti$/);
+ await page.goto(`${BASE_URL}/clienti/${ids.ospite}/modifica`);await page.waitForLoadState('networkidle');
+ await page.getByRole('button',{name:/Salva a schedina/}).first().click();
+ await accept(page,'Sì, salva in schedina');
+ await expect(page).toHaveURL(new RegExp(`/schedine/nuova\\?customer_id=${ids.ospite}`));
+ await expect(page.locator('[name="name"]').first()).toHaveValue('Persona');
+ await expect(page.locator('[name="surname"]').first()).toHaveValue('Sintetica');
+ expect(errors).toEqual([]);
+});
+
+for(const width of [390]) test(`Nuovo cliente: bozza, riapertura e invio a schedina a ${width}, ripetizione ${round}`,async({page})=>{
+ test.setTimeout(60000);
+ await page.setViewportSize({width,height:900});
+ await login(page);
+ await expect(page.locator('#steparrow-gen-info .nexttab')).toHaveCount(0);
+ await page.locator('[name="type_cliente"]').selectOption('Richiesta');
+ await page.locator('[name="name"]').fill('Bozza');
+ await page.locator('[name="surname"]').fill(width===1440?'Desktop':'Mobile');
+ await page.locator('#steparrow-contact-info-tab').click();
+ await page.locator('[name="phone"]').fill('+39 333 1234567');
+ await page.getByRole('button',{name:/Salva a bozza/}).last().click();
+ await accept(page,'Sì, salva bozza');
+ await expect(page).toHaveURL(/\/clienti\/\d+\/modifica/);
+ await expect(page.locator('[name="name"]')).toHaveValue('Bozza');
+ await page.locator('#steparrow-contact-info-tab').click();
+ await expect(page.locator('[name="phone"]')).toHaveValue('+39 333 1234567');
+ const ids=await(await page.request.get(`${BASE_URL}/wizard-fixture-ids.json`)).json();
+ await page.goto(`${BASE_URL}/clienti/nuovo`);await page.waitForLoadState('networkidle');
+ await page.locator('[name="type_cliente"]').selectOption('Ospite');
+ await page.locator('[name="name"]').fill('Persona');
+ await page.locator('[name="surname"]').fill('Sintetica');
+ await page.locator('[name="sex"]').selectOption('F');
+ await page.locator('#steparrow-description-info-tab').click();
+ await page.locator('[data-prefix="birth"] [data-action="estero"]').click();
+ await page.locator('#birth_nazione_id').locator('..').locator('.select2-selection').click();
+ await page.locator('.select2-container--open .select2-search__field').fill('Francia');
+ await page.getByRole('option',{name:'Francia (FR)',exact:true}).click({timeout:10000});
+ await expect(page.locator('[name="ciudadania_reg"]')).toHaveValue('');
+ await page.locator('[name="ciudadania_reg"]').selectOption('Francese');
+ await page.locator('[name="nac_reg"]').evaluate(el=>el._flatpickr.setDate('1980-01-01',true));
+ await page.locator('[name="type_doc_reg"]').selectOption('PASSAPORTO');
+ await page.locator('[name="num_doc_reg"]').fill('QA123');
+ await page.locator('[name="country_doc_reg"]').selectOption('Francia');
+ await page.locator('#steparrow-description-info button[value="to_schedina"]').click();
+ await accept(page,'Sì, salva in schedina');
+ await expect(page).toHaveURL(/\/schedine\/nuova\?customer_id=\d+/);
+ const id=new URL(page.url()).searchParams.get('customer_id');
+ expect(id).not.toBe(String(ids.ospite));
+ await expect(page.locator('[name="name"]').first()).toHaveValue('Persona');
+});
+
+}

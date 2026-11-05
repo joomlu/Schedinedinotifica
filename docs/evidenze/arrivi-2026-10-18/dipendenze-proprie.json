@@ -1,0 +1,24 @@
+{
+  "esito": "PASS_SOLE_DIPENDENZE_COPIE_TEST_PROPRIE_RIMOSSE",
+  "directory": 24,
+  "file": 409572,
+  "prima": 3540451328,
+  "dopo": 3749924864,
+  "radici": [
+    "/home/collaudo.guest/arrivi-isolati-0IfbBDJ2",
+    "/home/collaudo.guest/arrivi-isolati-69UIaXLM",
+    "/home/collaudo.guest/arrivi-isolati-CsuiEdUv",
+    "/home/collaudo.guest/arrivi-isolati-NzCjFMeO",
+    "/home/collaudo.guest/arrivi-isolati-Qeh7KZqb",
+    "/home/collaudo.guest/arrivi-isolati-YwcpDdUH",
+    "/home/collaudo.guest/arrivi-isolati-ZPey0PwB",
+    "/home/collaudo.guest/arrivi-isolati-ckE0a2Fu",
+    "/home/collaudo.guest/arrivi-isolati-dGWKVX8U",
+    "/home/collaudo.guest/arrivi-isolati-gEUcUTpP",
+    "/home/collaudo.guest/arrivi-isolati-nADEi3lV",
+    "/home/collaudo.guest/arrivi-isolati-ujFZLvux"
+  ],
+  "canonico_conservato": "/home/collaudo.guest/schedine-sviluppo",
+  "DB_SQL_env_credenziali_upload_backup_sorgenti_log_preservati": true,
+  "inventario_sha256": "0de0d90ed1fc8e0ba36c16eaf3760377711b187ca55967fd81486c4aea06be95"
+}

@@ -1,0 +1,13 @@
+{
+  "esito": "PASS_GITHUB_LOCALE_PRODUZIONE",
+  "UTC": "2026-10-20T21:45:21.636569+00:00",
+  "PR_stato": "MERGED",
+  "SHA_integrato": "5e01d7b1153daac8de96a6281cd6203ff92c034d",
+  "SHA_correzioni": "797abf7cb36fd25910f51c2b963ef8110fa342b4",
+  "SHA_produzione": "5e01d7b1153daac8de96a6281cd6203ff92c034d",
+  "Git_produzione_pulito": true,
+  "PHP_produzione_CLI": "8.3.35",
+  "HEAD_locale": "5e01d7b1153daac8de96a6281cd6203ff92c034d",
+  "main_GitHub_prima_documentazione": "5e01d7b1153daac8de96a6281cd6203ff92c034d",
+  "commit_documentale_successivo_distinto": true
+}

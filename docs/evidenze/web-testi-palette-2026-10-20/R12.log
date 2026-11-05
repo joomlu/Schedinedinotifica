@@ -1,0 +1,269 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-20 22:44:44 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-rh_qoie5; database=test_geo_34f8f0753a418c559fcb2b46ba7c54a4; MySQL pid=57, porta=54623; HTTP pid=78, porta=53309
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /tmp/schedine-test-rh_qoie5/checkout/phpunit.xml
+
+...............................................................  63 / 351 ( 17%)
+............................................................... 126 / 351 ( 35%)
+............................................................... 189 / 351 ( 53%)
+............................................................... 252 / 351 ( 71%)
+.......\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.................................................... 315 / 351 ( 89%)
+....................................                            351 / 351 (100%)
+
+Time: 01:07.056, Memory: 100.50 MB
+
+There was 1 PHPUnit test runner deprecation:
+
+1) Metadata found in doc-comment for method Tests\Feature\IstatConformitaTest::test_invalid_guest_data_blocks_export(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+OK, but there were issues!
+Tests: 351, Assertions: 3546, PHPUnit Deprecations: 1.
+
+Running 21 tests using 1 worker
+
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-NPGvwY
+  ✓   1 tests/Feature/web-checkin-circuito.playwright.spec.js:11:205 › Circuito OSPITE SINGOLO 1440px › Compilazione, revisione e check-in OSPITE SINGOLO 1440px (25.1s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-dlzIHI
+  ✓   2 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito OSPITE SINGOLO 1440px › Storico e Cestino OSPITE SINGOLO 1440px (15.3s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-KJoKjE
+  ✓   3 tests/Feature/web-checkin-circuito.playwright.spec.js:11:205 › Circuito CAPO FAMIGLIA 768px › Compilazione, revisione e check-in CAPO FAMIGLIA 768px (35.4s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-8REeM5
+  ✓   4 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito CAPO FAMIGLIA 768px › Storico e Cestino CAPO FAMIGLIA 768px (14.5s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-R6R0tB
+  ✓   5 tests/Feature/web-checkin-circuito.playwright.spec.js:11:205 › Circuito CAPO GRUPPO 390px › Compilazione, revisione e check-in CAPO GRUPPO 390px (30.7s)
+IMMAGINI_CIRCUITO /tmp/schedine-circuito-immagini-3dxqAM
+  ✓   6 tests/Feature/web-checkin-circuito.playwright.spec.js:39:1 › Circuito CAPO GRUPPO 390px › Storico e Cestino CAPO GRUPPO 390px (13.4s)
+  ✓   7 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML OSPITE SINGOLO 1440px › Email HTML e modulo guidato OSPITE SINGOLO 1440px (30.7s)
+  ✓   8 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML OSPITE SINGOLO 1440px › Cronologia e gestione modelli OSPITE SINGOLO 1440px (20.7s)
+  ✓   9 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML CAPO FAMIGLIA 768px › Email HTML e modulo guidato CAPO FAMIGLIA 768px (38.6s)
+  ✓  10 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML CAPO FAMIGLIA 768px › Cronologia e gestione modelli CAPO FAMIGLIA 768px (20.6s)
+  ✓  11 tests/Feature/web-checkin-html.playwright.spec.js:8:213 › Regressioni HTML CAPO GRUPPO 390px › Email HTML e modulo guidato CAPO GRUPPO 390px (42.5s)
+  ✓  12 tests/Feature/web-checkin-html.playwright.spec.js:31:1 › Regressioni HTML CAPO GRUPPO 390px › Cronologia e gestione modelli CAPO GRUPPO 390px (22.6s)
+  ✓  13 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 1440 (30.7s)
+  ✓  14 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 768 (24.2s)
+  ✓  15 tests/Feature/web-testi-palette.playwright.spec.js:6:35 › GEO condiviso estero, transizioni e componenti 390 (30.7s)
+  ✓  16 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 1440 (33.0s)
+  ✓  17 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 768 (36.6s)
+  ✓  18 tests/Feature/web-testi-palette.playwright.spec.js:27:35 › Editor riutilizzabile e FormData completo 390 (31.9s)
+  ✓  19 tests/Feature/web-testi-palette.playwright.spec.js:42:35 › Palette chiara e scura completa 1440 (27.2s)
+  ✘  20 tests/Feature/web-testi-palette.playwright.spec.js:42:35 › Palette chiara e scura completa 768 (2.0m)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests/Feature/web-testi-palette.playwright.spec.js:42:35 › Palette chiara e scura completa 768
+
+    [31mTest timeout of 120000ms exceeded.[39m
+
+    Error: locator.click: Target page, context or browser has been closed
+    Call log:
+    [2m  - waiting for locator('.web-azioni button[value=web]')[22m
+    [2m    - locator resolved to <button value="web" type="submit" name="save_mode" formnovalidate="" data-confirm-ignore="" class="btn btn-soft-primary btn-label">Salva e continua più tardi</button>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div class="dayContainer">…</div> from <div tabindex="-1" class="flatpickr-calendar animate open arrowTop arrowLeft">…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is not stable[22m
+    [2m    - retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m    195 × waiting for element to be visible, enabled and stable[22m
+    [2m        - element is visible, enabled and stable[22m
+    [2m        - scrolling into view if needed[22m
+    [2m        - done scrolling[22m
+    [2m        - <div class="dayContainer">…</div> from <div tabindex="-1" class="flatpickr-calendar animate open arrowTop arrowLeft">…</div> subtree intercepts pointer events[22m
+    [2m      - retrying click action[22m
+    [2m        - waiting 500ms[22m
+
+
+      46 |   await page.goto(comm);await page.locator('#invito-colore').fill(color);await page.getByRole('button',{name:'Salva colore della struttura',exact:true}).click();await settled(page);await page.reload();await expect(page.locator('#invito-colore')).toHaveValue(color);await page.getByRole('button',{name:'Visualizza email',exact:true}).click();await settled(page);await expect(page.locator('#web-email-dialog')).toBeVisible();const frame=page.frameLocator('#web-email-dialog iframe');await expect(frame.locator('body')).toHaveCSS('background-color',rgb(mix(255,.96)));const link=frame.getByRole('link',{name:'Completa il web check-in',exact:true});await expect(link).toHaveCSS('background-color',rgb(color));await expect(link).toHaveCSS('color',text);await expect(frame.locator('table').filter({has:frame.getByText('Prenotazione:',{exact:true})}).last()).toHaveCSS('border-top-color',rgb(mix(255,.68)));await page.locator('#web-email-dialog iframe').screenshot({path:info.outputPath('palette-email-'+width+'-'+color.slice(1)+'.png')});
+      47 |   await page.goto(f.links[width].palette_url);await expect(page.locator('body')).toHaveCSS('background-color',rgb(mix(255,.96)));await expect(page.locator('.hotel-riepilogo')).toHaveCSS('background-color',rgb(mix(255,.91)));await expect(page.locator('.web-sezioni')).toHaveCSS('border-top-color',rgb(mix(255,.68)));await expect(page.locator('[data-web-section=base]')).toHaveCSS('background-color',rgb(color));await expect(page.locator('[data-web-section=base]')).toHaveCSS('color',text);await expect(page.locator('[name=name]').first()).toHaveCSS('border-top-color',rgb(mix(0,.60)));
+    > 48 |   await page.locator('[data-web-section=anag]').click();const itButton=page.locator('[name=oa_country]').locator('xpath=ancestor::*[@data-initial][1]').getByRole('button',{name:'Italia',exact:true});await expect(itButton).toHaveCSS('color',rgb(mix(0,.60)));await page.locator('[name=oa_date_nac]').locator('xpath=..').getByRole('textbox').click();const cal=page.locator('.flatpickr-calendar.open');await expect(cal.locator('.flatpickr-months')).toHaveCSS('background-color',rgb(mix(255,.91)));await expect(cal.locator('input.cur-year')).toHaveCSS('color',rgb(mix(0,.60)));await expect(cal.locator('.flatpickr-day.selected')).toHaveCSS('background-color',rgb(color));await expect(cal.locator('.flatpickr-day.selected')).toHaveCSS('color',text);await page.screenshot({path:info.outputPath('palette-calendario-'+width+'-'+color.slice(1)+'.png'),fullPage:true});await page.locator('[name=oa_date_nac]').evaluate(e=>e._flatpickr.jumpToDate(new Date()));await expect(cal.locator('.flatpickr-day.today')).toHaveCSS('background-color',rgb(mix(255,.91)));await expect(cal.locator('.flatpickr-day.today')).toHaveCSS('color',rgb(mix(0,.60)));await page.keyboard.press('Escape');await page.locator('.web-azioni button[value=web]').click();await expect(page.locator('body')).toContainText('Dati parziali salvati');await expect(page.locator('body')).toHaveCSS('background-color',rgb(mix(255,.96)));await expect(page.locator('.bg-success-subtle')).toHaveCSS('background-color',rgb(mix(255,.91)));await expect(page.locator('#webcheckin-finish-ok')).toHaveCSS('background-color',rgb(color));await expect(page.locator('#webcheckin-finish-ok')).toHaveCSS('color',text);await page.screenshot({path:info.outputPath('palette-ricevuta-'+width+'-'+color.slice(1)+'.png'),fullPage:true});await page.getByRole('link',{name:'Modifica dati',exact:true}).click();await expect(page.locator('#schedina-form')).toBeVisible();
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ^
+      49 |  }
+      50 | });
+      51 |
+        at /tmp/schedine-test-rh_qoie5/checkout/tests/Feature/web-testi-palette.playwright.spec.js:48:1220
+
+    Error Context: test-results/web-testi-palette.playwri
+web-testi-palette.playwrig-7b880-chiara-e-scura-completa-768:
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - img "Hotel Browser" [ref=e6]
+        - generic [ref=e7]: Hotel Browser
+        - heading "Benvenuto, Referente GEO 768" [level=1] [ref=e8]
+        - paragraph [ref=e9]: "Compila la scheda una sezione alla volta. Puoi salvare anche se mancano dei dati: la reception potrà completarli con te."
+        - generic [ref=e10]:
+          - generic [ref=e11]:
+            - strong [ref=e12]: Prenotazione
+            - text: GEO-768
+          - generic [ref=e13]:
+            - strong [ref=e14]: Arrivo
+            - text: 10/11/2026
+          - generic [ref=e15]:
+            - strong [ref=e16]: Partenza
+            - text: 13/11/2026
+          - generic [ref=e17]:
+            - strong [ref=e18]: Ospiti
+            - text: "2"
+        - paragraph [ref=e19]: "Referente della prenotazione: Referente GEO 768. I dati sotto appartengono all’ospite titolare, che può essere una persona diversa."
+      - paragraph [ref=e20]:
+        - text: "Ultimo salvataggio:"
+        - strong [ref=e21]: Ospiti completati 1 di 2
+        - text: . Il conteggio si aggiorna al salvataggio; la conferma rivalida tutti i dati.
+      - group [ref=e22]:
+        - generic "Campi da completare prima della conferma" [ref=e23] [cursor=pointer]
+      - navigation "Sezioni della scheda ospite" [ref=e24]:
+        - tablist "Dati del soggiorno e degli ospiti" [ref=e25]:
+          - tab "Soggiorno e ospite" [ref=e26] [cursor=pointer]
+          - tab "Anagrafica" [selected] [ref=e27] [cursor=pointer]
+          - tab "Residenza e documento" [ref=e28] [cursor=pointer]
+          - tab "Contatti e consensi" [ref=e29] [cursor=pointer]
+          - tab "Componenti" [ref=e30] [cursor=pointer]
+      - group [ref=e31]:
+        - generic [ref=e32]:
+          - heading "I dati degli ospiti" [level=4] [ref=e34]
+          - generic [ref=e36]:
+            - generic [ref=e37]: Puoi salvare anche dati incompleti e riprendere dallo stesso link. «Conferma dati» verifica tutti i dati; la reception confermerà la registrazione. Il soggiorno previsto resta quello indicato nell’invito.
+            - generic [ref=e38]:
+              - text:       
+              - tabpanel "Anagrafica" [ref=e39]:
+                - generic [ref=e40]:
+                  - generic [ref=e41]:
+                    - generic [ref=e42]: 
+                    - heading "Anagrafica ospite" [level=5] [ref=e43]
+                  - generic [ref=e46]:
+                    - generic [ref=e47]:
+                      - generic [ref=e48]:
+                        - generic [ref=e49]:
+                          - generic [ref=e50]: 
+                          - heading "Geo anagrafica" [level=5] [ref=e51]
+                        - generic [ref=e52]:
+                          - group "Toggle Italia / Estero" [ref=e53]:
+                            - button "Italia" [ref=e54] [cursor=pointer]
+                            - button "Estero" [ref=e55] [cursor=pointer]
+                          - button "Reset GEO" [ref=e56] [cursor=pointer]
+                      - generic [ref=e58]:
+                        - generic [ref=e59]:
+                          - generic [ref=e60]: Nazione
+                          - combobox [ref=e61]
+                          - combobox "Francia" [ref=e64] [cursor=pointer]:
+                            - textbox "Francia" [ref=e65]
+                        - group [ref=e66]:
+                          - generic "Altri dati esteri (facoltativi)" [ref=e67] [cursor=pointer]
+                    - generic [ref=e68]: Se sei nato all’estero basta la nazione di nascita. Per l’Italia seleziona regione, provincia e comune. Cittadinanza e data di nascita restano separate.
+                - generic [ref=e69]:
+                  - generic [ref=e70]:
+                    - generic: 
+                    - heading "Dati anagrafici" [level=5] [ref=e71]
+                  - generic [ref=e73]:
+                    - gener
+TEST interrotto senza fallback: playwright fallito: 1
+mysql-error.log:
+2026-10-20 22:44:54 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 57
+2026-10-20 22:44:54 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-20 22:44:54 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-20 22:44:54 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-20 22:44:54 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-20 22:44:54 0 [Note] InnoDB: Using Linux native AIO
+2026-10-20 22:44:54 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-20 22:44:54 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-20 22:44:54 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-20 22:44:54 0 [Note] InnoDB: End of log at LSN=45109
+2026-10-20 22:44:54 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-20 22:44:54 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-20 22:44:54 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-20 22:44:54 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-20 22:44:54 0 [Note] InnoDB: log sequence number 45109; transaction id 14
+2026-10-20 22:44:54 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-20 22:44:54 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-rh_qoie5/mysql-data/ib_buffer_pool
+2026-10-20 22:44:54 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-20 22:44:54 0 [Note] InnoDB: Buffer pool(s) load completed at 261020 22:44:54
+2026-10-20 22:44:54 0 [Note] Server socket created on IP: '127.0.0.1', port: '54623'.
+2026-10-20 22:44:54 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-20 22:44:54 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-rh_qoie5/mysql.sock'  port: 54623  MariaDB Server
+
+http.log:
+026] 127.0.0.1:42060 Accepted
+[Tue Oct 20 22:55:11 2026] 127.0.0.1:42056 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Tue Oct 20 22:55:11 2026] 127.0.0.1:42060 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Tue Oct 20 22:55:11 2026] 127.0.0.1:42048 Closing
+[Tue Oct 20 22:55:11 2026] 127.0.0.1:42056 Closing
+[Tue Oct 20 22:55:11 2026] 127.0.0.1:42038 Closing
+[Tue Oct 20 22:55:11 2026] 127.0.0.1:42060 Closing
+[Tue Oct 20 22:55:11 2026] 127.0.0.1:42064 Accepted
+[Tue Oct 20 22:55:11 2026] 127.0.0.1:42064 Closing
+[Tue Oct 20 22:55:11 2026] 127.0.0.1:42072 Accepted
+[Tue Oct 20 22:55:11 2026] 127.0.0.1:42072 Closing
+[Tue Oct 20 22:55:11 2026] 127.0.0.1:42078 Accepted
+[Tue Oct 20 22:55:11 2026] 127.0.0.1:42078 Closing
+[Tue Oct 20 22:55:12 2026] 127.0.0.1:42092 Accepted
+[Tue Oct 20 22:55:12 2026] 127.0.0.1:42092 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42096 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42096 [200]: GET /build/css/bootstrap.min.css
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42096 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42102 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42110 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42102 [200]: GET /build/css/icons.min.css
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42126 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42110 [200]: GET /build/css/custom.min.css
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42140 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42126 [200]: GET /build/css/app.min.css
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42146 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42140 [200]: GET /build/libs/select2/css/select2.min.css
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42154 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42110 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42146 [200]: GET /build/libs/flatpickr/flatpickr.min.css
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42164 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42154 [200]: GET /build/libs/jquery/jquery.min.js
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42176 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42164 [200]: GET /build/js/app2.js
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42140 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42188 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42102 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42126 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42146 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42176 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42198 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42188 [200]: GET /build/libs/select2/js/select2.full.min.js
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42154 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42208 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42198 [200]: GET /build/libs/bootstrap/js/bootstrap.bundle.min.js
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42224 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42208 [200]: GET /build/libs/node-waves/waves.min.js
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42238 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42188 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42224 [200]: GET /build/libs/simplebar/simplebar.min.js
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42242 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42198 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42238 [200]: GET /build/libs/feather-icons/feather.min.js
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42258 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42208 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42164 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42242 [200]: GET /build/icons/remixicon.woff2?t=1718271040674
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42264 Accepted
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42258 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42224 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42264 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42238 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42258 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42242 Closing
+[Tue Oct 20 22:55:13 2026] 127.0.0.1:42264 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-rh_qoie5

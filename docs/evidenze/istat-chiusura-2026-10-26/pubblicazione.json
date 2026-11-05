@@ -1,0 +1,67 @@
+{
+  "stato": "PASS_RILASCIO_C5_QA_MONITOR",
+  "PR": "https://github.com/joomlu/Schedinedinotifica/pull/34",
+  "merge": "17852e30df3ec410feecac06efdccf073c4f85ab",
+  "SHA_applicativo_pubblicato": "c226dd8072f260eff938cd0651cdbbecbcdd36b9",
+  "albero_merge_identico": true,
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "decisione": "CANDIDATO_ACCETTATO",
+    "S0_secondi": 183.924,
+    "RUN_secondi": 290.809,
+    "campioni": 487,
+    "DDL": false,
+    "limiti": {
+      "finestra": 1800,
+      "cutoff": 1379,
+      "riserva": 421,
+      "S0_limite": 600,
+      "S0_secondi": 183.924
+    }
+  },
+  "PREPARE": {
+    "primo": "STOP per mutazione online prima della barriera; diagnostico conservato",
+    "secondo": "PASS recupero indipendente completo",
+    "trasferimento_secondi": 40.637608209,
+    "flussi_massimi": 4,
+    "limite_trasferimento_secondi": 120
+  },
+  "RUN_precedente": {
+    "esito": "BASELINE_NON_MODIFICATA",
+    "causa": "Nuovo ingresso sul socket FPM precedente",
+    "DDL": false,
+    "execute": false,
+    "guardiano": "concluso, inattivo e disabilitato",
+    "cifrati_Extra_decifrati": true
+  },
+  "custodie_Extra": {
+    "PREPARE": {
+      "esito": "PASS_PREPARE_EXTRA_INTEGRITA_RECUPERO",
+      "cifrati": 3,
+      "byte": 643782512,
+      "chiave_separata_VM": true,
+      "autenticazione_decifratura_integrale": true
+    },
+    "S0": {
+      "esito": "PASS_S0_EXTRA_INTEGRITA_RECUPERO",
+      "cifrati": 3,
+      "byte": 30118624,
+      "chiave_separata_VM": true,
+      "autenticazione_decifratura_integrale": true
+    }
+  },
+  "guardiani_propri": "entrambi conclusi, inattivi e disabilitati",
+  "DB_identico_S0_prima_QA": true,
+  "HMAC_66_tabelle_dopo_QA_identici": true,
+  "persistenti_conformi": 92,
+  "sorgenti_verificati": 298,
+  "nessuna_configurazione_applicativa_variata": true,
+  "dati_reali_modificati": false,
+  "fixture_proprie_rimosse": true,
+  "invii_reali": 0,
+  "accettazione_Ross1000": "NON_VERIFICATA",
+  "monitor_finali": "PASS >=900s dopo QA e pulizia",
+  "S0_indipendente_verificato": true,
+  "presidi_locali_propri_chiusi": true,
+  "unico_residuo_scope_ISTAT": "Prova reale di accettazione Ross1000 con relativi prerequisiti operativi"
+}

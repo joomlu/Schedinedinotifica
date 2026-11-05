@@ -1,0 +1,59 @@
+{
+  "inizio": "2026-10-18T13:24:59.358Z",
+  "SHA": "e4b8171112607aeee63cfa6523b3f91d5b1cd0f9",
+  "prove": [
+    {
+      "nuovo_modello_esplicito": true,
+      "aggiornamento_versionato": true
+    },
+    {
+      "width": 1440,
+      "richiesta": true,
+      "modello_originale_preservato": true,
+      "duplicazione": true,
+      "anteprima": true,
+      "parziale_ripreso": true,
+      "stessa_bozza": true,
+      "note_private": true
+    },
+    {
+      "width": 768,
+      "richiesta": true,
+      "modello_originale_preservato": true,
+      "duplicazione": true,
+      "anteprima": true,
+      "parziale_ripreso": true,
+      "stessa_bozza": true,
+      "note_private": true
+    },
+    {
+      "width": 390,
+      "richiesta": true,
+      "modello_originale_preservato": true,
+      "duplicazione": true,
+      "anteprima": true,
+      "parziale_ripreso": true,
+      "stessa_bozza": true,
+      "note_private": true
+    }
+  ],
+  "richieste": [
+    {
+      "id": 19,
+      "sheetURL": "https://schedinedinotifica.tanggo.software/schedine/100/modifica",
+      "width": 1440
+    },
+    {
+      "id": 20,
+      "sheetURL": "https://schedinedinotifica.tanggo.software/schedine/101/modifica",
+      "width": 768
+    },
+    {
+      "id": 21,
+      "sheetURL": "https://schedinedinotifica.tanggo.software/schedine/102/modifica",
+      "width": 390
+    }
+  ],
+  "esito": "PASS_BROWSER_ONLINE_WEB_CHECKIN",
+  "fine": "2026-10-18T13:25:26.373Z"
+}

@@ -1,0 +1,9 @@
+{
+  "rete_senza_route": true,
+  "risultati": [],
+  "processi_fermati": [],
+  "flussi_laravel": "login,CSRF,redirect_anonimo; tenant autenticato e rate limit PENDENTI",
+  "esito": "FAIL",
+  "errore": "Migration sintetiche fallite",
+  "db_privato_fermato": true
+}

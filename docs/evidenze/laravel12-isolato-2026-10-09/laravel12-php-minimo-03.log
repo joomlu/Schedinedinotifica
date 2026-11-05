@@ -1,0 +1,8 @@
+Loading composer repositories with package information
+Updating dependencies
+Your requirements could not be resolved to an installable set of packages.
+
+  Problem 1
+    - openspout/openspout is locked to version v4.32.0 and an update of this package was not requested.
+    - openspout/openspout v4.32.0 requires php ~8.3.0 || ~8.4.0 || ~8.5.0 -> your php version (8.2.0; overridden via config.platform, actual: 8.3.33) does not satisfy that requirement.
+

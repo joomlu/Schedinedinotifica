@@ -1,0 +1,33 @@
+{
+  "consenso_utente": "Autorizzo la custodia sul server",
+  "ambito": "Solo rinomina del file error_log identificato per4733byte/SHA26186b79, nella stessa applicazione/server; nessun payload del log sul Mac",
+  "eseguito": {
+    "esito": "DIAGNOSTICO_PREESISTENTE_CUSTODITO",
+    "UTC": "2026-10-22T07:20:31.444665+00:00",
+    "origine": "/home/tanggosoftware/repos/schedinedinotifica/error_log",
+    "custodia": "/home/tanggosoftware/repos/schedinedinotifica/storage/logs/php-avvio-20261021-custodito.log",
+    "sha256": "26186b792a8320495991923c8624dc62f592bbbb7602608fc63bea23e36f8aa4",
+    "byte": 4733,
+    "inode_preservato": true,
+    "uid_gid_permessi_mtime_xattr_preservati": true,
+    "ctime_prima_ns": 1792607101172699058,
+    "ctime_dopo_rename_ns": 1792653631417939177,
+    "nessun_writer_rilevato": true,
+    "nessuna_modifica_al_contenuto_o_alla_configurazione_log": true,
+    "payload_rimasto_sullo_stesso_server": true,
+    "payload_compreso_nella_radice_app_del_nuovo_S0": true,
+    "nessun_payload_del_log_esportato_al_Mac": true,
+    "Git_pulito_dopo_custodia": true
+  },
+  "dopo_C5": {
+    "esito": "PASS_CUSTODIA_LOG_DOPO_C5",
+    "sha256": "26186b792a8320495991923c8624dc62f592bbbb7602608fc63bea23e36f8aa4",
+    "byte": 4733,
+    "uid": 1002,
+    "gid": 1003,
+    "modo": "0o600",
+    "originale_assente": true,
+    "nessun_payload_esportato": true
+  },
+  "rifiuti_precedenti": "Conservati nel blocco storico: copia integrale sul Mac e prima proposta di rinomina non eseguite; solo la seconda sbloccata dal consenso specifico."
+}

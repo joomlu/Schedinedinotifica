@@ -1,0 +1,39 @@
+import os,pathlib,subprocess,json,time,hashlib
+os.umask(0o077);w=pathlib.Path('/work');s=None;report={'fase':'R1_sette_migration','esito':'FAIL','migration':[]}
+php='/opt/remi/php83/root/usr/bin/php';schema='schedine_restore_r1';sock='/work/r1.sock'
+def run(a,timeout=120,stdin=None,out=None):
+ p=subprocess.run(a,cwd=w/'candidato',stdin=stdin,stdout=out if out is not None else subprocess.PIPE,stderr=subprocess.PIPE,timeout=timeout)
+ (w/(pathlib.Path(a[0]).name+'-r1-stderr-riservato.log')).write_bytes(p.stderr)
+ if p.returncode:raise RuntimeError(pathlib.Path(a[0]).name+' exit'+str(p.returncode))
+ return p.stdout
+try:
+ assert json.loads((w/'r0-completo-sanitizzato.json').read_text())['esito']=='PASS'
+ run([php,'-d','opcache.enable_cli=0','/work/prepara-env-r1.php'])
+ d=w/'datadir-r1';d.mkdir(mode=0o700)
+ run(['mariadb-install-db','--no-defaults','--datadir='+str(d),'--auth-root-authentication-method=normal','--skip-test-db'])
+ s=subprocess.Popen(['mariadbd','--no-defaults','--datadir='+str(d),'--socket='+sock,'--pid-file=/work/r1.pid','--skip-networking','--event-scheduler=OFF','--skip-log-bin','--server-id=9182372','--log-error=/work/r1-db-riservato.log'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+ cli=['mariadb','--no-defaults','--socket='+sock,'-uroot']
+ for _ in range(120):
+  p=subprocess.run(cli+['-e','SELECT 1'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+  if p.returncode==0:break
+  if s.poll() is not None:raise RuntimeError('MariaDBprivato non attivo')
+  time.sleep(.25)
+ run(cli+['-e','CREATE DATABASE '+schema+' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'])
+ with (w/'db.sql').open('rb') as f:run(cli+[schema],stdin=f,timeout=300)
+ # Dump completo antecedente conservato come S0; nessun uso del servizio operativo.
+ files=['2026_10_06_100000_encrypt_questura_credentials','2026_10_06_110000_add_questura_archive_integrity','2026_10_06_120000_add_questura_retention','2026_10_06_130000_add_questura_send_reservations','2026_10_07_180000_create_tassa_exports_and_receipt_image','2026_10_07_180000_protect_istat_cycle','2026_10_09_230000_add_web_checkin_link_lifecycle']
+ before=run(cli+['-N','-e','SELECT migration FROM '+schema+'.migrations ORDER BY migration;']).decode().splitlines()
+ for name in files:
+  started=time.monotonic();p=subprocess.run([php,'artisan','migrate','--force','--path=database/migrations/'+name+'.php'],cwd=w/'candidato',capture_output=True,timeout=180)
+  (w/(name+'-stdout-riservato.log')).write_bytes(p.stdout);(w/(name+'-stderr-riservato.log')).write_bytes(p.stderr)
+  report['migration'].append({'nome':name,'exit':p.returncode,'secondi':round(time.monotonic()-started,3)})
+  if p.returncode:raise RuntimeError('Migration fallita:'+name)
+  history=run(cli+['-N','-e','SELECT migration FROM '+schema+'.migrations ORDER BY migration;']).decode().splitlines()
+  if set(history)!=set(before+files[:len(report['migration'])]):raise RuntimeError('Storico migration discordante')
+ report['esito']='PASS_DDL';report['registrazioni_nuove']=7
+except Exception as e:report['errore']=str(e)
+finally:
+ if s is not None and s.poll() is None:s.terminate();s.wait(timeout=30)
+ report['istanza_privata_fermata']=s is None or s.poll() is not None
+ (w/'r1-sanitizzato.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))
+ if report['esito']!='PASS_DDL':raise SystemExit(1)

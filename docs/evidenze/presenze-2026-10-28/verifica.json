@@ -1,0 +1,45 @@
+{
+  "stato": "PASS_PRESENZE_ISOLATO",
+  "base_Git": "56085cfd0925bf87fb720fab4978e20ee0a98584",
+  "ambiente": "VM ufficiale, namespace, SELinux Enforcing, PHP8.3.36 MariaDB11.8.9, DB effimero",
+  "PHP": {
+    "test": 45,
+    "asserzioni": 213,
+    "errori": 0,
+    "fallimenti": 0
+  },
+  "browser": {
+    "scenari": 3,
+    "schede_per_scenario": 5,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "esito": "PASS",
+    "raccordo_mese_occupazione": "PASS febbraio2024→Dettaglio29febbraio→Riepilogo"
+  },
+  "guardie_override": 23,
+  "build_GEO": "PASS",
+  "nessun_dato_produttivo": true,
+  "sorgenti_sha256": {
+    "app/Http/Controllers/PresenzeController.php": "f9bb3f655a5e293acbfc4248378cedcf9f740aec512a3673e327ae19a742499d",
+    "app/Services/PresenzeReportService.php": "b9fd0e88f15a4ca32dd689092c95419fa82294075ff475b9e3a2c2fbe3b3ad33",
+    "resources/views/statistica/presenze/index.blade.php": "e8da15b62989fb47f213fdacc1e14383413f4802e5be0b805c625c468d5fe732",
+    "resources/views/statistica/presenze/print-dettaglio.blade.php": "f2de3000bfac913783b6b37187d5a91b7e99807c7550df726655b98701e3b588",
+    "resources/views/statistica/presenze/print-riepilogo.blade.php": "fb96660e89512beb228776821179dcb0e6336c22b86644834380d7e6eb8b9e18",
+    "resources/views/statistica/presenze/riepilogo.blade.php": "b6049dd5d15c71d58266eba782934148c3951ff4a99939b06b6dbd015c280889",
+    "tests/Feature/PresenzeCompleteTest.php": "265e2762f57b062a141cc8d2b8d1405c926b24c6134fd60a82c9aa1602c9e28f",
+    "tests/Feature/presenze-complete.playwright.spec.js": "8e47d4bfe05b5f1900e586d889aead0f723edf53cf4c68ff01d4b30b55f28e6d",
+    "tests/Isolation/presenze-fixtures.php": "74fc213a0b0fe815c03141f78e26fafba428c9cb2fe5e41c83a815847a00cffd"
+  },
+  "limiti": [
+    "Nessuna prova su telefono fisico",
+    "Capacità e camere senza storico datato",
+    "Stati cancellazione/no-show non autonomi nel modello",
+    "Nessuna suite globale attestata"
+  ],
+  "esecuzione_finale": "R10",
+  "storia_R9": "Errore infrastrutturale prima di PHPUnit, copie dipendenze tronche per spazio esaurito; nessun risultato R9 qualificante",
+  "pubblicazione": "Prima versione c560979f online e riconfermata dopo STOP; correttivo455318e7 qualificato e integrato PR46 ma non pubblicato, S0 fuori240s e riservaVM violata. Custodie autorizzate; ampliamento laboratorio ancora da autorizzare."
+}

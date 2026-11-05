@@ -1,0 +1,121 @@
+{
+  "data": "2026-10-09",
+  "stato": "BASELINE IN AUDIT — NON VALIDATA",
+  "head": "faef3cf01f43d19b20d1558c1fbd3ae32e48d849",
+  "mirati_http": {
+    "test": 58,
+    "asserzioni": 379,
+    "failure": 0
+  },
+  "globali": [
+    {
+      "esecuzione": 1,
+      "test": 728,
+      "asserzioni": 7652,
+      "failure": 0,
+      "errori": 0,
+      "skip": 0,
+      "sha256_junit": "057243760d154a13745cf54480002dc2a5561f16b4a436d30d6099afe53fea36"
+    },
+    {
+      "esecuzione": 2,
+      "test": 728,
+      "asserzioni": 7652,
+      "failure": 0,
+      "errori": 0,
+      "skip": 0,
+      "sha256_junit": "87eb100afbe064025b159bc8e3195cdcabedd77c1bcb38975cbda0cb96c854dd"
+    }
+  ],
+  "inventario_e_asserzioni_identici": true,
+  "casi_precedenti_a12_a15_con_asserzioni_identiche": 715,
+  "browser_finale": {
+    "test": 14,
+    "pass": 14
+  },
+  "diagnostici_originali_red": {
+    "test": 8,
+    "asserzioni": 26,
+    "failure": 3
+  },
+  "nuove_regressioni_red": {
+    "test": 12,
+    "asserzioni": 38,
+    "failure": 6
+  },
+  "red_viste_legacy": {
+    "failure_visibili": 7,
+    "riepilogo_launcher_troncato": true,
+    "status_get_creazione": 500
+  },
+  "diagnostici_originali_post_correzione": {
+    "test": 18,
+    "asserzioni": 91,
+    "failure": 1,
+    "motivo": "A14: asserzione flash dopo una seconda richiesta; diagnostico originale immutato"
+  },
+  "browser_intermedi": [
+    {
+      "test": 14,
+      "pass": 13,
+      "failure": 1,
+      "motivo": "Nuovo spec non segue due conferme della UI"
+    },
+    {
+      "test": 2,
+      "pass": 1,
+      "failure": 1,
+      "motivo": "Aumento timeout non risolve le conferme mancanti"
+    },
+    {
+      "test": 14,
+      "pass": 13,
+      "failure": 1,
+      "motivo": "Camere short: timeout di navigazione sullo spec originale, A16 entrambi verdi; riesecuzione invariata separata"
+    },
+    {
+      "test": 14,
+      "pass": 13,
+      "failure": 1,
+      "motivo": "Nuovo spec legge righe accessibili prima di completare feedback di successo; snapshot contiene account creato, camere short verde"
+    }
+  ],
+  "hash_sorgenti_finali": {
+    "app/Http/Controllers/StrutturaUserController.php": "64f69c94dcad646bdfc6bc5a094f93886a3d6eaa066b012fa878a97c510421bc",
+    "resources/views/struttura/utenti/create.blade.php": "4d46912a80baca414fd9f9b4b6caa344df29595941d9be0c5d0390affd3a53ce",
+    "resources/views/struttura/utenti/index.blade.php": "e14b997fb5dfbbd937a97e5bfe2d08b002965d99548baeaf6f97c062bbbfa36b",
+    "tests/Feature/LegacyUserCreationSecurityTest.php": "a735bb558748579802efbe46ddf6bba42bba8b0a19a86c475faf0ee5326f5244",
+    "tests/Feature/RecoveryFlashDiagnosticTest.php": "8b2fabfdb0d811a7b2a4be475ae0a50f786e0b9673de60950b210ef6caac215e",
+    "tests/Feature/legacy-user.playwright.spec.js": "5263f08efd10fde6a72ea336f8069a10ddb3bf95d58857b9f28249eef57011e8",
+    "tests/Isolation/legacy-user-fixtures.php": "389e41991f7c5d8b94726fac0b5b517e9b9506548064148e7925e27eb7d92a66"
+  },
+  "hash_preesistenti_preservati": {
+    "tests/Feature/BaselineAcceptanceSecurityAudit.php": "5e66e678f1aa14cd19531701186376741ef4c47ee864552c119549899a0f9cc0",
+    "tests/Feature/BaselineAcceptanceArriviAudit.php": "d6bb557b05e0dde597716780abdac22259d8ff946e2ef45c1c01214a1781fe49",
+    "tests/Feature/BaselineAcceptanceOperationalAudit.php": "6a1913ba2f1bfa03ef3392ac3ac233087d9c29d5bf3377a7f425541a096cf594",
+    "tests/Feature/BaselineFinalAuthorizationAudit.php": "e3ee2ad8fca899ff39146c33b23095bf4033594be960ec886710edd12101271e",
+    "tests/Feature/AccountSessionSecurityTest.php": "b22eebea29499f35fcd97bc5ae940ce25d8794f60df65bbd9971b66cb9b04eb7",
+    "tests/Feature/ArriviCustomerReferenceSecurityTest.php": "3b434e5d85382d3e30c66acde3b90ff7df76e950c2fa13896641a1fbf833af62",
+    "tests/Feature/account-session.playwright.spec.js": "960ebda961acfa4a3551d3102eb64f86358b1551a8a0edc2bf4676ca3d582cf3",
+    "tests/Feature/baseline-acceptance-sessioni.playwright.spec.js": "e43481b103b6b29e001fb6be118e0f9d69d7df8c6ec6bd7de501e3e28fe95d75",
+    "app/Http/Controllers/ArrivalsController.php": "b3dacd693c4807962e245f841293aa47e90756d3a19e0204de21fa179eb34f32",
+    "app/Http/Controllers/Auth/ResetPasswordController.php": "50eae0f74fbbbc818ba8221ddff6fe0c3e25113d4426b27a64a004cb27783583",
+    "app/Http/Kernel.php": "17699f168385da5a374ea2c861c8d712280a6dcedfb79ae61aac48b56517b944",
+    "app/Http/Middleware/AuthenticateAccountSession.php": "5d76cf8d03a4af8622c63f731283440f029fa466ef52004b5a0b68020166aff4",
+    "app/Providers/EventServiceProvider.php": "a05f2fb23500042f802462f5857ab0c210d23a1a8973642f0100573746c1f6eb",
+    "tests/TestCase.php": "ae5aebf95e909f8effef7f2f6307f7e5cbf3f34e29911fada09eebd432ae6d28",
+    "docs/evidenze-a12-a15-2026-10-09.json": "aa4682a8ea622b6dad65e781555b9af8f15462071600ad6d09beaa815e6f05c6"
+  },
+  "checkout_globali_sorgenti_non_js_identici": true,
+  "guardrail": 5,
+  "policy_db": 10,
+  "soap_offline": 14,
+  "istat_offline": 22,
+  "db_operativo": false,
+  "configurazione_operativa": false,
+  "schema_operativo": false,
+  "commit": false,
+  "push": false,
+  "deploy": false,
+  "trasmissioni": false
+}

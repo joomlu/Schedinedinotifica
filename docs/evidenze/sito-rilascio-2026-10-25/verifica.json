@@ -1,0 +1,62 @@
+{
+  "stato": "PASS_SITO_ISTAT_INTEGRATO_ISOLATO",
+  "candidato_qualificato": "9da76e3fd8936d0a58111d4912e7886da377672b",
+  "base_main": "9724daab02ff6ebac5bc68afb48da5f60193ca6b",
+  "PHP": {
+    "test": 183,
+    "asserzioni": 1879,
+    "secondi": 25.702
+  },
+  "browser": {
+    "percorsi": 9,
+    "durata_riportata": "1.2m",
+    "sito": 6,
+    "ISTAT": 3,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ]
+  },
+  "guardie_override": 23,
+  "build_GEO": "PASS",
+  "digest_sorgenti_conformi": 4396,
+  "log_SHA256": "8868c63feef647425d57d91b54dd0074c26c6918fbedf63123a644ca4f61b1ab",
+  "sorgenti_sha256": {
+    "app/Http/Controllers/PublicSiteController.php": "b6881120216dd885565164672aec691e13f57072268ce9b6cd827a613304a0dc",
+    "app/Http/Controllers/WebsiteContactController.php": "5329607fea8b77ffea5c59d402f783734d88af02da1e18d7078920c0d6c53877",
+    "app/Support/PublicSiteCatalog.php": "ec4c86ddfbace0b698dea7ceed242310c723e33eb3b381710af1c1e82d6a527b",
+    "public/robots.txt": "24994e43a3da93168f77eaaa18ec69900d4ba4f2e3c8c2391e0bc4b6395d5acf",
+    "public/site-assets/app.js": "3426664158bf9c549d6391b6e113efe63cfac89bc8dc5eaaceffc3bd162313a3",
+    "public/site-assets/styles.css": "8880c10a41aa03e7c691c507b17b90734c7d89e573d50f01aadcc715dc45426d",
+    "public/sitemap.xml": "8eab1a62627b4b77ff4154c44e97e6439b244a99bd1fbc2a88498dc80b754e36",
+    "routes/web.php": "438bfb95e9d2fd042193c86cf8a2dbaee3a504818a643cf99b2a19e9f8905f05",
+    "tests/Feature/PublicSiteRenewalTest.php": "e7c94475b890cf037d98c7e75eb0d720be0711d964628aa4691a4b1d36e74cb2",
+    "tests/Feature/public-product-capture.playwright.spec.js": "8562ae91a14038e6cf82f1db51f7af2a555fb4eeb426f84f9b5669fa8a33c46e",
+    "tests/Feature/public-site-renewal.playwright.spec.js": "a31e5c779c8b0fd64e5ea68434b22fdcf36edfa525494db9fdf9874387cbdc84",
+    "tests/Isolation/public-product-demo-fixtures.php": "a3261364a27aafcd8b148d6bb40b3cf3c0c4740c3d37a673bd58235bdea66e5a",
+    "web/README.md": "67bcdae6351107971fd0eec357fc824cc9cb1b2d8377e4ab8be670431e6190bb",
+    "web/accesso.html": "77d1582cf3c482614cf8fa021424ef54cc2b333e8c47d294c263a0d13fe8a205",
+    "web/assets/app.js": "3426664158bf9c549d6391b6e113efe63cfac89bc8dc5eaaceffc3bd162313a3",
+    "web/assets/catalogo-commerciale.json": "b3c21b3169d9143abd20c359e1d7ee28e02ad92784d2ab113b3e06d5ee6d554d",
+    "web/assets/styles.css": "8880c10a41aa03e7c691c507b17b90734c7d89e573d50f01aadcc715dc45426d",
+    "web/assets/img/foto-assistenza.webp": "b2ad5f7b2aa4e24116a8b1dd1cb0962f88f28522bf923a387588c4ba2e2bbc05",
+    "web/assets/img/foto-reception.webp": "b20caca7f494ef434b855a39b424b6897583912808adbfe3df9f1ccdcd7fda4a",
+    "web/assets/img/foto-sviluppo.webp": "97664a786694925cc546c31a1307909bde0a860f24c777df933452395b5e001a",
+    "web/assets/img/prodotto-arrivi.webp": "9e0bd1eac3121ab292e015e45cd79844f1489b10ddb9f2607cd5072cc359765f",
+    "web/assets/img/prodotto-ospite.webp": "3f806955d3dcf43c4db73bc7e313f4f905b91f3f31703016101fd70202df299b",
+    "web/assets/img/prodotto-richiesta.webp": "ef6f10efb70c3fe00f28626171bbbf4b456416ec7354847bb4905a2aaa404882",
+    "web/assets/img/prodotto-schedina.webp": "faf289f42286f210396a6c30510c1d8f1f837277d93e41c9ca48d035f92e17bf",
+    "web/assets/img/prodotto-tassa.webp": "6f62d9e11c6fc79b96f6d89cd0d7bf29aa119724efacb83f458d81e267294573",
+    "web/contatti.html": "a9ea74d2a1746961ad1fbf1016adf503e10aaee7f14a64a89ff554451826b7f8",
+    "web/demo.html": "5c14f161f0aac139072b8dc68388067610228c84a69b05c77e0f95f4bd4711b4",
+    "web/index.html": "6911aa329b80985b1e04729d4d0b46fc564e059bfb979e9e601c06c12a1a5d4f",
+    "web/moduli.html": "025d82cd28fc11516dd777eaacf439237d78788d4f6153c7083759d929e886c9",
+    "web/prezzi.html": "ed8e373e87d7ca2f64461e09d4ade69a356e39f8391095dcf3c2a5170bfeb3d9"
+  },
+  "revisione_indipendente": "PASS;30/30file sito identici,41/41file main-only preservati,50file allowlist senzaextra; nessun rilievo concreto bloccante",
+  "autorizzazione": "userMessage publica del25ottobre2026 nella chatprincipale, riferita al sito approvato in anteprima",
+  "nessuna_DDL": true,
+  "nessuna_trasmissione_enti": true,
+  "rilascio_produzione": "DA_ESEGUIRE_CON_NUOVO_C5"
+}

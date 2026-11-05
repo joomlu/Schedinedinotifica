@@ -1,0 +1,15 @@
+{
+  "esito": "RETTIFICA_SOLO_METADATO_SHA_PROVA",
+  "resoconto_originale": "online-completo.json",
+  "SHA_etichetta_obsoleta": "447571f45fb9f8059f0d33eb836b221d9bd6ec52",
+  "SHA_effettivo_verificato": "78e889759b0838f35267496527c42024aa18bd00",
+  "causa": "Lettura ../c5/meta.json invece di ../c5-layout/meta.json nel solo campo informativoSHA; test funzionali senza dipendenza da quel campo",
+  "attribuzione_verificata": [
+    "Verifica online server prima QA conSHA78e8897 e94sorgenti",
+    "Fixture PHP verificaHEAD controidentity.json prima di ogni modalità, inclusecrea echiudi; entrambePASS",
+    "Guardiano concluso e nessun nuovo deploy duranteQA"
+  ],
+  "risultato_originale_immutato_sha256": "e86ba6eab0398d696b1299014e4fe6484f10325e76be38277e6364c15e559e22",
+  "script_futuro_corretto": true,
+  "controlli_e_risultati_funzionali_non_modificati": true
+}

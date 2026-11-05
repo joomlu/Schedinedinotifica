@@ -1,0 +1,165 @@
+{
+  "inizio": "2026-10-27T01:55:24.369Z",
+  "prove": [
+    {
+      "larghezza": 1440,
+      "righe": 2,
+      "caratteri_per_riga": 168,
+      "sha256": "5e40d909a9201ef78093649f5dd0062e18e9980894afc911c9cb50f0788cb714",
+      "anteprima_storico_identici": true,
+      "canale_OFF_e_POST409": true,
+      "paginazioni_indipendenti": true,
+      "tenant_estraneo403": true
+    },
+    {
+      "larghezza": 768,
+      "righe": 2,
+      "caratteri_per_riga": 168,
+      "sha256": "5e40d909a9201ef78093649f5dd0062e18e9980894afc911c9cb50f0788cb714",
+      "anteprima_storico_identici": true,
+      "canale_OFF_e_POST409": true,
+      "paginazioni_indipendenti": true,
+      "tenant_estraneo403": true
+    },
+    {
+      "larghezza": 390,
+      "righe": 2,
+      "caratteri_per_riga": 168,
+      "sha256": "5e40d909a9201ef78093649f5dd0062e18e9980894afc911c9cb50f0788cb714",
+      "anteprima_storico_identici": true,
+      "canale_OFF_e_POST409": true,
+      "paginazioni_indipendenti": true,
+      "tenant_estraneo403": true
+    }
+  ],
+  "invii_reali": 0,
+  "esito": "PASS_QUESTURA_ONLINE_OFF",
+  "storico_altro_tenant404": true,
+  "reception_lettura": true,
+  "POST_estranei": 0,
+  "sessioni_proprie_invalidate": true,
+  "fine": "2026-10-27T01:55:48.625Z",
+  "revisione": "R3",
+  "ispezione_visiva": {
+    "esito": "PASS_ISPEZIONE_VISIVA_QUESTURA_ONLINE_R3",
+    "immagini": [
+      {
+        "nome": "questura-anteprima-1440.png",
+        "sha256": "f36d9daba108817d6d8ac8f2ecf47a1496e8928b5b7c091084190b599c66112c",
+        "byte": 280484,
+        "dimensioni": [
+          1440,
+          2007
+        ]
+      },
+      {
+        "nome": "questura-anteprima-390.png",
+        "sha256": "39de15f1cd4a2d4f9b5fc73003a9b067f3c6d4b2b4837da1618e63271f8a604a",
+        "byte": 228637,
+        "dimensioni": [
+          390,
+          3599
+        ]
+      },
+      {
+        "nome": "questura-anteprima-768.png",
+        "sha256": "7645b87b63fe1398d599e7b0d7a479b1a6d77464d7f0b49d65f4474a2002f199",
+        "byte": 278479,
+        "dimensioni": [
+          768,
+          2772
+        ]
+      },
+      {
+        "nome": "questura-configurazione-1440.png",
+        "sha256": "e862beb02235b240431fd932609301b2c9c08e6d31e5f3e1ff2a990616cf43c9",
+        "byte": 102862,
+        "dimensioni": [
+          1440,
+          1000
+        ]
+      },
+      {
+        "nome": "questura-configurazione-390.png",
+        "sha256": "e8e39681148eab6dd46cd590bb391e214b4646aeeb8d4ad82541f69e0fe20bae",
+        "byte": 56511,
+        "dimensioni": [
+          390,
+          1000
+        ]
+      },
+      {
+        "nome": "questura-configurazione-768.png",
+        "sha256": "463c8b675f189ea00f2f60dc7158654d5bca09b7a1ac7ed3fcc86df821bb497c",
+        "byte": 90638,
+        "dimensioni": [
+          768,
+          1000
+        ]
+      },
+      {
+        "nome": "questura-storico-1440.png",
+        "sha256": "ae2b70be6c18c5a593b342d469fb562e359da3f21a4ec517b38b559bc3a7fe8c",
+        "byte": 347271,
+        "dimensioni": [
+          1440,
+          2659
+        ]
+      },
+      {
+        "nome": "questura-storico-390.png",
+        "sha256": "08bc1cfa0c8748b1f4339b8ea2f21ec9c6f7c6b0c18053b978298147c627023b",
+        "byte": 281824,
+        "dimensioni": [
+          390,
+          3876
+        ]
+      },
+      {
+        "nome": "questura-storico-768.png",
+        "sha256": "20cf2c91445c35e43fbafb5ab1ea179325b482ff99f61e71c7226be168ea59a5",
+        "byte": 351708,
+        "dimensioni": [
+          768,
+          3877
+        ]
+      }
+    ],
+    "ambito": "Configurazione operativa, anteprima e storico Questura a1440/768/390; campi e controlli leggibili, griglie responsive, contenuto sintetico. Nessuna attestazione generale del layout condiviso: intestazione fissa nelle catture lunghe dipende dalla posizione di scorrimento; nessuna credenziale reale. TXT con scorrimento orizzontale intenzionale.",
+    "invii_reali": 0
+  },
+  "tentativi_precedenti": [
+    {
+      "revisione": "R1",
+      "esito": "NONPASS_ADATTATORE_FIXTURE",
+      "causa": "Componenti non visibili dalla console anonima per tenancy; transazione annullata.",
+      "conservazione": {
+        "esito": "PASS_ROLLBACK_FIXTURE_R1_DATI_E_SCHEMA_IDENTICI_S0",
+        "byte_identici": false,
+        "uniche_differenze_contatori_AUTO_INCREMENT": true,
+        "nessun_restore_o_reset_contatori": true,
+        "tabelle": 66
+      }
+    },
+    {
+      "revisione": "R2",
+      "esito": "NONPASS_DOWNLOAD_FIXTURE_404",
+      "causa": "File sintetici creati da root; nella R3 proprietà dei soli file propri allineata all’utente FPM. Nessuna modifica applicativa.",
+      "pulizia": "HMAC66 identici; runtime proprio verificato e rimosso"
+    }
+  ],
+  "pulizia_finale": {
+    "esito": "PASS_FIXTURE_RIMOSSA_E_DATI_PREESISTENTI_IDENTICI",
+    "tabelle_differenti": [],
+    "sessioni_sintetiche_residue_rimosse": 1,
+    "tabelle_confrontate": 66,
+    "nessun_restore_DB": true,
+    "limite": "HMAC di tutte le righe, esclusi contatori AUTO_INCREMENT; scritture reali concorrenti da riconciliare senza restore"
+  },
+  "runtime_rimosso": {
+    "esito": "PASS_RUNTIME_QA_PROPRIO_RIMOSSO",
+    "file_copiati_verificati": 14,
+    "clone_dipendenze_preservato": true,
+    "dati_produzione_non_toccati": true
+  }
+}

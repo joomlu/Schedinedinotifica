@@ -1,0 +1,21 @@
+{
+  "esito": "PASS_GUARDIE",
+  "esecuzioni": [
+    {
+      "file": "test_guards.py",
+      "esito": "PASS",
+      "output": "test_actual_playwright_config_aborts_without_starting_playwright (__main__.ClosedRuntimeTests.test_actual_playwright_config_aborts_without_starting_playwright) ... ok\ntest_all_existing_entrypoints_are_guarded (__main__.ClosedRuntimeTests.test_all_existing_entrypoints_are_guarded) ... ok\ntest_browser_gate_rejects_hosts_servers_and_redirect_destinations (__main__.ClosedRuntimeTests.test_browser_gate_rejects_hosts_servers_and_redirect_destinations) ... ok\ntest_direct_application_creation_cannot_bypass_phpunit_bootstrap (__main__.ClosedRuntimeTests.test_direct_application_creation_cannot_bypass_phpunit_bootstrap) ... ok\ntest_php_rejects_every_untrusted_context_before_autoload (__main__.ClosedRuntimeTests.test_php_rejects_every_untrusted_context_before_autoload) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.506s\n\nOK"
+    },
+    {
+      "file": "test_database_policy.py",
+      "esito": "PASS",
+      "output": "/home/collaudo.guest/revisione-chiusura-BZnKBvCs/tests/Isolation/test_database_policy.py:90: SyntaxWarning: invalid escape sequence '\\T'\n  try { echo \\Tests\\Support\\TestingEnvironment::databaseVendor($v).\"\\\\n\"; }\ntest_absolute_rejections_even_when_identity_matches (__main__.DatabasePolicyTests.test_absolute_rejections_even_when_identity_matches) ... ok\ntest_configured_production_endpoint_denylist (__main__.DatabasePolicyTests.test_configured_production_endpoint_denylist) ... ok\ntest_missing_pid_is_incomplete (__main__.DatabasePolicyTests.test_missing_pid_is_incomplete) ... ok\ntest_observed_identity_mismatches (__main__.DatabasePolicyTests.test_observed_identity_mismatches) ... ok\ntest_php_vendor_semantics_without_application_bootstrap (__main__.DatabasePolicyTests.test_php_vendor_semantics_without_application_bootstrap) ... ok\ntest_process_identity_required (__main__.DatabasePolicyTests.test_process_identity_required) ... ok\ntest_symlink_escape (__main__.DatabasePolicyTests.test_symlink_escape) ... ok\ntest_traversal_with_concordant_paths (__main__.DatabasePolicyTests.test_traversal_with_concordant_paths) ... ok\ntest_valid_mariadb_and_mysql (__main__.DatabasePolicyTests.test_valid_mariadb_and_mysql) ... ok\ntest_vendor_detection_shared_semantics (__main__.DatabasePolicyTests.test_vendor_detection_shared_semantics) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.017s\n\nOK"
+    },
+    {
+      "file": "test_proxy_response.py",
+      "esito": "PASS",
+      "output": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.009s\n\nOK"
+    }
+  ],
+  "diagnostico_precedente": "Invocazione unittest dal package non adatta a import locale database_policy; esecuzioni dirette previste dai file, nessun sorgente o guardia modificato."
+}

@@ -1,0 +1,259 @@
+{
+  "stato": "BASELINE IN AUDIT — NON VALIDATA",
+  "verdetto_locale": "PARZIALE — accettazione completa non dimostrata",
+  "modifiche_applicative": false,
+  "correzione_harness": "IncompleteRead gestito con 502, nessun corpo parziale e log senza URL/token/contenuti",
+  "snapshot_iniziale": 8363,
+  "preesistenti_identici_prima_documenti": 8362,
+  "eliminazioni": [],
+  "originali_preservati": {
+    "tests/Feature/BaselineAcceptanceSecurityAudit.php": "5e66e678f1aa14cd19531701186376741ef4c47ee864552c119549899a0f9cc0",
+    "tests/Unit/componenti-import-submit.test.mjs": "c61aaa7f05d77a56b6ad99d5cf780cfd4423a9fcd4abcf8ff0b6f8364931bfdc",
+    "tests/Feature/web-checkin-camera.playwright.spec.js": "5ca7121c2d5ac0e34a0b6d1c800378253ef0f74559de951ddf74aabe8e3b3e73"
+  },
+  "nuovi": {
+    "tests/Feature/BaselineAcceptanceSecurityFlashOrderAudit.php": "e795db051e098e0bd421d073cfc59bceade5df3f99c6adbacc50e65c4ca0a25f",
+    "tests/Feature/web-checkin-camera-navigation-audit.playwright.spec.js": "9ae8820d5a15583a21c5a1e2a9a6ba4443cbea286bf1a451315f869ed306005a",
+    "tests/Feature/proxy-download-audit.playwright.spec.js": "915e8836a8ed0da7d399aaf7add400a15f6e690f57cb31043564502c9dc683a3",
+    "tests/Unit/componenti-import-submit-complete-dom.test.mjs": "73de1f4f3491ea991cc076bc7ce978f9eacba3be56d21b2c20ac83e8dceba5b9",
+    "tests/Isolation/local-closure-fixtures.php": "0c30f3d6552d63d5fd6c1ba399291a6c6eb975899deb992d5bc7ab55e5880b02",
+    "tests/Isolation/test_proxy_response.py": "8d265bae94c465ed6ece260e2bda83719d50dc90a435f83679a55cce4c999998"
+  },
+  "launcher": "c1ca0329fde3e7996ae17340a4157d2d787f7fcd9509370b0fa61933db58fa36",
+  "logs": {
+    "chiusura-a04-originale.log": {
+      "path": "/private/tmp/chiusura-a04-originale.log",
+      "sha256": "56cbf480446a8c066fd76ed9fcd471b6767ee20d6dd4ef119916bcfa80893651"
+    },
+    "chiusura-a04-copia.log": {
+      "path": "/private/tmp/chiusura-a04-copia.log",
+      "sha256": "ac6a570701f5e841b34b2120b523042a8eab3a71f2c8292211e994464b9c7465"
+    },
+    "chiusura-a05-red.log": {
+      "path": "/private/tmp/chiusura-a05-red.log",
+      "sha256": "a0264ad305aa73145bc409ae4b913bda06e2b0f03c0d4f47723b521323950d02"
+    },
+    "chiusura-a05-green.log": {
+      "path": "/private/tmp/chiusura-a05-green.log",
+      "sha256": "279538fe812d165bb22f5a84ab94b40efa9072957816601b6c80f1ba281fa35e"
+    },
+    "chiusura-guardrail.log": {
+      "path": "/private/tmp/chiusura-guardrail.log",
+      "sha256": "9ccd9f7b1af3dcfffe7c4f74cfe67d74b5ad0198c3b029f3ff54bc666c336cdd"
+    },
+    "chiusura-policy.log": {
+      "path": "/private/tmp/chiusura-policy.log",
+      "sha256": "a028b6f458504fccd13f1f58010b9491fc015d6c5ddb00b5d94257f684d23d35"
+    },
+    "chiusura-camere-flash.log": {
+      "path": "/private/tmp/chiusura-camere-flash.log",
+      "sha256": "3f5433e896bcc1c9ba2d20a8e2c61afd0ba08e47f52e6657fc04ab2cc3092edf"
+    },
+    "chiusura-proxy-browser.log": {
+      "path": "/private/tmp/chiusura-proxy-browser.log",
+      "sha256": "2213df0d06b1ad5c9c2eefee97e6ec3acff09040004f85663e2f1b9fab5e5b9b"
+    },
+    "chiusura-primo-playwright.log": {
+      "path": "/private/tmp/chiusura-primo-playwright.log",
+      "sha256": "3ddf21697eff07c409c73ac44750c754db1af54cb2008790d39db54a58d0259e"
+    },
+    "chiusura-secondo-playwright.log": {
+      "path": "/private/tmp/chiusura-secondo-playwright.log",
+      "sha256": "7cf45abecc8e80d6551680fd53e875c5fec0d938ea5c2847d1b0118d5315248e"
+    },
+    "chiusura-primo-http.log": {
+      "path": "/private/tmp/chiusura-primo-http.log",
+      "sha256": "0fe642eed7feccffc1a3716b9e8ece483caf471f7fe549d122493da3364a821e"
+    },
+    "chiusura-secondo-http.log": {
+      "path": "/private/tmp/chiusura-secondo-http.log",
+      "sha256": "28efc8e3d57ac338ca46b0979833f357e451bb71f9796a8774428b863f227b5b"
+    }
+  },
+  "prove": {
+    "A04_originale": "0/3 PASS, 3 FAIL",
+    "A04_copia": "3/3 PASS",
+    "A05_prima": "2 test, 1 errore IncompleteRead",
+    "A05_dopo": "2/2 PASS",
+    "guardrail": 5,
+    "policy_db": 10,
+    "PHPUnit_mirato": "9 test /41 asserzioni PASS",
+    "browser_primo": "8/8 PASS",
+    "browser_secondo": "9/9 PASS"
+  },
+  "globali_riutilizzate": [
+    {
+      "log": "/private/tmp/a16-global-1.xml",
+      "sha256": "057243760d154a13745cf54480002dc2a5561f16b4a436d30d6099afe53fea36",
+      "totali": {
+        "name": "/private/tmp/schedine-test-616_dvl3/checkout/phpunit.xml",
+        "tests": "728",
+        "assertions": "7652",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "time": "101.490077"
+      }
+    },
+    {
+      "log": "/private/tmp/a16-global-2.xml",
+      "sha256": "87eb100afbe064025b159bc8e3195cdcabedd77c1bcb38975cbda0cb96c854dd",
+      "totali": {
+        "name": "/private/tmp/schedine-test-616_dvl3/checkout/phpunit.xml",
+        "tests": "728",
+        "assertions": "7652",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "time": "95.499671"
+      }
+    }
+  ],
+  "tracce_camere": {
+    "primo": [
+      {
+        "campione": 1,
+        "modo": "full",
+        "durata_traccia_ms": 9787,
+        "risposte_documento": {
+          "200": 9
+        },
+        "documenti_falliti": [],
+        "errori_js": [],
+        "asset_annullati": 67
+      },
+      {
+        "campione": 1,
+        "modo": "short",
+        "durata_traccia_ms": 10672,
+        "risposte_documento": {
+          "200": 12
+        },
+        "documenti_falliti": [],
+        "errori_js": [],
+        "asset_annullati": 73
+      },
+      {
+        "campione": 2,
+        "modo": "full",
+        "durata_traccia_ms": 9670,
+        "risposte_documento": {
+          "200": 9
+        },
+        "documenti_falliti": [],
+        "errori_js": [],
+        "asset_annullati": 67
+      },
+      {
+        "campione": 2,
+        "modo": "short",
+        "durata_traccia_ms": 10437,
+        "risposte_documento": {
+          "200": 12
+        },
+        "documenti_falliti": [],
+        "errori_js": [],
+        "asset_annullati": 75
+      },
+      {
+        "campione": 3,
+        "modo": "full",
+        "durata_traccia_ms": 9315,
+        "risposte_documento": {
+          "200": 9
+        },
+        "documenti_falliti": [],
+        "errori_js": [],
+        "asset_annullati": 65
+      },
+      {
+        "campione": 3,
+        "modo": "short",
+        "durata_traccia_ms": 10397,
+        "risposte_documento": {
+          "200": 12
+        },
+        "documenti_falliti": [],
+        "errori_js": [],
+        "asset_annullati": 72
+      }
+    ],
+    "secondo": [
+      {
+        "campione": 1,
+        "modo": "full",
+        "durata_traccia_ms": 9809,
+        "risposte_documento": {
+          "200": 9
+        },
+        "documenti_falliti": [],
+        "errori_js": [],
+        "asset_annullati": 67
+      },
+      {
+        "campione": 1,
+        "modo": "short",
+        "durata_traccia_ms": 10821,
+        "risposte_documento": {
+          "200": 12
+        },
+        "documenti_falliti": [],
+        "errori_js": [],
+        "asset_annullati": 74
+      },
+      {
+        "campione": 2,
+        "modo": "full",
+        "durata_traccia_ms": 9349,
+        "risposte_documento": {
+          "200": 9
+        },
+        "documenti_falliti": [],
+        "errori_js": [],
+        "asset_annullati": 65
+      },
+      {
+        "campione": 2,
+        "modo": "short",
+        "durata_traccia_ms": 10174,
+        "risposte_documento": {
+          "200": 12
+        },
+        "documenti_falliti": [],
+        "errori_js": [],
+        "asset_annullati": 73
+      },
+      {
+        "campione": 3,
+        "modo": "full",
+        "durata_traccia_ms": 9285,
+        "risposte_documento": {
+          "200": 9
+        },
+        "documenti_falliti": [],
+        "errori_js": [],
+        "asset_annullati": 67
+      },
+      {
+        "campione": 3,
+        "modo": "short",
+        "durata_traccia_ms": 10733,
+        "risposte_documento": {
+          "200": 12
+        },
+        "documenti_falliti": [],
+        "errori_js": [],
+        "asset_annullati": 74
+      }
+    ]
+  },
+  "limiti": [
+    "Timeout storico camere non riprodotto, causa non dimostrata",
+    "Causa e endpoint IncompleteRead storico non identificati",
+    "Download sintetico completo non equivale a certificare tutti gli export",
+    "Importazioni E2E browser, conversione intero gruppo e matrici amministrative/tenant non esaustive",
+    "Politica token da formalizzare",
+    "Produzione ed enti non verificati"
+  ],
+  "operazioni_vietate_eseguite": false
+}

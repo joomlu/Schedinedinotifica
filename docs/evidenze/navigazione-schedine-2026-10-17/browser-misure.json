@@ -1,0 +1,98 @@
+[
+  {
+    "viewport": 1440,
+    "controlli": [
+      {
+        "altezza": 60.25,
+        "attiva": null,
+        "colore": "rgb(43, 43, 43)",
+        "larghezza": 403.9296875,
+        "sfondo": "none",
+        "testo": "Nuova schedina",
+        "x": 274
+      },
+      {
+        "altezza": 60.25,
+        "attiva": null,
+        "colore": "rgb(43, 43, 43)",
+        "larghezza": 404.0859375,
+        "sfondo": "none",
+        "testo": "Elenco schedine",
+        "x": 685.9296875
+      },
+      {
+        "altezza": 60.25,
+        "attiva": "page",
+        "colore": "rgb(116, 24, 38)",
+        "larghezza": 317.984375,
+        "sfondo": "linear-gradient(90deg, rgba(140, 29, 44, 0.12), rgba(140, 29, 44, 0.04))",
+        "testo": "Bozze",
+        "x": 1098.015625
+      }
+    ]
+  },
+  {
+    "viewport": 768,
+    "controlli": [
+      {
+        "altezza": 60.25,
+        "attiva": null,
+        "colore": "rgb(43, 43, 43)",
+        "larghezza": 179.9296875,
+        "sfondo": "none",
+        "testo": "Nuova schedina",
+        "x": 274
+      },
+      {
+        "altezza": 60.25,
+        "attiva": null,
+        "colore": "rgb(43, 43, 43)",
+        "larghezza": 180.0859375,
+        "sfondo": "none",
+        "testo": "Elenco schedine",
+        "x": 461.9296875
+      },
+      {
+        "altezza": 60.25,
+        "attiva": "page",
+        "colore": "rgb(116, 24, 38)",
+        "larghezza": 93.984375,
+        "sfondo": "linear-gradient(90deg, rgba(140, 29, 44, 0.12), rgba(140, 29, 44, 0.04))",
+        "testo": "Bozze",
+        "x": 650.015625
+      }
+    ]
+  },
+  {
+    "viewport": 390,
+    "controlli": [
+      {
+        "altezza": 60.25,
+        "attiva": null,
+        "colore": "rgb(43, 43, 43)",
+        "larghezza": 331,
+        "sfondo": "none",
+        "testo": "Nuova schedina",
+        "x": 24
+      },
+      {
+        "altezza": 60.25,
+        "attiva": null,
+        "colore": "rgb(43, 43, 43)",
+        "larghezza": 204.546875,
+        "sfondo": "none",
+        "testo": "Elenco schedine",
+        "x": 24
+      },
+      {
+        "altezza": 60.25,
+        "attiva": "page",
+        "colore": "rgb(116, 24, 38)",
+        "larghezza": 118.453125,
+        "sfondo": "linear-gradient(90deg, rgba(140, 29, 44, 0.12), rgba(140, 29, 44, 0.04))",
+        "testo": "Bozze",
+        "x": 236.546875
+      }
+    ]
+  }
+]

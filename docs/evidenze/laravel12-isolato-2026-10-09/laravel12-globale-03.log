@@ -1,0 +1,17 @@
+TEST isolato: /private/tmp/schedine-test-txk9vm3x; database=test_geo_c711e879b410c643ccbe8cd865ebedb8; MySQL pid=3687, porta=62927; HTTP pid=3694, porta=62928
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-txk9vm3x
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/.codex/worktrees/laravel12-verifica/Schedinedinotifica/tests/Isolation/run.py", line 336, in <module>
+    raise SystemExit(main())
+  File "/Users/jorgeluccitelli/.codex/worktrees/laravel12-verifica/Schedinedinotifica/tests/Isolation/run.py", line 287, in main
+    step(['npm', 'run', 'build'], 'build')
+  File "/Users/jorgeluccitelli/.codex/worktrees/laravel12-verifica/Schedinedinotifica/tests/Isolation/run.py", line 272, in step
+    result = subprocess.run(command, cwd=checkout, env=env, capture_output=True, text=True)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'npm'

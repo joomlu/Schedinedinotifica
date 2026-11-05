@@ -1,0 +1,59 @@
+class PreliminaryMigrationTests(Fixture):
+    """Metadati sintetici: socket fornito solo dall'infrastruttura isolata."""
+    def setUp(self):
+        super().setUp()
+        self.write('config/database.php', (REPO/'config/database.php').read_text())
+        self.directory = self.root/'database/migrations'
+        self.write('database/migrations/001_applied.php', '<?php throw new RuntimeException("must not execute");')
+        self.write('database/migrations/002_pending.php', '<?php throw new RuntimeException("must not execute");')
+        self.env = {k:v for k,v in os.environ.items() if not k.startswith(('APP_','DB_','LARAVEL_','VIEW_','MYSQL_','DATABASE_'))}
+        socket = os.environ.get('DEPLOY_TEST_DB_SOCKET')
+        self.write('.env', DUMMY_ENV+'DB_SOCKET='+str(socket or '/nonexistent-isolated.sock')+'\nDB_DATABASE=preflight_fixture\nDB_USERNAME=root\nDB_PASSWORD=\n')
+
+    def preliminary(self, env=None):
+        return subprocess.run(['php','-d','opcache.enable_cli=0',str(REPO/'scripts/deployment/artisan.php'),
+            str(self.root),'preliminary-pending',str(self.directory)],env=env or self.env,capture_output=True,timeout=15)
+
+    def test_preliminary_dispatch_does_not_use_strict_artisan_pending(self):
+        self.app.artisan = mock.Mock(return_value=b'["002_pending"]')
+        self.assertEqual(self.app.pending(self.directory, preliminary=True), ['002_pending'])
+        self.app.artisan.assert_called_once_with('preliminary-pending', str(self.directory))
+        self.app.artisan.reset_mock()
+        self.app.pending(self.directory)
+        self.app.artisan.assert_called_once_with('pending', str(self.directory))
+
+    def test_unsafe_environment_and_configuration_fail_without_vendor(self):
+        original = (self.root/'.env').read_text()
+        for extra in ['DB_HOST=another\n', 'DATABASE_URL=mysql://fixture\n', 'APP_CONFIG_CACHE=/tmp/foreign\n', 'DB_PORT=3306;dbname=foreign\n']:
+            with self.subTest(extra=extra):
+                self.write('.env',original+extra)
+                self.assertNotEqual(self.preliminary().returncode,0)
+                self.assertEqual(self.preliminary().stdout,b'')
+        self.write('.env',original)
+        self.write('config/database.php','<?php throw new RuntimeException("must not execute");')
+        self.assertNotEqual(self.preliminary().returncode,0)
+        self.persistent()
+
+    @unittest.skipUnless(os.environ.get('DEPLOY_TEST_DB_SOCKET'), 'Richiede MariaDB sintetico senza rete')
+    def test_real_readonly_metadata_ignores_vendor_versions_and_missing_vendor(self):
+        original = (self.root/'.env').read_bytes()
+        for version in [None,'11.31.0','12.69.3','12.69.2','13.0.0']:
+            with self.subTest(version=version):
+                if version is not None:
+                    self.write('vendor/autoload.php','<?php throw new RuntimeException("vendor must not load");')
+                    self.write('vendor/composer/installed.json',json.dumps({'version':version}))
+                r = self.preliminary()
+                self.assertEqual(r.returncode,0,r.stderr)
+                self.assertEqual(json.loads(r.stdout),['002_pending'])
+                self.assertEqual((self.root/'.env').read_bytes(),original)
+        # Catalogo mancante: nessuna riscrittura dello storico.
+        (self.directory/'001_applied.php').unlink()
+        self.assertNotEqual(self.preliminary().returncode,0)
+        self.persistent()
+
+    @unittest.skipUnless(os.environ.get('DEPLOY_TEST_DB_SOCKET'), 'Richiede MariaDB sintetico senza rete')
+    def test_cached_database_identity_cannot_hide_environment(self):
+        self.write('bootstrap/cache/config.php',"<?php return ['database'=>['default'=>'mysql'], 'app'=>['key'=>'wrong']];")
+        self.assertNotEqual(self.preliminary().returncode,0)
+        self.persistent()
+

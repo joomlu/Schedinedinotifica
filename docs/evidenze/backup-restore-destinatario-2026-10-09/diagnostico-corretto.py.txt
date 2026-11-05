@@ -1,0 +1,100 @@
+import pathlib,os,sys,json,hashlib,subprocess,time,tarfile,threading,importlib.util,secrets
+r=pathlib.Path('/home/tanggosoftware/repos/schedinedinotifica'); b=pathlib.Path(sys.argv[1]);os.umask(0o077)
+spec=importlib.util.spec_from_file_location('guard',b/'deploy.py');g=importlib.util.module_from_spec(spec);spec.loader.exec_module(g)
+maint=g.Maintenance(r,(b/'maintenance.php').read_text());seal=g.EnvironmentSeal(r)
+report={'backup':'INCOMPLETO','riapertura':False};started=None;stop=threading.Event();unsafe=[]
+def call(a,timeout=40):
+ p=subprocess.run(a,capture_output=True,timeout=timeout)
+ if p.returncode:raise RuntimeError('Comando fallito '+pathlib.Path(a[0]).name+' exit'+str(p.returncode))
+ return p.stdout
+
+sys.path.insert(0,str(b))
+from backup_http import capture
+http_calls=0
+def http(expected):
+ global http_calls
+ http_calls+=1
+ rec=capture(b,'http-'+str(http_calls)+'-'+str(expected),['curl','--silent','--show-error','--noproxy','*','--max-time','15','--resolve','schedinedinotifica.tanggo.software:443:217.174.149.23','https://schedinedinotifica.tanggo.software/login'],expected,maint.marker if expected==503 else None)
+ report.setdefault('fasi_http',[]).append(rec)
+
+def state():
+ s=call(['mariadb','--batch','--skip-column-names','-e',"SELECT COUNT(*) FROM information_schema.PROCESSLIST WHERE DB='tanggosoftware_schedinedinotifica' AND USER<>'root'; SELECT COUNT(*) FROM information_schema.EVENTS WHERE EVENT_SCHEMA='tanggosoftware_schedinedinotifica';"]).decode().split()
+ ps=call(['ps','-eo','uid,comm']).decode().splitlines();writer=[x for x in ps if x.split() and x.split()[0]=='1002']
+ return list(map(int,s)),writer
+
+def monitor():
+ while not stop.wait(1):
+  try:
+   v,p=state()
+   if any(v) or p:unsafe.append('Possibile scrittore rilevato');return
+  except Exception:unsafe.append('Monitor non verificabile');return
+
+def tree():
+ out={}
+ for p in sorted(r.rglob('*')):
+  q=str(p.relative_to(r));s=p.lstat()
+  if p.is_symlink():out[q]={'link':os.readlink(p)}
+  elif p.is_file():out[q]={'byte':s.st_size,'mtime_ns':s.st_mtime_ns,'sha256':hashlib.file_digest(p.open('rb'),'sha256').hexdigest()}
+ return out
+
+def dump(dest):
+ if unsafe:raise RuntimeError(unsafe[0])
+ remain=480-(time.monotonic()-started)
+ if remain<30:raise RuntimeError('Budget backup esaurito')
+ with dest.open('wb') as f, (b/'dump-stderr-riservato').open('ab') as e:
+  p=subprocess.run(['mariadb-dump','--single-transaction','--skip-lock-tables','--routines','--events','--triggers','--hex-blob','--default-character-set=utf8mb4','--skip-comments','--order-by-primary','tanggosoftware_schedinedinotifica'],stdout=f,stderr=e,timeout=remain)
+  if p.returncode:raise RuntimeError('Dump fallito exit'+str(p.returncode))
+
+def archive(dest,paths,base='/'):
+ remain=480-(time.monotonic()-started)
+ if remain<30:raise RuntimeError('Budget archivio esaurito')
+ with (b/'tar-stderr-riservato').open('ab') as e:
+  p=subprocess.run(['tar','--acls','--xattrs','-czf',str(dest),'-C',base,*paths],stdout=subprocess.DEVNULL,stderr=e,timeout=remain)
+  if p.returncode:raise RuntimeError('Archivio fallito exit'+str(p.returncode))
+try:
+ if (r/'storage/framework/down').exists() or (r/'storage/framework/maintenance.php').exists():raise RuntimeError('Manutenzione preesistente')
+ v,p=state()
+ if any(v) or p:raise RuntimeError('Scrittori iniziali')
+ started=time.monotonic();report['inizio_utc']=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime());maint.close()
+ for f in ['down','maintenance.php']:os.chown(r/'storage/framework'/f,1002,1003)
+ http(503)
+ drain=time.monotonic(); stable=0
+ while time.monotonic()-drain<120:
+  v,p=state();trx=int(call(['mariadb','-N','-e','SELECT COUNT(*) FROM information_schema.INNODB_TRX;']).strip())
+  stable=stable+1 if not any(v) and not p and not trx else 0
+  if stable>=3:break
+  time.sleep(1)
+ if stable<3:raise RuntimeError('Drenaggio non confermato entro120secondi')
+ report['drenaggio']='PASS';t=threading.Thread(target=monitor);t.start()
+ before=tree();(b/'filetree-prima-riservato.json').write_text(json.dumps(before));dump(b/'db.sql')
+ archive(b/'app.tar.gz',[r.name],str(r.parent))
+ cfg=['etc/httpd/vhosts/schedinedinotifica.tanggo.software.conf','etc/httpd/conf.d/php-fpm/tanggosoftware.conf','etc/opt/remi/php83/php.ini','etc/opt/remi/php83/php.d','etc/opt/remi/php83/php-fpm.d/tanggosoftware.conf']
+ includes=pathlib.Path('/etc/httpd/conf.d/userdata/tanggosoftware/schedinedinotifica.tanggo.software')
+ if includes.exists():cfg.append(str(includes).lstrip('/'))
+ for l in pathlib.Path('/etc/httpd/vhosts/schedinedinotifica.tanggo.software.conf').read_text().splitlines():
+  a=l.strip().split()
+  if len(a)>1 and a[0] in ['SSLCertificateFile','SSLCertificateKeyFile','SSLCertificateChainFile']:
+   p=pathlib.Path(a[1].strip('"'))
+   if p.is_file():cfg.append(str(p).lstrip('/'))
+ archive(b/'config-server.tar.gz',sorted(set(cfg)))
+ dump(b/'db-verifica.sql');after=tree();(b/'filetree-dopo-riservato.json').write_text(json.dumps(after))
+ if before!=after:raise RuntimeError('File mutati durante backup')
+ sha=lambda p:hashlib.file_digest(p.open('rb'),'sha256').hexdigest()
+ if sha(b/'db.sql')!=sha(b/'db-verifica.sql'):raise RuntimeError('DB mutato durante backup')
+ if unsafe:raise RuntimeError(unsafe[0])
+ seal.verify();maint.verify_files()
+ report['artefatti']={p.name:{'byte':p.stat().st_size,'sha256':sha(p)} for p in [b/'db.sql',b/'app.tar.gz',b/'config-server.tar.gz']}
+ report['db_doppio_dump_identico']=True;report['filetree_identico']=True;report['APP_KEY_env_immutati']=True;report['backup']='COMPLETO_VERIFICATO_ACQUISIZIONE_NON_RESTORE'
+except Exception as e:
+ report['errore']=str(e)
+finally:
+ stop.set()
+ if started:
+  try:
+   seal.verify();maint.open();report['secondi_manutenzione']=round(time.monotonic()-started,3);http(200);report['riapertura']=True
+  except Exception as e:report['errore_riapertura']=str(e)
+ report['fine_utc']=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())
+ for p in b.rglob('*'):
+  if p.is_file():p.chmod(0o600)
+ (b/'verbale-sanitizzato.json').write_text(json.dumps(report,indent=2)+'\n')
+ print(json.dumps(report));sys.exit(0 if report['backup'].startswith('COMPLETO') and report['riapertura'] else 1)

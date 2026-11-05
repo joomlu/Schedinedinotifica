@@ -1,0 +1,17 @@
+{
+  "esito": "PASS_HTML_GENERATO_UNICO_INVIO",
+  "richiesta": 177,
+  "SHA_applicativo_invio": "047a7a19e2fcda8a48d53a0f32ba47e01920f745",
+  "SHA_finale": "f414900b9626240dc34f1de0a449615b66d7413a",
+  "HTML_generato_byte": 2511,
+  "HTML_generato_sha256": "d19c941428254421649afc9b99b1cca5e718be9cf69a3a828abe76beefb1ef0f",
+  "colore": "#812db5",
+  "testo_personalizzato": true,
+  "logo_struttura_presente_e_self_hosted": true,
+  "href_pulsante_identico_link_collaudato": true,
+  "codice_email_immutato_dopo_invio": true,
+  "delta_applicativo_successivo": [
+    "resources/views/web-checkin/public.blade.php"
+  ],
+  "limite": "HTML dell’anteprima inviata conservato privatamente; identità con il trasporto verificata in VM salvo CID/CRLF. MIME ricevuto e rendering inbox non ispezionati autonomamente; ricezione confermata dall’utente."
+}

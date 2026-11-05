@@ -1,0 +1,13 @@
+{
+    "esito": "backup acquisito; restore ancora necessario",
+    "database": "schedinedinotifica",
+    "byte_dump": 2199824,
+    "sha256_dump": "6838a312c238ef74c1bbeea8c61e27992c886e1fbcd5d64a97ce2cb3e5aee04a",
+    "tabelle": 61,
+    "integrita_prima_dopo_dump": true,
+    "config_APP_KEY_preservate": true,
+    "permessi_directory": "0700",
+    "permessi_file": "0600",
+    "FileVault": "attivo",
+    "segreti_esposti": false
+}

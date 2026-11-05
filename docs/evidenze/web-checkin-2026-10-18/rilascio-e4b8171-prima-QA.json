@@ -1,0 +1,136 @@
+{
+  "pubblicazione": {
+    "ambito": "Verifica subito dopo rilascio, precedente al collaudo sintetico online",
+    "data_epoch": 1792329776.4112706,
+    "db_byte_identico_S0": true,
+    "dati_e_schema_preesistenti_identici_S0": true,
+    "custom_css_HTTP_sha256": "9d11a9ecc9c9df1a5fd0876a7bba78dc6064a4a46b1c7941c04f49ef6827e67b",
+    "regola_mobile_in_css_pubblico": true,
+    "esito": "PASS_RILASCIO_ONLINE_SERVER",
+    "HEAD": "e4b8171112607aeee63cfa6523b3f91d5b1cd0f9",
+    "Laravel": "12.69.3",
+    "migrazioni": 157,
+    "tabelle": 66,
+    "cataloghi": {
+      "rilasciato_da": {
+        "globali": 86,
+        "conteggi_privati": [
+          [
+            1,
+            74
+          ],
+          [
+            7,
+            73
+          ],
+          [
+            8,
+            73
+          ],
+          [
+            9,
+            73
+          ],
+          [
+            10,
+            73
+          ],
+          [
+            11,
+            73
+          ],
+          [
+            12,
+            73
+          ]
+        ]
+      },
+      "tipo_via": {
+        "globali": 198,
+        "conteggi_privati": [
+          [
+            1,
+            157
+          ],
+          [
+            7,
+            156
+          ],
+          [
+            8,
+            156
+          ],
+          [
+            9,
+            156
+          ],
+          [
+            10,
+            156
+          ],
+          [
+            11,
+            156
+          ],
+          [
+            12,
+            156
+          ]
+        ]
+      }
+    },
+    "geo_comuni": 7896,
+    "env_key_upload_loghi_identici_S0": true,
+    "persistenti": 75,
+    "sorgenti_e_protetti_identici_ai_digest": true,
+    "provider_false_mail_array": true,
+    "Git_pulito": true,
+    "sonde9": {
+      "mail.schedinedinotifica.tanggo.software/": true,
+      "mail.schedinedinotifica.tanggo.software/login": true,
+      "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "schedinedinotifica.tanggo.software/": true,
+      "schedinedinotifica.tanggo.software/login": true,
+      "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "www.schedinedinotifica.tanggo.software/": true,
+      "www.schedinedinotifica.tanggo.software/login": true,
+      "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+    },
+    "S0_secondi": 136.707,
+    "rilascio_secondi": 222.553,
+    "monitor_campioni": 382,
+    "nonce": "e5021e5c40dc0e4ffa84d1fad086b1d26d39e0f2b5ca6900",
+    "DDL_eseguite": false,
+    "migrazioni_applicate": [],
+    "nessun_invio_enti": true
+  },
+  "sorgenti": [
+    {
+      "esito": "PASS_SORGENTI_ARRIVI_ONLINE",
+      "file": 29
+    },
+    {
+      "esito": "PASS_SORGENTI_WEB_CHECKIN_ONLINE",
+      "file": 57
+    }
+  ],
+  "guardiano": {
+    "esito": "PASS_GUARDIANO_CONCLUSO",
+    "guardiano": "PASS_GUARDIANO_DISARMATO",
+    "servizio_concluso_inattivo_disabilitato": true,
+    "presidi_originali_preservati": true
+  },
+  "kit_SHA256": "6b08c47ac4719be5d3e8e676a7183b003dc8d46aab4d547d08c224e4ef056d89",
+  "capienza_dopo_PREPARE": {
+    "recupero_PREPARE_allocato": 950743040,
+    "ingresso_PREPARE_cifrato": 368873472,
+    "liberi_VM": 6252691456,
+    "data_UTC": "2026-10-18T13:15:45.637532+00:00",
+    "margine_invariato": 1073741824,
+    "fabbisogno_residuo_stimato": 2410135552,
+    "liberi_Mac": 9528004608,
+    "esito": "PASS_STIMA_RESIDUA_S0",
+    "limite": "Stima prudenziale dal massimo fra nuova misura e consumo storico completo, con16MiB aggiuntivi e riserva1GiB invariati; S0 ancora da catturare fresco, nessuna stima promossa a misura del suo picco."
+  },
+  "piano_sha256": "6e3aa8648d0d09974ea47074cc6f9d030cd75a98f67f9e1150830a4cd6219b8b"
+}

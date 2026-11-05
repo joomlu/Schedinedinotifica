@@ -1,0 +1,7 @@
+originale
+{"path_info":"foo","normalizzazione":null}
+{"utf8_malformato":"sintetico\/\ufffd.txt"}
+
+corretto
+{"path_info":"\/foo","normalizzazione":null}
+{"rifiuto":"League\\Flysystem\\CorruptedPathDetected"}

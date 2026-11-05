@@ -1,0 +1,18 @@
+{
+  "name": "@tanggo/geo",
+  "version": "0.1.0",
+  "description": "Pacchetto unico: GeoSelect (cascata geografica) + AddressFields (campi indirizzo) in formato UMD/Browser",
+  "license": "MIT",
+  "main": "dist/browser.js",
+  "unpkg": "dist/browser.js",
+  "jsdelivr": "dist/browser.js",
+  "files": ["dist", "src", "docs"],
+  "keywords": ["select2", "jquery", "geo", "address", "italia", "cap"],
+  "peerDependencies": {
+    "jquery": ">=3.6.0",
+    "select2": ">=4.1.0-rc.0"
+  },
+  "scripts": {
+    "build": "node -e \"const fs=require('fs');const p='reference/libreria/Geo';const a=fs.readFileSync(p+'/src/GeoSelect.js','utf8');const b=fs.readFileSync(p+'/src/AddressFields.js','utf8');fs.writeFileSync(p+'/dist/browser.js', a+'\n'+b);console.log('Built '+p+'/dist/browser.js');\""
+  }
+}

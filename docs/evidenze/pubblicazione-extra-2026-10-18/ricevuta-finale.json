@@ -1,0 +1,1096 @@
+{
+  "esito": "PASS_RICEVUTA_FINALE",
+  "SHA_produzione": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+  "C5": {
+    "esito": "PASS_AGGIORNAMENTO_C5",
+    "S0_secondi": 146.299,
+    "RUN_secondi": 226.157,
+    "DDL": false,
+    "decisione": "CANDIDATO_ACCETTATO"
+  },
+  "online_prima_collaudo_sintetico": {
+    "ambito": "Verifica subito dopo rilascio, precedente al collaudo sintetico online",
+    "data_epoch": 1792308733.051988,
+    "db_byte_identico_S0": true,
+    "custom_css_HTTP_sha256": "9d11a9ecc9c9df1a5fd0876a7bba78dc6064a4a46b1c7941c04f49ef6827e67b",
+    "regola_mobile_in_css_pubblico": true,
+    "esito": "PASS_RILASCIO_ONLINE_SERVER",
+    "HEAD": "945ef553aab29ac437ff194f7cfad081fb7ab7c7",
+    "Laravel": "12.69.3",
+    "migrazioni": 156,
+    "tabelle": 64,
+    "geo_comuni": 7896,
+    "env_key_upload_loghi_identici_S0": true,
+    "persistenti": 75,
+    "sorgenti_e_protetti_identici_ai_digest": true,
+    "provider_false_mail_array": true,
+    "Git_pulito": true,
+    "sonde9": {
+      "mail.schedinedinotifica.tanggo.software/": true,
+      "mail.schedinedinotifica.tanggo.software/login": true,
+      "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "schedinedinotifica.tanggo.software/": true,
+      "schedinedinotifica.tanggo.software/login": true,
+      "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+      "www.schedinedinotifica.tanggo.software/": true,
+      "www.schedinedinotifica.tanggo.software/login": true,
+      "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+    },
+    "S0_secondi": 146.299,
+    "rilascio_secondi": 226.157,
+    "monitor_campioni": 397,
+    "nonce": "25fcd1a22566e4377e6cdfe4935dc64f763f813035bdbef7",
+    "DDL_eseguite": false,
+    "nessun_invio_enti": true
+  },
+  "collaudo_sintetico_chiusura": {
+    "esito": "PASS_FIXTURE_RIMOSSA_E_DATI_PREESISTENTI_IDENTICI",
+    "tabelle_differenti": [],
+    "strutture_sintetiche_rimosse": [
+      13,
+      14
+    ],
+    "nessun_restore_DB": true,
+    "limite": "Confronto HMAC di tutte le righe, non dei contatori AUTO_INCREMENT; eventuali scritture concorrenti reali da riconciliare senza ripristini obsoleti"
+  },
+  "monitor": {
+    "esito": "PASS_MONITOR_CONFERMA",
+    "inizio_epoch": 1792309779.506559,
+    "secondi": 918.2424810929224,
+    "campioni": [
+      {
+        "campione": 1,
+        "secondi": 0.534,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 2,
+        "secondi": 31.107,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 3,
+        "secondi": 61.699,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 4,
+        "secondi": 92.291,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 5,
+        "secondi": 122.871,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 6,
+        "secondi": 153.474,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 7,
+        "secondi": 184.074,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 8,
+        "secondi": 214.705,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 9,
+        "secondi": 245.267,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 10,
+        "secondi": 275.823,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 11,
+        "secondi": 306.424,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 12,
+        "secondi": 337.08,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 13,
+        "secondi": 367.69,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 14,
+        "secondi": 398.333,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 15,
+        "secondi": 428.989,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 16,
+        "secondi": 459.573,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 17,
+        "secondi": 490.173,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 18,
+        "secondi": 520.793,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 19,
+        "secondi": 551.336,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 20,
+        "secondi": 581.89,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 21,
+        "secondi": 612.463,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 22,
+        "secondi": 643.086,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 23,
+        "secondi": 673.622,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 24,
+        "secondi": 704.121,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 25,
+        "secondi": 734.677,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 26,
+        "secondi": 765.293,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 27,
+        "secondi": 795.826,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 28,
+        "secondi": 826.455,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 29,
+        "secondi": 857.048,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 30,
+        "secondi": 887.712,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 31,
+        "secondi": 918.242,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      }
+    ],
+    "totale_HTTP_TLS_CSS": 279,
+    "limite": "31 campioni su almeno900 secondi del rilascio attuale; sonde in sola lettura, collaudo sintetico separato e nessun invio enti"
+  },
+  "monitor_precedente": {
+    "esito": "PASS_MONITOR_ONLINE",
+    "secondi": 918.3449586806819,
+    "campioni": [
+      {
+        "campione": 1,
+        "secondi": 0.538,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 2,
+        "secondi": 31.105,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 3,
+        "secondi": 61.61,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 4,
+        "secondi": 92.129,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 5,
+        "secondi": 122.698,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 6,
+        "secondi": 153.257,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 7,
+        "secondi": 183.909,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 8,
+        "secondi": 214.502,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 9,
+        "secondi": 245.05,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 10,
+        "secondi": 275.622,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 11,
+        "secondi": 306.211,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 12,
+        "secondi": 336.817,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 13,
+        "secondi": 367.442,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 14,
+        "secondi": 398.045,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 15,
+        "secondi": 428.626,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 16,
+        "secondi": 459.216,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 17,
+        "secondi": 489.753,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 18,
+        "secondi": 520.358,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 19,
+        "secondi": 551.015,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 20,
+        "secondi": 581.593,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 21,
+        "secondi": 612.121,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 22,
+        "secondi": 642.698,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 23,
+        "secondi": 673.356,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 24,
+        "secondi": 704.046,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 25,
+        "secondi": 734.684,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 26,
+        "secondi": 765.362,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 27,
+        "secondi": 795.939,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 28,
+        "secondi": 826.52,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 29,
+        "secondi": 857.179,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 30,
+        "secondi": 887.774,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      },
+      {
+        "campione": 31,
+        "secondi": 918.345,
+        "HTTP_TLS_CSS_9": {
+          "mail.schedinedinotifica.tanggo.software/": true,
+          "mail.schedinedinotifica.tanggo.software/login": true,
+          "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "schedinedinotifica.tanggo.software/": true,
+          "schedinedinotifica.tanggo.software/login": true,
+          "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+          "www.schedinedinotifica.tanggo.software/": true,
+          "www.schedinedinotifica.tanggo.software/login": true,
+          "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+        },
+        "FPM_flags_key": "PASS"
+      }
+    ],
+    "totale_HTTP_TLS_CSS": 279,
+    "limite": "31 campioni su almeno900 secondi del rilascio attuale; sonde in sola lettura, collaudo sintetico separato e nessun invio enti"
+  },
+  "errori": {
+    "esito": "PASS_ERRORI_ATTRIBUITI_E_CONFERMA_SENZA_NUOVI_ERRORI",
+    "T0_C5_epoch": 1792308496.1498501,
+    "inizio_conferma_epoch": 1792309779.506559,
+    "totale_errori_da_T0": 3,
+    "storico": [
+      {
+        "istante_locale": "2026-10-18 09:32:43",
+        "sha256_blocco": "5cc61bd433ac5ed6b787728b46aa2c80f66d0fb9517ac1a2cb71df3eddc0920e",
+        "classificazione": "preparatore_CLI_cataloghi",
+        "successivo_inizio_conferma": false
+      },
+      {
+        "istante_locale": "2026-10-18 09:35:03",
+        "sha256_blocco": "d595c570fa021f7b4132dce4d8cb2212e9b64d43e34401618af84591ee24a213",
+        "classificazione": "preparatore_CLI_campo_obbligatorio",
+        "successivo_inizio_conferma": false
+      },
+      {
+        "istante_locale": "2026-10-18 09:36:03",
+        "sha256_blocco": "43fff7578dab5e50ed8d968be7a3a99eade320d5501ace54f681686e882522fa",
+        "classificazione": "preparatore_CLI_campo_obbligatorio",
+        "successivo_inizio_conferma": false
+      }
+    ],
+    "totale_errori": 0,
+    "FPM_errori_journal": 0,
+    "nessun_log_cancellato": true,
+    "nessun_contenuto_personale_esportato": true
+  },
+  "server_liberi_byte": 168839196672
+}

@@ -1,0 +1,1305 @@
+{
+  "rete_senza_route": true,
+  "risultati": [
+    {
+      "ciclo": 0,
+      "richiesta": 0,
+      "secondi": 0.217646,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 1,
+      "secondi": 0.03847,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 2,
+      "secondi": 0.034428,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 3,
+      "secondi": 0.035547,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 4,
+      "secondi": 0.033229,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 5,
+      "secondi": 0.032457,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 6,
+      "secondi": 0.033203,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 7,
+      "secondi": 0.032701,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 8,
+      "secondi": 0.034601,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 9,
+      "secondi": 0.034728,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 10,
+      "secondi": 0.036122,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 11,
+      "secondi": 0.039189,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 12,
+      "secondi": 0.033767,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 13,
+      "secondi": 0.034286,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 14,
+      "secondi": 0.035362,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 15,
+      "secondi": 0.032611,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 16,
+      "secondi": 0.033421,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 17,
+      "secondi": 0.036034,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 18,
+      "secondi": 0.034032,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 19,
+      "secondi": 0.038086,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 20,
+      "secondi": 0.033169,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 21,
+      "secondi": 0.033733,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 22,
+      "secondi": 0.034204,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 23,
+      "secondi": 0.03581,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 24,
+      "secondi": 0.033372,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 25,
+      "secondi": 0.033988,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 26,
+      "secondi": 0.036372,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 27,
+      "secondi": 0.034589,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 28,
+      "secondi": 0.033318,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 29,
+      "secondi": 0.033593,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 30,
+      "secondi": 0.032809,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 31,
+      "secondi": 0.035089,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 32,
+      "secondi": 0.0341,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 33,
+      "secondi": 0.033928,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 34,
+      "secondi": 0.035459,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 35,
+      "secondi": 0.034837,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 36,
+      "secondi": 0.035695,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 37,
+      "secondi": 0.03567,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 38,
+      "secondi": 0.036094,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 39,
+      "secondi": 0.037062,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 40,
+      "secondi": 0.036497,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 41,
+      "secondi": 0.034661,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 42,
+      "secondi": 0.034732,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 43,
+      "secondi": 0.036174,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 44,
+      "secondi": 0.035538,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 45,
+      "secondi": 0.035028,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 46,
+      "secondi": 0.035257,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 47,
+      "secondi": 0.034183,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 48,
+      "secondi": 0.032767,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 49,
+      "secondi": 0.031373,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 50,
+      "secondi": 0.03356,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 51,
+      "secondi": 0.033534,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 52,
+      "secondi": 0.036352,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 53,
+      "secondi": 0.036951,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 54,
+      "secondi": 0.041945,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 55,
+      "secondi": 0.038047,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 56,
+      "secondi": 0.036409,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 57,
+      "secondi": 0.042678,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 58,
+      "secondi": 0.034372,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 59,
+      "secondi": 0.038169,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 60,
+      "secondi": 0.026759,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/1111111111111111111111111111111111111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 61,
+      "secondi": 0.026467,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/11111111111111111111111111111111",
+        "metodo": "GET",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 62,
+      "secondi": 0.036483,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/2222222222222222222222222222222222222222222222222222222222222222",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 63,
+      "secondi": 0.036172,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/33333333333333333333333333333333",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 64,
+      "secondi": 0.031535,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/4444444444444444444444444444444444444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 65,
+      "secondi": 0.031105,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/44444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 66,
+      "secondi": 0.034327,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/4444444444444444444444444444444444444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 67,
+      "secondi": 0.030924,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/44444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 68,
+      "secondi": 0.033644,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/4444444444444444444444444444444444444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 69,
+      "secondi": 0.034799,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/44444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 70,
+      "secondi": 0.03238,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/4444444444444444444444444444444444444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 71,
+      "secondi": 0.034439,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/44444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 72,
+      "secondi": 0.031854,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/4444444444444444444444444444444444444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 73,
+      "secondi": 0.033281,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/44444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 74,
+      "secondi": 0.033218,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/4444444444444444444444444444444444444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 75,
+      "secondi": 0.035903,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/44444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 76,
+      "secondi": 0.036856,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/4444444444444444444444444444444444444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 77,
+      "secondi": 0.037018,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/44444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 78,
+      "secondi": 0.040248,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/4444444444444444444444444444444444444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 79,
+      "secondi": 0.034652,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/44444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 80,
+      "secondi": 0.03255,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/4444444444444444444444444444444444444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 81,
+      "secondi": 0.04013,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/44444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 82,
+      "secondi": 0.031459,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/4444444444444444444444444444444444444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 83,
+      "secondi": 0.040909,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/44444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 419
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 84,
+      "secondi": 0.027132,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/4444444444444444444444444444444444444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 85,
+      "secondi": 0.027534,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/44444444444444444444444444444444",
+        "metodo": "POST",
+        "http": 429
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 86,
+      "secondi": 0.034325,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/3333333333333333333333333333333333333333333333333333333333333333",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 87,
+      "secondi": 0.034335,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/33333333333333333333333333333333",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 88,
+      "secondi": 0.035606,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/3333333333333333333333333333333333333333333333333333333333333333",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 89,
+      "secondi": 0.037331,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/33333333333333333333333333333333",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 90,
+      "secondi": 0.034816,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/checkin/3333333333333333333333333333333333333333333333333333333333333333",
+        "metodo": "GET",
+        "http": 404
+      }
+    },
+    {
+      "ciclo": 0,
+      "richiesta": 91,
+      "secondi": 0.033062,
+      "status_fastcgi": [
+        0,
+        0
+      ],
+      "config": {
+        "route": "/w/33333333333333333333333333333333",
+        "metodo": "GET",
+        "http": 404
+      }
+    }
+  ],
+  "processi_fermati": [
+    {
+      "pid": 82,
+      "exit": 0
+    }
+  ],
+  "flussi_laravel": "contatori_60_letture_20_POST_alias_ospiti_strutture; flussi_tenant_autenticati_PENDENTI",
+  "schema_solo_DDL_senza_dati": true,
+  "fixture_contatori": "Richieste sintetiche su ID struttura distinti; struttura/schedina non popolate: 404 atteso, non acceptance tenant funzionale",
+  "richieste_DB_immutate": true,
+  "esito": "PASS_CONTATORI_PARZIALI",
+  "db_privato_fermato": true
+}

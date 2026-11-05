@@ -1,0 +1,46 @@
+TEST isolato: /private/tmp/schedine-test-8pht_av0; database=test_geo_90a5e830a9bdfc050ccd6b5915c4679b; MySQL pid=10996, porta=52500; HTTP pid=11003, porta=52501
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.33
+Configuration: /private/tmp/schedine-test-8pht_av0/checkout/phpunit.xml
+
+................\nP1-A {"input":"31\/02\/2026","status":"NON_IMPORTABILE","date_preview":"31\/02\/2026","payload_date":null,"valid_count":0}
+\nP1-A {"input":"29\/02\/2025","status":"NON_IMPORTABILE","date_preview":"29\/02\/2025","payload_date":null,"valid_count":0}
+\nP1-A {"input":"12-31-1980","status":"NON_IMPORTABILE","date_preview":"12-31-1980","payload_date":null,"valid_count":0}
+.\nP1-B {"status":"ERRORE","valid_count":0,"payloads":[]}
+...
+Conteggi preview/conferma {"stati":["DA_COMPLETARE"],"confirmable_rows":1,"valid_count":1,"payload_count":1}
+
+Conteggi preview/conferma {"stati":["COMPLETO","DA_VERIFICARE","DA_COMPLETARE","NON_IMPORTABILE","ERRORE"],"confirmable_rows":3,"valid_count":3,"payload_count":3}
+...........................................  63 / 750 (  8%)
+............................................................... 126 / 750 ( 16%)
+............................................................\nA14 {"attivo":false,"reset_status":302,"autenticato":false,"access_status":302}\n... 189 / 750 ( 25%)
+.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.\nA15 {"status":422,"collegamenti_cross_tenant":0}\n.......................................................... 252 / 750 ( 33%)
+............................................................... 315 / 750 ( 42%)
+............................................................... 378 / 750 ( 50%)
+............................................................... 441 / 750 ( 58%)
+............................................................... 504 / 750 ( 67%)
+............................................................... 567 / 750 ( 75%)
+............................................................... 630 / 750 ( 84%)
+............................................................... 693 / 750 ( 92%)
+.........................................................       750 / 750 (100%)
+
+Time: 01:27.412, Memory: 114.50 MB
+
+There were 5 PHPUnit test runner deprecations:
+
+1) Metadata found in doc-comment for method Tests\Unit\ComponentiImportFormTest::test_catalogo_esenzioni_accetta_array_collection_e_null(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+2) Metadata found in doc-comment for method Tests\Unit\ComponentiImportFormTest::test_download_nuova_restituisce_file_e_header(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+3) Metadata found in doc-comment for method Tests\Feature\IstatConformitaTest::test_invalid_guest_data_blocks_export(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+4) Metadata found in doc-comment for method Tests\Feature\IstatCycleTest::test_post_transmission_changes_are_detected_and_restore_keeps_duplicate_block(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+5) Metadata found in doc-comment for method Tests\Feature\IstatCycleTest::test_reconciliation_protects_each_new_communication(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+OK, but there were issues!
+Tests: 750, Assertions: 8252, PHPUnit Deprecations: 5.
+Risorse temporanee fermate e rimosse: /private/tmp/schedine-test-8pht_av0

@@ -1,0 +1,83 @@
+{
+  "esito": "PASS_COMPONENTI_TRASPORTO_PARALLELO",
+  "casi": [
+    {
+      "caso": "positivo",
+      "esito": "PASS",
+      "errore_atteso": null,
+      "secondi": 0.5942947500000001
+    },
+    {
+      "caso": "limite-massimo",
+      "esito": "PASS",
+      "errore_atteso": null,
+      "secondi": 0.26588916699999987
+    },
+    {
+      "caso": "delta",
+      "esito": "PASS",
+      "errore_atteso": null,
+      "secondi": 0.2443378329999999
+    },
+    {
+      "caso": "hash-alterato",
+      "esito": "PASS",
+      "errore_atteso": "RuntimeError",
+      "secondi": 0.26550066699999997
+    },
+    {
+      "caso": "parte-troncata",
+      "esito": "PASS",
+      "errore_atteso": "RuntimeError",
+      "secondi": 0.1668351669999999
+    },
+    {
+      "caso": "parte-eccedente",
+      "esito": "PASS",
+      "errore_atteso": "TimeoutError",
+      "secondi": 0.13316562500000018
+    },
+    {
+      "caso": "timeout-globale",
+      "esito": "PASS",
+      "errore_atteso": "TimeoutError",
+      "secondi": 0.659769083
+    },
+    {
+      "caso": "symlink-rifiutato",
+      "esito": "PASS",
+      "errore_atteso": "FileExistsError",
+      "secondi": 0.00039445800000015296
+    },
+    {
+      "caso": "file-esistente-rifiutato",
+      "esito": "PASS",
+      "errore_atteso": "FileExistsError",
+      "secondi": 0.0005912079999998987
+    },
+    {
+      "caso": "sorgente-errata",
+      "esito": "PASS",
+      "errore_atteso": "RuntimeError",
+      "secondi": 4.000000000115023e-06
+    },
+    {
+      "caso": "offerta-invalida",
+      "esito": "PASS",
+      "errore_atteso": "RuntimeError",
+      "secondi": 1.4709000000223682e-05
+    },
+    {
+      "caso": "errore-scrittura",
+      "esito": "PASS",
+      "errore_atteso": "OSError",
+      "secondi": 0.16913179099999986
+    }
+  ],
+  "concorrenza_massima_osservata": 4,
+  "limite_globale_invariato": 120,
+  "hash_finali_e_permessi": true,
+  "processi_timeout_conclusi": true,
+  "nessuna_rete_reale_o_dato_operativo": true,
+  "sorgente_SHA256": "aa86cde87bf23eb20599d70505a1861e699a8dc21204bc87501a7e50b8e5c434"
+}

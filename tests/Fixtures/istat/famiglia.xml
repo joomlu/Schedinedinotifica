@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<movimenti>
+  <codice>TEST-FIXTURE</codice>
+  <prodotto>Schedinedinotifica</prodotto>
+  <movimento>
+    <data>20260401</data>
+    <struttura>
+      <apertura>SI</apertura>
+      <camereoccupate>1</camereoccupate>
+      <cameredisponibili>10</cameredisponibili>
+      <lettidisponibili>20</lettidisponibili>
+    </struttura>
+    <arrivi>
+      <arrivo>
+        <idswh>S9000001</idswh>
+        <tipoalloggiato>17</tipoalloggiato>
+        <idcapo></idcapo>
+        <cognome>D'Àngelo &lt;Test&gt;</cognome>
+        <nome>Èlia &amp; Fixture</nome>
+        <sesso>M</sesso>
+        <cittadinanza>100000100</cittadinanza>
+        <statoresidenza>100000100</statoresidenza>
+        <luogoresidenza>412058091</luogoresidenza>
+        <datanascita>20000101</datanascita>
+        <statonascita>100000100</statonascita>
+        <comunenascita>412058091</comunenascita>
+        <tipoturismo>Balneare</tipoturismo>
+        <mezzotrasporto>Auto</mezzotrasporto>
+        <canaleprenotazione>Diretta web</canaleprenotazione>
+        <titolostudio></titolostudio>
+        <professione></professione>
+      </arrivo>
+      <arrivo>
+        <idswh>C9000001</idswh>
+        <tipoalloggiato>19</tipoalloggiato>
+        <idcapo>S9000001</idcapo>
+        <cognome>Sintetico</cognome>
+        <nome>Minore Fixture</nome>
+        <sesso>F</sesso>
+        <cittadinanza>100000100</cittadinanza>
+        <statoresidenza>100000216</statoresidenza>
+        <luogoresidenza>Berlino</luogoresidenza>
+        <datanascita>20200229</datanascita>
+        <statonascita>100000216</statonascita>
+        <comunenascita></comunenascita>
+        <tipoturismo>Balneare</tipoturismo>
+        <mezzotrasporto>Auto</mezzotrasporto>
+        <canaleprenotazione>Diretta web</canaleprenotazione>
+        <titolostudio></titolostudio>
+        <professione></professione>
+      </arrivo>
+    </arrivi>
+  </movimento>
+  <movimento>
+    <data>20260402</data>
+    <struttura>
+      <apertura>SI</apertura>
+      <camereoccupate>0</camereoccupate>
+      <cameredisponibili>10</cameredisponibili>
+      <lettidisponibili>20</lettidisponibili>
+    </struttura>
+    <partenze>
+      <partenza>
+        <idswh>S9000001</idswh>
+        <tipoalloggiato>17</tipoalloggiato>
+        <arrivo>20260401</arrivo>
+      </partenza>
+      <partenza>
+        <idswh>C9000001</idswh>
+        <tipoalloggiato>19</tipoalloggiato>
+        <arrivo>20260401</arrivo>
+      </partenza>
+    </partenze>
+  </movimento>
+</movimenti>

@@ -1,0 +1,78 @@
+--- a/s0_core.py
++++ b/s0_core.py
+@@ -164,23 +164,35 @@
+     return expected
+ 
+ 
++def receiver_labels_for(paths):
++    # Stesse interrogazioni della policy per tutti i percorsi, a gruppi limitati.
++    # Nessuna cache: ogni fase ripete la lettura e i controlli del contenitore.
++    paths = [Path(path) for path in paths]
++    result = {}
++    for offset in range(0, len(paths), 128):
++        batch = paths[offset:offset + 128]
++        p = subprocess.run(['matchpathcon', '-n', *map(str, batch)],
++                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10)
++        require(p.returncode == 0, 'Policy ricevente non leggibile')
++        contexts = p.stdout.splitlines()
++        require(len(contexts) == len(batch), 'Risposta policy ricevente incompleta')
++        for path, context in zip(batch, contexts):
++            context = context.strip()
++            if context == b'<<none>>':
++                parent = path.parent
++                while not parent.exists():
++                    parent = parent.parent
++                require(not parent.is_symlink() and parent.is_dir(), 'Contenitore label non sicuro')
++                context = os.getxattr(parent, 'security.selinux', follow_symlinks=False)
++            else:
++                context += b'\x00'
++            require(context.count(b':') >= 3 and context != b'<<none>>', 'Contesto non valido')
++            result[str(path)] = context.hex()
++    return result
++
++
+ def receiver_label_for(path):
+-    p = subprocess.run(['matchpathcon', '-n', str(path)], stdout=subprocess.PIPE,
+-                       stderr=subprocess.PIPE, timeout=10)
+-    require(p.returncode == 0, 'Policy ricevente non leggibile')
+-    context = p.stdout.strip()
+-    if context == b'<<none>>':
+-        # /tmp è escluso dal relabel automatico nella policy corrente: conservare
+-        # il contesto ereditato del contenitore privato, non inventarne uno.
+-        parent = Path(path).parent
+-        while not parent.exists():
+-            parent = parent.parent
+-        require(not parent.is_symlink() and parent.is_dir(), 'Contenitore label non sicuro')
+-        context = os.getxattr(parent, 'security.selinux', follow_symlinks=False)
+-    else:
+-        context += b'\x00'
+-    require(context.count(b':') >= 3 and context != b'<<none>>', 'Contesto non valido')
+-    return context.hex()
++    return receiver_labels_for([path])[str(Path(path))]
+ 
+ 
+ def validate_receiver_labels(target, manifest, labels):
+@@ -193,7 +205,9 @@
+     require(set(labels) <= set(manifest['records']), 'Etichette fuori inventario')
+     for name, label in labels.items():
+         require('security.selinux' not in manifest['records'][name]['xattrs'], 'Origine già etichettata')
+-        require(receiver_label_for(target / name) == label,
++    actual = receiver_labels_for(target / name for name in labels)
++    for name, label in labels.items():
++        require(actual[str(target / name)] == label,
+                 'Contesto ricevente diverso dalla policy predefinita')
+ 
+ 
+--- a/cold_verify.py
++++ b/cold_verify.py
+@@ -27,7 +27,9 @@
+   decoded=root/'decoded';decoded.mkdir(mode=0o700)
+   for name,seal in seals.items():c.decrypt(P(cipherdir)/(name+'.enc'),decoded/name,key,seal)
+   manifest=json.loads((decoded/'inventory.json').read_bytes());extracted=root/'extracted'
+-  labels={name:c.receiver_label_for(extracted/name) for name,row in manifest['records'].items() if 'security.selinux' not in row['xattrs']}
++  label_names=[name for name,row in manifest['records'].items() if 'security.selinux' not in row['xattrs']]
++  policy_labels=c.receiver_labels_for(extracted/name for name in label_names)
++  labels={name:policy_labels[str(extracted/name)] for name in label_names}
+   from base_delta import extract
+   extract(decoded,manifest,extracted,key,base_cipher,receiver_labels=labels or None);c.verify_extracted(extracted,manifest,receiver_labels=labels or None)
+   # Solo intermedi ricostruibili del proprio restore, dopo verifica completa.

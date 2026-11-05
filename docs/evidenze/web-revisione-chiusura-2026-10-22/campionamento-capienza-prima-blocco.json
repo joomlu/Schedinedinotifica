@@ -1,0 +1,8 @@
+{
+  "campioni": 1468,
+  "minimo_VM_libero": 5457686528,
+  "riserva_invariata": 1073741824,
+  "esito": "PASS",
+  "ambito": "Capienza durante qualificazione e preparazione inattiva; nessun nuovo C5 eseguito",
+  "non_equivale_al_monitor_HTTP_finale_di_rilascio": true
+}

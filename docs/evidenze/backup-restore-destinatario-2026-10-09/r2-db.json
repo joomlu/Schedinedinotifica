@@ -1,0 +1,12 @@
+{
+  "fase": "R2",
+  "esito": "PASS_DB",
+  "import_secondi": 1.046,
+  "dump_sha_originale": "f7687e42c07b1ad2cea75535b67520aa3a17c433d3d9791f8d776ce3943228ca",
+  "dump_sha_restore": "f7687e42c07b1ad2cea75535b67520aa3a17c433d3d9791f8d776ce3943228ca",
+  "db_restore_identico": true,
+  "tabelle": 58,
+  "socket_privato": true,
+  "rete_esterna_assente": true,
+  "istanza_privata_fermata": true
+}

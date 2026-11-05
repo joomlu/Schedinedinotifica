@@ -1,0 +1,99 @@
+{
+  "esito": "PASS_COPIE_IDENTICHE_CONSERVATE_COW",
+  "file": [
+    {
+      "percorso": "c5-r2/c5-run-uewga5sn/cifrati-peyt0t_p/db.sql.enc",
+      "sha256": "06b277bed0629bbfb7d8e775d4606600d198f256fc39c072e173ed8a9bd859b2",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5-r2/c5-run-uewga5sn/cifrati-peyt0t_p/inventory.json.enc",
+      "sha256": "d57ee0584967f0a5ddf33b60a186690f5923d5e363b8d13d10ee3ce8ade8170b",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5-r2/c5-run-uewga5sn/cifrati-peyt0t_p/fs.tar.gz.enc",
+      "sha256": "0e468a4598bf7a066241b073ca5dd8a8167549099abf93f893ed2f925b2d1f07",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5-r2/c5-run-uewga5sn/cifrati-peyt0t_p/riletti/db.sql.enc",
+      "sha256": "06b277bed0629bbfb7d8e775d4606600d198f256fc39c072e173ed8a9bd859b2",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5-r2/c5-run-uewga5sn/cifrati-peyt0t_p/riletti/inventory.json.enc",
+      "sha256": "d57ee0584967f0a5ddf33b60a186690f5923d5e363b8d13d10ee3ce8ade8170b",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5-r2/c5-run-uewga5sn/cifrati-peyt0t_p/riletti/fs.tar.gz.enc",
+      "sha256": "0e468a4598bf7a066241b073ca5dd8a8167549099abf93f893ed2f925b2d1f07",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5/c5-prepare-8f9or1vw/cifrati-6h600pqj/db.sql.enc",
+      "sha256": "db8d904471fc3a7402621eeaa6e5c249d3a579abc6a681a706f7972c95a04513",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5/c5-prepare-8f9or1vw/cifrati-6h600pqj/inventory.json.enc",
+      "sha256": "2a71cf613f06e6c1a745bee38866ceb8f48f07e07c896e7fbaba1bceabcceb56",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5/c5-prepare-8f9or1vw/cifrati-6h600pqj/fs.tar.gz.enc",
+      "sha256": "9e1df8b45fd2d3519245ca481964d0a26d9ab88822cfa9eda8a86971d0d3557e",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5/c5-prepare-8f9or1vw/cifrati-6h600pqj/riletti/db.sql.enc",
+      "sha256": "db8d904471fc3a7402621eeaa6e5c249d3a579abc6a681a706f7972c95a04513",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5/c5-prepare-8f9or1vw/cifrati-6h600pqj/riletti/inventory.json.enc",
+      "sha256": "2a71cf613f06e6c1a745bee38866ceb8f48f07e07c896e7fbaba1bceabcceb56",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5/c5-prepare-8f9or1vw/cifrati-6h600pqj/riletti/fs.tar.gz.enc",
+      "sha256": "9e1df8b45fd2d3519245ca481964d0a26d9ab88822cfa9eda8a86971d0d3557e",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5/c5-run-ld60vc_l/cifrati-175y969q/db.sql.enc",
+      "sha256": "5b8facb600adc4894a9dd789bd352b8055d35b67b3aeb8e89efedfe146280999",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5/c5-run-ld60vc_l/cifrati-175y969q/inventory.json.enc",
+      "sha256": "f7c87c08cd5312e3f7779cf362e7b53ece8853e5fa714c9eb7499e881c8d9a8a",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5/c5-run-ld60vc_l/cifrati-175y969q/fs.tar.gz.enc",
+      "sha256": "5b7364b58595fd76e95bc8ee46eb52986be90144a454a7055422d168078dc5d2",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5/c5-run-ld60vc_l/cifrati-175y969q/riletti/db.sql.enc",
+      "sha256": "5b8facb600adc4894a9dd789bd352b8055d35b67b3aeb8e89efedfe146280999",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5/c5-run-ld60vc_l/cifrati-175y969q/riletti/inventory.json.enc",
+      "sha256": "f7c87c08cd5312e3f7779cf362e7b53ece8853e5fa714c9eb7499e881c8d9a8a",
+      "contenuto_e_metadati_preservati": true
+    },
+    {
+      "percorso": "c5/c5-run-ld60vc_l/cifrati-175y969q/riletti/fs.tar.gz.enc",
+      "sha256": "5b7364b58595fd76e95bc8ee46eb52986be90144a454a7055422d168078dc5d2",
+      "contenuto_e_metadati_preservati": true
+    }
+  ],
+  "Mac_prima_byte": 12447883264,
+  "Mac_dopo_byte": 13306134528,
+  "nessun_archivio_eliminato": true,
+  "epoca": 1792310781.03959
+}

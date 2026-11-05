@@ -1,0 +1,182 @@
+{
+  "stato": "RILASCIO_APPLICATIVO_E_BROWSER_AUTENTICATO_VERIFICATI",
+  "baseline_in_audit": true,
+  "baseline_iniziale": "7312f84d028872bc228c2c26e6f9d1256e1b4beb",
+  "ambiente_prove": "VM ufficiale, namespace senza rete esterna, database e filesystem effimeri, dati sintetici",
+  "PHPUnit": {
+    "test": 80,
+    "asserzioni": 532,
+    "esito": "PASS",
+    "log_privato": "output/verifica-wizard-cliente-2026-10-15/suite-definitiva.log"
+  },
+  "guardie": {
+    "numero": 15,
+    "esito": "PASS"
+  },
+  "override_rifiutati": 23,
+  "build_GEO": "PASS",
+  "Chromium_layout": {
+    "prove": 1,
+    "esito": "PASS",
+    "larghezza_viewport": 390,
+    "larghezze_quattro_schede": [
+      390,
+      390,
+      390,
+      390
+    ],
+    "legacy_tipo_cittadinanza_nazione_vuoti_conservati": true,
+    "secondi": 5.2,
+    "tastiera_enter_freccia_destra_escape": "PASS",
+    "scritture_clienti_su_annullamento": 0,
+    "log_privato": "output/verifica-wizard-cliente-2026-10-15/layout-finale.log"
+  },
+  "Chromium_funzionale": {
+    "prove": 6,
+    "esito": "PASS",
+    "durata_report": "1,6 minuti",
+    "log_privato": "output/verifica-wizard-cliente-2026-10-15/browser-conclusivo.log",
+    "percorsi": [
+      "Richiesta contatti alternativi desktop/mobile",
+      "Componente definitivo senza documento desktop/mobile",
+      "Ospite verso nuova schedina desktop/mobile",
+      "catalogo comune e ID estraneo",
+      "bozze tre classificazioni, conferma e annullamento"
+    ]
+  },
+  "sorgenti_sha256": {
+    "app/Http/Controllers/CustomerController.php": "7fdc421dd9d1c4ff94c219a0701ea3fc10fda66cc8674b27e0b75dbafdf01076",
+    "app/Http/Controllers/GeoController.php": "5a6d75f75778b02657453845bb156eb0eaca6753333e8a34bf06ca0d1a6cc683",
+    "app/Services/CustomerWizardValidation.php": "d5be0432abe27be6e32dcab1a424a7c1f5013a4e649af63d7481c83f3d5ac6f7",
+    "database/migrations/2026_10_15_100000_add_wizard_submission_keys_to_clienti.php": "db7bff50b7f9f0ac77d3de54f107e5d9cd5f48668d9a4fcf8193227ee1a0cd10",
+    "resources/views/customers/list.blade.php": "64272acd643f5fa5a8d90d8f6991d964cc4bbe31632e3cb4950d68aa2aab8056",
+    "resources/views/customers/partials/scheda-cliente-form.blade.php": "9a4dbf26606639b0f0504c2bafc05e6fdb1f198fbb686d401592c4c8241d4d52",
+    "resources/views/customers/partials/scheda-cliente-scripts.blade.php": "6e7aa02c258f23e71dc3c8e3c6b9b4b1861ad86d6c87254bdea411b874a2c4f0",
+    "resources/views/schedina/new.blade.php": "4cad3875094daf3926b57a6d7c511158465eed3978cae271bc2d30721907d4c6"
+  },
+  "protetti_immutati_sha256": {
+    "resources/views/components/geo/italia.blade.php": "50b938ca83045227a59f19d1d85129cc697d5977b13b955719689a6fa404abab",
+    "resources/js/ui/geo-italia.js": "46179122d70cfc289feba6fdaecd31004b3ae39be578663fc76a15c3e4d45568",
+    "app/Services/QuesturaTxtExportService.php": "3b77fba530e628ed71c6e23e0db4e293f1535c6dcfad5acfce14dc3a0a663d92",
+    "app/Models/TipoCliente.php": "1ab5f0ae47535b5a9752a8f575a035ac067d4a31ee3c2f616a28cbb0514f2cda",
+    "app/Services/TipoClienteSistemaService.php": "b5b9097776f8a30efaae57c02967ba1dfd9cfc4f25f7512710f445dea38bdae3",
+    "database/migrations/2026_10_14_030000_initialize_tipo_cliente_sistema.php": "db961201570d0e1adf5718d17554792cff0d602612d9c1d11ad9fff1f106cf93",
+    "composer.lock": "857bc7f6eb12f80852e49cfa3c46b04db064585175427a17fb176f5c06bef3e4",
+    "package-lock.json": "34873f00e2deeef212b21720a6b93644ce52b9c082eb3b2aab38800776bbc08c"
+  },
+  "migrazione": {
+    "nome": "2026_10_15_100000_add_wizard_submission_keys_to_clienti",
+    "schema": "due colonne nullable e indice univoco",
+    "backfill": false,
+    "test_aggiornamento_e_ripetizione_isolati": "PASS",
+    "VM_quotidiana": "PASS_156_AUTORIZZAZIONE_UMANA_16_OTTOBRE",
+    "produzione": "PASS_156_C5_R3"
+  },
+  "C5": {
+    "esito": "PASS_APPLICATIVO",
+    "candidato": "9ecc94583026808079883bc42e18abd00b8b9c30",
+    "S0_secondi": 129.151,
+    "riapertura_secondi": 209.406,
+    "tabelle": 64,
+    "righe_precedenti_identiche": 38629,
+    "persistenti_conservati": 74,
+    "guardiano": "DISARMATO_INATTIVO_DISABILITATO",
+    "monitor": {
+      "esito": "PASS_MONITOR_ONLINE",
+      "secondi": 917.2637318158522,
+      "campioni": 31,
+      "sonde": 279
+    },
+    "browser_autenticato": "PASS_CONSULTAZIONE_DESKTOP_MOBILE_16_OTTOBRE"
+  },
+  "invii_enti": false,
+  "dati_produttivi_sintetici": false,
+  "VM_conservazione": {
+    "tabelle": 64,
+    "righe_originali": 25877,
+    "tutte_colonne_originali_identiche": true,
+    "checkpoint_cifrato_riletto": true,
+    "ripetizione_senza_modifiche": true,
+    "servizio_web_attivo": true
+  },
+  "conservazione_dopo_navigazione_browser": "PASS_38629_RIGHE_64_TABELLE",
+  "allineamento_finale": "Attestazione esterna output/verifica-wizard-cliente-2026-10-15/ricevuta-conclusiva.json",
+  "browser_produttivo": {
+    "esito": "PASS_BROWSER_AUTENTICATO_CONSULTAZIONE",
+    "data_UTC": "2026-10-16T10:08:15.216236+00:00",
+    "SHA_pubblicato": "7233eb625a5f338c72c0b9737683053ba7d449d3",
+    "ruolo": "Superadmin",
+    "struttura": "Hotel Amalfi",
+    "percorso": "/clienti/nuovo",
+    "schede": [
+      "Cliente Residenza",
+      "Anagrafica",
+      "Azienda",
+      "Contatti"
+    ],
+    "pulsanti": [
+      "Salva a bozza",
+      "Salva a cliente",
+      "Salva a schedina"
+    ],
+    "Anagrafica_in_basso": "Campi minimi mancanti: resta nella prima scheda e porta il focus su Nome; nessun salvataggio",
+    "mobile": {
+      "viewport": 390,
+      "corpo": 379,
+      "documento": 379,
+      "schede_verificate": 4
+    },
+    "errori_console": 0,
+    "bozza_locale_preesistente": "Ripristinata automaticamente; dati e selezioni non modificati né cancellati",
+    "salvataggi_produttivi": 0,
+    "invii_enti": 0,
+    "limiti": "Mutazioni, GEO con selezioni nuove e quattro ruoli attestati nelle prove isolate sullo stesso sorgente, non rieseguiti su record produttivi",
+    "screenshot_privato": "output/verifica-wizard-cliente-2026-10-15/browser-autenticato-2026-10-16.png"
+  },
+  "allineamento_documentale_browser": {
+    "stato": "BLOCCO_CAPIENZA_RISOLTO_C5_FINALE_DA_ATTESTARE_IN_RICEVUTA",
+    "locale_GitHub_VM": "b0703eea4b56392a7296a703f240544c4ec29164",
+    "produzione_operativa": "7233eb625a5f338c72c0b9737683053ba7d449d3",
+    "sonde9": "PASS",
+    "nessuna_nuova_DDL": true,
+    "nessuna_rimozione": false,
+    "approvazione_specifica_derivati_richiesta": false,
+    "ricevuta_transitoria": "output/verifica-wizard-cliente-2026-10-15/ricevuta-browser-allineamento-sospeso.json",
+    "derivati_autorizzati_rimossi": {
+      "esito": "PASS_SOLI_DERIVATI_AUTORIZZATI",
+      "file_estratti": 9776,
+      "tar": 1,
+      "repliche_cifrate": 6,
+      "file_troncato_SQL_chiave_preservati": true,
+      "inventari_e_diagnostici_preservati": true,
+      "originali_server_due_copie_Mac_riletti": true,
+      "nessun_process_mount": true,
+      "liberi_prima_byte": 327680,
+      "liberi_dopo_byte": 1291534336,
+      "recupero_immediato_byte": 1291206656,
+      "GiB_liberi": 1.2028350830078125
+    },
+    "ampliamento_VM_24_28_GiB": {
+      "esito": "PASS_DOPO_AMPLIAMENTO_DATI_IDENTICI",
+      "tabelle": 64,
+      "righe": 25878,
+      "migrazioni": 156,
+      "dati_schema_protetti_identici": true,
+      "machine_id_UUID_SELinux_SHA_identici": true,
+      "servizio_web": "ATTIVO",
+      "liberi_byte": 5865099264,
+      "disco_prima_GiB": 24,
+      "disco_dopo_GiB": 28,
+      "CPU_RAM_rete_config_invariate": true,
+      "copia_CoW_integrale_riletta": true,
+      "backup": "/Users/jorgeluccitelli/.lima/schedine-sviluppo-interno/custodia-capienza-wizard-1792147478739224000",
+      "liberi_GiB": 5.462299346923828,
+      "nessuna_cancellazione_aggiuntiva": true
+    }
+  },
+  "guardie_dopo_ampliamento": {
+    "numero": 15,
+    "esito": "PASS",
+    "log_privato": "output/verifica-wizard-cliente-2026-10-15/guardie-dopo-ampliamento-28.log"
+  }
+}

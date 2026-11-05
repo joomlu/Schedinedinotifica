@@ -1,0 +1,78 @@
+
+   INFO  Preparing database.  
+
+  Creating migration table ....................................... 5.29ms DONE
+
+   INFO  Running migrations.  
+
+  2014_10_12_000000_create_users_table .......................... 60.42ms DONE
+  2014_10_12_100000_create_password_resets_table ................. 8.13ms DONE
+  2019_08_19_000000_create_failed_jobs_table ..................... 7.14ms DONE
+  2019_12_14_000001_create_personal_access_tokens_table .......... 9.66ms DONE
+  2024_11_13_125626_create_customers_table ....................... 2.91ms DONE
+  2024_11_18_171922_create_groups_table .......................... 2.07ms DONE
+  2024_11_21_130450_create_type_docs_table ....................... 1.96ms DONE
+  2024_11_21_130510_create_releaseds_table ....................... 2.28ms DONE
+  2024_11_21_130537_create_type_streets_table .................... 2.00ms DONE
+  2024_11_26_131435_create_arrivals_table ........................ 2.94ms DONE
+  2025_11_14_140414_rename_typedocs_to_tipo_documento ............ 0.07ms DONE
+  2025_11_14_140426_update_tipo_documento_fields ................. 0.05ms DONE
+  2025_11_14_150000_drop_type_docs_table ......................... 1.56ms DONE
+  2025_11_14_161000_add_fields_to_struttura_table ................ 0.33ms DONE
+  2025_11_14_170000_create_struttura_table ....................... 7.86ms DONE
+  2025_11_14_170100_drop_strutture_table ......................... 1.32ms DONE
+  2025_11_14_180000_alter_struttura_table ....................... 17.14ms DONE
+  2025_11_15_000001_add_rilasciato_da_to_tipo_documento_table ... 21.52ms DONE
+  2025_11_15_000001_create_or_update_tipo_documento_table ....... 10.76ms DONE
+  2025_11_15_000001_rename_released_to_rilasciato_da_table ....... 0.45ms DONE
+  2025_11_15_000002_rename_released_to_rilasciato_da_table ....... 0.31ms DONE
+  2025_11_15_000003_rename_released_to_rilasciato_da_table ....... 0.30ms DONE
+  2025_11_15_100000_update_tipo_documento_table .................. 1.58ms DONE
+  2025_11_15_200000_add_rilasciato_da_to_tipo_documento .......... 0.41ms DONE
+  2025_11_15_222000_add_rilasciato_da_to_tipo_documento_table .... 0.47ms DONE
+  2025_11_15_230000_add_rilasciato_da_to_tipo_documento_table .... 0.46ms DONE
+  2025_11_15_235900_rename_releaseds_to_rilasciato_da_table ...... 2.68ms DONE
+  2025_11_15_rename_Codice_to_codice_in_tipo_documento_table ..... 1.33ms DONE
+  2025_11_15_rename_codice_column_in_tipo_documento_table ........ 1.87ms DONE
+  2025_11_15_rename_released_to_rilasciato_da_table .............. 0.33ms DONE
+  2025_11_16_000001_rename_groups_to_gruppi ...................... 2.32ms DONE
+  2025_11_16_000001_rename_type_streets_to_tipo_via .............. 2.07ms DONE
+  2025_11_16_000002_add_descrizione_to_tipo_via .................. 4.38ms DONE
+  2025_11_16_000002_create_tassa_di_soggiorno_table ............. 10.24ms DONE
+  2025_11_16_000002_update_gruppi_columns ....................... 12.21ms DONE
+  2025_11_16_000003_fix_tipo_via_nome_descrizione ................ 1.10ms DONE
+  2025_11_16_000004_add_descrizione_to_tipo_via_after_nome ....... 0.49ms DONE
+  2025_11_16_000005_fix_nome_descrizione_tipo_via ................ 8.17ms DONE
+  2025_11_16_100000_rename_title_to_titolo ....................... 0.43ms DONE
+  2025_11_16_100001_rename_title_columns ......................... 0.83ms DONE
+  2025_11_16_110000_add_descrizione_to_titolo_table .............. 0.39ms DONE
+  2025_11_16_120000_add_nome_to_gruppi_table ..................... 0.49ms DONE
+  2025_11_16_120000_add_struttura_id_to_tassa_di_soggiorno_table . 0.74ms DONE
+  2025_11_16_120100_add_nullable_struttura_id_to_tassa_di_soggiorno  0.58ms DONE
+  2025_11_16_120200_popola_struttura_id_tassa_di_soggiorno ....... 0.28ms DONE
+  2025_11_16_120300_struttura_id_notnull_fk_tassa_di_soggiorno .. 10.28ms DONE
+  2025_11_16_120400_delete_orfani_tassa_di_soggiorno ............. 0.45ms DONE
+  2025_11_16_130000_add_note_to_tassa_di_soggiorno_table ......... 1.13ms DONE
+  2025_11_16_140000_remove_descrizione_from_tipo_via ............. 4.84ms DONE
+  2025_11_16_140100_remove_rilasciato_da_from_tipo_documento ..... 4.53ms DONE
+  2025_11_16_203000_add_logo_citta_to_struttura_table ............ 5.57ms DONE
+  2026_02_27_000001_rename_customers_to_clienti .................. 2.46ms DONE
+  2026_02_27_101500_drop_arrivals_table .......................... 1.78ms DONE
+  2026_02_27_103500_create_arrivi_table .......................... 2.07ms DONE
+  2026_02_27_120000_create_tipologia_relations ................. 309.76ms DONE
+  2026_02_28_000001_normalize_classificazioni ................... 66.29ms FAIL
+
+In Connection.php line 838:
+                                                                               
+  SQLSTATE[42000]: Syntax error or access violation: 1072 Key column 'tipolog  
+  ia_struttura_id' doesn't exist in table (Connection: mysql, Socket: /work/f  
+  pm-diagnosi-v6/db.sock, Database: sintetico_fpm_v5, SQL: alter table `class  
+  ificazioni` drop `tipologia_struttura_id`)                                   
+                                                                               
+
+In Connection.php line 584:
+                                                                               
+  SQLSTATE[42000]: Syntax error or access violation: 1072 Key column 'tipolog  
+  ia_struttura_id' doesn't exist in table                                      
+                                                                               
+

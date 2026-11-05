@@ -1,0 +1,23 @@
+PASS provider echo cannot enter result
+PASS controlled exception discards request and URL
+PASS recursive arrays and objects are projected
+PASS secret in allowed slots is discarded
+PASS objects cannot execute magic serialization
+PASS HTTP 200 never proves acceptance 0
+PASS HTTP 200 never proves acceptance 1
+PASS HTTP 200 never proves acceptance 2
+PASS negative response 0
+PASS negative response 1
+PASS HTTP failure 302
+PASS HTTP failure 401
+PASS HTTP failure 500
+PASS verify is unknown, never accepted
+PASS OFF does not contact provider
+PASS no fabricated receipt with ON or OFF
+PASS legacy success is not official acceptance
+PASS legacy error remains a failure without rewriting history
+PASS simulation takes precedence over legacy error
+PASS accepted supplied by caller is not trusted
+PASS redirects disabled
+PASS projection is idempotent
+22 safety checks passed (in-memory doubles; no application bootstrap)

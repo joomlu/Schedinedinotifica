@@ -1,0 +1,26 @@
+{
+  "stato": "PARZIALE_C5_STOP_RECUPERO",
+  "data_UTC": "2026-10-22T23:20:31.931538+00:00",
+  "PR": "https://github.com/joomlu/Schedinedinotifica/pull/10",
+  "commit_correzioni": "1f4fab658696e5a0596df9a3f379367695d816f7",
+  "SHA_integrato": "118d5d20b309e15226ab63c2b84e40318d99b136",
+  "produzione": {
+    "SHA_Git": "67b4c45f94a349d0b27c7874aacbbe770bc1cf00",
+    "Git_pulito": true,
+    "barriera_assente": true,
+    "FPM_attivo": true,
+    "decisione_precedente": "CANDIDATO_ACCETTATO",
+    "stato_precedente_concluso": true,
+    "nuovo_RUN_assente": true,
+    "nuovo_PREPARE_verificato": false
+  },
+  "deposito_preflight": "PASS",
+  "nuovo_PREPARE": "NON_PASS_VERIFICATORE_LINUX",
+  "diagnosi_separata": "Decifratura del cifrato fs.tar.gz.enc verso /dev/null terminata con TimeoutExpired dopo90s; chiave rimasta nella VM. Nessun aumento dei limiti. Causa prestazionale sottostante non attribuita.",
+  "QA_online": "PREPARATA_NON_ESEGUITA",
+  "fixture_online_create": false,
+  "monitor_nuovo_candidato": "NON_ESEGUITO_NON_PUBBLICATO",
+  "DDL": false,
+  "dati_reali_modificati": false,
+  "accettazione_StayTour": "NON_VERIFICATA"
+}

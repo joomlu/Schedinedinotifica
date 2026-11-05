@@ -1,0 +1,73 @@
+{
+  "esito": "PASS_HTTP_LOCALE_REALE",
+  "URL": "https://schedinedinotifica.test/",
+  "SHA": "fa75a1f05ec013e6338ef423f8dc9f5db3e18e11",
+  "pagine": {
+    "/": {
+      "HTTP": 200,
+      "versione": "e9ddcb7200b5f84f55d4ff3a"
+    },
+    "/moduli": {
+      "HTTP": 200,
+      "versione": "e9ddcb7200b5f84f55d4ff3a"
+    },
+    "/ampliamenti": {
+      "HTTP": 200,
+      "versione": "e9ddcb7200b5f84f55d4ff3a"
+    },
+    "/demo": {
+      "HTTP": 200,
+      "versione": "e9ddcb7200b5f84f55d4ff3a"
+    },
+    "/prezzi": {
+      "HTTP": 200,
+      "versione": "e9ddcb7200b5f84f55d4ff3a"
+    },
+    "/contatti": {
+      "HTTP": 200,
+      "versione": "e9ddcb7200b5f84f55d4ff3a"
+    },
+    "/note-legali": {
+      "HTTP": 200,
+      "versione": "e9ddcb7200b5f84f55d4ff3a"
+    },
+    "/privacy": {
+      "HTTP": 200,
+      "versione": "e9ddcb7200b5f84f55d4ff3a"
+    },
+    "/cookie": {
+      "HTTP": 200,
+      "versione": "e9ddcb7200b5f84f55d4ff3a"
+    }
+  },
+  "risorse": {
+    "/site-assets/styles.a1d08079becadbda.css": {
+      "HTTP": 200,
+      "SHA256": "a1d08079becadbda89cb4e137d0ae4eb146fc8da434fe2c0a8e3d557c508c816",
+      "MIME": "text/css; charset=UTF-8"
+    },
+    "/site-assets/app.1c240f761037e941.js": {
+      "HTTP": 200,
+      "SHA256": "1c240f761037e94112f03a55ad6aa78c6b53857de70504282e959736e65051c0",
+      "MIME": "application/javascript; charset=UTF-8"
+    },
+    "/site-assets/catalogo-commerciale.json": {
+      "HTTP": 200,
+      "SHA256": "ac3264cb0f6e3f1254fe116332e9b0b67361cb233af3f34e15218e491fe4a9c2",
+      "MIME": "application/json; charset=UTF-8"
+    },
+    "/site-assets/img/logo-tanggo.png": {
+      "HTTP": 200,
+      "SHA256": "4db7ab0e789bd4df38aa822d5605f1ced4344b3d89b5ac22a2784ffa121d4059",
+      "MIME": "image/png"
+    },
+    "/site-assets/img/ospitalita-checkin.webp": {
+      "HTTP": 200,
+      "SHA256": "3aaef1fbcf4e0d21c2eea5948c0d30317b15708eef634b394e13860866b56e96",
+      "MIME": "image/webp"
+    }
+  },
+  "token_CSRF_presente": true,
+  "login_e_rotte_private": "PASS",
+  "nessun_POST_locale": true
+}

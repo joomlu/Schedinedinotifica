@@ -1,0 +1,19 @@
+{
+  "esito": "PASS_BACKUP_CONFIGURAZIONE_EXTRA_RECUPERO_INDIPENDENTE",
+  "backup": "/Volumes/extra/Schedinedinotifica-Web-Checkin-HTML-20261018/configurazione-SMTP/configurazione-prima.tar.enc",
+  "seal": {
+    "plain_sha256": "dce8de386245be1b841ddc669addc1ef974b48fd0a098fd4f60d09bdfd5ecaf2",
+    "cipher_sha256": "3d30622bca1b8fbd90f6ded608a53d88be030b29f037240ba85c62e0a07840d2",
+    "hmac": "ad4a8e7340581592741473a585fa408e976223364af04ad5db129a64edf8697a",
+    "byte": 10272
+  },
+  "recupero_VM": {
+    "cifrato_sha256": "3d30622bca1b8fbd90f6ded608a53d88be030b29f037240ba85c62e0a07840d2",
+    "decifrato_sha256": "dce8de386245be1b841ddc669addc1ef974b48fd0a098fd4f60d09bdfd5ecaf2",
+    "HMAC_prima_decifratura": true,
+    "decifratura_integrale": true,
+    "nessuna_scrittura_decifrata_o_temporanea": true
+  },
+  "chiave_separata_VM": true,
+  "originale_produttivo_cifrato_conservato": true
+}

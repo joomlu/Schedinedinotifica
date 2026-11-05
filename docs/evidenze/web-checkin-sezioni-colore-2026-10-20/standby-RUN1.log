@@ -1,0 +1,6 @@
+2026-10-20 11:31:28 +0200 Sleep               	Entering Sleep state due to 'Idle Sleep':TCPKeepAlive=active Using AC (Charge:100%) 581 secs
+2026-10-20 11:41:09 +0200 DarkWake            	DarkWake from Deep Idle [CDNP] : due to smc.sysState.Wake(0x70070000) wifibt SMC.OutboxNotEmpty bluetooth-pcie/ Using AC (Charge:100%) 44 secs
+2026-10-20 11:41:53 +0200 Sleep               	Entering Sleep state due to 'Maintenance Sleep':TCPKeepAlive=active Using AC (Charge:100%) 1056 secs
+2026-10-20 11:59:29 +0200 DarkWake            	DarkWake from Deep Idle [CDNPB] : due to NUB.SPMI0.SW3 nub-spmi0.0x02 rtc/SleepService Using AC (Charge:100%) 93 secs
+2026-10-20 12:01:02 +0200 Sleep               	Entering Sleep state due to 'Sleep Service Back to Sleep':TCPKeepAlive=active Using AC (Charge:100%) 903 secs
+2026-10-20 12:16:05 +0200 DarkWake            	DarkWake from Deep Idle [CDNPB] : due to NUB.SPMI0.SW3 nub-spmi0.0x02 rtc/Maintenance Using AC (Charge:100%)

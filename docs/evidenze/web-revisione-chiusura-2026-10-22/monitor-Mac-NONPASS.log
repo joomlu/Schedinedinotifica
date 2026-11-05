@@ -1,0 +1,22 @@
+{"campione": 1, "esito": "PASS_DNS_HTTPS"}
+{"campione": 2, "esito": "PASS_DNS_HTTPS"}
+{"campione": 3, "esito": "PASS_DNS_HTTPS"}
+{"campione": 4, "esito": "PASS_DNS_HTTPS"}
+{"campione": 5, "esito": "PASS_DNS_HTTPS"}
+{"campione": 6, "esito": "PASS_DNS_HTTPS"}
+{"campione": 7, "esito": "PASS_DNS_HTTPS"}
+{"campione": 8, "esito": "PASS_DNS_HTTPS"}
+{"campione": 9, "esito": "PASS_DNS_HTTPS"}
+{"campione": 10, "esito": "PASS_DNS_HTTPS"}
+{"campione": 11, "esito": "PASS_DNS_HTTPS"}
+{"campione": 12, "esito": "PASS_DNS_HTTPS"}
+{"campione": 13, "esito": "PASS_DNS_HTTPS"}
+{"campione": 14, "esito": "PASS_DNS_HTTPS"}
+{"campione": 15, "esito": "PASS_DNS_HTTPS"}
+{"campione": 16, "esito": "PASS_DNS_HTTPS"}
+{"campione": 17, "esito": "PASS_DNS_HTTPS"}
+{"campione": 18, "esito": "PASS_DNS_HTTPS"}
+Traceback (most recent call last):
+  File "/Users/jorgeluccitelli/Herd/Schedinedinotifica/output/web-checkin-chiusura-2026-10-22/monitor-Mac.py", line 7, in <module>
+    p=subprocess.run(['curl','--max-time','15','-sS','-o','/dev/null','-w','%{http_code} %{ssl_verify_result}','https://'+host+'/login'],capture_output=True,text=True);checks[host]=p.returncode==0 and p.stdout=='200 0';assert checks[host],host+': '+p.stderr
+AssertionError: schedinedinotifica.tanggo.software: curl: (28) Connection timed out after 15006 milliseconds

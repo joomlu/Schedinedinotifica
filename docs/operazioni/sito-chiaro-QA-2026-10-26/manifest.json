@@ -1,0 +1,12 @@
+{
+  "applicativo": "fa75a1f05ec013e6338ef423f8dc9f5db3e18e11",
+  "esecuzione": "R2",
+  "esito": "PASS_SITO_ONLINE",
+  "sha256": {
+    "asset-attesi.json": "04d42a6999d74fa8eaf343d054c8ff67a99c38dc7659575db27582f38f44b477",
+    "online-sito.mjs": "d058a22d3bf967e27bd146e1d573f294895fa31fa8b639fa617f4df1e904556c",
+    "LEGGIMI.md": "75792550f859a8523be17cf22cbfa02aee998746d1c4c9fb50c9e8f451ed9dc0",
+    "catalogo-commerciale.json": "ac3264cb0f6e3f1254fe116332e9b0b67361cb233af3f34e15218e491fe4a9c2",
+    "versione-attesa.json": "a1fc35df881d7cf644c701a1d561f7fa92759ef7f3d46c377658c11ff7f41e40"
+  }
+}

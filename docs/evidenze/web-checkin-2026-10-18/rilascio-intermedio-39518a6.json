@@ -1,0 +1,118 @@
+{
+  "ambito": "Verifica subito dopo rilascio, precedente al collaudo sintetico online",
+  "data_epoch": 1792328164.4851494,
+  "db_byte_identico_S0": false,
+  "dati_e_schema_preesistenti_identici_S0": true,
+  "delta_DB_autorizzato": {
+    "esito": "PASS_DUMP_S0_CON_SOLA_MIGRAZIONE_ADDITIVA",
+    "tabelle_preesistenti_identiche": 64,
+    "nuove_tabelle_vuote": [
+      "web_checkin_comunicazioni",
+      "web_checkin_modelli"
+    ],
+    "migrazione": "2026_10_18_180000_create_web_checkin_comunicazioni",
+    "SHA_dump_S0": "c8ecd69d99240f327c59d42762ea7ff2300de23041fd2ac3d2906c28a18c895c",
+    "SHA_dump_attuale": "ee490fde66dc0c8ee3df1913ff208cae65709b9f4a92f92986cc2e56d411e957"
+  },
+  "custom_css_HTTP_sha256": "9d11a9ecc9c9df1a5fd0876a7bba78dc6064a4a46b1c7941c04f49ef6827e67b",
+  "regola_mobile_in_css_pubblico": true,
+  "esito": "PASS_RILASCIO_ONLINE_SERVER",
+  "HEAD": "39518a6b4ff0f9b1112b0fa6d13debf1854e5061",
+  "Laravel": "12.69.3",
+  "migrazioni": 157,
+  "tabelle": 66,
+  "cataloghi": {
+    "rilasciato_da": {
+      "globali": 86,
+      "conteggi_privati": [
+        [
+          1,
+          74
+        ],
+        [
+          7,
+          73
+        ],
+        [
+          8,
+          73
+        ],
+        [
+          9,
+          73
+        ],
+        [
+          10,
+          73
+        ],
+        [
+          11,
+          73
+        ],
+        [
+          12,
+          73
+        ]
+      ]
+    },
+    "tipo_via": {
+      "globali": 198,
+      "conteggi_privati": [
+        [
+          1,
+          157
+        ],
+        [
+          7,
+          156
+        ],
+        [
+          8,
+          156
+        ],
+        [
+          9,
+          156
+        ],
+        [
+          10,
+          156
+        ],
+        [
+          11,
+          156
+        ],
+        [
+          12,
+          156
+        ]
+      ]
+    }
+  },
+  "geo_comuni": 7896,
+  "env_key_upload_loghi_identici_S0": true,
+  "persistenti": 75,
+  "sorgenti_e_protetti_identici_ai_digest": true,
+  "provider_false_mail_array": true,
+  "Git_pulito": true,
+  "sonde9": {
+    "mail.schedinedinotifica.tanggo.software/": true,
+    "mail.schedinedinotifica.tanggo.software/login": true,
+    "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+    "schedinedinotifica.tanggo.software/": true,
+    "schedinedinotifica.tanggo.software/login": true,
+    "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+    "www.schedinedinotifica.tanggo.software/": true,
+    "www.schedinedinotifica.tanggo.software/login": true,
+    "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+  },
+  "S0_secondi": 180.179,
+  "rilascio_secondi": 263.172,
+  "monitor_campioni": 402,
+  "nonce": "01bc77dfbe2ecdcb2bd18b6f0ca8801b914994aa01fb85ba",
+  "DDL_eseguite": true,
+  "migrazioni_applicate": [
+    "2026_10_18_180000_create_web_checkin_comunicazioni"
+  ],
+  "nessun_invio_enti": true
+}

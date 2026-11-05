@@ -1,0 +1,38 @@
+{
+  "esito": "PASS_RILASCIO_ONLINE_SERVER",
+  "HEAD": "455318e7dc477b47402313826e1525fc691589c3",
+  "Git_pulito": true,
+  "db_byte_identico_S0": true,
+  "tabelle": 66,
+  "migrazioni": 161,
+  "persistenti": 104,
+  "env_key_upload_loghi_identici_S0": true,
+  "sorgenti_e_protetti_identici_ai_digest": true,
+  "provider_false_mail_array": true,
+  "sonde9": {
+    "mail.schedinedinotifica.tanggo.software/": true,
+    "mail.schedinedinotifica.tanggo.software/login": true,
+    "mail.schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+    "schedinedinotifica.tanggo.software/": true,
+    "schedinedinotifica.tanggo.software/login": true,
+    "schedinedinotifica.tanggo.software/build/css/app.min.css": true,
+    "www.schedinedinotifica.tanggo.software/": true,
+    "www.schedinedinotifica.tanggo.software/login": true,
+    "www.schedinedinotifica.tanggo.software/build/css/app.min.css": true
+  },
+  "S0_secondi": 161.731,
+  "rilascio_secondi": 265.062,
+  "DDL_eseguite": false,
+  "nessun_invio_enti": true,
+  "sorgenti_attestati": 328,
+  "guardiano_concluso_inattivo_disabilitato": true,
+  "persistenti_dopo_QA": 104,
+  "custodia_S0_Extra": {
+    "esito": "PASS",
+    "file": 3,
+    "byte": 30262640,
+    "integrita_autenticazione_decifratura": true,
+    "chiave_separata": true
+  },
+  "DB_byte_identico_S0_anche_dopo_QA_e_monitor": true
+}

@@ -1,0 +1,60 @@
+@php
+    $previous = $previous ?? null;
+    $next = $next ?? null;
+    $isEdit = $isEdit ?? false;
+    $showComponentiSave = $showComponentiSave ?? false;
+    $showCircuitSaveButtons = $showCircuitSaveButtons ?? true;
+    $primarySaveLabel = $primarySaveLabel ?? 'Salva';
+@endphp
+
+<div class="d-flex align-items-start gap-3 mt-4 flex-wrap">
+    @if($previous)
+        <button type="button" class="btn btn-soft-secondary btn-label prevtab" data-previous="{{ $previous }}">
+            <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Indietro
+        </button>
+    @endif
+
+    <div class="ms-auto d-flex align-items-start gap-2 flex-wrap">
+        @if(!($isPublicWeb ?? false) && !empty($schedina) && $schedina->exists && $schedina->circuito==='web' && empty($webGestione))
+            <a class="btn btn-primary" href="{{ route('schedina.web') }}">Apri gestione Web Check-in</a>
+        @elseif(!empty($webGestione) && !$webGestione->processata())
+            <button type="submit" name="save_mode" value="review_web" formnovalidate class="btn btn-outline-primary">Salva revisione senza effettuare check-in</button>
+            <button type="submit" name="save_mode" value="full" class="btn btn-success">Effettua check-in / Crea schedina</button>
+        @elseif($showCircuitSaveButtons)
+            @if($showComponentiSave)
+                <button type="submit" formnovalidate class="btn btn-soft-secondary btn-label" id="save-componenti-btn">
+                    <i class="ri-group-line label-icon align-middle fs-16 ms-2"></i>Salva componenti
+                </button>
+            @endif
+
+            @if(!($isArrivi ?? false))
+            <button type="submit" name="save_mode" value="draft" formnovalidate class="btn btn-soft-primary btn-label">
+                <i class="ri-draft-line label-icon align-middle fs-16 ms-2"></i>Salva a bozza
+            </button>
+
+            @endif
+            <button type="submit" name="save_mode" value="to_arrivi" formnovalidate class="btn btn-soft-info btn-label fw-semibold text-info-emphasis">
+                <i class="ri-route-line label-icon align-middle fs-16 ms-2"></i>Salva in Arrivi
+            </button>
+
+            @if(!($isArrivi ?? false) || $isEdit)
+            <button type="submit" name="save_mode" value="{{ ($isArrivi ?? false) ? 'convert_arrivi' : 'full' }}" @if($isArrivi ?? false) data-arrivi-convert="1" @endif class="btn btn-success btn-label">
+                <i class="ri-save-line label-icon align-middle fs-16 ms-2"></i>{{ ($isArrivi ?? false) ? 'Passa a schedina' : 'Salva a schedina' }}
+            </button>
+            @endif
+        @else
+            <button type="submit" name="save_mode" value="web" formnovalidate class="btn btn-soft-primary btn-label">
+                <i class="ri-save-line label-icon align-middle fs-16 ms-2"></i>{{ $primarySaveLabel }}
+            </button>
+            @if(isset($webVersione))
+                <button type="submit" name="save_mode" value="web_complete" formnovalidate class="btn btn-success">Conferma dati</button>
+            @endif
+        @endif
+
+        @if($next)
+            <button type="button" class="btn btn-soft-success btn-label right nexttab" data-nexttab="{{ $next }}">
+                <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Avanti
+            </button>
+        @endif
+    </div>
+</div>

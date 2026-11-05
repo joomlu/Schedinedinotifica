@@ -1,0 +1,15 @@
+{
+  "esito": "PASS_CONFIGURAZIONE_SMTP_PREPARATORIA",
+  "root": "/root/schedine-smtp-config-u_xgbw50",
+  "backup_cifrato_verificato": true,
+  "ripristino_integrita": true,
+  "utility_sha256": "e0854b2a17e6cbe6bb745da89afed61696d16fb46bb7bb181a7368771afc0ca0",
+  "env_sha256": "4f12825d2df414b7034f3f0394f83c0f7d08c46417e87a69b74eeb214c65b2d7",
+  "SMTP_autenticazione_UID1002_GID489": true,
+  "uscite_estranee_negate": true,
+  "mailer_generale_preservato": "array",
+  "invii_eseguiti": 0,
+  "cache_attiva_invariata": true,
+  "FPM_attivo": true,
+  "necessita": "Il nuovo mailer diventa disponibile solo dopo pubblicazione C5 e ricostruzione cache."
+}

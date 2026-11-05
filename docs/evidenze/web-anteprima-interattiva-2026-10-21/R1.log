@@ -1,0 +1,219 @@
+/usr/local/bin/mysqld: Deprecated program name. It will be removed in a future release, use '/opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd' instead
+2026-10-21  9:33:05 0 [Warning] failed to retrieve the MAC address
+WARNING: option --ssl-verify-server-cert is disabled, because of an insecure passwordless login.
+TEST isolato: /tmp/schedine-test-_xrv6ynj; database=test_geo_a82a14d5325af951831cf25bed23e1c0; MySQL pid=57, porta=59675; HTTP pid=79, porta=56107
+PASS: identità processi/DB/HTTP, riconnessione e 23 rifiuti di override prima delle migrazioni.
+PASS: build asset e verifica GEO immutabile nel checkout temporaneo.
+
+Running 6 tests using 1 worker
+
+  ✘  1 tests/Feature/web-anteprima-interattiva.playwright.spec.js:4:2 › Anteprima temporanea selezionabile 1440 (10.4s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) tests/Feature/web-anteprima-interattiva.playwright.spec.js:4:2 › Anteprima temporanea selezionabile 1440
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeEnabled[2m([22m[2m)[22m failed
+
+    Locator:  locator('[name=exent]').first()
+    Expected: enabled
+    Received: disabled
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - Expect "toBeEnabled" with timeout 5000ms[22m
+    [2m  - waiting for locator('[name=exent]').first()[22m
+    [2m    8 × locator resolved to <select name="exent" tabindex="-1" aria-hidden="true" data-allow-clear="0" data-init-select2="1" data-ui="select-search" data-placeholder="Seleziona..." data-select2-id="select2-data-4-20mi" class="form-select select2-hidden-accessible">…</select>[22m
+    [2m      - unexpected value "disabled"[22m
+
+
+      3 | for(const width of [1440,768,390]){
+      4 |  test(`Anteprima temporanea selezionabile ${width}`,async({page},info)=>{
+    > 5 |   test.setTimeout(120000);await page.setViewportSize({width,height:1000});await login(page);const f=await(await page.request.get(BASE_URL+'/testi-palette-fixture.json')).json();const id=f.links[width].richiesta;const url=BASE_URL+`/web-checkin/${id}/anteprima-modulo`;const writes=[];page.on('request',r=>{if(r.method()==='POST')writes.push(r.url());});await page.goto(url);await expect(page.locator('[name=exent]').first()).toBeEnabled();await expect(page.locator('[name=relationship]').first()).toBeEnabled();await expect(page.locator('body')).toContainText('Anteprima interattiva: le modifiche non vengono salvate');
+        |                                                                                                                                                                                                                                                                                                                                                                                                                                          ^
+      6 |   const initial=await page.locator('[name=name]').first().inputValue();await page.locator('[name=name]').first().fill('Solo dimostrazione');await page.locator('[name=exent]').first().selectOption('SI');await page.locator('[name=relationship]').first().selectOption({label:'OSPITE SINGOLO'});
+      7 |   await page.locator('#web-continua').click();await expect(page.locator('[data-web-section=anag]')).toHaveAttribute('aria-selected','true');await page.locator('[name=oa_date_nac]').locator('xpath=..').getByRole('textbox').click();await expect(page.locator('.flatpickr-calendar.open')).toBeVisible();await page.locator('.hotel-riepilogo').click();await expect(page.locator('.flatpickr-calendar.open')).toHaveCount(0);
+      8 |   await page.locator('[data-web-section=comp]').click();await page.getByRole('button',{name:/Dettagli$/}).first().click();await expect(page.locator('.componente-row:visible [name$="[exent]"]').first()).toBeEnabled();await page.locator('.componente-row:visible [name$="[name]"]').first().fill('Componente dimostrativo');
+        at /tmp/schedine-test-_xrv6ynj/checkout/tests/Feature/web-anteprima-interattiva.playwright.spec.js:5:426
+
+    Error Context: test-results/web-anteprima-interattiva.-90498-mporanea-selezionabile-1440/error-context.md
+
+  1 failed
+    tests/Feature/web-anteprima-interattiva.playwright.spec.js:4:2 › Anteprima temporanea selezionabile 1440
+  5 did not run
+  1 error was not a part of any test, see above for details
+web-anteprima-interattiva.-90498-mporanea-selezionabile-1440:
+# Page snapshot
+
+```yaml
+- main [ref=e2]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - img "Hotel Browser" [ref=e6]
+      - generic [ref=e7]: Hotel Browser
+      - heading "Benvenuto, Referente GEO 1440" [level=1] [ref=e8]
+      - paragraph [ref=e9]: "Compila la scheda una sezione alla volta. Puoi salvare anche se mancano dei dati: la reception potrà completarli con te."
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - strong [ref=e12]: Prenotazione
+          - text: GEO-1440
+        - generic [ref=e13]:
+          - strong [ref=e14]: Arrivo
+          - text: 10/11/2026
+        - generic [ref=e15]:
+          - strong [ref=e16]: Partenza
+          - text: 13/11/2026
+        - generic [ref=e17]:
+          - strong [ref=e18]: Ospiti
+          - text: "2"
+      - paragraph [ref=e19]: "Referente della prenotazione: Referente GEO 1440. I dati sotto appartengono all’ospite titolare, che può essere una persona diversa."
+    - generic [ref=e20]:
+      - text: "Anteprima riservata alla reception: nessuna visita dell’ospite registrata e nessun salvataggio disponibile."
+      - link "Torna alla richiesta" [ref=e21] [cursor=pointer]:
+        - /url: http://127.0.0.1:56107/web-checkin/13/modifica
+    - paragraph [ref=e22]:
+      - text: "Ultimo salvataggio:"
+      - strong [ref=e23]: Ospiti completati 2 di 2
+      - text: . Il conteggio si aggiorna al salvataggio; la conferma rivalida tutti i dati.
+    - navigation "Sezioni della scheda ospite" [ref=e24]:
+      - tablist "Dati del soggiorno e degli ospiti" [ref=e25]:
+        - tab "Soggiorno e ospite" [selected] [ref=e26] [cursor=pointer]
+        - tab "Anagrafica" [ref=e27] [cursor=pointer]
+        - tab "Residenza e documento" [ref=e28] [cursor=pointer]
+        - tab "Contatti e consensi" [ref=e29] [cursor=pointer]
+        - tab "Componenti" [ref=e30] [cursor=pointer]
+    - group [ref=e31]:
+      - generic [ref=e32]:
+        - heading "I dati degli ospiti" [level=4] [ref=e34]
+        - generic [ref=e36]:
+          - generic [ref=e37]: Puoi salvare anche dati incompleti e riprendere dallo stesso link. «Conferma dati» verifica tutti i dati; la reception confermerà la registrazione. Il soggiorno previsto resta quello indicato nell’invito.
+          - generic [ref=e38]:
+            - tabpanel "Soggiorno e ospite" [ref=e39]:
+              - generic [ref=e40]:
+                - generic [ref=e41]:
+                  - generic [ref=e42]: 
+                  - heading "Dati soggiorno" [level=5] [ref=e43]
+                - generic [ref=e45]:
+                  - generic [ref=e47]:
+                    - generic [ref=e48]: Arrivo *
+                    - textbox "gg/mm/aaaa" [disabled] [ref=e49]: 10/11/2026
+                  - generic [ref=e51]:
+                    - generic [ref=e52]: Partenza *
+                    - textbox "gg/mm/aaaa" [disabled] [ref=e53]: 13/11/2026
+                  - generic [ref=e55]:
+                    - generic [ref=e56]: Tipo alloggiato *
+                    - combobox [disabled] [ref=e57]
+                    - combobox "CAPO FAMIGLIA" [ref=e60] [cursor=pointer]:
+                      - textbox "CAPO FAMIGLIA" [ref=e61]
+                  - generic [ref=e63]:
+                    - generic [ref=e64]:
+                      - text: Esente *
+                      - button "Esente" [disabled]:
+                        - generic: 
+                    - combobox [disabled] [ref=e65]
+                    - combobox "Nessuna esenzione" [ref=e68] [cursor=pointer]:
+                      - textbox "Nessuna esenzione" [ref=e69]
+              - generic [ref=e70]:
+                - generic [ref=e71]:
+                  - generic [ref=e72]: 
+                  - heading "Dati cliente" [level=5] [ref=e73]
+                - generic [ref=e74]:
+                  - generic [ref=e75]:
+                    - generic [ref=e76]:
+                      - generic [ref=e77]:
+                        - text: Quantità persone *
+                        - button "Quantità persone" [dis
+TEST interrotto senza fallback: playwright fallito: 1
+mysql-error.log:
+2026-10-21  9:33:17 0 [Note] Starting MariaDB 11.8.9-MariaDB source revision bf9193a939f515e95dd8def1a5468088c91cede6 server_uid unknown as process 57
+2026-10-21  9:33:17 0 [Note] InnoDB: Compressed tables use zlib 1.3.1.zlib-ng
+2026-10-21  9:33:17 0 [Note] InnoDB: Number of transaction pools: 1
+2026-10-21  9:33:17 0 [Note] InnoDB: Using ARMv8 crc32 + pmull instructions
+2026-10-21  9:33:17 0 [Warning] mariadbd: io_uring_queue_init() failed with EPERM: sysctl kernel.io_uring_disabled has the value 2, or 1 and the user of the process is not a member of sysctl kernel.io_uring_group. (see man 2 io_uring_setup).
+create_uring failed: falling back to libaio
+2026-10-21  9:33:17 0 [Note] InnoDB: Using Linux native AIO
+2026-10-21  9:33:17 0 [Note] InnoDB: innodb_buffer_pool_size_max=8388608m, innodb_buffer_pool_size=128m
+2026-10-21  9:33:17 0 [Note] InnoDB: Completed initialization of buffer pool
+2026-10-21  9:33:17 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+2026-10-21  9:33:17 0 [Note] InnoDB: End of log at LSN=45109
+2026-10-21  9:33:17 0 [Note] InnoDB: Opened 3 undo tablespaces
+2026-10-21  9:33:17 0 [Note] InnoDB: 128 rollback segments in 3 undo tablespaces are active.
+2026-10-21  9:33:17 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2026-10-21  9:33:17 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2026-10-21  9:33:17 0 [Note] InnoDB: log sequence number 45109; transaction id 14
+2026-10-21  9:33:17 0 [Note] Plugin 'FEEDBACK' is disabled.
+2026-10-21  9:33:17 0 [Note] Plugin 'wsrep-provider' is disabled.
+2026-10-21  9:33:17 0 [Note] InnoDB: Loading buffer pool(s) from /tmp/schedine-test-_xrv6ynj/mysql-data/ib_buffer_pool
+2026-10-21  9:33:17 0 [Note] InnoDB: Buffer pool(s) load completed at 261021  9:33:17
+2026-10-21  9:33:17 0 [Note] Server socket created on IP: '127.0.0.1', port: '59675'.
+2026-10-21  9:33:17 0 [Note] mariadbd: Event Scheduler: Loaded 0 events
+2026-10-21  9:33:17 0 [Note] /opt/schedine-runtime-mariadb-11.8.9/rootfs/usr/sbin/mariadbd: ready for connections.
+Version: '11.8.9-MariaDB'  socket: '/tmp/schedine-test-_xrv6ynj/mysql.sock'  port: 59675  MariaDB Server
+
+http.log:
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40070 Closing
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40100 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40106 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40096 Closing
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40100 Closing
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40090 Closing
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40106 Closing
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40112 Accepted
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40112 Closing
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40122 Accepted
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40122 [200]: GET /testi-palette-fixture.json
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40122 Closing
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40130 Accepted
+[Wed Oct 21 09:33:38 2026] 127.0.0.1:40130 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40138 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40138 [200]: GET /build/css/bootstrap.min.css
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40140 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40140 [200]: GET /build/css/icons.min.css
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40148 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40154 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40138 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40148 [200]: GET /build/libs/select2/css/select2.min.css
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40156 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40154 [200]: GET /build/css/app.min.css
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40172 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40156 [200]: GET /build/libs/flatpickr/flatpickr.min.css
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40182 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40148 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40172 [200]: GET /build/css/custom.min.css
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40192 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40182 [200]: GET /build/libs/jquery/jquery.min.js
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40156 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40140 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40192 [200]: GET /build/js/app2.js
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40208 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40154 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40172 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40210 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40208 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40182 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40226 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40210 [200]: GET /build/libs/select2/js/select2.full.min.js
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40238 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40226 [200]: GET /build/libs/bootstrap/js/bootstrap.bundle.min.js
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40250 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40238 [200]: GET /build/libs/simplebar/simplebar.min.js
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40264 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40210 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40250 [200]: GET /build/libs/node-waves/waves.min.js
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40280 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40226 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40192 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40264 [200]: GET /build/libs/feather-icons/feather.min.js
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40284 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40280 [200]: GET /build/libs/flatpickr/flatpickr.min.js
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40238 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40288 Accepted
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40284 [200]: GET /build/libs/flatpickr/l10n/it.js
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40250 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40288 [200]: GET /build/icons/remixicon.woff2?t=1718271040674
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40264 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40280 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40284 Closing
+[Wed Oct 21 09:33:39 2026] 127.0.0.1:40288 Closing
+
+Risorse temporanee fermate e rimosse: /tmp/schedine-test-_xrv6ynj
