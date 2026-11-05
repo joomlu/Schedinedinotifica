@@ -28,6 +28,16 @@ for (const width of [360, 390, 768, 1024, 1440]) {
       }
       await page.evaluate(() => new Promise(resolve => { window.scrollTo({ top: 0, behavior: 'instant' }); requestAnimationFrame(() => requestAnimationFrame(resolve)); }));
       await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      await expect(page.locator('.whatsapp-contact')).toHaveCSS('background-color', 'rgb(37, 211, 102)');
+      if (width >= 1281) {
+        const centers = await page.locator('.tanggo-family-strip > *').evaluateAll(nodes => nodes.map(n => { const r = n.getBoundingClientRect(); return r.top + r.height / 2; }));
+        expect(Math.max(...centers) - Math.min(...centers)).toBeLessThan(2);
+        const demo = await page.locator('.site-nav .nav-cta').boundingBox();
+        const access = await page.locator('.header-access').boundingBox();
+        expect(access.x - demo.x - demo.width).toBeGreaterThanOrEqual(0);
+        expect(access.x - demo.x - demo.width).toBeLessThanOrEqual(24);
+      }
+
       const menu = page.locator('.menu-toggle');
       if (await menu.isVisible()) {
         await menu.click();

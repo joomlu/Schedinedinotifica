@@ -1,11 +1,11 @@
 @extends('layouts.master-without-nav')
-@section('title', 'Accedi a SchedinaNotifica')
+@section('title', 'SchedinaNotifica')
 @section('content')
 <div class="sn-login">
     <a class="sn-login-skip" href="#accesso">Vai al modulo di accesso</a>
     <header class="sn-login-header">
         <a class="sn-login-brand" href="{{ route('site.home') }}" aria-label="Tanggo Software — pagina iniziale">
-            <img src="{{ asset('site-assets/img/logo-tanggo.png') }}" alt="" width="56" height="56">
+            <img src="{{ asset('site-assets/img/logo-tanggo-112.webp') }}" alt="" width="56" height="56">
             <span><strong>Tanggo Software</strong><small>SchedinaNotifica</small></span>
         </a>
         <a class="sn-login-back" href="{{ route('site.home') }}"><span aria-hidden="true">←</span> Torna al sito</a>
@@ -26,7 +26,7 @@
         <section class="sn-login-panel" aria-labelledby="sn-login-title">
             <div class="sn-login-form-wrap">
                 <p class="sn-login-eyebrow">La tua area di lavoro</p>
-                <h1 id="sn-login-title">Accesso struttura</h1>
+                <h1 id="sn-login-title">SchedinaNotifica</h1>
                 <p class="sn-login-intro">Accedi a SchedinaNotifica e riprendi la gestione della tua struttura.</p>
                 <form id="accesso" action="{{ route('login') }}" method="POST" tabindex="-1">
                     @csrf
@@ -64,10 +64,9 @@
         </section>
     </main>
 <footer class="site-footer">
-      <div class="container footer-grid">
-        <div>
+      <div class="container footer-grid"><div>
           <a class="brand" href="/">
-            <img class="brand-logo" src="/site-assets/img/logo-tanggo.png" alt="" width="56" height="56">
+            <img class="brand-logo" src="/site-assets/img/logo-tanggo-112.webp" alt="" width="56" height="56">
             <span>
               <strong>
                 Tanggo Software
@@ -80,8 +79,7 @@
           <p>
             Il software e l’affiancamento per il lavoro della tua struttura.
           </p>
-        </div>
-        <div>
+        </div><div>
           <h2>
             Esplora
           </h2>
@@ -89,13 +87,12 @@
             Funzionalità
           </a>
           <a href="/ampliamenti">
-            Moduli e ampliamenti
+            Servizi e requisiti
           </a>
           <a href="/demo">
-            Demo del programma
+            Schermate del programma
           </a>
-        </div>
-        <div>
+        </div><div>
           <h2>
             Parliamone
           </h2>
@@ -108,8 +105,7 @@
           <a href="/contatti#demo">
             Richiedi una demo
           </a>
-        </div>
-        <div>
+        </div><div>
           <h2>
             La tua area
           </h2>
@@ -122,13 +118,11 @@
           <p>
             Nessun dato degli ospiti nel modulo pubblico: per l’assistenza usa il tuo accesso riservato.
           </p>
-        </div>
-      </div>
+        </div></div><nav class="container tanggo-family-strip" aria-label="La famiglia Tanggo"><h2>La famiglia Tanggo</h2><a href="https://gestioneprezzi.tanggo.software.test/">Gestione Prezzi ↗</a><a href="https://gestionecrm.tanggo.software.test/">Gestione CRM ↗</a><a href="https://gestionebooking.tanggo.software.test/">Gestione Booking ↗</a><a href="https://tanggo.software/">Tanggo Software ↗</a></nav>
+      <nav class="container footer-legal-strip" aria-label="Informazioni legali"><a href="/note-legali">Note legali</a> · <a href="/privacy">Privacy</a> · <a href="/cookie">Cookie</a></nav>
       <div class="container footer-bottom">
-        <nav aria-label="Informazioni legali"><a href="/note-legali">Note legali</a> · <a href="/privacy">Privacy</a> · <a href="/cookie">Cookie</a></nav>
-        <span>
-          © 2026 Experience S.r.l. · SchedinaNotifica
-        </span>
+
+        <span>SchedinaNotifica · Tanggo Platform | Versione 2.0 · © 2026 Experience S.r.l.</span>
         <a href="https://www.cv.joomlu.com/" target="_blank" rel="noopener">
           Realizzato da Jorge Omar Luccitelli
         </a>

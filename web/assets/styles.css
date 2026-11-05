@@ -1113,3 +1113,15 @@ h1,h2,h3 { font-weight:400; letter-spacing:-.035em; }
 /* Nei documenti legali su telefono il contatto segue il testo: nessuna
    sovrapposizione e nessuna scomparsa dovuta alla protezione delle righe. */
 @media(max-width:600px) { body:has(.legal-copy) .whatsapp-contact { position:static; margin:0 18px 24px auto; } }
+
+/* Contatti Schedina: fotografia aperta e testo sfumato come negli altri prodotti. */
+.family-contact-hero { position:relative; isolation:isolate; overflow:hidden; min-height:680px; padding:0; background:#fff; }
+.family-contact-hero > .container { position:relative; min-height:680px; padding-block:64px; display:flex; align-items:center; }
+.family-contact-hero .page-hero-copy { position:relative; z-index:2; max-width:620px; }
+.family-contact-hero h1 { font-size:clamp(2.7rem,3.6vw,4.25rem); font-weight:400; line-height:1.14; letter-spacing:-.045em; }
+.family-contact-hero .page-hero-figure { position:absolute; inset:0; width:100%; max-width:none; border:0; border-radius:0; margin:0; padding:0; background:none; z-index:-2; }
+.family-contact-hero .page-hero-figure img { width:100%; height:100%; max-height:none; object-fit:cover; object-position:72% center; border-radius:0; }
+.family-contact-hero::after { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,#fff 0%,#fffffff9 27%,#ffffffed 39%,#ffffff94 54%,#ffffff24 70%,transparent 90%); }
+.family-contact-hero .page-hero-figure figcaption { position:absolute; bottom:20px; right:max(48px,calc((100vw - 1240px)/2)); z-index:2; max-width:360px; padding:10px 16px; color:#514944; background:#fffffff2; border-radius:6px; font-size:.78rem; font-weight:400; }
+@media(max-width:850px) { .family-contact-hero::after { background:linear-gradient(90deg,#fffffff5,#ffffffe8 55%,#ffffff8c); } }
+@media(max-width:600px) { .family-contact-hero,.family-contact-hero > .container { min-height:650px; } .family-contact-hero > .container { padding-block:40px 105px; } .family-contact-hero h1 { font-size:2.6rem; } .family-contact-hero .lead { font-size:1rem; } .family-contact-hero .page-hero-figure figcaption { bottom:22px; right:18px; max-width:calc(100% - 36px); } }

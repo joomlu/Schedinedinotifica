@@ -16,7 +16,7 @@ for (const width of [1440, 768, 390, 320]) {
   test(`accesso accessibile e responsive a ${width}`, async ({ page }, info) => {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto(`${BASE_URL}/login`);
-    await expect(page.getByRole('heading', { name: 'Accesso struttura' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'SchedinaNotifica' })).toBeVisible();
     await expect(page.locator('label[for=login]')).toHaveCSS('font-size','16px');
     await expect(page.locator('label[for=login]')).toHaveCSS('font-weight','400');
     await expect(page.locator('label[for=\"password-input\"]')).toHaveCSS('font-weight','400');
@@ -49,7 +49,7 @@ for (const width of [1440, 768, 390, 320]) {
     await page.getByRole('link', { name: 'Realizzato da Jorge Omar Luccitelli', exact: true }).focus();
     await page.locator('.footer-bottom').scrollIntoViewIfNeeded();
     await expect(whatsapp).toBeVisible();
-    await expect(whatsapp.locator('svg')).toHaveCSS('width','34px');
+    await expect(whatsapp.locator('svg')).toHaveCSS('width','28px');
     await page.getByRole('link', { name: 'Password dimenticata?' }).click();
     await expect(page).toHaveURL(`${BASE_URL}/password/reset`);
     await page.goto(`${BASE_URL}/login`);

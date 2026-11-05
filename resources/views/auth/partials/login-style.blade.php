@@ -100,5 +100,27 @@
 @media(max-width:480px) { .sn-login .footer-grid { grid-template-columns:1fr; } }
 @media(max-width:360px) { .sn-login .site-footer { margin-inline:-12px; padding-inline:12px; } }
 
+
+/* Presentazione SchedinaNotifica coerente con Prezzi, CRM e Booking. */
+.sn-login { --sn-brand:#78170c; --sn-ink:#302b28; --sn-muted:#625750; background:#fffdfb; }
+.sn-login .sn-login-main { border-radius:14px; border-color:#e2d5c6; box-shadow:0 18px 60px #6339270c; }
+.sn-login .sn-login-story { background:#f7f1e9; align-items:center; }
+.sn-login .sn-login-story > img { object-position:70% center; }
+.sn-login .sn-login-story::before { background:linear-gradient(90deg,#fffffff2,#ffffffdf 38%,#ffffff77 72%,#ffffff20); }
+.sn-login .sn-login-story-copy,.sn-login .sn-login-story-copy > p { color:#51453c; }
+.sn-login .sn-login-story h2 { color:var(--sn-brand); font-size:clamp(2.4rem,3.4vw,3.4rem); font-weight:400; line-height:1.14; letter-spacing:-.04em; }
+.sn-login .sn-login-story .sn-login-eyebrow { color:var(--sn-brand); font-weight:400; }
+.sn-login .sn-login-panel { background:#fffdfb; }
+.sn-login h1 { font-weight:400; }
+.sn-login .sn-login-submit { font-weight:400; border-radius:7px; }
+.sn-login .form-control { border-color:#b8aa9e; border-radius:7px; }
+.sn-login .sn-login-help { background:#faf5ef; padding:20px; border:1px solid #e4dcd5; border-radius:9px; }
+.sn-login .sn-login-story .sn-login-heart { color:#78170c; }
+.sn-login .site-footer { padding-inline:0; }
+@media(max-width:760px) { .sn-login .sn-login-story { min-height:340px; padding:30px; } .sn-login .sn-login-story::before { background:linear-gradient(90deg,#fffffff5,#ffffffe8 60%,#ffffff8c); } .sn-login .sn-login-story h2 { font-size:2.25rem; } }
 </style>
+@endpush
+
+@push('css')
+<link rel="stylesheet" href="{{ asset('site-assets/tanggo-family-ui.css') }}?v=20261105-2">
 @endpush
