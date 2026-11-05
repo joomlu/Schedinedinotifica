@@ -111,7 +111,7 @@ test('tour completo, immagini originali e percorsi commerciali', async ({ page }
   await page.goto(`${BASE_URL}/`);
   await page.locator('#site-nav').getByRole('link', { name: 'Funzionalità', exact: true }).click(); await expect(page).toHaveURL(`${BASE_URL}/moduli`);
   await page.locator('#site-nav').getByRole('link', { name: 'Prezzi', exact: true }).click(); await expect(page).toHaveURL(`${BASE_URL}/prezzi`);
-  await page.locator('#site-nav').getByRole('link', { name: 'Accedi al gestionale', exact: true }).click(); await expect(page).toHaveURL(`${BASE_URL}/login`);
+  await page.locator('.header-access').click(); await expect(page).toHaveURL(`${BASE_URL}/login`);
 });
 
 test('errore server conserva scelte e consente richiesta minima con solo telefono', async ({ page }) => {
