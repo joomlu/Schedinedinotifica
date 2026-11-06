@@ -1,0 +1,13 @@
+/* Fasce comuni Tanggo, adattate dal sito istituzionale. */
+.site-footer.tanggo-compact { padding:28px 0 0; border-top:1px solid #d9c8bc; }
+.tanggo-compact .footer-grid { padding-top:0; padding-bottom:20px; row-gap:16px; }
+.tanggo-compact .footer-grid h2 { font-size:13px; margin-bottom:7px; }
+.tanggo-compact .footer-grid p { margin-block:5px; }
+.tanggo-compact .footer-grid a { margin-block:0; }
+.tanggo-compact .tanggo-band { border-top:1px solid #dfd4c9; }
+.tanggo-compact .tanggo-row { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:6px 18px; padding-block:9px; }
+.tanggo-compact .tanggo-row nav { display:flex; align-items:center; flex-wrap:wrap; gap:5px 12px; }
+.tanggo-compact .tanggo-row h2 { font-size:13px; margin:0; color:inherit; }
+.tanggo-compact .tanggo-row a, .tanggo-compact .tanggo-row button { font-size:13px; color:inherit; }
+.tanggo-compact .tanggo-row button { font-family:inherit; background:transparent; border:0; padding:0; text-decoration:underline; cursor:pointer; }
+.tanggo-compact .tanggo-row.tanggo-credit { flex-wrap:nowrap; white-space:nowrap; overflow-x:auto; font-size:12px; scrollbar-width:thin; }
