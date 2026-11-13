@@ -124,3 +124,7 @@
 @push('css')
 <link rel="stylesheet" href="{{ asset('site-assets/tanggo-family-ui.css') }}?v=20261105-2">
 @endpush
+
+@push('css')
+<link rel="stylesheet" href="{{ asset('site-assets/tanggo-footer.css') }}?v=20261113">
+@endpush

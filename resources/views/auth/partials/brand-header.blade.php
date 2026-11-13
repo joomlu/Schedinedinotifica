@@ -1,7 +1,1 @@
-<div class="text-center mt-sm-5 mb-4 text-white-50">
-    <div>
-        <a href="{{ route('login') }}" class="d-inline-block auth-logo">
-            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="70" height="70" style="object-fit: contain;">
-        </a>
-    </div>
-</div>
+<div class="text-center mt-sm-5 mb-4"><a class="brand" href="{{ route('login') }}"><img src="{{ asset('site-assets/img/logo-tanggo-112.webp') }}" width="56" height="56" alt=""><span><strong>Tanggo Software</strong><small>SchedinaNotifica</small></span></a></div>

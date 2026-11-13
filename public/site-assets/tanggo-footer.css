@@ -11,3 +11,15 @@
 .tanggo-compact .tanggo-row a, .tanggo-compact .tanggo-row button { font-size:13px; color:inherit; }
 .tanggo-compact .tanggo-row button { font-family:inherit; background:transparent; border:0; padding:0; text-decoration:underline; cursor:pointer; }
 .tanggo-compact .tanggo-row.tanggo-credit { flex-wrap:nowrap; white-space:nowrap; overflow-x:auto; font-size:12px; scrollbar-width:thin; }
+
+/* Stesse fasce e proporzioni anche sotto il modulo di accesso. */
+.sn-login .site-footer.tanggo-compact { padding: 28px 0 0; border-top-color: #d9c8bc; }
+.sn-login .tanggo-compact .footer-grid { padding: 0 0 20px; row-gap: 16px; }
+.sn-login .tanggo-compact .footer-grid h2 { font-size: 13px; margin-bottom: 7px; }
+.sn-login .tanggo-compact .footer-grid p { margin-block: 5px; }
+.sn-login .tanggo-compact .footer-grid > div > a:not(.brand) { margin-block: 0; }
+.sn-login .tanggo-compact .tanggo-credit > a { color: #514944; }
+
+.sn-login .site-footer .container { max-width: 1240px; padding-inline: 0; }
+.sn-login .tanggo-compact .tanggo-row { margin-block: 0; }
+.sn-login .tanggo-compact .tanggo-credit { line-height: 1.6; }

@@ -37,22 +37,7 @@
         <div class="navbar-header">
             <div class="d-flex align-items-center">
                 <div class="navbar-brand-box horizontal-logo">
-                    <a href="{{ route('root') }}" class="logo logo-dark">
-                        <span class="logo-sm">
-                            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="40" height="40" style="object-fit: contain;">
-                        </span>
-                        <span class="logo-lg">
-                            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="70" height="70" style="object-fit: contain;">
-                        </span>
-                    </a>
-                    <a href="{{ route('root') }}" class="logo logo-light">
-                        <span class="logo-sm">
-                            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="40" height="40" style="object-fit: contain;">
-                        </span>
-                        <span class="logo-lg">
-                            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="70" height="70" style="object-fit: contain;">
-                        </span>
-                    </a>
+                    <x-ui.platform-brand />
                 </div>
 
                 <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon" aria-label="Mostra o nascondi menu" aria-controls="navbar-nav">
@@ -243,22 +228,7 @@
         <div class="navbar-header">
             <div class="d-flex align-items-center">
                 <div class="navbar-brand-box horizontal-logo">
-                    <a href="{{ route('root') }}" class="logo logo-dark">
-                        <span class="logo-sm">
-                            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="40" height="40" style="object-fit: contain;">
-                        </span>
-                        <span class="logo-lg">
-                            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="70" height="70" style="object-fit: contain;">
-                        </span>
-                    </a>
-                    <a href="{{ route('root') }}" class="logo logo-light">
-                        <span class="logo-sm">
-                            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="40" height="40" style="object-fit: contain;">
-                        </span>
-                        <span class="logo-lg">
-                            <img src="{{ asset('images/tango.png') }}" alt="Tango" width="70" height="70" style="object-fit: contain;">
-                        </span>
-                    </a>
+                    <x-ui.platform-brand />
                 </div>
             </div>
             <div class="d-flex align-items-center">

@@ -8,7 +8,7 @@
     <meta content="Gestionale per strutture ricettive" name="description" />
     <meta content="Tango" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('images/tango.png') }}">
+    <link rel="shortcut icon" href="{{ asset('site-assets/img/logo-tanggo-112.webp') }}">
         @include('layouts.head-css')
   </head>
 

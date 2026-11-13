@@ -19,22 +19,7 @@
 @endphp
 <div class="app-menu navbar-menu">
     <div class="navbar-brand-box">
-        <a href="{{ route('root') }}" class="logo logo-dark">
-            <span class="logo-sm">
-                <img src="{{ asset('images/tango.png') }}" alt="Tango" width="40" height="40" style="object-fit: contain;">
-            </span>
-            <span class="logo-lg">
-                <img src="{{ asset('images/tango.png') }}" alt="Tango" width="70" height="70" style="object-fit: contain;">
-            </span>
-        </a>
-        <a href="{{ route('root') }}" class="logo logo-light">
-            <span class="logo-sm">
-                <img src="{{ asset('images/tango.png') }}" alt="Tango" width="40" height="40" style="object-fit: contain;">
-            </span>
-            <span class="logo-lg">
-                <img src="{{ asset('images/tango.png') }}" alt="Tango" width="70" height="70" style="object-fit: contain;">
-            </span>
-        </a>
+        <x-ui.platform-brand />
     </div>
 
     <div id="scrollbar" tabindex="0" aria-label="Navigazione principale scorrevole">

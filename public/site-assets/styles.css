@@ -1125,3 +1125,19 @@ h1,h2,h3 { font-weight:400; letter-spacing:-.035em; }
 .family-contact-hero .page-hero-figure figcaption { position:absolute; bottom:20px; right:max(48px,calc((100vw - 1240px)/2)); z-index:2; max-width:360px; padding:10px 16px; color:#514944; background:#fffffff2; border-radius:6px; font-size:.78rem; font-weight:400; }
 @media(max-width:850px) { .family-contact-hero::after { background:linear-gradient(90deg,#fffffff5,#ffffffe8 55%,#ffffff8c); } }
 @media(max-width:600px) { .family-contact-hero,.family-contact-hero > .container { min-height:650px; } .family-contact-hero > .container { padding-block:40px 105px; } .family-contact-hero h1 { font-size:2.6rem; } .family-contact-hero .lead { font-size:1rem; } .family-contact-hero .page-hero-figure figcaption { bottom:22px; right:18px; max-width:calc(100% - 36px); } }
+
+/* La fotografia di accoglienza ha una colonna propria, libera da sovrapposizioni. */
+.home-product-story .hero-stage .hero-photo { background: linear-gradient(110deg, #fff, #f7f3ef); }
+.home-product-story .hero-stage .hero { align-items: center; min-height: 0; }
+.home-software-preview { padding-block: clamp(32px, 5vw, 64px); }
+.hero-reception { display: block; width: 100%; height: auto; border-radius: 14px; }
+.home-product-story .home-software-preview .hero-visual-stack {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+}
+@media (max-width: 600px) {
+    .home-product-story .home-software-preview .hero-visual-stack { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 950px) {
+    .home-product-story .hero-stage .hero { grid-template-columns: minmax(0, 1fr); }
+}

@@ -4,3 +4,9 @@ a.brand,a.sn-login-brand,a.platform-brand{font-family:Arial,Helvetica,sans-serif
 @media(max-width:380px){a.brand,a.sn-login-brand{gap:8px}a.brand img,a.sn-login-brand img{width:38px!important;height:38px!important}a.brand strong,a.sn-login-brand strong{font-size:14px!important}}
 
 .navbar-brand-box a.platform-brand{display:block!important}
+
+/* Nei menu compatti resta il solo simbolo. */
+:is([data-sidebar-size="sm"], [data-sidebar-size="sm-hover"]) .navbar-brand-box a.platform-brand .logo-lg { display: none; }
+:is([data-sidebar-size="sm"], [data-sidebar-size="sm-hover"]) .navbar-brand-box a.platform-brand .logo-sm { display: inline-block; }
+[data-sidebar="dark"] .app-menu a.platform-brand .platform-brand-text,
+[data-sidebar="dark"] .app-menu a.platform-brand .platform-brand-text small { color: #fff !important; }

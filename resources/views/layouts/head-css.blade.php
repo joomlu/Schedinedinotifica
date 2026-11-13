@@ -66,3 +66,5 @@
         font-size: 0.9rem;
     }
 </style>
+
+<link rel="stylesheet" href="{{ asset('site-assets/tanggo-brand.css') }}?v=2">
