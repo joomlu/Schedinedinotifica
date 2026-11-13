@@ -15,7 +15,8 @@ class LoginPresentationTest extends TestCase
     public function test_accesso_presenta_identita_link_e_contratto_del_modulo(): void
     {
         $this->get('/login')->assertOk()
-            ->assertSee('Accedi a SchedinaNotifica')->assertSee('Accesso struttura')
+            ->assertSee('Accedi a SchedinaNotifica')->assertSee('La tua area di lavoro')
+            ->assertSee('site-footer tanggo-compact')->assertSee('La famiglia Tanggo')
             ->assertSee('site-assets/img/logo-tanggo-112.webp')->assertSee('site-assets/img/foto-reception.webp')
             ->assertSee('name="_token"', false)->assertSee('name="login"', false)
             ->assertSee('name="password"', false)->assertSee('autocomplete="username"', false)
