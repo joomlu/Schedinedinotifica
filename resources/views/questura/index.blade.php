@@ -35,16 +35,16 @@
             <div class="text-muted">Da qui puoi scaricare il file ufficiale TXT da caricare manualmente sul portale nazionale Alloggiati Web oppure usare l'invio diretto elettronico del medesimo contenuto.</div>
         </div>
         <div class="text-md-end">
-            @if(!config('questura.enabled'))
-                <span class="badge bg-warning-subtle text-warning">Canale Questura disabilitato</span>
-                <div class="small text-muted mt-1">Nuove generazioni, Test, invii e finalizzazioni sono bloccati. Anteprime e archivi disponibili restano consultabili.</div>
+            @if(!$questuraWsEnabled)
+                <span class="badge bg-warning-subtle text-warning">{{ $questuraTxtEnabled ? 'Solo TXT' : 'Canale Questura disabilitato' }}</span>
+                <div class="small text-muted mt-1">{{ $questuraTxtEnabled ? 'Scarica il TXT e caricalo su Alloggiati Web.' : 'Nuove generazioni, Test, invii e finalizzazioni sono bloccati. Anteprime e archivi disponibili restano consultabili.' }}</div>
             @elseif(!empty($credStatus['blocked']))
                 <span class="badge bg-warning-subtle text-warning">Invio diretto non disponibile</span>
             @elseif(!empty($credStatus['simulation']))
                 <span class="badge bg-info-subtle text-info">Modalità prova invio attiva</span>
                 <div class="small text-muted mt-1">Prova interna: nessun invio esterno e nessuna ricevuta ufficiale simulata.</div>
             @elseif($credStatus['configured'])
-                <span class="badge bg-success-subtle text-success">Invio diretto configurato</span>
+                <span class="badge bg-success-subtle text-success">{{ $struttura->questura_modalita === 'automatico' ? 'Invio automatico alle 23:00' : 'Invio diretto configurato' }}</span>
             @else
                 <span class="badge bg-warning-subtle text-warning">Invio diretto non completo</span>
                 <div class="small text-muted mt-1">Manca: {{ implode(', ', $credStatus['missing']) }}</div>
@@ -52,6 +52,9 @@
         </div>
     </div>
     <div class="card-body">
+        @if($avvisoAutomatico)
+            <div class="alert alert-warning" role="alert">{{ $avvisoAutomatico }}</div>
+        @endif
         <div class="card border-0 bg-light-subtle mb-3">
             <div class="card-header border-0 py-2 d-flex align-items-center">
                 <i class="ri-shield-check-line me-2 text-primary"></i>
@@ -77,7 +80,7 @@
                     </div>
                     <div class="col-xl-2 col-md-6">
                         <div class="text-muted">Modalità</div>
-                        <div class="{{ !empty($credStatus['simulation']) ? 'text-info' : 'text-body' }}">{{ !empty($credStatus['blocked']) ? 'Non disponibile' : (!empty($credStatus['simulation']) ? 'Simulazione attiva' : 'Invio reale') }}</div>
+                        <div class="{{ !empty($credStatus['simulation']) ? 'text-info' : 'text-body' }}">{{ !empty($credStatus['blocked']) ? 'Non disponibile' : (!$questuraWsEnabled ? 'Solo TXT' : (!empty($credStatus['simulation']) ? 'Simulazione attiva' : 'Invio reale')) }}</div>
                     </div>
                 </div>
                 <div class="small text-muted mt-2">
@@ -243,9 +246,20 @@
                                         <form method="POST" action="{{ route('questura.download.schedina', ['id' => $schedina->id]) }}">
                                             @csrf
                                             <input type="hidden" name="preview_hash" value="{{ $item['preview_hash'] }}">
-                                            <button type="submit" class="btn btn-soft-success" title="Scarica TXT" @disabled(!config('questura.enabled'))>
+                                            <button type="submit" class="btn btn-soft-success" title="Scarica TXT" @disabled(!$questuraTxtEnabled)>
                                             <i class="ri-download-2-line fs-16 align-middle"></i>
                                         </button></form>
+                                        @if($questuraWsEnabled && empty($credStatus['blocked']) && $credStatus['configured'] && !$item['gia_trasmessa'])
+                                            <form method="POST" class="mt-1" action="{{ route('questura.ws.send.schedina', ['id' => $schedina->id]) }}"
+                                                data-confirm-kind="questura-send-singola" data-confirm-title="Invia questa schedina"
+                                                data-confirm-text="Verificare e trasmettere questa singola schedina ad Alloggiati Web?"
+                                                data-confirm-button="Sì, invia" data-done-title="Invio confermato"
+                                                data-done-text="Premi OK per verificare e trasmettere la schedina.">
+                                                @csrf
+                                                <input type="hidden" name="preview_hash" value="{{ $item['preview_hash'] }}">
+                                                <button type="submit" class="btn btn-sm btn-soft-primary">Invia questa schedina</button>
+                                            </form>
+                                        @endif
                                     @else
                                         <a href="{{ route('schedina.edit', ['id' => $schedina->id]) }}" class="btn btn-soft-warning" title="Correggi schedina">
                                             <i class="ri-edit-line fs-16 align-middle"></i>
@@ -291,26 +305,26 @@
                             <form method="POST" action="{{ route('questura.download.periodo', ['dal' => $dal->format('Y-m-d'), 'al' => $al->format('Y-m-d')]) }}">
                                 @csrf
                                 <input type="hidden" name="preview_hash" value="{{ $preview_hash }}">
-                                <button type="submit" class="btn btn-success" @disabled(!config('questura.enabled') || $preview_txt === null)>
+                                <button type="submit" class="btn btn-success" @disabled(!$questuraTxtEnabled || $preview_txt === null)>
                                 Scarica TXT Questura
                             </button></form>
                             <form method="POST" action="{{ route('questura.ws.tables') }}" class="d-inline">
                                 @csrf
-                                <button type="submit" class="btn btn-soft-secondary" @disabled(!config('questura.enabled'))>Archivia tabelle di riferimento</button>
+                                <button type="submit" class="btn btn-soft-secondary" @disabled(!$questuraTxtEnabled)>Archivia tabelle di riferimento</button>
                             </form>
                             <form method="POST" action="{{ route('questura.ws.verify') }}" class="d-inline" data-confirm-kind="questura-verify">
                                 @csrf
                                 <input type="hidden" name="dal" value="{{ $dal->format('Y-m-d') }}">
                                 <input type="hidden" name="al" value="{{ $al->format('Y-m-d') }}">
                                 <input type="hidden" name="preview_hash" value="{{ $preview_hash }}">
-                                <button type="submit" class="btn btn-info text-white" @disabled(!config('questura.enabled') || !empty($credStatus['blocked']) || $preview_txt === null)>Verifica invio diretto</button>
+                                <button type="submit" class="btn btn-info text-white" @disabled(!$questuraWsEnabled || !empty($credStatus['blocked']) || $preview_txt === null)>Verifica invio diretto</button>
                             </form>
                             <form method="POST" action="{{ route('questura.ws.send') }}" class="d-inline" data-confirm-kind="questura-send">
                                 @csrf
                                 <input type="hidden" name="dal" value="{{ $dal->format('Y-m-d') }}">
                                 <input type="hidden" name="al" value="{{ $al->format('Y-m-d') }}">
                                 <input type="hidden" name="preview_hash" value="{{ $preview_hash }}">
-                                <button type="submit" class="btn btn-primary" @disabled(!config('questura.enabled') || !empty($credStatus['blocked']) || $preview_txt === null)>Invia direttamente</button>
+                                <button type="submit" class="btn btn-primary" @disabled(!$questuraWsEnabled || !empty($credStatus['blocked']) || $preview_txt === null)>Invia direttamente</button>
                             </form>
                         </div>
                     </div>
@@ -352,7 +366,7 @@
                                                         <label class="small">Data comunicazione manuale <input class="form-control" type="date" name="communication_date" required max="{{ today()->subDay()->toDateString() }}"></label>
                                                         <label class="small d-block"><input type="checkbox" name="communication_confirmed" value="1" required> Confermo che questo elenco esatto è stato comunicato e riconciliato per la giornata indicata.</label>
                                                         <div class="small text-muted">Il download non prova l'invio. Una ricevuta valida comporta la cancellazione delle copie Questura; le Schedine PMS restano disponibili.</div>
-                                                        <button type="submit" class="btn btn-soft-secondary" @disabled(!config('questura.enabled'))>Acquisisci ricevuta e finalizza TXT</button>
+                                                        <button type="submit" class="btn btn-soft-secondary" @disabled(!$questuraWsEnabled)>Acquisisci ricevuta e finalizza TXT</button>
                                                     </form>
                                                 @endif
                                             </div>
@@ -419,7 +433,7 @@
                                                 @if(!$tx->finalized_at && $tx->mode === 'send' && in_array($tx->status, ['sent', 'uncertain', 'partial', 'in_progress'], true))
                                                     <form method="POST" action="{{ route('questura.ws.receipt.acquire', ['id' => $tx->id]) }}">
                                                         @csrf
-                                                        <button class="btn btn-soft-secondary" type="submit" @disabled(!config('questura.enabled'))>Acquisisci ricevuta giornaliera</button>
+                                                        <button class="btn btn-soft-secondary" type="submit" @disabled(!$questuraWsEnabled)>Acquisisci ricevuta giornaliera</button>
                                                     </form>
                                                     <a href="{{ route('questura.ws.receipt', ['id' => $tx->id]) }}" class="btn btn-soft-secondary" title="Scarica ricevuta archiviata">
                                                         <i class="ri-file-pdf-line fs-16 align-middle"></i>
@@ -428,7 +442,7 @@
                                                         <form method="POST" action="{{ route('questura.ws.finalize', ['id' => $tx->id]) }}">
                                                             @csrf
                                                             <label class="small d-block"><input type="checkbox" name="reconciled" value="1" required> Ho riconciliato l'intero elenco con la comunicazione della giornata. La sola ricevuta giornaliera non prova ogni riga.</label>
-                                                            <button class="btn btn-soft-secondary" type="submit" @disabled(!config('questura.enabled'))>Finalizza dopo riconciliazione</button>
+                                                            <button class="btn btn-soft-secondary" type="submit" @disabled(!$questuraTxtEnabled)>Finalizza dopo riconciliazione</button>
                                                         </form>
                                                     @endif
                                                 @endif

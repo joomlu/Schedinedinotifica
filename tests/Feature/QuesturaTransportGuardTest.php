@@ -163,7 +163,7 @@ class QuesturaTransportGuardTest extends TestCase
             $data = ['dal' => today()->toDateString(), 'al' => today()->toDateString(), 'communication_date' => today()->subDay()->toDateString(), 'communication_confirmed' => true];
             $response = $json ? $this->postJson($path, $data) : $this->post($path, $data);
             if ($json) {
-                $response->assertStatus(409)->assertExactJson(['message' => 'Trasporto Questura globalmente disabilitato.']);
+                $response->assertStatus(409)->assertExactJson(['message' => 'Web Service Questura disabilitato per la struttura.']);
             } else {
                 $response->assertRedirect()->assertSessionHasErrors('questura_ws');
             }
@@ -265,7 +265,7 @@ class QuesturaTransportGuardTest extends TestCase
         }
         $this->assertSame(0, $retention->calls, 'OFF: retention invocata='.$retention->calls.', TXT presente='.(int) $disk->exists($path).', payload eliminato='.(int) ($tx->fresh()->payload === null).', eventi='.DB::table('questura_transmission_events')->count());
         if ($json) {
-            $response->assertStatus(409)->assertExactJson(['message' => 'Trasporto Questura globalmente disabilitato.']);
+            $response->assertStatus(409)->assertExactJson(['message' => 'Web Service Questura disabilitato per la struttura.']);
         } else {
             $response->assertRedirect()->assertSessionHasErrors('questura_ws');
         }
@@ -359,7 +359,7 @@ class QuesturaTransportGuardTest extends TestCase
         }
         $this->assertSame(0, $builder->generated, 'OFF: payload generati='.$builder->generated.', export='.DB::table('questura_exports')->count().', TXT='.count($disk->allFiles('questura')).', contatore Schedina='.(int) $source->fresh()->questura_export_count);
         if ($json) {
-            $response->assertStatus(409)->assertExactJson(['message' => 'Trasporto Questura globalmente disabilitato.']);
+            $response->assertStatus(409)->assertExactJson(['message' => 'Web Service Questura disabilitato per la struttura.']);
         } else {
             $response->assertRedirect()->assertSessionHasErrors('questura_ws');
         }

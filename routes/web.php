@@ -513,6 +513,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/questura/ws/payload/{id}', [QuesturaExportController::class, 'downloadPayload'])->name('questura.ws.payload');
     Route::post('/questura/ws/tables', [QuesturaExportController::class, 'downloadOfficialTables'])->name('questura.ws.tables');
     Route::post('/questura/ws/verify', [QuesturaExportController::class, 'verifyPeriodo'])->name('questura.ws.verify');
+    Route::post('/questura/ws/send/{id}', [QuesturaExportController::class, 'sendSchedina'])->whereNumber('id')->name('questura.ws.send.schedina');
     Route::post('/questura/ws/send', [QuesturaExportController::class, 'sendPeriodo'])->name('questura.ws.send');
     Route::post('/questura/ws/receipt/{id}', [QuesturaExportController::class, 'acquireReceipt'])->name('questura.ws.receipt.acquire');
     Route::get('/questura/ws/receipt/{id}', [QuesturaExportController::class, 'downloadReceipt'])->name('questura.ws.receipt');

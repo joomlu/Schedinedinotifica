@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Services\EsitoTrasmissioneQuestura;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -42,7 +43,10 @@ class QuesturaExportController extends Controller
         $q = trim((string) $request->query('q', ''));
         $filtro = (string) $request->query('filtro', 'tutte');
         $schedine = $this->service->schedinePerPeriodo($struttura->id, $dal, $al);
-        $completa = $this->service->analizzaSchedine($schedine)->map(function (array $item) {
+        $riservate = DB::table('questura_send_reservations')->where('struttura_id', $struttura->id)
+            ->where('transport_mode', 'live')->whereIn('schedina_id', $schedine->pluck('id'))->pluck('schedina_id')->flip();
+        $completa = $this->service->analizzaSchedine($schedine)->map(function (array $item) use ($riservate) {
+            $item['gia_trasmessa'] = $riservate->has($item['schedina']->id) || $item['schedina']->questura_send_count > 0;
             $item['preview_hash'] = $item['valida'] ? hash('sha256', implode("\r\n", $item['righe'])) : null;
             return $item;
         });
@@ -119,13 +123,24 @@ class QuesturaExportController extends Controller
             $credStatus = ['configured' => false, 'simulation' => false, 'missing' => [], 'blocked' => true];
         }
 
+        $avviso = Cache::get('questura:avviso-serale:'.$struttura->id);
+        $avvisoAutomatico = $avviso
+            ? 'Invio automatico del '.$avviso['giorno'].': '.$avviso['schedine'].' schedine da verificare. Controlla i dati, le esportazioni TXT e lo storico prima di ripetere un invio.'
+            : null;
+        if ($avviso['errore'] ?? false) {
+            $avvisoAutomatico .= ' Elaborazione incompleta.';
+        }
+
         return response()->view('questura.index', [
+            'avvisoAutomatico' => $avvisoAutomatico,
             'preview_txt' => $previewTxt,
             'preview_hash' => $previewTxt !== null ? hash('sha256', $previewTxt) : null,
             'preview_error' => $previewError,
             'preview_righe' => $completa->sum(fn (array $item) => count($item['righe'])),
             'struttura' => $struttura,
             'credStatus' => $credStatus,
+            'questuraWsEnabled' => $this->webService->transportEnabled($struttura),
+            'questuraTxtEnabled' => $this->webService->txtEnabled(),
             'questuraError' => $questuraError,
             'dal' => $dal,
             'al' => $al,
@@ -149,7 +164,7 @@ class QuesturaExportController extends Controller
             return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
         }
 
-        if ($blocked = $this->blockedTransportResponse($request)) {
+        if (!$this->webService->txtEnabled() && ($blocked = $this->blockedTransportResponse($request, $struttura))) {
             return $blocked;
         }
 
@@ -185,7 +200,7 @@ class QuesturaExportController extends Controller
             return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
         }
 
-        if ($blocked = $this->blockedTransportResponse($request)) {
+        if (!$this->webService->txtEnabled() && ($blocked = $this->blockedTransportResponse($request, $struttura))) {
             return $blocked;
         }
 
@@ -229,7 +244,7 @@ class QuesturaExportController extends Controller
     public function downloadOfficialTables(Request $request)
     {
         $struttura = $this->resolveStruttura($request);
-        if ($blocked = $this->blockedTransportResponse($request)) {
+        if (!$this->webService->txtEnabled() && ($blocked = $this->blockedTransportResponse($request, $struttura))) {
             return $blocked;
         }
         $path = 'questura/tabelle/struttura_'.$struttura->id.'/'.now()->format('Ymd_His').'_'.\Illuminate\Support\Str::uuid();
@@ -246,6 +261,11 @@ class QuesturaExportController extends Controller
     public function sendPeriodo(Request $request)
     {
         return $this->runWsAction($request, 'send');
+    }
+
+    public function sendSchedina(Request $request, int $id)
+    {
+        return $this->runWsAction($request, 'send', $id);
     }
 
     public function downloadStorico(Request $request, int $id)
@@ -294,7 +314,7 @@ class QuesturaExportController extends Controller
         $struttura = $this->resolveStruttura($request);
         $transmission = QuesturaTransmission::where('struttura_id', $struttura->id)->findOrFail($id);
         abort_unless($transmission->mode === 'send' && in_array($transmission->status, ['sent', 'uncertain', 'partial', 'in_progress'], true), 409);
-        if ($blocked = $this->blockedTransportResponse($request)) {
+        if ($blocked = $this->blockedTransportResponse($request, $struttura)) {
             return $blocked;
         }
         $date = $transmission->executed_at->copy()->startOfDay();
@@ -316,7 +336,7 @@ class QuesturaExportController extends Controller
     {
         $struttura = $this->resolveStruttura($request);
         $export = QuesturaExport::where('struttura_id', $struttura->id)->findOrFail($id);
-        if ($blocked = $this->blockedTransportResponse($request)) {
+        if ($blocked = $this->blockedTransportResponse($request, $struttura)) {
             return $blocked;
         }
         $data = $request->validate(['communication_date' => 'required|date_format:Y-m-d|before:today', 'communication_confirmed' => 'required|accepted']);
@@ -339,7 +359,7 @@ class QuesturaExportController extends Controller
     {
         $struttura = $this->resolveStruttura($request);
         $tx = QuesturaTransmission::where('struttura_id', $struttura->id)->findOrFail($id);
-        if ($blocked = $this->blockedTransportResponse($request)) {
+        if (!$this->webService->txtEnabled() && ($blocked = $this->blockedTransportResponse($request, $struttura))) {
             return $blocked;
         }
         $request->validate(['reconciled' => 'required|accepted']);
@@ -357,10 +377,10 @@ class QuesturaExportController extends Controller
         return response(Storage::disk('local')->get($receipt->path), 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="'.$receipt->filename.'"', 'X-Content-Type-Options' => 'nosniff', 'Cache-Control' => 'private, no-store']);
     }
 
-    private function blockedTransportResponse(Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse|null
+    private function blockedTransportResponse(Request $request, Struttura $struttura): \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse|null
     {
         try {
-            $this->webService->assertTransportEnabled();
+            $this->webService->assertTransportEnabled($struttura);
         } catch (QuesturaTransportDisabledException) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => QuesturaTransportDisabledException::MESSAGE], 409);
@@ -373,14 +393,14 @@ class QuesturaExportController extends Controller
         return null;
     }
 
-    private function runWsAction(Request $request, string $mode)
+    private function runWsAction(Request $request, string $mode, ?int $id = null)
     {
         $struttura = $this->resolveStruttura($request);
         if (!$struttura) {
             return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
         }
 
-        if ($blocked = $this->blockedTransportResponse($request)) {
+        if ($blocked = $this->blockedTransportResponse($request, $struttura)) {
             return $blocked;
         }
 
@@ -392,101 +412,31 @@ class QuesturaExportController extends Controller
         }
 
         try {
-            $questuraContext = app(\App\Services\QuesturaProfilo::class)->context($struttura);
-            [$dal, $al, $txt, $analisi] = $this->buildPeriodoTxt($struttura->id, $request);
+            if ($id === null) {
+                [$dal, $al, $txt, $analisi] = $this->buildPeriodoTxt($struttura->id, $request);
+            } else {
+                $schedina = Schedina::query()->effettive()->where('struttura_id', $struttura->id)
+                    ->where('circuito', 'schedina')->findOrFail($id);
+                $dal = $al = Carbon::parse($schedina->arrive)->startOfDay();
+                $analisi = $this->service->analizzaSchedine(
+                    collect([$this->service->schedinaDelGiorno($struttura->id, $dal, $id)])->filter()
+                );
+                $txt = $this->service->buildTxt($analisi);
+            }
             $this->assertPreview($request, $txt);
         } catch (ValidationException $e) {
             [$dal, $al] = $this->resolvePeriodo($request);
             return redirect()->route('questura.index', ['dal' => $dal->format('Y-m-d'), 'al' => $al->format('Y-m-d')])->withErrors($e->errors());
         }
 
-        $schedinaIds = $analisi->pluck('schedina.id')->filter()->values()->all();
-        $filename = $this->service->filename($dal, $al);
-        $payload = [
-            'dal' => $dal->toDateString(),
-            'al' => $al->toDateString(),
-            'filename' => $filename,
-            'schedina_ids' => $schedinaIds,
-            'txt_base64' => base64_encode($txt),
-            'transport_mode' => $credStatus['simulation'] ? 'simulation' : 'live',
-            'questura_context' => $questuraContext,
-            'sha256' => hash('sha256', $txt),
-            'byte_size' => strlen($txt),
-            'charset' => 'UTF-8',
-            'component_ids' => $analisi->pluck('schedina')->flatMap(fn ($s) => $s->componenti->pluck('id'))->values()->all(),
-        ];
-
-        $result = EsitoTrasmissioneQuestura::crea('in_progress', $mode === 'send' ? 'send' : 'test');
-
         try {
-            $transmission = DB::transaction(function () use ($struttura, $request, $mode, $dal, $al, $schedinaIds, $txt, $payload, $result) {
-                if ($mode === 'send') {
-                    $this->requireVerifiedPayload($struttura->id, $dal, $al, $txt, $payload);
-                }
-                if ($mode === 'send' && $payload['transport_mode'] === 'live') {
-                    // Gli archivi precedenti senza identità non diventano reinviabili
-                    // dopo la migration, neppure se il payload è già minimizzato.
-                    if (QuesturaTransmission::where('struttura_id', $struttura->id)
-                        ->where('mode', 'send')->whereNull('identity_reserved_at')
-                        ->where(fn ($q) => $q->whereNull('status')->orWhere('status', '!=', 'simulation'))->exists()) {
-                        throw ValidationException::withMessages(['questura_ws' => 'Invii precedenti senza riserva delle Schedine: occorre riconciliare lo storico prima di un nuovo Send.']);
-                    }
-                }
-                $transmission = $this->storeTransmission(
-                    strutturaId: $struttura->id,
-                    userId: $request->user()?->id,
-                    exportId: null,
-                    mode: $mode,
-                    dal: $dal,
-                    al: $al,
-                    schedinaIds: $schedinaIds,
-                    righeCount: substr_count($txt, "\r\n") + ($txt !== '' ? 1 : 0),
-                    payload: $payload,
-                    result: $result,
-                    status: $result['state'],
-                    responseCode: $result['response_code'] ?? null,
-                    responseMessage: $result['message'] ?? null,
-                    responseDetail: $result['detail'] ?? null,
-                );
-
-                if ($mode === 'send') {
-                    $ids = array_values(array_unique($schedinaIds));
-                    sort($ids, SORT_NUMERIC);
-                    DB::table('questura_send_reservations')->insert(array_map(fn ($id) => [
-                        'struttura_id' => $struttura->id,
-                        'schedina_id' => $id,
-                        'transport_mode' => $payload['transport_mode'],
-                        'questura_transmission_id' => $transmission->id,
-                        'created_at' => now(),
-                    ], $ids));
-                }
-
-                DB::table('questura_transmission_events')->insert(['questura_transmission_id' => $transmission->id, 'status' => $result['state'], 'result' => json_encode($result), 'created_at' => now()]);
-                return $transmission;
-            });
-        } catch (\Illuminate\Database\UniqueConstraintViolationException) {
-            return redirect()->route('questura.index')->withErrors(['questura_ws' => 'Una Schedina o il payload sono già riservati per invio: verificare lo storico senza ripetere Send.']);
+            $trasmissioni = app(\App\Services\QuesturaTrasmissioni::class);
+            [$transmission, $result] = $id !== null
+                ? $trasmissioni->verificaEInvia($struttura, $request->user()?->id, $dal, $txt, $analisi)
+                : $trasmissioni->esegui($struttura, $request->user()?->id, $mode, $dal, $al, $txt, $analisi);
         } catch (ValidationException $e) {
             return redirect()->route('questura.index')->withErrors($e->errors());
         }
-        try {
-            $result = $mode === 'verify'
-                ? $this->webService->verify($struttura, $txt)
-                : $this->webService->send($struttura, $txt);
-        } catch (Throwable) {
-            $result = EsitoTrasmissioneQuestura::crea($mode === 'send' ? 'uncertain' : 'technical_error', $mode === 'send' ? 'send' : 'test');
-        }
-        $result = EsitoTrasmissioneQuestura::sanifica($result);
-        DB::transaction(function () use ($transmission, $result) {
-            $transmission->update(['status' => $result['state'], 'result' => $result, 'response_message' => $result['message']]);
-            DB::table('questura_transmission_events')->insert(['questura_transmission_id' => $transmission->id, 'status' => $result['state'], 'result' => json_encode($result), 'created_at' => now()]);
-            if ($transmission->mode === 'send' && ($result['transmission_excluded'] ?? false) === true) {
-                // Solo una prova positiva del trasporto escluso libera il retry.
-                // Crash prima di questo commit: resta in_progress e bloccato.
-                DB::table('questura_send_reservations')->where('questura_transmission_id', $transmission->id)->delete();
-                DB::table('questura_transmissions')->where('id', $transmission->id)->update(['send_key' => null]);
-            }
-        });
 
         // Il Test positivo qualifica il tracciato, senza attestare una comunicazione ufficiale.
         if ($mode === 'verify' && $result['state'] === 'unknown' && (int) $transmission->righe_count > 0
@@ -513,41 +463,6 @@ class QuesturaExportController extends Controller
         }
 
         return [$dal, $al, $txt, $analisi];
-    }
-
-    private function requireVerifiedPayload(int $strutturaId, Carbon $dal, Carbon $al, string $txt, array $payload): void
-    {
-        // La verifica più recente del contesto prevale anche se fallita o minimizzata.
-        // Nessun ID/hash fornito dal browser autorizza il trasporto.
-        $verify = QuesturaTransmission::where('struttura_id', $strutturaId)
-            ->where('mode', 'verify')->whereDate('dal', $dal)->whereDate('al', $al)
-            ->where('payload->transport_mode', $payload['transport_mode'])
-            ->latest('id')->lockForUpdate()->first();
-        $rows = substr_count($txt, "\r\n") + ($txt !== '' ? 1 : 0);
-        $positive = $verify && ($payload['transport_mode'] === 'simulation'
-            ? $verify->status === 'simulation'
-            : ($verify->status === 'unknown'
-                && ($verify->result['valid_rows'] ?? null) === $rows
-                && ($verify->result['row_errors'] ?? null) === []));
-        $bytes = $verify ? base64_decode($verify->payload['txt_base64'] ?? '', true) : false;
-        $verifiedContext = $verify?->questura_context ?? ['profilo' => 'standard'];
-        $currentContext = $payload['questura_context'];
-        // Un oggetto JSON può essere riletto con chiavi in ordine diverso.
-        // Normalizzare solo l'ordine conserva il confronto rigoroso di chiavi e valori.
-        ksort($verifiedContext);
-        ksort($currentContext);
-        if (!$positive || $verify->finalized_at || $verify->payload_deleted_at
-            || $verify->scope_type !== 'periodo'
-            || $verifiedContext !== $currentContext
-            || $verify->schedina_ids !== $payload['schedina_ids']
-            || $verify->component_ids !== $payload['component_ids']
-            || (int) $verify->righe_count !== $rows
-            || (int) $verify->byte_size !== strlen($txt)
-            || $verify->charset !== 'UTF-8'
-            || !is_string($verify->sha256) || !hash_equals($verify->sha256, $payload['sha256'])
-            || $bytes !== $txt) {
-            throw ValidationException::withMessages(['questura_ws' => 'WS Test positivo assente o non più valido per questo elenco: i dati possono essere cambiati dopo il test. Ripetere WS Test prima di Send.']);
-        }
     }
 
     private function assertPreview(Request $request, string $txt): void
@@ -628,52 +543,5 @@ class QuesturaExportController extends Controller
         }
     }
 
-    private function storeTransmission(
-        int $strutturaId,
-        ?int $userId,
-        ?int $exportId,
-        string $mode,
-        Carbon $dal,
-        Carbon $al,
-        array $schedinaIds,
-        int $righeCount,
-        array $payload,
-        array $result,
-        string $status,
-        ?string $responseCode = null,
-        ?string $responseMessage = null,
-        ?string $responseDetail = null,
-    ): QuesturaTransmission {
-        $result = EsitoTrasmissioneQuestura::sanifica($result);
-        $sourceIds = array_values(array_unique($schedinaIds));
-        sort($sourceIds, SORT_NUMERIC);
-        return QuesturaTransmission::query()->create([
-            'struttura_id' => $strutturaId,
-            'user_id' => $userId,
-            'questura_export_id' => $exportId,
-            'mode' => $mode,
-            'scope_type' => 'periodo',
-            'dal' => $dal->toDateString(),
-            'al' => $al->toDateString(),
-            'schedina_ids' => $schedinaIds,
-            'schedine_count' => count($schedinaIds),
-            'righe_count' => $righeCount,
-            'status' => $result['state'],
-            'response_code' => null,
-            'response_message' => $result['message'],
-            'response_detail' => null,
-            'payload' => $payload,
-            'questura_context' => $payload['questura_context'] ?? null,
-            'sha256' => $payload['sha256'] ?? null,
-            'byte_size' => $payload['byte_size'] ?? null,
-            'charset' => $payload['charset'] ?? null,
-            'component_ids' => $payload['component_ids'] ?? null,
-            // L'hash resta controllo dei byte; l'identità include le sorgenti PMS.
-            'send_key' => $mode === 'send' ? hash('sha256', ($payload['transport_mode'] ?? 'live') . ':' . $strutturaId . ':' . implode(',', $sourceIds) . ':' . ($payload['sha256'] ?? '')) : null,
-            'identity_reserved_at' => $mode === 'send' ? now() : null,
-            'result' => $result,
-            'executed_at' => now(),
-        ]);
-    }
 
 }

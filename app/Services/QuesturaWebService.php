@@ -28,7 +28,7 @@ class QuesturaWebService
 
     public function verify(Struttura $struttura, string $txt): array
     {
-        $this->assertTransportEnabled();
+        $this->assertTransportEnabled($struttura);
         try {
             $internal = $this->verifyInternal($struttura, $txt);
             $state = ($internal['simulated'] ?? false) === true ? 'simulation'
@@ -41,7 +41,7 @@ class QuesturaWebService
 
     public function send(Struttura $struttura, string $txt): array
     {
-        $this->assertTransportEnabled();
+        $this->assertTransportEnabled($struttura);
         try {
             $internal = $this->sendInternal($struttura, $txt);
             $state = ($internal['simulated'] ?? false) === true ? 'simulation'
@@ -140,7 +140,7 @@ class QuesturaWebService
 
     public function receipt(Struttura $struttura, Carbon $date): array
     {
-        $this->assertTransportEnabled();
+        $this->assertTransportEnabled($struttura);
         if ($this->isSimulation($struttura)) {
             return EsitoTrasmissioneQuestura::crea('unavailable', 'receipt');
         }
@@ -169,30 +169,42 @@ class QuesturaWebService
 
     public function downloadReferenceTables(Struttura $struttura): array
     {
-        $this->assertTransportEnabled();
+        $this->assertTransportEnabled($struttura);
         // No CSV persistence or catalog mutation until a validated artifact contract exists.
         return EsitoTrasmissioneQuestura::crea('unavailable', 'tables');
     }
 
-    public function assertTransportEnabled(): void
+    public function transportEnabled(Struttura $struttura): bool
     {
-        if (config('questura.enabled') !== true) {
+        if ($struttura->questura_modalita !== null) {
+            return in_array($struttura->questura_modalita, ['manuale', 'automatico'], true);
+        }
+
+        // Il flag storico mantiene le prove delle strutture legacy fuori produzione.
+        return !app()->environment('production') && config('questura.enabled') === true;
+    }
+
+    public function txtEnabled(): bool
+    {
+        return app()->environment('production') || config('questura.enabled') === true;
+    }
+
+    public function assertTransportEnabled(?Struttura $struttura = null): void
+    {
+        if ($struttura === null || !$this->transportEnabled($struttura)) {
             throw new QuesturaTransportDisabledException;
         }
     }
 
     protected function isSimulation(Struttura $struttura): bool
     {
-        return !function_exists('app') || !app()->environment('production')
-            || config('questura.enabled') !== true
-            || (bool) ($struttura->questura_ws_simulazione ?? true);
+        return !app()->environment('production');
     }
 
     protected function makeClient(): SoapClient
     {
-        $this->assertTransportEnabled();
-        if (!app()->environment('production') || config('questura.enabled') !== true) {
-            throw new \RuntimeException('Trasporto Questura non abilitato.');
+        if (!app()->environment('production')) {
+            throw new \RuntimeException('Trasporto Questura reale disponibile solo in produzione.');
         }
         if (!class_exists(SoapClient::class)) {
             throw new \RuntimeException('Estensione SOAP non disponibile sul server PHP.');

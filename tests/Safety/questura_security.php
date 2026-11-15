@@ -4,6 +4,7 @@ namespace {
     if (!class_exists('SoapClient')) { class SoapClient {} }
     if (!function_exists('mb_strtolower')) { function mb_strtolower($value) { return strtolower($value); } }
     function abort($status, $message) { throw new \RuntimeException($message, $status); }
+    function app($class) { return new $class; }
     function config($key) { return $key === 'questura.enabled' ? true : null; }
     function now() { return 'FIXTURE_TIME'; }
     class FakeSoapClient extends \SoapClient {
@@ -32,6 +33,7 @@ namespace Illuminate\Http { class Request {} }
 namespace App\Http\Controllers { class Controller {} }
 namespace App\Models {
     class Struttura {
+        public string $questura_modalita = 'manuale';
         public bool $questura_ws_simulazione = false;
         public string $questura_username = 'SECRET_USER';
         public string $questura_password = 'SECRET_PASSWORD';
@@ -48,6 +50,8 @@ namespace {
     require __DIR__.'/../../app/Exceptions/QuesturaTransportDisabledException.php';
     require __DIR__.'/../../app/Services/EsitoTrasmissioneQuestura.php';
     require __DIR__.'/../../app/Services/QuesturaWebService.php';
+    require __DIR__.'/../../app/Services/QuesturaProfilo.php';
+    require __DIR__.'/../../app/Services/QuesturaTrasmissioni.php';
     require __DIR__.'/../../app/Http/Controllers/QuesturaExportController.php';
     require __DIR__.'/../../app/Http/Controllers/ArchivosController.php';
     use App\Services\EsitoTrasmissioneQuestura as Esito;
@@ -121,11 +125,11 @@ namespace {
         check(FakeSoapClient::$calls===$before);
     };
     $tests['actual persistence boundary projects injected provider material'] = function () use ($ws) {
-        $controller=new \App\Http\Controllers\QuesturaExportController(new \App\Services\QuesturaTxtExportService(),$ws,new \App\Services\QuesturaRetentionService());
-        $m=new \ReflectionMethod($controller,'storeTransmission');
-        $m->invoke($controller,1,null,null,'send',new \Carbon\Carbon(),new \Carbon\Carbon(),[],0,[],
+        $service=new \App\Services\QuesturaTrasmissioni(new \App\Services\QuesturaTxtExportService(),$ws);
+        $m=new \ReflectionMethod($service,'storeTransmission');
+        $m->invoke($service,1,null,'send',new \Carbon\Carbon(),new \Carbon\Carbon(),[],0,[],
             ['state'=>'sent','raw'=>'SECRET','context'=>['token'=>'SECRET'],'accepted'=>true],
-            'SECRET','SECRET','SECRET','SECRET');
+            'periodo');
         safe(\App\Models\QuesturaTransmission::$saved);
         check(\App\Models\QuesturaTransmission::$saved['response_detail']===null);
     };

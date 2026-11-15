@@ -6,7 +6,7 @@ async function login(page, kind) {
   await page.goto(`${BASE_URL}/login`);
   await page.locator('input[name="login"]').fill(`ux-${kind}`);
   await page.locator('input[name="password"]').fill('Password-ux-fixture-123!');
-  await page.getByRole('button', { name: /Entra/i }).click();
+  await conferma(page, page.locator('#accesso').getByRole('button', { name: 'Accedi', exact: true }));
   await expect(page).not.toHaveURL(/\/login$/);
 }
 
@@ -14,12 +14,16 @@ async function conferma(page, button, download = false) {
   await button.click();
   await page.getByRole('button', { name: /^Sì,/ }).click();
   const [result] = await Promise.all([
-    download ? page.waitForEvent('download') : page.waitForNavigation({ waitUntil: 'networkidle' }),
+    download ? page.waitForEvent('download') : page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
     page.getByRole('button', { name: 'OK', exact: true }).click(),
   ]);
   if (!download) {
-    const flash = page.getByRole('button', { name: 'OK', exact: true });
-    if (await flash.isVisible()) await flash.click();
+    const flash = page.getByRole('dialog').getByRole('button', { name: 'OK', exact: true });
+    try {
+      await flash.click({ timeout: 2500 });
+    } catch (error) {
+      if (error.name !== 'TimeoutError' || await flash.isVisible()) throw error;
+    }
   }
   return result;
 }
@@ -29,6 +33,9 @@ for (const [name, width] of [['desktop', 1440], ['tablet', 768], ['mobile', 390]
     await page.setViewportSize({ width, height: 1000 });
     await login(page, `vuote-${name}`);
     await page.goto(`${BASE_URL}/struttura`);
+    const modalita = page.getByLabel('Modalità invio Questura');
+    await expect(modalita).toBeVisible();
+    await expect(modalita.locator('option')).toHaveText(['Solo TXT', 'Web Service manuale', 'Web Service automatico alle 23:00']);
     const password = page.locator('#questura_password');
     await password.scrollIntoViewIfNeeded();
     const passwordColumn = password.locator('..').locator('..');
@@ -47,10 +54,12 @@ for (const [name, width] of [['desktop', 1440], ['tablet', 768], ['mobile', 390]
     await eye.click(); await expect(password).toHaveAttribute('type', 'text');
     await eye.click(); await expect(password).toHaveAttribute('type', 'password');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await modalita.selectOption('automatico');
     await page.locator('[name="questura_username"]').fill('ACCOUNT-UI-SINTETICO');
     await password.fill('PASSWORD-UI-SINTETICA');
     await wskey.fill('WSKEY-UI-SINTETICA');
-    await conferma(page, page.getByRole('button', { name: 'Salva configurazione operativa', exact: true }));
+    await conferma(page, modalita.locator('xpath=ancestor::form').getByRole('button', { name: /^(Salva|Salva configurazione operativa)$/ }));
+    await expect(modalita).toHaveValue('automatico');
     await expect(password).toHaveValue(''); await expect(wskey).toHaveValue('');
     await expect(passwordColumn.locator(':scope > small')).toHaveText('Configurata');
     await expect(page.locator('body')).not.toContainText('PASSWORD-UI-SINTETICA');
@@ -83,6 +92,7 @@ for (const [name, width] of [['desktop', 1440], ['tablet', 768], ['mobile', 390]
 
 for (const [name, width] of [['desktop', 1440], ['tablet', 768], ['mobile', 390]]) {
   test(`Questura ${name}: anteprima UTF-8, download, Test/Send sintetici e storico`, async ({ page }) => {
+    test.setTimeout(60000);
     await page.setViewportSize({ width, height: 1000 });
     await login(page, `ciclo-${name}`);
     const response = await page.goto(`${BASE_URL}/questura`);
@@ -100,6 +110,9 @@ for (const [name, width] of [['desktop', 1440], ['tablet', 768], ['mobile', 390]
     await preview.screenshot({ path: `test-results/questura-anteprima-dettaglio-${name}.png` });
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({ path: `test-results/questura-anteprima-${name}.png`, fullPage: true });
+    await page.getByRole('button', { name: 'Invia questa schedina', exact: true }).first().click();
+    await expect(page.getByRole('dialog')).toContainText('Verificare e trasmettere questa singola schedina');
+    await page.getByRole('button', { name: 'Annulla', exact: true }).click();
     // Pulsanti e doppie conferme reali; il solo router isolato inietta SOAP double.
     for (const kind of ['questura-verify', 'questura-send']) {
       await conferma(page, page.locator(`[data-confirm-kind="${kind}"] button`));

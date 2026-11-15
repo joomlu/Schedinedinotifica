@@ -12,6 +12,10 @@ class StrutturaRequest extends FormRequest
     {
         $struttura = StrutturaAccess::authorized($this);
         abort_unless(StrutturaAccess::query($this->user())->whereKey($struttura->id)->exists(), 403);
+        if ($this->has('questura_modalita')) {
+            $user = $this->user();
+            abort_unless($user->isProprietario() || $user->canManageGestioneOperativa($struttura->id), 403);
+        }
         abort_if(array_intersect(
             array_keys(array_merge($this->request->all(), $this->allFiles())),
             AnagraficaStruttura::RISERVATI

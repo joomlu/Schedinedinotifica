@@ -117,6 +117,62 @@ class QuesturaIdempotencyTest extends TestCase
         return $this->questuraPost('/questura/ws/send', $period);
     }
 
+    public function test_invio_singolo_con_automatico_attivo_e_riserva_condivisa(): void
+    {
+        $struttura = $this->structureFor(null);
+        $this->actorFor($struttura);
+        $struttura->update(['questura_modalita' => 'automatico']);
+        $prima = $this->source($struttura, 'Prima');
+        $seconda = $this->source($struttura, 'Seconda');
+        $altra = $this->source($this->structureFor(null), 'Altra');
+        $double = $this->soap();
+        $txt = app(\App\Services\QuesturaTxtExportService::class)->buildTxtPerSchedina($prima);
+        $input = ['preview_hash' => hash('sha256', $txt)];
+
+        $this->post('/questura/ws/send/'.$altra->id, $input)->assertNotFound();
+        $this->post('/questura/ws/send/'.$prima->id, $input)->assertRedirect();
+        $this->post('/questura/ws/send/'.$prima->id, $input)->assertRedirect()->assertSessionHasErrors('questura_ws');
+
+        $this->assertSame(1, $this->sends($double));
+        $this->assertSame([$prima->id], DB::table('questura_send_reservations')->pluck('schedina_id')->all());
+        $this->assertDatabaseMissing('questura_send_reservations', ['schedina_id' => $seconda->id]);
+    }
+
+    public function test_invio_serale_solo_su_arrivi_del_giorno_della_struttura_automatica(): void
+    {
+        $this->travelTo(\Carbon\Carbon::parse('2026-11-15 23:00:00', 'Europe/Rome'));
+        $giorno = now('Europe/Rome')->toDateString();
+        $struttura = $this->structureFor(null);
+        $this->actorFor($struttura);
+        $struttura->update(['questura_modalita' => 'automatico']);
+        $inviata = $this->source($struttura, 'GiaInviata', $giorno);
+        $inviata->update(['questura_send_count' => 1]);
+        $pronta = $this->source($struttura, 'Pronta', $giorno);
+        $bozza = $this->source($struttura, 'Bozza', $giorno);
+        $bozza->update(['circuito' => 'arrivi', 'is_arrive' => true]);
+        $errata = $this->source($struttura, 'DaCorreggere', $giorno);
+        $errata->update(['or_doc' => null]);
+        $this->source($struttura, 'Ieri', now('Europe/Rome')->subDay()->toDateString());
+        $altra = $this->structureFor(null);
+        $altra->update(['questura_modalita' => 'manuale']);
+        $this->source($altra, 'Altra', $giorno);
+        $double = $this->soap();
+
+        $ambiente = $this->app->environment();
+        $this->app->instance('env', 'production');
+        try {
+            $this->artisan('questura:invio-serale')->assertExitCode(1);
+            $this->artisan('questura:invio-serale')->assertSuccessful();
+        } finally {
+            $this->app->instance('env', $ambiente);
+            $this->travelBack();
+        }
+
+        $this->assertSame(1, $this->sends($double));
+        $this->assertSame([$pronta->id], DB::table('questura_send_reservations')->pluck('schedina_id')->all());
+        $this->assertSame(1, cache('questura:avviso-serale:'.$struttura->id)['schedine']);
+    }
+
     public function test_riserva_precede_rete_e_blocca_modifiche_di_ogni_campo(): void
     {
         $structure = $this->structureFor(null); $this->actorFor($structure);

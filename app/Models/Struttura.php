@@ -76,6 +76,7 @@ class Struttura extends Model
         'questura_codici',
         'questura_puk',
         'questura_ws_simulazione',
+        'questura_modalita',
         'camere_reali_enabled',
         'attiva',
         'avviso',

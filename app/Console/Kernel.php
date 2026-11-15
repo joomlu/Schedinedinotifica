@@ -32,6 +32,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('questura:invio-serale')->dailyAt('23:00')->timezone('Europe/Rome')->withoutOverlapping();
         $schedule->command('tassa:verifica-profili')->weeklyOn(1, '04:15')->withoutOverlapping();
     }
 

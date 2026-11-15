@@ -18,16 +18,23 @@ class QuesturaTxtExportService
 {
     public function schedinePerPeriodo(int $strutturaId, Carbon $dal, Carbon $al): Collection
     {
+        return $this->queryPeriodo($strutturaId, $dal, $al)->orderBy('arrive')->orderBy('id')->get();
+    }
+
+    public function schedinaDelGiorno(int $strutturaId, Carbon $giorno, int $schedinaId): ?Schedina
+    {
+        return $this->queryPeriodo($strutturaId, $giorno, $giorno)->find($schedinaId);
+    }
+
+    private function queryPeriodo(int $strutturaId, Carbon $dal, Carbon $al): \Illuminate\Database\Eloquent\Builder
+    {
         return Schedina::query()->effettive()
             ->withoutGlobalScope('struttura')
             ->with(['componenti' => fn ($query) => $query->withoutGlobalScope('struttura')->where('struttura_id', $strutturaId)->orderBy('id')])
             ->where('struttura_id', $strutturaId)
             ->where('circuito', 'schedina')
             ->whereDate('arrive', '>=', $dal->toDateString())
-            ->whereDate('arrive', '<=', $al->toDateString())
-            ->orderBy('arrive')
-            ->orderBy('id')
-            ->get();
+            ->whereDate('arrive', '<=', $al->toDateString());
     }
 
     public function analizzaSchedine(Collection $schedine): Collection
