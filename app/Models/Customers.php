@@ -9,19 +9,36 @@ class Customers extends Model
 {
     use AppartieneAStruttura;
 
+    public ?int $sharingVersion = null;
+    public ?string $sharingResidenceStatus = null;
+
+    public function newFromBuilder($attributes = [], $connection = null)
+    {
+        $model = parent::newFromBuilder($attributes, $connection);
+        $model->sharingVersion = app(\App\Services\CustomerSharing::class)->version($model);
+        return $model;
+    }
+
     public function save(array $options = [])
     {
-        if (app()->runningInConsole()) return parent::save($options);
+        $sharing = app(\App\Services\CustomerSharing::class);
+        if (!$this->struttura_id && !app()->runningInConsole()) {
+            $this->struttura_id = \App\Support\StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
+        }
+        if (app()->runningInConsole() && !$sharing->groupFor((int) $this->struttura_id)) return parent::save($options);
         // Serializza classificazioni e rinomine della stessa struttura.
-        return \Illuminate\Support\Facades\DB::transaction(function () use ($options) {
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($options, $sharing) {
             $sid = $this->struttura_id ?: (\App\Support\StrutturaCorrente::getId() ?? auth()->user()?->struttura_id);
+            if ($sid) $sharing->lockForStructure((int) $sid);
             if ($sid) \Illuminate\Support\Facades\DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
-            return parent::save($options);
-        });
+            return $sharing->save($this, fn () => parent::save($options));
+        }, 3);
     }
 
     protected static function booted(): void
     {
+        static::addGlobalScope('sharing_visibility', fn ($query) => app(\App\Services\CustomerSharing::class)->visibleQuery($query));
+        static::deleting(fn (self $record) => app(\App\Services\CustomerSharing::class)->assertDeletable($record));
         static::saving(function (self $record) {
             if (app()->runningInConsole()) return;
             $sid = (int) ($record->struttura_id ?: (\App\Support\StrutturaCorrente::getId() ?? auth()->user()?->struttura_id));

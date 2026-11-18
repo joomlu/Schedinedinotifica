@@ -51,6 +51,13 @@
                         data-has-errors="{{ $errors->any() ? 1 : 0 }}"
                     >
                     @csrf 
+                        @if($entity?->sharingVersion !== null)
+                            <input type="hidden" name="customer_sharing_version" value="{{ old('customer_sharing_version', $entity->sharingVersion) }}">
+                            @if($entity->sharingResidenceStatus !== 'confermata')
+                                <div class="alert alert-info">La residenza proviene dall’archivio e non è ancora confermata. Le eventuali alternative sono nella Condivisione clienti del proprietario.</div>
+                                <div class="form-check mb-3"><input class="form-check-input" id="confirm-shared-residence" type="checkbox" name="confirm_shared_residence" value="1"><label class="form-check-label" for="confirm-shared-residence">Ho verificato con il cliente la residenza inserita in questa scheda.</label></div>
+                            @endif
+                        @endif
                         @if($formMethod !== 'POST')
                             @method($formMethod)
                         @endif

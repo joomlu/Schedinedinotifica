@@ -77,6 +77,13 @@
                             <i data-feather="layers" class="icon-dual"></i> <span>Le mie strutture</span>
                         </a>
                     </li>
+                    @if(\Illuminate\Support\Facades\Route::has('proprietario.clienti-condivisione.index') && (config('customer_sharing.enabled', false) || (app(\App\Services\CustomerSharing::class)->available() && \Illuminate\Support\Facades\DB::table('customer_sharing_groups')->where('proprietario_id', $utenteSidebar->proprietario_id)->where('stato', 'attivo')->exists())))
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{ $isRoute('proprietario.clienti-condivisione.*') ? 'active' : '' }}" href="{{ route('proprietario.clienti-condivisione.index') }}">
+                            <i data-feather="users" class="icon-dual"></i> <span>Condivisione clienti</span>
+                        </a>
+                    </li>
+                    @endif
                 @endif
 
                 @unless($proprietarioSenzaStrutture)

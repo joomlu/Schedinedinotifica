@@ -14,6 +14,16 @@ class Struttura extends Model
 
     protected static function booted(): void
     {
+        $guardSharing = function (self $struttura) {
+            if ($struttura->exists && app(\App\Services\CustomerSharing::class)->available()
+                && \Illuminate\Support\Facades\DB::table('customer_sharing_memberships')->where('struttura_id', $struttura->id)->exists()) {
+                throw \Illuminate\Validation\ValidationException::withMessages(['struttura' => 'Separa prima la struttura dalla condivisione clienti, confermando il pacchetto da conservare.']);
+            }
+        };
+        static::updating(function (self $struttura) use ($guardSharing) {
+            if ($struttura->isDirty(['proprietario_id', 'attiva'])) $guardSharing($struttura);
+        });
+        static::deleting($guardSharing);
         static::created(function (self $struttura) {
             if (\Illuminate\Support\Facades\Schema::hasColumn('struttura', 'indirizzi_inizializzati_at')) {
                 app(\App\Services\CataloghiIndirizziStrutturaService::class)->initialize((int) $struttura->id);

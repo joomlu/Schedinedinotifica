@@ -303,6 +303,16 @@ Route::middleware(['auth'])->group(function () {
     // Proprietario area
     Route::prefix('proprietario')->middleware(['ruolo:proprietario'])->group(function () {
         Route::get('/strutture', [ProprietarioStruttureController::class, 'index'])->name('proprietario.strutture.index');
+        Route::get('/condivisione-clienti', [\App\Http\Controllers\Proprietario\CustomerSharingController::class, 'index'])->name('proprietario.clienti-condivisione.index');
+        Route::post('/condivisione-clienti/verifica', [\App\Http\Controllers\Proprietario\CustomerSharingController::class, 'preview'])->name('proprietario.clienti-condivisione.preview');
+        Route::post('/condivisione-clienti', [\App\Http\Controllers\Proprietario\CustomerSharingController::class, 'store'])->name('proprietario.clienti-condivisione.store');
+        Route::post('/condivisione-clienti/{group}/separa', [\App\Http\Controllers\Proprietario\CustomerSharingController::class, 'separate'])->whereNumber('group')->name('proprietario.clienti-condivisione.separate');
+        Route::post('/condivisione-clienti/{group}/unisci', [\App\Http\Controllers\Proprietario\CustomerSharingController::class, 'merge'])->whereNumber('group')->name('proprietario.clienti-condivisione.merge');
+        Route::post('/condivisione-clienti/{group}/annulla-fusione', [\App\Http\Controllers\Proprietario\CustomerSharingController::class, 'undo'])->whereNumber('group')->name('proprietario.clienti-condivisione.undo');
+        Route::post('/condivisione-clienti/{group}/residenza', [\App\Http\Controllers\Proprietario\CustomerSharingController::class, 'residence'])->whereNumber('group')->name('proprietario.clienti-condivisione.residence');
+        Route::get('/condivisione-clienti/pacchetti/{structure}', [\App\Http\Controllers\Proprietario\CustomerSharingController::class, 'package'])->whereNumber('structure')->name('proprietario.clienti-condivisione.package');
+        Route::get('/condivisione-clienti/{group}/fonti', [\App\Http\Controllers\Proprietario\CustomerSharingController::class, 'sources'])->whereNumber('group')->name('proprietario.clienti-condivisione.sources');
+        Route::post('/condivisione-clienti/{group}/mantieni-separati', [\App\Http\Controllers\Proprietario\CustomerSharingController::class, 'keepSeparate'])->whereNumber('group')->name('proprietario.clienti-condivisione.keep-separate');
     });
 
     // Root

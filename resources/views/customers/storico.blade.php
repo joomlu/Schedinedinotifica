@@ -104,12 +104,14 @@
                                     <td>{{ $schedina->storico_note !== '' ? $schedina->storico_note : '—' }}</td>
                                     <td class="text-end">
                                         <div class="d-inline-flex gap-1">
+                                            @if((int) $schedina->struttura_id === (int) \App\Support\StrutturaCorrente::getId())
                                             <a href="{{ route('schedina.edit', ['id' => $schedina->id]) }}" class="btn btn-soft-info btn-sm" title="Apri schedina">
                                                 <i class="ri-edit-line fs-16 align-middle"></i>
                                             </a>
                                             <a href="{{ route('schedina.tassa.print', ['id' => $schedina->id]) }}" class="btn btn-soft-secondary btn-sm" title="Stampa tassa" target="_blank">
                                                 <i class="ri-printer-line fs-16 align-middle"></i>
                                             </a>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

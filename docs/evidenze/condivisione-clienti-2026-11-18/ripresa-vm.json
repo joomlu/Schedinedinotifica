@@ -1,0 +1,53 @@
+{
+  "data": "2026-11-18",
+  "vm": "schedine-sviluppo-interno",
+  "spegnimento_forzato": "autorizzato ed eseguito; Stopped verificato",
+  "avvio_diretto": "interrotto durante recupero immagine, volume non montato",
+  "volume_uuid": "8C348BA9-047A-4C81-9CB7-39E63FF5023E",
+  "recupero": "utility volume-vm-esterno.py avvia; READY, SSH positivo",
+  "php": "8.3.36",
+  "mariadb": "11.8.9",
+  "unita_fallite": 0,
+  "copia_privata": "/home/collaudo.guest/condivisione-iFAscNiI/repo",
+  "base": "df711e6c32f0cd984d09d4cf7d0253d66d70394a",
+  "prima_prova": "STOP schema baseline assente; risorse temporanee rimosse",
+  "schema_baseline_sha256": "69165a45be73d6155f893a79cbca6dc5f97ced074df0c81d94e6b3197f42da27",
+  "seconda_prova": {
+    "test": 27,
+    "asserzioni": 98,
+    "esito": "positivo",
+    "override_rifiutati": 23,
+    "build_geo": "positivo"
+  },
+  "regressioni_browser": "R1 selettore errato; R2 logout iniziale nello spec; R3 messaggi duplicati nella nuova vista; R4 positivo dopo correzioni",
+  "produzione_modificata": false,
+  "regressioni": {
+    "test": 148,
+    "asserzioni": 983,
+    "esito": "positivo"
+  },
+  "guardie": {
+    "test": 15,
+    "esito": "positivo"
+  },
+  "riprova_finale": {
+    "test_php": 27,
+    "asserzioni": 98,
+    "browser": 1,
+    "esito": "positivo",
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "schermate": "conservate e ispezionate",
+    "overflow_orizzontale": false
+  },
+  "impronte_verificate": 28,
+  "limiti": [
+    "carico su numerosita comparabile ai CSV",
+    "concorrenza reale",
+    "recupero dopo scritture",
+    "separazione senza consegna rifiutata"
+  ]
+}

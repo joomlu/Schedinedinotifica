@@ -135,7 +135,7 @@ class CustomerExportController extends Controller
         $q = trim((string) $request->input('q', ''));
         $tipo = trim((string) $request->input('tipo_cliente', ''));
 
-        return Customers::query()
+        return app(\App\Services\CustomerSharing::class)->uniqueQuery(Customers::query(), (int) StrutturaCorrente::getId())
             ->when($tipo !== '', fn (Builder $query) => $query->where('type_housed', $tipo))
             ->when($q !== '', function (Builder $query) use ($q) {
                 $like = '%' . $q . '%';
@@ -161,6 +161,12 @@ class CustomerExportController extends Controller
 
     private function decorateCustomer(Customers $customer): Customers
     {
+        $ids = app(\App\Services\CustomerSharing::class)->history($customer);
+        if ($ids) {
+            $stays = \App\Models\Schedina::query()->effettive()->where('struttura_id', $customer->struttura_id)->whereIn('customer_id', $ids);
+            $customer->setAttribute('schedine_count', (clone $stays)->count());
+            $customer->setAttribute('last_arrive_at', (clone $stays)->max('arrive'));
+        }
         $customer->setAttribute('display_country', $this->resolveGeoLabel($customer->country, 'country'));
         $customer->setAttribute('display_city', $this->resolveGeoLabel($customer->city, 'city'));
         $customer->setAttribute('full_name', trim(($customer->surname ?? '') . ' ' . ($customer->name ?? '')));

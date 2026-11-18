@@ -40,6 +40,7 @@ def main():
     parser.add_argument('--playwright', nargs='*')
     parser.add_argument('--fixtures', help='Script PHP di fixture esplicitamente selezionato sotto tests/')
     parser.add_argument('--include', nargs='*', default=[], help='File sorgente nuovi esplicitamente inclusi, senza staging')
+    parser.add_argument('--customer-sharing', action='store_true', help='Abilita la funzione clienti nel solo ambiente effimero di collaudo')
     args = parser.parse_args()
     if args.phpunit_global and args.phpunit:
         parser.error('Selezionare la suite globale oppure file PHPUnit espliciti')
@@ -96,6 +97,7 @@ def main():
            'ISOLATED_BROKER': str(run/'broker.sock'), 'ISOLATED_TOKEN': secrets.token_hex(32),
            'ISOLATED_ROOT': str(run), 'ISOLATED_RUN_ID': identity,
            'BCRYPT_ROUNDS': '4', 'SESSION_SECURE_COOKIE': 'false'}
+    env['CUSTOMER_SHARING_ENABLED'] = 'true' if args.customer_sharing else 'false'
     browsers = Path.home()/'Library/Caches/ms-playwright'
     if browsers.is_dir():
         env['PLAYWRIGHT_BROWSERS_PATH'] = str(browsers)

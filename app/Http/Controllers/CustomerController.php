@@ -48,7 +48,7 @@ class CustomerController extends Controller
         $ordine = request('ordine', 'recenti');
         $colonnaOrdine = ['recenti' => 'id', 'nome' => 'name', 'cognome' => 'surname', 'codice' => 'numero_cliente'][$ordine ?: 'recenti'];
 
-        $customers = Customers::query()
+        $customers = app(\App\Services\CustomerSharing::class)->uniqueQuery(Customers::query(), (int) StrutturaCorrente::getId())
             ->when($tipoCliente !== '', function ($query) use ($tipoCliente) {
                 $query->where('type_housed', $tipoCliente);
             })
@@ -235,6 +235,7 @@ class CustomerController extends Controller
         $aziendaData = $this->collectAziendaData($request, $hasAzienda);
 
         $customer = DB::transaction(function () use ($request, $tipoCliente, $countryReg, $cittadinanzaReg, $aziendaData) {
+            app(\App\Services\CustomerSharing::class)->lockForStructure((int) StrutturaCorrente::getId());
             DB::table('struttura')->where('id', StrutturaCorrente::getId())->lockForUpdate()->first();
             $payload = $this->buildCustomerPayload($request, $tipoCliente, $countryReg, $cittadinanzaReg, $aziendaData);
             $submission = $this->submissionKey($request, $payload);
@@ -339,8 +340,14 @@ class CustomerController extends Controller
         );
         $aziendaData = $this->collectAziendaData($request, $hasAzienda);
         $customer = DB::transaction(function () use ($request, $id, $tipoCliente, $countryReg, $cittadinanzaReg, $aziendaData) {
+            $sharing = app(\App\Services\CustomerSharing::class);
+            $sharing->lockForStructure((int) StrutturaCorrente::getId());
             DB::table('struttura')->where('id', StrutturaCorrente::getId())->lockForUpdate()->first();
             $customer = Customers::query()->lockForUpdate()->findOrFail($id);
+            if ($customer->sharingVersion !== null) {
+                $request->validate(['customer_sharing_version' => ['required', 'integer', 'min:1']]);
+                abort_unless((int) $request->input('customer_sharing_version') === $customer->sharingVersion, 409, 'Il cliente è cambiato. Ricarica la scheda.');
+            }
             $customer->fill($this->buildCustomerPayload(
                 $request, $tipoCliente, $countryReg, $cittadinanzaReg, $aziendaData, $customer
             ));
@@ -719,13 +726,27 @@ class CustomerController extends Controller
         $customer->setAttribute('display_country_doc_reg', $this->resolveGeoLabel($customer->country_doc_reg, 'country'));
         $customer->setAttribute('display_city_doc_reg', $this->resolveGeoLabel($customer->city_doc_reg, 'city'));
 
-        $storicoSchedine = Schedina::query()->effettive()
-            ->withCount('componenti')
-            ->where('customer_id', $customer->id)
+        $sharedIds = app(\App\Services\CustomerSharing::class)->history($customer);
+        $sharedGroup = $sharedIds ? app(\App\Services\CustomerSharing::class)->groupFor((int) $customer->struttura_id) : null;
+        $historyQuery = $sharedGroup ? Schedina::withoutGlobalScope('struttura')->where(function ($q) use ($sharedGroup, $customer) {
+            $q->where('schedina.struttura_id', $customer->struttura_id)->orWhereExists(function ($s) use ($sharedGroup, $customer) {
+                $s->selectRaw('1')->from('customer_sharing_memberships as other')
+                    ->join('customer_sharing_groups as g', 'g.id', '=', 'other.group_id')
+                    ->join('customer_sharing_memberships as current', 'current.group_id', '=', 'g.id')
+                    ->join('struttura as source_hotel', 'source_hotel.id', '=', 'current.struttura_id')
+                    ->join('struttura as other_hotel', 'other_hotel.id', '=', 'other.struttura_id')
+                    ->where('g.id', $sharedGroup->id)->where('g.stato', 'attivo')->where('current.struttura_id', $customer->struttura_id)
+                    ->whereColumn('other.struttura_id', 'schedina.struttura_id')
+                    ->whereColumn('source_hotel.proprietario_id', 'g.proprietario_id')->whereColumn('other_hotel.proprietario_id', 'g.proprietario_id');
+            });
+        }) : Schedina::query();
+        $storicoSchedine = $historyQuery->effettive()
+            ->withCount(['componenti' => fn ($q) => $q->withoutGlobalScope('struttura')->whereColumn('componenti.struttura_id', 'schedina.struttura_id')])
+            ->whereIn('customer_id', $sharedIds ?: [$customer->id])
             ->orderByDesc('arrive')
             ->orderByDesc('created_at')
             ->get()
-            ->map(function (Schedina $schedina) {
+            ->map(function (Schedina $schedina) use ($sharedGroup) {
                 $arrivo = $this->parseDateValue($schedina->arrive);
                 $partenza = $this->parseDateValue($schedina->departure);
                 $giorni = $arrivo && $partenza ? max(1, $arrivo->diffInDays($partenza)) : null;
@@ -734,8 +755,9 @@ class CustomerController extends Controller
                 $schedina->setAttribute('partenza_date', $partenza);
                 $schedina->setAttribute('giorni_soggiorno', $giorni);
                 $schedina->setAttribute('componenti_totali', (int) ($schedina->componenti_count ?? 0));
-                $schedina->setAttribute('storico_label', $schedina->scheda ?: ('Schedina #' . $schedina->id));
-                $schedina->setAttribute('storico_note', trim((string) ($schedina->observation ?? $schedina->customer_observation ?? '')));
+                $hotel = $sharedGroup ? \App\Models\Struttura::query()->find($schedina->struttura_id)?->nome_struttura : null;
+                $schedina->setAttribute('storico_label', ($schedina->scheda ?: ('Schedina #' . $schedina->id)) . ($hotel ? ' — '.$hotel : ''));
+                $schedina->setAttribute('storico_note', (int) $schedina->struttura_id === (int) StrutturaCorrente::getId() ? trim((string) ($schedina->observation ?? $schedina->customer_observation ?? '')) : '');
 
                 return $schedina;
             });

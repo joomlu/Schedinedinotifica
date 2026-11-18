@@ -221,6 +221,7 @@ class CustomerImportService
         $imported = 0;
 
         DB::transaction(function () use ($batch, &$imported) {
+            app(CustomerSharing::class)->lockForStructure((int) $batch->struttura_id);
             DB::table('struttura')->where('id', $batch->struttura_id)->lockForUpdate()->first();
             $rows = $batch->rows()
                 ->where('status', self::STATUS_VALID)
@@ -254,11 +255,12 @@ class CustomerImportService
     {
         return DB::transaction(function () use ($row, $refreshCounters, $selectedCustomer) {
             $sid = $row->batch()->value('struttura_id');
+            app(CustomerSharing::class)->lockForStructure((int) $sid);
             DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
             $row = CustomerImportRow::query()->lockForUpdate()->findOrFail($row->id);
             $row->load('batch.struttura');
             if ($row->imported_customer_id) {
-                return Customers::query()->withoutGlobalScopes()
+                return app(CustomerSharing::class)->visibleQuery(Customers::query()->withoutGlobalScopes())
                     ->where('struttura_id', $row->batch->struttura_id)
                     ->findOrFail($row->imported_customer_id);
             }
@@ -284,6 +286,7 @@ class CustomerImportService
             }
             $existing = $selectedCustomer ?? $this->findExistingCustomerForPayload($payload, $struttura);
             $customer = $existing ?? Customers::query()->create($this->buildCustomerPayloadForImport($payload, $struttura->id));
+            app(CustomerSharing::class)->registerOrigin($customer, $payload);
 
             if (!$existing) {
                 if (empty($customer->numero_cliente)) {
@@ -310,6 +313,7 @@ class CustomerImportService
     {
         return DB::transaction(function () use ($row, $schedina) {
             $sid = $row->batch()->value('struttura_id');
+            app(CustomerSharing::class)->lockForStructure((int) $sid);
             DB::table('struttura')->where('id', $sid)->lockForUpdate()->first();
             $row = CustomerImportRow::query()->with('batch')->lockForUpdate()->findOrFail($row->id);
             if (!$schedina->exists || (int) $schedina->struttura_id !== (int) $row->batch->struttura_id) {
@@ -356,7 +360,7 @@ class CustomerImportService
     public function clienteDaSchedinaWeb(Schedina $schedina): Customers
     {
         if ($schedina->customer_id) {
-            $customer = Customers::withoutGlobalScopes()->where('struttura_id', $schedina->struttura_id)->findOrFail($schedina->customer_id);
+            $customer = app(CustomerSharing::class)->visibleQuery(Customers::withoutGlobalScopes())->where('struttura_id', $schedina->struttura_id)->findOrFail($schedina->customer_id);
             if (mb_strtolower(trim($customer->name)) !== mb_strtolower(trim($schedina->name))
                 || mb_strtolower(trim($customer->surname)) !== mb_strtolower(trim($schedina->surname))
                 || substr((string) $customer->nac_reg, 0, 10) !== substr((string) $schedina->oa_date_nac, 0, 10)) {
@@ -365,7 +369,7 @@ class CustomerImportService
             return $customer;
         }
         if (filled($schedina->or_doc) && filled($schedina->or_doctype)) {
-            $documents = Customers::withoutGlobalScopes()->where('struttura_id', $schedina->struttura_id)
+            $documents = app(CustomerSharing::class)->visibleQuery(Customers::withoutGlobalScopes())->where('struttura_id', $schedina->struttura_id)
                 ->where('type_doc_reg', $schedina->or_doctype)->where('num_doc_reg', $schedina->or_doc)->lockForUpdate()->get();
             foreach ($documents as $documentCustomer) {
                 if ($documents->count() > 1 || mb_strtolower(trim($documentCustomer->name)) !== mb_strtolower(trim($schedina->name))
@@ -375,7 +379,7 @@ class CustomerImportService
                 }
             }
         }
-        $matches = Customers::withoutGlobalScopes()->where('struttura_id', $schedina->struttura_id)
+        $matches = app(CustomerSharing::class)->visibleQuery(Customers::withoutGlobalScopes())->where('struttura_id', $schedina->struttura_id)
             ->where('name', $schedina->name)->where('surname', $schedina->surname)->where('nac_reg', substr((string) $schedina->oa_date_nac, 0, 10))->lockForUpdate()->get();
         if ($matches->count() > 1) throw \Illuminate\Validation\ValidationException::withMessages(['customer_id' => 'Sono presenti anagrafiche omonime: seleziona esplicitamente il cliente nella revisione.']);
         if ($matches->count() === 1) {
@@ -428,6 +432,7 @@ class CustomerImportService
     {
         return DB::transaction(function () use ($row, $input) {
             $batch = $row->batch()->with('struttura')->firstOrFail();
+            app(CustomerSharing::class)->lockForStructure((int) $batch->struttura_id);
             DB::table('struttura')->where('id', $batch->struttura_id)->lockForUpdate()->first();
             $row->refresh();
             $normalized = $this->normalizePayload(array_replace($row->normalized_payload ?? [], $input), $batch->struttura);
@@ -744,7 +749,16 @@ class CustomerImportService
 
     private function findExistingCustomerForPayload(array $payload, Struttura $struttura): ?Customers
     {
-        $query = Customers::query()->withoutGlobalScopes()->where('struttura_id', $struttura->id)->orderByDesc('id');
+        $query = app(CustomerSharing::class)->visibleQuery(Customers::query()->withoutGlobalScopes())->where('struttura_id', $struttura->id)->orderByDesc('id');
+        $sharing = app(CustomerSharing::class);
+        if ($sharing->lockForStructure((int) $struttura->id)) {
+            $data = $this->buildCustomerPayloadForImport($payload, (int) $struttura->id);
+            $matches = $sharing->uniqueQuery(clone $query, (int) $struttura->id)
+                ->where('name', $data['name'])->where('surname', $data['surname'])->get()
+                ->filter(fn ($customer) => $sharing->sameIdentity($data, $customer->getAttributes()));
+            if ($matches->count() > 1) throw \Illuminate\Validation\ValidationException::withMessages(['cliente' => 'Più identità compatibili nel gruppo: seleziona il cliente dopo la revisione.']);
+            return $matches->first();
+        }
 
         if (!empty($payload['email'])) {
             $customer = (clone $query)->where('email', $payload['email'])->first();
@@ -793,7 +807,7 @@ class CustomerImportService
 
     private function findPotentialDuplicate(array $payload, Struttura $struttura, ?User $user): array
     {
-        $query = Customers::query()->withoutGlobalScopes()->with('struttura:id,nome_struttura')->orderByDesc('id');
+        $query = app(CustomerSharing::class)->visibleQuery(Customers::query()->withoutGlobalScopes())->with('struttura:id,nome_struttura')->orderByDesc('id');
         $currentStructureId = (int) $struttura->id;
         $sameChainIds = ($user ? \App\Support\StrutturaAccess::query($user) : Struttura::query()->whereKey($currentStructureId))
             ->when($struttura->proprietario_id,

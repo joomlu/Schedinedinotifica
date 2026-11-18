@@ -45,6 +45,7 @@ class CestinoService
 
     public function archiveModel(Model $model, array $meta = []): CestinoItem
     {
+        if ($model instanceof Customers) app(CustomerSharing::class)->assertDeletable($model);
         abort_if($model instanceof TipoAlloggiato || $model instanceof TipoDocumento, 403, 'Catalogo ufficiale Questura: non modificabile.');
         abort_if($model instanceof TipoCliente, 403, 'Classificazioni predefinite del sistema, non modificabili.');
         if (in_array(get_class($model), [Gruppo::class, Titolo::class, TipoVia::class, RilasciatoDa::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true)) {
@@ -147,6 +148,7 @@ class CestinoService
         abort_if($item->entity_class === TipoCliente::class, 403, 'Classificazioni predefinite del sistema, non modificabili.');
         return DB::transaction(function () use ($item) {
             $item = CestinoItem::query()->lockForUpdate()->findOrFail($item->getKey());
+            if ($item->entity_class === Customers::class && $item->struttura_id) app(CustomerSharing::class)->lockForStructure((int) $item->struttura_id);
             if (in_array($item->entity_class, [Gruppo::class, Titolo::class, TipoVia::class, RilasciatoDa::class, Customers::class, Schedina::class, WebCheckinRichiesta::class], true) && $item->struttura_id) {
                 DB::table('struttura')->where('id', $item->struttura_id)->lockForUpdate()->first();
                 $item->refresh();
@@ -446,7 +448,7 @@ class CestinoService
             $payload['schedina_id'] = null;
         }
 
-        if (!empty($payload['customer_id']) && !$this->baseQueryForClass(Customers::class)->whereKey($payload['customer_id'])->exists()) {
+        if (!empty($payload['customer_id']) && !$this->baseQueryForClass(Customers::class)->where('struttura_id', $payload['struttura_id'] ?? 0)->whereKey($payload['customer_id'])->exists()) {
             $payload['customer_id'] = null;
         }
 
@@ -643,13 +645,17 @@ class CestinoService
             $data['id'] = $preferredId;
             DB::table($table)->insert($data);
 
-            return $this->baseQueryForClass($class)->findOrFail($preferredId);
+            $restored = $this->baseQueryForClass($class)->findOrFail($preferredId);
+            if ($restored instanceof Customers) $restored->save();
+            return $restored;
         }
 
         unset($data['id']);
         $id = DB::table($table)->insertGetId($data);
 
-        return $this->baseQueryForClass($class)->findOrFail($id);
+        $restored = $this->baseQueryForClass($class)->findOrFail($id);
+        if ($restored instanceof Customers) $restored->save();
+        return $restored;
     }
 
     private function resolveEntityType(Model $model): string
@@ -755,7 +761,8 @@ class CestinoService
 
     private function baseQueryForClass(string $class)
     {
-        return $class::query()->withoutGlobalScopes();
+        $query = $class::query()->withoutGlobalScopes();
+        return $class === Customers::class ? app(CustomerSharing::class)->visibleQuery($query) : $query;
     }
 
     private function normalizeWebDate($value, string $format): ?string

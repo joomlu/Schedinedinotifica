@@ -1,0 +1,63 @@
+{
+  "data": "2026-11-18",
+  "stato": "POSITIVO nel perimetro richiesto; non attivato sui dati reali",
+  "vm": "schedine-sviluppo-interno",
+  "base": "df711e6c32f0cd984d09d4cf7d0253d66d70394a",
+  "phpunit": {
+    "test": 155,
+    "asserzioni": 1064,
+    "secondi": 77.112,
+    "esito": "positivo"
+  },
+  "browser": {
+    "test": 1,
+    "secondi": 58.8,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "separazione_senza_pacchetto": "positiva",
+    "esito": "positivo"
+  },
+  "guardie": {
+    "test": 15,
+    "esito": "positivo"
+  },
+  "override_vietati_rifiutati": 23,
+  "build_geo": "positivo",
+  "concorrenza": [
+    "Due processi con stessa versione: uno 200, altro 409",
+    "Scrittura durante separazione attende il lock e prosegue solo localmente"
+  ],
+  "recupero": [
+    "SIGKILL dopo SQL canonico prima del commit: annullamento e riprova positiva",
+    "Eccezione durante attivazione dopo inserimento collegamento: nessun gruppo parziale, sorgente intatta, riprova positiva"
+  ],
+  "carico": {
+    "schede": 6501,
+    "identita": 6162,
+    "riferimenti_locali": 18486,
+    "codici_originali": "tutti conservati",
+    "anteprima_secondi": 0.138,
+    "attivazione_secondi": 20.889,
+    "limite_collaudo_secondi": 120,
+    "picco_intera_suite_mib": 166.7,
+    "misura_precedente_attivazione_secondi": 32.815
+  },
+  "sorgenti_confrontati": 30,
+  "differenze_attese": [
+    "tests/Isolation/run.py"
+  ],
+  "log_finale_sha256": "c25b157bf50acc023613269c3f5da5fec402ccbb6b8b5811eebfff921c63a822",
+  "nuove_attivazioni": "disabilitate",
+  "dati_reali_modificati": false,
+  "push": false,
+  "deploy": false,
+  "limiti": [
+    "Non misura lo SLA produttivo",
+    "Non simula perdita del disco o arresto del server MariaDB",
+    "Non trasferisce proprietari, utenze o storico fiscale a un nuovo gestore",
+    "Fusione con scritture successive richiede revisione; import reale escluso"
+  ]
+}

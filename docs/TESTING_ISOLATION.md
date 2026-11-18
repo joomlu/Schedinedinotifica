@@ -19,6 +19,8 @@ PHP 8.3.36 allineato alla produzione senza aggiornamenti estranei: nove soli RPM
 
 Senza suite selezionate l'avviatore verifica soltanto l'infrastruttura, il build e le migrazioni. Gli spec browser devono essere selezionati esplicitamente; le fixture sono uno script esplicito, senza seeder impliciti.
 
+Dal candidato del 18 novembre 2026, l'opzione `--customer-sharing` abilita soltanto la funzione clienti nel processo effimero tramite `CUSTOMER_SHARING_ENABLED`. Necessaria per la nuova fixture browser `seed-customer-sharing.php`; predefinita disabilitata. Non modifica o aggira identità, namespace, origini consentite, attestazione DB o rifiuti degli override. Template quotidiano allineato alla stessa opzione. Qualifica del 18 novembre: 155 test/1.064 asserzioni, 15 guardie e browser sintetico positivi, incluse separazione senza pacchetto, concorrenza multiprocesso, carico e recupero transazionale da guasti parziali: [consuntivo e limiti](IMPLEMENTAZIONE-CONDIVISIONE-CLIENTI-2026-11-18.md).
+
 L'avviatore stampa identità, PID e porte, interrompe al primo errore e pulisce le risorse in `finally`, anche dopo un'interruzione ordinaria. Nessun ripiego su database, server, socket o `.env` esistenti. Un errore delle migrazioni ferma l'esecuzione: non viene riparato lo schema automaticamente.
 
 ## Risorse e attestazione

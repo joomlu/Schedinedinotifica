@@ -342,6 +342,7 @@
                                     <input type="number" class="form-control" name="beds" min="1" required value="{{ old('beds', $schedina->beds) }}">
                                 </div>
                                 <input type="hidden" id="customer_id" name="customer_id" value="{{ $selectedCustomerId }}">
+                                <input type="hidden" id="customer_sharing_version" name="customer_sharing_version" value="{{ old('customer_sharing_version', $prefilledCustomer?->sharingVersion) }}">
                             </div>
                             @unless($isPublicWeb)<div class="form-text mt-2">Quantità persone, Camera e Letti sono obbligatori per i conteggi ISTAT Tavola A e per il controllo della tassa di soggiorno.</div>@endunless
 

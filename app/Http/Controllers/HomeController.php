@@ -105,7 +105,7 @@ class HomeController extends Controller
                     ->where('struttura_id', $strutturaDashboard->id)
                     ->whereIn('stato', ['aperto', 'in_lavorazione', 'in_attesa_struttura'])
                     ->count(),
-                'clienti' => Customers::query()->where('struttura_id', $strutturaDashboard->id)->count(),
+                'clienti' => app(\App\Services\CustomerSharing::class)->packageQuery(Customers::query(), (int) $strutturaDashboard->id)->where('struttura_id', $strutturaDashboard->id)->count(),
                 'schedine' => Schedina::query()->effettive()->withoutGlobalScopes()->where('struttura_id', $strutturaDashboard->id)->count(),
                 'arrivi' => Schedina::query()->inArrivi()->withoutGlobalScopes()->where('struttura_id', $strutturaDashboard->id)->count(),
                 'web_checkin' => WebCheckinRichiesta::query()->where('struttura_id', $strutturaDashboard->id)->whereIn('stato', ['nuova', 'inviata', 'aperta', 'compilata'])->count(),
@@ -132,7 +132,7 @@ class HomeController extends Controller
                         'icon' => 'ri-team-line',
                         'route' => route('customers'),
                         'description' => 'Anagrafiche clienti, storico e nuove registrazioni.',
-                        'badge' => Customers::query()->where('struttura_id', $strutturaDashboard->id)->count() . ' clienti',
+                        'badge' => app(\App\Services\CustomerSharing::class)->packageQuery(Customers::query(), (int) $strutturaDashboard->id)->where('struttura_id', $strutturaDashboard->id)->count() . ' clienti',
                     ],
                     [
                         'title' => 'Schedine',

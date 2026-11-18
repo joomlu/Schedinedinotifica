@@ -27,7 +27,7 @@ class VerificaServizioStruttura
             return $next($request);
         }
 
-        if ($request->routeIs('struttura.create', 'struttura.store', 'strutture.seleziona.index', 'strutture.seleziona', 'proprietario.strutture.index')
+        if ($request->routeIs('struttura.create', 'struttura.store', 'strutture.seleziona.index', 'strutture.seleziona', 'proprietario.strutture.index', 'proprietario.clienti-condivisione.*')
             || ($request->isMethod('get') && $request->routeIs('struttura.edit'))) {
             return $next($request);
         }

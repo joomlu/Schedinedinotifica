@@ -200,7 +200,7 @@ class SchedinaController extends Controller
         $customerId = $request->query('customer_id');
         $customerImportRowId = (int) $request->old('customer_import_row_id', $request->query('customer_import_row_id', 0));
         $customerImportRow = null;
-        $prefilledCustomer = $customerId ? Customers::withoutGlobalScopes()
+        $prefilledCustomer = $customerId ? app(\App\Services\CustomerSharing::class)->visibleQuery(Customers::withoutGlobalScopes())
             ->where('struttura_id', $currentId)->findOrFail($customerId) : null;
 
         if ($customerImportRowId > 0) {
@@ -244,11 +244,12 @@ class SchedinaController extends Controller
         $currentId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
         abort_unless($currentId, 403);
         \App\Support\SchedinaFormContext::validate($request, (int) $currentId);
-        $customers = Customers::withoutGlobalScopes()->where('struttura_id', $currentId);
+        $customers = app(\App\Services\CustomerSharing::class)->uniqueQuery(app(\App\Services\CustomerSharing::class)->visibleQuery(Customers::withoutGlobalScopes())->where('struttura_id', $currentId), (int) $currentId);
         if ($request->filled('selected')) {
             $customer = $customers->findOrFail($request->input('selected'));
             return response()->json(array_merge($this->customerToSchedinaDefaults($customer), [
                 'customer_id' => $customer->id, 'numero_cliente' => $customer->numero_cliente,
+                'customer_sharing_version' => $customer->sharingVersion,
             ]))->header('Cache-Control', 'no-store');
         }
         $query = trim((string) $request->input('query', ''));
@@ -309,6 +310,7 @@ class SchedinaController extends Controller
             $this->applySaveModeState($payload, $currentId, $saveMode, null);
 
             $schedina = Schedina::query()->create($payload);
+            app(\App\Services\CustomerSharing::class)->linkStay($schedina);
             $this->syncCamere($schedina, $request);
             $this->syncComponenti($schedina, $request);
             $this->syncCircuitNumbering($currentId, null, (string) ($payload['circuito'] ?? 'schedina'));
@@ -327,6 +329,7 @@ class SchedinaController extends Controller
                 ]);
             }
             $schedina = DB::transaction(function () use ($request, $currentId, $persist) {
+                app(\App\Services\CustomerSharing::class)->lockForStructure((int) $currentId);
                 Struttura::withoutGlobalScopes()->whereKey($currentId)->lockForUpdate()->firstOrFail();
                 $row = CustomerImportRow::query()
                     ->whereHas('batch', fn ($query) => $query->where('struttura_id', $currentId))
@@ -349,6 +352,7 @@ class SchedinaController extends Controller
             }
         } else {
             $schedina = DB::transaction(function () use ($currentId, $persist) {
+                app(\App\Services\CustomerSharing::class)->lockForStructure((int) $currentId);
                 Struttura::withoutGlobalScopes()->whereKey($currentId)->lockForUpdate()->firstOrFail();
 
                 return $persist();
@@ -424,7 +428,8 @@ class SchedinaController extends Controller
         return DB::transaction(function () use ($request, $id) {
             $sid = (int) (StrutturaCorrente::getId() ?? $request->user()?->struttura_id);
             \App\Support\SchedinaFormContext::validate($request, $sid);
-            Struttura::withoutGlobalScopes()->whereKey($sid)->lockForUpdate()->firstOrFail();
+            app(\App\Services\CustomerSharing::class)->lockForStructure((int) $sid);
+                Struttura::withoutGlobalScopes()->whereKey($sid)->lockForUpdate()->firstOrFail();
             $schedina = Schedina::query()->where('struttura_id', $sid)->lockForUpdate()->findOrFail($id);
             $previousCircuit = $this->normalizeSchedaCircuit($schedina);
             $this->authorizedCustomerReference($request);
@@ -515,6 +520,7 @@ class SchedinaController extends Controller
                 $web->save();
             }
             $schedina->fill($payload)->save();
+            app(\App\Services\CustomerSharing::class)->linkStay($schedina);
             if (! $webGestione || $request->exists('camere')) $this->syncCamere($schedina, $request);
             if (! $webGestione || $request->exists('componenti')) $this->syncComponenti($schedina, $request);
             $this->syncCircuitNumbering((int) $schedina->struttura_id, $previousCircuit, (string) ($payload['circuito'] ?? $previousCircuit));
@@ -535,7 +541,8 @@ class SchedinaController extends Controller
         $sid = (int) (StrutturaCorrente::getId() ?? $request->user()?->struttura_id);
         \App\Support\SchedinaFormContext::validate($request, $sid);
         return DB::transaction(function () use ($request, $sid, $id) {
-            Struttura::withoutGlobalScopes()->whereKey($sid)->lockForUpdate()->firstOrFail();
+            app(\App\Services\CustomerSharing::class)->lockForStructure((int) $sid);
+                Struttura::withoutGlobalScopes()->whereKey($sid)->lockForUpdate()->firstOrFail();
             $row = Schedina::query()->where('struttura_id', $sid)->lockForUpdate()->findOrFail($id);
             // Non sovrascrivere il contesto ricevuto: una scheda di un altro tenant resta vietata.
             $request->merge(array_merge($row->getAttributes(), ['save_mode' => 'convert_arrivi',
@@ -951,7 +958,7 @@ class SchedinaController extends Controller
         }
 
         $currentId = StrutturaCorrente::getId() ?? $request->user()?->struttura_id;
-        $customer = $currentId ? Customers::withoutGlobalScopes()
+        $customer = $currentId ? app(\App\Services\CustomerSharing::class)->visibleQuery(Customers::withoutGlobalScopes())
             ->whereIn('struttura_id', $this->customerSearchStructureIds((int) $currentId))
             ->find($request->input('customer_id')) : null;
         if (! $customer) {
@@ -1184,6 +1191,9 @@ class SchedinaController extends Controller
 
     private function customerSearchStructureIds(int $currentStrutturaId): array
     {
+        $sharing = app(\App\Services\CustomerSharing::class);
+        // Nei gruppi ogni persona ha un riferimento locale: non accettare ID esterni.
+        if ($sharing->groupFor($currentStrutturaId)) return [$currentStrutturaId];
         $struttura = Struttura::query()->find($currentStrutturaId);
         if (! $struttura) {
             return [$currentStrutturaId];
@@ -1198,6 +1208,7 @@ class SchedinaController extends Controller
             ->pluck('id')
             ->all();
 
+        $ids = array_values(array_filter($ids, fn ($id) => !$sharing->groupFor((int) $id)));
         return ! empty($ids) ? $ids : [$currentStrutturaId];
     }
 
@@ -1223,8 +1234,7 @@ class SchedinaController extends Controller
 
     private function findEquivalentCustomerInStruttura(Customers $sourceCustomer, int $currentStrutturaId): ?Customers
     {
-        $query = Customers::query()
-            ->withoutGlobalScopes()
+        $query = app(\App\Services\CustomerSharing::class)->visibleQuery(Customers::query()->withoutGlobalScopes())
             ->where('struttura_id', $currentStrutturaId)
             ->where('name', $sourceCustomer->name)
             ->where('surname', $sourceCustomer->surname);
@@ -1291,8 +1301,7 @@ class SchedinaController extends Controller
     {
         $pattern = "{$prefix}-{$yearTwoDigits}-%";
 
-        $lastCode = Customers::query()
-            ->withoutGlobalScopes()
+        $lastCode = app(\App\Services\CustomerSharing::class)->visibleQuery(Customers::query()->withoutGlobalScopes())
             ->where('struttura_id', $strutturaId)
             ->where('numero_cliente', 'like', $pattern)
             ->orderByDesc('numero_cliente')

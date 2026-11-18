@@ -527,7 +527,7 @@ class CalendarioController extends Controller
         $events = [];
         // Il perimetro è già risolto da resolveCalendarContext: il filtro
         // esplicito evita che l’hotel selezionato nella barra nasconda gli altri autorizzati.
-        $clienti = Customers::withoutGlobalScope('struttura')
+        $clienti = app(\App\Services\CustomerSharing::class)->packageQuery(Customers::withoutGlobalScope('struttura'), (int) $struttura->id)
             ->select(['id', 'name', 'surname', 'nac_reg'])
             ->where('struttura_id', $struttura->id)
             ->whereNotNull('nac_reg')
