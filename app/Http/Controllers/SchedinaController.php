@@ -176,7 +176,7 @@ class SchedinaController extends Controller
     {
         $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
         if (! $currentId) {
-            return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
+            throw new \App\Exceptions\StrutturaNonSelezionata;
         }
 
         $strutturaInfo = Struttura::find($currentId);
@@ -368,7 +368,7 @@ class SchedinaController extends Controller
     {
         $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
         if (! $currentId) {
-            return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
+            throw new \App\Exceptions\StrutturaNonSelezionata;
         }
 
         $strutturaInfo = Struttura::find($currentId);

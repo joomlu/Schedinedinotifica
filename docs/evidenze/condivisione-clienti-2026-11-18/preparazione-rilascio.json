@@ -1,0 +1,20 @@
+{
+  "data": "2026-11-18",
+  "candidato": "c1816e7b79b055c4accfcf54aa46ad9e7e88097e",
+  "destinatario": "https://schedinedinotifica.tanggo.software",
+  "github": "https://github.com/joomlu/Schedinedinotifica",
+  "main_remoto": "df711e6c32f0cd984d09d4cf7d0253d66d70394a",
+  "server_servito": "df711e6c32f0cd984d09d4cf7d0253d66d70394a",
+  "git_server_pulito": true,
+  "schema_iniziale_tabelle": 66,
+  "nuove_tabelle_presenti": 0,
+  "checkpoint": "/var/lib/schedine-release/bases/clienti-c1816e7-1LS6lWjz",
+  "kit_privato": "/opt/schedine-release/clienti-c1816e7-gFAnVyuM",
+  "checkpoint_verifica": "ripristino isolato senza rete, DDL nuova applicata e ritirata, 66 tabelle ripristinate e controllate, checksum clienti/schedina/componenti invariati, configurazione cifrata verificata",
+  "pubblicazione": "respinta prima di eseguire il comando dalla revisione automatica",
+  "motivo": "Richiesta conferma esplicita della destinazione GitHub, esportazione sorgenti/documenti e aggiornamento main",
+  "sito_modificato": false,
+  "migrazione_operativa": false,
+  "flag_operativo_abilitato": false,
+  "hotel_uniti": false
+}

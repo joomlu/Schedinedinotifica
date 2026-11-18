@@ -1,0 +1,65 @@
+{
+  "data": "2026-11-18",
+  "segnalazione": "403 su https://schedinedinotifica.tanggo.software/struttura",
+  "revisione_online": "c1816e7b79b055c4accfcf54aa46ad9e7e88097e",
+  "barriera": "aperta",
+  "fpm": "attivo",
+  "evidenza_accessi_sanitizzata": [
+    {
+      "ora_utc": "14:02:32",
+      "percorso": "/proprietario/condivisione-clienti",
+      "status": 200
+    },
+    {
+      "ora_utc": "14:02:41",
+      "percorso": "/struttura",
+      "status": 403
+    },
+    {
+      "ora_utc": "14:02:48",
+      "percorso": "/clienti/nuovo",
+      "status": 403
+    },
+    {
+      "ora_utc": "14:03:59",
+      "percorso": "/schedine/nuova",
+      "status": 302
+    },
+    {
+      "ora_utc": "14:04:00",
+      "percorso": "/strutture/seleziona",
+      "status": 200
+    },
+    {
+      "ora_utc": "14:04:48",
+      "percorso": "/struttura",
+      "status": 200
+    }
+  ],
+  "diagnosi": "Accesso proprietario da area globale senza selezione hotel: StrutturaAccess::resolve gestisce il contesto mancante per admin/super_admin, non per proprietario. Dopo selezione autorizzata la pagina risponde 200.",
+  "rimedio_immediato": "Selezionare esplicitamente il proprio hotel dal selettore esistente.",
+  "candidato_locale": "Rinvio al selettore anche per proprietario attivo con almeno una struttura autorizzata; ID estranei, sessioni alterate e proprietario senza strutture rimangono vietati.",
+  "test_preparati": [
+    "StrutturaNonSelezionataTest: casi proprietario HTML, JSON, nessuna scrittura senza contesto, strutture estranee vietate",
+    "Regressioni StrutturaAuthorizationTest e CustomerSharingTest"
+  ],
+  "test_eseguiti": false,
+  "blocco_test": "VM ufficiale irraggiungibile; volume esterno SchedineSviluppo non montato. Montaggio normale fallito. Due collegamenti esistenti della medesima immagine rilevati: nessun distacco forzato o riparazione.",
+  "produzione_modificata": false,
+  "dati_modificati": false,
+  "commit_creato": false,
+  "push": false,
+  "deploy": false,
+  "verifica_successiva_accessi": [
+    {
+      "ora_utc": "14:06:04",
+      "percorso": "/struttura",
+      "status": 200
+    },
+    {
+      "ora_utc": "14:06:06",
+      "percorso": "/struttura",
+      "status": 200
+    }
+  ]
+}

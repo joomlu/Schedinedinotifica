@@ -14,8 +14,8 @@ class StrutturaNonSelezionataTest extends TestCase
     public static function sezioni(): array
     {
         $cases = [];
-        foreach (['admin', 'super_admin'] as $role) {
-            foreach (['/questura', '/istat-tabella-a', '/statistica/presenze', '/statistica/presenze/stampa-riepilogo', '/statistica/presenze/stampa-dettaglio', '/struttura', '/gruppi', '/tipovia'] as $url) {
+        foreach (['admin', 'super_admin', 'proprietario'] as $role) {
+            foreach (['/questura', '/istat-tabella-a', '/statistica/presenze', '/statistica/presenze/stampa-riepilogo', '/statistica/presenze/stampa-dettaglio', '/struttura', '/gruppi', '/tipovia', '/clienti', '/clienti/nuovo', '/clienti/import', '/clienti/liste-export', '/strutture/utenti', '/schedine/nuova', '/tassa_di_soggiorno', '/web-checkin', '/web-checkin/nuovo'] as $url) {
                 $cases[$role.' '.$url] = [$role, $url];
             }
         }
@@ -26,7 +26,9 @@ class StrutturaNonSelezionataTest extends TestCase
     public function test_senza_selezione_invita_a_scegliere_la_struttura(string $role, string $url): void
     {
         $admin = $this->actor($role);
-        $mine = $this->structureFor($this->ownerFor($admin));
+        $owner = $this->ownerFor($role === 'proprietario' ? $this->actor('admin') : $admin);
+        if ($role === 'proprietario') $admin->update(['proprietario_id' => $owner->id]);
+        $mine = $this->structureFor($owner);
         $foreign = $this->structureFor($this->ownerFor($this->actor('admin')));
         $this->actingAs($admin)->get($url)
             ->assertRedirect(route('strutture.seleziona.index'))
@@ -36,10 +38,12 @@ class StrutturaNonSelezionataTest extends TestCase
         $response = $this->get(route('strutture.seleziona.index'))
             ->assertOk()->assertSee('Seleziona una struttura per continuare.')
             ->assertSee($mine->nome_struttura);
-        if ($role === 'admin') {
+        if (in_array($role, ['admin', 'proprietario'], true)) {
             $response->assertDontSee($foreign->nome_struttura);
         }
-        $this->post(route('strutture.seleziona', $mine->id))->assertRedirect();
+        $this->assertSame($url, session(\App\Exceptions\StrutturaNonSelezionata::RETURN_TO));
+        $this->post(route('strutture.seleziona', $mine->id), ['selection_context' => 'struttura_richiesta'])->assertRedirect($url);
+        $this->assertNull(session(\App\Exceptions\StrutturaNonSelezionata::RETURN_TO));
         $this->assertSame($mine->id, session('struttura_corrente_id'));
         $this->get('/struttura')->assertOk()->assertSee($mine->nome_struttura);
     }
@@ -100,6 +104,60 @@ class StrutturaNonSelezionataTest extends TestCase
         } finally {
             file_put_contents($bundle, $originale);
         }
+    }
+
+    public function test_proprietario_senza_selezione_json_e_scritture_non_procedono_ma_area_globale_resta_aperta(): void
+    {
+        $owner = $this->ownerFor($this->actor('admin'));
+        $mine = $this->structureFor($owner);
+        $user = $this->actor('proprietario', $owner->id);
+        $this->actingAs($user);
+        $this->get(route('proprietario.clienti-condivisione.index'))->assertOk();
+        $this->assertNull(session('struttura_corrente_id'));
+        foreach (['/struttura', '/clienti/nuovo'] as $url) {
+            $this->getJson($url)->assertStatus(409)->assertJsonPath('error_code', 'STRUTTURA_NON_SELEZIONATA');
+        }
+        $this->postJson('/clienti', ['name' => 'Non deve essere salvato'])->assertStatus(409);
+        $this->putJson('/struttura', ['nome_struttura' => 'Non modificare'])->assertStatus(409);
+        $this->assertDatabaseCount('clienti', 0);
+        $this->assertSame($mine->nome_struttura, $mine->fresh()->nome_struttura);
+    }
+
+    public function test_proprietario_non_puo_usare_selezioni_estranee_per_ottenere_il_rinvio(): void
+    {
+        $owner = $this->ownerFor($this->actor('admin'));
+        $mine = $this->structureFor($owner);
+        $foreign = $this->structureFor($this->ownerFor($this->actor('admin')));
+        $this->actingAs($this->actor('proprietario', $owner->id));
+        foreach (['sid='.$foreign->id, 'sid=0', 'sid[]=1', 'sid=abc', 'sid='.$mine->id.'&struttura_id='.$foreign->id] as $query) {
+            $this->withSession(['struttura_corrente_id' => null])->get('/struttura?'.$query)->assertForbidden();
+        }
+        $this->withSession(['struttura_corrente_id' => $foreign->id])->get('/struttura')->assertForbidden();
+        $this->post(route('strutture.seleziona', $foreign->id))->assertNotFound();
+    }
+
+    public function test_destinazione_esterna_o_alterata_non_viene_usata_dal_selettore(): void
+    {
+        $owner = $this->ownerFor($this->actor('admin'));
+        $hotel = $this->structureFor($owner);
+        $this->actingAs($this->actor('proprietario', $owner->id));
+        foreach (['https://esterno.invalid', '//esterno.invalid', '/\\esterno.invalid', "/struttura\r\nLocation: https://esterno.invalid", '/%2f%2festerno.invalid'] as $target) {
+            $this->withSession([\App\Exceptions\StrutturaNonSelezionata::RETURN_TO => $target])
+                ->from('/strutture/seleziona')->post(route('strutture.seleziona', $hotel->id), ['selection_context' => 'struttura_richiesta'])
+                ->assertRedirect('/strutture/seleziona');
+            $this->assertNull(session(\App\Exceptions\StrutturaNonSelezionata::RETURN_TO));
+        }
+    }
+
+    public function test_scrittura_senza_contesto_non_viene_memorizzata_come_destinazione_da_ripetere(): void
+    {
+        $owner = $this->ownerFor($this->actor('admin'));
+        $this->structureFor($owner);
+        $this->actingAs($this->actor('proprietario', $owner->id));
+        $this->withSession([\App\Exceptions\StrutturaNonSelezionata::RETURN_TO => '/struttura'])
+            ->post('/clienti', ['name' => 'Non salvare'])->assertRedirect(route('strutture.seleziona.index'));
+        $this->assertNull(session(\App\Exceptions\StrutturaNonSelezionata::RETURN_TO));
+        $this->assertDatabaseCount('clienti', 0);
     }
 
 }

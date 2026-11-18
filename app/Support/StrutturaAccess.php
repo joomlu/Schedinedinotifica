@@ -65,7 +65,8 @@ final class StrutturaAccess
         }
         $selected = $ids[0] ?? StrutturaCorrente::getId();
         if ($selected === null && $original === null && $user->attivo
-            && ($user->isAdmin() || $user->isSuperAdmin())) {
+            && ($user->isAdmin() || $user->isSuperAdmin()
+                || ($user->isProprietario() && self::query($user, true)->exists()))) {
             throw new \App\Exceptions\StrutturaNonSelezionata;
         }
         $query = self::query($user, true);

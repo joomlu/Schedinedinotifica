@@ -1,8 +1,20 @@
 # Condivisione clienti — qualifica del candidato locale
 
-18 novembre 2026. **PROVE RICHIESTE POSITIVE; ATTIVAZIONE REALE DISABILITATA. BASELINE IN AUDIT invariata.**
+18 novembre 2026. **PUBBLICATO E ABILITATO ONLINE; HOTEL DA SCEGLIERE DAL PROPRIETARIO. BASELINE IN AUDIT invariata.**
 
 Il titolare ha autorizzato il completamento della separazione senza pacchetto, le prove di concorrenza/carico/recupero e, dopo esito positivo, un commit locale selettivo su `codex/condivisione-clienti`. Nessun push, deploy, import reale o migrazione Herd/produzione autorizzati. La cronologia precedente è conservata sotto e descrive checkpoint superati.
+
+## Rilascio online completato
+
+Dopo il primo rifiuto automatico, il titolare ha confermato espressamente destinazione GitHub, rami `codex/condivisione-clienti` e `main`, esportazione del commit e rilascio con migrazione/abilitazione su `https://schedinedinotifica.tanggo.software`. Push atomico senza forzatura riuscito; entrambi i rami remoti, HEAD locale corrente e codice servito coincidono a **`c1816e7b79b055c4accfcf54aa46ad9e7e88097e`**. Repository servito pulito.
+
+Installazione sotto guardiano `schedine-clienti-c1816e7.service`, con barriera HTTP 503 verificata prima delle scritture e FPM arrestato nella finestra. Checkpoint fresco cifrato `/var/lib/schedine-release/bases/clienti-c1816e7-wHq8N2sa`: codice verificato tramite clone indipendente, database ripristinato senza rete, nuova DDL applicata sulla copia e recupero delle 66 tabelle verificato con checksum invariati; configurazione cifrata riletta e verificata. La procedura protegge il recupero prima della riapertura e non ripristina automaticamente copie vecchie dopo possibili nuove scritture degli utenti.
+
+Applicata soltanto `2026_11_18_000000_create_customer_sharing_tables`: otto tabelle nuove, database da 66 a 74 tabelle, una sola registrazione nel registro migrazioni. `CUSTOMER_SHARING_ENABLED=true` nella configurazione online; cache di configurazione/rotte rigenerate e viste compilate svuotate; FPM riavviato, sonde FastCGI positive, barriera rimossa. Unità conclusa con successo. Checksum di `clienti`, `schedina` e `componenti` identici prima e dopo l’installazione sotto barriera.
+
+Sonde esterne con TLS valido: home, login e CSS HTTP 200; pagina proprietario HTTP 302 verso login da anonimo. Non effettuato login produttivo di prova, nessun cliente fittizio inserito online e nessuna operazione di condivisione su hotel reali. Alla verifica finale: zero gruppi, zero partecipazioni, zero persone condivise; la funzione è disponibile al proprietario, che deve scegliere gli hotel e confermare dall’interfaccia. I CSV reali non sono stati importati.
+
+[Ricevuta del rilascio](evidenze/condivisione-clienti-2026-11-18/rilascio-online.json) · [registro compresso](evidenze/condivisione-clienti-2026-11-18/rilascio-online.log.gz). Fonte codice invariata rispetto al candidato collaudato. Herd/MySQL originale del Mac e copia quotidiana VM non modificati; l’attivazione riguarda il sito online espressamente autorizzato. Questa sezione supera le indicazioni storiche di funzione disabilitata o pubblicazione pendente conservate sotto.
 
 ## Separazione senza pacchetto
 
@@ -142,3 +154,9 @@ Browser R3 raggiunge accesso, anteprima e creazione del gruppo; si ferma sul mes
 [Registro finale](evidenze/condivisione-clienti-2026-11-18/prova-06.log.gz), [ricevuta](evidenze/condivisione-clienti-2026-11-18/ripresa-vm.json) e [impronte della copia collaudata](evidenze/condivisione-clienti-2026-11-18/manifest-copia-vm.json). I 148 test/983 asserzioni precedono soltanto la rimozione degli avvisi duplicati nella nuova vista; codice applicativo PHP invariato. Nuove prove appropriate dopo tale modifica: 27 casi e browser, positivi.
 
 **Consegna corrente PARZIALE; BASELINE IN AUDIT.** Riavvio richiesto completato, blocco infrastrutturale risolto, collaudo di base positivo. Nessuna attivazione reale, importazione, migrazione Herd/produzione, commit, push, deploy o invio. Codice applicativo PHP modificato in questa ripresa NO; nuova vista modificata SÌ (rimozione duplicazione), spec modificato SÌ; documentazione/evidenze SÌ; test applicativi nella sola VM SÌ. Restano le pendenze dichiarate, senza autorizzazione implicita al rilascio.
+
+## Richiesta di installazione e preparazione del rilascio
+
+Il titolare ha chiesto di installare e attivare la funzione. Verificati GitHub main e server pulito a `df711e6`, barriera aperta e FPM attivo, 66 tabelle e nessuna tabella/migrazione della condivisione presente. Kit separato preparato sulla procedura del rilascio precedente, con attesa del socket FPM, recupero della sola nuova DDL vuota prima dell’apertura e configurazione cifrata. Checkpoint verificato su copia privata senza rete: ripristino, nuova DDL derivata dalla VM ufficiale, ritorno a 66 tabelle, controlli e checksum dei dati preesistenti invariati. Test sintetici del flag positivi.
+
+La revisione automatica ha respinto il push di `c1816e7` a `codex/condivisione-clienti` e `main` sul repository `https://github.com/joomlu/Schedinedinotifica`: richiede consenso esplicito alla destinazione e all’esportazione dei sorgenti/documenti. Comando non eseguito; GitHub riconfermato alla base. Nessun aggiramento tentato, nessuna installazione/migrazione/configurazione nel sito servito, nessuna unione di hotel. Serve conferma della pubblicazione prima del rilascio. [Ricevuta di preparazione](evidenze/condivisione-clienti-2026-11-18/preparazione-rilascio.json).

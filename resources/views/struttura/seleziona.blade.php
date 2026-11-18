@@ -36,6 +36,9 @@
                             <td>
                                 <form method="POST" action="{{ route('strutture.seleziona', $struttura->id) }}">
                                     @csrf
+                                    @if(session()->has(\App\Exceptions\StrutturaNonSelezionata::RETURN_TO))
+                                        <input type="hidden" name="selection_context" value="struttura_richiesta">
+                                    @endif
                                     <button type="submit" class="btn btn-sm btn-primary">Seleziona</button>
                                 </form>
                             </td>

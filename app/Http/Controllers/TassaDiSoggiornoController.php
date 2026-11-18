@@ -44,7 +44,7 @@ class TassaDiSoggiornoController extends Controller
     {
         $strutturaId = StrutturaCorrente::getId() ?? $request->user()->struttura_id;
         if (! $strutturaId) {
-            return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
+            throw new \App\Exceptions\StrutturaNonSelezionata;
         }
 
         $struttura = Struttura::findOrFail($strutturaId);

@@ -1,0 +1,61 @@
+{
+  "data": "2026-11-18",
+  "stato": "PUBBLICATO E ABILITATO ONLINE",
+  "autorizzazione": "Conferma esplicita utente: GitHub, main e rilascio online",
+  "candidato": "c1816e7b79b055c4accfcf54aa46ad9e7e88097e",
+  "github": "https://github.com/joomlu/Schedinedinotifica",
+  "rami": [
+    "main",
+    "codex/condivisione-clienti"
+  ],
+  "destinatario": "https://schedinedinotifica.tanggo.software",
+  "server_git_pulito": true,
+  "checkpoint_fresco": "/var/lib/schedine-release/bases/clienti-c1816e7-wHq8N2sa",
+  "kit": "/opt/schedine-release/clienti-c1816e7-gFAnVyuM",
+  "guardiano": "schedine-clienti-c1816e7.service",
+  "esito_unita": "success",
+  "finestra_secondi_da_journal": 15.523,
+  "migrazione": "2026_11_18_000000_create_customer_sharing_tables",
+  "registro_migrazione": 1,
+  "tabelle_database": 74,
+  "nuove_tabelle": 8,
+  "customer_sharing_enabled": true,
+  "gruppi_creati": 0,
+  "partecipazioni_create": 0,
+  "persone_condivise": 0,
+  "barriera": "aperta",
+  "fpm": "attivo",
+  "checksum_clienti_schedina_componenti": "identici prima e dopo installazione, sotto barriera",
+  "import_csv_eseguito": false,
+  "invii_reali": false,
+  "herd_mac_modificato": false,
+  "copia_quotidiana_vm_modificata": false,
+  "sonde_esterne": [
+    {
+      "percorso": "/",
+      "stato": 200,
+      "tls_verificato": true,
+      "destinazione": null
+    },
+    {
+      "percorso": "/login",
+      "stato": 200,
+      "tls_verificato": true,
+      "destinazione": null
+    },
+    {
+      "percorso": "/build/css/custom.min.css",
+      "stato": 200,
+      "tls_verificato": true,
+      "destinazione": null
+    },
+    {
+      "percorso": "/proprietario/condivisione-clienti",
+      "stato": 302,
+      "tls_verificato": true,
+      "destinazione": "https://schedinedinotifica.tanggo.software/login"
+    }
+  ],
+  "log_sha256": "671a0f3b8212529c09ac2ee551fa8c658125ca02f1d5fe740d89e7ae48376136",
+  "limiti": "Verifica produttiva limitata a revisione, schema, configurazione e sonde senza autenticazione; flussi condivisione collaudati con dati sintetici nella VM."
+}

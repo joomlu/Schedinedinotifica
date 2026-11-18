@@ -23,7 +23,7 @@ class WebCheckinController extends SchedinaController
     {
         $strutturaId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
         if (! $strutturaId) {
-            return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
+            throw new \App\Exceptions\StrutturaNonSelezionata;
         }
 
         $q = trim((string) request()->query('q', ''));
@@ -89,7 +89,7 @@ class WebCheckinController extends SchedinaController
     {
         $strutturaId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
         if (! $strutturaId) {
-            return redirect()->route('strutture.seleziona.index')->withErrors(['struttura_id' => 'Seleziona una struttura per continuare.']);
+            throw new \App\Exceptions\StrutturaNonSelezionata;
         }
 
         request()->validate(['scheda_precedente' => ['nullable', 'integer', 'min:1']]);

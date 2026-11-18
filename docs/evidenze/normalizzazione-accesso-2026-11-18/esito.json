@@ -1,0 +1,53 @@
+{
+  "data": "2026-11-18",
+  "stato": "COLLAUDO POSITIVO; RILASCIO PENDENTE",
+  "base": "c1816e7b79b055c4accfcf54aa46ad9e7e88097e",
+  "vm": "schedine-sviluppo-interno",
+  "vm_recuperata": "Arresto ordinato senza completamento, forzatura autorizzata, due sganci ordinati riusciti e rimontaggio unico con utility documentata; READY/SSH, 43 GiB liberi, nessuna unita fallita; nessuna riparazione filesystem manuale",
+  "phpunit_sessioni": [
+    {
+      "test": 109,
+      "asserzioni": 1207
+    },
+    {
+      "test": 48,
+      "asserzioni": 1210
+    }
+  ],
+  "phpunit_totale": 157,
+  "asserzioni_totali": 2417,
+  "browser": {
+    "esito": "positivo",
+    "scenari": 1,
+    "percorsi": [
+      "/struttura",
+      "/clienti/nuovo",
+      "/schedine/nuova",
+      "/web-checkin",
+      "/tassa_di_soggiorno"
+    ],
+    "secondi": 53.3
+  },
+  "prima_prova_browser": "Timeout sul pulsante dietro il dialogo informativo; spec corretto per chiudere il dialogo con OK, nessuna modifica applicativa aggiuntiva",
+  "ingressi_http_per_ruolo": 17,
+  "ruoli": [
+    "proprietario",
+    "admin",
+    "super_admin"
+  ],
+  "isolamento": "Identita DB/processi/HTTP, riconnessione e 23 rifiuti override positivi; build/GEO positivi",
+  "protezione": "ID/sessioni estranei vietati, proprietario senza strutture vietato, nessuna ripetizione di POST/PUT, URL di rientro esterni o alterati rifiutati",
+  "sha256": {
+    "app/Support/StrutturaAccess.php": "cf0f68250e70f8f15758ee091afe0ecc729b02739aa465d37ae1b12823f29d67",
+    "app/Exceptions/StrutturaNonSelezionata.php": "c0a779b79870b0f739a1852cf63bbd844ab71cf028f2388f51495687f150ac49",
+    "app/Http/Controllers/StrutturaSelezioneController.php": "9cd7e61cea753549e96ec6ffda0a63f4b76dad26ae0a019c00dbc13435fdd086",
+    "app/Http/Controllers/SchedinaController.php": "60f6861477ce2bad99d3e2cee8f5886ad6300d6e7098f763049e801649568ded",
+    "app/Http/Controllers/TassaDiSoggiornoController.php": "1d4aa191d31167e2fbc10cb014901c72db14981c25bd8be60b3e18176ec3b300",
+    "app/Http/Controllers/WebCheckinController.php": "77a1adbce7b6a313a06a238990966ac87d9b8145808ad2f8a012d62d80c85017",
+    "resources/views/struttura/seleziona.blade.php": "cae3e013bb7c69673aa7ac9455bad7cfc5c4084feb3837420927c35f57328cd0",
+    "tests/Feature/StrutturaNonSelezionataTest.php": "78e337fc4708e207275a4ba195756d682234d45968423bebcbe011cf6d5bb858",
+    "tests/Feature/struttura-accesso.playwright.spec.js": "c13683c6a894f440d6dce68f079996ac2d4c034921ca4d0eed5edf3e40a01562"
+  },
+  "migrazioni": false,
+  "modifica_dati_reali": false
+}

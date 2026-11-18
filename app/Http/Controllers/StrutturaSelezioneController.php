@@ -38,6 +38,13 @@ class StrutturaSelezioneController extends Controller
         $struttura = $this->queryPerUtente($user)->where('id', $id)->firstOrFail();
         StrutturaCorrente::setId($struttura->id);
 
+        $target = \App\Exceptions\StrutturaNonSelezionata::returnPath(
+            $request->session()->pull(\App\Exceptions\StrutturaNonSelezionata::RETURN_TO)
+        );
+        if ($request->input('selection_context') === 'struttura_richiesta' && $target !== null) {
+            return redirect()->to($target)->with('success', 'Struttura selezionata.');
+        }
+
         $isTopbarSwitchFlow = $request->input('selection_context') === 'topbar_switch';
         if ($isTopbarSwitchFlow) {
             return redirect()->route('root')->with('success', 'Struttura selezionata.');
