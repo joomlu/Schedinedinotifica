@@ -24,7 +24,16 @@
     @foreach($groups as $group)
         <div class="card"><div class="card-body">
             <h4 class="card-title">{{ $group->nome }}</h4>
-            <p>{{ $group->people_count }} anagrafiche nel gruppo. Soggiorni, provenienze e consensi locali rimangono distinti.</p>
+            <div class="alert alert-success" data-sharing-status="attivo" role="status">
+                <strong>Condivisione attiva</strong>
+                <p class="mb-1">Questi hotel utilizzano la stessa anagrafica clienti:</p>
+                <ul class="mb-2">@foreach($group->structures as $structure)<li>{{ $structure->nome_struttura }}</li>@endforeach</ul>
+                <p class="mb-0">Clienti condivisi: <strong>{{ $group->people_count }}</strong>.</p>
+            </div>
+            @if($group->people_count === 0)
+                <p>La condivisione è configurata. L’archivio condiviso è ancora vuoto: i clienti aggiunti o importati negli hotel del gruppo saranno condivisi.</p>
+            @endif
+            <p>Soggiorni, provenienze e consensi locali rimangono distinti.</p>
             <a class="btn btn-light btn-sm mb-3" href="{{ route('proprietario.clienti-condivisione.sources', $group->id) }}">Scarica provenienze e dati originali</a>
             <a class="btn btn-light btn-sm mb-3" href="{{ route('proprietario.clienti-condivisione.index', ['revisionati' => request()->boolean('revisionati') ? 0 : 1]) }}">{{ request()->boolean('revisionati') ? 'Mostra solo coppie da revisionare' : 'Includi coppie già revisionate' }}</a>
             <details class="mb-3"><summary>Aggiungi strutture</summary>

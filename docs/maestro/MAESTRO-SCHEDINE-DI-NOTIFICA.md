@@ -1,5 +1,13 @@
 # MAESTRO — SCHEDINE DI NOTIFICA
 
+## Conferma visibile dei gruppi clienti — 18 novembre 2026
+
+**COLLAUDATO, RILASCIO PENDENTE.** Riepilogo persistente nella scheda del gruppo attivo: stato, hotel partecipanti e conteggio clienti; archivio vuoto esplicitamente distinto dalla mancata configurazione. Nessuna modifica a controller, servizi, autorizzazioni o dati. VM riavviata nei limiti già autorizzati dopo perdita del mount; nessuna riparazione filesystem. 30 test PHP/132 asserzioni e browser a tre larghezze positivi, persistenza dopo ricaricamento e isolamento verificati; build/GEO e 23 rifiuti positivi. Nessuna importazione o nuova unione produttiva. [Consuntivo](../CONFERMA-CONDIVISIONE-CLIENTI-2026-11-18.md). BASELINE IN AUDIT invariata.
+
+## Verifica della condivisione Amalfi, Dream e Gori — 18 novembre 2026
+
+Su richiesta del titolare, verifica produttiva in transazione di sola lettura: Hotel Amalfi, Hotel Gori e Hotel Dream del proprietario 8 appartengono allo stesso gruppo 1, «Clienti condivisi», stato `attivo`. Operazione `configurazione` registrata il 18 novembre 2026 alle 15:04:18 (timestamp del database). Tutti e tre gli archivi `clienti` hanno zero schede e il gruppo ha zero persone: condivisione configurata, importazione non eseguita. Nessuna anagrafica letta, nessuna configurazione ripetuta o dato modificato. La pagina corrente mostra il gruppo e il conteggio; i nomi dei partecipanti sono consultabili nelle scelte del gruppo. Nessun nuovo codice o rilascio; BASELINE IN AUDIT invariata.
+
 ## Accesso alle pagine di struttura — normalizzazione del 18 novembre 2026
 
 **CORREZIONE COLLAUDATA; RILASCIO ONLINE IN PREPARAZIONE.** Proprietario senza hotel selezionato: richiesta esplicita di selezione e ritorno alla pagina GET richiesta. Uniformati Dati struttura, clienti e servizi che usano il gestore comune; ingressi schedina, Tassa e Web Check-in portati allo stesso percorso. Dashboard e condivisione restano generali; nessun hotel assegnato automaticamente, nessun POST/PUT ripetuto, rientro limitato a path interne validate. ID/sessioni estranei e proprietario privo di strutture restano vietati. Nessun ridisegno; solo campo nascosto nel selettore.

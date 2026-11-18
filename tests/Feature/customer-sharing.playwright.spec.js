@@ -42,13 +42,22 @@ test('Scelta proprietario, duplicati prudenti, isolamento e tre dimensioni', asy
   await expect(page.locator('.card-body ul')).not.toContainText('Hotel prova C');
   await page.locator('#conferma-gruppo').check();
   await conferma(page, page.getByRole('button', { name: 'Conferma condivisione' }));
-  await expect(page.locator('.alert-success')).toContainText('Condivisione aggiornata');
+  await expect(page.locator('[data-server-alert="success"]')).toContainText('Condivisione aggiornata');
+  const status = page.locator('[data-sharing-status="attivo"]');
+  await expect(status).toContainText('Condivisione attiva');
+  await expect(status).toContainText('Hotel prova A');
+  await expect(status).toContainText('Hotel prova B');
+  await expect(status).not.toContainText('Hotel prova C');
+  await expect(status).toContainText('Clienti condivisi:');
+  await page.reload({ waitUntil: 'networkidle' });
+  await expect(status).toContainText('Condivisione attiva');
+  await expect(status.locator('li')).toHaveCount(2);
   await page.locator('summary').filter({ hasText: 'Verifica possibili duplicati' }).click();
   const separate = page.locator('form[action$="/mantieni-separati"]').first();
   await expect(separate).toBeVisible();
   await separate.locator('input[name="conferma"]').check();
   await conferma(page, separate.getByRole('button', { name: 'Mantieni separate', exact: true }));
-  await expect(page.locator('.alert-success')).toContainText('mantenute separate');
+  await expect(page.locator('[data-server-alert="success"]')).toContainText('mantenute separate');
 
   for (const width of [1440, 768, 390]) {
     await page.setViewportSize({ width, height: 1000 });
@@ -74,7 +83,7 @@ test('Scelta proprietario, duplicati prudenti, isolamento e tre dimensioni', asy
   await exit.locator('select[name="consegna"]').selectOption('0');
   await exit.locator('input[name="conferma"]').check();
   await conferma(page, exit.getByRole('button', { name: 'Conferma separazione' }));
-  await expect(page.locator('.alert-success')).toContainText('Struttura separata');
+  await expect(page.locator('[data-server-alert="success"]')).toContainText('Struttura separata');
   await expect(page.getByRole('link', { name: /Scarica pacchetto/ })).toHaveCount(0);
   await login(page, 'sharing-b@fixture.invalid', fixture.password);
   await page.goto(`${BASE_URL}/clienti`, { waitUntil: 'networkidle' });

@@ -203,6 +203,22 @@ class CustomerSharingTest extends TestCase
         $this->get(route('proprietario.clienti-condivisione.index'))->assertForbidden();
     }
 
+    public function test_riepilogo_persistente_del_gruppo_vuoto_e_popolato(): void
+    {
+        [$user, $a, $b, $c, $sharing] = $this->setupGroup();
+        $sharing->configure($user, null, 0, 'Gruppo riepilogo', [$a->id, $b->id]);
+        $url = route('proprietario.clienti-condivisione.index');
+        foreach ([1, 2] as $visit) {
+            $this->get($url)->assertOk()->assertSee('data-sharing-status="attivo"', false)
+                ->assertSee('Condivisione attiva')->assertSee('L’archivio condiviso è ancora vuoto');
+        }
+        $this->customer($a->id);
+        $this->get($url)->assertOk()->assertSee('Condivisione attiva')
+            ->assertDontSee('L’archivio condiviso è ancora vuoto');
+        $this->assertSame(1, DB::table('customer_sharing_groups')->count());
+        $this->assertSame(2, DB::table('customer_sharing_memberships')->count());
+    }
+
     public function test_anteprima_non_mutante_e_conferma_vincolata_ai_dati(): void
     {
         [$user, $a, $b, $c, $sharing] = $this->setupGroup();

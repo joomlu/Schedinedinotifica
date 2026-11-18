@@ -1,0 +1,26 @@
+{
+  "data": "2026-11-18",
+  "stato": "COLLAUDO POSITIVO",
+  "base": "0445ada4f9d4ddf991588a6ebcb79fc69c33ec7c",
+  "vm": "schedine-sviluppo-interno",
+  "test_php": 30,
+  "asserzioni": 132,
+  "browser": {
+    "scenari": 1,
+    "secondi": 41.3,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "esito": "positivo"
+  },
+  "guardie": "Identità processi/DB/HTTP, riconnessione, 23 rifiuti di override, build e GEO positivi",
+  "sha256": {
+    "resources/views/proprietario/clienti-condivisione.blade.php": "0187e89fe04aafcdf6e2421003ba42c91a147b482cf86bdf4b01f068874d1c30",
+    "tests/Feature/CustomerSharingTest.php": "78a75b9064ddb9cfdd8903cead6440690c52d5060b09d2ecc969bc197c0f474b",
+    "tests/Feature/customer-sharing.playwright.spec.js": "3ed8f3ab2840520cbf0124eb558585378047ac5f107ac3606275cd6f33aeaab1"
+  },
+  "modifica_dati_reali": false,
+  "migrazioni": false
+}
