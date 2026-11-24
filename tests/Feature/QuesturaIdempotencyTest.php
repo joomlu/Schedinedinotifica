@@ -163,6 +163,7 @@ class QuesturaIdempotencyTest extends TestCase
         try {
             $this->artisan('questura:invio-serale')->assertExitCode(1);
             $this->artisan('questura:invio-serale')->assertSuccessful();
+            $avvisoSerale = cache('questura:avviso-serale:'.$struttura->id);
         } finally {
             $this->app->instance('env', $ambiente);
             $this->travelBack();
@@ -170,7 +171,7 @@ class QuesturaIdempotencyTest extends TestCase
 
         $this->assertSame(1, $this->sends($double));
         $this->assertSame([$pronta->id], DB::table('questura_send_reservations')->pluck('schedina_id')->all());
-        $this->assertSame(1, cache('questura:avviso-serale:'.$struttura->id)['schedine']);
+        $this->assertSame(1, $avvisoSerale['schedine']);
     }
 
     public function test_riserva_precede_rete_e_blocca_modifiche_di_ogni_campo(): void

@@ -1,0 +1,15 @@
+{
+  "account": "tanggo.demo",
+  "hotel_disponibili": 3,
+  "pagine": [
+    {
+      "path": "/proprietario/strutture",
+      "status": 200
+    },
+    {
+      "path": "/proprietario/condivisione-clienti",
+      "status": 200
+    }
+  ],
+  "superadmin": 403
+}

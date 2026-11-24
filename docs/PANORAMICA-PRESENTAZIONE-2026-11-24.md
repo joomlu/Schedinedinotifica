@@ -1,6 +1,6 @@
 # Presentazione demo — panoramica verificata, 24 novembre 2026
 
-La panoramica dei dati e dei calcoli è dimostrabile nei tre hotel Tanggo. La dimostrazione completa di web check-in e invii richiede un percorso aggiuntivo: nel pacchetto attuale non sono presenti richieste web, trasmissioni né consolidamenti del rapporto Tassa. Non presentare questi storici vuoti come operazioni già eseguite. La verifica generale automatizzata è in corso e non costituisce ancora un esito positivo globale.
+La panoramica dei dati e dei calcoli è dimostrabile nei tre hotel Tanggo. La dimostrazione completa di web check-in e invii richiede un percorso aggiuntivo: nel pacchetto attuale non sono presenti richieste web, trasmissioni né consolidamenti del rapporto Tassa. Non presentare questi storici vuoti come operazioni già eseguite. La suite ordinaria automatizzata è conclusa positivamente: **1336 test e 15.722 asserzioni positivi**, zero errori, fallimenti o casi saltati, con il limite ordinario di 256 MB. Rimangono i limiti operativi della demo descritti sotto, distinti dall’esito dei test.
 
 ## Correzioni richieste
 
@@ -8,7 +8,7 @@ Nel rapporto Tassa l'ordine diventa **Tariffa € → Tassa €**: prima il prez
 
 Il filtro **Compilazione** del Web Check-in usa il selettore interattivo standard del programma, con ricerca e possibilità di cancellare la selezione. Mantiene le opzioni e i valori esistenti, il filtro testuale e il comportamento server. Il menu scuro dello screenshot era il selettore nativo del sistema operativo, funzionale ma non coerente visivamente con gli altri campi.
 
-Le due viste e le cinque schede Presenze sono state provate nella VM ufficiale a 1440, 768 e 390 pixel: tre scenari positivi, nessuna scrittura durante la navigazione, nessun errore JavaScript o overflow. Pubblicazione delle correzioni da registrare al completamento.
+Le due viste e le cinque schede Presenze sono state provate nella VM ufficiale a 1440, 768 e 390 pixel: tre scenari positivi, nessuna scrittura durante la navigazione, nessun errore JavaScript o overflow. **Correzioni pubblicate online** nel commit `f150869fd92f1367e5fc57ff66a89ddb6d6d7315`, PR58 integrata. Nuova ricognizione post-rilascio: 60 pagine funzionali e tre rifiuti Superadmin positivi, più cinque scenari operativi sulle due correzioni nei tre hotel e a tre larghezze. Filtro realmente aperto, ricercato e conservato dopo Cerca; colonne e valori corretti. Account proprietario `tanggo.demo`, tre strutture, sue due pagine e rifiuto Superadmin verificati.
 
 ## Dati già pronti
 
@@ -54,3 +54,5 @@ Tutte le date sono del 2026. Le presenze sono persone × notti, con arrivo inclu
 Usare una nuova richiesta contrassegnata DEMO in uno dei tre hotel, con ospiti sintetici e date compatibili con il flusso da verificare. Preparare l'invito, mostrare il link senza spedire email/WhatsApp, compilare come ospite, salvare e riprendere, controllare come reception e verificare la registrazione risultante. Per provare Arrivi e il TXT del giorno servirà un arrivo nel giorno operativo effettivo, senza cambiare l'orologio di produzione. Verificare infine presenze, tassa e storico. Conservare gli ID nel manifest demo per l'eventuale rimozione selettiva. Questo percorso non è stato eseguito sui dati online in questa attività.
 
 **BASELINE IN AUDIT invariata.** Queste verifiche descrivono il campione e i flussi osservati; non attestano assenza assoluta di errori, versamenti fiscali o accettazione degli enti.
+
+[Schermata filtro desktop](evidenze/panoramica-demo-2026-11-24/filtro-web-desktop.png) · [Filtro telefono](evidenze/panoramica-demo-2026-11-24/filtro-web-telefono.png) · [Rapporto Tassa corretto](evidenze/panoramica-demo-2026-11-24/rapporto-tassa-rimini.png) · [Percorso guidato successivo](PERCORSO-CHECK-IN-DEMO-2026-11-24.md).

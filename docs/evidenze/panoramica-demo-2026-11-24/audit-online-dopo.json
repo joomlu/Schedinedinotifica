@@ -1,0 +1,743 @@
+[
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/dashboard",
+    "status": 200,
+    "destinazione": "/dashboard",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/clienti",
+    "status": 200,
+    "destinazione": "/clienti",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/clienti/liste-export",
+    "status": 200,
+    "destinazione": "/clienti/liste-export",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/clienti/import",
+    "status": 200,
+    "destinazione": "/clienti/import",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/schedine",
+    "status": 200,
+    "destinazione": "/schedine",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/schedine/bozze",
+    "status": 200,
+    "destinazione": "/schedine/bozze",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/arrivi",
+    "status": 200,
+    "destinazione": "/arrivi",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/web-checkin",
+    "status": 200,
+    "destinazione": "/web-checkin",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": true,
+    "filtro_interattivo": true
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/web-checkin/nuovo",
+    "status": 200,
+    "destinazione": "/web-checkin/nuovo",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/web-checkin/storico",
+    "status": 200,
+    "destinazione": "/web-checkin/storico",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/statistica/presenze?anno=2026&mese_da=6&mese_a=6&dal=2026-06-01&al=2026-06-30&giorno_situazione=2026-06-01&occupazione_anno=2026&occupazione_mese=6",
+    "status": 200,
+    "destinazione": "/statistica/presenze",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false,
+    "presenze": [
+      {
+        "id": "presenze-riepilogo",
+        "testo": "Riepilogo mensile Arrivi / Partenze / Presenze\n\nMovimenti e pernottamenti per mese e residenza degli ospiti.\n\nStampa riepilogo\nAnno \n2027\n2026\n2025\n2024\n2023\n2022\n2021\n2020\n2026\nDa mese \ngennaio\nfebbraio\nmarzo\naprile\nmaggio\ngiugno\nluglio\nagosto\nsettembre\nottobre\nnovembre\ndicembre\ngiugno\nA mese \ngennaio\nfebbraio\nmarzo\naprile\nmaggio\ngiugno\nluglio\nagosto\nsettembre\nottobre\nnovembre\ndicembre\ngiugno\nAggiorna\n\nResidenza degli ospiti: Italia, estero e non disponibile. Saldo iniziale prima dei movimenti del primo giorno, incluse le partenze di quel giorno. Presenze = persone × notti, arrivo incluso e partenza esclusa.\n\nGiugno 2026\nStampa dettaglio mese\nResidenza\tSaldo iniziale\tArrivi\tPartenze\tSaldo finale\tPresenze (notti)\nItalia\t0\t1\t1\t0\t3\nEstero\t0\t0\t0\t0\t0\nNon disponibile\t0\t0\t0\t0\t0\nTotale\t0\t1\t1\t0\t3\n\nTotale periodo: saldo iniziale 0, arrivi 1, partenze 1, saldo finale 0, presenze 3."
+      },
+      {
+        "id": "presenze-dettaglio",
+        "testo": "\n                \n                    \n                        \n                            Dettaglio presenze per periodo\n                            Soggiorni che intersecano il periodo, incluse le partenze del primo giorno. Il filtro residenza conta i singoli ospiti; provenienza e nominativo identificano il titolare. Età non disponibile esclusa dai totali adulti/minori.\n                        \n                        Stampa dettaglio\n                    \n                    \n                        \n                            \n                            \n                                Dal\n                                \n                            \n                            \n                                Al\n                                \n                            \n                            \n                                Vista\n                                \n    Tutti\n                                    Residenza in Italia\n                                    Residenza esteraResidenza non disponibile\nTutti\n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                        \n                        \n                            Schedine1\n                            Arrivi1\n                            Partenze1\n                            Presenze3\n                            Adulti1\n                            Minori0\n                        \n\n                        \n                            \n                                Dettaglio presenze\n                                Periodo 01/06/2026 - 30/06/2026\n                            \n                            \n                                \n                                    \n          "
+      },
+      {
+        "id": "presenze-oggi",
+        "testo": "\n                \n                    \n                        Situazione giornaliera\n                        Persone presenti in struttura, check-in e check-out del giorno selezionato.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                                Giorno\n                                \n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                        Data analizzata: 01/06/2026\n\n                        \n                            Presenti1\n                            Adulti1\n                            Minori0\n                            Italiani1\n                            Stranieri0\n                            Camere occupate1\n                        \n\n                        Ospiti pernottanti nella notte selezionata\n                        SchedinaTitolarePersoneArrivoPartenza\n                                                    S-26001Bianchi Luca101/06/202604/06/2026\n                                                \n                        Residenza non disponibile: 0 persone. Età non disponibile: 0 persone.\n                        \n                            Check-in del giorno1\n                            Check-out del giorno0\n                        \n\n                        \n                            \n                                \n                                    Arrivi del giorno\n                                    \n  "
+      },
+      {
+        "id": "presenze-movimenti",
+        "testo": "\n                \n                    \n                        Arrivi / Partenze per periodo\n                        Elenco operativo delle schedine che entrano o escono nel periodo selezionato.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                                Dal\n                                \n                            \n                            \n                                Al\n                                \n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                                                \n                            Schedine in arrivo1\n                            Persone in arrivo1\n                            Schedine in partenza1\n                            Persone in partenza1\n                        \n\n                        \n                            \n                                \n                                    Arrivi nel periodo\n                                    \n                                        \n                                            \n                                                Num.ArrivoOspiteQ. Per.Residenza titolare\n                                                \n                                                                                                            S-2600101/06/2026Bianchi Luca1ITALIA\n                                                                                                    \n                                      "
+      },
+      {
+        "id": "presenze-occupazione",
+        "testo": "\n                \n                    \n                        Occupazione\n                        Camere occupate e persone pernottanti rispetto alla capacità della struttura nei giorni di apertura. Percentuale del periodo = notti occupate / notti disponibili × 100. La capacità è quella attuale: non esiste uno storico di camere fuori servizio o cambi camera datati.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            Dal (periodo personalizzato)\n\n                            Al (periodo personalizzato)\n\n                            \n                            \n                                Anno\n                                \n    2027\n                                                                            2026\n                                                                            2025\n                                                                            2024\n                                                                            2023\n                                                                            2022\n                                                                            2021\n                                                                            2020\n2026\n                            \n                            \n                                Mese\n                                \n    Periodo Dal / Al delle altre schedeTutto l'anno\n                                                                            gennaio\n                                                                            febbraio\n                                                                           "
+      }
+    ]
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/statistica/presenze?tab=dettaglio&anno=2026&dal=2026-11-30&al=2026-12-06&giorno_situazione=2026-11-30&occupazione_anno=2026&occupazione_mese=periodo",
+    "status": 200,
+    "destinazione": "/statistica/presenze",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false,
+    "presenze": [
+      {
+        "id": "presenze-riepilogo",
+        "testo": "\n                \n                    \n                        \n                            Riepilogo mensile Arrivi / Partenze / Presenze\n                            Movimenti e pernottamenti per mese e residenza degli ospiti.\n                        \n                        Stampa riepilogo\n                    \n                    \n                        \n                            \n                            \n                                Anno\n                                \n    2027\n                                                                            2026\n                                                                            2025\n                                                                            2024\n                                                                            2023\n                                                                            2022\n                                                                            2021\n                                                                            2020\n2026\n                            \n                            \n                                Da mese\n                                \n    gennaio\n                                                                            febbraio\n                                                                            marzo\n                                                                            aprile\n                                                                            maggio\n                                                                            giugno\n                                                                            luglio\n                                                                            agosto\n     "
+      },
+      {
+        "id": "presenze-dettaglio",
+        "testo": "Dettaglio presenze per periodo\n\nSoggiorni che intersecano il periodo, incluse le partenze del primo giorno. Il filtro residenza conta i singoli ospiti; provenienza e nominativo identificano il titolare. Età non disponibile esclusa dai totali adulti/minori.\n\nStampa dettaglio\nDal\nAl\nVista \nTutti\nResidenza in Italia\nResidenza estera\nResidenza non disponibile\nTutti\nAggiorna\nSchedine\n3\nArrivi\n5\nPartenze\n5\nPresenze\n15\nAdulti\n5\nMinori\n0\nDettaglio presenze\n\nPeriodo 30/11/2026 - 06/12/2026\n\nNum.\tArrivo\tPartenza\tOspite\tQ. Per.\tAdulti\tMinori\tPresenze\tResidenza titolare\nS-26002\t30/11/2026\t03/12/2026\tBianchi Luca\t1\t1\t0\t3\tITALIA\nS-26003\t30/11/2026\t02/12/2026\tMoretti Elisa\t2\t2\t0\t4\tITALIA\nS-26004\t01/12/2026\t05/12/2026\tConti Andrea\t2\t2\t0\t8\tITALIA"
+      },
+      {
+        "id": "presenze-oggi",
+        "testo": "\n                \n                    \n                        Situazione giornaliera\n                        Persone presenti in struttura, check-in e check-out del giorno selezionato.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                                Giorno\n                                \n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                        Data analizzata: 30/11/2026\n\n                        \n                            Presenti3\n                            Adulti3\n                            Minori0\n                            Italiani3\n                            Stranieri0\n                            Camere occupate2\n                        \n\n                        Ospiti pernottanti nella notte selezionata\n                        SchedinaTitolarePersoneArrivoPartenza\n                                                    S-26002Bianchi Luca130/11/202603/12/2026\n                                                    S-26003Moretti Elisa230/11/202602/12/2026\n                                                \n                        Residenza non disponibile: 0 persone. Età non disponibile: 0 persone.\n                        \n                            Check-in del giorno3\n                            Check-out del giorno0\n                        \n\n                        \n                            \n                                "
+      },
+      {
+        "id": "presenze-movimenti",
+        "testo": "\n                \n                    \n                        Arrivi / Partenze per periodo\n                        Elenco operativo delle schedine che entrano o escono nel periodo selezionato.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                                Dal\n                                \n                            \n                            \n                                Al\n                                \n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                                                \n                            Schedine in arrivo3\n                            Persone in arrivo5\n                            Schedine in partenza3\n                            Persone in partenza5\n                        \n\n                        \n                            \n                                \n                                    Arrivi nel periodo\n                                    \n                                        \n                                            \n                                                Num.ArrivoOspiteQ. Per.Residenza titolare\n                                                \n                                                                                                            S-2600230/11/2026Bianchi Luca1ITALIA\n                                                                                                            S-2600330/11/2026Moretti Elisa2"
+      },
+      {
+        "id": "presenze-occupazione",
+        "testo": "\n                \n                    \n                        Occupazione\n                        Camere occupate e persone pernottanti rispetto alla capacità della struttura nei giorni di apertura. Percentuale del periodo = notti occupate / notti disponibili × 100. La capacità è quella attuale: non esiste uno storico di camere fuori servizio o cambi camera datati.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            Dal (periodo personalizzato)\n\n                            Al (periodo personalizzato)\n\n                            \n                            \n                                Anno\n                                \n    2027\n                                                                            2026\n                                                                            2025\n                                                                            2024\n                                                                            2023\n                                                                            2022\n                                                                            2021\n                                                                            2020\n2026\n                            \n                            \n                                Mese\n                                \n    Periodo Dal / Al delle altre schedeTutto l'anno\n                                                                            gennaio\n                                                                            febbraio\n                                                                           "
+      }
+    ]
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/tassa_di_soggiorno?anno_fiscale=2026",
+    "status": 200,
+    "destinazione": "/tassa_di_soggiorno",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/tassa_di_soggiorno/rapporto?mese=6&anno=2026",
+    "status": 200,
+    "destinazione": "/tassa_di_soggiorno/rapporto",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false,
+    "intestazioni": [
+      "N. Scheda",
+      "Arrivo",
+      "Partenza",
+      "Nominativo",
+      "Età",
+      "Esente",
+      "Motivo",
+      "Pern. imp.",
+      "Oltre max",
+      "Tariffa €",
+      "Tassa €"
+    ],
+    "righe": [
+      "\n                                    S-26001\n                                    01/06/2026\n                                    04/06/2026\n                                    Bianchi Luca\n                                    42\n                                    No\n                                    —\n                                    3\n                                    0\n                                    1,50\n                                    4,50\n                                "
+    ]
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/tassa_di_soggiorno/rapporto/controllo?mese=6&anno=2026",
+    "status": 200,
+    "destinazione": "/tassa_di_soggiorno/rapporto/controllo",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/questura?dal=2026-11-30&al=2026-12-06",
+    "status": 200,
+    "destinazione": "/questura",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/istat-tabella-a?dal=2026-06-01&al=2026-06-30",
+    "status": 200,
+    "destinazione": "/istat-tabella-a",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/calendario",
+    "status": 200,
+    "destinazione": "/calendario",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/struttura",
+    "status": 200,
+    "destinazione": "/struttura",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/cestino",
+    "status": 200,
+    "destinazione": "/cestino",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/superadmin/proprietari",
+    "status": 403,
+    "atteso": 403
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/dashboard",
+    "status": 200,
+    "destinazione": "/dashboard",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/clienti",
+    "status": 200,
+    "destinazione": "/clienti",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/clienti/liste-export",
+    "status": 200,
+    "destinazione": "/clienti/liste-export",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/clienti/import",
+    "status": 200,
+    "destinazione": "/clienti/import",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/schedine",
+    "status": 200,
+    "destinazione": "/schedine",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/schedine/bozze",
+    "status": 200,
+    "destinazione": "/schedine/bozze",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/arrivi",
+    "status": 200,
+    "destinazione": "/arrivi",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/web-checkin",
+    "status": 200,
+    "destinazione": "/web-checkin",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": true,
+    "filtro_interattivo": true
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/web-checkin/nuovo",
+    "status": 200,
+    "destinazione": "/web-checkin/nuovo",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/web-checkin/storico",
+    "status": 200,
+    "destinazione": "/web-checkin/storico",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/statistica/presenze?anno=2026&mese_da=6&mese_a=6&dal=2026-06-01&al=2026-06-30&giorno_situazione=2026-06-01&occupazione_anno=2026&occupazione_mese=6",
+    "status": 200,
+    "destinazione": "/statistica/presenze",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false,
+    "presenze": [
+      {
+        "id": "presenze-riepilogo",
+        "testo": "Riepilogo mensile Arrivi / Partenze / Presenze\n\nMovimenti e pernottamenti per mese e residenza degli ospiti.\n\nStampa riepilogo\nAnno \n2027\n2026\n2025\n2024\n2023\n2022\n2021\n2020\n2026\nDa mese \ngennaio\nfebbraio\nmarzo\naprile\nmaggio\ngiugno\nluglio\nagosto\nsettembre\nottobre\nnovembre\ndicembre\ngiugno\nA mese \ngennaio\nfebbraio\nmarzo\naprile\nmaggio\ngiugno\nluglio\nagosto\nsettembre\nottobre\nnovembre\ndicembre\ngiugno\nAggiorna\n\nResidenza degli ospiti: Italia, estero e non disponibile. Saldo iniziale prima dei movimenti del primo giorno, incluse le partenze di quel giorno. Presenze = persone × notti, arrivo incluso e partenza esclusa.\n\nGiugno 2026\nStampa dettaglio mese\nResidenza\tSaldo iniziale\tArrivi\tPartenze\tSaldo finale\tPresenze (notti)\nItalia\t0\t1\t1\t0\t3\nEstero\t0\t0\t0\t0\t0\nNon disponibile\t0\t0\t0\t0\t0\nTotale\t0\t1\t1\t0\t3\n\nTotale periodo: saldo iniziale 0, arrivi 1, partenze 1, saldo finale 0, presenze 3."
+      },
+      {
+        "id": "presenze-dettaglio",
+        "testo": "\n                \n                    \n                        \n                            Dettaglio presenze per periodo\n                            Soggiorni che intersecano il periodo, incluse le partenze del primo giorno. Il filtro residenza conta i singoli ospiti; provenienza e nominativo identificano il titolare. Età non disponibile esclusa dai totali adulti/minori.\n                        \n                        Stampa dettaglio\n                    \n                    \n                        \n                            \n                            \n                                Dal\n                                \n                            \n                            \n                                Al\n                                \n                            \n                            \n                                Vista\n                                \n    Tutti\n                                    Residenza in Italia\n                                    Residenza esteraResidenza non disponibile\nTutti\n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                        \n                        \n                            Schedine1\n                            Arrivi1\n                            Partenze1\n                            Presenze3\n                            Adulti1\n                            Minori0\n                        \n\n                        \n                            \n                                Dettaglio presenze\n                                Periodo 01/06/2026 - 30/06/2026\n                            \n                            \n                                \n                                    \n          "
+      },
+      {
+        "id": "presenze-oggi",
+        "testo": "\n                \n                    \n                        Situazione giornaliera\n                        Persone presenti in struttura, check-in e check-out del giorno selezionato.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                                Giorno\n                                \n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                        Data analizzata: 01/06/2026\n\n                        \n                            Presenti0\n                            Adulti0\n                            Minori0\n                            Italiani0\n                            Stranieri0\n                            Camere occupate0\n                        \n\n                        Ospiti pernottanti nella notte selezionata\n                        SchedinaTitolarePersoneArrivoPartenza\n                                                    Nessun ospite pernottante nella notte selezionata.\n                                                \n                        Residenza non disponibile: 0 persone. Età non disponibile: 0 persone.\n                        \n                            Check-in del giorno0\n                            Check-out del giorno0\n                        \n\n                        \n                            \n                                \n                                    Arrivi del giorno\n                             "
+      },
+      {
+        "id": "presenze-movimenti",
+        "testo": "\n                \n                    \n                        Arrivi / Partenze per periodo\n                        Elenco operativo delle schedine che entrano o escono nel periodo selezionato.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                                Dal\n                                \n                            \n                            \n                                Al\n                                \n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                                                \n                            Schedine in arrivo1\n                            Persone in arrivo1\n                            Schedine in partenza1\n                            Persone in partenza1\n                        \n\n                        \n                            \n                                \n                                    Arrivi nel periodo\n                                    \n                                        \n                                            \n                                                Num.ArrivoOspiteQ. Per.Residenza titolare\n                                                \n                                                                                                            S-2600102/06/2026Ferri Davide1ITALIA\n                                                                                                    \n                                      "
+      },
+      {
+        "id": "presenze-occupazione",
+        "testo": "\n                \n                    \n                        Occupazione\n                        Camere occupate e persone pernottanti rispetto alla capacità della struttura nei giorni di apertura. Percentuale del periodo = notti occupate / notti disponibili × 100. La capacità è quella attuale: non esiste uno storico di camere fuori servizio o cambi camera datati.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            Dal (periodo personalizzato)\n\n                            Al (periodo personalizzato)\n\n                            \n                            \n                                Anno\n                                \n    2027\n                                                                            2026\n                                                                            2025\n                                                                            2024\n                                                                            2023\n                                                                            2022\n                                                                            2021\n                                                                            2020\n2026\n                            \n                            \n                                Mese\n                                \n    Periodo Dal / Al delle altre schedeTutto l'anno\n                                                                            gennaio\n                                                                            febbraio\n                                                                           "
+      }
+    ]
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/statistica/presenze?tab=dettaglio&anno=2026&dal=2026-11-30&al=2026-12-06&giorno_situazione=2026-11-30&occupazione_anno=2026&occupazione_mese=periodo",
+    "status": 200,
+    "destinazione": "/statistica/presenze",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false,
+    "presenze": [
+      {
+        "id": "presenze-riepilogo",
+        "testo": "\n                \n                    \n                        \n                            Riepilogo mensile Arrivi / Partenze / Presenze\n                            Movimenti e pernottamenti per mese e residenza degli ospiti.\n                        \n                        Stampa riepilogo\n                    \n                    \n                        \n                            \n                            \n                                Anno\n                                \n    2027\n                                                                            2026\n                                                                            2025\n                                                                            2024\n                                                                            2023\n                                                                            2022\n                                                                            2021\n                                                                            2020\n2026\n                            \n                            \n                                Da mese\n                                \n    gennaio\n                                                                            febbraio\n                                                                            marzo\n                                                                            aprile\n                                                                            maggio\n                                                                            giugno\n                                                                            luglio\n                                                                            agosto\n     "
+      },
+      {
+        "id": "presenze-dettaglio",
+        "testo": "Dettaglio presenze per periodo\n\nSoggiorni che intersecano il periodo, incluse le partenze del primo giorno. Il filtro residenza conta i singoli ospiti; provenienza e nominativo identificano il titolare. Età non disponibile esclusa dai totali adulti/minori.\n\nStampa dettaglio\nDal\nAl\nVista \nTutti\nResidenza in Italia\nResidenza estera\nResidenza non disponibile\nTutti\nAggiorna\nSchedine\n3\nArrivi\n5\nPartenze\n5\nPresenze\n19\nAdulti\n5\nMinori\n0\nDettaglio presenze\n\nPeriodo 30/11/2026 - 06/12/2026\n\nNum.\tArrivo\tPartenza\tOspite\tQ. Per.\tAdulti\tMinori\tPresenze\tResidenza titolare\nS-26002\t30/11/2026\t03/12/2026\tFerri Davide\t1\t1\t0\t3\tITALIA\nS-26003\t01/12/2026\t05/12/2026\tDe Luca Matteo\t2\t2\t0\t8\tITALIA\nS-26004\t02/12/2026\t06/12/2026\tRomano Giulia\t2\t2\t0\t8\tITALIA"
+      },
+      {
+        "id": "presenze-oggi",
+        "testo": "\n                \n                    \n                        Situazione giornaliera\n                        Persone presenti in struttura, check-in e check-out del giorno selezionato.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                                Giorno\n                                \n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                        Data analizzata: 30/11/2026\n\n                        \n                            Presenti1\n                            Adulti1\n                            Minori0\n                            Italiani1\n                            Stranieri0\n                            Camere occupate1\n                        \n\n                        Ospiti pernottanti nella notte selezionata\n                        SchedinaTitolarePersoneArrivoPartenza\n                                                    S-26002Ferri Davide130/11/202603/12/2026\n                                                \n                        Residenza non disponibile: 0 persone. Età non disponibile: 0 persone.\n                        \n                            Check-in del giorno1\n                            Check-out del giorno0\n                        \n\n                        \n                            \n                                \n                                    Arrivi del giorno\n                                    \n  "
+      },
+      {
+        "id": "presenze-movimenti",
+        "testo": "\n                \n                    \n                        Arrivi / Partenze per periodo\n                        Elenco operativo delle schedine che entrano o escono nel periodo selezionato.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                                Dal\n                                \n                            \n                            \n                                Al\n                                \n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                                                \n                            Schedine in arrivo3\n                            Persone in arrivo5\n                            Schedine in partenza3\n                            Persone in partenza5\n                        \n\n                        \n                            \n                                \n                                    Arrivi nel periodo\n                                    \n                                        \n                                            \n                                                Num.ArrivoOspiteQ. Per.Residenza titolare\n                                                \n                                                                                                            S-2600230/11/2026Ferri Davide1ITALIA\n                                                                                                            S-2600301/12/2026De Luca Matteo"
+      },
+      {
+        "id": "presenze-occupazione",
+        "testo": "\n                \n                    \n                        Occupazione\n                        Camere occupate e persone pernottanti rispetto alla capacità della struttura nei giorni di apertura. Percentuale del periodo = notti occupate / notti disponibili × 100. La capacità è quella attuale: non esiste uno storico di camere fuori servizio o cambi camera datati.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            Dal (periodo personalizzato)\n\n                            Al (periodo personalizzato)\n\n                            \n                            \n                                Anno\n                                \n    2027\n                                                                            2026\n                                                                            2025\n                                                                            2024\n                                                                            2023\n                                                                            2022\n                                                                            2021\n                                                                            2020\n2026\n                            \n                            \n                                Mese\n                                \n    Periodo Dal / Al delle altre schedeTutto l'anno\n                                                                            gennaio\n                                                                            febbraio\n                                                                           "
+      }
+    ]
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/tassa_di_soggiorno?anno_fiscale=2026",
+    "status": 200,
+    "destinazione": "/tassa_di_soggiorno",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/tassa_di_soggiorno/rapporto?mese=6&anno=2026",
+    "status": 200,
+    "destinazione": "/tassa_di_soggiorno/rapporto",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false,
+    "intestazioni": [
+      "N. Scheda",
+      "Arrivo",
+      "Partenza",
+      "Nominativo",
+      "Età",
+      "Esente",
+      "Motivo",
+      "Pern. imp.",
+      "Oltre max",
+      "Tariffa €",
+      "Tassa €"
+    ],
+    "righe": [
+      "\n                                    S-26001\n                                    02/06/2026\n                                    05/06/2026\n                                    Ferri Davide\n                                    47\n                                    No\n                                    —\n                                    3\n                                    0\n                                    1,50\n                                    4,50\n                                "
+    ]
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/tassa_di_soggiorno/rapporto/controllo?mese=6&anno=2026",
+    "status": 200,
+    "destinazione": "/tassa_di_soggiorno/rapporto/controllo",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/questura?dal=2026-11-30&al=2026-12-06",
+    "status": 200,
+    "destinazione": "/questura",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/istat-tabella-a?dal=2026-06-01&al=2026-06-30",
+    "status": 200,
+    "destinazione": "/istat-tabella-a",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/calendario",
+    "status": 200,
+    "destinazione": "/calendario",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/struttura",
+    "status": 200,
+    "destinazione": "/struttura",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/cestino",
+    "status": 200,
+    "destinazione": "/cestino",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/superadmin/proprietari",
+    "status": 403,
+    "atteso": 403
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/dashboard",
+    "status": 200,
+    "destinazione": "/dashboard",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/clienti",
+    "status": 200,
+    "destinazione": "/clienti",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/clienti/liste-export",
+    "status": 200,
+    "destinazione": "/clienti/liste-export",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/clienti/import",
+    "status": 200,
+    "destinazione": "/clienti/import",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/schedine",
+    "status": 200,
+    "destinazione": "/schedine",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/schedine/bozze",
+    "status": 200,
+    "destinazione": "/schedine/bozze",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/arrivi",
+    "status": 200,
+    "destinazione": "/arrivi",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/web-checkin",
+    "status": 200,
+    "destinazione": "/web-checkin",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": true,
+    "filtro_interattivo": true
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/web-checkin/nuovo",
+    "status": 200,
+    "destinazione": "/web-checkin/nuovo",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/web-checkin/storico",
+    "status": 200,
+    "destinazione": "/web-checkin/storico",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/statistica/presenze?anno=2026&mese_da=6&mese_a=6&dal=2026-06-01&al=2026-06-30&giorno_situazione=2026-06-01&occupazione_anno=2026&occupazione_mese=6",
+    "status": 200,
+    "destinazione": "/statistica/presenze",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false,
+    "presenze": [
+      {
+        "id": "presenze-riepilogo",
+        "testo": "Riepilogo mensile Arrivi / Partenze / Presenze\n\nMovimenti e pernottamenti per mese e residenza degli ospiti.\n\nStampa riepilogo\nAnno \n2027\n2026\n2025\n2024\n2023\n2022\n2021\n2020\n2026\nDa mese \ngennaio\nfebbraio\nmarzo\naprile\nmaggio\ngiugno\nluglio\nagosto\nsettembre\nottobre\nnovembre\ndicembre\ngiugno\nA mese \ngennaio\nfebbraio\nmarzo\naprile\nmaggio\ngiugno\nluglio\nagosto\nsettembre\nottobre\nnovembre\ndicembre\ngiugno\nAggiorna\n\nResidenza degli ospiti: Italia, estero e non disponibile. Saldo iniziale prima dei movimenti del primo giorno, incluse le partenze di quel giorno. Presenze = persone × notti, arrivo incluso e partenza esclusa.\n\nGiugno 2026\nStampa dettaglio mese\nResidenza\tSaldo iniziale\tArrivi\tPartenze\tSaldo finale\tPresenze (notti)\nItalia\t0\t1\t1\t0\t3\nEstero\t0\t0\t0\t0\t0\nNon disponibile\t0\t0\t0\t0\t0\nTotale\t0\t1\t1\t0\t3\n\nTotale periodo: saldo iniziale 0, arrivi 1, partenze 1, saldo finale 0, presenze 3."
+      },
+      {
+        "id": "presenze-dettaglio",
+        "testo": "\n                \n                    \n                        \n                            Dettaglio presenze per periodo\n                            Soggiorni che intersecano il periodo, incluse le partenze del primo giorno. Il filtro residenza conta i singoli ospiti; provenienza e nominativo identificano il titolare. Età non disponibile esclusa dai totali adulti/minori.\n                        \n                        Stampa dettaglio\n                    \n                    \n                        \n                            \n                            \n                                Dal\n                                \n                            \n                            \n                                Al\n                                \n                            \n                            \n                                Vista\n                                \n    Tutti\n                                    Residenza in Italia\n                                    Residenza esteraResidenza non disponibile\nTutti\n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                        \n                        \n                            Schedine1\n                            Arrivi1\n                            Partenze1\n                            Presenze3\n                            Adulti1\n                            Minori0\n                        \n\n                        \n                            \n                                Dettaglio presenze\n                                Periodo 01/06/2026 - 30/06/2026\n                            \n                            \n                                \n                                    \n          "
+      },
+      {
+        "id": "presenze-oggi",
+        "testo": "\n                \n                    \n                        Situazione giornaliera\n                        Persone presenti in struttura, check-in e check-out del giorno selezionato.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                                Giorno\n                                \n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                        Data analizzata: 01/06/2026\n\n                        \n                            Presenti0\n                            Adulti0\n                            Minori0\n                            Italiani0\n                            Stranieri0\n                            Camere occupate0\n                        \n\n                        Ospiti pernottanti nella notte selezionata\n                        SchedinaTitolarePersoneArrivoPartenza\n                                                    Nessun ospite pernottante nella notte selezionata.\n                                                \n                        Residenza non disponibile: 0 persone. Età non disponibile: 0 persone.\n                        \n                            Check-in del giorno0\n                            Check-out del giorno0\n                        \n\n                        \n                            \n                                \n                                    Arrivi del giorno\n                             "
+      },
+      {
+        "id": "presenze-movimenti",
+        "testo": "\n                \n                    \n                        Arrivi / Partenze per periodo\n                        Elenco operativo delle schedine che entrano o escono nel periodo selezionato.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                                Dal\n                                \n                            \n                            \n                                Al\n                                \n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                                                \n                            Schedine in arrivo1\n                            Persone in arrivo1\n                            Schedine in partenza1\n                            Persone in partenza1\n                        \n\n                        \n                            \n                                \n                                    Arrivi nel periodo\n                                    \n                                        \n                                            \n                                                Num.ArrivoOspiteQ. Per.Residenza titolare\n                                                \n                                                                                                            S-2600103/06/2026Costa Alessandro1ITALIA\n                                                                                                    \n                                  "
+      },
+      {
+        "id": "presenze-occupazione",
+        "testo": "\n                \n                    \n                        Occupazione\n                        Camere occupate e persone pernottanti rispetto alla capacità della struttura nei giorni di apertura. Percentuale del periodo = notti occupate / notti disponibili × 100. La capacità è quella attuale: non esiste uno storico di camere fuori servizio o cambi camera datati.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            Dal (periodo personalizzato)\n\n                            Al (periodo personalizzato)\n\n                            \n                            \n                                Anno\n                                \n    2027\n                                                                            2026\n                                                                            2025\n                                                                            2024\n                                                                            2023\n                                                                            2022\n                                                                            2021\n                                                                            2020\n2026\n                            \n                            \n                                Mese\n                                \n    Periodo Dal / Al delle altre schedeTutto l'anno\n                                                                            gennaio\n                                                                            febbraio\n                                                                           "
+      }
+    ]
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/statistica/presenze?tab=dettaglio&anno=2026&dal=2026-11-30&al=2026-12-06&giorno_situazione=2026-11-30&occupazione_anno=2026&occupazione_mese=periodo",
+    "status": 200,
+    "destinazione": "/statistica/presenze",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false,
+    "presenze": [
+      {
+        "id": "presenze-riepilogo",
+        "testo": "\n                \n                    \n                        \n                            Riepilogo mensile Arrivi / Partenze / Presenze\n                            Movimenti e pernottamenti per mese e residenza degli ospiti.\n                        \n                        Stampa riepilogo\n                    \n                    \n                        \n                            \n                            \n                                Anno\n                                \n    2027\n                                                                            2026\n                                                                            2025\n                                                                            2024\n                                                                            2023\n                                                                            2022\n                                                                            2021\n                                                                            2020\n2026\n                            \n                            \n                                Da mese\n                                \n    gennaio\n                                                                            febbraio\n                                                                            marzo\n                                                                            aprile\n                                                                            maggio\n                                                                            giugno\n                                                                            luglio\n                                                                            agosto\n     "
+      },
+      {
+        "id": "presenze-dettaglio",
+        "testo": "Dettaglio presenze per periodo\n\nSoggiorni che intersecano il periodo, incluse le partenze del primo giorno. Il filtro residenza conta i singoli ospiti; provenienza e nominativo identificano il titolare. Età non disponibile esclusa dai totali adulti/minori.\n\nStampa dettaglio\nDal\nAl\nVista \nTutti\nResidenza in Italia\nResidenza estera\nResidenza non disponibile\nTutti\nAggiorna\nSchedine\n3\nArrivi\n5\nPartenze\n5\nPresenze\n17\nAdulti\n5\nMinori\n0\nDettaglio presenze\n\nPeriodo 30/11/2026 - 06/12/2026\n\nNum.\tArrivo\tPartenza\tOspite\tQ. Per.\tAdulti\tMinori\tPresenze\tResidenza titolare\nS-26002\t30/11/2026\t03/12/2026\tCosta Alessandro\t1\t1\t0\t3\tITALIA\nS-26003\t01/12/2026\t05/12/2026\tRicci Paolo\t2\t2\t0\t8\tITALIA\nS-26004\t03/12/2026\t06/12/2026\tRomano Giulia\t2\t2\t0\t6\tITALIA"
+      },
+      {
+        "id": "presenze-oggi",
+        "testo": "\n                \n                    \n                        Situazione giornaliera\n                        Persone presenti in struttura, check-in e check-out del giorno selezionato.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                                Giorno\n                                \n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                        Data analizzata: 30/11/2026\n\n                        \n                            Presenti1\n                            Adulti1\n                            Minori0\n                            Italiani1\n                            Stranieri0\n                            Camere occupate1\n                        \n\n                        Ospiti pernottanti nella notte selezionata\n                        SchedinaTitolarePersoneArrivoPartenza\n                                                    S-26002Costa Alessandro130/11/202603/12/2026\n                                                \n                        Residenza non disponibile: 0 persone. Età non disponibile: 0 persone.\n                        \n                            Check-in del giorno1\n                            Check-out del giorno0\n                        \n\n                        \n                            \n                                \n                                    Arrivi del giorno\n                                   "
+      },
+      {
+        "id": "presenze-movimenti",
+        "testo": "\n                \n                    \n                        Arrivi / Partenze per periodo\n                        Elenco operativo delle schedine che entrano o escono nel periodo selezionato.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                            \n                                Dal\n                                \n                            \n                            \n                                Al\n                                \n                            \n                            \n                                Aggiorna\n                            \n                        \n\n                                                \n                            Schedine in arrivo3\n                            Persone in arrivo5\n                            Schedine in partenza3\n                            Persone in partenza5\n                        \n\n                        \n                            \n                                \n                                    Arrivi nel periodo\n                                    \n                                        \n                                            \n                                                Num.ArrivoOspiteQ. Per.Residenza titolare\n                                                \n                                                                                                            S-2600230/11/2026Costa Alessandro1ITALIA\n                                                                                                            S-2600301/12/2026Ricci Paol"
+      },
+      {
+        "id": "presenze-occupazione",
+        "testo": "\n                \n                    \n                        Occupazione\n                        Camere occupate e persone pernottanti rispetto alla capacità della struttura nei giorni di apertura. Percentuale del periodo = notti occupate / notti disponibili × 100. La capacità è quella attuale: non esiste uno storico di camere fuori servizio o cambi camera datati.\n                    \n                    \n                        \n                            \n                            \n                            \n                            \n                            Dal (periodo personalizzato)\n\n                            Al (periodo personalizzato)\n\n                            \n                            \n                                Anno\n                                \n    2027\n                                                                            2026\n                                                                            2025\n                                                                            2024\n                                                                            2023\n                                                                            2022\n                                                                            2021\n                                                                            2020\n2026\n                            \n                            \n                                Mese\n                                \n    Periodo Dal / Al delle altre schedeTutto l'anno\n                                                                            gennaio\n                                                                            febbraio\n                                                                           "
+      }
+    ]
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/tassa_di_soggiorno?anno_fiscale=2026",
+    "status": 200,
+    "destinazione": "/tassa_di_soggiorno",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/tassa_di_soggiorno/rapporto?mese=6&anno=2026",
+    "status": 200,
+    "destinazione": "/tassa_di_soggiorno/rapporto",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false,
+    "intestazioni": [
+      "N. Scheda",
+      "Arrivo",
+      "Partenza",
+      "Nominativo",
+      "Età",
+      "Esente",
+      "Motivo",
+      "Pern. imp.",
+      "Oltre max",
+      "Tariffa €",
+      "Tassa €"
+    ],
+    "righe": [
+      "\n                                    S-26001\n                                    03/06/2026\n                                    06/06/2026\n                                    Costa Alessandro\n                                    38\n                                    No\n                                    —\n                                    3\n                                    0\n                                    2,50\n                                    7,50\n                                "
+    ]
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/tassa_di_soggiorno/rapporto/controllo?mese=6&anno=2026",
+    "status": 200,
+    "destinazione": "/tassa_di_soggiorno/rapporto/controllo",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/questura?dal=2026-11-30&al=2026-12-06",
+    "status": 200,
+    "destinazione": "/questura",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/istat-tabella-a?dal=2026-06-01&al=2026-06-30",
+    "status": 200,
+    "destinazione": "/istat-tabella-a",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/calendario",
+    "status": 200,
+    "destinazione": "/calendario",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/struttura",
+    "status": 200,
+    "destinazione": "/struttura",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/cestino",
+    "status": 200,
+    "destinazione": "/cestino",
+    "overflow": false,
+    "errori_js": [],
+    "vuoto": false
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/superadmin/proprietari",
+    "status": 403,
+    "atteso": 403
+  }
+]

@@ -61,6 +61,8 @@ class QuesturaCredentialEncryptionTest extends TestCase
             'questura_wskey' => 'secret-wskey',
         ]);
 
+        $this->actingAs($this->actor('struttura_user', null, $struttura->id));
+
         View::share('errors', new \Illuminate\Support\ViewErrorBag());
 
         $html = view('struttura.form', [

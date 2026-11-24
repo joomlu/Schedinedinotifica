@@ -1,7 +1,7 @@
 import {test,expect,BASE_URL} from '../Support/playwright.js';
 for(const width of [1440,768,390])test(`Rapporto tassa, filtro Web Check-in e presenze a ${width}px`,async({page})=>{
  test.setTimeout(90000);await page.setViewportSize({width,height:1000});const errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto(BASE_URL+'/login');await page.locator('[name=login]').fill('tanggo.igea.demo');await page.locator('[name=password]').fill('Password-Demo-Fixture-123!');await Promise.all([page.waitForNavigation({waitUntil:'domcontentloaded'}),page.locator('#accesso').evaluate(f=>f.submit())]);
+ await page.goto(BASE_URL+'/login');await page.locator('[name=login]').fill('panoramica-ui');await page.locator('[name=password]').fill('Password-Demo-Fixture-123!');await Promise.all([page.waitForNavigation({waitUntil:'domcontentloaded'}),page.locator('#accesso').evaluate(f=>f.submit())]);
  const writes=[];page.on('request',r=>{if(!['GET','HEAD','OPTIONS'].includes(r.method()))writes.push(new URL(r.url()).pathname);});
  await page.goto(BASE_URL+'/tassa_di_soggiorno/rapporto?mese=6&anno=2026');
  const table=page.locator('.tassa-rapporto-table');await expect(table.locator('thead th').nth(9)).toHaveText('Tariffa €');await expect(table.locator('thead th').nth(10)).toHaveText('Tassa €');

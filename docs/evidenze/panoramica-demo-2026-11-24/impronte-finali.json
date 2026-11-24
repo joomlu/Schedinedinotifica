@@ -1,0 +1,12 @@
+{
+  "tests/Feature/CustomerSharingLoadTest.php": "26663196ee79f66fe2b7b67ddfcb7e3bdadce2ea5b0dc231318bbffe36a5a3c2",
+  "tests/Feature/CustomerSharingResilienceTest.php": "e4bb8ce05ad7d7135af92b09b572e1ee7c7a4401fcc182e65b51ece7860b6ec5",
+  "tests/Feature/QuesturaCredentialEncryptionTest.php": "b48cb9db55b572c7ec4b48c6abf663349caccc717037d44300c3e88a0afbe3c8",
+  "tests/Feature/QuesturaIdempotencyTest.php": "e4023692f9cf3ce20a5b65310e4ebf1e5b9d6453bb5119292c01ee8fb20f1790",
+  "tests/Feature/WebCheckinCircuitoMigrationTest.php": "8255548f69b97b5791eb130c12b431588a93589cd20505a0e54a6dcd693d9188",
+  "tests/Feature/WebCheckinMigrationPreservationTest.php": "5d5020d310821ba9279603c830f026b181469a34cbb6e03a42d39863fd004210",
+  "tests/Feature/panoramica-presentazione.playwright.spec.js": "682e7f3c9cd6f3776f4389ef0a2a8ba82022aafec620564a586b1917b431b3ba",
+  "tests/Isolation/panoramica-presentazione-fixtures.php": "40e9f39cd53e39c758743b01b4254d1d0191a1c9f3971aff51dd6502e6221217",
+  "resources/views/tassa_di_soggiorno/rapporto.blade.php": "a989ee19424f2cd7346942ab5f4319a7b1bb21d4ca507b8d8649818f84ab2d4e",
+  "resources/views/web-checkin/index.blade.php": "82e3d9943ecf7d4b1834df8dcca06e012fb3a5dae1da9c3b98084f5a18480724"
+}

@@ -12,6 +12,16 @@ class CustomerSharingLoadTest extends TestCase
 {
     use StrutturaFixtures;
 
+    protected function tearDown(): void
+    {
+        try {
+            $this->artisan('migrate:fresh', ['--force' => true])->assertSuccessful();
+        } finally {
+            \Illuminate\Foundation\Testing\RefreshDatabaseState::$migrated = false;
+            parent::tearDown();
+        }
+    }
+
     public function test_tre_archivi_6501_schede_6162_identita_senza_perdere_origini_o_codici(): void
     {
         config(['customer_sharing.enabled' => true]);

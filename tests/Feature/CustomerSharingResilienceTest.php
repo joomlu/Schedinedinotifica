@@ -71,7 +71,12 @@ class CustomerSharingResilienceTest extends TestCase
             if (proc_get_status($worker)['running']) proc_terminate($worker, 9);
             proc_close($worker);
         }
-        parent::tearDown();
+        try {
+            $this->artisan('migrate:fresh', ['--force' => true])->assertSuccessful();
+        } finally {
+            \Illuminate\Foundation\Testing\RefreshDatabaseState::$migrated = false;
+            parent::tearDown();
+        }
     }
 
     public function test_due_processi_con_versione_uguale_un_solo_aggiornamento_vince(): void

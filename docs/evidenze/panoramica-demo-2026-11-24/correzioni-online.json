@@ -1,0 +1,82 @@
+[
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "width": 1440,
+    "colonne": [
+      "Tariffa €",
+      "Tassa €"
+    ],
+    "valori": [
+      "1,50",
+      "4,50"
+    ],
+    "filtro_interattivo": true,
+    "ricerca_stato": "in_compilazione",
+    "dropdown_nel_viewport": true,
+    "errori_js": 0
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "width": 1440,
+    "colonne": [
+      "Tariffa €",
+      "Tassa €"
+    ],
+    "valori": [
+      "1,50",
+      "4,50"
+    ],
+    "filtro_interattivo": true,
+    "ricerca_stato": "in_compilazione",
+    "dropdown_nel_viewport": true,
+    "errori_js": 0
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "width": 1440,
+    "colonne": [
+      "Tariffa €",
+      "Tassa €"
+    ],
+    "valori": [
+      "2,50",
+      "7,50"
+    ],
+    "filtro_interattivo": true,
+    "ricerca_stato": "in_compilazione",
+    "dropdown_nel_viewport": true,
+    "errori_js": 0
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "width": 768,
+    "colonne": [
+      "Tariffa €",
+      "Tassa €"
+    ],
+    "valori": [
+      "1,50",
+      "4,50"
+    ],
+    "filtro_interattivo": true,
+    "ricerca_stato": "in_compilazione",
+    "dropdown_nel_viewport": true,
+    "errori_js": 0
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "width": 390,
+    "colonne": [
+      "Tariffa €",
+      "Tassa €"
+    ],
+    "valori": [
+      "1,50",
+      "4,50"
+    ],
+    "filtro_interattivo": true,
+    "ricerca_stato": "in_compilazione",
+    "dropdown_nel_viewport": true,
+    "errori_js": 0
+  }
+]

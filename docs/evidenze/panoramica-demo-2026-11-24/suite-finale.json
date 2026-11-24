@@ -1,0 +1,188 @@
+{
+  "suite": {
+    "name": "/tmp/schedine-test-k_4svm6_/checkout/phpunit.xml",
+    "tests": "1336",
+    "assertions": "15722",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "time": "679.373776"
+  },
+  "moduli": {
+    "Schedine e Arrivi": {
+      "casi": 197,
+      "asserzioni": 907,
+      "secondi": 31.399,
+      "classi": [
+        "Tests.Feature.ArriviEsenzioniTest",
+        "Tests.Feature.ArriviLifecycleTest",
+        "Tests.Feature.SchedinaFlowValidationTest",
+        "Tests.Feature.SchedinaNavigationTest",
+        "Tests.Feature.SchedinaSoggiornoTest",
+        "Tests.Feature.SchedinaStoreTest",
+        "Tests.Unit.ComponentiImportFormTest",
+        "Tests.Unit.ComponentiImportP1Test",
+        "Tests.Unit.ComponentiImportReviewStatusTest",
+        "Tests.Unit.ComponentiImportServiceTest",
+        "Tests.Unit.ContrattoImportazioneComponentiV1Test",
+        "Tests.Unit.DatiComponenteNormalizzatiTest",
+        "Tests.Unit.PianoSyncComponentiTest"
+      ]
+    },
+    "Clienti e condivisione": {
+      "casi": 153,
+      "asserzioni": 1225,
+      "secondi": 127.898,
+      "classi": [
+        "Tests.Feature.AnagraficaGeografiaAuditTest",
+        "Tests.Feature.ArriviCustomerReferenceSecurityTest",
+        "Tests.Feature.CustomerExchangeAreaTest",
+        "Tests.Feature.CustomerImportedFiltersDeleteTest",
+        "Tests.Feature.CustomerManagementTest",
+        "Tests.Feature.CustomerSharingLoadTest",
+        "Tests.Feature.CustomerSharingResilienceTest",
+        "Tests.Feature.CustomerSharingTest",
+        "Tests.Feature.CustomerWizardTest",
+        "Tests.Feature.SchedinaCustomerPickerTest",
+        "Tests.Feature.SchedinaCustomerReferenceSecurityTest",
+        "Tests.Feature.TipoClienteSistemaTest",
+        "Tests.Unit.CustomerImportServiceTest"
+      ]
+    },
+    "Accessi, cataloghi e altri moduli": {
+      "casi": 360,
+      "asserzioni": 3916,
+      "secondi": 156.327,
+      "classi": [
+        "Tests.Feature.AccessTest",
+        "Tests.Feature.AccountSessionSecurityTest",
+        "Tests.Feature.AnagraficheUnificateTest",
+        "Tests.Feature.CataloghiIndirizziAuditTest",
+        "Tests.Feature.CataloghiIndirizziTenantTest",
+        "Tests.Feature.CestinoGestioneTest",
+        "Tests.Feature.CestinoSecurityTest",
+        "Tests.Feature.CommercialContactTest",
+        "Tests.Feature.ConfigurazioneStrutturaAllineataTest",
+        "Tests.Feature.ExampleTest",
+        "Tests.Feature.GeoComuneLogoTest",
+        "Tests.Feature.GeoLogoAtomicitaTest",
+        "Tests.Feature.GeoLogoIngressoAlternativoTest",
+        "Tests.Feature.GruppiIntegrityTest",
+        "Tests.Feature.GruppiTenantTest",
+        "Tests.Feature.ImpersonazioneSecurityTest",
+        "Tests.Feature.LegacyPasswordAuthorizationTest",
+        "Tests.Feature.LegacyUserCreationSecurityTest",
+        "Tests.Feature.LoginPresentationTest",
+        "Tests.Feature.OperativeAuditContextTest",
+        "Tests.Feature.OperativeLogoutTest",
+        "Tests.Feature.ProprietarioAccessoValidationTest",
+        "Tests.Feature.PublicSiteCompletionTest",
+        "Tests.Feature.PublicSiteRenewalTest",
+        "Tests.Feature.RecoveryFlashDiagnosticTest",
+        "Tests.Feature.SmokePagesQaTest",
+        "Tests.Feature.StrutturaAuthorizationTest",
+        "Tests.Feature.StrutturaFormularioUnicoTest",
+        "Tests.Feature.StrutturaNonSelezionataTest",
+        "Tests.Feature.StrutturaSelezioneTest",
+        "Tests.Feature.SuiteResourceIsolationTest",
+        "Tests.Feature.TenancyTest",
+        "Tests.Feature.TipologieStrutturaTest",
+        "Tests.Feature.TitoliTenantTest",
+        "Tests.Feature.TopbarRenderingTest",
+        "Tests.Unit.EtaOperativaTest",
+        "Tests.Unit.ExampleTest",
+        "Tests.Unit.SingleNodeBatchLockTest",
+        "Tests.Unit.TipoAlloggiatoCatalogoTest"
+      ]
+    },
+    "Tassa": {
+      "casi": 85,
+      "asserzioni": 1868,
+      "secondi": 79.52,
+      "classi": [
+        "Tests.Feature.ConfigurazioneTassaSuperadminTest",
+        "Tests.Feature.TassaBellariaAnteprimaTest",
+        "Tests.Feature.TassaBellariaCompletenessTest",
+        "Tests.Feature.TassaBellariaConfigurazioneAutomaticaTest",
+        "Tests.Feature.TassaBellariaEtaCsvTest",
+        "Tests.Feature.TassaBellariaRiallineamentoTest",
+        "Tests.Feature.TassaBellariaVersionamentoTest",
+        "Tests.Feature.TassaPeriodoComunaleTest",
+        "Tests.Feature.TassaRiepilogoEsenzioniAuditTest",
+        "Tests.Feature.TassaVerificaIntegraleTest",
+        "Tests.Unit.TassaDiSoggiornoServiceTest"
+      ]
+    },
+    "Presenze e calendario": {
+      "casi": 29,
+      "asserzioni": 302,
+      "secondi": 9.834,
+      "classi": [
+        "Tests.Feature.CalendarioAutomaticiTest",
+        "Tests.Feature.CalendarioAvvisiTest",
+        "Tests.Feature.CalendarioOperativoTest",
+        "Tests.Feature.PresenzeCompleteTest"
+      ]
+    },
+    "Questura": {
+      "casi": 267,
+      "asserzioni": 4519,
+      "secondi": 144.662,
+      "classi": [
+        "Tests.Feature.CataloghiQuesturaReadOnlyTest",
+        "Tests.Feature.CataloghiQuesturaTxtTest",
+        "Tests.Feature.QuesturaAppartamentoTest",
+        "Tests.Feature.QuesturaBoundaryTest",
+        "Tests.Feature.QuesturaC1MigrationAcceptanceTest",
+        "Tests.Feature.QuesturaCompletionTest",
+        "Tests.Feature.QuesturaConclusiveAuditTest",
+        "Tests.Feature.QuesturaCredentialEncryptionTest",
+        "Tests.Feature.QuesturaFinalAuditTest",
+        "Tests.Feature.QuesturaIdempotencyTest",
+        "Tests.Feature.QuesturaLegacyMigrationTest",
+        "Tests.Feature.QuesturaLoggingPrivacyTest",
+        "Tests.Feature.QuesturaPayloadCoherenceTest",
+        "Tests.Feature.QuesturaRetentionTest",
+        "Tests.Feature.QuesturaTestSendSnapshotTest",
+        "Tests.Feature.QuesturaTransportGuardTest",
+        "Tests.Feature.QuesturaUpstreamIsolationTest",
+        "Tests.Feature.QuesturaUxTest",
+        "Tests.Feature.QuesturaWsContractTest"
+      ]
+    },
+    "ISTAT": {
+      "casi": 76,
+      "asserzioni": 530,
+      "secondi": 41.565,
+      "classi": [
+        "Tests.Feature.IstatConformitaTest",
+        "Tests.Feature.IstatCycleTest",
+        "Tests.Feature.IstatTransmissionSecurityTest"
+      ]
+    },
+    "Web Check-in": {
+      "casi": 169,
+      "asserzioni": 2455,
+      "secondi": 88.169,
+      "classi": [
+        "Tests.Feature.WebCheckinCameraIsolationTest",
+        "Tests.Feature.WebCheckinCircuitoMigrationTest",
+        "Tests.Feature.WebCheckinCircuitoTest",
+        "Tests.Feature.WebCheckinComunicazioniTest",
+        "Tests.Feature.WebCheckinEsclusioniConversioneTest",
+        "Tests.Feature.WebCheckinFiscalContextTest",
+        "Tests.Feature.WebCheckinGroupAtomicityTest",
+        "Tests.Feature.WebCheckinHtmlTest",
+        "Tests.Feature.WebCheckinInvioElencoTest",
+        "Tests.Feature.WebCheckinLifecycleTest",
+        "Tests.Feature.WebCheckinMigrationPreservationTest",
+        "Tests.Feature.WebCheckinParentSecurityTest",
+        "Tests.Feature.WebCheckinShortLinkTest",
+        "Tests.Feature.WebCheckinSmtpCurlTest"
+      ]
+    }
+  },
+  "limite_memoria": "256 MB, configurazione ordinaria",
+  "trasporti": "sintetici, rete confinata",
+  "stato_generale": "BASELINE IN AUDIT"
+}

@@ -27,6 +27,7 @@ class WebCheckinMigrationPreservationTest extends TestCase
     {
         $this->artisan('migrate:fresh', ['--force' => true])->assertExitCode(0);
         $expectedMigrations = DB::table('migrations')->count();
+        $expectedTables = collect(Schema::getTables())->pluck('name')->sort()->values()->all();
         $name = '2026_10_18_200000_extend_web_checkin_inviti';
         $migration = require database_path('migrations/'.$name.'.php');
         $migration->down();
@@ -39,7 +40,7 @@ class WebCheckinMigrationPreservationTest extends TestCase
             'utente_id' => 999, 'idempotenza' => 'sintetica-storica', 'canale' => 'testo', 'stato' => 'preparata',
             'contenuto' => encrypt(['corpo' => 'Storico sintetico riservato']), 'created_at' => '2026-01-01 10:00:00', 'updated_at' => '2026-01-01 10:00:00']);
         $tables = collect(Schema::getTables())->pluck('name')->sort()->values()->all();
-        $this->assertCount(66, $tables);
+        $this->assertSame($expectedTables, $tables);
         $before = [];
         foreach ($tables as $table) {
             $columns = Schema::getColumnListing($table);
