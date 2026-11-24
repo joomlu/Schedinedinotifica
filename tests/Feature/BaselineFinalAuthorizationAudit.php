@@ -37,6 +37,10 @@ class BaselineFinalAuthorizationAudit extends TestCase
         $data['email'] = 'new-person@example.invalid';
         $data['attivo'] = true;
         $data['ruolo'] = 'super_admin';
+        $before = User::count();
+        $this->post('/gestione-operativa/utenti', $data)->assertForbidden();
+        $this->assertSame($before, User::count());
+        unset($data['ruolo']);
         $this->post('/gestione-operativa/utenti', $data)->assertSessionHasNoErrors()->assertRedirect();
         $new = User::where('email', $data['email'])->firstOrFail();
         $this->assertSame('struttura_user', $new->ruolo);

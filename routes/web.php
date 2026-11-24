@@ -91,11 +91,9 @@ Route::get('/site-assets/{path}', [PublicSiteController::class, 'asset'])
     ->name('site.assets');
 
 Route::middleware(['auth'])->group(function () {
-    // Fallback logout via GET to avoid 419 when no CSRF token is sent
-    Route::get('/logout', function () {
-        Auth::logout();
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
+    // Conserva il collegamento GET usando la stessa chiusura operativa del POST.
+    Route::get('/logout', function (\Illuminate\Http\Request $request) {
+        app(\App\Http\Controllers\Auth\LoginController::class)->logout($request);
 
         return redirect()->route('login');
     })->name('logout.get');

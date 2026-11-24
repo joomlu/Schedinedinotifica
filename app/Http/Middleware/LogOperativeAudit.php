@@ -3,7 +3,10 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\QuesturaTransportDisabledException;
+use App\Models\Struttura;
 use App\Models\StrutturaAuditLog;
+use App\Support\StrutturaAccess;
+use App\Support\StrutturaCorrente;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +18,7 @@ class LogOperativeAudit
         $response = $next($request);
 
         $user = $request->user();
-        if (!$user || !$user->struttura_id) {
+        if (!$user) {
             return $response;
         }
 
@@ -37,10 +40,20 @@ class LogOperativeAudit
             return $response;
         }
 
+        $struttura = $request->attributes->get(StrutturaAccess::ATTRIBUTE);
+        $strutturaId = $struttura instanceof Struttura
+            ? $struttura->id
+            : (StrutturaCorrente::getId() ?? $user->struttura_id);
+        // Il contesto del registro deve appartenere all'utente, anche senza
+        // struttura fissa. Non usare gli ID arbitrari del corpo della richiesta.
+        if (!$strutturaId || !StrutturaAccess::query($user, true)->whereKey($strutturaId)->exists()) {
+            return $response;
+        }
+
         [$entityType, $entityId] = $this->resolveEntity($request, $routeName);
 
         StrutturaAuditLog::withoutGlobalScopes()->create([
-            'struttura_id' => $user->struttura_id,
+            'struttura_id' => $strutturaId,
             'user_id' => $user->id,
             'route_name' => $routeName,
             'metodo' => $request->method(),
