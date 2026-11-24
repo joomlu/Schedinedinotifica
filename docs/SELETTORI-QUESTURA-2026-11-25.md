@@ -22,4 +22,7 @@ Le evidenze grezze private sono in `/private/tmp/questura-ui-20261125`; i test e
 
 ## Rilascio e limiti
 
-Stato: candidato locale qualificato; 39 test PHP / 336 asserzioni e tre browser positivi. GitHub e produzione non ancora aggiornati. Previsto stesso candidato, checkpoint fresco del codice e delle viste, verifica di recupero, guardiano e sola invalidazione cache Blade. Nessuna migrazione, modifica `.env`, dato operativo, credenziale, servizio di trasporto o invio. BASELINE IN AUDIT invariata.
+Stato: PUBBLICATO E VERIFICATO online, commit `1d643d21f4d07c6e8f5464e776eab83862e500ce`, [PR59](https://github.com/joomlu/Schedinedinotifica/pull/59) integrata. Locale e main GitHub corrispondenti; checkpoint fresco Git/viste integro, ambiente e altre cache invariati, FPM attivo, barriera aperta e checkout servito pulito. Rilascio protetto da systemd concluso con successo in 7,635 secondi di runtime del servizio (non misura separata del disservizio). Invalidata sola cache Blade. Nel Chrome del proprietario demo verificati entrambi i menu aperti con grafica chiara, due profili e tre modalità; nessuna scelta operativa diversa salvata durante il controllo UI. Nessuna migrazione, modifica `.env`, dato operativo, credenziale, servizio di trasporto o invio. BASELINE IN AUDIT invariata.
+
+
+La successiva registrazione del capitolo usa solo il proprietario demo e i tre hotel. Logout e nuovo login provati, richiesta iniziale di selezione osservata, salvataggio anagrafica Bellaria confermato e cambio rapido Igea Marina → Rimini verificato. Il selettore superiore porta al cruscotto dell’hotel scelto; non conserva necessariamente la pagina Dati struttura. Nessun invio a Questura/Ross1000, cambio di credenziali o dato reale per il video.
