@@ -1,0 +1,23 @@
+{
+  "sha": "1d643d21f4d07c6e8f5464e776eab83862e500ce",
+  "checkout_pulito": true,
+  "file_sha256": "59a740fec548dc33b5fb28bcb34f1366eaecaed737b31a7b37dbb124092f959f",
+  "ambiente_altre_cache_invariati": true,
+  "checkpoint_integro": true,
+  "fpm": "active",
+  "barriera": "aperta",
+  "phpunit": {
+    "test": 39,
+    "asserzioni": 336
+  },
+  "browser": {
+    "scenari": 3,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ]
+  },
+  "recupero_sintetico": "cinque scenari positivi",
+  "verifica_online_browser": "due menu aperti, cinque opzioni; nessuna mutazione di configurazione"
+}
