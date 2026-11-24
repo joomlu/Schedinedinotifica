@@ -1,0 +1,43 @@
+{
+  "esito": "CREATO ONLINE E VERIFICATO NEL PERIMETRO DEMO",
+  "package": "DEMO-TANGGO-20261124-7E996FCB",
+  "commit_applicativo_invariato": "ff04119ee02529c87489e22b8e9127b99da5afd9",
+  "hotel": 3,
+  "utenti": 4,
+  "anagrafiche_di_origine": 15,
+  "proiezioni_locali": 45,
+  "schedine": 9,
+  "componenti": 6,
+  "camere_soggiorni": 9,
+  "cataloghi_personalizzati": 0,
+  "invii": 0,
+  "checkpoint_recupero_tabelle": 74,
+  "vm_ufficiale": {
+    "creazione": true,
+    "txt_al_giorno_di_arrivo": 9,
+    "xml_istat": 3,
+    "fusione_annullamento": true,
+    "omonimi_separati": true,
+    "rifiuti_override": 23,
+    "build_geo": true
+  },
+  "online": {
+    "accessi_positivi": 4,
+    "pagine_200": 13,
+    "immagini_rotte": 0,
+    "errori_javascript": 0,
+    "fpm": "active",
+    "barriera": "aperta",
+    "checkout_pulito": true
+  },
+  "settimana": [
+    "2026-11-30",
+    "2026-12-06"
+  ],
+  "limiti": [
+    "Date future: TXT Questura non scaricabile oggi, controllo previsto",
+    "Stemma GEO preesistente di Rimini incongruente: corretto solo nella copia demo",
+    "Prova di recupero sul server, nessun dato reale nella VM",
+    "BASELINE IN AUDIT invariata"
+  ]
+}

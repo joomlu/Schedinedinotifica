@@ -120,7 +120,7 @@
                         </a>
                         <div class="collapse menu-dropdown {{ $openClienti ? 'show' : '' }}" id="sidebarCustomers">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item"><a href="{{ route('newcustomer') }}" class="nav-link {{ $isRoute('newcustomer', 'customers', 'customer.store', 'customer.edit', 'customer.update', 'customer.print', 'customer.storico', 'customer.destroy') ? 'active' : '' }}">Nuovo / Lista</a></li>
+                                <li class="nav-item"><a href="{{ route('customers') }}" class="nav-link {{ $isRoute('newcustomer', 'customers', 'customer.store', 'customer.edit', 'customer.update', 'customer.print', 'customer.storico', 'customer.destroy') ? 'active' : '' }}">Lista / Nuovo</a></li>
                                 <li class="nav-item"><a href="{{ route('customer.export.index') }}" class="nav-link {{ $isRoute('customer.export.*', 'customer.import.*', 'customer.imported.*') ? 'active' : '' }}">Liste, import ed export</a></li>
                             </ul>
                         </div>
@@ -132,7 +132,7 @@
                         </a>
                         <div class="collapse menu-dropdown {{ $openSchedine ? 'show' : '' }}" id="sidebarTickets">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item"><a href="{{ route('newschedina') }}" class="nav-link {{ $isRoute('schedina', 'newschedina', 'schedina.bozze', 'schedina.store', 'schedina.copy', 'schedina.edit', 'schedina.update', 'schedina.destroy', 'schedina.tassa.print') ? 'active' : '' }}">Nuova / Elenco / Bozze</a></li>
+                                <li class="nav-item"><a href="{{ route('schedina') }}" class="nav-link {{ $isRoute('schedina', 'newschedina', 'schedina.bozze', 'schedina.store', 'schedina.copy', 'schedina.edit', 'schedina.update', 'schedina.destroy', 'schedina.tassa.print') ? 'active' : '' }}">Elenco / Nuova / Bozze</a></li>
                                 <li class="nav-item"><a href="{{ route('arrivals') }}" class="nav-link {{ $isRoute('arrivals', 'newarrival', 'arrival.*', 'a_schedina') ? 'active' : '' }}">Schedine arrivi</a></li>
                             </ul>
                         </div>

@@ -1,0 +1,19 @@
+{
+  "locale": {
+    "resources/views/customers/area-tabs.blade.php": "e18d6c6cd83d8e067f04f934727ae2837993bedaaf73bd510cf1eec46e4355a8",
+    "resources/views/schedina/partials/area-tabs.blade.php": "0e1ec0fe4f7d9b5fad755deb99a292fe07bc3dd4f4bc92e00ef5207cc774a45c",
+    "resources/views/layouts/sidebar.blade.php": "be6ed320872422e64b18411f7739abfce69060b489cf7b38dfc81ce3e986af34",
+    "tests/Feature/customer-navigation.playwright.spec.js": "40dedfe94c9dd03f7546965d1f97cf4283d0e9d4b8086357a3f810ef337f0c84",
+    "tests/Feature/customer-entry-pastel.playwright.spec.js": "66921e682d74165879f534bd8d5eb3d0719d2f4ddd3feeac0caa7227bc1f9390",
+    "tests/Feature/schedina-navigation.playwright.spec.js": "0956cdba1a9d579f4593f7818cae1ee58b7306e239554889ea46289c12e0d575"
+  },
+  "vm": {
+    "resources/views/customers/area-tabs.blade.php": "e18d6c6cd83d8e067f04f934727ae2837993bedaaf73bd510cf1eec46e4355a8",
+    "resources/views/schedina/partials/area-tabs.blade.php": "0e1ec0fe4f7d9b5fad755deb99a292fe07bc3dd4f4bc92e00ef5207cc774a45c",
+    "resources/views/layouts/sidebar.blade.php": "be6ed320872422e64b18411f7739abfce69060b489cf7b38dfc81ce3e986af34",
+    "tests/Feature/customer-navigation.playwright.spec.js": "40dedfe94c9dd03f7546965d1f97cf4283d0e9d4b8086357a3f810ef337f0c84",
+    "tests/Feature/customer-entry-pastel.playwright.spec.js": "66921e682d74165879f534bd8d5eb3d0719d2f4ddd3feeac0caa7227bc1f9390",
+    "tests/Feature/schedina-navigation.playwright.spec.js": "0956cdba1a9d579f4593f7818cae1ee58b7306e239554889ea46289c12e0d575"
+  },
+  "corrispondenza": true
+}

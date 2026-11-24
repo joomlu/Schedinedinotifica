@@ -1,0 +1,97 @@
+[
+  {
+    "account": "owner",
+    "selettore_hotel": 3
+  },
+  {
+    "account": "owner",
+    "path": "/clienti",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  },
+  {
+    "account": "owner",
+    "path": "/schedine",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  },
+  {
+    "account": "owner",
+    "path": "/struttura",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  },
+  {
+    "account": "owner",
+    "path": "/proprietario/condivisione-clienti",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  },
+  {
+    "account": "igea",
+    "path": "/clienti",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  },
+  {
+    "account": "igea",
+    "path": "/schedine",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  },
+  {
+    "account": "igea",
+    "path": "/struttura",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  },
+  {
+    "account": "bellaria",
+    "path": "/clienti",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  },
+  {
+    "account": "bellaria",
+    "path": "/schedine",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  },
+  {
+    "account": "bellaria",
+    "path": "/struttura",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  },
+  {
+    "account": "rimini",
+    "path": "/clienti",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  },
+  {
+    "account": "rimini",
+    "path": "/schedine",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  },
+  {
+    "account": "rimini",
+    "path": "/struttura",
+    "status": 200,
+    "immagini_non_caricate": [],
+    "errori_js": []
+  }
+]

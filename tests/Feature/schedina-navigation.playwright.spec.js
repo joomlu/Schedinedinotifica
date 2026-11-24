@@ -5,17 +5,25 @@ for(const width of [1440,768,390]) test(`Tre sezioni Schedine a ${width}px`,asyn
  await page.goto(`${BASE_URL}/login`);
  await page.locator('[name="login"]').fill('fixture-super_admin');
  await page.locator('[name="password"]').fill('Password-fixture-123!');
- await page.getByRole('button',{name:'Entra',exact:true}).click();
+ await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}), page.locator('#accesso').evaluate(form=>form.submit())]);
  await expect(page).not.toHaveURL(/\/login$/);
+ await page.goto(`${BASE_URL}/strutture/seleziona`);
+ await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}), page.locator('tbody form').first().evaluate(form=>form.submit())]);
  await page.goto(`${BASE_URL}/clienti/nuovo`);
  const reference=await page.locator('.customer-entry-nav .nav-link.active').evaluate(e=>{
   const s=getComputedStyle(e);return [s.backgroundImage,s.color,s.fontSize,s.fontWeight,s.padding,s.borderRadius];
  });
  let writes=0;page.on('request',r=>{if(['POST','PUT','PATCH','DELETE'].includes(r.method())&&new URL(r.url()).pathname.startsWith('/schedine'))writes++;});
  await page.goto(`${BASE_URL}/schedine?q=Sintetico&page=2`);
- const nav=page.getByRole('navigation',{name:'Nuova / Elenco / Bozze schedine'});
+ const nav=page.getByRole('navigation',{name:'Elenco / Nuova / Bozze schedine'});
+ await expect(nav.getByRole('link')).toHaveText(['Elenco schedine','Nuova schedina','Bozze']);
  await expect(nav.locator('[aria-current="page"]')).toHaveText('Elenco schedine');
- await expect(page.locator('#sidebarTickets').getByRole('link',{name:'Nuova / Elenco / Bozze',exact:true})).toHaveCount(1);
+ if(width<768) await page.getByRole('button',{name:'Mostra o nascondi menu',exact:true}).click();
+ const menu=page.locator('.app-menu a[href="#sidebarTickets"]');
+ if(await menu.getAttribute('aria-expanded')!=='true') await menu.click();
+ const entry=page.getByRole('link',{name:'Elenco / Nuova / Bozze',exact:true});
+ await expect(entry).toBeVisible();await expect(entry).toHaveAttribute('href',`${BASE_URL}/schedine`);
+ await page.keyboard.press('Escape');
  await expect(page.locator('#schedineTable')).toBeAttached();
  await nav.getByRole('link',{name:'Nuova schedina',exact:true}).focus();await page.keyboard.press('Enter');
  await expect(nav.locator('[aria-current="page"]')).toHaveText('Nuova schedina');
@@ -26,7 +34,7 @@ for(const width of [1440,768,390]) test(`Tre sezioni Schedine a ${width}px`,asyn
  for(const link of await nav.getByRole('link').all()){
   const box=await link.boundingBox();expect(box.height).toBeGreaterThanOrEqual(44);expect(box.x).toBeGreaterThanOrEqual(0);expect(box.x+box.width).toBeLessThanOrEqual(width);
  }
- await nav.getByRole('link',{name:'Nuova schedina',exact:true}).focus();await page.keyboard.press('Tab');
+ await nav.getByRole('link',{name:'Nuova schedina',exact:true}).focus();await page.keyboard.press('Shift+Tab');
  await expect(nav.getByRole('link',{name:'Elenco schedine',exact:true})).toBeFocused();await page.keyboard.press('Enter');
  await expect(page).toHaveURL(/q=Sintetico&page=2/);
  await nav.getByRole('link',{name:'Bozze',exact:true}).click();

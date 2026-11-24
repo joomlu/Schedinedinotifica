@@ -1,0 +1,20 @@
+[
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "logo": "Tanggo_Igea_Marina.png",
+    "immagine_decodificata": true,
+    "status": 200
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "logo": "Tanggo_Bellaria.png",
+    "immagine_decodificata": true,
+    "status": 200
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "logo": "Tanggo_Rimini.png",
+    "immagine_decodificata": true,
+    "status": 200
+  }
+]

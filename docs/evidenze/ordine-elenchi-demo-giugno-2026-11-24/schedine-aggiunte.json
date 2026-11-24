@@ -1,0 +1,35 @@
+[
+    {
+        "struttura_id": 94,
+        "hotel": "Hotel Tanggo Igea Marina",
+        "schedina_id": 536,
+        "arrivo": "2026-06-01",
+        "partenza": "2026-06-04",
+        "ospiti": 1,
+        "notti": 3,
+        "tariffa": 1.5,
+        "totale": 4.5
+    },
+    {
+        "struttura_id": 95,
+        "hotel": "Hotel Tanggo Bellaria",
+        "schedina_id": 537,
+        "arrivo": "2026-06-02",
+        "partenza": "2026-06-05",
+        "ospiti": 1,
+        "notti": 3,
+        "tariffa": 1.5,
+        "totale": 4.5
+    },
+    {
+        "struttura_id": 96,
+        "hotel": "Hotel Tanggo Rimini",
+        "schedina_id": 538,
+        "arrivo": "2026-06-03",
+        "partenza": "2026-06-06",
+        "ospiti": 1,
+        "notti": 3,
+        "tariffa": 2.5,
+        "totale": 7.5
+    }
+]
