@@ -1,7 +1,7 @@
 <div id="configurazione-questura" class="row g-3 mb-3">
     <div class="col-12 col-md-6">
         <label for="questura_profilo" class="form-label">Profilo Alloggiati Web</label>
-        <select id="questura_profilo" name="questura_profilo" class="form-select">
+        <select id="questura_profilo" name="questura_profilo" class="form-select" data-ui="select-search" data-min-search="10">
             <option value="standard" @selected(old('questura_profilo', $struttura->questura_profilo ?? 'standard') === 'standard')>Standard</option>
             <option value="appartamenti" @selected(old('questura_profilo', $struttura->questura_profilo) === 'appartamenti')>Gestione Appartamenti</option>
         </select>
@@ -17,7 +17,7 @@
     @if(auth()->user()->isProprietario() || auth()->user()->canManageGestioneOperativa($struttura->id))
         <div class="col-12 col-md-6">
             <label for="questura_modalita" class="form-label">Modalità invio Questura</label>
-            <select id="questura_modalita" name="questura_modalita" class="form-select">
+            <select id="questura_modalita" name="questura_modalita" class="form-select" data-ui="select-search" data-min-search="10">
                 <option value="txt" @selected(old('questura_modalita', $struttura->questura_modalita ?? 'txt') === 'txt')>Solo TXT</option>
                 <option value="manuale" @selected(old('questura_modalita', $struttura->questura_modalita) === 'manuale')>Web Service manuale</option>
                 <option value="automatico" @selected(old('questura_modalita', $struttura->questura_modalita) === 'automatico')>Web Service automatico alle 23:00</option>
