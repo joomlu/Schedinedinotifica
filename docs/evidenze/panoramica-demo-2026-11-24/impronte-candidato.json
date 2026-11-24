@@ -1,0 +1,13 @@
+{
+  "locale": {
+    "resources/views/tassa_di_soggiorno/rapporto.blade.php": "a989ee19424f2cd7346942ab5f4319a7b1bb21d4ca507b8d8649818f84ab2d4e",
+    "resources/views/web-checkin/index.blade.php": "82e3d9943ecf7d4b1834df8dcca06e012fb3a5dae1da9c3b98084f5a18480724",
+    "tests/Feature/panoramica-presentazione.playwright.spec.js": "a5bb5a0d3419f5ad326b5b06d67bf419e357f4d0df0b25ccdc089ab4b1e3c2c1"
+  },
+  "vm": {
+    "resources/views/tassa_di_soggiorno/rapporto.blade.php": "a989ee19424f2cd7346942ab5f4319a7b1bb21d4ca507b8d8649818f84ab2d4e",
+    "resources/views/web-checkin/index.blade.php": "82e3d9943ecf7d4b1834df8dcca06e012fb3a5dae1da9c3b98084f5a18480724",
+    "tests/Feature/panoramica-presentazione.playwright.spec.js": "a5bb5a0d3419f5ad326b5b06d67bf419e357f4d0df0b25ccdc089ab4b1e3c2c1"
+  },
+  "corrispondenza": true
+}

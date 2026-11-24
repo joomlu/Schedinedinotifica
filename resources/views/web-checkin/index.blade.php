@@ -8,7 +8,7 @@
 <div class="card"><div class="card-body">
 <form method="GET" action="{{ $storico ? route('web_checkin.storico') : route('schedina.web') }}" class="row g-3 mb-4 align-items-end">
 <div class="col-xl-7"><label for="web-search" class="form-label">Cerca prenotazione o referente</label><input id="web-search" class="form-control" name="q" value="{{ request('q') }}" maxlength="150"></div>
-<div class="col-xl-3"><label for="web-state" class="form-label">Compilazione</label><select id="web-state" class="form-select" name="stato"><option value="">Tutti gli stati</option>@foreach(['da_inviare'=>'In attesa di compilazione', 'in_compilazione'=>'In compilazione', 'compilato'=>'Compilazione completata', 'convertito'=>'Check-in effettuato'] as $v=>$label)<option value="{{ $v }}" @selected(($statoFiltro ?? '')===$v)>{{ $label }}</option>@endforeach</select></div>
+<div class="col-xl-3"><label for="web-state" class="form-label">Compilazione</label><select id="web-state" class="form-select" name="stato" data-ui="select-search" data-placeholder="Tutti gli stati" data-allow-clear="true"><option value="">Tutti gli stati</option>@foreach(['da_inviare'=>'In attesa di compilazione', 'in_compilazione'=>'In compilazione', 'compilato'=>'Compilazione completata', 'convertito'=>'Check-in effettuato'] as $v=>$label)<option value="{{ $v }}" @selected(($statoFiltro ?? '')===$v)>{{ $label }}</option>@endforeach</select></div>
 <div class="col-xl-2"><button class="btn btn-primary w-100" type="submit">Cerca</button></div>
 </form>
 <table class="table align-middle web-elenco"><thead><tr><th>Prenotazione e referente</th><th>Soggiorno</th><th>Ospiti</th><th>Compilazione e stato</th><th>Azioni</th></tr></thead><tbody>

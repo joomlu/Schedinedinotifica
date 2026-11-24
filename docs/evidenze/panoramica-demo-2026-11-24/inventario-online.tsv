@@ -1,0 +1,4 @@
+id	nome_struttura	questura_modalita	istat_ws_url	schedine	richieste_web	trasmissioni_questura	trasmissioni_istat	consolidamenti_tassa
+94	Hotel Tanggo Igea Marina	txt	https://demo.invalid/ross1000	4	0	0	0	0
+95	Hotel Tanggo Bellaria	txt	https://demo.invalid/ross1000	4	0	0	0	0
+96	Hotel Tanggo Rimini	txt	https://demo.invalid/ross1000	4	0	0	0	0

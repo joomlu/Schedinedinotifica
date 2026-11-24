@@ -1,0 +1,32 @@
+[
+  {
+    "caso": "primo_file",
+    "esito": "positivo",
+    "secondi": 1.586,
+    "copia": "/home/collaudo.guest/registro-recupero-7qfifsje"
+  },
+  {
+    "caso": "git",
+    "esito": "positivo",
+    "secondi": 0.275,
+    "copia": "/home/collaudo.guest/registro-recupero-8oz1y48i"
+  },
+  {
+    "caso": "cache_assente",
+    "esito": "positivo",
+    "secondi": 0.136,
+    "copia": "/home/collaudo.guest/registro-recupero-3fnc301f"
+  },
+  {
+    "caso": "cache_scritta",
+    "esito": "positivo",
+    "secondi": 0.145,
+    "copia": "/home/collaudo.guest/registro-recupero-dkgxc9_q"
+  },
+  {
+    "caso": "completo",
+    "esito": "positivo",
+    "secondi": 0.117,
+    "copia": "/home/collaudo.guest/registro-recupero-ysk1mhji"
+  }
+]

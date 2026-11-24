@@ -145,8 +145,8 @@
                                 <th class="col-motivo">Motivo</th>
                                 <th class="text-end col-num">Pern. imp.</th>
                                 <th class="text-end col-num">Oltre max</th>
-                                <th class="text-end col-num">Tassa €</th>
                                 <th class="text-end col-num">Tariffa €</th>
+                                <th class="text-end col-num">Tassa €</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -161,8 +161,8 @@
                                     <td class="col-motivo">{{ $riga['motivo'] ?? '—' }}</td>
                                     <td class="text-end col-num">{{ $riga['pernottamenti_imponibili'] }}</td>
                                     <td class="text-end col-num">{{ $riga['pernottamenti_oltre_max'] }}</td>
-                                    <td class="text-end col-num">{{ number_format($riga['tassa'], 2, ',', '.') }}</td>
                                     <td class="text-end col-num">{{ number_format($riga['tariffa'], 2, ',', '.') }}</td>
+                                    <td class="text-end col-num">{{ number_format($riga['tassa'], 2, ',', '.') }}</td>
                                 </tr>
                             @empty
                                 <tr><td colspan="11" class="text-center text-muted">Nessun dato per il periodo selezionato.</td></tr>
