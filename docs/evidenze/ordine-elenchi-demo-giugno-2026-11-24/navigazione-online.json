@@ -1,0 +1,476 @@
+[
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/clienti",
+    "width": 1440,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/clienti/nuovo",
+    "width": 1440,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/schedine",
+    "width": 1440,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/schedine/nuova",
+    "width": 1440,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/clienti",
+    "width": 768,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/clienti/nuovo",
+    "width": 768,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/schedine",
+    "width": 768,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/schedine/nuova",
+    "width": 768,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/clienti",
+    "width": 390,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/clienti/nuovo",
+    "width": 390,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/schedine",
+    "width": 390,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/schedine/nuova",
+    "width": 390,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Igea Marina",
+    "path": "/schedine/536/tassa/anteprima",
+    "status": 200,
+    "totale": 4.5,
+    "notti": 3,
+    "anteprima": true
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/clienti",
+    "width": 1440,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/clienti/nuovo",
+    "width": 1440,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/schedine",
+    "width": 1440,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/schedine/nuova",
+    "width": 1440,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/clienti",
+    "width": 768,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/clienti/nuovo",
+    "width": 768,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/schedine",
+    "width": 768,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/schedine/nuova",
+    "width": 768,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/clienti",
+    "width": 390,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/clienti/nuovo",
+    "width": 390,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/schedine",
+    "width": 390,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/schedine/nuova",
+    "width": 390,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Bellaria",
+    "path": "/schedine/537/tassa/anteprima",
+    "status": 200,
+    "totale": 4.5,
+    "notti": 3,
+    "anteprima": true
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/clienti",
+    "width": 1440,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/clienti/nuovo",
+    "width": 1440,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/schedine",
+    "width": 1440,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/schedine/nuova",
+    "width": 1440,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/clienti",
+    "width": 768,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/clienti/nuovo",
+    "width": 768,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/schedine",
+    "width": 768,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/schedine/nuova",
+    "width": 768,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/clienti",
+    "width": 390,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/clienti/nuovo",
+    "width": 390,
+    "status": 200,
+    "ordine": [
+      "Lista",
+      "Nuovo"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/schedine",
+    "width": 390,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/schedine/nuova",
+    "width": 390,
+    "status": 200,
+    "ordine": [
+      "Elenco schedine",
+      "Nuova schedina",
+      "Bozze"
+    ],
+    "overflow": false,
+    "errori_js": []
+  },
+  {
+    "hotel": "Hotel Tanggo Rimini",
+    "path": "/schedine/538/tassa/anteprima",
+    "status": 200,
+    "totale": 7.5,
+    "notti": 3,
+    "anteprima": true
+  }
+]

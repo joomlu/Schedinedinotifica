@@ -1,0 +1,42 @@
+{
+  "esito": "PUBBLICATO E VERIFICATO NEL PERIMETRO RICHIESTO",
+  "commit_applicativo": "edb53d1fa619d7236f77fea6c3fb704abc68eab0",
+  "pr": "https://github.com/joomlu/Schedinedinotifica/pull/57",
+  "file_applicativi": 3,
+  "migrazioni": 0,
+  "invii": 0,
+  "schedine_demo_totali": 12,
+  "nuove_schedine_giugno": 3,
+  "totali_imposta": [
+    4.5,
+    4.5,
+    7.5
+  ],
+  "vm": {
+    "scenari_finali": 9,
+    "larghezze": [
+      1440,
+      768,
+      390
+    ],
+    "stile": "R3, tre scenari positivi",
+    "schedine": "R4, tre scenari positivi",
+    "clienti": "R5, tre scenari positivi",
+    "override_rifiutati": 23,
+    "build_geo": "positivo",
+    "recupero_sintetico": "quattro interruzioni e passaggio completo positivi"
+  },
+  "online": {
+    "pagine_200": 39,
+    "anteprime_imposta": 3,
+    "overflow": 0,
+    "errori_javascript": 0,
+    "git_servito": "pulito",
+    "fpm": "attivo",
+    "barriera": "aperta",
+    "ambiente_cache_protette": "invariati",
+    "sonde_https_positive": 24
+  },
+  "checkpoint_dati_recuperato_tabelle": 74,
+  "stato_generale": "BASELINE IN AUDIT"
+}
