@@ -27,3 +27,7 @@ Route::prefix('geo')->group(function () {
     Route::get('/cap', [GeoController::class, 'cap']);
     Route::get('/resolve', [GeoController::class, 'resolve']);
 });
+
+// Importazione indipendente Access: solo bozza, autenticazione vincolata alla struttura.
+Route::post('/access/v1/checkin', [\App\Http\Controllers\AccessImportazioneController::class, 'storeAccess'])
+    ->middleware(\App\Http\Middleware\AutenticaAccess::class);
