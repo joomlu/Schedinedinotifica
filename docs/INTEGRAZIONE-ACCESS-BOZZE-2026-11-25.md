@@ -2,7 +2,7 @@
 
 ## Stato e obiettivo
 
-**PARZIALE: integrazione implementata e collaudata nel perimetro indicato; NON ATTIVA ONLINE. BASELINE IN AUDIT.** Creare una bozza dalla conferma del check-in Access, conservando l’indipendenza dei due programmi e la conferma/invio del gestionale Schedina. Richiesta: abilitare Hotel Tanggo Igea Marina e Hotel Tanggo Bellaria, escludere Rimini. «Ceseno» ritirato dal titolare come errore di dettatura.
+**AGGIORNAMENTO: PUBBLICATA E VERIFICATA ONLINE.** Il candidato descritto di seguito è stato rilasciato dopo conferma esplicita; esito corrente nel [consuntivo](RILASCIO-ACCESS-SCHEDINA-2026-11-25.md). BASELINE IN AUDIT generale invariata. Creare una bozza dalla conferma del check-in Access, conservando l’indipendenza dei due programmi e la conferma/invio del gestionale Schedina. Richiesta: abilitare Hotel Tanggo Igea Marina e Hotel Tanggo Bellaria, escludere Rimini. «Ceseno» ritirato dal titolare come errore di dettatura.
 
 Rischio ALTO per autenticazione tra servizi, isolamento delle strutture e nuova tabella. Nessun invio a Questura/ISTAT, nessun dato reale trasferito durante il collaudo. Non si modifica il ragionamento di verifica visiva: decisione umana, non confronto biometrico automatico.
 
@@ -64,13 +64,13 @@ Evidenze private: `/private/tmp/access-schedina-20261125`, log Node `/private/tm
 
 Primo avvio VM fermo prima dei test perché PATH non conteneva npm: usato il runtime Node 20 già autorizzato, senza installazioni. Primo test Access lanciato dalla cartella workspace anziché dal repository, ripetuto nella cartella corretta. Laravel inizialmente scartava campi del documento non elencati individualmente: corretta l’acquisizione dei dati testuali validati e dimostrata la conservazione delle date/autorità. UI iniziale cercava `.fields` dopo la sua rinomina: corretto selettore, pagina ricaricata e nuova scheda senza errori. Una prova aggiunta usava il nome presunto `customers`: corretto il solo test con il modello `Customers` (tabella `clienti`). Fallimenti intermedi conservati; nessun controllo indebolito.
 
-## Rilascio ancora da eseguire
+## Preparazione del rilascio — stato storico del candidato
 
 Il Maestro richiede conferma del perimetro, migrazioni esplicitamente approvate e rilascio della stessa revisione locale/GitHub/online. Prima del rilascio: confronto nuovo dello stato servito, commit selettivo su ramo `codex/`, revisione e allineamento autorizzato di main; checkpoint fresco cifrato e recupero verificato, configurazioni riservate dei soli hotel 94/95, migrazione additiva, nuova release Access, cache route/config appropriate e sonde. Nessun invio a enti o contatto a ospiti reali. Collaudo online da eseguire soltanto con nuovi check-in fittizi dei due hotel e rifiuto Rimini, controllando una sola bozza per check-in. Non riutilizzare i token di prova.
 
 Ritiro: disabilitare i collegamenti, fermare il trasporto Access e ripristinare il codice con checkpoint qualificato. Dopo la prima importazione non cancellare la tabella né ripristinare ciecamente l’intero database: conservare ricevute e bozze già create e riconciliare i dati. Chiavi e archivi privati seguono il protocollo esistente.
 
-## Chiusura
+## Chiusura del candidato — prima della pubblicazione
 
 STATO PARZIALE; codice/test/documentazione modificati; configurazione applicativa predisposta con default disabilitato e segreti fuori repo; schema/dati modificati soltanto nei test effimeri. Tenant/sicurezza verificati nel perimetro sopra. Git: HEAD Schedina `ff21cd855027d3973c2607f7db687fc5a641c58b`, ramo `main`, nuovo lavoro non registrato, precedenti modifiche documentali conservate; Access base `4de727c` con lavoro preesistente non registrato conservato. Nessun commit/push/deploy o trasmissione esterna. Maestro aggiornato. Prossimo passo: conferma concreta del rilascio e della nuova tabella, poi protocollo di pubblicazione e verifica online.
 
