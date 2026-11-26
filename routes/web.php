@@ -430,6 +430,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('schedina.componenti.import.template');
     Route::get('/schedine/{id}/copia', [SchedinaController::class, 'copy'])->name('schedina.copy');
     Route::get('/schedine/{id}/modifica', [SchedinaController::class, 'edit'])->name('schedina.edit')->where('id', '[1-9][0-9]{0,17}');
+    Route::get('/schedine/{id}/stampa', [SchedinaController::class, 'print'])->name('schedina.print')->where('id', '[1-9][0-9]{0,17}');
     Route::put('/schedine/{id}', [SchedinaController::class, 'update'])->name('schedina.update')->where('id', '[1-9][0-9]{0,17}');
     Route::delete('/schedine/{id}', [SchedinaController::class, 'destroy'])->name('schedina.destroy')->where('id', '[1-9][0-9]{0,17}');
     Route::get('/schedine/{id}/tassa/anteprima', [SchedinaController::class, 'printTassa'])->name('schedina.tassa.anteprima');
