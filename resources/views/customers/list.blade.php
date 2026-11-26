@@ -119,7 +119,7 @@
                     >
                         <td class="align-middle">
                             @if($customer->numero_cliente)
-                                <span class="badge bg-dark-subtle text-dark">{{ $customer->numero_cliente }}</span>
+                                <a href="{{ route('customer.edit', $customer->id) }}" class="badge bg-dark-subtle text-dark text-decoration-none" aria-label="Modifica cliente {{ $customer->numero_cliente }}">{{ $customer->numero_cliente }}</a>
                             @else
                                 <span class="badge bg-warning-subtle text-warning">Da generare</span>
                             @endif
