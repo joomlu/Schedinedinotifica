@@ -10,5 +10,9 @@ for(const width of [1440,768,390]) test(`Modifica, stampa schedina e comandi cli
  await page.goto(BASE_URL+'/schedine');const [print]=await Promise.all([context.waitForEvent('page'),row.getByRole('link',{name:'Stampa schedina',exact:true}).click()]);await print.waitForLoadState('networkidle');await expect(print).toHaveURL(new RegExp('/schedine/'+f.schedina+'/stampa'));await expect(print.locator('main')).toContainText('TitolareStampa');await expect(print.locator('main')).toContainText('ComponenteStampa');await expect(print.locator('main')).toContainText('DOCUMENTO-SINTETICO');
  await print.setViewportSize({width,height:1000});expect(await print.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();await print.emulateMedia({media:'print'});await expect(print.locator('.actions')).toBeHidden();await print.pdf({path:testInfo.outputPath('schedina-'+width+'.pdf'),format:'A4',preferCSSPageSize:true});await print.close();
  await page.goto(BASE_URL+'/clienti/'+f.cliente+'/visualizza');for(const link of await page.locator('.print-actions a').all()){await expect(link).toBeVisible();expect(await link.evaluate(e=>getComputedStyle(e).textDecorationLine)).toBe('none');}expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();expect(errors).toEqual([]);expect(writes).toEqual([]);
+ await page.goto(BASE_URL+'/clienti');
+ const cliente=page.locator('#clientiTable tr.data-row[data-id="'+f.cliente+'"]');
+ await cliente.locator('td').first().getByRole('link').click();
+ await expect(page).toHaveURL(new RegExp('/clienti/'+f.cliente+'/modifica'));await expect(page.locator('[name="name"]').first()).toHaveValue('Cliente Browser');
  console.log(JSON.stringify({larghezza:width,codice_e_matita:true,stampa_schedina:true,comandi_cliente:true,scritture:0,errori_js:0}));
 });
