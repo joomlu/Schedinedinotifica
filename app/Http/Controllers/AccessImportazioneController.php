@@ -10,10 +10,21 @@ use Illuminate\Support\Facades\DB;
 
 final class AccessImportazioneController extends SchedinaController
 {
+    public function profiloAccess(Request $request)
+    {
+        $struttura = $request->attributes->get('access_struttura');
+        return response()->json([
+            'struttura_id' => (int) $struttura->id,
+            'nome_struttura' => $struttura->nome_struttura,
+            'proprietario_id' => (int) $struttura->proprietario_id,
+        ]);
+    }
+
     public function storeAccess(Request $request)
     {
         $source = $request->validate([
             'versione' => ['required', 'in:1'],
+            'origine' => ['nullable', 'in:documento,checkin'],
             'richiesta_id' => ['required', 'uuid'], 'codice_checkin' => ['required', 'string', 'max:40'],
             'confermato_il' => ['required', 'date'],
             'prenotazione' => ['required', 'array'],
@@ -37,7 +48,7 @@ final class AccessImportazioneController extends SchedinaController
             'gruppo.componenti.*.dati.cognome' => ['required', 'string', 'max:100'],
             'gruppo.componenti.*.dati.sesso' => ['required', 'in:M,F'],
         ]);
-        $source = $request->only(['versione', 'richiesta_id', 'codice_checkin', 'confermato_il', 'prenotazione', 'titolare', 'gruppo']);
+        $source = $request->only(['versione', 'origine', 'richiesta_id', 'codice_checkin', 'confermato_il', 'prenotazione', 'titolare', 'gruppo']);
         // Solo valori testuali, mai oggetti, ID locali, immagini o campi di controllo del gestionale.
         foreach ([$source['titolare']['dati'], ...array_column($source['gruppo']['componenti'], 'dati')] as $row) {
             foreach ($row as $value) abort_unless($value === null || (is_string($value) && mb_strlen($value) <= 250), 422);

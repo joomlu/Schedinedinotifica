@@ -29,6 +29,33 @@ class AccessImportazioneTest extends TestCase
             'proprietario_id' => $owner->id, 'user_id' => $this->reception->id, 'token_hash' => hash('sha256', $this->token)]]);
         foreach ([16=>'OSPITE SINGOLO',17=>'CAPOFAMIGLIA',18=>'CAPOGRUPPO',19=>'FAMILIARE',20=>'MEMBRO GRUPPO'] as $code=>$name) TipoAlloggiato::firstOrCreate(['codice'=>$code], ['descrizione'=>$name]);
     }
+    public function test_profilo_risolve_solo_struttura_e_proprietario_della_credenziale(): void
+    {
+        $this->withHeaders(['Authorization'=>'Bearer '.$this->token,'X-Access-Connessione'=>'igea'])
+            ->postJson('/api/access/v1/profilo', [])
+            ->assertOk()->assertHeader('Cache-Control', 'no-store, private')
+            ->assertExactJson(['struttura_id'=>$this->hotel->id,'nome_struttura'=>$this->hotel->nome_struttura,'proprietario_id'=>$this->hotel->proprietario_id]);
+        $this->assertDatabaseCount('schedina', 0);
+    }
+    public function test_profilo_rifiuta_credenziale_errata_e_struttura_disabilitata(): void
+    {
+        $this->withHeaders(['Authorization'=>'Bearer '.str_repeat('y',43),'X-Access-Connessione'=>'igea'])
+            ->postJson('/api/access/v1/profilo', [])->assertUnauthorized();
+        $this->hotel->update(['attiva'=>false]);
+        $this->withHeaders(['Authorization'=>'Bearer '.$this->token,'X-Access-Connessione'=>'igea'])
+            ->postJson('/api/access/v1/profilo', [])->assertForbidden();
+        $this->assertDatabaseCount('schedina', 0);
+    }
+    public function test_documento_scaduto_crea_bozza_con_avviso_senza_confermare_arrivo(): void
+    {
+        $data=$this->dati();$data['origine']='documento';$data['titolare']['dati']['data_scadenza']='19/11/2020';
+        $reply=$this->invia($data)->assertCreated();
+        $sheet=Schedina::withoutGlobalScopes()->findOrFail($reply['schedina_id']);
+        $this->assertSame('bozza',$sheet->circuito);$this->assertFalse((bool)$sheet->is_arrive);
+        $this->assertStringContainsString('identità, check-in e ingresso non confermati',$sheet->observation);
+        $this->assertStringContainsString('Documento scaduto',$sheet->observation);
+        $this->assertStringContainsString('Documento scaduto',implode(' ',$reply['avvisi']));
+    }
     private function dati(): array
     {
         return ['versione'=>1,'richiesta_id'=>(string) \Illuminate\Support\Str::uuid(),'codice_checkin'=>'CI-TEST-001',
