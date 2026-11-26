@@ -65,6 +65,8 @@ final class AccessDatiSchedina
         }
         $data['componenti'] = $rows;
         if ($data['arrive'] >= $data['departure']) $warnings[] = 'Il soggiorno in giornata richiede revisione: la schedina definitiva richiede partenza successiva all’arrivo.';
+        if (($source['origine'] ?? 'checkin') === 'documento') $warnings[] = 'Bozza da acquisizione documentale: identità, check-in e ingresso non confermati.';
+        if ($data['or_expire'] && $data['or_expire'] < now()->toDateString()) $warnings[] = 'Documento scaduto: da revisionare prima della conferma.';
         $data['observation'] = 'Access '.$source['codice_checkin'].' · Prenotazione '.($p['riferimento'] ?? '')."\n".implode("\n", array_unique($warnings)).($extra ? "\nUlteriori dati dal documento: ".implode("; ", $extra) : '');
         return [$data, array_values(array_unique($warnings))];
     }

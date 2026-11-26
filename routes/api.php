@@ -31,3 +31,7 @@ Route::prefix('geo')->group(function () {
 // Importazione indipendente Access: solo bozza, autenticazione vincolata alla struttura.
 Route::post('/access/v1/checkin', [\App\Http\Controllers\AccessImportazioneController::class, 'storeAccess'])
     ->middleware(\App\Http\Middleware\AutenticaAccess::class);
+
+// Stesse credenziali e stesse revoche dell'importazione; nessun dato degli ospiti.
+Route::post('/access/v1/profilo', [\App\Http\Controllers\AccessImportazioneController::class, 'profiloAccess'])
+    ->middleware(\App\Http\Middleware\AutenticaAccess::class);
