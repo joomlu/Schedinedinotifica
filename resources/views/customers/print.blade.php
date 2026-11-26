@@ -40,7 +40,9 @@
             gap: 10px;
         }
 
-        .print-actions a { color: var(--tango-dark); padding: 9px; }
+        .print-actions a { text-decoration: none; display: inline-flex; align-items: center; }
+        .print-actions a:hover { background: var(--gold-soft); }
+        .print-actions a:focus-visible, .print-actions button:focus-visible { outline: 2px solid var(--tango); outline-offset: 3px; }
         @media screen and (max-width: 600px) {
             body { padding: 8px; }
             .sheet { padding: 12px; }
@@ -48,7 +50,7 @@
             td, th { overflow-wrap: anywhere; }
         }
 
-        .print-actions button {
+        .print-actions button, .print-actions a {
             padding: 9px 14px;
             border: 1px solid rgba(140, 29, 44, 0.18);
             background: linear-gradient(180deg, #fffdfa 0%, #f6ede4 100%);

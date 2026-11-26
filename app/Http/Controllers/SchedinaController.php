@@ -403,6 +403,24 @@ class SchedinaController extends Controller
         ));
     }
 
+    public function print(int $id)
+    {
+        $sid = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
+        if (! $sid) {
+            throw new \App\Exceptions\StrutturaNonSelezionata;
+        }
+
+        $schedina = Schedina::query()->where('struttura_id', $sid)->with([
+            'componenti' => fn ($query) => $query->where('struttura_id', $sid)->orderBy('id'),
+            'camere' => fn ($query) => $query->where('struttura_id', $sid)->orderBy('id'),
+        ])->findOrFail($id);
+
+        return response()->view('schedina.print', [
+            'schedina' => $schedina,
+            'struttura' => Struttura::findOrFail($sid),
+        ])->header('Cache-Control', 'private, no-store, max-age=0');
+    }
+
     public function copy(int $id)
     {
         $currentId = StrutturaCorrente::getId() ?? auth()->user()?->struttura_id;
